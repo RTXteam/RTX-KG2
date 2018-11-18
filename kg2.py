@@ -332,7 +332,7 @@ ONTOLOGY_URLS_AND_FILES = ({'url':  'http://purl.obolibrary.org/obo/bfo.owl',
                            {'url':  None,
                             'file': 'snomed.owl'})
 
-BIOLINK_MODEL_YAML_URL = 'file:biolink-model-ramseyupdate.yaml'
+BIOLINK_MODEL_YAML_URL = 'file:biolink-model--updated-for-kg2.yaml'
 
 # ------------- save --------------
 # BIOLINK_MODEL_YAML_URL = 'https://raw.githubusercontent.com/biolink/biolink-model/master/biolink-model.yaml'
