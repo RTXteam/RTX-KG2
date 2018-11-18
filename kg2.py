@@ -12,19 +12,6 @@ import urllib.parse
 import urllib.request
 import yaml
 
-# command to convert an OWL file to an OBO file:
-#   owltools nbo.owl -o -f obo nbo.obo
-
-# don't use the SPARQL query method (i.e., like OntologyFactory.create("hp")) because you don't get all
-# the fields that you want for each ontology term
-
-# ontology_codes = ["obo:bfo", "obo:ro", "obo:hp", "obo:go", "obo:chebi", "obo:go",
-#                   "http://purl.obolibrary.org/obo/ncbitaxon/subsets/taxslim.owl",
-#                   "obo:fma", "obo:pato", "obo:mondo", "obo:cl", "obo:doid", "obo:pr",
-#                   "http://purl.obolibrary.org/obo/uberon/ext.owl",
-#                   "obo:dron"]
-
-
 # -------------- impure functions here ------------------
 
 def head_list(x: list, n=3):
@@ -379,3 +366,16 @@ all_rels_dict = get_rels_dict(all_nodes_dict, master_ontology,
 # delete xrefs from all_nodes_dict
 for node_dict in all_nodes_dict.values():
     del node_dict['xrefs']
+
+# ----------- CODE GRAVEYARD ----------
+# command to convert an OWL file to an OBO file:
+#   owltools nbo.owl -o -f obo nbo.obo
+
+# don't use the SPARQL query method (i.e., like OntologyFactory.create("hp")) because you don't get all
+# the fields that you want for each ontology term
+
+# ontology_codes = ["obo:bfo", "obo:ro", "obo:hp", "obo:go", "obo:chebi", "obo:go",
+#                   "http://purl.obolibrary.org/obo/ncbitaxon/subsets/taxslim.owl",
+#                   "obo:fma", "obo:pato", "obo:mondo", "obo:cl", "obo:doid", "obo:pr",
+#                   "http://purl.obolibrary.org/obo/uberon/ext.owl",
+#                   "obo:dron"]
