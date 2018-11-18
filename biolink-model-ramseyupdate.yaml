@@ -1,3 +1,5 @@
+## forked from github biolink-model/biolink-model.yaml version 841166a9e68f6539c7f32a3ce1b207f151d1ecf9
+
 id: "https://biolink.github.io/biolink-model/ontology/biolink.ttl"
 name: biolink model
 description: >-
