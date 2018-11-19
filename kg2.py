@@ -282,7 +282,8 @@ def convert_biolink_category_to_iri(biolink_category_base_iri, biolink_category_
 
 
 def make_map_category_label_to_iri(biolink_category_base_iri: str):
-    return lambda category_label: convert_biolink_category_to_iri(biolink_category_base_iri, category_label)
+    return functools.partial(convert_biolink_category_to_iri, category_label=biolink_category_base_iri)
+#     return lambda category_label: convert_biolink_category_to_iri(biolink_category_base_iri, category_label)
 
 
 def convert_owl_camel_case_to_biolink_spaces(name: str):
