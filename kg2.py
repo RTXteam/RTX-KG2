@@ -1,6 +1,7 @@
 import collections
 import copy
 import functools
+import json
 import ontobio
 import os.path
 import pathlib
@@ -8,6 +9,7 @@ import pprint
 import prefixcommons
 import re
 import ssl
+import sys
 import time
 import urllib.parse
 import urllib.request
@@ -101,11 +103,25 @@ def get_biolink_map_of_curies_to_categories(biolink_yaml_data: dict):
     return map_curie_to_biolink_category
 
 
+def shorten_iri_to_curie(iri: str):
+    curie_list = prefixcommons.contract_uri(iri)
+    assert len(curie_list) in [0, 1]
+    if len(curie_list) == 1:
+        curie_id = curie_list[0]
+    else:
+        if iri.startswith('http://snomed.info'):
+            curie_id = iri.replace('http://snomed.info/id/', 'SNOMEDCT_US:')
+        else:
+            print("warning: iri does not map to a curie ID via prefixcommons: " + iri, file=sys.stderr)
+            assert False
+    return curie_id
+
+
 def get_biolink_category_for_node(ontology_node_id: str, ontology, map_curie_to_biolink_category: dict):
-    if not ontology_node_id.startswith('http://snomed.info/id/'):
+    if not ontology_node_id.startswith('http:'):
         node_curie_id = ontology_node_id
     else:
-        node_curie_id = ontology_node_id.replace('http://snomed.info/id/', 'SNOMEDCT_US:')
+        node_curie_id = shorten_iri_to_curie(ontology_node_id)
     ret_category = None
     map_category = map_curie_to_biolink_category.get(node_curie_id, None)
     if map_category is not None:
@@ -125,7 +141,8 @@ def get_nodes_dict_from_ontology_dict(ont_dict: dict,
     ontology = ont_dict['ontology']
     assert type(ontology) == ontobio.ontol.Ontology
     ontology_iri = ont_dict['id']
-    ontology_curie_id = prefixcommons.contract_uri(ontology_iri)[0]
+    ontology_curie_id = shorten_iri_to_curie(ontology_iri)
+
     ret_dict = {ontology_curie_id: {
         'id':  ontology_curie_id,
         'iri': ontology_iri,
@@ -142,14 +159,15 @@ def get_nodes_dict_from_ontology_dict(ont_dict: dict,
         'replaced by': None,
         'source ontology iri': None,
         'ontology node type': 'INDIVIDUAL',
-        'ontology node id': None
-    }
-    }
+        'ontology node id': None}}
+
     for ontology_node_id in ontology.nodes():
         onto_node_dict = ontology.node(ontology_node_id)
         if not ontology_node_id.startswith('http://snomed.info'):
             node_curie_id = ontology_node_id
             iri = onto_node_dict.get('id', None)
+            if iri.startswith('http://example.com'):
+                continue
             if iri is None:
                 iri = prefixcommons.expand_uri(node_curie_id)
         else:
@@ -261,7 +279,7 @@ def merge_two_dicts(x: dict, y: dict):
                 else:
                     ret_dict[key] = [value, stored_value]
                     if key not in ('source ontology iri', 'category label', 'category'):
-                        print("warning: incompatible data in two dictionaries: " + str(value) + "; " + str(stored_value) + "; key is: " + key)
+                        print("warning: incompatible data in two dictionaries: " + str(value) + "; " + str(stored_value) + "; key is: " + key, file=sys.stderr)
     return ret_dict
 
 
@@ -282,7 +300,7 @@ def convert_biolink_category_to_iri(biolink_category_base_iri, biolink_category_
 
 
 def make_map_category_label_to_iri(biolink_category_base_iri: str):
-    return functools.partial(convert_biolink_category_to_iri, category_label=biolink_category_base_iri)
+    return functools.partial(convert_biolink_category_to_iri, biolink_category_base_iri)
 #     return lambda category_label: convert_biolink_category_to_iri(biolink_category_base_iri, category_label)
 
 
@@ -316,7 +334,7 @@ def get_rels_dict(nodes: dict, ontology: ontobio.ontol.Ontology,
             predicate_iri = prefixcommons.expand_uri(predicate_curie)
         else:
             predicate_iri = predicate_label
-            predicate_curie = prefixcommons.contract_uri(predicate_iri)[0]
+            predicate_curie = shorten_iri_to_curie(predicate_iri)
         key = subject_curie_id + ';' + predicate_curie + ';' + object_curie_id
         if rels_dict.get(key, None) is None:
             rels_dict[key] = {'subject': subject_curie_id,
@@ -351,48 +369,48 @@ def get_rels_dict(nodes: dict, ontology: ontobio.ontol.Ontology,
 # ONTOLOGY_CODES = ('obo:hp', 'obo:go', 'snomed.owl')
 
 # note: this could be loaded from a config file
-ONTOLOGY_URLS_AND_FILES = ({'url':  'http://purl.obolibrary.org/obo/bfo.owl',
-                            'file': 'bfo.owl',
-                            'title': 'Basic Formal Ontology'},
-                           {'url':  'http://purl.obolibrary.org/obo/ro.owl',
-                            'file': 'ro.owl',
-                            'title': 'Relation Ontology'},
-                           {'url':  'http://purl.obolibrary.org/obo/hp.owl',
-                            'file': 'hp.owl',
-                            'title': 'Human Phenotype Ontology'},
-                           {'url':  'http://purl.obolibrary.org/obo/go/extensions/go-plus.owl',
-                            'file': 'go-plus.owl',
-                            'title': 'Gene Ontology'},
-                           {'url':  'http://purl.obolibrary.org/obo/chebi.owl',
-                            'file': 'chebi.owl',
-                            'title': 'Chemical Entities of Biological Interest'},
-                           {'url':  'http://purl.obolibrary.org/obo/ncbitaxon/subsets/taxslim.owl',
-                            'file': 'taxslim.owl',
-                            'title': 'NCBITaxon'},
-                           {'url':  'http://purl.obolibrary.org/obo/fma.owl',
-                            'file': 'fma.owl',
-                            'title': 'Foundational Model of Anatomy'},
-                           {'url':  'http://purl.obolibrary.org/obo/pato.owl',
-                            'file': 'pato.owl',
-                            'title': 'Phenotypic Quality Ontology'},
-                           {'url':  'http://purl.obolibrary.org/obo/mondo.owl',
-                            'file': 'mondo.owl',
-                            'title': 'MONDO Disease Ontology'},
-                           {'url':  'http://purl.obolibrary.org/obo/cl.owl',
-                            'file': 'cl.owl',
-                            'title': 'Cell Ontology'},
-                           {'url':  'http://purl.obolibrary.org/obo/doid.owl',
-                            'file': 'doid.owl',
-                            'title': 'Disease Ontology'},
-                           {'url':  'http://purl.obolibrary.org/obo/pr.owl',
-                            'file': 'pr.owl',
-                            'title': 'Protein Ontology'},
-                           {'url':  'http://purl.obolibrary.org/obo/uberon/ext.owl',
-                            'file': 'uberon-ext.owl',
-                            'title': 'Uber-anatomy Ontology'},
+ONTOLOGY_URLS_AND_FILES = (#{'url':  'http://purl.obolibrary.org/obo/bfo.owl',
+                           # 'file': 'bfo.owl',
+                           # 'title': 'Basic Formal Ontology'},)
+                           # {'url':  'http://purl.obolibrary.org/obo/ro.owl',
+                           #  'file': 'ro.owl',
+                           #  'title': 'Relation Ontology'},
+                           # {'url':  'http://purl.obolibrary.org/obo/hp.owl',
+                           #  'file': 'hp.owl',
+                           #  'title': 'Human Phenotype Ontology'},
+                           # {'url':  'http://purl.obolibrary.org/obo/go/extensions/go-plus.owl',
+                           #  'file': 'go-plus.owl',
+                           #  'title': 'Gene Ontology'},
+                           # {'url':  'http://purl.obolibrary.org/obo/chebi.owl',
+                           #  'file': 'chebi.owl',
+                           #  'title': 'Chemical Entities of Biological Interest'},
+                           # {'url':  'http://purl.obolibrary.org/obo/ncbitaxon/subsets/taxslim.owl',
+                           #  'file': 'taxslim.owl',
+                           #  'title': 'NCBITaxon'},
+                           # {'url':  'http://purl.obolibrary.org/obo/fma.owl',
+                           #  'file': 'fma.owl',
+                           #  'title': 'Foundational Model of Anatomy'},
+                           # {'url':  'http://purl.obolibrary.org/obo/pato.owl',
+                           #  'file': 'pato.owl',
+                           #  'title': 'Phenotypic Quality Ontology'},
+                           # {'url':  'http://purl.obolibrary.org/obo/mondo.owl',
+                           #  'file': 'mondo.owl',
+                           #  'title': 'MONDO Disease Ontology'},
+                           # {'url':  'http://purl.obolibrary.org/obo/cl.owl',
+                           #  'file': 'cl.owl',
+                           #  'title': 'Cell Ontology'},
+                           # {'url':  'http://purl.obolibrary.org/obo/doid.owl',
+                           #  'file': 'doid.owl',
+                           #  'title': 'Disease Ontology'},
+                           # {'url':  'http://purl.obolibrary.org/obo/pr.owl',
+                           #  'file': 'pr.owl',
+                           #  'title': 'Protein Ontology'},
+                           # {'url':  'http://purl.obolibrary.org/obo/uberon/ext.owl',
+                           #  'file': 'uberon-ext.owl',
+                           #  'title': 'Uber-anatomy Ontology'},
                            {'url':  None,
                             'file': 'snomed.owl',
-                            'title': 'SNOMED CT Ontology'})
+                            'title': 'SNOMED CT Ontology'},)
 
 BIOLINK_MODEL_YAML_URL = 'file:biolink-model--updated-for-kg2.yaml'
 
@@ -427,20 +445,22 @@ ontology_node_dicts = [get_nodes_dict_from_ontology_dict(ont_dict,
                        for ont_dict in ontology_data]
 
 
-all_nodes_dict = functools.reduce(lambda x, y: compose_two_multinode_dicts(x, y),
-                                  ontology_node_dicts)
+kg2_dict = dict()
 
-map_of_node_ontology_ids_to_curie_ids = get_map_of_node_ontology_ids_to_curie_ids(all_nodes_dict)
+kg2_dict['nodes'] = functools.reduce(lambda x, y: compose_two_multinode_dicts(x, y),
+                                     ontology_node_dicts)
+
+map_of_node_ontology_ids_to_curie_ids = get_map_of_node_ontology_ids_to_curie_ids(kg2_dict['nodes'])
 
 master_ontology = copy.deepcopy(ontology_data[0]['ontology'])
 master_ontology.merge([ont_dict['ontology'] for ont_dict in ontology_data])
 
 # get a dictionary of all relationships including xrefs as relationships
-all_rels_dict = get_rels_dict(all_nodes_dict, master_ontology,
-                              map_of_node_ontology_ids_to_curie_ids)
+kg2_dict['rels'] = get_rels_dict(kg2_dict['nodes'], master_ontology,
+                                 map_of_node_ontology_ids_to_curie_ids)
 
 # delete xrefs from all_nodes_dict
-for node_dict in all_nodes_dict.values():
+for node_dict in kg2_dict['nodes'].values():
     del node_dict['xrefs']
 
 # ----------- CODE GRAVEYARD ----------
@@ -455,3 +475,6 @@ for node_dict in all_nodes_dict.values():
 #                   "obo:fma", "obo:pato", "obo:mondo", "obo:cl", "obo:doid", "obo:pr",
 #                   "http://purl.obolibrary.org/obo/uberon/ext.owl",
 #                   "obo:dron"]
+
+with open('kg2.json', 'w') as outfile:
+    json.dump(kg2_dict, outfile)
