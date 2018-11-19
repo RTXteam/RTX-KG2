@@ -34,11 +34,31 @@ def make_ontology_from_local_file(file_name: str):
     return ontobio.ontol_factory.OntologyFactory().create(file_name)
 
 
-def make_ontology_dict_from_local_file(file_name: str):
-    ont_dict = {'ontology': make_ontology_from_local_file(file_name),
+def make_ontology_dict_from_local_file(file_name: str, ontology_title: str = None):
+    ontology = make_ontology_from_local_file(file_name)
+    file_last_modified_timestamp = time.strftime('%Y-%m-%d %H:%M:%S %Z', time.gmtime(os.path.getmtime(file_name)))
+    ont_version = ontology.meta.get('version', None)
+    bpv = ontology.meta.get('basicPropertyValues', None)
+    title = ontology_title
+    description = None
+    if bpv is not None:
+        for bpv_dict in bpv:
+            pred = bpv_dict['pred']
+            value = bpv_dict['val']
+            if 'description' in pred:
+                description = value
+            elif 'title' in pred and title is None:
+                title = value
+    if ont_version is None:
+        ont_version = 'downloaded:' + file_last_modified_timestamp
+    ont_dict = {'ontology': ontology,
+                'id': ontology.id,
+                'handle': ontology.handle,
                 'file': file_name,
-                'file last modified timestamp': time.strftime('%Y-%m-%d %H:%M:%S %Z', time.gmtime(os.path.getmtime(file_name)))}
-    ont_dict.update(get_ontology_data_source_info_dict(ont_dict))
+                'file last modified timestamp': file_last_modified_timestamp,
+                'version': ont_version,
+                'title': title,
+                'description': description}
     return ont_dict
 
 
@@ -99,10 +119,32 @@ def get_biolink_category_for_node(ontology_node_id: str, ontology, map_curie_to_
     return ret_category
 
 
-def get_nodes_dict_from_ontology(ontology: ontobio.ontol.Ontology,
-                                 map_curie_to_biolink_category: dict,
-                                 category_label_to_iri_mapper: callable):
-    ret_dict = dict()
+def get_nodes_dict_from_ontology_dict(ont_dict: dict,
+                                      map_curie_to_biolink_category: dict,
+                                      category_label_to_iri_mapper: callable):
+    ontology = ont_dict['ontology']
+    assert type(ontology) == ontobio.ontol.Ontology
+    ontology_iri = ont_dict['id']
+    ontology_curie_id = prefixcommons.contract_uri(ontology_iri)[0]
+    ret_dict = {ontology_curie_id: {
+        'id':  ontology_curie_id,
+        'iri': ontology_iri,
+        'full name': ont_dict['title'],
+        'name': ont_dict['title'],
+        'category': category_label_to_iri_mapper('named thing'),
+        'category label': 'named thing',
+        'description': ont_dict['description'],
+        'synonyms': None,
+        'xrefs': None,
+        'creation date': None,
+        'update date': ont_dict['file last modified timestamp'],
+        'deprecated': False,
+        'replaced by': None,
+        'source ontology iri': None,
+        'ontology node type': 'INDIVIDUAL',
+        'ontology node id': None
+    }
+    }
     for ontology_node_id in ontology.nodes():
         onto_node_dict = ontology.node(ontology_node_id)
         if not ontology_node_id.startswith('http://snomed.info'):
@@ -166,6 +208,7 @@ def get_nodes_dict_from_ontology(ontology: ontobio.ontol.Ontology,
         node_dict['xrefs'] = node_xrefs                   # slot name is not biolink standard
         node_dict['creation date'] = node_creation_date   # slot name is not biolink standard
         node_dict['deprecated'] = node_deprecated         # slot name is not biolink standard
+        node_dict['update date'] = node_creation_date
         node_dict['replaced by'] = node_replaced_by       # slot name is not biolink standard
         node_dict['source ontology iri'] = ontology.id    # slot name is not biolink standard
         node_type = onto_node_dict.get('type', None)
@@ -180,7 +223,8 @@ def get_map_of_node_ontology_ids_to_curie_ids(nodes: dict):
     for curie_id, node_dict in nodes.items():
         ontology_node_id = node_dict['ontology node id']
         assert curie_id not in ret_dict
-        ret_dict[ontology_node_id] = curie_id
+        if ontology_node_id is not None:
+            ret_dict[ontology_node_id] = curie_id
     return ret_dict
 
 
@@ -241,18 +285,6 @@ def make_map_category_label_to_iri(biolink_category_base_iri: str):
     return lambda category_label: convert_biolink_category_to_iri(biolink_category_base_iri, category_label)
 
 
-def get_ontology_data_source_info_dict(ont_dict: dict):
-    ontology = ont_dict['ontology']
-    ret_dict = dict()
-    ret_dict['id'] = ontology.id
-    ret_dict['handle'] = ontology.handle
-    ont_version = ontology.meta.get('version', None)
-    if ont_version is None:
-        ont_version = 'filedate:' + ont_dict['file last modified timestamp']
-    ret_dict['version'] = ont_version
-    return ret_dict
-
-
 def convert_owl_camel_case_to_biolink_spaces(name: str):
     s1 = FIRST_CAP_RE.sub(r'\1 \2', name)
     converted = ALL_CAP_RE.sub(r'\1 \2', s1).lower()
@@ -283,7 +315,7 @@ def get_rels_dict(nodes: dict, ontology: ontobio.ontol.Ontology,
             predicate_iri = prefixcommons.expand_uri(predicate_curie)
         else:
             predicate_iri = predicate_label
-            predicate_curie = prefixcommons.contract_uri(predicate_iri)
+            predicate_curie = prefixcommons.contract_uri(predicate_iri)[0]
         key = subject_curie_id + ';' + predicate_curie + ';' + object_curie_id
         if rels_dict.get(key, None) is None:
             rels_dict[key] = {'subject': subject_curie_id,
@@ -319,33 +351,47 @@ def get_rels_dict(nodes: dict, ontology: ontobio.ontol.Ontology,
 
 # note: this could be loaded from a config file
 ONTOLOGY_URLS_AND_FILES = ({'url':  'http://purl.obolibrary.org/obo/bfo.owl',
-                            'file': 'bfo.owl'},
+                            'file': 'bfo.owl',
+                            'title': 'Basic Formal Ontology'},
                            {'url':  'http://purl.obolibrary.org/obo/ro.owl',
-                            'file': 'ro.owl'},
+                            'file': 'ro.owl',
+                            'title': 'Relation Ontology'},
                            {'url':  'http://purl.obolibrary.org/obo/hp.owl',
-                            'file': 'hp.owl'},
+                            'file': 'hp.owl',
+                            'title': 'Human Phenotype Ontology'},
                            {'url':  'http://purl.obolibrary.org/obo/go/extensions/go-plus.owl',
-                            'file': 'go-plus.owl'},
+                            'file': 'go-plus.owl',
+                            'title': 'Gene Ontology'},
                            {'url':  'http://purl.obolibrary.org/obo/chebi.owl',
-                            'file': 'chebi.owl'},
+                            'file': 'chebi.owl',
+                            'title': 'Chemical Entities of Biological Interest'},
                            {'url':  'http://purl.obolibrary.org/obo/ncbitaxon/subsets/taxslim.owl',
-                            'file': 'taxslim.owl'},
+                            'file': 'taxslim.owl',
+                            'title': 'NCBITaxon'},
                            {'url':  'http://purl.obolibrary.org/obo/fma.owl',
-                            'file': 'fma.owl'},
+                            'file': 'fma.owl',
+                            'title': 'Foundational Model of Anatomy'},
                            {'url':  'http://purl.obolibrary.org/obo/pato.owl',
-                            'file': 'pato.owl'},
+                            'file': 'pato.owl',
+                            'title': 'Phenotypic Quality Ontology'},
                            {'url':  'http://purl.obolibrary.org/obo/mondo.owl',
-                            'file': 'mondo.owl'},
+                            'file': 'mondo.owl',
+                            'title': 'MONDO Disease Ontology'},
                            {'url':  'http://purl.obolibrary.org/obo/cl.owl',
-                            'file': 'cl.owl'},
+                            'file': 'cl.owl',
+                            'title': 'Cell Ontology'},
                            {'url':  'http://purl.obolibrary.org/obo/doid.owl',
-                            'file': 'doid.owl'},
+                            'file': 'doid.owl',
+                            'title': 'Disease Ontology'},
                            {'url':  'http://purl.obolibrary.org/obo/pr.owl',
-                            'file': 'pr.owl'},
+                            'file': 'pr.owl',
+                            'title': 'Protein Ontology'},
                            {'url':  'http://purl.obolibrary.org/obo/uberon/ext.owl',
-                            'file': 'uberon-ext.owl'},
+                            'file': 'uberon-ext.owl',
+                            'title': 'Uber-anatomy Ontology'},
                            {'url':  None,
-                            'file': 'snomed.owl'})
+                            'file': 'snomed.owl',
+                            'title': 'SNOMED CT Ontology'})
 
 BIOLINK_MODEL_YAML_URL = 'file:biolink-model--updated-for-kg2.yaml'
 
@@ -364,7 +410,8 @@ ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
 
 # download all the ontology OWL files and load them; fold in the original data from ONTOLOGY_URLS_AND_FILES
 ontology_data = tuple(make_ontology_dict_from_local_file(download_file_if_not_exist_locally(ont_dict['url'],
-                                                                                            ont_dict['file']))
+                                                                                            ont_dict['file']),
+                                                         ont_dict['title'])
                       for ont_dict in ONTOLOGY_URLS_AND_FILES)
 
 
@@ -373,9 +420,9 @@ biolink_map_of_curies_to_categories = get_biolink_map_of_curies_to_categories(bi
 
 map_category_label_to_iri = make_map_category_label_to_iri(BIOLINK_CATEGORY_BASE_IRI)
 
-ontology_node_dicts = [get_nodes_dict_from_ontology(ont_dict['ontology'],
-                                                    biolink_map_of_curies_to_categories,
-                                                    map_category_label_to_iri)
+ontology_node_dicts = [get_nodes_dict_from_ontology_dict(ont_dict,
+                                                         biolink_map_of_curies_to_categories,
+                                                         map_category_label_to_iri)
                        for ont_dict in ontology_data]
 
 
