@@ -1613,6 +1613,7 @@ classes:
       - category
     subclass_of: BFO:0000001
     mappings:
+      - BFO:0000001
       - "UMLSSG:OBJC"
       - WD:Q35120
 
