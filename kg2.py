@@ -7,6 +7,7 @@ import pathlib
 import pprint
 import prefixcommons
 import re
+import ssl
 import time
 import urllib.parse
 import urllib.request
@@ -45,7 +46,17 @@ def download_file_if_not_exist_locally(url: str, local_file_name: str):
     if url is not None:
         local_file_path = pathlib.Path(local_file_name)
         if not local_file_path.is_file():
-            urllib.request.urlretrieve(url, local_file_name)
+            ctx = ssl.create_default_context()
+            ctx.check_hostname = False
+            ctx.verify_mode = ssl.CERT_NONE
+            # the following code is ugly but necessary because sometimes the TLS
+            # certificates of remote sites are broken and some of the PURL'd
+            # URLs resolve to HTTPS URLs (would prefer to just use
+            # urllib.request.urlretrieve, but it doesn't seem to support
+            # specifying an SSL "context"):
+            with urllib.request.urlopen(url, context=ctx) as u, open(local_file_name, 'wb') as f:
+                f.write(u.read())
+#            urllib.request.urlretrieve(url=url, filename=local_file_name, context=ctx)
     return local_file_name
 
 
@@ -309,6 +320,8 @@ def get_rels_dict(nodes: dict, ontology: ontobio.ontol.Ontology,
 # note: this could be loaded from a config file
 ONTOLOGY_URLS_AND_FILES = ({'url':  'http://purl.obolibrary.org/obo/bfo.owl',
                             'file': 'bfo.owl'},
+                           {'url':  'http://purl.obolibrary.org/obo/pr.owl',
+                            'file': 'pr.owl'},
                            {'url':  'http://purl.obolibrary.org/obo/ro.owl',
                             'file': 'ro.owl'},
                            {'url':  'http://purl.obolibrary.org/obo/hp.owl',
@@ -329,8 +342,6 @@ ONTOLOGY_URLS_AND_FILES = ({'url':  'http://purl.obolibrary.org/obo/bfo.owl',
                             'file': 'cl.owl'},
                            {'url':  'http://purl.obolibrary.org/obo/doid.owl',
                             'file': 'doid.owl'},
-                           {'url':  'http://purl.obolibrary.org/obo/pr.owl',
-                            'file': 'pr.owl'},
                            {'url':  'http://purl.obolibrary.org/obo/uberon/ext.owl',
                             'file': 'uberon-ext.owl'},
                            {'url':  None,
