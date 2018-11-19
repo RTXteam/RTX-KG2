@@ -14,6 +14,7 @@ import yaml
 
 # -------------- impure functions here ------------------
 
+
 def head_list(x: list, n=3):
     pprint.pprint(x[0:n])
 
@@ -316,6 +317,22 @@ ONTOLOGY_URLS_AND_FILES = ({'url':  'http://purl.obolibrary.org/obo/bfo.owl',
                             'file': 'go-plus.owl'},
                            {'url':  'http://purl.obolibrary.org/obo/chebi.owl',
                             'file': 'chebi.owl'},
+                           {'url':  'http://purl.obolibrary.org/obo/ncbitaxon.owl',
+                            'file': 'ncbitaxon.owl'},
+                           {'url':  'http://purl.obolibrary.org/obo/fma.owl',
+                            'file': 'fma.owl'},
+                           {'url':  'http://purl.obolibrary.org/obo/pato.owl',
+                            'file': 'pato.owl'},
+                           {'url':  'http://purl.obolibrary.org/obo/mondo.owl',
+                            'file': 'mondo.owl'},
+                           {'url':  'http://purl.obolibrary.org/obo/cl.owl',
+                            'file': 'cl.owl'},
+                           {'url':  'http://purl.obolibrary.org/obo/doid.owl',
+                            'file': 'doid.owl'},
+                           {'url':  'http://purl.obolibrary.org/obo/pr.owl',
+                            'file': 'pr.owl'},
+                           {'url':  'http://purl.obolibrary.org/obo/uberon/ext.owl',
+                            'file': 'uberon-ext.owl'},
                            {'url':  None,
                             'file': 'snomed.owl'})
 
