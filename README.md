@@ -3,8 +3,8 @@
 
 ## Directly in Ubuntu 18.04 host OS in AWS:
 
-In a new installation of Ubuntu 18.04 (EC2 AMI), as user `ubuntu`, in directory `/home/ubuntu`,
-execute the following commands in order:
+In a new instance based on the Ubuntu 18.04 EC2 AMI, as user `ubuntu`, in
+directory `/home/ubuntu`, execute the following commands in order:
 
     git clone https://github.com/RTXteam/RTX.git
     RTX/code/kg2/setup-kg2.sh
@@ -12,8 +12,8 @@ execute the following commands in order:
 
 ## In a Docker container Ubuntu 18.04 host OS in AWS:
 
-In a new installation of Ubuntu 18.04 (EC2 AMI), as user `ubuntu`, in directory `/home/ubuntu`,
-execute the following commands in order:
+In a new instance based on the Ubuntu 18.04 EC2 AMI, as user `ubuntu`, in
+directory `/home/ubuntu`, execute the following commands in order:
 
     git clone https://github.com/RTXteam/RTX.git
     RTX/code/kg2/install-docker.sh
