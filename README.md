@@ -1,7 +1,7 @@
 
 # How to build RTX kg2
 
-## Directly in AWS Ubuntu host OS:
+## Directly in Ubuntu 18.04 host OS in AWS:
 
 In a clean installation of Ubuntu 18.04 (EC2 AMI), as user `ubuntu`, in directory `/home/ubuntu`,
 execute the following commands in order:
@@ -10,7 +10,7 @@ execute the following commands in order:
     RTX/code/kg2/setup-kg2.sh
     kg2-code/build-kg2.sh
 
-## In a Docker container in AWS Ubuntu host OS:
+## In a Docker container Ubuntu 18.04 host OS in AWS:
 
 In a clean installation of Ubuntu 18.04 (EC2 AMI), as user `ubuntu`, in directory `/home/ubuntu`,
 execute the following commands in order:
