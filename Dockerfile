@@ -1,5 +1,5 @@
 FROM ubuntu:18.04
 MAINTAINER Stephen Ramsey (stephen.ramsey@oregonstate.edu)
-COPY setup-kg2.sh /usr/local/bin/
-COPY setup-kg2-as-rtx.sh /usr/local/bin/
-RUN /usr/local/bin/setup-kg2.sh
+RUN useradd ubuntu -m -s /bin/bash
+COPY RTX/ /home/ubuntu/RTX
+RUN cd /home/ubuntu && /home/ubuntu/RTX/code/kg2/setup-kg2.sh
