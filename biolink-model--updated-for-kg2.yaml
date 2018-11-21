@@ -1617,6 +1617,14 @@ classes:
       - "UMLSSG:OBJC"
       - WD:Q35120
 
+  data source:
+    description: "a database"
+    is_a: named thing
+    slots:
+      - id
+      - name
+      - category
+    
   biological entity:
     is_a: named thing
     abstract: true
