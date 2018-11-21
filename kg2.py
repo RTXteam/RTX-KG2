@@ -26,11 +26,6 @@ def head_dict(x: dict, n: int=3):
     pprint.pprint(dict(list(x.items())[0:(n-1)]))
 
 
-def make_ontology_from_ontcode_remote_query_with_caching(ontcode: str):
-    print("Creating ontology object: " + ontcode)
-    return ontobio.ontol_factory.OntologyFactory().create(ontcode)
-
-
 def make_ontology_from_local_file(file_name: str):
     print("Creating ontology from file: " + file_name)
     return ontobio.ontol_factory.OntologyFactory().create(file_name)
@@ -75,10 +70,9 @@ def download_file_if_not_exist_locally(url: str, local_file_name: str):
             # certificates of remote sites are broken and some of the PURL'd
             # URLs resolve to HTTPS URLs (would prefer to just use
             # urllib.request.urlretrieve, but it doesn't seem to support
-            # specifying an SSL "context"):
+            # specifying an SSL "context" which we need in order to ignore the cert):
             with urllib.request.urlopen(url, context=ctx) as u, open(local_file_name, 'wb') as f:
                 f.write(u.read())
-#            urllib.request.urlretrieve(url=url, filename=local_file_name, context=ctx)
     return local_file_name
 
 
@@ -109,11 +103,15 @@ def shorten_iri_to_curie(iri: str):
     if len(curie_list) == 1:
         curie_id = curie_list[0]
     else:
-        if iri.startswith('http://snomed.info'):
+        if iri.startswith('http://snomed.info/id'):
             curie_id = iri.replace('http://snomed.info/id/', 'SNOMEDCT_US:')
+        elif iri.startswith('http://snomed.info/sct'):
+            curie_id = iri.replace('http://snomed.info/sct/', 'SNOMEDCT_US:')
+        elif iri.startswith('http://identifiers.org/hgnc/'):
+            curie_id = iri.replace('http://identifiers.org/hgnc/', 'HGNC:')
         else:
             print("warning: iri does not map to a curie ID via prefixcommons: " + iri, file=sys.stderr)
-            assert False
+            curie_id = None
     return curie_id
 
 
@@ -123,15 +121,20 @@ def get_biolink_category_for_node(ontology_node_id: str, ontology, map_curie_to_
     else:
         node_curie_id = shorten_iri_to_curie(ontology_node_id)
     ret_category = None
-    map_category = map_curie_to_biolink_category.get(node_curie_id, None)
-    if map_category is not None:
-        ret_category = map_category
+    if node_curie_id.startswith('HGNC:'):
+        ret_category = 'gene'
+    elif node_curie_id.startswith('UniProtKB:'):
+        ret_category = 'protein'
     else:
-        for parent_ontology_node_id in ontology.parents(ontology_node_id, ['subClassOf']):
-            parent_category = get_biolink_category_for_node(parent_ontology_node_id, ontology, map_curie_to_biolink_category)
-            if parent_category is not None:
-                ret_category = parent_category
-                break
+        map_category = map_curie_to_biolink_category.get(node_curie_id, None)
+        if map_category is not None:
+            ret_category = map_category
+        else:
+            for parent_ontology_node_id in ontology.parents(ontology_node_id, ['subClassOf']):
+                parent_category = get_biolink_category_for_node(parent_ontology_node_id, ontology, map_curie_to_biolink_category)
+                if parent_category is not None:
+                    ret_category = parent_category
+                    break
     return ret_category
 
 
@@ -148,8 +151,8 @@ def get_nodes_dict_from_ontology_dict(ont_dict: dict,
         'iri': ontology_iri,
         'full name': ont_dict['title'],
         'name': ont_dict['title'],
-        'category': category_label_to_iri_mapper('named thing'),
-        'category label': 'named thing',
+        'category': category_label_to_iri_mapper('data source'),
+        'category label': 'data source',
         'description': ont_dict['description'],
         'synonyms': None,
         'xrefs': None,
@@ -163,10 +166,16 @@ def get_nodes_dict_from_ontology_dict(ont_dict: dict,
 
     for ontology_node_id in ontology.nodes():
         onto_node_dict = ontology.node(ontology_node_id)
+        if not onto_node_dict:
+            continue
         if not ontology_node_id.startswith('http://snomed.info'):
             node_curie_id = ontology_node_id
             iri = onto_node_dict.get('id', None)
-            if iri.startswith('http://example.com'):
+            assert iri is not None
+            parsed_iri = urllib.parse.urlparse(iri)
+            iri_netloc = parsed_iri.netloc
+            iri_path = parsed_iri.path
+            if iri_netloc in ('example.com', 'usefulinc.com') or iri_path.startswith('/ontology/provisional'):
                 continue
             if iri is None:
                 iri = prefixcommons.expand_uri(node_curie_id)
@@ -252,6 +261,10 @@ def count_node_types_with_none_category(nodes: dict):
 
 def get_nodes_with_none_category(nodes: dict):
     return {mykey: myvalue for mykey, myvalue in nodes.items() if myvalue['category'] is None}
+
+
+def count_node_curie_prefix_types(nodes: dict):
+    return collections.Counter([node['id'].split(':')[0] for node in nodes.values()])
 
 
 def count_node_category_types(nodes: dict):
@@ -365,52 +378,49 @@ def get_rels_dict(nodes: dict, ontology: ontobio.ontol.Ontology,
 
 # --------------- define constants -------------------
 
-# ONTOLOGY_CODES = ('obo:bfo', 'obo:ro', 'obo:hp', 'obo:go', 'obo:chebi', 'snomed.owl')
-# ONTOLOGY_CODES = ('obo:hp', 'obo:go', 'snomed.owl')
-
 # note: this could be loaded from a config file
-ONTOLOGY_URLS_AND_FILES = (#{'url':  'http://purl.obolibrary.org/obo/bfo.owl',
-                           # 'file': 'bfo.owl',
-                           # 'title': 'Basic Formal Ontology'},)
-                           # {'url':  'http://purl.obolibrary.org/obo/ro.owl',
-                           #  'file': 'ro.owl',
-                           #  'title': 'Relation Ontology'},
-                           # {'url':  'http://purl.obolibrary.org/obo/hp.owl',
-                           #  'file': 'hp.owl',
-                           #  'title': 'Human Phenotype Ontology'},
-                           # {'url':  'http://purl.obolibrary.org/obo/go/extensions/go-plus.owl',
-                           #  'file': 'go-plus.owl',
-                           #  'title': 'Gene Ontology'},
-                           # {'url':  'http://purl.obolibrary.org/obo/chebi.owl',
-                           #  'file': 'chebi.owl',
-                           #  'title': 'Chemical Entities of Biological Interest'},
-                           # {'url':  'http://purl.obolibrary.org/obo/ncbitaxon/subsets/taxslim.owl',
-                           #  'file': 'taxslim.owl',
-                           #  'title': 'NCBITaxon'},
-                           # {'url':  'http://purl.obolibrary.org/obo/fma.owl',
-                           #  'file': 'fma.owl',
-                           #  'title': 'Foundational Model of Anatomy'},
-                           # {'url':  'http://purl.obolibrary.org/obo/pato.owl',
-                           #  'file': 'pato.owl',
-                           #  'title': 'Phenotypic Quality Ontology'},
-                           # {'url':  'http://purl.obolibrary.org/obo/mondo.owl',
-                           #  'file': 'mondo.owl',
-                           #  'title': 'MONDO Disease Ontology'},
-                           # {'url':  'http://purl.obolibrary.org/obo/cl.owl',
-                           #  'file': 'cl.owl',
-                           #  'title': 'Cell Ontology'},
-                           # {'url':  'http://purl.obolibrary.org/obo/doid.owl',
-                           #  'file': 'doid.owl',
-                           #  'title': 'Disease Ontology'},
-                           # {'url':  'http://purl.obolibrary.org/obo/pr.owl',
-                           #  'file': 'pr.owl',
-                           #  'title': 'Protein Ontology'},
-                           # {'url':  'http://purl.obolibrary.org/obo/uberon/ext.owl',
-                           #  'file': 'uberon-ext.owl',
-                           #  'title': 'Uber-anatomy Ontology'},
+ONTOLOGY_URLS_AND_FILES = ({'url':  'http://purl.obolibrary.org/obo/bfo.owl',
+                            'file': 'bfo.owl',
+                            'title': 'Basic Formal Ontology'},
+                           {'url':  'http://purl.obolibrary.org/obo/ro.owl',
+                            'file': 'ro.owl',
+                            'title': 'Relation Ontology'},
+                           {'url':  'http://purl.obolibrary.org/obo/hp.owl',
+                            'file': 'hp.owl',
+                            'title': 'Human Phenotype Ontology'},
+                           {'url':  'http://purl.obolibrary.org/obo/go/extensions/go-plus.owl',
+                            'file': 'go-plus.owl',
+                            'title': 'Gene Ontology'},
+                           {'url':  'http://purl.obolibrary.org/obo/chebi.owl',
+                            'file': 'chebi.owl',
+                            'title': 'Chemical Entities of Biological Interest'},
+                           {'url':  'http://purl.obolibrary.org/obo/ncbitaxon/subsets/taxslim.owl',
+                            'file': 'taxslim.owl',
+                            'title': 'NCBITaxon'},
+                           {'url':  'http://purl.obolibrary.org/obo/fma.owl',
+                            'file': 'fma.owl',
+                            'title': 'Foundational Model of Anatomy'},
+                           {'url':  'http://purl.obolibrary.org/obo/pato.owl',
+                            'file': 'pato.owl',
+                            'title': 'Phenotypic Quality Ontology'},
+                           {'url':  'http://purl.obolibrary.org/obo/mondo.owl',
+                            'file': 'mondo.owl',
+                            'title': 'MONDO Disease Ontology'},
+                           {'url':  'http://purl.obolibrary.org/obo/cl.owl',
+                            'file': 'cl.owl',
+                            'title': 'Cell Ontology'},
+                           {'url':  'http://purl.obolibrary.org/obo/doid.owl',
+                            'file': 'doid.owl',
+                            'title': 'Disease Ontology'},
+                           {'url':  'http://purl.obolibrary.org/obo/pr.owl',
+                            'file': 'pr.owl',
+                            'title': 'Protein Ontology'},
+                           {'url':  'http://purl.obolibrary.org/obo/uberon/ext.owl',
+                            'file': 'uberon-ext.owl',
+                            'title': 'Uber-anatomy Ontology'},
                            {'url':  None,
                             'file': 'snomed.owl',
-                            'title': 'SNOMED CT Ontology'},)
+                            'title': 'SNOMED CT Ontology'}, )
 
 BIOLINK_MODEL_YAML_URL = 'file:biolink-model--updated-for-kg2.yaml'
 
@@ -463,18 +473,29 @@ kg2_dict['rels'] = get_rels_dict(kg2_dict['nodes'], master_ontology,
 for node_dict in kg2_dict['nodes'].values():
     del node_dict['xrefs']
 
-# ----------- CODE GRAVEYARD ----------
-# command to convert an OWL file to an OBO file:
-#   owltools nbo.owl -o -f obo nbo.obo
-
-# don't use the SPARQL query method (i.e., like OntologyFactory.create("hp")) because you don't get all
-# the fields that you want for each ontology term
-
-# ontology_codes = ["obo:bfo", "obo:ro", "obo:hp", "obo:go", "obo:chebi", "obo:go",
-#                   "http://purl.obolibrary.org/obo/ncbitaxon/subsets/taxslim.owl",
-#                   "obo:fma", "obo:pato", "obo:mondo", "obo:cl", "obo:doid", "obo:pr",
-#                   "http://purl.obolibrary.org/obo/uberon/ext.owl",
-#                   "obo:dron"]
-
 with open('kg2.json', 'w') as outfile:
     json.dump(kg2_dict, outfile)
+
+
+# # ----------- CODE GRAVEYARD ----------
+# # command to convert an OWL file to an OBO file:
+# #   owltools nbo.owl -o -f obo nbo.obo
+
+# # don't use the SPARQL query method (i.e., like OntologyFactory.create("hp")) because you don't get all
+# # the fields that you want for each ontology term
+
+# # ontology_codes = ["obo:bfo", "obo:ro", "obo:hp", "obo:go", "obo:chebi", "obo:go",
+# #                   "http://purl.obolibrary.org/obo/ncbitaxon/subsets/taxslim.owl",
+# #                   "obo:fma", "obo:pato", "obo:mondo", "obo:cl", "obo:doid", "obo:pr",
+# #                   "http://purl.obolibrary.org/obo/uberon/ext.owl",
+# #                   "obo:dron"]
+
+# def make_ontology_from_ontcode_remote_query_with_caching(ontcode: str):
+#     print("Creating ontology object: " + ontcode)
+#     return ontobio.ontol_factory.OntologyFactory().create(ontcode)
+
+
+
+# # ---------------- Notes -----------------
+# # - use NCBI Entrez Gene IDs for gene identifiers
+# # - use UniProt IDs for protein identifiers
