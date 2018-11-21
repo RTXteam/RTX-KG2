@@ -1,5 +1,5 @@
 
-# How to build kg2
+# How to build RTX kg2
 
 Execute the following commands in a clean install of Ubuntu 18.04, as user `ubuntu`, in `/home/ubuntu`:
 
