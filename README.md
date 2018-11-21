@@ -6,6 +6,7 @@ Execute the following commands in a clean install of Ubuntu 18.04, as user `ubun
     git clone https://github.com/RTXteam/RTX.git
     ln -s RTX/code/kg2 kg2-code
     kg2-code/setup-kg2.sh
+    kg2-code/build-kg2.sh
 
 Work in progress:  Dockerfile
 
