@@ -5,4 +5,4 @@ RUN usermod -aG sudo ubuntu
 RUN apt-get update
 RUN apt-get install -y git sudo
 COPY * /home/ubuntu/RTX/code/kg2/
-RUN su - ubuntu -c "cd /home/ubuntu && /home/ubuntu/RTX/code/kg2/setup-kg2.sh"
+# RUN su - ubuntu -c "cd /home/ubuntu && /home/ubuntu/RTX/code/kg2/setup-kg2.sh"
