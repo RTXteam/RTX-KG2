@@ -1,7 +1,8 @@
 
 # How to build RTX kg2
 
-Execute the following commands in a clean install of Ubuntu 18.04, as user `ubuntu`, in `/home/ubuntu`:
+In a clean installation of Ubuntu 18.04, as user `ubuntu`, in `/home/ubuntu`,
+execute the following commands in order:
 
     git clone https://github.com/RTXteam/RTX.git
     ln -s RTX/code/kg2 kg2-code
