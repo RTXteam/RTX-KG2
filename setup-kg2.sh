@@ -5,3 +5,5 @@ sudo pip3 install virtualenv
 virtualenv ~/kg2-venv
 ~/kg2-venv/bin/pip3 install ontobio
 mkdir -p ~/kg2-build
+cd ~/kg2-build && wget http://build.berkeleybop.org/userContent/owltools/owltools
+chmod a+x ~/kg2-build/owltools
