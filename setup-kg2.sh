@@ -5,7 +5,7 @@ CODE_DIR=~/kg2-code
 ln -s ~/RTX/code/kg2 ${CODE_DIR}
 sudo apt-get update
 sudo apt-get install -y python3-minimal python3-pip default-jre
-sudo pip3 install virtualenv
+sudo -H pip3 install virtualenv
 virtualenv ${VENV_DIR}
 ${VENV_DIR}/bin/pip3 install ontobio
 mkdir -p ${BUILD_DIR}
