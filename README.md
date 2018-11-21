@@ -3,7 +3,7 @@
 
 ## Directly in Ubuntu 18.04 host OS in AWS:
 
-In a clean installation of Ubuntu 18.04 (EC2 AMI), as user `ubuntu`, in directory `/home/ubuntu`,
+In a new installation of Ubuntu 18.04 (EC2 AMI), as user `ubuntu`, in directory `/home/ubuntu`,
 execute the following commands in order:
 
     git clone https://github.com/RTXteam/RTX.git
@@ -12,7 +12,7 @@ execute the following commands in order:
 
 ## In a Docker container Ubuntu 18.04 host OS in AWS:
 
-In a clean installation of Ubuntu 18.04 (EC2 AMI), as user `ubuntu`, in directory `/home/ubuntu`,
+In a new installation of Ubuntu 18.04 (EC2 AMI), as user `ubuntu`, in directory `/home/ubuntu`,
 execute the following commands in order:
 
     git clone https://github.com/RTXteam/RTX.git
