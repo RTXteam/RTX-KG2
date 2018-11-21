@@ -3,7 +3,7 @@
 
 ## In the host OS (Ubuntu):
 
-In a clean installation of Ubuntu 18.04, as user `ubuntu`, in `/home/ubuntu`,
+In a clean installation of Ubuntu 18.04 (EC2 AMI), as user `ubuntu`, in `/home/ubuntu`,
 execute the following commands in order:
 
     git clone https://github.com/RTXteam/RTX.git
