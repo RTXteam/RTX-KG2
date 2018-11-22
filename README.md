@@ -4,8 +4,8 @@
 ## Build `snowmed.owl`
 
 Prerequisites:
-- `git` is installed and in the path
-- `java` is installed and in the path
+- `git` is installed and in the bash PATH
+- `java` is installed and in the bash PATH
 
 Run these commands in the `bash` shell:
 
@@ -84,8 +84,8 @@ Then run these commands in the `bash` shell:
 
 Prequisites:
 - You are running as an unprivileged user that is set up for passwordless `sudo`
-- you have `git` installed and in your PATH
-- you have `docker` installed and in your PATH
+- you have `git` installed and in the bash PATH
+- you have `docker` installed and in the bash PATH
 - You have previously cloned the RTX repo (see above) so that the RTX repo is
 under `~/RTX`.
 
