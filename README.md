@@ -68,6 +68,7 @@ Then run these commands in the `bash` shell:
 Prerequisites:
 - You are in a new EC2 instance based on the Ubuntu 18.04 AMI
 - You are logged in as user `ubuntu`
+- you have `screen` installed and in the bash PATH
 - You have previously cloned the RTX repo (see above) so that the RTX repo is
 under `/home/ubuntu/RTX`.
 - You have generated `snomed.owl` and copied it to `/home/ubuntu/RTX/code/kg2`.
@@ -90,8 +91,10 @@ Prequisites:
 - You are running as an unprivileged user that is set up for passwordless `sudo`
 - you have `git` installed and in the bash PATH
 - you have `docker` installed and in the bash PATH
+- you have `screen` installed and in the bash PATH
 - You have previously cloned the RTX repo (see above) so that the RTX repo is
 under `~/RTX`.
+- You have generated `snomed.owl` and copied it to `~/RTX/code/kg2`.
 
 Then run these commands in the `bash` shell:
 
