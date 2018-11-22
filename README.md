@@ -44,7 +44,7 @@ is the year, MM is the month, etc.). Copy this file to `RTX/code/kg2/snomed.owl`
 Now you are ready to run the setup for building the RTX KG2; select one of the following
 subsections to proceed.
 
-## Directly in Ubuntu 18.04 host OS in AWS:
+## Option 1: setup the KG2 builder directly in Ubuntu 18.04 host OS in AWS:
 
 Prerequisites:
 - You are in a new EC2 instance based on the Ubuntu 18.04 AMI
@@ -61,7 +61,7 @@ Then run these commands in the `bash` shell:
     
     kg2-code/build-kg2.sh
 
-## In a Docker container Ubuntu 18.04 host OS in AWS:
+## Option 2: setup the KG2 builder in a Docker container Ubuntu 18.04 host OS in AWS:
 
 Prerequisites:
 - You are in a new EC2 instance based on the Ubuntu 18.04 AMI
@@ -80,7 +80,7 @@ Then run these commands in the `bash` shell:
     
     sudo docker run --name kg2 kg2:latest su - ubuntu -c "kg2-code/build-kg2.sh"
 
-## In a Docker container in another host OS (untested):
+## Option 3: setup the KG2 builder in a Docker container in another host OS (untested):
 
 Prequisites:
 - You are running as an unprivileged user that is set up for passwordless `sudo`
