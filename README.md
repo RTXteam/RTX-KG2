@@ -59,6 +59,8 @@ Then run these commands in the `bash` shell:
     
     RTX/code/kg2/setup-kg2.sh
     
+    screen
+    
     kg2-code/build-kg2.sh
 
 ## Option 2: setup the KG2 builder in a Docker container Ubuntu 18.04 host OS in AWS:
@@ -77,6 +79,8 @@ Then run these commands in the `bash` shell:
     RTX/code/kg2/install-docker.sh
     
     sudo docker build -t kg2 RTX/code/kg2/
+
+    screen
     
     sudo docker run --name kg2 kg2:latest su - ubuntu -c "kg2-code/build-kg2.sh"
 
@@ -95,5 +99,7 @@ Then run these commands in the `bash` shell:
     
     sudo docker build -t kg2 RTX/code/kg2/
     
+    screen
+
     sudo docker run --name kg2 kg2:latest su - ubuntu -c "kg2-code/build-kg2.sh"
 
