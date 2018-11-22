@@ -10,6 +10,7 @@ Prerequisites:
 Run these commands in the `bash` shell:
 
     cd
+    
     git clone https://github.com/RTXteam/RTX.git
     
 Next, in order to build the RTX KG2, you will need to get a copy of the SNOMED
@@ -30,7 +31,9 @@ where you cloned the RTX git repo (so your home directory should now contain a
 subdirectory `RTX`). Then run the following commands in the `bash` shell:
 
     cd
+    
     wget https://github.com/IHTSDO/snomed-owl-toolkit/releases/download/2.0.1/snomed-owl-toolkit-2.0.1-executable.jar
+    
     RTX/code/kg2/make-snowmed-owl.sh
 
 The above code will create a new file `ontology-YYYY-MM-DD_HH-mm-SS.owl` (where YYYY
@@ -53,7 +56,9 @@ under `/home/ubuntu/RTX`.
 Then run these commands in the `bash` shell:
 
     cd
+    
     RTX/code/kg2/setup-kg2.sh
+    
     kg2-code/build-kg2.sh
 
 ## In a Docker container Ubuntu 18.04 host OS in AWS:
@@ -68,8 +73,11 @@ under `/home/ubuntu/RTX`.
 Then run these commands in the `bash` shell:
 
     cd
+    
     RTX/code/kg2/install-docker.sh
+    
     sudo docker build -t kg2 RTX/code/kg2/
+    
     sudo docker run --name kg2 kg2:latest su - ubuntu -c "kg2-code/build-kg2.sh"
 
 ## In a Docker container in another host OS (untested):
@@ -84,6 +92,8 @@ under `~/RTX`.
 Then run these commands in the `bash` shell:
 
     cd
+    
     sudo docker build -t kg2 RTX/code/kg2/
+    
     sudo docker run --name kg2 kg2:latest su - ubuntu -c "kg2-code/build-kg2.sh"
 
