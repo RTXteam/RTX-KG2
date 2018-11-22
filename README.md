@@ -95,9 +95,9 @@ Then run these commands in the `bash` shell:
 Then exit screen (`ctrl-r`). You can watch the progress of your KG2 build by using these
 two commands (run them in separate bash shell terminals):
 
-    sudo docker exec -it kg2 tail -f /home/ubuntu/build-kg2/stdout.log
+    sudo docker exec -it kg2 tail -f /home/ubuntu/kg2-build/stdout.log
     
-    sudo docker exec -it tail -f /home/ubuntu/build-kg2/stderr.log
+    sudo docker exec -it tail -f /home/ubuntu/kg2-build/stderr.log
     
 
 ## Option 3: setup the KG2 builder in a Docker container in another host OS (untested):
@@ -124,8 +124,8 @@ Then run these commands in the `bash` shell:
 Then exit screen (`ctrl-r`). You can watch the progress of your KG2 build by using these
 two commands (run them in separate bash shell terminals):
 
-    sudo docker exec -it kg2 tail -f /home/ubuntu/build-kg2/stdout.log
+    sudo docker exec -it kg2 tail -f /home/ubuntu/kg2-build/stdout.log
     
-    sudo docker exec -it tail -f /home/ubuntu/build-kg2/stderr.log
+    sudo docker exec -it tail -f /home/ubuntu/kg2-build/stderr.log
     
 
