@@ -121,6 +121,8 @@ def get_biolink_category_for_node(ontology_node_id: str, ontology, map_curie_to_
     else:
         node_curie_id = shorten_iri_to_curie(ontology_node_id)
     ret_category = None
+    if node_curie_id is None:
+        node_curie_id = ontology_node_id
     if node_curie_id.startswith('HGNC:'):
         ret_category = 'gene'
     elif node_curie_id.startswith('UniProtKB:'):
