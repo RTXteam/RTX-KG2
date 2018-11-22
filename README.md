@@ -63,6 +63,13 @@ Then run these commands in the `bash` shell:
     
     kg2-code/build-kg2.sh
 
+Then exit screen (`ctrl-r`). You can watch the progress of your KG2 build by using these
+two commands (run them in separate bash shell terminals):
+
+    tail -f build-kg2/stdout.log
+    
+    tail -f build-kg2/stderr.log
+    
 ## Option 2: setup the KG2 builder in a Docker container Ubuntu 18.04 host OS in AWS:
 
 Prerequisites:
