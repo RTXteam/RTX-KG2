@@ -73,7 +73,7 @@ def download_file_if_not_exist_locally(url: str, local_file_name: str):
             # URLs resolve to HTTPS URLs (would prefer to just use
             # urllib.request.urlretrieve, but it doesn't seem to support
             # specifying an SSL "context" which we need in order to ignore the cert):
-            temp_file_name = tempfile.mkdtemp(prefix='kg2')
+            temp_file_name = tempfile.mkstemp(prefix='kg2')[1]
             with urllib.request.urlopen(url, context=ctx) as u, open(temp_file_name, 'wb') as f:
                 f.write(u.read())
             shutil.move(temp_file_name, local_file_name)
