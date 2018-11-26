@@ -486,11 +486,13 @@ kg2_dict['edges'] = get_rels_dict(nodes_dict, master_ontology,
                                   map_of_node_ontology_ids_to_curie_ids).values()
 
 kg2_dict['nodes'] = nodes_dict.values()
+
 del nodes_dict
 
 # delete xrefs from all_nodes_dict
 for node_dict in kg2_dict['nodes']:
     del node_dict['xrefs']
+
 
 with open('kg2.json', 'w') as outfile:
     json.dump(kg2_dict, outfile)
