@@ -483,7 +483,7 @@ kg2_dict = dict()
 
 # get a dictionary of all relationships including xrefs as relationships
 kg2_dict['edges'] = get_rels_dict(nodes_dict, master_ontology,
-                                  map_of_node_ontology_ids_to_curie_ids)
+                                  map_of_node_ontology_ids_to_curie_ids).values()
 
 kg2_dict['nodes'] = nodes_dict.values()
 del nodes_dict
