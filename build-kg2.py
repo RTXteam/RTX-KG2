@@ -146,6 +146,7 @@ def get_nodes_dict_from_ontology_dict(ont_dict: dict,
     ontology = ont_dict['ontology']
     assert type(ontology) == ontobio.ontol.Ontology
     ontology_iri = ont_dict['id']
+    assert ontology_iri.startswith('http:')
     ontology_curie_id = shorten_iri_to_curie(ontology_iri)
 
     ret_dict = {ontology_curie_id: {
@@ -426,6 +427,9 @@ ONTOLOGY_URLS_AND_FILES = ({'url':  'http://purl.obolibrary.org/obo/bfo.owl',
                            {'url':  'http://purl.obolibrary.org/obo/uberon/ext.owl',
                             'file': 'uberon-ext.owl',
                             'title': 'Uber-anatomy Ontology'},
+                           {'url':  'http://purl.obolibrary.org/obo/ncit.owl',
+                            'file': 'ncit.owl',
+                            'title': 'NCI Thesaurus'},
                            {'url':  None,
                             'file': 'snomed.owl',
                             'title': 'SNOMED CT Ontology'}, )
