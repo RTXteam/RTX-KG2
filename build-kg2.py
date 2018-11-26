@@ -331,8 +331,14 @@ def get_rels_dict(nodes: dict, ontology: ontobio.ontol.Ontology,
     for (subject_id, object_id, predicate_dict) in ontology.get_graph().edges_iter(data=True):
         # subject_id and object_id are IDs from the original ontology objects; these may not
         # always be the node curie IDs (e.g., for SNOMED terms). Need to map them
-        subject_curie_id = map_of_node_ontology_ids_to_curie_ids[subject_id]
-        object_curie_id = map_of_node_ontology_ids_to_curie_ids[object_id]
+        subject_curie_id = map_of_node_ontology_ids_to_curie_ids.get(subject_id, None)
+        if subject_curie_id is None:
+            print("ontology ID has no curie ID in the map: " + subject_id, file=sys.stderr)
+            continue
+        object_curie_id = map_of_node_ontology_ids_to_curie_ids.get(object_id, None)
+        if object_curie_id is None:
+            print("ontology ID has no curie ID in the map: " + object_id, file=sys.stderr)
+            continue
         predicate_label = predicate_dict['pred']
         if not predicate_label.startswith('http:'):
             if ':' not in predicate_label:
