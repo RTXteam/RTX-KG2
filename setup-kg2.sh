@@ -7,7 +7,7 @@ sudo apt-get update
 sudo apt-get install -y python3-minimal python3-pip default-jre
 sudo -H pip3 install virtualenv
 virtualenv ${VENV_DIR}
-${VENV_DIR}/bin/pip3 install ontobio
+${VENV_DIR}/bin/pip3 install ontobio pymongo
 mkdir -p ${BUILD_DIR}
 cp ${CODE_DIR}/snomed.owl ${BUILD_DIR}/
 cp ${CODE_DIR}/biolink-model--updated-for-kg2.yaml ${BUILD_DIR}/
