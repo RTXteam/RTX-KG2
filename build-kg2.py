@@ -471,22 +471,25 @@ ontology_node_dicts = [get_nodes_dict_from_ontology_dict(ont_dict,
                        for ont_dict in ontology_data]
 
 
-kg2_dict = dict()
+nodes_dict = functools.reduce(lambda x, y: compose_two_multinode_dicts(x, y),
+                              ontology_node_dicts)
 
-kg2_dict['nodes'] = functools.reduce(lambda x, y: compose_two_multinode_dicts(x, y),
-                                     ontology_node_dicts)
-
-map_of_node_ontology_ids_to_curie_ids = get_map_of_node_ontology_ids_to_curie_ids(kg2_dict['nodes'])
+map_of_node_ontology_ids_to_curie_ids = get_map_of_node_ontology_ids_to_curie_ids(nodes_dict)
 
 master_ontology = copy.deepcopy(ontology_data[0]['ontology'])
 master_ontology.merge([ont_dict['ontology'] for ont_dict in ontology_data])
 
+kg2_dict = dict()
+
 # get a dictionary of all relationships including xrefs as relationships
-kg2_dict['edges'] = get_rels_dict(kg2_dict['nodes'], master_ontology,
+kg2_dict['edges'] = get_rels_dict(nodes_dict, master_ontology,
                                   map_of_node_ontology_ids_to_curie_ids)
 
+kg2_dict['nodes'] = nodes_dict.values()
+del nodes_dict
+
 # delete xrefs from all_nodes_dict
-for node_dict in kg2_dict['nodes'].values():
+for node_dict in kg2_dict['nodes']:
     del node_dict['xrefs']
 
 with open('kg2.json', 'w') as outfile:
