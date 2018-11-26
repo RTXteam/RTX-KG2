@@ -392,7 +392,16 @@ def get_rels_dict(nodes: dict, ontology: ontobio.ontol.Ontology,
 # --------------- define constants -------------------
 
 # note: this could be loaded from a config file
-ONTOLOGY_URLS_AND_FILES = ({'url':  'http://purl.obolibrary.org/obo/ncit.owl',
+ONTOLOGY_URLS_AND_FILES = ({'url':  'http://purl.obolibrary.org/obo/foodon.owl',
+                            'file': 'foodon.owl',
+                            'title': 'FOODON (Food Ontology)'},
+                           {'url':  'http://www.ebi.ac.uk/efo/efo.owl',
+                            'file': 'efo.owl',
+                            'title': 'Experimental Factor Ontology'},
+                           {'url':  'http://www.orphadata.org/data/ORDO/ORDO_en_2.7.owl',
+                            'file': 'ordo.owl',
+                            'title': 'ORPHANET Rare Disease Ontology'},
+                           {'url':  'http://purl.obolibrary.org/obo/ncit.owl',
                             'file': 'ncit.owl',
                             'title': 'NCI Thesaurus'},
                            {'url':  'http://purl.obolibrary.org/obo/bfo.owl',
