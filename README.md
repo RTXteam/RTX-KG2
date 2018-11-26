@@ -1,6 +1,16 @@
 
 # How to build RTX kg2
 
+## General notes:
+
+- KG2 is configured to run with the `kg2-build` directory being in the same file
+system as the temporary file directory (i.e., the directory name that is
+returned by `tempfile.tempdir`). If you change KG2 so that `kg2-build` is in a
+different file system from the file system in which `tempfile.tempdir` resides,
+then the file copying that KG2 does will not be atomic and interruption of
+`build-kg2.py` could then leave a source data file in a half-downloaded (i.e.,
+broken) state.
+
 ## Build `snowmed.owl`
 
 Prerequisites:
