@@ -392,7 +392,10 @@ def get_rels_dict(nodes: dict, ontology: ontobio.ontol.Ontology,
 # --------------- define constants -------------------
 
 # note: this could be loaded from a config file
-ONTOLOGY_URLS_AND_FILES = ({'url':  'http://purl.obolibrary.org/obo/bfo.owl',
+ONTOLOGY_URLS_AND_FILES = ({'url':  'http://purl.obolibrary.org/obo/ncit.owl',
+                            'file': 'ncit.owl',
+                            'title': 'NCI Thesaurus'},
+                           {'url':  'http://purl.obolibrary.org/obo/bfo.owl',
                             'file': 'bfo.owl',
                             'title': 'Basic Formal Ontology'},
                            {'url':  'http://purl.obolibrary.org/obo/ro.owl',
@@ -431,9 +434,6 @@ ONTOLOGY_URLS_AND_FILES = ({'url':  'http://purl.obolibrary.org/obo/bfo.owl',
                            {'url':  'http://purl.obolibrary.org/obo/uberon/ext.owl',
                             'file': 'uberon-ext.owl',
                             'title': 'Uber-anatomy Ontology'},
-                           {'url':  'http://purl.obolibrary.org/obo/ncit.owl',
-                            'file': 'ncit.owl',
-                            'title': 'NCI Thesaurus'},
                            {'url':  None,
                             'file': 'snomed.owl',
                             'title': 'SNOMED CT Ontology'}, )
