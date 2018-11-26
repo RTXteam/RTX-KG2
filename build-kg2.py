@@ -482,8 +482,8 @@ master_ontology = copy.deepcopy(ontology_data[0]['ontology'])
 master_ontology.merge([ont_dict['ontology'] for ont_dict in ontology_data])
 
 # get a dictionary of all relationships including xrefs as relationships
-kg2_dict['rels'] = get_rels_dict(kg2_dict['nodes'], master_ontology,
-                                 map_of_node_ontology_ids_to_curie_ids)
+kg2_dict['edges'] = get_rels_dict(kg2_dict['nodes'], master_ontology,
+                                  map_of_node_ontology_ids_to_curie_ids)
 
 # delete xrefs from all_nodes_dict
 for node_dict in kg2_dict['nodes'].values():
