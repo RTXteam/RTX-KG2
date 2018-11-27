@@ -2,6 +2,7 @@ import collections
 import copy
 import functools
 import json
+import networkx
 import ontobio
 import os.path
 import pathlib
@@ -113,6 +114,8 @@ def shorten_iri_to_curie(iri: str):
             curie_id = iri.replace('http://snomed.info/sct/', 'SNOMEDCT_US:')
         elif iri.startswith('http://identifiers.org/hgnc/'):
             curie_id = iri.replace('http://identifiers.org/hgnc/', 'HGNC:')
+        elif iri.startswith('http://www.ebi.ac.uk/efo/EFO_'):
+            curie_id = iri.replace('http://www.ebi.ac.uk/efo/EFO_', 'EFO:')
         else:
             print("warning: iri does not map to a curie ID via prefixcommons: " + iri, file=sys.stderr)
             curie_id = None
@@ -462,6 +465,15 @@ FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
 
 ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
 
+
+for ont_dict in ONTOLOGY_URLS_AND_FILES:
+    ont = make_ontology_dict_from_local_file(download_file_if_not_exist_locally(ont_dict['url'],
+                                                                                ont_dict['file']))['ontology']
+    roots = ont.get_roots(relations='subClassOf')
+    for node_id in roots:
+        pprint.pprint(ont.node(node_id))
+
+exit()
 
 # --------------- main starts here -------------------
 
