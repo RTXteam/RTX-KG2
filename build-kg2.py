@@ -36,7 +36,7 @@ def purge(dir, pattern):
         if re.search(pattern, f):
             os.remove(os.path.join(exp_dir, f))
             
-def delete_cachier_caches():
+def delete_ontobio_json_caches():
     purge("~/.cachier", ".ontobio*")
     purge("~/.cachier", ".prefixcommons*")
 
@@ -91,7 +91,7 @@ def make_ontology_from_local_file(file_name: str):
         size = os.path.getsize(file_name)
         log_message(message="Reading ontology file: " + file_name + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
                     ontology_name=None)        
-        ont_return = ontobio.ontol_factory.OntologyFactory().create(file_name)
+        ont_return = ontobio.ontol_factory.OntologyFactory().create(file_name, ignore_cache=True)
     else:
         size = os.path.getsize(file_name_with_pickle_ext)
         log_message("Reading ontology file: " + file_name_with_pickle_ext + "; size: " + "{0:.2f}".format(size/1024) + " KiB", ontology_name=None)
@@ -177,19 +177,21 @@ def make_kg2(curies_to_categories: dict,
                                                  ont_source_info_dict['title'])
         ontology_data.append(ont)
 
-    ontology_node_dicts = [get_nodes_dict_from_ontology_dict(ont_dict,
-                                                             curies_to_categories,
-                                                             map_category_label_to_iri)
-                           for ont_dict in ontology_data]
+    master_ontology = copy.deepcopy(ontology_data[0]['ontology'])
+    master_ontology.merge([ont_dict['ontology'] for ont_dict in ontology_data])
+        
+    nodes_dict = make_nodes_dict_from_ontology_dict(master_ontology,
+                                                   curies_to_categories,
+                                                   map_category_label_to_iri)
+
+    nodes_dict.update(make_node_dicts_for_ontologies(ontology_data,
+                                                     map_category_label_to_iri))
     
-    nodes_dict = functools.reduce(lambda x, y: compose_two_multinode_dicts(x, y),
-                                  ontology_node_dicts)
+#    nodes_dict = functools.reduce(lambda x, y: compose_two_multinode_dicts(x, y),
+#                                  ontology_node_dicts)
 
     map_of_node_ontology_ids_to_curie_ids = make_map_of_node_ontology_ids_to_curie_ids(nodes_dict)
     kg2_dict = dict()
-
-    master_ontology = copy.deepcopy(ontology_data[0]['ontology'])
-    master_ontology.merge([ont_dict['ontology'] for ont_dict in ontology_data])
     
 # get a dictionary of all relationships including xrefs as relationships
     kg2_dict['edges'] = list(get_rels_dict(nodes_dict, master_ontology,
@@ -260,7 +262,7 @@ def get_biolink_category_for_node(ontology_node_id: str,
         # but some nodes objects have an IRI as their ID; need to shorten to a CURIE
         node_curie_id = shorten_iri_to_curie(ontology_node_id)
         if node_curie_id is None:
-            log_message(message="could not shorten this IRI to a CURIE: " + ontology_node_id,
+            log_message(message="could not shorten this IRI to a CURIE",
                         ontology_name=ontology.id,
                         node_curie_id=ontology_node_id,
                         output_stream=sys.stderr)
@@ -297,36 +299,43 @@ def get_biolink_category_for_node(ontology_node_id: str,
     return ret_category
 
 
-def get_nodes_dict_from_ontology_dict(ont_dict: dict,
+def make_node_dicts_for_ontologies(ont_dict_list: list,
+                                   category_label_to_iri_mapper: callable):
+    ret_dict = dict()
+    for ont_dict in ont_dict_list:
+        ontology = ont_dict['ontology']
+        assert type(ontology) == ontobio.ontol.Ontology
+        ontology_iri = ont_dict['id']
+        if not ontology_iri.startswith('http:'):
+            log_message(message="unexpected IRI format: " + ontology_iri,
+                        ontology_name=ontology_iri,
+                        output_stream=sys.stderr)
+            assert ontology_iri.startswith('http:')
+        ontology_curie_id = shorten_iri_to_curie(ontology_iri)    
+        ret_dict.update({ontology_curie_id: {
+            'id':  ontology_curie_id,
+            'iri': ontology_iri,
+            'full name': ont_dict['title'],
+            'name': ont_dict['title'],
+            'category': category_label_to_iri_mapper('data source'),
+            'category label': 'data source',
+            'description': ont_dict['description'],
+            'synonyms': None,
+            'xrefs': None,
+            'creation date': None,
+            'update date': ont_dict['file last modified timestamp'],
+            'deprecated': False,
+            'replaced by': None,
+            'source ontology iri': None,
+            'ontology node type': 'INDIVIDUAL',
+            'ontology node id': None}})
+    return ret_dict
+
+
+def make_nodes_dict_from_ontology_dict(ontology: ontobio.ontol.Ontology,
                                       curies_to_categories: dict,
                                       category_label_to_iri_mapper: callable):
-    ontology = ont_dict['ontology']
-    assert type(ontology) == ontobio.ontol.Ontology
-    ontology_iri = ont_dict['id']
-    if not ontology_iri.startswith('http:'):
-        log_message(message="unexpected IRI format: " + ontology_iri,
-                    ontology_name=ontology_iri,
-                    output_stream=sys.stderr)
-        assert ontology_iri.startswith('http:')
-    ontology_curie_id = shorten_iri_to_curie(ontology_iri)
-
-    ret_dict = {ontology_curie_id: {
-        'id':  ontology_curie_id,
-        'iri': ontology_iri,
-        'full name': ont_dict['title'],
-        'name': ont_dict['title'],
-        'category': category_label_to_iri_mapper('data source'),
-        'category label': 'data source',
-        'description': ont_dict['description'],
-        'synonyms': None,
-        'xrefs': None,
-        'creation date': None,
-        'update date': ont_dict['file last modified timestamp'],
-        'deprecated': False,
-        'replaced by': None,
-        'source ontology iri': None,
-        'ontology node type': 'INDIVIDUAL',
-        'ontology node id': None}}
+    ret_dict = dict()
 
     for ontology_node_id in ontology.nodes():
         onto_node_dict = ontology.node(ontology_node_id)
@@ -362,7 +371,7 @@ def get_nodes_dict_from_ontology_dict(ont_dict: dict,
         if node_category_label is not None:
             node_category_iri = category_label_to_iri_mapper(node_category_label)
         else:
-            log_message("Node does not have a category", ontology_iri, node_curie_id, output_stream=sys.stderr)
+            log_message("Node does not have a category", ontology.id, node_curie_id, output_stream=sys.stderr)
             continue
         node_dict['category'] = node_category_iri
         node_dict['category label'] = node_category_label
@@ -377,6 +386,8 @@ def get_nodes_dict_from_ontology_dict(ont_dict: dict,
             node_definition = node_meta.get('definition', None)
             if node_definition is not None:
                 node_description = node_definition['val']
+                if node_description.startswith('OBSOLETE:') or node_description.startswith('Obsolete.'):
+                    continue
             node_synonyms = node_meta.get('synonyms', None)
             if node_synonyms is not None:
                 node_synonyms = [syn_dict['val'] for syn_dict in node_synonyms if syn_dict['pred'] == 'hasExactSynonym']
@@ -579,7 +590,7 @@ CURIES_TO_CATEGORIES_FILE_NAME = "curies-to-categories.yaml"
 
 # --------------- main starts here -------------------
 
-delete_cachier_caches()
+delete_ontobio_json_caches()
 
 curies_to_categories = safe_load_yaml_from_string(read_file_to_string(CURIES_TO_CATEGORIES_FILE_NAME))
 
