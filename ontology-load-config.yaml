@@ -79,6 +79,10 @@
   file: pr.owl
   title: Protein Ontology
 -
+  url: http://purl.obolibrary.org/obo/ncit/ncit-plus.owl
+  file: ncit-plus.owl
+  title: NCI Thesaurus OBO Edition
+-
   url: ## intentionally left blank which will map to "None" in the resulting python data structure
   file: snomed-relax.owl
   title: SNOMED CT Ontology
