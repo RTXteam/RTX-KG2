@@ -83,6 +83,10 @@
   file: ncit-plus.owl
   title: NCI Thesaurus OBO Edition
 -
+  url: http://purl.obolibrary.org/obo/fma.owl
+  file: fma.owl
+  title: Foundational Model of Anatomy Ontology (subset)
+-
   url: ## intentionally left blank which will map to "None" in the resulting python data structure
   file: snomed-relax.owl
   title: SNOMED CT Ontology
