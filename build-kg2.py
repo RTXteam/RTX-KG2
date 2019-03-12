@@ -1,11 +1,15 @@
 import collections
 import copy
+import errno
 import functools
+import hashlib
+import io
 import json
 import networkx
 import ontobio
 import os.path
 import pathlib
+import pickle
 import pprint
 import prefixcommons
 import re
@@ -17,8 +21,41 @@ import time
 import urllib.parse
 import urllib.request
 import yaml
+#import ipdb # need this for interactive debugging
+
+
+# -------------- define globals here ---------------
+
+IRI_NETLOCS_IGNORE = ('example.com', 'usefulinc.com')
 
 # -------------- impure functions here ------------------
+
+def purge(dir, pattern):
+    exp_dir = os.path.expanduser(dir)
+    for f in os.listdir(exp_dir):
+        if re.search(pattern, f):
+            os.remove(os.path.join(exp_dir, f))
+            
+def delete_cachier_caches():
+    purge("~/.cachier", ".ontobio*")
+    purge("~/.cachier", ".prefixcommons*")
+
+
+## this function is needed due to an issue with caching in Ontobio; see this GitHub issue:
+##     https://github.com/biolink/ontobio/issues/301
+def delete_ontobio_cache_json(file_name):
+    file_name_hash = hashlib.sha256(file_name.encode()).hexdigest()
+    temp_file_path = os.path.join("/tmp", file_name_hash)
+    print("testing if file exists: " + temp_file_path)
+    if os.path.exists(temp_file_path):
+        try:
+            log_message(message="Deleting ontobio JSON cache file: " + temp_file_path)
+            os.remove(temp_file_path)
+        except OSError as e:
+            if e.errno == errno.ENOENT:
+                log_message(message="Error deleting ontobio JSON cache file: " + temp_file_path)
+            else:
+                raise e
 
 
 def head_list(x: list, n=3):
@@ -29,14 +66,49 @@ def head_dict(x: dict, n: int=3):
     pprint.pprint(dict(list(x.items())[0:(n-1)]))
 
 
+def log_message(message: str,
+                ontology_name: str = None,
+                node_curie_id: str = None,
+                output_stream=sys.stdout):
+    if node_curie_id is not None:
+        node_str = ": " + node_curie_id
+    else:
+        node_str = ""
+    if ontology_name is not None:
+        ont_str = '[' + ontology_name + '] '
+    else:
+        ont_str = ''
+    print(ont_str + message + node_str, file=output_stream)
+
+
+# this function will load the ontology object from a pickle file (if it exists) or
+# it will create the ontology object by parsing the OWL-XML ontology file
 def make_ontology_from_local_file(file_name: str):
-    print("Creating ontology from file: " + file_name)
-    return ontobio.ontol_factory.OntologyFactory().create(file_name)
+    file_name_without_ext = os.path.splitext(file_name)[0]
+    file_name_with_pickle_ext = file_name_without_ext + ".pickle"
+    if not os.path.isfile(file_name_with_pickle_ext):
+        delete_ontobio_cache_json(file_name)        
+        size = os.path.getsize(file_name)
+        log_message(message="Reading ontology file: " + file_name + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
+                    ontology_name=None)        
+        ont_return = ontobio.ontol_factory.OntologyFactory().create(file_name)
+    else:
+        size = os.path.getsize(file_name_with_pickle_ext)
+        log_message("Reading ontology file: " + file_name_with_pickle_ext + "; size: " + "{0:.2f}".format(size/1024) + " KiB", ontology_name=None)
+        ont_return = pickle.load(open(file_name_with_pickle_ext, "rb"))
+    return ont_return
 
 
-def make_ontology_dict_from_local_file(file_name: str, ontology_title: str = None):
+def get_file_last_modified_timestamp(file_name: str):
+    return time.gmtime(os.path.getmtime(file_name))
+
+
+def make_ontology_dict_from_local_file(file_name: str,
+                                       download_url: str = None,
+                                       ontology_title: str = None):
     ontology = make_ontology_from_local_file(file_name)
-    file_last_modified_timestamp = time.strftime('%Y-%m-%d %H:%M:%S %Z', time.gmtime(os.path.getmtime(file_name)))
+    file_last_modified_timestamp = time.strftime('%Y-%m-%d %H:%M:%S %Z',
+                                                 get_file_last_modified_timestamp(file_name))
     ont_version = ontology.meta.get('version', None)
     bpv = ontology.meta.get('basicPropertyValues', None)
     title = ontology_title
@@ -51,8 +123,12 @@ def make_ontology_dict_from_local_file(file_name: str, ontology_title: str = Non
                 title = value
     if ont_version is None:
         ont_version = 'downloaded:' + file_last_modified_timestamp
+    ontology_id = ontology.id
+    if not ontology_id.startswith('http:'):
+        assert download_url is not None
+        ontology_id = download_url
     ont_dict = {'ontology': ontology,
-                'id': ontology.id,
+                'id': ontology_id,
                 'handle': ontology.handle,
                 'file': file_name,
                 'file last modified timestamp': file_last_modified_timestamp,
@@ -88,18 +164,61 @@ def read_file_to_string(local_file_name: str):
     return file_contents_string
 
 
-# --------------- pure functions here -------------------
-# (Note: a "pure" function here can still have debugging print statements)
+def make_kg2(curies_to_categories: dict,
+             map_category_label_to_iri: callable,
+             ontology_urls_and_files: tuple):
+    
+    ontology_data = []
+    for ont_source_info_dict in ontology_urls_and_files:
+        local_file_name = download_file_if_not_exist_locally(ont_source_info_dict['url'],
+                                                             ont_source_info_dict['file'])
+        ont = make_ontology_dict_from_local_file(local_file_name,
+                                                 ont_source_info_dict['url'],
+                                                 ont_source_info_dict['title'])
+        ontology_data.append(ont)
 
-def get_biolink_map_of_curies_to_categories(biolink_yaml_data: dict):
-    map_curie_to_biolink_category = dict()
-    for category_name, reldata in biolink_yaml_data['classes'].items():
-        mappings = reldata.get('mappings', None)
-        if mappings is not None:
-            assert type(mappings) == list
-            for curie_id in mappings:
-                map_curie_to_biolink_category[curie_id] = category_name
-    return map_curie_to_biolink_category
+    ontology_node_dicts = [get_nodes_dict_from_ontology_dict(ont_dict,
+                                                             curies_to_categories,
+                                                             map_category_label_to_iri)
+                           for ont_dict in ontology_data]
+    
+    nodes_dict = functools.reduce(lambda x, y: compose_two_multinode_dicts(x, y),
+                                  ontology_node_dicts)
+
+    map_of_node_ontology_ids_to_curie_ids = make_map_of_node_ontology_ids_to_curie_ids(nodes_dict)
+    kg2_dict = dict()
+
+    master_ontology = copy.deepcopy(ontology_data[0]['ontology'])
+    master_ontology.merge([ont_dict['ontology'] for ont_dict in ontology_data])
+    
+# get a dictionary of all relationships including xrefs as relationships
+    kg2_dict['edges'] = list(get_rels_dict(nodes_dict, master_ontology,
+                                           map_of_node_ontology_ids_to_curie_ids).values())
+    log_message('Number of edges: ' + str(len(kg2_dict['edges'])))
+    kg2_dict['nodes'] = list(nodes_dict.values())
+    for node in kg2_dict['nodes']:
+        if node['category'] is None:
+            log_message('Node does not have a category defined', node['source ontology iri'], node['id'], output_stream=sys.stderr)
+    log_message('Number of nodes: ' + str(len(kg2_dict['nodes'])))
+    del nodes_dict
+
+# delete xrefs from all_nodes_dict
+    for node_dict in kg2_dict['nodes']:
+        del node_dict['xrefs']
+
+    with open('kg2.json', 'w') as outfile:
+        json.dump(kg2_dict, outfile)
+
+    pickle.dump(kg2_dict, open('kg2.pickle', 'wb'))
+
+
+# --------------- impure functions that could be made pure ----------
+
+def is_ignorable_ontology_term(iri: str):
+    parsed_iri = urllib.parse.urlparse(iri)
+    iri_netloc = parsed_iri.netloc
+    iri_path = parsed_iri.path
+    return iri_netloc in IRI_NETLOCS_IGNORE or iri_path.startswith('/ontology/provisional')
 
 
 def shorten_iri_to_curie(iri: str):
@@ -116,44 +235,79 @@ def shorten_iri_to_curie(iri: str):
             curie_id = iri.replace('http://identifiers.org/hgnc/', 'HGNC:')
         elif iri.startswith('http://www.ebi.ac.uk/efo/EFO_'):
             curie_id = iri.replace('http://www.ebi.ac.uk/efo/EFO_', 'EFO:')
+        elif iri.startswith('http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl'):
+            curie_id = iri.replace('http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#',
+                                   'NCIT:')
         else:
-            print("warning: iri does not map to a curie ID via prefixcommons: " + iri, file=sys.stderr)
             curie_id = None
     return curie_id
 
 
-def get_biolink_category_for_node(ontology_node_id: str, ontology, map_curie_to_biolink_category: dict):
-    if not ontology_node_id.startswith('http:'):
-        node_curie_id = ontology_node_id
-    else:
-        node_curie_id = shorten_iri_to_curie(ontology_node_id)
+def get_biolink_category_for_node(ontology_node_id: str,
+                                  ontology: ontobio.ontol.Ontology,
+                                  curies_to_categories: dict):
+
+#    print("searching for category for node: " + ontology_node_id)
     ret_category = None
-    if node_curie_id is None:
+
+    if ontology_node_id == 'owl:Nothing':
+        return None
+    
+    if not ontology_node_id.startswith('http:'):
+        # most node objects have an ID that is a CURIE ID
         node_curie_id = ontology_node_id
-    if node_curie_id.startswith('HGNC:'):
-        ret_category = 'gene'
-    elif node_curie_id.startswith('UniProtKB:'):
-        ret_category = 'protein'
     else:
-        map_category = map_curie_to_biolink_category.get(node_curie_id, None)
-        if map_category is not None:
-            ret_category = map_category
-        else:
-            for parent_ontology_node_id in ontology.parents(ontology_node_id, ['subClassOf']):
-                parent_category = get_biolink_category_for_node(parent_ontology_node_id, ontology, map_curie_to_biolink_category)
-                if parent_category is not None:
-                    ret_category = parent_category
-                    break
+        # but some nodes objects have an IRI as their ID; need to shorten to a CURIE
+        node_curie_id = shorten_iri_to_curie(ontology_node_id)
+        if node_curie_id is None:
+            log_message(message="could not shorten this IRI to a CURIE: " + ontology_node_id,
+                        ontology_name=ontology.id,
+                        node_curie_id=ontology_node_id,
+                        output_stream=sys.stderr)
+            
+    if node_curie_id is not None:
+        curie_prefix = get_prefix_from_curie_id(node_curie_id)
+        curies_to_categories_prefixes = curies_to_categories['prefix-mappings']
+        ret_category = curies_to_categories_prefixes.get(curie_prefix, None)
+        if ret_category is None:
+            ## need to walk the ontology hierarchy until we encounter a parent term with a defined biolink category
+            curies_to_categories_terms = curies_to_categories['term-mappings']
+            ret_category = curies_to_categories_terms.get(node_curie_id, None)
+            if ret_category is None:
+                for parent_ontology_node_id in ontology.parents(ontology_node_id, ['subClassOf']):
+                    try:
+                        ret_category = get_biolink_category_for_node(parent_ontology_node_id, ontology, curies_to_categories)
+                    except RecursionError as re:
+                        log_message(message="recursion error: " + ontology_node_id,
+                                    ontology_name=ontology.id,
+                                    node_curie_id=node_curie_id,
+                                    output_stream=sys.stderr)
+                        raise RecursionError()
+                    if ret_category is not None:
+                        break
+        if ret_category is None:  # this is to handle SNOMED CT attributes
+            if node_curie_id.startswith('SNOMEDCT_US'):
+                ontology_node_lbl = ontology.node(ontology_node_id).get('lbl', None)
+                if ontology_node_lbl is not None:
+                    if '(attribute)' in ontology_node_lbl:
+                        ret_category = 'attribute'
+                    else:
+                        log_message('Node does not have a label or any parents', 'http://snomed.info/sct/900000000000207008', node_curie_id, output_stream=sys.stderr)
+                        
     return ret_category
 
 
 def get_nodes_dict_from_ontology_dict(ont_dict: dict,
-                                      map_curie_to_biolink_category: dict,
+                                      curies_to_categories: dict,
                                       category_label_to_iri_mapper: callable):
     ontology = ont_dict['ontology']
     assert type(ontology) == ontobio.ontol.Ontology
     ontology_iri = ont_dict['id']
-    assert ontology_iri.startswith('http:')
+    if not ontology_iri.startswith('http:'):
+        log_message(message="unexpected IRI format: " + ontology_iri,
+                    ontology_name=ontology_iri,
+                    output_stream=sys.stderr)
+        assert ontology_iri.startswith('http:')
     ontology_curie_id = shorten_iri_to_curie(ontology_iri)
 
     ret_dict = {ontology_curie_id: {
@@ -176,19 +330,17 @@ def get_nodes_dict_from_ontology_dict(ont_dict: dict,
 
     for ontology_node_id in ontology.nodes():
         onto_node_dict = ontology.node(ontology_node_id)
-        if not onto_node_dict:
-            continue
+        assert onto_node_dict is not None
         if not ontology_node_id.startswith('http://snomed.info'):
             node_curie_id = ontology_node_id
             iri = onto_node_dict.get('id', None)
-            assert iri is not None
-            parsed_iri = urllib.parse.urlparse(iri)
-            iri_netloc = parsed_iri.netloc
-            iri_path = parsed_iri.path
-            if iri_netloc in ('example.com', 'usefulinc.com') or iri_path.startswith('/ontology/provisional'):
-                continue
             if iri is None:
                 iri = prefixcommons.expand_uri(node_curie_id)
+                if iri == node_curie_id or iri == '':
+                    continue
+            assert iri is not None
+            if is_ignorable_ontology_term(iri):
+                continue
         else:
             # have to handle snomed ontology specially since the node IDs are not CURIE IDs.
             # When we import the SNOMED CT ontology from OWL format into ontobio, the node IDs
@@ -206,11 +358,12 @@ def get_nodes_dict_from_ontology_dict(ont_dict: dict,
             node_name = node_dict['full name']
         node_dict['name'] = node_name
         node_meta = onto_node_dict.get('meta', None)
-        node_category_label = get_biolink_category_for_node(ontology_node_id, ontology, map_curie_to_biolink_category)
+        node_category_label = get_biolink_category_for_node(ontology_node_id, ontology, curies_to_categories)
         if node_category_label is not None:
             node_category_iri = category_label_to_iri_mapper(node_category_label)
         else:
-            node_category_iri = None
+            log_message("Node does not have a category", ontology_iri, node_curie_id, output_stream=sys.stderr)
+            continue
         node_dict['category'] = node_category_iri
         node_dict['category label'] = node_category_label
         node_deprecated = False
@@ -255,14 +408,97 @@ def get_nodes_dict_from_ontology_dict(ont_dict: dict,
     return ret_dict
 
 
-def get_map_of_node_ontology_ids_to_curie_ids(nodes: dict):
-    ret_dict = dict()
-    for curie_id, node_dict in nodes.items():
-        ontology_node_id = node_dict['ontology node id']
-        assert curie_id not in ret_dict
-        if ontology_node_id is not None:
-            ret_dict[ontology_node_id] = curie_id
-    return ret_dict
+def get_rels_dict(nodes: dict,
+                  ontology: ontobio.ontol.Ontology,
+                  map_of_node_ontology_ids_to_curie_ids: dict):
+    rels_dict = dict()
+    ont_graph = ontology.get_graph()
+    for (subject_id, object_id, predicate_dict) in ont_graph.edges(data=True):
+        # subject_id and object_id are IDs from the original ontology objects; these may not
+        # always be the node curie IDs (e.g., for SNOMED terms). Need to map them
+        subject_curie_id = map_of_node_ontology_ids_to_curie_ids.get(subject_id, None)
+        if subject_curie_id is None:
+            log_message(message="ontology node ID has no curie ID in the map: " + subject_id,
+                        ontology_name=ontology.id,
+                        node_curie_id=subject_id,
+                        output_stream=sys.stderr)
+            continue
+        object_curie_id = map_of_node_ontology_ids_to_curie_ids.get(object_id, None)
+        if object_curie_id is None:
+            log_message(message="ontology node ID has no curie ID in the map: " + object_id,
+                        ontology_name=ontology.id,
+                        node_curie_id=object_id,
+                        output_stream=sys.stderr)
+            continue
+        predicate_label = predicate_dict['pred']
+        if not predicate_label.startswith('http:'):
+            if ':' not in predicate_label:
+                if predicate_label != 'subClassOf':
+                    predicate_curie = 'owl:' + predicate_label
+                else:
+                    predicate_curie = 'rdfs:subClassOf'
+                predicate_label = convert_owl_camel_case_to_biolink_spaces(predicate_label)
+            else:
+                predicate_curie = predicate_label
+                predicate_node = nodes.get(predicate_curie, None)
+                if predicate_node is not None:
+                    predicate_label = predicate_node['name']
+            predicate_iri = prefixcommons.expand_uri(predicate_curie)
+        else:
+            predicate_iri = predicate_label
+            predicate_curie = shorten_iri_to_curie(predicate_iri)
+        if predicate_curie is None:
+            log_message(message="predicate IRI has no CURIE: " + predicate_iri,
+                        ontology_name=ontology.id,
+                        output_stream=sys.stderr)
+            continue
+        key = subject_curie_id + ';' + predicate_curie + ';' + object_curie_id
+        if rels_dict.get(key, None) is None:
+            rels_dict[key] = {'subject': subject_curie_id,
+                              'object': object_curie_id,
+                              'type': predicate_label,
+                              'relation': predicate_iri,
+                              'relation curie': predicate_curie,  # slot is not biolink standard
+                              'negated': False,
+                              'provided by': ontology.id,
+                              'id': None}
+    for node_id, node_dict in nodes.items():
+        xrefs = node_dict['xrefs']
+        if xrefs is not None:
+            for xref_node_id in xrefs:
+                if xref_node_id in nodes:
+                    key = node_id + ';' + predicate_curie + ';' + xref_node_id
+                    if rels_dict.get(key, None) is None:
+                        rels_dict[key] = {'subject': node_id,
+                                          'object': xref_node_id,
+                                          'type': 'xref',
+                                          'relation': 'http://purl.org/obo/owl/oboFormat#oboFormat_xref',
+                                          'relation curie': 'oboFormat:xref',
+                                          'negated': False,
+                                          'provided by': nodes[xref_node_id]['source ontology iri'],
+                                          'id': None}
+    return rels_dict
+
+# --------------- pure functions here -------------------
+# (Note: a "pure" function here can still have logging print statements)
+
+def convert_owl_camel_case_to_biolink_spaces(name: str):
+    s1 = FIRST_CAP_RE.sub(r'\1 \2', name)
+    converted = ALL_CAP_RE.sub(r'\1 \2', s1).lower()
+    return converted.replace('sub class', 'subclass')
+
+
+def convert_biolink_category_to_iri(biolink_category_base_iri, biolink_category_label: str):
+    return urllib.parse.urljoin(biolink_category_base_iri, biolink_category_label.title().replace(' ', ''))
+
+
+def safe_load_yaml_from_string(yaml_string: str):
+    return yaml.safe_load(io.StringIO(yaml_string))
+
+
+def get_prefix_from_curie_id(curie_id: str):
+    assert ':' in curie_id
+    return curie_id.split(':')[0]
 
 
 def count_node_types_with_none_category(nodes: dict):
@@ -302,7 +538,7 @@ def merge_two_dicts(x: dict, y: dict):
                 else:
                     ret_dict[key] = [value, stored_value]
                     if key not in ('source ontology iri', 'category label', 'category'):
-                        print("warning: incompatible data in two dictionaries: " + str(value) + "; " + str(stored_value) + "; key is: " + key, file=sys.stderr)
+                        log_message("warning: incompatible data in two dictionaries: " + str(value) + "; " + str(stored_value) + "; key is: " + key, file=sys.stderr)
     return ret_dict
 
 
@@ -318,146 +554,20 @@ def compose_two_multinode_dicts(node1: dict, node2: dict):
     return ret_dict
 
 
-def convert_biolink_category_to_iri(biolink_category_base_iri, biolink_category_label: str):
-    return urllib.parse.urljoin(biolink_category_base_iri, biolink_category_label.title().replace(' ', ''))
+def make_map_of_node_ontology_ids_to_curie_ids(nodes: dict):
+    ret_dict = dict()
+    for curie_id, node_dict in nodes.items():
+        ontology_node_id = node_dict['ontology node id']
+        assert curie_id not in ret_dict
+        if ontology_node_id is not None:
+            ret_dict[ontology_node_id] = curie_id
+    return ret_dict
 
-
-def make_map_category_label_to_iri(biolink_category_base_iri: str):
-    return functools.partial(convert_biolink_category_to_iri, biolink_category_base_iri)
-#     return lambda category_label: convert_biolink_category_to_iri(biolink_category_base_iri, category_label)
-
-
-def convert_owl_camel_case_to_biolink_spaces(name: str):
-    s1 = FIRST_CAP_RE.sub(r'\1 \2', name)
-    converted = ALL_CAP_RE.sub(r'\1 \2', s1).lower()
-    return converted.replace('sub class', 'subclass')
-
-
-def get_rels_dict(nodes: dict, ontology: ontobio.ontol.Ontology,
-                  map_of_node_ontology_ids_to_curie_ids: dict):
-    rels_dict = dict()
-    for (subject_id, object_id, predicate_dict) in ontology.get_graph().edges_iter(data=True):
-        # subject_id and object_id are IDs from the original ontology objects; these may not
-        # always be the node curie IDs (e.g., for SNOMED terms). Need to map them
-        subject_curie_id = map_of_node_ontology_ids_to_curie_ids.get(subject_id, None)
-        if subject_curie_id is None:
-            print("ontology ID has no curie ID in the map: " + subject_id, file=sys.stderr)
-            continue
-        object_curie_id = map_of_node_ontology_ids_to_curie_ids.get(object_id, None)
-        if object_curie_id is None:
-            print("ontology ID has no curie ID in the map: " + object_id, file=sys.stderr)
-            continue
-        predicate_label = predicate_dict['pred']
-        if not predicate_label.startswith('http:'):
-            if ':' not in predicate_label:
-                if predicate_label != 'subClassOf':
-                    predicate_curie = 'owl:' + predicate_label
-                else:
-                    predicate_curie = 'rdfs:subClassOf'
-                predicate_label = convert_owl_camel_case_to_biolink_spaces(predicate_label)
-            else:
-                predicate_curie = predicate_label
-                predicate_node = nodes.get(predicate_curie, None)
-                if predicate_node is not None:
-                    predicate_label = predicate_node['name']
-            predicate_iri = prefixcommons.expand_uri(predicate_curie)
-        else:
-            predicate_iri = predicate_label
-            predicate_curie = shorten_iri_to_curie(predicate_iri)
-        key = subject_curie_id + ';' + predicate_curie + ';' + object_curie_id
-        if rels_dict.get(key, None) is None:
-            rels_dict[key] = {'subject': subject_curie_id,
-                              'object': object_curie_id,
-                              'type': predicate_label,
-                              'relation': predicate_iri,
-                              'relation curie': predicate_curie,  # slot is not biolink standard
-                              'negated': False,
-                              'provided by': ontology.id,
-                              'id': None}
-    for node_id, node_dict in nodes.items():
-        xrefs = node_dict['xrefs']
-        if xrefs is not None:
-            for xref_node_id in xrefs:
-                if xref_node_id in nodes:
-                    key = node_id + ';' + predicate_curie + ';' + xref_node_id
-                    if rels_dict.get(key, None) is None:
-                        rels_dict[key] = {'subject': node_id,
-                                          'object': xref_node_id,
-                                          'type': 'xref',
-                                          'relation': 'http://purl.org/obo/owl/oboFormat#oboFormat_xref',
-                                          'relation curie': 'oboFormat:xref',
-                                          'negated': False,
-                                          'provided by': nodes[xref_node_id]['source ontology iri'],
-                                          'id': None}
-    return rels_dict
 
 
 # --------------- define constants -------------------
 
-# note: this could be loaded from a config file
-ONTOLOGY_URLS_AND_FILES = ({'url':  'http://purl.obolibrary.org/obo/foodon.owl',
-                            'file': 'foodon.owl',
-                            'title': 'FOODON (Food Ontology)'},
-                           {'url':  'http://www.ebi.ac.uk/efo/efo.owl',
-                            'file': 'efo.owl',
-                            'title': 'Experimental Factor Ontology'},
-                           {'url':  'http://www.orphadata.org/data/ORDO/ORDO_en_2.7.owl',
-                            'file': 'ordo.owl',
-                            'title': 'ORPHANET Rare Disease Ontology'},
-                           {'url':  'http://purl.obolibrary.org/obo/ddanat/releases/2018-11-25/ddanat.owl',
-                            'file': 'ddanat.owl',
-                            'title': 'Dictyostelium discoideum anatomy'},
-                           {'url':  'http://purl.obolibrary.org/obo/ncit.owl',
-                            'file': 'ncit.owl',
-                            'title': 'NCI Thesaurus'},
-                           {'url':  'http://purl.obolibrary.org/obo/bfo.owl',
-                            'file': 'bfo.owl',
-                            'title': 'Basic Formal Ontology'},
-                           {'url':  'http://purl.obolibrary.org/obo/ro.owl',
-                            'file': 'ro.owl',
-                            'title': 'Relation Ontology'},
-                           {'url':  'http://purl.obolibrary.org/obo/hp.owl',
-                            'file': 'hp.owl',
-                            'title': 'Human Phenotype Ontology'},
-                           {'url':  'http://purl.obolibrary.org/obo/go/extensions/go-plus.owl',
-                            'file': 'go-plus.owl',
-                            'title': 'Gene Ontology'},
-                           {'url':  'http://purl.obolibrary.org/obo/chebi.owl',
-                            'file': 'chebi.owl',
-                            'title': 'Chemical Entities of Biological Interest'},
-                           {'url':  'http://purl.obolibrary.org/obo/ncbitaxon/subsets/taxslim.owl',
-                            'file': 'taxslim.owl',
-                            'title': 'NCBITaxon'},
-                           {'url':  'http://purl.obolibrary.org/obo/fma.owl',
-                            'file': 'fma.owl',
-                            'title': 'Foundational Model of Anatomy'},
-                           {'url':  'http://purl.obolibrary.org/obo/pato.owl',
-                            'file': 'pato.owl',
-                            'title': 'Phenotypic Quality Ontology'},
-                           {'url':  'http://purl.obolibrary.org/obo/mondo.owl',
-                            'file': 'mondo.owl',
-                            'title': 'MONDO Disease Ontology'},
-                           {'url':  'http://purl.obolibrary.org/obo/cl.owl',
-                            'file': 'cl.owl',
-                            'title': 'Cell Ontology'},
-                           {'url':  'http://purl.obolibrary.org/obo/doid.owl',
-                            'file': 'doid.owl',
-                            'title': 'Disease Ontology'},
-                           {'url':  'http://purl.obolibrary.org/obo/pr.owl',
-                            'file': 'pr.owl',
-                            'title': 'Protein Ontology'},
-                           {'url':  'http://purl.obolibrary.org/obo/uberon/ext.owl',
-                            'file': 'uberon-ext.owl',
-                            'title': 'Uber-anatomy Ontology'},
-                           {'url':  None,
-                            'file': 'snomed.owl',
-                            'title': 'SNOMED CT Ontology'}, )
-
-BIOLINK_MODEL_YAML_URL = 'file:biolink-model--updated-for-kg2.yaml'
-
-# ------------- save --------------
-# BIOLINK_MODEL_YAML_URL = 'https://raw.githubusercontent.com/biolink/biolink-model/master/biolink-model.yaml'
-# ------------- save --------------
+ONTOLOGY_LOAD_CONFIG_FILE = 'ontology-load-config.yaml'
 
 BIOLINK_CATEGORY_BASE_IRI = 'http://w3id.org/biolink'
 
@@ -465,80 +575,21 @@ FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
 
 ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
 
-
-for ont_dict in ONTOLOGY_URLS_AND_FILES:
-    ont = make_ontology_dict_from_local_file(download_file_if_not_exist_locally(ont_dict['url'],
-                                                                                ont_dict['file']))['ontology']
-    roots = ont.get_roots(relations='subClassOf')
-    for node_id in roots:
-        pprint.pprint(ont.node(node_id))
-
-exit()
+CURIES_TO_CATEGORIES_FILE_NAME = "curies-to-categories.yaml"
 
 # --------------- main starts here -------------------
 
-# download all the ontology OWL files and load them; fold in the original data from ONTOLOGY_URLS_AND_FILES
-ontology_data = tuple(make_ontology_dict_from_local_file(download_file_if_not_exist_locally(ont_dict['url'],
-                                                                                            ont_dict['file']),
-                                                         ont_dict['title'])
-                      for ont_dict in ONTOLOGY_URLS_AND_FILES)
+delete_cachier_caches()
 
+curies_to_categories = safe_load_yaml_from_string(read_file_to_string(CURIES_TO_CATEGORIES_FILE_NAME))
 
-biolink_data = yaml.safe_load(urllib.request.urlopen(BIOLINK_MODEL_YAML_URL))
-biolink_map_of_curies_to_categories = get_biolink_map_of_curies_to_categories(biolink_data)
+map_category_label_to_iri = functools.partial(convert_biolink_category_to_iri, BIOLINK_CATEGORY_BASE_IRI)
 
-map_category_label_to_iri = make_map_category_label_to_iri(BIOLINK_CATEGORY_BASE_IRI)
+ontology_urls_and_files = tuple(safe_load_yaml_from_string(read_file_to_string(ONTOLOGY_LOAD_CONFIG_FILE)))
 
-ontology_node_dicts = [get_nodes_dict_from_ontology_dict(ont_dict,
-                                                         biolink_map_of_curies_to_categories,
-                                                         map_category_label_to_iri)
-                       for ont_dict in ontology_data]
-
-
-nodes_dict = functools.reduce(lambda x, y: compose_two_multinode_dicts(x, y),
-                              ontology_node_dicts)
-
-map_of_node_ontology_ids_to_curie_ids = get_map_of_node_ontology_ids_to_curie_ids(nodes_dict)
-
-master_ontology = copy.deepcopy(ontology_data[0]['ontology'])
-master_ontology.merge([ont_dict['ontology'] for ont_dict in ontology_data])
-
-kg2_dict = dict()
-
-# get a dictionary of all relationships including xrefs as relationships
-kg2_dict['edges'] = list(get_rels_dict(nodes_dict, master_ontology,
-                                       map_of_node_ontology_ids_to_curie_ids).values())
-
-kg2_dict['nodes'] = list(nodes_dict.values())
-
-del nodes_dict
-
-# delete xrefs from all_nodes_dict
-for node_dict in kg2_dict['nodes']:
-    del node_dict['xrefs']
-
-
-with open('kg2.json', 'w') as outfile:
-    json.dump(kg2_dict, outfile)
-
-
-# # ----------- CODE GRAVEYARD ----------
-# # command to convert an OWL file to an OBO file:
-# #   owltools nbo.owl -o -f obo nbo.obo
-
-# # don't use the SPARQL query method (i.e., like OntologyFactory.create("hp")) because you don't get all
-# # the fields that you want for each ontology term
-
-# # ontology_codes = ["obo:bfo", "obo:ro", "obo:hp", "obo:go", "obo:chebi", "obo:go",
-# #                   "http://purl.obolibrary.org/obo/ncbitaxon/subsets/taxslim.owl",
-# #                   "obo:fma", "obo:pato", "obo:mondo", "obo:cl", "obo:doid", "obo:pr",
-# #                   "http://purl.obolibrary.org/obo/uberon/ext.owl",
-# #                   "obo:dron"]
-
-# def make_ontology_from_ontcode_remote_query_with_caching(ontcode: str):
-#     print("Creating ontology object: " + ontcode)
-#     return ontobio.ontol_factory.OntologyFactory().create(ontcode)
-
+make_kg2(curies_to_categories,
+         map_category_label_to_iri,
+         ontology_urls_and_files) 
 
 
 # # ---------------- Notes -----------------
