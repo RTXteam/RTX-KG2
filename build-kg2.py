@@ -19,6 +19,7 @@ import ssl
 import sys
 import tempfile
 import time
+import timeit
 import urllib.parse
 import urllib.request
 import yaml
@@ -594,9 +595,8 @@ map_category_label_to_iri = functools.partial(convert_biolink_category_to_iri, B
 
 ontology_urls_and_files = tuple(safe_load_yaml_from_string(read_file_to_string(ONTOLOGY_LOAD_CONFIG_FILE)))
 
-make_kg2(curies_to_categories,
-         map_category_label_to_iri,
-         ontology_urls_and_files) 
+running_time = timeit.timeit(lambda: make_kg2(curies_to_categories, map_category_label_to_iri, ontology_urls_and_files), number=1)
+print('running time for function: ' + str(running_time))
 
 
 # # ---------------- Notes -----------------
