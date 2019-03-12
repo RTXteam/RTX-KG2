@@ -42,7 +42,7 @@ def purge(dir, pattern):
         if re.search(pattern, f):
             os.remove(os.path.join(exp_dir, f))
             
-def delete_ontobio_json_caches():
+def delete_ontobio_cachier_caches():
     purge("~/.cachier", ".ontobio*")
     purge("~/.cachier", ".prefixcommons*")
 
@@ -93,7 +93,8 @@ def make_ontology_from_local_file(file_name: str):
     file_name_without_ext = os.path.splitext(file_name)[0]
     file_name_with_pickle_ext = file_name_without_ext + ".pickle"
     if not os.path.isfile(file_name_with_pickle_ext):
-        delete_ontobio_cache_json(file_name)        
+        if not USE_ONTOBIO_JSON_CACHE:
+            delete_ontobio_cache_json(file_name)        
         size = os.path.getsize(file_name)
         log_message(message="Reading ontology file: " + file_name + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
                     ontology_name=None)        
@@ -583,7 +584,7 @@ def make_map_of_node_ontology_ids_to_curie_ids(nodes: dict):
 # --------------- main starts here -------------------
 
 if not USE_ONTOBIO_JSON_CACHE:
-    delete_ontobio_json_caches()
+    delete_ontobio_cachier_caches()
 
 curies_to_categories = safe_load_yaml_from_string(read_file_to_string(CURIES_TO_CATEGORIES_FILE_NAME))
 
