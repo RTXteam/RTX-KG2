@@ -582,7 +582,7 @@ def make_map_of_node_ontology_ids_to_curie_ids(nodes: dict):
 
 # --------------- main starts here -------------------
 
-if ! USE_ONTOBIO_JSON_CACHE:
+if not USE_ONTOBIO_JSON_CACHE:
     delete_ontobio_json_caches()
 
 curies_to_categories = safe_load_yaml_from_string(read_file_to_string(CURIES_TO_CATEGORIES_FILE_NAME))
