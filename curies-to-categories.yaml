@@ -55,6 +55,11 @@ term-mappings:
     ENVO:02500000: environmental process
     ENVO:00002297: environmental feature
     FMA:29733: anatomical entity
+    FMA:62955: anatomical entity
+    FMA:50592: dimensional entity
+    FMA:85802: attribute entity
+    FMA:87205: biological molecule
+    FMA:85620: biological molecular complex
     HP:0000001: phenotypic feature
     HsapDv:0000000: life stage
     MONDO:0000001: disease
@@ -62,6 +67,26 @@ term-mappings:
     NCBITaxon:1: organism taxon
     NCIT:C2991: disease
     NCIT:C20130: gene family
+    NCIT:C12913: cell type
+    NCIT:C105551: activity
+    NCIT:C90259: anatomical entity
+    NCIT:C20633: pathway
+    NCIT:C17828: biological process
+    NCIT:C12218: therapy
+    NCIT:C1254372: conceptual entity
+    NCIT:C20047: diagnostic or prognostic factor
+    NCIT:C7057: finding
+    NCIT:C1908: substance
+    NCIT:C16612: gene
+    NCIT:C813: RNA
+    NCIT:C111298: RNA
+    NCIT:C17021: protein
+    NCIT:C28566: protein
+    NCIT:C21176: biological molecular complex
+    NCIT:C26549: RNA
+    NCIT:C28454: RNA
+    NCIT:C14250: organism taxon
+    NCIT:C3910: phenotypic feature
     PATO:0000001: phenotypic quality
     PR:000000001: protein
     SNOMEDCT_US:48176007: social context
