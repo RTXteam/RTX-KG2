@@ -1,20 +1,60 @@
 ---
-prefix-mappings: 
+prefix-mappings:
+    CL: anatomical entity
     HGNC: gene
     NCBIGene: gene
-    UniProtKB:: protein,
-    NCBITaxon: organism taxon,
+    UniProtKB: protein
+    NCBITaxon: organism taxon
     Orphanet: disease
-term-mappings: 
+    RO: relationship type
+    IAO: information entity type
+    UBERON: anatomical entity
+term-mappings:
+    rdfs:isDefinedBy: relationship type
+    OIO:inSubset: relationship type
+    OIO:ObsoleteClass: information entity type
+    OIO:hasRelatedSynonym: relationship type
+    OIO:hasBroadSynonym: relationship type
+    OIO:hasExactSynonym: relationship type
+    OIO:hasDbXref: relationship type
+    OIO:hasOBOFormatVersion: relationship type
+    OIO:SubsetProperty: information entity type
+    OIO:shorthand: relationship type
+    owl:topObjectProperty: attribute
+    OBO:ro/subsets#ro-eco: relationship type
+    BFO:0000001: entity
+    BFO:0000002: continuant
+    BFO:0000003: occurrent
+    BFO:0000050: relationship type
+    BFO:0000051: relationship type
+    BFO:0000054: relationship type
+    BFO:0000055: relationship type
+    BFO:0000060: relationship type
+    BFO:0000061: relationship type
+    BFO:0000062: relationship type
+    BFO:0000063: relationship type
+    BFO:0000066: relationship type
+    BFO:0000067: relationship type
+    BFO:0000134: information entity type
+    BFO:0000179: information entity type
+    BFO:0000180: information entity type
+    CARO:0000003: anatomical entity
     CHEBI:23888: drug
     CHEBI:24431: chemical substance
     CHEBI:25212: metabolite
     CHEBI:33697: RNA product
+    CHEBI:36342: subatomic particle
     CHEBI:78295: biological food component
     CHEBI:50906: biological process or activity
+    CL:0000000: anatomical entity
+    DDANAT:0000002: organism taxon
     DOID:4: disease
+    GO:0005575: cellular component
+    GO:0008150: biological process
+    GO:0003674: molecular function
     ENVO:02500000: environmental process
     ENVO:00002297: environmental feature
+    FMA:29733: anatomical entity
     HP:0000001: phenotypic feature
     HsapDv:0000000: life stage
     MONDO:0000001: disease
@@ -24,14 +64,30 @@ term-mappings:
     NCIT:C20130: gene family
     PATO:0000001: phenotypic quality
     PR:000000001: protein
-    SNOMEDCT_US:410607006: organism taxon
-    SNOMEDCT_US:410942007: drug
+    SNOMEDCT_US:48176007: social context
     SNOMEDCT_US:64572001: disease
     SNOMEDCT_US:71388002: procedure
-    SNOMEDCT_US:125676002: person
+    SNOMEDCT_US:78621006: physical force
     SNOMEDCT_US:91723000: anatomical entity
+    SNOMEDCT_US:105590001: substance
+    SNOMEDCT_US:123037004: body structure
+    SNOMEDCT_US:123038009: specimen
+    SNOMEDCT_US:125676002: person
+    SNOMEDCT_US:243796009: situation with explicit context
+    SNOMEDCT_US:246061005: attribute
+    SNOMEDCT_US:254291000: staging and scales
+    SNOMEDCT_US:260787004: physical object
     SNOMEDCT_US:272379006: event
+    SNOMEDCT_US:308916002: environmental or geographical location
+    SNOMEDCT_US:362981000: qualifier value
+    SNOMEDCT_US:363787002: observable entity  ## could this mapped to some other entity category in Biolink?
+    SNOMEDCT_US:370115009: special concept
+    SNOMEDCT_US:373873005: product
     SNOMEDCT_US:404684003: finding
+    SNOMEDCT_US:410607006: organism taxon
+    SNOMEDCT_US:410942007: drug
+    SNOMEDCT_US:419891008: record artifact
+    SNOMEDCT_US:900000000000441003: information entity
     UBERON:0001062: anatomical entity
     UBERON:0000105: life stage
     UPHENO:0001001: phenotypic feature
