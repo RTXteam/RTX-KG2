@@ -27,7 +27,7 @@ import yaml
 # -------------- define globals here ---------------
 
 IRI_NETLOCS_IGNORE = ('example.com', 'usefulinc.com')
-USE_ONTOBIO_JSON_CACHE = True
+USE_ONTOBIO_JSON_CACHE = False
 ONTOLOGY_LOAD_CONFIG_FILE = 'ontology-load-config.yaml'
 BIOLINK_CATEGORY_BASE_IRI = 'http://w3id.org/biolink'
 FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
