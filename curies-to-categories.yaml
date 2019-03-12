@@ -9,6 +9,7 @@ prefix-mappings:
     RO: relationship type
     IAO: information entity type
     UBERON: anatomical entity
+    OMIM: phenotypic feature
 term-mappings:
     rdfs:isDefinedBy: relationship type
     OIO:inSubset: relationship type
