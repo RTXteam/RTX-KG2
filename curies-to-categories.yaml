@@ -69,10 +69,12 @@ term-mappings:
     NCIT:C20130: gene family
     NCIT:C12913: cell type
     NCIT:C105551: activity
-    NCIT:C90259: anatomical entity
+    NCIT:C12219: anatomical entity
     NCIT:C20633: pathway
     NCIT:C17828: biological process
     NCIT:C12218: therapy
+    NCIT:C16326: behavior
+    NCIT:C43431: activity
     NCIT:C1254372: conceptual entity
     NCIT:C20047: diagnostic or prognostic factor
     NCIT:C7057: finding
