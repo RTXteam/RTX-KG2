@@ -27,8 +27,14 @@ import yaml
 # -------------- define globals here ---------------
 
 IRI_NETLOCS_IGNORE = ('example.com', 'usefulinc.com')
+USE_ONTOBIO_JSON_CACHE = True
+ONTOLOGY_LOAD_CONFIG_FILE = 'ontology-load-config.yaml'
+BIOLINK_CATEGORY_BASE_IRI = 'http://w3id.org/biolink'
+FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
+ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
+CURIES_TO_CATEGORIES_FILE_NAME = "curies-to-categories.yaml"
 
-# -------------- impure functions here ------------------
+# -------------- subroutines with side-effects go here ------------------
 
 def purge(dir, pattern):
     exp_dir = os.path.expanduser(dir)
@@ -214,7 +220,7 @@ def make_kg2(curies_to_categories: dict,
     pickle.dump(kg2_dict, open('kg2.pickle', 'wb'))
 
 
-# --------------- impure functions that could be made pure ----------
+# --------------- subroutines that could be made into pure functions ----------
 
 def is_ignorable_ontology_term(iri: str):
     parsed_iri = urllib.parse.urlparse(iri)
@@ -574,23 +580,10 @@ def make_map_of_node_ontology_ids_to_curie_ids(nodes: dict):
             ret_dict[ontology_node_id] = curie_id
     return ret_dict
 
-
-
-# --------------- define constants -------------------
-
-ONTOLOGY_LOAD_CONFIG_FILE = 'ontology-load-config.yaml'
-
-BIOLINK_CATEGORY_BASE_IRI = 'http://w3id.org/biolink'
-
-FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
-
-ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
-
-CURIES_TO_CATEGORIES_FILE_NAME = "curies-to-categories.yaml"
-
 # --------------- main starts here -------------------
 
-delete_ontobio_json_caches()
+if ! USE_ONTOBIO_JSON_CACHE:
+    delete_ontobio_json_caches()
 
 curies_to_categories = safe_load_yaml_from_string(read_file_to_string(CURIES_TO_CATEGORIES_FILE_NAME))
 
