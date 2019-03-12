@@ -1,0 +1,84 @@
+-
+   url:  http://purl.obolibrary.org/obo/bfo.owl
+   file: bfo.owl
+   title: Basic Formal Ontology
+-
+  url:  http://purl.obolibrary.org/obo/ro.owl
+  file: ro.owl
+  title: Relation Ontology
+-
+  url:  http://purl.obolibrary.org/obo/uberon/ext.owl
+  file: uberon-ext.owl
+  title: Uber-anatomy Ontology
+-
+  url:  http://www.ebi.ac.uk/efo/efo.owl
+  file: efo.owl
+  title: Experimental Factor Ontology
+-
+  url:  http://purl.obolibrary.org/obo/fma.owl
+  file: fma.owl
+  title: Foundational Model of Anatomy
+-
+  url:  http://purl.obolibrary.org/obo/cl.owl
+  file: cl.owl
+  title: Cell Ontology
+-
+  url:  http://purl.obolibrary.org/obo/chebi.owl
+  file: chebi.owl
+  title: Chemical Entities of Biological Interest
+-
+  url: http://purl.obolibrary.org/obo/foodon.owl
+  file: foodon.owl
+  title: FOODON (Food Ontology)
+-
+  url:  http://www.orphadata.org/data/ORDO/ORDO_en_2.7.owl
+  file: ordo.owl
+  title: ORPHANET Rare Disease Ontology
+-
+  url:  http://purl.obolibrary.org/obo/ehdaa2.owl
+  file: ehdaa2.owl
+  title: Human developmental anatomy, abstract
+-
+  url:  http://purl.obolibrary.org/obo/bspo.owl
+  file: bspo.owl
+  title: Biological Spatial Ontology
+-
+  url:  http://purl.obolibrary.org/obo/go/extensions/go-plus.owl
+  file: go-plus.owl
+  title: Gene Ontology
+-
+  url:  http://purl.obolibrary.org/obo/ncit.owl
+  file: ncit.owl
+  title: NCI Thesaurus
+-
+  url:  http://purl.obolibrary.org/obo/hp.owl
+  file: hp.owl
+  title: Human Phenotype Ontology
+-
+  url:  http://purl.obolibrary.org/obo/nbo.owl
+  file: nbo.owl
+  title: Neuro Behavior Ontology
+-
+  url:  http://purl.obolibrary.org/obo/ncbitaxon/subsets/taxslim.owl
+  file: taxslim.owl
+  title: NCBITaxon
+-
+  url:  http://purl.obolibrary.org/obo/pato.owl
+  file: pato.owl
+  title: Phenotypic Quality Ontology
+-
+  url:  http://purl.obolibrary.org/obo/mondo.owl
+  file: mondo.owl
+  title: MONDO Disease Ontology
+-
+  url:  http://purl.obolibrary.org/obo/doid.owl
+  file: doid.owl
+  title: Disease Ontology
+-
+  url:  http://purl.obolibrary.org/obo/pr.owl
+  file: pr.owl
+  title: Protein Ontology
+-
+  url: ## intentionally left blank which will map to "None" in the resulting python data structure
+  file: snomed-relax.owl
+  title: SNOMED CT Ontology
