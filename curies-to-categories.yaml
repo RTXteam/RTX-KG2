@@ -82,6 +82,7 @@ term-mappings:
     NCIT:C20047: diagnostic or prognostic factor
     NCIT:C7057: finding
     NCIT:C1908: substance
+    NCIT:C71460: method
     NCIT:C16612: gene
     NCIT:C813: RNA
     NCIT:C111298: RNA
