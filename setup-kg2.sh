@@ -23,7 +23,9 @@ SNOMEDToOWL -f xml SnomedCT_USEditionRF2_PRODUCTION_20180901T120000Z/Snapshot SN
 ./robot relax --input snomed.owl --output snomed-relax.owl
 
 mkdir -p ${BUILD_DIR}
-cp ${CODE_DIR}/snomed-relax.owl ${BUILD_DIR}/
+ln -s ${CODE_DIR}/snomed-relax.owl ${BUILD_DIR}/
+ln -s ${CODE_DIR}/curies-to-categories.yaml ${BUILD_DIR}/
+ln -s ${CODE_DIR}/ontology-load-config.haml ${BUILD_DIR}/
 
 ## we are not using pymongo but having it silences a runtime warning from ontobio:
 ${VENV_DIR}/bin/pip3 install ontobio pymongo
