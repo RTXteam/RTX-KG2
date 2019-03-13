@@ -78,7 +78,6 @@ term-mappings:
     NCIT:C12218: therapy
     NCIT:C16326: behavior
     NCIT:C43431: activity
-    NCIT:C1254372: conceptual entity
     NCIT:C20047: diagnostic or prognostic factor
     NCIT:C7057: finding
     NCIT:C1908: substance
@@ -94,6 +93,7 @@ term-mappings:
     NCIT:C14250: organism taxon
     NCIT:C3910: phenotypic feature
     NCIT:C48187: material
+    NCIT:C20181: conceptual entity
     PATO:0000001: phenotypic quality
     PR:000000001: protein
     SNOMEDCT_US:48176007: social context
