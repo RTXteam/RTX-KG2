@@ -92,6 +92,7 @@ term-mappings:
     NCIT:C28454: RNA
     NCIT:C14250: organism taxon
     NCIT:C3910: phenotypic feature
+    NCIT:C48187: material
     PATO:0000001: phenotypic quality
     PR:000000001: protein
     SNOMEDCT_US:48176007: social context
