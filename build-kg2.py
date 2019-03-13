@@ -377,12 +377,17 @@ def make_nodes_dict_from_ontology_dict(ontology: ontobio.ontol.Ontology,
             node_name = node_dict['full name']
         node_dict['name'] = node_name
         node_meta = onto_node_dict.get('meta', None)
+        if node_meta is not None:
+            node_deprecated = node_meta.get('deprecated', False)
         node_category_label = get_biolink_category_for_node(ontology_node_id, ontology, curies_to_categories)
         if node_category_label is not None:
             node_category_iri = category_label_to_iri_mapper(node_category_label)
         else:
-            log_message("Node does not have a category", ontology.id, node_curie_id, output_stream=sys.stderr)
-            continue
+            if not node_deprecated:
+                log_message("Node does not have a category", ontology.id, node_curie_id, output_stream=sys.stderr)
+                continue
+            else:
+                node_category_label = 'deprecated node'
         node_dict['category'] = node_category_iri
         node_dict['category label'] = node_category_label
         node_deprecated = False
@@ -392,7 +397,6 @@ def make_nodes_dict_from_ontology_dict(ontology: ontobio.ontol.Ontology,
         node_creation_date = None
         node_replaced_by = None
         if node_meta is not None:
-            node_deprecated = node_meta.get('deprecated', False)
             node_definition = node_meta.get('definition', None)
             if node_definition is not None:
                 node_description = node_definition['val']
