@@ -3,19 +3,35 @@
 
 ## General notes:
 
-- KG2 is configured to run with the `kg2-build` directory being in the same file
-system as the temporary file directory (i.e., the directory name that is
+KG2 is configured to run with the `kg2-build` directory being in the same file
+system as the Python temporary file directory (i.e., the directory name that is
 returned by `tempfile.tempdir` in Python). If you modify the KG2 software or
 runtime environment so that `kg2-build` is in a different file system from the
 file system in which the directory `tempfile.tempdir` resides, then the file
-copying that KG2 does will not be atomic and interruption of `build-kg2.py`
-could then leave a source data file in a half-downloaded (i.e., broken) state.
+copying operations that are performed by the KG2 build software will not be
+atomic and interruption of `build-kg2.py` could then leave a source data file in
+a half-downloaded (i.e., broken) state.
+
+## Setup your computing environment
+
+The computing environment where you will be running the KG2 build should have
+at least:
+
+- 64 GB of system RAM
+- 500 GB of disk space in the root file system 
+
+## My normal EC2 instance
+
+- Instance type: `m5.4xlarge` 
+- AMI: Ubuntu server 18.04
+- Storage: 500 GB EBS
+- Security Group: `ssh+http`
 
 ## Build `snowmed.owl`
 
 Prerequisites:
-- `git` is installed and in the bash PATH
-- `java` is installed and in the bash PATH
+- `git` installed and in the bash PATH
+- `java` installed and in the bash PATH
 
 Run these commands in the `bash` shell:
 
