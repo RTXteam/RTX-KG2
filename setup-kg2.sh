@@ -23,14 +23,15 @@ sudo -H pip3 install virtualenv
 ## create a virtualenv for building KG2
 virtualenv ${VENV_DIR}
 
-## Install python packages that we will need (Note: we are not using pymongo
+## Install python3 packages that we will need (Note: we are not using pymongo
 ## directly, but installing it silences a runtime warning from ontobio):
 ${VENV_DIR}/bin/pip3 install ontobio pymongo SNOMEDToOWL
 
 ## create the "build" directory where we will store the KG2 files:
 mkdir -p ${BUILD_DIR}
 
-## install robot
+## install ROBOT (software: ROBOT is an OBO Tool) by downloading the jar file
+## distribution and cURLing the startup script
 wget -P ${BUILD_DIR} https://github.com/ontodev/robot/releases/download/v1.3.0/robot.jar
 curl https://raw.githubusercontent.com/ontodev/robot/master/bin/robot > ${BUILD_DIR}/robot
 chmod a+x ${BUILD_DIR}/robot
