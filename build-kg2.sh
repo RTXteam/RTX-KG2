@@ -9,4 +9,4 @@ export PATH=$PATH:${BUILD_DIR}
 cd ${BUILD_DIR} && ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/build-kg2.py \
                               ${BUILD_DIR}/curies-to-categories.yaml \
                               ${BUILD_DIR}/owl-load-inventory.yaml \
-                              2>stderr.log 1>stdout.log
+                              2>${BUILD_DIR}/build-kg2-stderr.log 1>${BUILD_DIR}/build-kg2-stdout.log
