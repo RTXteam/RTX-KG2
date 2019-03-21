@@ -29,6 +29,7 @@ ${VENV_DIR}/bin/pip3 install ontobio pymongo SNOMEDToOWL
 
 ## create the "build" directory where we will store the KG2 files:
 mkdir -p ${BUILD_DIR}
+cd ${BUILD_DIR}
 
 ## install robot
 wget https://github.com/ontodev/robot/releases/download/v1.3.0/robot.jar
@@ -36,7 +37,6 @@ curl https://raw.githubusercontent.com/ontodev/robot/master/bin/robot > robot
 chmod a+x robot
 
 ## build OWL-XML representation of SNOMED CT
-cd ${BUILD_DIR}
 aws configure
 aws s3 cp s3://rtx-kg2/${SNOMEDCT_FILE_BASE}.zip .
 unzip ${SNOMEDCT_FILE_BASE}.zip
