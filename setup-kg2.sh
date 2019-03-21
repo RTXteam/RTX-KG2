@@ -45,7 +45,7 @@ wget -P ${BUILD_DIR} http://build.berkeleybop.org/userContent/owltools/owltools
 chmod a+x ${BUILD_DIR}/owltools
 
 ## build OWL-XML representation of SNOMED CT
-if ! aws s3 cp s3://rtx-kg2/test .; then
+if ! aws s3 cp --region us-west-2 s3://rtx-kg2/test .; then
     aws configure
 else
     rm test
