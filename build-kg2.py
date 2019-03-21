@@ -13,7 +13,6 @@ __maintainer__ = ''
 __email__ = ''
 __status__ = 'Prototype'
 
-
 import argparse
 import collections
 import copy
@@ -265,6 +264,20 @@ def shorten_iri_to_curie(iri: str):
         elif iri.startswith('http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl'):
             curie_id = iri.replace('http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#',
                                    'NCIT:')
+        elif iri.startswith('http://www.informatics.jax.org/marker/MGI:'):
+            curie_id = iri.replace('http://www.informatics.jax.org/marker/', '')
+        elif iri.startswith('http://www.yeastgenome.org/cgi-bin/locus.fpl?dbid='):
+            curie_id = iri.replace('http://www.yeastgenome.org/cgi-bin/locus.fpl?dbid=', 'SGD:')
+        elif iri.startswith('http://www.pombase.org/spombe/result/'):
+            curie_id = iri.replace('http://www.pombase.org/spombe/result/', 'PomBase:')
+        elif iri.startswith('http://www.ecogene.org/gene/'):
+            curie_id = iri.replace('http://www.ecogene.org/gene/', 'EcoGene:')
+        elif iri.startswith('http://www.wormbase.org/species/c_elegans/gene/WBGene'):
+            curie_id = iri.replace('http://www.wormbase.org/species/c_elegans/gene/WBGene', 'WB:')
+        elif iri.startswith('http://birdgenenames.org/cgnc/GeneReport?id='):
+            curie_id = iri.replace('http://birdgenenames.org/cgnc/GeneReport?id=', 'CGNC:')
+        elif iri.startswith('http://www.ensemblegenomes.org/id/'):
+            curie_id = iri.replace('http://www.ensemblegenomes.org/id/', 'EnsemblGenomes:')
         else:
             curie_id = None
     return curie_id
@@ -522,6 +535,13 @@ def get_rels_dict(nodes: dict,
 # --------------- pure functions here -------------------
 # (Note: a "pure" function here can still have logging print statements)
 
+def make_arg_parser():
+    arg_parser = argparse.ArgumentParser(description='build-kg2: builds the KG2 knowledge graph for the RTX system')
+    arg_parser.add_argument('categoriesFile', type=str, nargs=1)
+    arg_parser.add_argument('owlLoadInventory', type=str, nargs=1)
+    return arg_parser
+
+
 def convert_owl_camel_case_to_biolink_spaces(name: str):
     s1 = FIRST_CAP_RE.sub(r'\1 \2', name)
     converted = ALL_CAP_RE.sub(r'\1 \2', s1).lower()
@@ -608,10 +628,7 @@ def make_map_of_node_ontology_ids_to_curie_ids(nodes: dict):
 if not USE_ONTOBIO_JSON_CACHE:
     delete_ontobio_cachier_caches()
 
-arg_parser = argparse.ArgumentParser(description='build-kg2: builds the KG2 knowledge graph for the RTX system')
-arg_parser.add_argument('categoriesFile', type=str, nargs=1)
-arg_parser.add_argument('owlLoadInventory', type=str, nargs=1)
-args = arg_parser.parse_args()
+args = make_arg_parser().parse_args()
 curies_to_categories_file_name = args.categoriesFile[0]
 owl_load_inventory_file = args.owlLoadInventory[0]
 

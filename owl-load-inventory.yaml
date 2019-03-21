@@ -80,5 +80,9 @@
   title: NCI Thesaurus OBO Edition
 -
   url: ## intentionally left blank which will map to "None" in the resulting python data structure
+  file: pickle.owl
+  title: PICKLE protein-protein interaction ontology
+-
+  url: ## intentionally left blank which will map to "None" in the resulting python data structure
   file: snomed-relax.owl
   title: SNOMED CT Ontology
