@@ -22,10 +22,10 @@ at least:
 
 ## My normal EC2 instance
 
+- AMI: Ubuntu Server 18.04 LTS (HVM), SSD Volume Type - ami-005bdb005fb00e791 (64-bit x86)
 - Instance type: `m5.4xlarge` 
-- AMI: Ubuntu server 18.04
-- Storage: 500 GB EBS
-- Security Group: `ssh+http`
+- Storage: 500 GB General Purpose SSD
+- Security Group: `http+ssh`
 
 ## Build `snowmed.owl`
 
