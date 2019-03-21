@@ -12,7 +12,7 @@ ln -s ~/RTX/code/kg2 ${CODE_DIR}
 
 ## install the Linux distro packages that we need
 sudo apt-get update
-sudo apt-get install -y python3-minimal python3-pip default-jre awscli zip curl
+sudo apt-get install -y python3-minimal python3-pip default-jre awscli zip curl wget
 
 ## this is for convenience when I am remote working
 sudo apt-get install -y emacs
