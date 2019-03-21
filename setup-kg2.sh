@@ -45,7 +45,6 @@ ${VENV_DIR}/bin/SNOMEDToOWL -f xml ${SNOMEDCT_FILE_BASE}/Snapshot \
            -o snomed.owl
 ./robot relax --input snomed.owl --output snomed-relax.owl
 
-ln -s ${CODE_DIR}/snomed-relax.owl ${BUILD_DIR}/
 ln -s ${CODE_DIR}/curies-to-categories.yaml ${BUILD_DIR}/
 ln -s ${CODE_DIR}/ontology-load-config.haml ${BUILD_DIR}/
 
