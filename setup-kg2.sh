@@ -1,4 +1,5 @@
 #!/bin/bash
+set -o nounset -o pipefail -o errexit
 
 ## setup the shell variables for various directories
 BUILD_DIR=~/kg2-build
