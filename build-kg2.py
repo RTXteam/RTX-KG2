@@ -13,7 +13,6 @@ __maintainer__ = ''
 __email__ = ''
 __status__ = 'Prototype'
 
-
 import argparse
 import collections
 import copy
@@ -522,6 +521,13 @@ def get_rels_dict(nodes: dict,
 # --------------- pure functions here -------------------
 # (Note: a "pure" function here can still have logging print statements)
 
+def make_arg_parser():
+    arg_parser = argparse.ArgumentParser(description='build-kg2: builds the KG2 knowledge graph for the RTX system')
+    arg_parser.add_argument('categoriesFile', type=str, nargs=1)
+    arg_parser.add_argument('owlLoadInventory', type=str, nargs=1)
+    return arg_parser
+
+
 def convert_owl_camel_case_to_biolink_spaces(name: str):
     s1 = FIRST_CAP_RE.sub(r'\1 \2', name)
     converted = ALL_CAP_RE.sub(r'\1 \2', s1).lower()
@@ -608,10 +614,7 @@ def make_map_of_node_ontology_ids_to_curie_ids(nodes: dict):
 if not USE_ONTOBIO_JSON_CACHE:
     delete_ontobio_cachier_caches()
 
-arg_parser = argparse.ArgumentParser(description='build-kg2: builds the KG2 knowledge graph for the RTX system')
-arg_parser.add_argument('categoriesFile', type=str, nargs=1)
-arg_parser.add_argument('owlLoadInventory', type=str, nargs=1)
-args = arg_parser.parse_args()
+args = make_arg_parser().parse_args()
 curies_to_categories_file_name = args.categoriesFile[0]
 owl_load_inventory_file = args.owlLoadInventory[0]
 
