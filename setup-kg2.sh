@@ -41,7 +41,7 @@ aws configure
 aws s3 cp s3://rtx-kg2/${SNOMEDCT_FILE_BASE}.zip .
 unzip ${SNOMEDCT_FILE_BASE}.zip
 ${VENV_DIR}/bin/SNOMEDToOWL -f xml ${SNOMEDCT_FILE_BASE}/Snapshot \
-           ${VENV_DIR}/lib/python3.6/site-packages/SNOMEDToOWL/sct_core_us_gb.json \
+           ${VENV_DIR}/lib/python3.6/site-packages/SNOMEDCTToOWL/conf/sct_core_us_gb.json \
            -o snomed.owl
 ./robot relax --input snomed.owl --output snomed-relax.owl
 
