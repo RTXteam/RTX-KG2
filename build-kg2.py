@@ -274,6 +274,10 @@ def shorten_iri_to_curie(iri: str):
             curie_id = iri.replace('http://www.ecogene.org/gene/', 'EcoGene:')
         elif iri.startswith('http://www.wormbase.org/species/c_elegans/gene/WBGene'):
             curie_id = iri.replace('http://www.wormbase.org/species/c_elegans/gene/WBGene', 'WB:')
+        elif iri.startswith('http://birdgenenames.org/cgnc/GeneReport?id='):
+            curie_id = iri.replace('http://birdgenenames.org/cgnc/GeneReport?id=', 'CGNC:')
+        elif iri.startswith('http://www.ensemblegenomes.org/id/'):
+            curie_id = iri.replace('http://www.ensemblegenomes.org/id/', 'EnsemblGenomes:')
         else:
             curie_id = None
     return curie_id
