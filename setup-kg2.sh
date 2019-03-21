@@ -36,7 +36,11 @@ curl https://raw.githubusercontent.com/ontodev/robot/master/bin/robot > ${BUILD_
 chmod a+x ${BUILD_DIR}/robot
 
 ## build OWL-XML representation of SNOMED CT
-aws configure
+if ! aws s3 cp s3://rtx-kg2/test .; then
+    aws configure
+else
+    rm test
+fi
 aws s3 cp --region us-west-2 s3://rtx-kg2/${SNOMEDCT_FILE_BASE}.zip ${BUILD_DIR}/
 unzip ${BUILD_DIR}/${SNOMEDCT_FILE_BASE}.zip -d ${BUILD_DIR}
 ${VENV_DIR}/bin/SNOMEDToOWL -f xml ${BUILD_DIR}/${SNOMEDCT_FILE_BASE}/Snapshot \
