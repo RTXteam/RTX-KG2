@@ -3,7 +3,7 @@
 # various OWL input files.
 #
 # Usage:
-# build-kg2.py <categoriesFile> <owlLoadInventory>
+# build-kg2.py <categoriesFile.yaml> <owlLoadInventory.yaml>
 
 import argparse
 import collections
