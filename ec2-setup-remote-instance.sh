@@ -1,5 +1,5 @@
 #!/bin/bash
-set -o nounset -o pipefail -o errexit
+set -euxo pipefail
 
 INSTANCE_HOSTNAME=kg2.saramsey.org
 PUBLIC_KEY_FILE=id_rsa.pub
