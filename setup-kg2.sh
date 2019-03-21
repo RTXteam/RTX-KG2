@@ -29,25 +29,23 @@ ${VENV_DIR}/bin/pip3 install ontobio pymongo SNOMEDToOWL
 
 ## create the "build" directory where we will store the KG2 files:
 mkdir -p ${BUILD_DIR}
-cd ${BUILD_DIR}
 
 ## install robot
-wget https://github.com/ontodev/robot/releases/download/v1.3.0/robot.jar
-curl https://raw.githubusercontent.com/ontodev/robot/master/bin/robot > robot
-chmod a+x robot
+wget -P ${BUILD_DIR} https://github.com/ontodev/robot/releases/download/v1.3.0/robot.jar
+curl https://raw.githubusercontent.com/ontodev/robot/master/bin/robot > ${BUILD_DIR}/robot
+chmod a+x ${BUILD_DIR}/robot
 
 ## build OWL-XML representation of SNOMED CT
 aws configure
-aws s3 cp --region us-west-2 s3://rtx-kg2/${SNOMEDCT_FILE_BASE}.zip .
-unzip ${SNOMEDCT_FILE_BASE}.zip
+aws s3 cp --region us-west-2 s3://rtx-kg2/${SNOMEDCT_FILE_BASE}.zip ${BUILD_DIR}/
+unzip -d ${BUILD_DIR} ${SNOMEDCT_FILE_BASE}.zip
 ${VENV_DIR}/bin/SNOMEDToOWL -f xml ${SNOMEDCT_FILE_BASE}/Snapshot \
            ${VENV_DIR}/lib/python3.6/site-packages/SNOMEDCTToOWL/conf/sct_core_us_gb.json \
-           -o snomed.owl
-./robot relax --input snomed.owl --output snomed-relax.owl
+           -o ${BUILD_DIR}/snomed.owl
+${BUILD_DIR}/robot relax --input snomed.owl --output snomed-relax.owl
 
 ln -s ${CODE_DIR}/curies-to-categories.yaml ${BUILD_DIR}/
 ln -s ${CODE_DIR}/ontology-load-config.haml ${BUILD_DIR}/
-
 
 ## get owltools and set its permissions to executable
 wget -P ${BUILD_DIR} http://build.berkeleybop.org/userContent/owltools/owltools
