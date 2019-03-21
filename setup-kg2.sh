@@ -38,7 +38,7 @@ chmod a+x robot
 
 ## build OWL-XML representation of SNOMED CT
 aws configure
-aws s3 cp s3://rtx-kg2/${SNOMEDCT_FILE_BASE}.zip .
+aws s3 cp --region us-west-2 s3://rtx-kg2/${SNOMEDCT_FILE_BASE}.zip .
 unzip ${SNOMEDCT_FILE_BASE}.zip
 ${VENV_DIR}/bin/SNOMEDToOWL -f xml ${SNOMEDCT_FILE_BASE}/Snapshot \
            ${VENV_DIR}/lib/python3.6/site-packages/SNOMEDCTToOWL/conf/sct_core_us_gb.json \
