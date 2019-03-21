@@ -36,6 +36,14 @@ wget -P ${BUILD_DIR} https://github.com/ontodev/robot/releases/download/v1.3.0/r
 curl https://raw.githubusercontent.com/ontodev/robot/master/bin/robot > ${BUILD_DIR}/robot
 chmod a+x ${BUILD_DIR}/robot
 
+## set up symbolic links for configuration files
+ln -s ${CODE_DIR}/curies-to-categories.yaml ${BUILD_DIR}/
+ln -s ${CODE_DIR}/ontology-load-config.yaml ${BUILD_DIR}/
+
+## get owltools and set its permissions to executable
+wget -P ${BUILD_DIR} http://build.berkeleybop.org/userContent/owltools/owltools
+chmod a+x ${BUILD_DIR}/owltools
+
 ## build OWL-XML representation of SNOMED CT
 if ! aws s3 cp s3://rtx-kg2/test .; then
     aws configure
@@ -49,9 +57,3 @@ ${VENV_DIR}/bin/SNOMEDToOWL -f xml ${BUILD_DIR}/${SNOMEDCT_FILE_BASE}/Snapshot \
            -o ${BUILD_DIR}/snomed.owl
 ${BUILD_DIR}/robot relax --input ${BUILD_DIR}/snomed.owl --output ${BUILD_DIR}/snomed-relax.owl
 
-ln -s ${CODE_DIR}/curies-to-categories.yaml ${BUILD_DIR}/
-ln -s ${CODE_DIR}/ontology-load-config.haml ${BUILD_DIR}/
-
-## get owltools and set its permissions to executable
-wget -P ${BUILD_DIR} http://build.berkeleybop.org/userContent/owltools/owltools
-chmod a+x ${BUILD_DIR}/owltools
