@@ -42,7 +42,7 @@ unzip -d ${BUILD_DIR} ${SNOMEDCT_FILE_BASE}.zip
 ${VENV_DIR}/bin/SNOMEDToOWL -f xml ${SNOMEDCT_FILE_BASE}/Snapshot \
            ${VENV_DIR}/lib/python3.6/site-packages/SNOMEDCTToOWL/conf/sct_core_us_gb.json \
            -o ${BUILD_DIR}/snomed.owl
-${BUILD_DIR}/robot relax --input snomed.owl --output snomed-relax.owl
+${BUILD_DIR}/robot relax --input ${BUILD_DIR}/snomed.owl --output ${BUILD_DIR}/snomed-relax.owl
 
 ln -s ${CODE_DIR}/curies-to-categories.yaml ${BUILD_DIR}/
 ln -s ${CODE_DIR}/ontology-load-config.haml ${BUILD_DIR}/
