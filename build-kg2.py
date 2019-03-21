@@ -1,3 +1,11 @@
+#!/usr/bin/python3
+# build-kg2.py: build the RTX "KG2" second-generation knowledge graph, from
+# various OWL input files.
+#
+# Usage:
+# build-kg2.py <categoriesFile> <owlLoadInventory>
+
+import argparse
 import collections
 import copy
 import datetime
@@ -30,11 +38,9 @@ import yaml
 
 IRI_NETLOCS_IGNORE = ('example.com', 'usefulinc.com')
 USE_ONTOBIO_JSON_CACHE = True
-ONTOLOGY_LOAD_CONFIG_FILE = 'ontology-load-config.yaml'
 BIOLINK_CATEGORY_BASE_IRI = 'http://w3id.org/biolink'
 FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
 ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
-CURIES_TO_CATEGORIES_FILE_NAME = "curies-to-categories.yaml"
 
 # -------------- subroutines with side-effects go here ------------------
 
@@ -593,11 +599,18 @@ def make_map_of_node_ontology_ids_to_curie_ids(nodes: dict):
 if not USE_ONTOBIO_JSON_CACHE:
     delete_ontobio_cachier_caches()
 
-curies_to_categories = safe_load_yaml_from_string(read_file_to_string(CURIES_TO_CATEGORIES_FILE_NAME))
+arg_parser = argparse.ArgumentParser(description='build-kg2: builds the KG2 knowledge graph for the RTX system')
+arg_parser.add_argument('categoriesFile', type=str, nargs=1)
+arg_parser.add_argument('owlLoadInventory', type=str, nargs=1)
+args = arg_parser.parse_args()
+curies_to_categories_file_name = args.categoriesFile[0]
+owl_load_inventory_file = args.owlLoadInventory[0]
+
+curies_to_categories = safe_load_yaml_from_string(read_file_to_string(curies_to_categories_file_name))
 
 map_category_label_to_iri = functools.partial(convert_biolink_category_to_iri, BIOLINK_CATEGORY_BASE_IRI)
 
-ontology_urls_and_files = tuple(safe_load_yaml_from_string(read_file_to_string(ONTOLOGY_LOAD_CONFIG_FILE)))
+ontology_urls_and_files = tuple(safe_load_yaml_from_string(read_file_to_string(owl_load_inventory_file)))
 
 running_time = timeit.timeit(lambda: make_kg2(curies_to_categories, map_category_label_to_iri, ontology_urls_and_files), number=1)
 print('running time for KG2 construction: ' + str(running_time))
