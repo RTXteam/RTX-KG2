@@ -264,6 +264,16 @@ def shorten_iri_to_curie(iri: str):
         elif iri.startswith('http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl'):
             curie_id = iri.replace('http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#',
                                    'NCIT:')
+        elif iri.startswith('http://www.informatics.jax.org/marker/MGI:'):
+            curie_id = iri.replace('http://www.informatics.jax.org/marker/', '')
+        elif iri.startswith('http://www.yeastgenome.org/cgi-bin/locus.fpl?dbid='):
+            curie_id = iri.replace('http://www.yeastgenome.org/cgi-bin/locus.fpl?dbid=', 'SGD:')
+        elif iri.startswith('http://www.pombase.org/spombe/result/'):
+            curie_id = iri.replace('http://www.pombase.org/spombe/result/', 'PomBase:')
+        elif iri.startswith('http://www.ecogene.org/gene/'):
+            curie_id = iri.replace('http://www.ecogene.org/gene/', 'EcoGene:')
+        elif iri.startswith('http://www.wormbase.org/species/c_elegans/gene/WBGene'):
+            curie_id = iri.replace('http://www.wormbase.org/species/c_elegans/gene/WBGene', 'WB:')
         else:
             curie_id = None
     return curie_id
