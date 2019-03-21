@@ -23,5 +23,5 @@ AWS_PEM_FILE=/Volumes/WorkEncrypted/ramseyst-new-aws-login.pem
 ssh ubuntu@${INSTANCE_HOSTNAME} git clone https://github.com/RTXteam/RTX.git
 
 ## setup the instance using the setup script
-ssh -t ubuntu@${INSTANCE_HOSTNAME} sh RTX/code/kg2/setup-kg2.sh
+ssh -t ubuntu@${INSTANCE_HOSTNAME} RTX/code/kg2/setup-kg2.sh
 
