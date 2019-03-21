@@ -10,7 +10,7 @@ ln -s ~/RTX/code/kg2 ${CODE_DIR}
 
 ## install the Linux distro packages that we need
 sudo apt-get update
-sudo apt-get install -y python3-minimal python3-pip default-jre
+sudo apt-get install -y python3-minimal python3-pip default-jre awscli
 sudo -H pip3 install virtualenv
 
 ## setup a python virtualenv for building KG2
