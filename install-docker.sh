@@ -1,4 +1,6 @@
 #!/bin/bash
+set -euxo pipefail
+
 # run this script in the EC2 instance
 sudo apt update
 sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
