@@ -1,9 +1,18 @@
 #!/usr/bin/python3
-# build-kg2.py: build the RTX "KG2" second-generation knowledge graph, from
-# various OWL input files.
-#
-# Usage:
-# build-kg2.py <categoriesFile.yaml> <owlLoadInventory.yaml>
+'''Builds the RTX "KG2" second-generation knowledge graph, from various OWL input files.
+
+   Usage: build-kg2.py <categoriesFile.yaml> <owlLoadInventory.yaml>
+'''
+
+__author__ = 'Stephen Ramsey'
+__copyright__ = 'Oregon State University'
+__credits__ = ['Stephen Ramsey']
+__license__ = 'MIT'
+__version__ = '0.1.0'
+__maintainer__ = ''
+__email__ = ''
+__status__ = 'Prototype'
+
 
 import argparse
 import collections
