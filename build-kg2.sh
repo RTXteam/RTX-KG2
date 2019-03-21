@@ -1,3 +1,9 @@
 #!/bin/bash
-export PATH=$PATH:.
-cd ~/kg2-build && ~/kg2-venv/bin/python3 -u ~/kg2-code/build-kg2.py 2>stderr.log 1>stdout.log
+set -euxo pipefail
+
+BUILD_DIR=~/kg2-build
+VENV_DIR=~/kg2-venv
+CODE_DIR=~/kg2-code
+
+export PATH=$PATH:${BUILD_DIR}
+cd ${BUILD_DIR} && ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/build-kg2.py 2>stderr.log 1>stdout.log
