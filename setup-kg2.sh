@@ -13,6 +13,8 @@ sudo apt-get update
 sudo apt-get install -y python3-minimal python3-pip default-jre awscli
 sudo -H pip3 install virtualenv
 
+aws configure
+
 ## setup a python virtualenv for building KG2
 virtualenv ${VENV_DIR}
 
@@ -24,12 +26,15 @@ chmod a+x robot
 ## we are not using pymongo but having it silences a runtime warning from ontobio:
 ${VENV_DIR}/bin/pip3 install ontobio pymongo SNOMEDToOWL
 
+mkdir -p ${BUILD_DIR}
+
 ## build OWL-XML representation of SNOMED CT
+cd ${BUILD_DIR}
+aws s3 cp s3://rtx-kg/SnomedCT_USEditionRF2_PRODUCTION_20180901T120000Z.zip .
 unzip SnomedCT_USEditionRF2_PRODUCTION_20180901T120000Z.zip
 SNOMEDToOWL -f xml SnomedCT_USEditionRF2_PRODUCTION_20180901T120000Z/Snapshot SNOMEDToOWL/sct_core_us_gb.json -o snomed.owl
 ./robot relax --input snomed.owl --output snomed-relax.owl
 
-mkdir -p ${BUILD_DIR}
 ln -s ${CODE_DIR}/snomed-relax.owl ${BUILD_DIR}/
 ln -s ${CODE_DIR}/curies-to-categories.yaml ${BUILD_DIR}/
 ln -s ${CODE_DIR}/ontology-load-config.haml ${BUILD_DIR}/
