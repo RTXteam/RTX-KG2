@@ -78,10 +78,12 @@
   url: http://purl.obolibrary.org/obo/ncit/ncit-plus.owl
   file: ncit-plus.owl
   title: NCI Thesaurus OBO Edition
--
-  url: ## intentionally left blank which will map to "None" in the resulting python data structure
-  file: pickle.owl
-  title: PICKLE protein-protein interaction ontology
+# NOTE: pickle.owl is commented out because it seems to not be parsable by ontobio and I don't have time to
+# investigate
+# -
+#   url: ## intentionally left blank which will map to "None" in the resulting python data structure
+#   file: pickle.owl
+#   title: PICKLE protein-protein interaction ontology
 -
   url: ## intentionally left blank which will map to "None" in the resulting python data structure
   file: snomed-relax.owl
