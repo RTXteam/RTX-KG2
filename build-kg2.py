@@ -43,11 +43,11 @@ import yaml
 
 # -------------- define globals here ---------------
 
-IRI_NETLOCS_IGNORE = ('example.com', 'usefulinc.com')
 USE_ONTOBIO_JSON_CACHE = True
 BIOLINK_CATEGORY_BASE_IRI = 'http://w3id.org/biolink'
 FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
 ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
+ENSEMBL_RE = re.compile('ENS[A-Z]{0,3}([PG])[0-9]{11}')
 
 # -------------- subroutines with side-effects go here ------------------
 
@@ -242,12 +242,6 @@ def make_kg2(curies_to_categories: dict,
 
 # --------------- subroutines that could be made into pure functions ----------
 
-def is_ignorable_ontology_term(iri: str):
-    parsed_iri = urllib.parse.urlparse(iri)
-    iri_netloc = parsed_iri.netloc
-    iri_path = parsed_iri.path
-    return iri_netloc in IRI_NETLOCS_IGNORE or iri_path.startswith('/ontology/provisional')
-
 
 def shorten_iri_to_curie(iri: str, curie_to_iri_lookaside_list: list = []):
     curie_list = prefixcommons.contract_uri(iri,
@@ -259,10 +253,6 @@ def shorten_iri_to_curie(iri: str, curie_to_iri_lookaside_list: list = []):
     else:
         curie_id = None
     return curie_id
-
-
-def make_curie_to_uri_shortener(curie_to_iri_lookaside_list: list = []):
-    return lambda iri: shorten_iri_to_curie(iri, curie_to_iri_lookaside_list)
 
 
 def get_biolink_category_for_node(ontology_node_id: str,
@@ -319,41 +309,23 @@ def get_biolink_category_for_node(ontology_node_id: str,
                         log_message('Node does not have a label or any parents',
                                     'http://snomed.info/sct/900000000000207008',
                                     node_curie_id, output_stream=sys.stderr)
+                elif node_curie_id.startswith('ENSEMBL:'):
+                    curie_suffix = node_curie_id.replace('ENSEMBL:', '')
+                    ensembl_match = re.match(ENSEMBL_RE, curie_suffix)
+                    if ensembl_match is not None:
+                        ensembl_match_letter = ensembl_match[1]
+                        if ensembl_match_letter == 'G':
+                            ret_category = 'gene'
+                        elif ensembl_match_letter == 'P':
+                            ret_category = 'protein'
+                        elif ensembl_match_letter == 'T':
+                            ret_category = 'transcript'
+                        else:
+                            log_message(message="unrecognized Ensembl ID: " + curie_suffix,
+                                        ontology_name=ontology.id,
+                                        node_curie_id=node_curie_id,
+                                        output_stream=sys.stderr)
     return ret_category
-
-
-def make_node_dicts_for_ontologies(ont_dict_list: list,
-                                   curie_to_uri_shortener: callable,
-                                   category_label_to_iri_mapper: callable):
-    ret_dict = dict()
-    for ont_dict in ont_dict_list:
-        ontology = ont_dict['ontology']
-        assert type(ontology) == ontobio.ontol.Ontology
-        ontology_iri = ont_dict['id']
-        if not ontology_iri.startswith('http:'):
-            log_message(message="unexpected IRI format: " + ontology_iri,
-                        ontology_name=ontology_iri,
-                        output_stream=sys.stderr)
-            assert ontology_iri.startswith('http:')
-        ontology_curie_id = curie_to_uri_shortener(ontology_iri)
-        ret_dict.update({ontology_curie_id: {
-            'id':  ontology_curie_id,
-            'iri': ontology_iri,
-            'full name': ont_dict['title'],
-            'name': ont_dict['title'],
-            'category': category_label_to_iri_mapper('data source'),
-            'category label': 'data source',
-            'description': ont_dict['description'],
-            'synonyms': None,
-            'xrefs': None,
-            'creation date': None,
-            'update date': ont_dict['file last modified timestamp'],
-            'deprecated': False,
-            'replaced by': None,
-            'source ontology iri': None,
-            'ontology node type': 'INDIVIDUAL',
-            'ontology node id': None}})
-    return ret_dict
 
 
 def make_nodes_dict_from_ontology_dict(ontology: ontobio.ontol.Ontology,
@@ -462,14 +434,14 @@ def get_rels_dict(nodes: dict,
         # always be the node curie IDs (e.g., for SNOMED terms). Need to map them
         subject_curie_id = map_of_node_ontology_ids_to_curie_ids.get(subject_id, None)
         if subject_curie_id is None:
-            log_message(message="ontology node ID has no curie ID in the map: " + subject_id,
+            log_message(message="ontology node ID has no curie ID in the map: ",
                         ontology_name=ontology.id,
                         node_curie_id=subject_id,
                         output_stream=sys.stderr)
             continue
         object_curie_id = map_of_node_ontology_ids_to_curie_ids.get(object_id, None)
         if object_curie_id is None:
-            log_message(message="ontology node ID has no curie ID in the map: " + object_id,
+            log_message(message="ontology node ID has no curie ID in the map: ",
                         ontology_name=ontology.id,
                         node_curie_id=object_id,
                         output_stream=sys.stderr)
@@ -525,6 +497,51 @@ def get_rels_dict(nodes: dict,
 
 # --------------- pure functions here -------------------
 # (Note: a "pure" function here can still have logging print statements)
+
+
+def is_ignorable_ontology_term(iri: str):
+    parsed_iri = urllib.parse.urlparse(iri)
+    iri_netloc = parsed_iri.netloc
+    iri_path = parsed_iri.path
+    return iri_netloc in ('example.com', 'usefulinc.com') or iri_path.startswith('/ontology/provisional')
+
+
+def make_node_dicts_for_ontologies(ont_dict_list: list,
+                                   curie_to_uri_shortener: callable,
+                                   category_label_to_iri_mapper: callable):
+    ret_dict = dict()
+    for ont_dict in ont_dict_list:
+        ontology = ont_dict['ontology']
+        assert type(ontology) == ontobio.ontol.Ontology
+        ontology_iri = ont_dict['id']
+        if not ontology_iri.startswith('http:'):
+            log_message(message="unexpected IRI format: " + ontology_iri,
+                        ontology_name=ontology_iri,
+                        output_stream=sys.stderr)
+            assert ontology_iri.startswith('http:')
+        ontology_curie_id = curie_to_uri_shortener(ontology_iri)
+        ret_dict.update({ontology_curie_id: {
+            'id':  ontology_curie_id,
+            'iri': ontology_iri,
+            'full name': ont_dict['title'],
+            'name': ont_dict['title'],
+            'category': category_label_to_iri_mapper('data source'),
+            'category label': 'data source',
+            'description': ont_dict['description'],
+            'synonyms': None,
+            'xrefs': None,
+            'creation date': None,
+            'update date': ont_dict['file last modified timestamp'],
+            'deprecated': False,
+            'replaced by': None,
+            'source ontology iri': None,
+            'ontology node type': 'INDIVIDUAL',
+            'ontology node id': None}})
+    return ret_dict
+
+
+def make_curie_to_uri_shortener(curie_to_iri_lookaside_list: list = []):
+    return lambda iri: shorten_iri_to_curie(iri, curie_to_iri_lookaside_list)
 
 
 def make_arg_parser():
