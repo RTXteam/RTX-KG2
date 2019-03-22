@@ -8,6 +8,7 @@ CODE_DIR=~/kg2-code
 SNOMEDCT_FILE_BASE=SnomedCT_USEditionRF2_PRODUCTION_20180901T120000Z
 S3_REGION=us-west-2
 S3_BUCKET=rtx-kg2
+UMLS_FILE_BASE=2018AB-full
 
 ## sym-link into RTX/code/kg2
 ln -s ~/RTX/code/kg2 ${CODE_DIR}
@@ -63,4 +64,8 @@ ${BUILD_DIR}/robot relax --input ${BUILD_DIR}/snomed.owl --output ${BUILD_DIR}/s
 wget -P ${BUILD_DIR} http://www.pickle.gr/Data/2.3/PICKLE2_3_OntologicalNetwork.zip
 unzip ${BUILD_DIR}/PICKLE2_3_OntologicalNetwork.zip -d ${BUILD_DIR}
 mv ${BUILD_DIR}/OntologicalNetwork.owl ${BUILD_DIR}/pickle.owl
+
+## build UMLS
+#aws s3 cp --region ${S3_REGION} s3://${S3_BUCKET}/umls-2018AB-full.zip ${BUILD_DIR}/
+#unzip ${BUILD_DIR}/umls-${UMLS_FILE_BASE}.zip -d ${BUILD_DIR}/
 
