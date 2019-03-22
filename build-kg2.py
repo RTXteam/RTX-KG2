@@ -22,7 +22,6 @@ import functools
 import hashlib
 import io
 import json
-import networkx
 import ontobio
 import os.path
 import pathlib
@@ -39,7 +38,7 @@ import timeit
 import urllib.parse
 import urllib.request
 import yaml
-#import ipdb # need this for interactive debugging
+# import ipdb # need this for interactive debugging
 
 
 # -------------- define globals here ---------------
@@ -52,19 +51,21 @@ ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
 
 # -------------- subroutines with side-effects go here ------------------
 
+
 def purge(dir, pattern):
     exp_dir = os.path.expanduser(dir)
     for f in os.listdir(exp_dir):
         if re.search(pattern, f):
             os.remove(os.path.join(exp_dir, f))
-            
+
+
 def delete_ontobio_cachier_caches():
     purge("~/.cachier", ".ontobio*")
     purge("~/.cachier", ".prefixcommons*")
 
 
-## this function is needed due to an issue with caching in Ontobio; see this GitHub issue:
-##     https://github.com/biolink/ontobio/issues/301
+# this function is needed due to an issue with caching in Ontobio; see this GitHub issue:
+#     https://github.com/biolink/ontobio/issues/301
 def delete_ontobio_cache_json(file_name):
     file_name_hash = hashlib.sha256(file_name.encode()).hexdigest()
     temp_file_path = os.path.join("/tmp", file_name_hash)
@@ -80,11 +81,11 @@ def delete_ontobio_cache_json(file_name):
                 raise e
 
 
-def head_list(x: list, n=3):
+def head_list(x: list, n: int = 3):
     pprint.pprint(x[0:n])
 
 
-def head_dict(x: dict, n: int=3):
+def head_dict(x: dict, n: int = 3):
     pprint.pprint(dict(list(x.items())[0:(n-1)]))
 
 
@@ -110,10 +111,10 @@ def make_ontology_from_local_file(file_name: str):
     file_name_with_pickle_ext = file_name_without_ext + ".pickle"
     if not os.path.isfile(file_name_with_pickle_ext):
         if not USE_ONTOBIO_JSON_CACHE:
-            delete_ontobio_cache_json(file_name)        
+            delete_ontobio_cache_json(file_name)
         size = os.path.getsize(file_name)
         log_message(message="Reading ontology file: " + file_name + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
-                    ontology_name=None)        
+                    ontology_name=None)
         ont_return = ontobio.ontol_factory.OntologyFactory().create(file_name, ignore_cache=True)
     else:
         size = os.path.getsize(file_name_with_pickle_ext)
@@ -190,7 +191,6 @@ def read_file_to_string(local_file_name: str):
 def make_kg2(curies_to_categories: dict,
              map_category_label_to_iri: callable,
              ontology_urls_and_files: tuple):
-    
     ontology_data = []
     for ont_source_info_dict in ontology_urls_and_files:
         local_file_name = download_file_if_not_exist_locally(ont_source_info_dict['url'],
@@ -202,21 +202,18 @@ def make_kg2(curies_to_categories: dict,
 
     master_ontology = copy.deepcopy(ontology_data[0]['ontology'])
     master_ontology.merge([ont_dict['ontology'] for ont_dict in ontology_data])
-        
+
     nodes_dict = make_nodes_dict_from_ontology_dict(master_ontology,
-                                                   curies_to_categories,
-                                                   map_category_label_to_iri)
+                                                    curies_to_categories,
+                                                    map_category_label_to_iri)
 
     nodes_dict.update(make_node_dicts_for_ontologies(ontology_data,
                                                      map_category_label_to_iri))
-    
-#    nodes_dict = functools.reduce(lambda x, y: compose_two_multinode_dicts(x, y),
-#                                  ontology_node_dicts)
 
     map_of_node_ontology_ids_to_curie_ids = make_map_of_node_ontology_ids_to_curie_ids(nodes_dict)
     kg2_dict = dict()
-    
-# get a dictionary of all relationships including xrefs as relationships
+
+    # get a dictionary of all relationships including xrefs as relationships
     kg2_dict['edges'] = list(get_rels_dict(nodes_dict, master_ontology,
                                            map_of_node_ontology_ids_to_curie_ids).values())
     log_message('Number of edges: ' + str(len(kg2_dict['edges'])))
@@ -227,11 +224,11 @@ def make_kg2(curies_to_categories: dict,
     log_message('Number of nodes: ' + str(len(kg2_dict['nodes'])))
     del nodes_dict
 
-# delete xrefs from all_nodes_dict
+    # delete xrefs from all_nodes_dict
     for node_dict in kg2_dict['nodes']:
         del node_dict['xrefs']
 
-    timestamp_str = datetime.datetime.utcnow().replace(microsecond=0).isoformat()        
+    timestamp_str = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
     with open('kg2-' + timestamp_str + '.json', 'w') as outfile:
         json.dump(kg2_dict, outfile)
 
@@ -287,12 +284,10 @@ def get_biolink_category_for_node(ontology_node_id: str,
                                   ontology: ontobio.ontol.Ontology,
                                   curies_to_categories: dict):
 
-#    print("searching for category for node: " + ontology_node_id)
     ret_category = None
-
     if ontology_node_id == 'owl:Nothing':
         return None
-    
+
     if not ontology_node_id.startswith('http:'):
         # most node objects have an ID that is a CURIE ID
         node_curie_id = ontology_node_id
@@ -304,13 +299,13 @@ def get_biolink_category_for_node(ontology_node_id: str,
                         ontology_name=ontology.id,
                         node_curie_id=ontology_node_id,
                         output_stream=sys.stderr)
-            
+
     if node_curie_id is not None:
         curie_prefix = get_prefix_from_curie_id(node_curie_id)
         curies_to_categories_prefixes = curies_to_categories['prefix-mappings']
         ret_category = curies_to_categories_prefixes.get(curie_prefix, None)
         if ret_category is None:
-            ## need to walk the ontology hierarchy until we encounter a parent term with a defined biolink category
+            # need to walk the ontology hierarchy until we encounter a parent term with a defined biolink category
             curies_to_categories_terms = curies_to_categories['term-mappings']
             ret_category = curies_to_categories_terms.get(node_curie_id, None)
             if ret_category is None:
@@ -322,7 +317,7 @@ def get_biolink_category_for_node(ontology_node_id: str,
                                     ontology_name=ontology.id,
                                     node_curie_id=node_curie_id,
                                     output_stream=sys.stderr)
-                        raise RecursionError()
+                        raise re
                     if ret_category is not None:
                         break
         if ret_category is None:  # this is to handle SNOMED CT attributes
@@ -332,8 +327,9 @@ def get_biolink_category_for_node(ontology_node_id: str,
                     if '(attribute)' in ontology_node_lbl:
                         ret_category = 'attribute'
                     else:
-                        log_message('Node does not have a label or any parents', 'http://snomed.info/sct/900000000000207008', node_curie_id, output_stream=sys.stderr)
-                        
+                        log_message('Node does not have a label or any parents',
+                                    'http://snomed.info/sct/900000000000207008',
+                                    node_curie_id, output_stream=sys.stderr)
     return ret_category
 
 
@@ -349,7 +345,7 @@ def make_node_dicts_for_ontologies(ont_dict_list: list,
                         ontology_name=ontology_iri,
                         output_stream=sys.stderr)
             assert ontology_iri.startswith('http:')
-        ontology_curie_id = shorten_iri_to_curie(ontology_iri)    
+        ontology_curie_id = shorten_iri_to_curie(ontology_iri)
         ret_dict.update({ontology_curie_id: {
             'id':  ontology_curie_id,
             'iri': ontology_iri,
@@ -371,8 +367,8 @@ def make_node_dicts_for_ontologies(ont_dict_list: list,
 
 
 def make_nodes_dict_from_ontology_dict(ontology: ontobio.ontol.Ontology,
-                                      curies_to_categories: dict,
-                                      category_label_to_iri_mapper: callable):
+                                       curies_to_categories: dict,
+                                       category_label_to_iri_mapper: callable):
     ret_dict = dict()
 
     for ontology_node_id in ontology.nodes():
@@ -535,6 +531,7 @@ def get_rels_dict(nodes: dict,
 # --------------- pure functions here -------------------
 # (Note: a "pure" function here can still have logging print statements)
 
+
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='build-kg2: builds the KG2 knowledge graph for the RTX system')
     arg_parser.add_argument('categoriesFile', type=str, nargs=1)
@@ -598,7 +595,8 @@ def merge_two_dicts(x: dict, y: dict):
                 else:
                     ret_dict[key] = [value, stored_value]
                     if key not in ('source ontology iri', 'category label', 'category'):
-                        log_message("warning: incompatible data in two dictionaries: " + str(value) + "; " + str(stored_value) + "; key is: " + key, file=sys.stderr)
+                        log_message("warning: incompatible data in two dictionaries: " + str(value) + "; " + str(stored_value) + "; key is: " + key,
+                                    file=sys.stderr)
     return ret_dict
 
 
@@ -622,6 +620,7 @@ def make_map_of_node_ontology_ids_to_curie_ids(nodes: dict):
         if ontology_node_id is not None:
             ret_dict[ontology_node_id] = curie_id
     return ret_dict
+
 
 # --------------- main starts here -------------------
 
