@@ -11,6 +11,7 @@ prefix-mappings:
     IAO: information entity type
     UBERON: anatomical entity
     OMIM: phenotypic feature
+    RGD: gene
     SGD: gene
     MGI: gene
 term-mappings:
