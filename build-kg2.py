@@ -189,7 +189,7 @@ def read_file_to_string(local_file_name: str):
 
 
 def make_kg2(curies_to_categories: dict,
-             curies_to_uri_lal: list,
+             curie_to_uri_shortener: callable,
              map_category_label_to_iri: callable,
              ontology_urls_and_files: tuple):
     ontology_data = []
@@ -206,10 +206,11 @@ def make_kg2(curies_to_categories: dict,
 
     nodes_dict = make_nodes_dict_from_ontology_dict(master_ontology,
                                                     curies_to_categories,
+                                                    curie_to_uri_shortener,
                                                     map_category_label_to_iri)
 
     nodes_dict.update(make_node_dicts_for_ontologies(ontology_data,
-                                                     curies_to_uri_lal,
+                                                     curie_to_uri_shortener,
                                                      map_category_label_to_iri))
 
     map_of_node_ontology_ids_to_curie_ids = make_map_of_node_ontology_ids_to_curie_ids(nodes_dict)
@@ -218,7 +219,7 @@ def make_kg2(curies_to_categories: dict,
     # get a dictionary of all relationships including xrefs as relationships
     kg2_dict['edges'] = list(get_rels_dict(nodes_dict,
                                            master_ontology,
-                                           curies_to_uri_lal,
+                                           curie_to_uri_shortener,
                                            map_of_node_ontology_ids_to_curie_ids).values())
     log_message('Number of edges: ' + str(len(kg2_dict['edges'])))
     kg2_dict['nodes'] = list(nodes_dict.values())
@@ -260,10 +261,14 @@ def shorten_iri_to_curie(iri: str, curie_to_iri_lookaside_list: list = []):
     return curie_id
 
 
+def make_curie_to_uri_shortener(curie_to_iri_lookaside_list: list = []):
+    return lambda iri: shorten_iri_to_curie(iri, curie_to_iri_lookaside_list)
+
+
 def get_biolink_category_for_node(ontology_node_id: str,
                                   ontology: ontobio.ontol.Ontology,
                                   curies_to_categories: dict,
-                                  curies_to_uri_lal: list):
+                                  curie_to_uri_shortener: callable):
 
     ret_category = None
     if ontology_node_id == 'owl:Nothing':
@@ -274,7 +279,7 @@ def get_biolink_category_for_node(ontology_node_id: str,
         node_curie_id = ontology_node_id
     else:
         # but some nodes objects have an IRI as their ID; need to shorten to a CURIE
-        node_curie_id = shorten_iri_to_curie(ontology_node_id, curies_to_uri_lal)
+        node_curie_id = curie_to_uri_shortener(ontology_node_id)
         if node_curie_id is None:
             log_message(message="could not shorten this IRI to a CURIE",
                         ontology_name=ontology.id,
@@ -292,7 +297,10 @@ def get_biolink_category_for_node(ontology_node_id: str,
             if ret_category is None:
                 for parent_ontology_node_id in ontology.parents(ontology_node_id, ['subClassOf']):
                     try:
-                        ret_category = get_biolink_category_for_node(parent_ontology_node_id, ontology, curies_to_categories)
+                        ret_category = get_biolink_category_for_node(parent_ontology_node_id,
+                                                                     ontology,
+                                                                     curies_to_categories,
+                                                                     curie_to_uri_shortener)
                     except RecursionError as re:
                         log_message(message="recursion error: " + ontology_node_id,
                                     ontology_name=ontology.id,
@@ -315,7 +323,7 @@ def get_biolink_category_for_node(ontology_node_id: str,
 
 
 def make_node_dicts_for_ontologies(ont_dict_list: list,
-                                   curies_to_uri_lal: list,
+                                   curie_to_uri_shortener: callable,
                                    category_label_to_iri_mapper: callable):
     ret_dict = dict()
     for ont_dict in ont_dict_list:
@@ -327,7 +335,7 @@ def make_node_dicts_for_ontologies(ont_dict_list: list,
                         ontology_name=ontology_iri,
                         output_stream=sys.stderr)
             assert ontology_iri.startswith('http:')
-        ontology_curie_id = shorten_iri_to_curie(ontology_iri, curies_to_uri_lal)
+        ontology_curie_id = curie_to_uri_shortener(ontology_iri)
         ret_dict.update({ontology_curie_id: {
             'id':  ontology_curie_id,
             'iri': ontology_iri,
@@ -350,6 +358,7 @@ def make_node_dicts_for_ontologies(ont_dict_list: list,
 
 def make_nodes_dict_from_ontology_dict(ontology: ontobio.ontol.Ontology,
                                        curies_to_categories: dict,
+                                       curie_to_uri_shortener: callable,
                                        category_label_to_iri_mapper: callable):
     ret_dict = dict()
 
@@ -385,7 +394,10 @@ def make_nodes_dict_from_ontology_dict(ontology: ontobio.ontol.Ontology,
         node_meta = onto_node_dict.get('meta', None)
         if node_meta is not None:
             node_deprecated = node_meta.get('deprecated', False)
-        node_category_label = get_biolink_category_for_node(ontology_node_id, ontology, curies_to_categories)
+        node_category_label = get_biolink_category_for_node(ontology_node_id,
+                                                            ontology,
+                                                            curies_to_categories,
+                                                            curie_to_uri_shortener)
         if node_category_label is not None:
             node_category_iri = category_label_to_iri_mapper(node_category_label)
         else:
@@ -441,7 +453,7 @@ def make_nodes_dict_from_ontology_dict(ontology: ontobio.ontol.Ontology,
 
 def get_rels_dict(nodes: dict,
                   ontology: ontobio.ontol.Ontology,
-                  curies_to_uri_lal: list,
+                  curie_to_uri_shortener: callable,
                   map_of_node_ontology_ids_to_curie_ids: dict):
     rels_dict = dict()
     ont_graph = ontology.get_graph()
@@ -478,7 +490,7 @@ def get_rels_dict(nodes: dict,
             predicate_iri = prefixcommons.expand_uri(predicate_curie)
         else:
             predicate_iri = predicate_label
-            predicate_curie = shorten_iri_to_curie(predicate_iri, curies_to_uri_lal)
+            predicate_curie = curie_to_uri_shortener(predicate_iri)
         if predicate_curie is None:
             log_message(message="predicate IRI has no CURIE: " + predicate_iri,
                         ontology_name=ontology.id,
@@ -619,11 +631,12 @@ owl_load_inventory_file = args.owlLoadInventoryFile[0]
 curies_to_categories = safe_load_yaml_from_string(read_file_to_string(curies_to_categories_file_name))
 curies_to_uri_lal = safe_load_yaml_from_string(read_file_to_string(curies_to_uri_lal_file_name))
 map_category_label_to_iri = functools.partial(convert_biolink_category_to_iri, BIOLINK_CATEGORY_BASE_IRI)
+curie_to_uri_shortener = make_curie_to_uri_shortener(curies_to_uri_lal)
 
 ontology_urls_and_files = tuple(safe_load_yaml_from_string(read_file_to_string(owl_load_inventory_file)))
 
 running_time = timeit.timeit(lambda: make_kg2(curies_to_categories,
-                                              curies_to_uri_lal,
+                                              curie_to_uri_shortener,
                                               map_category_label_to_iri,
                                               ontology_urls_and_files), number=1)
 print('running time for KG2 construction: ' + str(running_time))
