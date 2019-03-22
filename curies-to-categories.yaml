@@ -1,5 +1,6 @@
 ---
 prefix-mappings:
+    BSPO: relationship type
     CL: anatomical entity
     HGNC: gene
     NCBIGene: gene
@@ -10,6 +11,8 @@ prefix-mappings:
     IAO: information entity type
     UBERON: anatomical entity
     OMIM: phenotypic feature
+    SGD: gene
+    MGI: gene
 term-mappings:
     rdfs:isDefinedBy: relationship type
     OIO:inSubset: relationship type
@@ -53,6 +56,13 @@ term-mappings:
     GO:0005575: cellular component
     GO:0008150: biological process
     GO:0003674: molecular function
+    EFO:0000324: cell type
+    EFO:0005066: material
+    EFO:0001434: material
+    EFO:0000635: anatomical entity
+    EFO:0000408: disease
+    EFO:0004423: exon
+    EFO:0004446: biological molecular complex
     ENVO:02500000: environmental process
     ENVO:00002297: environmental feature
     FMA:29733: anatomical entity
@@ -66,6 +76,7 @@ term-mappings:
     MONDO:0000001: disease
     MPATH:0: pathological entity
     NCBITaxon:1: organism taxon
+    NCIT:C22187: disease
     NCIT:C20189: attribute
     NCIT:C2991: disease
     NCIT:C20130: gene family
@@ -80,6 +91,7 @@ term-mappings:
     NCIT:C43431: activity
     NCIT:C20047: diagnostic or prognostic factor
     NCIT:C7057: finding
+    NCIT:C22188: anatomical entity
     NCIT:C1908: substance
     NCIT:C71460: method
     NCIT:C16612: gene
@@ -94,6 +106,7 @@ term-mappings:
     NCIT:C3910: phenotypic feature
     NCIT:C48187: material
     NCIT:C20181: conceptual entity
+    OBI:0000427: protein
     PATO:0000001: phenotypic quality
     PR:000000001: protein
     SNOMEDCT_US:48176007: social context
@@ -120,6 +133,7 @@ term-mappings:
     SNOMEDCT_US:410942007: drug
     SNOMEDCT_US:419891008: record artifact
     SNOMEDCT_US:900000000000441003: information entity
+    SO:0000704: gene
     UBERON:0001062: anatomical entity
     UBERON:0000105: life stage
     UPHENO:0001001: phenotypic feature
