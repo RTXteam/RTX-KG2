@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 '''Builds the RTX "KG2" second-generation knowledge graph, from various OWL input files.
 
-   Usage: build-kg2.py <categoriesFile.yaml> <owlLoadInventory.yaml>
+   Usage: build-kg2.py <categoriesFile.yaml> <curiesToURILALFile> <owlLoadInventoryFile.yaml>
 '''
 
 __author__ = 'Stephen Ramsey'
@@ -189,6 +189,7 @@ def read_file_to_string(local_file_name: str):
 
 
 def make_kg2(curies_to_categories: dict,
+             curies_to_uri_lal: list,
              map_category_label_to_iri: callable,
              ontology_urls_and_files: tuple):
     ontology_data = []
@@ -208,13 +209,16 @@ def make_kg2(curies_to_categories: dict,
                                                     map_category_label_to_iri)
 
     nodes_dict.update(make_node_dicts_for_ontologies(ontology_data,
+                                                     curies_to_uri_lal,
                                                      map_category_label_to_iri))
 
     map_of_node_ontology_ids_to_curie_ids = make_map_of_node_ontology_ids_to_curie_ids(nodes_dict)
     kg2_dict = dict()
 
     # get a dictionary of all relationships including xrefs as relationships
-    kg2_dict['edges'] = list(get_rels_dict(nodes_dict, master_ontology,
+    kg2_dict['edges'] = list(get_rels_dict(nodes_dict,
+                                           master_ontology,
+                                           curies_to_uri_lal,
                                            map_of_node_ontology_ids_to_curie_ids).values())
     log_message('Number of edges: ' + str(len(kg2_dict['edges'])))
     kg2_dict['nodes'] = list(nodes_dict.values())
@@ -244,45 +248,22 @@ def is_ignorable_ontology_term(iri: str):
     return iri_netloc in IRI_NETLOCS_IGNORE or iri_path.startswith('/ontology/provisional')
 
 
-def shorten_iri_to_curie(iri: str):
-    curie_list = prefixcommons.contract_uri(iri)
+def shorten_iri_to_curie(iri: str, curie_to_iri_lookaside_list: list = []):
+    curie_list = prefixcommons.contract_uri(iri,
+                                            prefixcommons.curie_util.default_curie_maps +
+                                            curie_to_iri_lookaside_list)
     assert len(curie_list) in [0, 1]
     if len(curie_list) == 1:
         curie_id = curie_list[0]
     else:
-        if iri.startswith('http://snomed.info/id'):
-            curie_id = iri.replace('http://snomed.info/id/', 'SNOMEDCT_US:')
-        elif iri.startswith('http://snomed.info/sct'):
-            curie_id = iri.replace('http://snomed.info/sct/', 'SNOMEDCT_US:')
-        elif iri.startswith('http://identifiers.org/hgnc/'):
-            curie_id = iri.replace('http://identifiers.org/hgnc/', 'HGNC:')
-        elif iri.startswith('http://www.ebi.ac.uk/efo/EFO_'):
-            curie_id = iri.replace('http://www.ebi.ac.uk/efo/EFO_', 'EFO:')
-        elif iri.startswith('http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl'):
-            curie_id = iri.replace('http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#',
-                                   'NCIT:')
-        elif iri.startswith('http://www.informatics.jax.org/marker/MGI:'):
-            curie_id = iri.replace('http://www.informatics.jax.org/marker/', '')
-        elif iri.startswith('http://www.yeastgenome.org/cgi-bin/locus.fpl?dbid='):
-            curie_id = iri.replace('http://www.yeastgenome.org/cgi-bin/locus.fpl?dbid=', 'SGD:')
-        elif iri.startswith('http://www.pombase.org/spombe/result/'):
-            curie_id = iri.replace('http://www.pombase.org/spombe/result/', 'PomBase:')
-        elif iri.startswith('http://www.ecogene.org/gene/'):
-            curie_id = iri.replace('http://www.ecogene.org/gene/', 'EcoGene:')
-        elif iri.startswith('http://www.wormbase.org/species/c_elegans/gene/WBGene'):
-            curie_id = iri.replace('http://www.wormbase.org/species/c_elegans/gene/WBGene', 'WB:')
-        elif iri.startswith('http://birdgenenames.org/cgnc/GeneReport?id='):
-            curie_id = iri.replace('http://birdgenenames.org/cgnc/GeneReport?id=', 'CGNC:')
-        elif iri.startswith('http://www.ensemblegenomes.org/id/'):
-            curie_id = iri.replace('http://www.ensemblegenomes.org/id/', 'EnsemblGenomes:')
-        else:
-            curie_id = None
+        curie_id = None
     return curie_id
 
 
 def get_biolink_category_for_node(ontology_node_id: str,
                                   ontology: ontobio.ontol.Ontology,
-                                  curies_to_categories: dict):
+                                  curies_to_categories: dict,
+                                  curies_to_uri_lal: list):
 
     ret_category = None
     if ontology_node_id == 'owl:Nothing':
@@ -293,7 +274,7 @@ def get_biolink_category_for_node(ontology_node_id: str,
         node_curie_id = ontology_node_id
     else:
         # but some nodes objects have an IRI as their ID; need to shorten to a CURIE
-        node_curie_id = shorten_iri_to_curie(ontology_node_id)
+        node_curie_id = shorten_iri_to_curie(ontology_node_id, curies_to_uri_lal)
         if node_curie_id is None:
             log_message(message="could not shorten this IRI to a CURIE",
                         ontology_name=ontology.id,
@@ -334,6 +315,7 @@ def get_biolink_category_for_node(ontology_node_id: str,
 
 
 def make_node_dicts_for_ontologies(ont_dict_list: list,
+                                   curies_to_uri_lal: list,
                                    category_label_to_iri_mapper: callable):
     ret_dict = dict()
     for ont_dict in ont_dict_list:
@@ -345,7 +327,7 @@ def make_node_dicts_for_ontologies(ont_dict_list: list,
                         ontology_name=ontology_iri,
                         output_stream=sys.stderr)
             assert ontology_iri.startswith('http:')
-        ontology_curie_id = shorten_iri_to_curie(ontology_iri)
+        ontology_curie_id = shorten_iri_to_curie(ontology_iri, curies_to_uri_lal)
         ret_dict.update({ontology_curie_id: {
             'id':  ontology_curie_id,
             'iri': ontology_iri,
@@ -459,6 +441,7 @@ def make_nodes_dict_from_ontology_dict(ontology: ontobio.ontol.Ontology,
 
 def get_rels_dict(nodes: dict,
                   ontology: ontobio.ontol.Ontology,
+                  curies_to_uri_lal: list,
                   map_of_node_ontology_ids_to_curie_ids: dict):
     rels_dict = dict()
     ont_graph = ontology.get_graph()
@@ -495,7 +478,7 @@ def get_rels_dict(nodes: dict,
             predicate_iri = prefixcommons.expand_uri(predicate_curie)
         else:
             predicate_iri = predicate_label
-            predicate_curie = shorten_iri_to_curie(predicate_iri)
+            predicate_curie = shorten_iri_to_curie(predicate_iri, curies_to_uri_lal)
         if predicate_curie is None:
             log_message(message="predicate IRI has no CURIE: " + predicate_iri,
                         ontology_name=ontology.id,
@@ -535,7 +518,8 @@ def get_rels_dict(nodes: dict,
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='build-kg2: builds the KG2 knowledge graph for the RTX system')
     arg_parser.add_argument('categoriesFile', type=str, nargs=1)
-    arg_parser.add_argument('owlLoadInventory', type=str, nargs=1)
+    arg_parser.add_argument('curiesToURILALFile', type=str, nargs=1)
+    arg_parser.add_argument('owlLoadInventoryFile', type=str, nargs=1)
     return arg_parser
 
 
@@ -629,15 +613,19 @@ if not USE_ONTOBIO_JSON_CACHE:
 
 args = make_arg_parser().parse_args()
 curies_to_categories_file_name = args.categoriesFile[0]
-owl_load_inventory_file = args.owlLoadInventory[0]
+curies_to_uri_lal_file_name = args.curiesToURILALFile[0]
+owl_load_inventory_file = args.owlLoadInventoryFile[0]
 
 curies_to_categories = safe_load_yaml_from_string(read_file_to_string(curies_to_categories_file_name))
-
+curies_to_uri_lal = safe_load_yaml_from_string(read_file_to_string(curies_to_uri_lal_file_name))
 map_category_label_to_iri = functools.partial(convert_biolink_category_to_iri, BIOLINK_CATEGORY_BASE_IRI)
 
 ontology_urls_and_files = tuple(safe_load_yaml_from_string(read_file_to_string(owl_load_inventory_file)))
 
-running_time = timeit.timeit(lambda: make_kg2(curies_to_categories, map_category_label_to_iri, ontology_urls_and_files), number=1)
+running_time = timeit.timeit(lambda: make_kg2(curies_to_categories,
+                                              curies_to_uri_lal,
+                                              map_category_label_to_iri,
+                                              ontology_urls_and_files), number=1)
 print('running time for KG2 construction: ' + str(running_time))
 
 

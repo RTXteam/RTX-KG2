@@ -1,0 +1,26 @@
+-
+  SNOMEDCT_US: http://snomed.info/id/
+-
+  SNOMEDCT_US: http://snomed.info/sct/
+-
+  HGNC: http://identifiers.org/hgnc/
+-
+  EFO: http://www.ebi.ac.uk/efo/EFO_
+-
+  NCIT: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#
+-
+  MGI: http://www.informatics.jax.org/marker/
+-
+  SGD: http://www.yeastgenome.org/cgi-bin/locus.fpl?dbid=
+-
+  PomBase: http://www.pombase.org/spombe/result/
+-
+  EcoGene: http://www.ecogene.org/gene/
+-
+  WB: http://www.wormbase.org/species/c_elegans/gene/WBGene
+-
+  CGNC: http://birdgenenames.org/cgnc/GeneReport?id=
+-
+  EnsemblGenomes: http://www.ensemblgenomes.org/id/
+-
+  AraPort: https://www.araport.org/locus/
