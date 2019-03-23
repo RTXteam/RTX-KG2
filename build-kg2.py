@@ -265,6 +265,7 @@ def get_biolink_category_for_node(ontology_node_id: str,
     if ontology_node_id == 'owl:Nothing' or node_curie_id is None:
         return None
 
+#    print("looking for category for node: " + node_curie_id)
     curie_prefix = get_prefix_from_curie_id(node_curie_id)
     curies_to_categories_prefixes = curies_to_categories['prefix-mappings']
     ret_category = curies_to_categories_prefixes.get(curie_prefix, None)
@@ -274,9 +275,12 @@ def get_biolink_category_for_node(ontology_node_id: str,
         ret_category = curies_to_categories_terms.get(node_curie_id, None)
         if ret_category is None:
             for parent_ontology_node_id in ontology.parents(ontology_node_id, ['subClassOf']):
+                parent_node_curie_id = get_node_curie_id_from_ontology_node_id(parent_ontology_node_id,
+                                                                               ontology,
+                                                                               curie_to_uri_shortener)
                 try:
                     ret_category = get_biolink_category_for_node(parent_ontology_node_id,
-                                                                 node_curie_id,
+                                                                 parent_node_curie_id,
                                                                  ontology,
                                                                  curies_to_categories,
                                                                  curie_to_uri_shortener)
@@ -317,6 +321,23 @@ def get_biolink_category_for_node(ontology_node_id: str,
     return ret_category
 
 
+def get_node_curie_id_from_ontology_node_id(ontology_node_id: str,
+                                            ontology: ontobio.ontol.Ontology,
+                                            curie_to_uri_shortener: callable):
+    node_curie_id = None
+    if not ontology_node_id.startswith('http:') and not ontology_node_id.startswith('https:'):
+        node_curie_id = ontology_node_id
+    else:
+        node_curie_id = curie_to_uri_shortener(ontology_node_id)
+        if node_curie_id is None:
+            log_message(message="could not shorten this IRI to a CURIE",
+                        ontology_name=ontology.id,
+                        node_curie_id=ontology_node_id,
+                        output_stream=sys.stderr)
+            node_curie_id = ontology_node_id
+    return node_curie_id
+
+
 def make_nodes_dict_from_ontology_dict(ontology: ontobio.ontol.Ontology,
                                        curies_to_categories: dict,
                                        curie_to_uri_shortener: callable,
@@ -326,33 +347,26 @@ def make_nodes_dict_from_ontology_dict(ontology: ontobio.ontol.Ontology,
     for ontology_node_id in ontology.nodes():
         onto_node_dict = ontology.node(ontology_node_id)
         assert onto_node_dict is not None
-        if not ontology_node_id.startswith('http:') and not ontology_node_id.startswith('https:'):
-            node_curie_id = ontology_node_id
-        else:
-            node_curie_id = curie_to_uri_shortener(ontology_node_id)
-            if node_curie_id is None:
-                log_message(message="could not shorten this IRI to a CURIE",
-                            ontology_name=ontology.id,
-                            node_curie_id=ontology_node_id,
-                            output_stream=sys.stderr)
-                node_curie_id = ontology_node_id
-        if not ontology_node_id.startswith('http://snomed.info'):
-            node_curie_id = ontology_node_id
-            iri = onto_node_dict.get('id', None)
-            if iri is None:
-                iri = prefixcommons.expand_uri(node_curie_id)
-                if iri == node_curie_id or iri == '':
-                    continue
-            assert iri is not None
-            if is_ignorable_ontology_term(iri):
-                continue
-        else:
-            # have to handle snomed ontology specially since the node IDs are not CURIE IDs.
-            # When we import the SNOMED CT ontology from OWL format into ontobio, the node IDs
-            # are of the form: http://snomed.info/id/12237791000119102.
-            node_curie_id = ontology_node_id.replace('http://snomed.info/id/', 'SNOMED:')
-            iri = prefixcommons.expand_uri(node_curie_id)
-            node_curie_id = node_curie_id.replace('SNOMED:', 'SNOMEDCT_US:')
+        node_curie_id = get_node_curie_id_from_ontology_node_id(ontology_node_id,
+                                                                ontology,
+                                                                curie_to_uri_shortener)
+        iri = onto_node_dict.get('id', None)
+        assert iri.startswith('http:') or iri.startswith('https:')
+        # if not ontology_node_id.startswith('http://snomed.info'):
+        #     if iri is None:
+        #         iri = prefixcommons.expand_uri(node_curie_id)
+        #         if iri == node_curie_id or iri == '':
+        #             continue
+        #     assert iri is not None
+        #     if is_ignorable_ontology_term(iri):
+        #         continue
+        # else:
+        #     # have to handle snomed ontology specially since the node IDs are not CURIE IDs.
+        #     # When we import the SNOMED CT ontology from OWL format into ontobio, the node IDs
+        #     # are of the form: http://snomed.info/id/12237791000119102.
+        #     node_curie_id = ontology_node_id.replace('http://snomed.info/id/', 'SNOMED:')
+        #     iri = prefixcommons.expand_uri(node_curie_id)
+        #     node_curie_id = node_curie_id.replace('SNOMED:', 'SNOMEDCT_US:')
         node_dict = dict()
         node_dict['id'] = node_curie_id
         node_dict['iri'] = iri
@@ -375,7 +389,7 @@ def make_nodes_dict_from_ontology_dict(ontology: ontobio.ontol.Ontology,
         else:
             if not node_deprecated:
                 log_message("Node does not have a category", ontology.id, node_curie_id, output_stream=sys.stderr)
-                continue
+                node_category_label = 'unknown category'
             else:
                 node_category_label = 'deprecated node'
         node_dict['category'] = node_category_iri
@@ -434,14 +448,14 @@ def get_rels_dict(nodes: dict,
         # always be the node curie IDs (e.g., for SNOMED terms). Need to map them
         subject_curie_id = map_of_node_ontology_ids_to_curie_ids.get(subject_id, None)
         if subject_curie_id is None:
-            log_message(message="ontology node ID has no curie ID in the map: ",
+            log_message(message="ontology node ID has no curie ID in the map",
                         ontology_name=ontology.id,
                         node_curie_id=subject_id,
                         output_stream=sys.stderr)
             continue
         object_curie_id = map_of_node_ontology_ids_to_curie_ids.get(object_id, None)
         if object_curie_id is None:
-            log_message(message="ontology node ID has no curie ID in the map: ",
+            log_message(message="ontology node ID has no curie ID in the map",
                         ontology_name=ontology.id,
                         node_curie_id=object_id,
                         output_stream=sys.stderr)
