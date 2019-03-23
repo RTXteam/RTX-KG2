@@ -256,75 +256,64 @@ def shorten_iri_to_curie(iri: str, curie_to_iri_lookaside_list: list = []):
 
 
 def get_biolink_category_for_node(ontology_node_id: str,
+                                  node_curie_id: str,
                                   ontology: ontobio.ontol.Ontology,
                                   curies_to_categories: dict,
                                   curie_to_uri_shortener: callable):
 
     ret_category = None
-    if ontology_node_id == 'owl:Nothing':
+    if ontology_node_id == 'owl:Nothing' or node_curie_id is None:
         return None
 
-    if not ontology_node_id.startswith('http:'):
-        # most node objects have an ID that is a CURIE ID
-        node_curie_id = ontology_node_id
-    else:
-        # but some nodes objects have an IRI as their ID; need to shorten to a CURIE
-        node_curie_id = curie_to_uri_shortener(ontology_node_id)
-        if node_curie_id is None:
-            log_message(message="could not shorten this IRI to a CURIE",
-                        ontology_name=ontology.id,
-                        node_curie_id=ontology_node_id,
-                        output_stream=sys.stderr)
-
-    if node_curie_id is not None:
-        curie_prefix = get_prefix_from_curie_id(node_curie_id)
-        curies_to_categories_prefixes = curies_to_categories['prefix-mappings']
-        ret_category = curies_to_categories_prefixes.get(curie_prefix, None)
+    curie_prefix = get_prefix_from_curie_id(node_curie_id)
+    curies_to_categories_prefixes = curies_to_categories['prefix-mappings']
+    ret_category = curies_to_categories_prefixes.get(curie_prefix, None)
+    if ret_category is None:
+        # need to walk the ontology hierarchy until we encounter a parent term with a defined biolink category
+        curies_to_categories_terms = curies_to_categories['term-mappings']
+        ret_category = curies_to_categories_terms.get(node_curie_id, None)
         if ret_category is None:
-            # need to walk the ontology hierarchy until we encounter a parent term with a defined biolink category
-            curies_to_categories_terms = curies_to_categories['term-mappings']
-            ret_category = curies_to_categories_terms.get(node_curie_id, None)
-            if ret_category is None:
-                for parent_ontology_node_id in ontology.parents(ontology_node_id, ['subClassOf']):
-                    try:
-                        ret_category = get_biolink_category_for_node(parent_ontology_node_id,
-                                                                     ontology,
-                                                                     curies_to_categories,
-                                                                     curie_to_uri_shortener)
-                    except RecursionError as re:
-                        log_message(message="recursion error: " + ontology_node_id,
+            for parent_ontology_node_id in ontology.parents(ontology_node_id, ['subClassOf']):
+                try:
+                    ret_category = get_biolink_category_for_node(parent_ontology_node_id,
+                                                                 node_curie_id,
+                                                                 ontology,
+                                                                 curies_to_categories,
+                                                                 curie_to_uri_shortener)
+                except RecursionError as re:
+                    log_message(message="recursion error: " + ontology_node_id,
+                                ontology_name=ontology.id,
+                                node_curie_id=node_curie_id,
+                                output_stream=sys.stderr)
+                    raise re
+                if ret_category is not None:
+                    break
+    if ret_category is None:  # this is to handle SNOMED CT attributes
+        if node_curie_id.startswith('SNOMEDCT_US'):
+            ontology_node_lbl = ontology.node(ontology_node_id).get('lbl', None)
+            if ontology_node_lbl is not None:
+                if '(attribute)' in ontology_node_lbl:
+                    ret_category = 'attribute'
+                else:
+                    log_message('Node does not have a label or any parents',
+                                'http://snomed.info/sct/900000000000207008',
+                                node_curie_id, output_stream=sys.stderr)
+            elif node_curie_id.startswith('ENSEMBL:'):
+                curie_suffix = node_curie_id.replace('ENSEMBL:', '')
+                ensembl_match = re.match(ENSEMBL_RE, curie_suffix)
+                if ensembl_match is not None:
+                    ensembl_match_letter = ensembl_match[1]
+                    if ensembl_match_letter == 'G':
+                        ret_category = 'gene'
+                    elif ensembl_match_letter == 'P':
+                        ret_category = 'protein'
+                    elif ensembl_match_letter == 'T':
+                        ret_category = 'transcript'
+                    else:
+                        log_message(message="unrecognized Ensembl ID: " + curie_suffix,
                                     ontology_name=ontology.id,
                                     node_curie_id=node_curie_id,
                                     output_stream=sys.stderr)
-                        raise re
-                    if ret_category is not None:
-                        break
-        if ret_category is None:  # this is to handle SNOMED CT attributes
-            if node_curie_id.startswith('SNOMEDCT_US'):
-                ontology_node_lbl = ontology.node(ontology_node_id).get('lbl', None)
-                if ontology_node_lbl is not None:
-                    if '(attribute)' in ontology_node_lbl:
-                        ret_category = 'attribute'
-                    else:
-                        log_message('Node does not have a label or any parents',
-                                    'http://snomed.info/sct/900000000000207008',
-                                    node_curie_id, output_stream=sys.stderr)
-                elif node_curie_id.startswith('ENSEMBL:'):
-                    curie_suffix = node_curie_id.replace('ENSEMBL:', '')
-                    ensembl_match = re.match(ENSEMBL_RE, curie_suffix)
-                    if ensembl_match is not None:
-                        ensembl_match_letter = ensembl_match[1]
-                        if ensembl_match_letter == 'G':
-                            ret_category = 'gene'
-                        elif ensembl_match_letter == 'P':
-                            ret_category = 'protein'
-                        elif ensembl_match_letter == 'T':
-                            ret_category = 'transcript'
-                        else:
-                            log_message(message="unrecognized Ensembl ID: " + curie_suffix,
-                                        ontology_name=ontology.id,
-                                        node_curie_id=node_curie_id,
-                                        output_stream=sys.stderr)
     return ret_category
 
 
@@ -337,6 +326,16 @@ def make_nodes_dict_from_ontology_dict(ontology: ontobio.ontol.Ontology,
     for ontology_node_id in ontology.nodes():
         onto_node_dict = ontology.node(ontology_node_id)
         assert onto_node_dict is not None
+        if not ontology_node_id.startswith('http:') and not ontology_node_id.startswith('https:'):
+            node_curie_id = ontology_node_id
+        else:
+            node_curie_id = curie_to_uri_shortener(ontology_node_id)
+            if node_curie_id is None:
+                log_message(message="could not shorten this IRI to a CURIE",
+                            ontology_name=ontology.id,
+                            node_curie_id=ontology_node_id,
+                            output_stream=sys.stderr)
+                node_curie_id = ontology_node_id
         if not ontology_node_id.startswith('http://snomed.info'):
             node_curie_id = ontology_node_id
             iri = onto_node_dict.get('id', None)
@@ -367,6 +366,7 @@ def make_nodes_dict_from_ontology_dict(ontology: ontobio.ontol.Ontology,
         if node_meta is not None:
             node_deprecated = node_meta.get('deprecated', False)
         node_category_label = get_biolink_category_for_node(ontology_node_id,
+                                                            node_curie_id,
                                                             ontology,
                                                             curies_to_categories,
                                                             curie_to_uri_shortener)
