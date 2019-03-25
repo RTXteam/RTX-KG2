@@ -3,22 +3,23 @@
 
 ## General notes:
 
-Currently, KG2 is built using a set of bash scripts that are designed to run in
-Amazon's Elastic Compute Cloud (EC2), and thus, configurability and/or
-coexisting with other installed software pipelines was not a design
-consideration for the KG2 build system. The KG2 build system's bash scripts
-create three subdirectories `~/kg2-build`, `~/kg2-code`, and `~/kg2-venv` under
-the `$HOME$` directory of whatever Linux user account you use to run the KG2
-build software (by default, this home directory would be `/home/ubuntu` since
-the KG2 build system is designed only to run in Ubuntu; see below).  The build
-software is is configured to run with the `kg2-build` directory being in the
-same file system as the Python temporary file directory (i.e., the directory
-name that is returned by `tempfile.tempdir` in Python). If you modify the KG2
-software or runtime environment so that `kg2-build` is in a different file
-system from the file system in which the directory `tempfile.tempdir` resides,
-then the file copying operations that are performed by the KG2 build software
-will not be atomic and interruption of `build-kg2.py` could then leave a source
-data file in a half-downloaded (i.e., broken) state.
+The KG2 build system is designed only to run in an Ubuntu 18.04 environment
+(i.e., host OS or container). Currently, KG2 is built using a set of bash scripts that
+are designed to run in Amazon's Elastic Compute Cloud (EC2), and thus,
+configurability and/or coexisting with other installed software pipelines was
+not a design consideration for the KG2 build system. The KG2 build system's bash
+scripts create three subdirectories `~/kg2-build`, `~/kg2-code`, and
+`~/kg2-venv` under the `${HOME}` directory of whatever Linux user account you
+use to run the KG2 build software (if you run on an EC2 Ubuntu instance, this
+directory would by default be `/home/ubuntu`).  The build software is is
+configured to run with the `kg2-build` directory being in the same file system
+as the Python temporary file directory (i.e., the directory name that is
+returned by `tempfile.tempdir` in Python). If you modify the KG2 software or
+runtime environment so that `kg2-build` is in a different file system from the
+file system in which the directory `tempfile.tempdir` resides, then the file
+copying operations that are performed by the KG2 build software will not be
+atomic and interruption of `build-kg2.py` could then leave a source data file in
+a half-downloaded (i.e., broken) state.
 
 ## Setup your computing environment
 
