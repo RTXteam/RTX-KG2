@@ -51,8 +51,8 @@ sudo mysql -u root -e "CREATE USER 'ubuntu'@'localhost' IDENTIFIED BY '${MYSQL_P
 sudo mysql -u root -e "GRANT ALL PRIVILEGES ON *.* to 'ubuntu'@'localhost'"
 cat >${MYSQL_CONF} <<EOL
 [client]
-user = ubuntu
-password = 1337
+user = ${MYSQL_USER}
+password = ${MYSQL_PASSWORD}
 host = localhost
 EOL
 
