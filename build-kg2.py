@@ -350,11 +350,12 @@ def make_nodes_dict_from_ontology_dict(ontology: ontobio.ontol.Ontology,
         node_curie_id = get_node_curie_id_from_ontology_node_id(ontology_node_id,
                                                                 ontology,
                                                                 curie_to_uri_shortener)
-        iri = onto_node_dict.get('id', None)
-        if iri is None:
-            log_message('Node does not have an ID field', ontology.id, node_curie_id,
+        if len(onto_node_dict) == 0:
+            log_message('Node does has empty dictionary of data', ontology.id, node_curie_id,
                         output_stream=sys.stderr)
-            print(onto_node_dict)
+            continue
+
+        iri = onto_node_dict.get('id', None)
         assert iri.startswith('http:') or iri.startswith('https:')
         # if not ontology_node_id.startswith('http://snomed.info'):
         #     if iri is None:
