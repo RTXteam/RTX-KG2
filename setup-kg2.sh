@@ -14,7 +14,7 @@ ln -s ~/RTX/code/kg2 ${CODE_DIR}
 
 ## install the Linux distro packages that we need
 sudo apt-get update
-sudo apt-get install -y python3-minimal python3-pip default-jre awscli zip curl wget
+sudo apt-get install -y python3-minimal python3-pip default-jre awscli zip curl
 
 ## this is for convenience when I am remote working
 sudo apt-get install -y emacs
@@ -39,7 +39,7 @@ cp ${CODE_DIR}/owl-load-inventory.yaml ${BUILD_DIR}
 
 ## install ROBOT (software: ROBOT is an OBO Tool) by downloading the jar file
 ## distribution and cURLing the startup script
-wget -P ${BUILD_DIR} https://github.com/RTXteam/robot/releases/download/v1.3.0/robot.jar
+curl -LO -o ${BUILD_DIR}/robot.jar ${BUILD_DIR} https://github.com/RTXteam/robot/releases/download/v1.3.0/robot.jar
 curl https://raw.githubusercontent.com/RTXteam/robot/v1.3.0/bin/robot > ${BUILD_DIR}/robot
 chmod a+x ${BUILD_DIR}/robot
 
