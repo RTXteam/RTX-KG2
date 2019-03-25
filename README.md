@@ -58,20 +58,26 @@ Run these commands in the `bash` shell, in order:
     
     git clone https://github.com/RTXteam/RTX.git
     
-    RTX/code/kg2/setup-kg2.sh
-    
     screen
 
 Within the `screen` session, run:
+
+    RTX/code/kg2/setup-kg2.sh > setup-kg2.log 2>&1
+    
+Then exit screen (`ctrl-a d`). You can watch the progress of `setup-kg2.sh` by
+using the command:
+
+    tail -f setup-kg2.log
+
+Next, rejoin the screen session using `screen -r`.  Within the `screen` session, run:
 
     RTX/code/kg2/build-kg2.sh
 
 Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 build by using these
 two commands (run them in separate bash shell terminals):
 
-    sudo docker exec -it kg2 tail -f /home/ubuntu/kg2-build/stdout.log
-    
-    sudo docker exec -it tail -f /home/ubuntu/kg2-build/stderr.log
+    tail -f /home/ubuntu/kg2-build/build-kg2-stdout.log
+    tail -f /home/ubuntu/kg2-build/build-kg2-stderr.log
     
 ### Option 2: remotely build KG2 in an EC2 instance via ssh, orchestrated from your local computer
 
@@ -95,13 +101,19 @@ Then run these commands in the `bash` shell:
 
     screen
     
-    sudo docker run --name kg2 kg2:latest su - ubuntu -c "RTX/code/kg2/setup-kg2.sh"
-
-    sudo docker run --name kg2 kg2:latest su - ubuntu -c "kg2-code/build-kg2.sh"
-
-Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 build by using these
-two commands (run them in separate bash shell terminals):
-
-    sudo docker exec -it kg2 tail -f /home/ubuntu/kg2-build/stdout.log
+    sudo docker run --name kg2 kg2:latest su - ubuntu -c "RTX/code/kg2/setup-kg2.sh > setup-kg2.log 2>&1"
     
-    sudo docker exec -it tail -f /home/ubuntu/kg2-build/stderr.log
+Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 setup using the command:
+
+    sudo docker exec kg2 "tail -f setup-kg2.log"
+
+Then again inside screen, run:
+
+    sudo docker exec kg2 "kg2-code/build-kg2.sh"
+
+Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 setup using the
+following two commands (in two two separate terminals):
+
+    sudo docker exec -it kg2 tail -f /home/ubuntu/kg2-build/build-kg2-stdout.log
+    sudo docker exec -it kg2 tail -f /home/ubuntu/kg2-build/build-kg2-stderr.log
+
