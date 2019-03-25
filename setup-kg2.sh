@@ -44,7 +44,8 @@ curl https://raw.githubusercontent.com/RTXteam/robot/v1.3.0/bin/robot > ${BUILD_
 chmod a+x ${BUILD_DIR}/robot
 
 ## get owltools and set its permissions to executable
-wget -P ${BUILD_DIR} http://build.berkeleybop.org/userContent/owltools/owltools
+curl -LO -o ${BUILD_DIR}/owltools https://github.com/RTXteam/owltools/releases/download/v0.3.0/owltools
+#wget -P ${BUILD_DIR} http://build.berkeleybop.org/userContent/owltools/owltools
 chmod a+x ${BUILD_DIR}/owltools
 
 ## build OWL-XML representation of SNOMED CT
