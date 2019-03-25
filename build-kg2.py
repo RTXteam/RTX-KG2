@@ -677,7 +677,8 @@ ontology_urls_and_files = tuple(safe_load_yaml_from_string(read_file_to_string(o
 running_time = timeit.timeit(lambda: make_kg2(curies_to_categories,
                                               curie_to_uri_shortener,
                                               map_category_label_to_iri,
-                                              ontology_urls_and_files), number=1)
+                                              ontology_urls_and_files,
+                                              output_dir), number=1)
 print('running time for KG2 construction: ' + str(running_time))
 
 
