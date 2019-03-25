@@ -19,6 +19,10 @@
   file: fma.owl
   title: Foundational Model of Anatomy
 -
+  url:  http://purl.obolibrary.org/obo/ddanat.owl
+  file: ddanat.owl
+  title: Dictyostelium discoideum anatomy 
+-
   url:  http://purl.obolibrary.org/obo/cl.owl
   file: cl.owl
   title: Cell Ontology
