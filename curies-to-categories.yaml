@@ -119,6 +119,7 @@ term-mappings:
     SNOMEDCT_US:123037004: body structure
     SNOMEDCT_US:123038009: specimen
     SNOMEDCT_US:125676002: person
+    SNOMEDCT_US:138875005: concept
     SNOMEDCT_US:243796009: situation with explicit context
     SNOMEDCT_US:246061005: attribute
     SNOMEDCT_US:254291000: staging and scales
