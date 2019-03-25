@@ -72,10 +72,10 @@ curl -LO -o ${BUILD_DIR}/owltools https://github.com/RTXteam/owltools/releases/d
 chmod a+x ${BUILD_DIR}/owltools
 
 ## setup AWS CLI
-if ! aws s3 cp --region ${S3_REGION} s3://${S3_BUCKET}/test .; then
+if ! aws s3 cp --region ${S3_REGION} s3://${S3_BUCKET}/test /tmp/; then
     aws configure
 else
-    rm test
+    rm /tmp/test
 fi
 
 # setup raptor
