@@ -14,5 +14,3 @@ RUN echo "ubuntu ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/ubuntu
 
 # copy setup scripts
 RUN git clone https://github.com/RTXteam/RTX.git
-#COPY * /home/ubuntu/RTX/code/kg2/
-RUN su - ubuntu -c "cd /home/ubuntu && /home/ubuntu/RTX/code/kg2/setup-kg2.sh"
