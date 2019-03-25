@@ -60,9 +60,9 @@ ${VENV_DIR}/bin/SNOMEDToOWL -f xml ${BUILD_DIR}/${SNOMEDCT_FILE_BASE}/Snapshot \
            -o ${BUILD_DIR}/snomed.owl
 ${BUILD_DIR}/robot relax --input ${BUILD_DIR}/snomed.owl --output ${BUILD_DIR}/snomed-relax.owl
 
-## download Pickle ontology
-wget -P ${BUILD_DIR} http://www.pickle.gr/Data/2.3/PICKLE2_3_OntologicalNetwork.zip
-unzip ${BUILD_DIR}/PICKLE2_3_OntologicalNetwork.zip -d ${BUILD_DIR}
-mv ${BUILD_DIR}/OntologicalNetwork.owl ${BUILD_DIR}/pickle.owl
+# ## download Pickle ontology (DISABLED BECAUSE PICKLE ONTOLOGY NOT PARSABLE BY ONTOBIO)
+# wget -P ${BUILD_DIR} http://www.pickle.gr/Data/2.3/PICKLE2_3_OntologicalNetwork.zip
+# unzip ${BUILD_DIR}/PICKLE2_3_OntologicalNetwork.zip -d ${BUILD_DIR}
+# mv ${BUILD_DIR}/OntologicalNetwork.owl ${BUILD_DIR}/pickle.owl
 
 
