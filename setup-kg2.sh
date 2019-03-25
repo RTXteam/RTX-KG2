@@ -11,6 +11,7 @@ cat >${BUILD_DIR}/master-config.shinc <<EOF
 BUILD_DIR=${BUILD_DIR}
 VENV_DIR=~/kg2-venv
 CODE_DIR=~/kg2-code
+SHARE_DIR=~/kg2-share
 S3_REGION=us-west-2
 S3_BUCKET=rtx-kg2
 EOF
@@ -33,13 +34,20 @@ sudo apt-get install -y python3-minimal \
      bison \
      libxml2-dev \
      gtk-doc-tools \
-     libtool
+     libtool \
+     nginx
 
 ## this is for convenience when I am remote working
 sudo apt-get install -y emacs
 
 ## the only python package we need to install into the native python3 is virtualenv
 sudo -H pip3 install virtualenv
+
+## setup nginx
+mkdir ${SHARE_DIR}
+sudo services nginx stop
+sudo cp ${CODE_DIR}/nginx-config-default /etc/nginx/sites-enabled/default
+sudo services nginx start
 
 ## create a virtualenv for building KG2
 virtualenv ${VENV_DIR}
