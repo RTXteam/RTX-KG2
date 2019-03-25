@@ -1,12 +1,11 @@
 #!/bin/bash
 set -euxo pipefail
 
-S3_REGION=us-west-2
-S3_BUCKET=rtx-kg2
+BUILD_DIR=~/kg2-build
+source ${BUILD_DIR}/master-config.shinc
 UMLS_FILE_BASE=2018AB-full
 BUILD_DIR=~/kg2-build
 UMLS_DIR=${BUILD_DIR}/umls
-VENV_DIR=~/kg2-venv
 MYSQL_USER=ubuntu
 MYSQL_PASSWORD=1337
 MMSYS_DIR=${UMLS_DIR}/${UMLS_FILE_BASE}
@@ -14,8 +13,14 @@ UMLS_RRDIST_DIR=${UMLS_DIR}
 UMLS_DEST_DIR=${UMLS_RRDIST_DIR}/META
 MYSQL_CONF=${UMLS_DIR}/mysql-config.conf
 
-## build UMLS
+sudo apt-get update
+sudo apt-get install -y mysql-server \
+     mysql-client \
+     git \
+     libmysqlclient-dev \
+     python-dev 
 
+## make directories that we need
 mkdir -p ${UMLS_DIR}
 mkdir -p ${UMLS_RRDIST_DIR}
 mkdir -p ${UMLS_DEST_DIR}
@@ -46,7 +51,6 @@ ${JAVA_HOME}/bin/java -Djava.awt.headless=true \
                       -Dmmsys.config.uri=${CONFIG_FILE} \
                       -Xms300M -Xmx1000M org.java.plugin.boot.Boot
 
-sudo apt-get install -y mysql-server mysql-client
 sudo mysql -u root -e "CREATE USER 'ubuntu'@'localhost' IDENTIFIED BY '${MYSQL_PASSWORD}'"
 sudo mysql -u root -e "GRANT ALL PRIVILEGES ON *.* to 'ubuntu'@'localhost'"
 cat >${MYSQL_CONF} <<EOL
@@ -73,3 +77,19 @@ chmod +x ${UMLS_DEST_DIR}/populate_mysql_db_configured.sh
 cp ${UMLS_DEST_DIR}/mysql_tables.sql ${UMLS_DEST_DIR}/mysql_tables.sql-original
 cat ${UMLS_DEST_DIR}/mysql_tables.sql-original | sed 's/\\r\\n/\\n/g' > ${UMLS_DEST_DIR}/mysql_tables.sql
 ${UMLS_DEST_DIR}/populate_mysql_db_configured.sh
+
+cd ${UMLS_DIR}
+curl -LO https://github.com/RTXteam/umls2rdf/archive/umls2rdf-rtx-1.0.tar.gz
+tar xvzf umls2rdf-rtx-1.0.tar.gz
+cat umls2rdf/conf_sample.py | sed 's/your-host/localhost/g' | \
+    sed 's/umls2015ab/umls/g' | \
+    sed 's/your db user/ubuntu/g' | \
+    sed 's/your db pass/1337/g' | \
+    sed 's/2015ab/2018ab/g' > umls2rdf/conf.py
+
+export UMLS_VENV_DIR=${UMLS_DIR}/venv27
+virtualenv --python=python2.7 ${UMLS_VENV_DIR}
+${UMLS_VENV_DIR}/bin/pip install mysqlclient
+cd umls2rdf
+${UMLS_VENV_DIR}/bin/python2.7 umls2rdf.py
+
