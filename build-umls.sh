@@ -93,3 +93,5 @@ ${UMLS_VENV_DIR}/bin/pip install mysqlclient
 cd umls2rdf
 ${UMLS_VENV_DIR}/bin/python2.7 umls2rdf.py
 
+cd ${UMLS_DIR}/umls2rdf
+./checkOutputSyntax.sh
