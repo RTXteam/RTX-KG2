@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euxo pipefail
 
-INSTANCE_HOSTNAME=kg2.saramsey.org
+INSTANCE_HOSTNAME=kg2dev.saramsey.org
 PUBLIC_KEY_FILE=id_rsa.pub
 AWS_PEM_FILE=/Volumes/WorkEncrypted/ramseyst-new-aws-login.pem
 
@@ -23,5 +23,6 @@ fi
 ssh ubuntu@${INSTANCE_HOSTNAME} git clone https://github.com/RTXteam/RTX.git
 
 ## setup the instance using the setup script
-ssh -t ubuntu@${INSTANCE_HOSTNAME} RTX/code/kg2/setup-kg2.sh
+## THIS IS DISABLED FOR THE TIME BEING: (SAR)
+## ssh -t ubuntu@${INSTANCE_HOSTNAME} RTX/code/kg2/setup-kg2.sh
 
