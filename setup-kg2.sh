@@ -45,9 +45,9 @@ sudo -H pip3 install virtualenv
 
 ## setup nginx
 mkdir ${SHARE_DIR}
-sudo services nginx stop
+sudo service nginx stop
 sudo cp ${CODE_DIR}/nginx-config-default /etc/nginx/sites-enabled/default
-sudo services nginx start
+sudo service nginx start
 
 ## create a virtualenv for building KG2
 virtualenv ${VENV_DIR}
