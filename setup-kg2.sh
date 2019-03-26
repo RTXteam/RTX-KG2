@@ -23,7 +23,7 @@ if [ ! -L ${CODE_DIR} ]; then
     ln -s ~/RTX/code/kg2 ${CODE_DIR}
 fi
 
-## install the Linux distro packages that we need
+## install the Linux distro packages that we need (python3-minimal is for docker installations)
 sudo apt-get update
 sudo apt-get install -y python3-minimal \
      python3-pip \
