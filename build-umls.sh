@@ -14,6 +14,8 @@ UMLS_DEST_DIR=${UMLS_RRDIST_DIR}/META
 MYSQL_CONF=${UMLS_DIR}/mysql-config.conf
 
 sudo apt-get update
+sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password your_password'
+sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password your_password'
 sudo apt-get install -y mysql-server \
      mysql-client \
      git \
