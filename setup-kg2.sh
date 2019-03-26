@@ -87,5 +87,3 @@ make
 make check
 sudo make install
 sudo ldconfig
-cd ${UMLS_DIR}/umls2rdf
-./checkOutputSyntax.sh
