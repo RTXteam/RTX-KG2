@@ -69,7 +69,7 @@ chmod a+x ${BUILD_DIR}/robot
 
 ## setup owltools
 curl -LO https://github.com/RTXteam/owltools/releases/download/v0.3.0/owltools > ${BUILD_DIR}/owltools
-chmod a+x ${BUILD_DIR}/owltools
+chmod +x ${BUILD_DIR}/owltools
 
 ## setup AWS CLI
 if ! aws s3 cp --region ${S3_REGION} s3://${S3_BUCKET}/test /tmp/; then
@@ -80,7 +80,7 @@ fi
 
 # setup raptor
 wget -P ${BUILD_DIR} http://download.librdf.org/source/raptor2-2.0.15.tar.gz
-tar xzf -C ${BUILD_DIR} ${BUILD_DIR}/raptor2-2.0.15.tar.gz
+tar xzf ${BUILD_DIR}/raptor2-2.0.15.tar.gz -C ${BUILD_DIR} 
 cd ${BUILD_DIR}/raptor2-2.0.15
 ./autogen.sh --prefix=/usr/local
 make
