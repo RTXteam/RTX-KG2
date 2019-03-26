@@ -14,7 +14,7 @@ if ! ssh -q -o StrictHostKeyChecking=no ubuntu@${INSTANCE_HOSTNAME} exit; then
         ~/.ssh/${PUBLIC_KEY_FILE} \
         ubuntu@${INSTANCE_HOSTNAME}:
     ## append the id_rsa.pub file to the authorized_keys file
-    ssh -i /Volumes/WorkEncrypted/ramseyst-new-aws-login.pem \
+    ssh -i ${AWS_PEM_FILE} \
         ubuntu@${INSTANCE_HOSTNAME} \
         'cat ${PUBLIC_KEY_FILE} >> ~/.ssh/authorized_keys && rm ${PUBLIC_KEY_FILE}'
 fi
