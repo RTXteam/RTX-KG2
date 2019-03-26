@@ -83,6 +83,7 @@ fi
 
 # setup raptor
 wget -P ${BUILD_DIR} http://download.librdf.org/source/raptor2-2.0.15.tar.gz
+rm -r -f ${BUILD_DIR}/raptor2-2.0.15
 tar xzf ${BUILD_DIR}/raptor2-2.0.15.tar.gz -C ${BUILD_DIR} 
 cd ${BUILD_DIR}/raptor2-2.0.15
 ./autogen.sh --prefix=/usr/local
