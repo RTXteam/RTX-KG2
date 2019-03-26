@@ -19,7 +19,9 @@ EOF
 source ${BUILD_DIR}/master-config.shinc
 
 ## sym-link into RTX/code/kg2
-ln -s ~/RTX/code/kg2 ${CODE_DIR}
+if [ ! -L ${CODE_DIR} ]; then
+    ln -s ~/RTX/code/kg2 ${CODE_DIR}
+fi
 
 ## install the Linux distro packages that we need
 sudo apt-get update
