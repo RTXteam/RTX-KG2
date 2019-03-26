@@ -37,7 +37,8 @@ sudo apt-get install -y python3-minimal \
      libxml2-dev \
      gtk-doc-tools \
      libtool \
-     nginx
+     nginx \
+     automake
 
 ## this is for convenience when I am remote working
 sudo apt-get install -y emacs
