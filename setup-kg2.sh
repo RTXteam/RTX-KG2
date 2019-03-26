@@ -44,7 +44,7 @@ sudo apt-get install -y emacs
 sudo -H pip3 install virtualenv
 
 ## setup nginx
-mkdir ${SHARE_DIR}
+mkdir -p ${SHARE_DIR}
 sudo service nginx stop
 sudo cp ${CODE_DIR}/nginx-config-default /etc/nginx/sites-enabled/default
 sudo service nginx start
