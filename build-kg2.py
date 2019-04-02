@@ -234,11 +234,11 @@ def make_kg2(curies_to_categories: dict,
     for node_dict in kg2_dict['nodes']:
         del node_dict['xrefs']
 
-    timestamp_str = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
-    with open(os.path.join(output_dir, 'kg2-' + timestamp_str + '.json'), 'w') as outfile:
+#    timestamp_str = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
+    with open(os.path.join(output_dir, 'kg2.json'), 'w') as outfile:
         json.dump(kg2_dict, outfile)
 
-    pickle.dump(kg2_dict, open(os.path.join(output_dir, 'kg2-' + timestamp_str + '.pickle'), 'wb'))
+#    pickle.dump(kg2_dict, open(os.path.join(output_dir, 'kg2-' + timestamp_str + '.pickle'), 'wb'))
 
 
 # --------------- subroutines that could be made into pure functions ----------
