@@ -36,9 +36,6 @@ sudo -H pip3 install virtualenv
 ## create a virtualenv for building KG2
 virtualenv ${VENV_DIR}
 
-## make output directory
-mkdir -p ${OUTPUT_DIR}
-
 ## Install python3 packages that we will need (Note: we are not using pymongo
 ## directly, but installing it silences a runtime warning from ontobio):
 ${VENV_DIR}/bin/pip3 install ontobio pymongo
