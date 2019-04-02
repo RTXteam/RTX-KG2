@@ -235,8 +235,10 @@ def make_kg2(curies_to_categories: dict,
         del node_dict['xrefs']
 
 #    timestamp_str = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
-    with open(output_file, 'w') as outfile:
+    temp_output_file = tempfile.mkstemp(prefix='kg2')[1]
+    with open(temp_output_file, 'w') as outfile:
         json.dump(kg2_dict, outfile)
+    shutil.move(temp_output_file, output_file)
 
 #    pickle.dump(kg2_dict, open(os.path.join(output_dir, 'kg2-' + timestamp_str + '.pickle'), 'wb'))
 
