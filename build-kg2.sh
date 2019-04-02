@@ -1,8 +1,8 @@
 #!/bin/bash
 set -euxo pipefail
 
-BUILD_DIR=~/kg2-build
-source ${BUILD_DIR}/master-config.shinc
+CONFIG_DIR=`dirname \"$0\"`
+source ${CONFIG_DIR}/master-config.shinc
 
 export PATH=$PATH:${BUILD_DIR}
 cd ${BUILD_DIR} && ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/build-kg2.py \
