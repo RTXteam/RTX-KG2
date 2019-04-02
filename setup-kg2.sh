@@ -2,12 +2,9 @@
 set -euxo pipefail
 
 ## setup the shell variables for various directories
-BUILD_DIR=~/kg2-build
+CONFIG_DIR=`dirname \"$0\"`
 
-## create the "build" directory where we will store the KG2 files:
-mkdir -p ${BUILD_DIR}
-
-cat >${BUILD_DIR}/master-config.shinc <<EOF
+cat >${CONFIG_DIR}/master-config.shinc <<EOF
 BUILD_DIR=${BUILD_DIR}
 VENV_DIR=~/kg2-venv
 CODE_DIR=~/kg2-code
