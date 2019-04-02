@@ -4,16 +4,7 @@ set -euxo pipefail
 ## setup the shell variables for various directories
 CONFIG_DIR=`dirname \"$0\"`
 
-cat >${CONFIG_DIR}/master-config.shinc <<EOF
-BUILD_DIR=${BUILD_DIR}
-VENV_DIR=~/kg2-venv
-CODE_DIR=~/kg2-code
-SHARE_DIR=~/kg2-share
-S3_REGION=us-west-2
-S3_BUCKET=rtx-kg2
-EOF
-
-source ${BUILD_DIR}/master-config.shinc
+source ${CONFIG_DIR}/master-config.shinc
 
 ## sym-link into RTX/code/kg2
 if [ ! -L ${CODE_DIR} ]; then
