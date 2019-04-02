@@ -36,10 +36,11 @@ build KG2 but don't have a native installation of Ubuntu 18.04 available, your
 best bet would be to use Docker (see the `Dockerfile` for this project). You'll
 need to have an Amazon Web Services (AWS) authentication key that is configured
 to be able to read from the `s3://rtx-kg2` Amazon Simple Cloud Storage Service
-(S3) bucket (ask Stephen Ramsey to set this up); this is because the KG2 build
-script downloads the UMLS and SNOMED CT distributions from a private S3 bucket
-(these distributions are encumbered by licenses so they cannot be put on a
-public server for download).
+(S3) bucket (ask Stephen Ramsey to set this up) and to write to the S3 bucket
+`rtx-kg2-public`. The KG2 build script downloads the UMLS and SNOMED CT
+distributions from a private S3 bucket `rtx-kg2` (these distributions are
+encumbered by licenses so they cannot be put on a public server for download) and
+it uploads the `kg2.json` file to the public S3 bucket `rtx-kg2-public`.
 
 ## My normal EC2 instance
 
