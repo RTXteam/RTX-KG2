@@ -14,14 +14,18 @@ STDOUT_LOG_FILE=build-kg2-stdout.log
 STDERR_LOG_FILE=build-kg2-stderr.log
 OWL_LOAD_INVENTORY_FILE=owl-load-inventory.yaml
 
+cd ${BUILD_DIR}
+
+./build-snomed.sh > build-snomed.log 2>&1
+
 ## run the build-kg2.py script
-cd ${BUILD_DIR} && ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/build-kg2.py \
-                              curies-to-categories.yaml \
-                              curies-to-urls-lookaside-list.yaml \
-                              ${OWL_LOAD_INVENTORY_FILE} \
-                              ${OUTPUT_FILE_FULL} \
-                              2>${BUILD_DIR}/${STDERR_LOG_FILE} \
-                              1>${BUILD_DIR}/${STDOUT_LOG_FILE}
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/build-kg2.py \
+           curies-to-categories.yaml \
+           curies-to-urls-lookaside-list.yaml \
+           ${OWL_LOAD_INVENTORY_FILE} \
+           ${OUTPUT_FILE_FULL} \
+           2>${BUILD_DIR}/${STDERR_LOG_FILE} \
+           1>${BUILD_DIR}/${STDOUT_LOG_FILE}
 
 ## copy the KG to the public S3 bucket
 aws s3 cp --region ${S3_REGION} ${OUTPUT_FILE_FULL} s3://${S3_BUCKET_PUBLIC}/
