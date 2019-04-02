@@ -8,6 +8,7 @@ source ${CONFIG_DIR}/master-config.shinc
 rm -r -f ${BUILD_DIR}
 rm -r -f ${CODE_DIR}
 rm -r -f ${VENV_DIR}
+rm -r -f ${OUTPUT_DIR}
 
 sudo apt-get purge -y mysql-server mysql-client mysql-common mysql-server-core-* mysql-client-core-*
 sudo rm -rf /etc/mysql /var/lib/mysql
