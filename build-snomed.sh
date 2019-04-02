@@ -1,9 +1,8 @@
 #!/bin/bash
 set -euxo pipefail
 
-## setup the shell variables for various directories
-BUILD_DIR=~/kg2-build
-source ${BUILD_DIR}/master-config.shinc
+CONFIG_DIR=`dirname "$0"`
+source ${CONFIG_DIR}/master-config.shinc
 
 ## build OWL-XML representation of SNOMED CT
 ${VENV_DIR}/bin/pip3 install SNOMEDToOWL
