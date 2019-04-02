@@ -1,8 +1,9 @@
 #!/bin/bash
 set -euxo pipefail
 
-BUILD_DIR=~/kg2-build
-source ${BUILD_DIR}/master-config.shinc
+CONFIG_DIR=`dirname "$0"`
+source ${CONFIG_DIR}/master-config.shinc
+
 UMLS_FILE_BASE=2018AB-full
 BUILD_DIR=~/kg2-build
 UMLS_DIR=${BUILD_DIR}/umls
