@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euxo pipefail
 
-CONFIG_DIR=`dirname \"$0\"`
+CONFIG_DIR=`dirname "$0"`
 source ${CONFIG_DIR}/master-config.shinc
 
 export PATH=$PATH:${BUILD_DIR}
