@@ -16,3 +16,4 @@ sudo rm -rf /etc/mysql /var/lib/mysql
 sudo apt-get -y autoremove
 sudo apt-get -y autoclean
 rm -r -f ~/.cachier
+rm -r -f ~/setup-kg2.log
