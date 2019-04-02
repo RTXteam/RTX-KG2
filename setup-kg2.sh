@@ -43,6 +43,8 @@ mkdir -p ${OUTPUT_DIR}
 ## directly, but installing it silences a runtime warning from ontobio):
 ${VENV_DIR}/bin/pip3 install ontobio pymongo
 
+mkdir -p ${BUILD_DIR}
+
 ## make local copies of the config files in the build dir
 cp ${CODE_DIR}/curies-to-categories.yaml ${BUILD_DIR}
 cp ${CODE_DIR}/curies-to-urls-lookaside-list.yaml ${BUILD_DIR}
