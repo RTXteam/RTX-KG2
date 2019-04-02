@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 '''Builds the RTX "KG2" second-generation knowledge graph, from various OWL input files.
 
-   Usage: build-kg2.py <categoriesFile.yaml> <curiesToURILALFile> <owlLoadInventoryFile.yaml> <outputDir>
+   Usage: build-kg2.py <categoriesFile.yaml> <curiesToURILALFile> <owlLoadInventoryFile.yaml> <outputFile>
 '''
 
 __author__ = 'Stephen Ramsey'
@@ -192,7 +192,7 @@ def make_kg2(curies_to_categories: dict,
              curie_to_uri_shortener: callable,
              map_category_label_to_iri: callable,
              ontology_urls_and_files: tuple,
-             output_dir: str):
+             output_file: str):
     ontology_data = []
     for ont_source_info_dict in ontology_urls_and_files:
         local_file_name = download_file_if_not_exist_locally(ont_source_info_dict['url'],
@@ -235,7 +235,7 @@ def make_kg2(curies_to_categories: dict,
         del node_dict['xrefs']
 
 #    timestamp_str = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
-    with open(os.path.join(output_dir, 'kg2.json'), 'w') as outfile:
+    with open(output_file, 'w') as outfile:
         json.dump(kg2_dict, outfile)
 
 #    pickle.dump(kg2_dict, open(os.path.join(output_dir, 'kg2-' + timestamp_str + '.pickle'), 'wb'))
@@ -569,7 +569,7 @@ def make_arg_parser():
     arg_parser.add_argument('categoriesFile', type=str, nargs=1)
     arg_parser.add_argument('curiesToURILALFile', type=str, nargs=1)
     arg_parser.add_argument('owlLoadInventoryFile', type=str, nargs=1)
-    arg_parser.add_argument('outputDir', type=str, nargs=1)
+    arg_parser.add_argument('outputFile', type=str, nargs=1)
     return arg_parser
 
 
@@ -665,7 +665,7 @@ args = make_arg_parser().parse_args()
 curies_to_categories_file_name = args.categoriesFile[0]
 curies_to_uri_lal_file_name = args.curiesToURILALFile[0]
 owl_load_inventory_file = args.owlLoadInventoryFile[0]
-output_dir = args.outputDir[0]
+output_file = args.outputFile[0]
 
 curies_to_categories = safe_load_yaml_from_string(read_file_to_string(curies_to_categories_file_name))
 curies_to_uri_lal = safe_load_yaml_from_string(read_file_to_string(curies_to_uri_lal_file_name))
@@ -678,7 +678,7 @@ running_time = timeit.timeit(lambda: make_kg2(curies_to_categories,
                                               curie_to_uri_shortener,
                                               map_category_label_to_iri,
                                               ontology_urls_and_files,
-                                              output_dir), number=1)
+                                              output_file), number=1)
 print('running time for KG2 construction: ' + str(running_time))
 
 
