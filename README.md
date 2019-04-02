@@ -135,3 +135,6 @@ Or using the AWS command-line interface (CLI) tool `aws` with the command
 
     aws s3 cp s3://rtx-kg2-public/kg2.json .
 
+You can access the various artifacts from the KG2 build (config file, log file,
+etc.) at the AWS static website endpoint for the 
+`rtx-kg2-public` bucket: <http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/>
