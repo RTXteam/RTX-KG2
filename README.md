@@ -4,17 +4,17 @@
 ## General notes:
 
 The KG2 build system is designed only to run in an Ubuntu 18.04 environment
-(i.e., an Ubuntu 18.04 host OS or Ubuntu 18.04 running in a Docker
-container). Currently, KG2 is built using a set of `bash` scripts that are
-designed to run in Amazon's Elastic Compute Cloud (EC2), and thus,
-configurability and/or coexisting with other installed software pipelines was
-not a design consideration for the build system. The KG2 build system's `bash`
-scripts create three subdirectories `~/kg2-build`, `~/kg2-code`, and
-`~/kg2-venv` under the `${HOME}` directory of whatever Linux user account you
-use to run the KG2 build software (if you run on an EC2 Ubuntu instance, this
-directory would by default be `/home/ubuntu`). The various directories used by
-the KG2 build system are configured in the `bash` include file
-`master-config.shinc`. 
+(i.e., either (i) an Ubuntu 18.04 host OS or (ii) Ubuntu 18.04 running in a
+Docker container with a host OS that has `bash` and `sudo`). Currently, KG2 is
+built using a set of `bash` scripts that are designed to run in Amazon's Elastic
+Compute Cloud (EC2), and thus, configurability and/or coexisting with other
+installed software pipelines was not a design consideration for the build
+system. The KG2 build system's `bash` scripts create three subdirectories
+`~/kg2-build`, `~/kg2-code`, and `~/kg2-venv` under the `${HOME}` directory of
+whatever Linux user account you use to run the KG2 build software (if you run on
+an EC2 Ubuntu instance, this directory would by default be `/home/ubuntu`). The
+various directories used by the KG2 build system are configured in the `bash`
+include file `master-config.shinc`.
 
 Note about atomicity of file copying: The build software is designed to run with
 the `kg2-build` directory being in the same file system as the Python temporary
@@ -99,7 +99,8 @@ If you are on Ubuntu and you need to install Docker, you can run this script:
    
     RTX/code/kg2/install-docker.sh
     
-Then run these commands in the `bash` shell:
+(otherwise, the subsequent commands in this section assume that Docker is installed
+on whatever host OS you are running). Then run these commands in the `bash` shell:
 
     cd
     
