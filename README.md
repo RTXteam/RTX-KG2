@@ -108,7 +108,7 @@ on whatever host OS you are running). Then run these commands in the `bash` shel
 
     screen
     
-    sudo docker run --name kg2 kg2:latest su - ubuntu -c "RTX/code/kg2/setup-kg2.sh > setup-kg2.log 2>&1"
+    sudo docker run -it --name kg2 kg2:latest su - ubuntu -c "RTX/code/kg2/setup-kg2.sh > setup-kg2.log 2>&1"
     
 Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 setup using the command:
 
