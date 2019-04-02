@@ -5,7 +5,6 @@ CONFIG_DIR=`dirname "$0"`
 source ${CONFIG_DIR}/master-config.shinc
 
 UMLS_FILE_BASE=2018AB-full
-BUILD_DIR=~/kg2-build
 UMLS_DIR=${BUILD_DIR}/umls
 MYSQL_USER=ubuntu
 MYSQL_PASSWORD=1337
