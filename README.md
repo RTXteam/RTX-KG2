@@ -126,9 +126,9 @@ following two commands (in two two separate terminals):
 
 ## The output KG
 
-The `build-kg2.sh` script creates a JSON file `kg2.json` and copies it to a publicly
-accessible S3 bucket `rtx-kg2-public`. You can access the JSON file via HTTP, as
-shown here:
+The `build-kg2.sh` script (run via one of the three methods shown above) creates
+a JSON file `kg2.json` and copies it to a publicly accessible S3 bucket
+`rtx-kg2-public`. You can access the JSON file via HTTP, as shown here:
 
     curl https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2.json > kg2.json
 
