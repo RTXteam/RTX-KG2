@@ -3,7 +3,6 @@ set -euxo pipefail
 
 ## setup the shell variables for various directories
 CONFIG_DIR=`dirname "$0"`
-echo xxx${CONFIG_DIR}xxx
 source ${CONFIG_DIR}/master-config.shinc
 
 rm -r -f ${BUILD_DIR}
