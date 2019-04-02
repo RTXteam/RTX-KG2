@@ -15,4 +15,4 @@ sudo apt-get purge -y mysql-server mysql-client mysql-common mysql-server-core-*
 sudo rm -rf /etc/mysql /var/lib/mysql
 sudo apt-get -y autoremove
 sudo apt-get -y autoclean
-
+rm -r -f ~/.cachier
