@@ -55,7 +55,7 @@ cp ${CODE_DIR}/owl-load-inventory.yaml ${BUILD_DIR}
 ## so we need the "-L" command-line option, and cURL doesn't like JAR files by
 ## default so we need the "application/zip")
 curl -s -L -H "Accept: application/zip" https://github.com/RTXteam/robot/releases/download/v1.3.0/robot.jar > ${BUILD_DIR}/robot.jar 
-curl https://raw.githubusercontent.com/RTXteam/robot/v1.3.0/bin/robot > ${BUILD_DIR}/robot
+curl -s https://raw.githubusercontent.com/RTXteam/robot/v1.3.0/bin/robot > ${BUILD_DIR}/robot
 chmod +x ${BUILD_DIR}/robot
 
 ## setup owltools
