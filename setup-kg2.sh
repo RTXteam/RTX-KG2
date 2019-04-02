@@ -25,7 +25,6 @@ sudo apt-get install -y python3-minimal \
      libxml2-dev \
      gtk-doc-tools \
      libtool \
-     nginx \
      automake
 
 ## this is for convenience when I am remote working
@@ -34,14 +33,11 @@ sudo apt-get install -y emacs
 ## the only python package we need to install into the native python3 is virtualenv
 sudo -H pip3 install virtualenv
 
-## setup nginx
-mkdir -p ${SHARE_DIR}
-sudo service nginx stop
-sudo cp ${CODE_DIR}/nginx-config-default /etc/nginx/sites-enabled/default
-sudo service nginx start
-
 ## create a virtualenv for building KG2
 virtualenv ${VENV_DIR}
+
+## make output directory
+mkdir -p ${OUTPUT_DIR}
 
 ## Install python3 packages that we will need (Note: we are not using pymongo
 ## directly, but installing it silences a runtime warning from ontobio):
