@@ -44,6 +44,20 @@ export CLASSPATH=${MMSYS_DIR}:${MMSYS_DIR}/lib/jpf-boot.jar
 export JAVA_HOME=${MMSYS_DIR}/jre/linux
 CONFIG_FILE=${UMLS_DIR}/config.prop
 cd ${MMSYS_HOME}
+
+## create log4j properties file
+cat ${MMSYS_DIR}/log4j.properties <<EOF
+# Set root logger level to DEBUG and its only appender to A1.
+log4j.rootLogger=DEBUG, A1
+
+# A1 is set to be a ConsoleAppender.
+log4j.appender.A1=org.apache.log4j.ConsoleAppender
+
+# A1 uses PatternLayout.
+log4j.appender.A1.layout=org.apache.log4j.PatternLayout
+log4j.appender.A1.layout.ConversionPattern=%-4r [%t] %-5p %c %x - %m%n
+EOF
+
 ## export UMLS to Rich Release Format (RRF)
 ${JAVA_HOME}/bin/java -Djava.awt.headless=true \
                       -Djpf.boot.config=${MMSYS_HOME}/etc/subset.boot.properties \
@@ -55,12 +69,12 @@ ${JAVA_HOME}/bin/java -Djava.awt.headless=true \
 
 MYSQL_PWD=${MYSQL_PASSWORD} mysql -u root -e "CREATE USER 'ubuntu'@'localhost' IDENTIFIED BY '${MYSQL_PASSWORD}'"
 MYSQL_PWD=${MYSQL_PASSWORD} mysql -u root -e "GRANT ALL PRIVILEGES ON *.* to 'ubuntu'@'localhost'"
-cat >${MYSQL_CONF} <<EOL
+cat >${MYSQL_CONF} <<EOF
 [client]
 user = ${MYSQL_USER}
 password = ${MYSQL_PASSWORD}
 host = localhost
-EOL
+EOF
 
 mysql --defaults-extra-file=${MYSQL_CONF} \
       -e "CREATE DATABASE IF NOT EXISTS umls CHARACTER SET utf8 COLLATE utf8_unicode_ci"
