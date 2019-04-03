@@ -102,6 +102,12 @@ Run these commands in the `bash` shell, in order:
     
     RTX/code/kg2/ec2-setup-remote-instance.sh
 
+    ssh ubuntu@kg2.saramsey.org
+    
+(assuming that the hostname for the remote instance public IP address is
+`kg2.saramsey.org`).  Inside a `bash` session on the remote instance, now follow
+the instructions for Option 1 above.
+
 ### Option 3: in an Ubuntu container in Docker (UNTESTED, IN DEVELOPMENT)
 
 If you are on Ubuntu and you need to install Docker, you can run this script:
