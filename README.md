@@ -62,6 +62,8 @@ Run these commands in the `bash` shell, in order:
 
     cd
     
+    sudo apt-get update
+    
     sudo apt-get install -y screen git
     
     git clone https://github.com/RTXteam/RTX.git
