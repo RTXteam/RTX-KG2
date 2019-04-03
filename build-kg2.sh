@@ -16,8 +16,6 @@ OWL_LOAD_INVENTORY_FILE=owl-load-inventory.yaml
 
 cd ${BUILD_DIR}
 
-./build-snomed.sh > build-snomed.log 2>&1
-
 ## run the build-kg2.py script
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/build-kg2.py \
            curies-to-categories.yaml \
@@ -28,11 +26,11 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/build-kg2.py \
            1>${BUILD_DIR}/${STDOUT_LOG_FILE}
 
 ## copy the KG to the public S3 bucket
-aws s3 cp --region ${S3_REGION} ${OUTPUT_FILE_FULL} s3://${S3_BUCKET_PUBLIC}/
+aws s3 cp --no-progress --region ${S3_REGION} ${OUTPUT_FILE_FULL} s3://${S3_BUCKET_PUBLIC}/
 
 ## copy the log files to the public S3 bucket
-aws s3 cp --region ${S3_REGION} ${BUILD_DIR}/build-kg2-stderr.log s3://${S3_BUCKET_PUBLIC}/
-aws s3 cp --region ${S3_REGION} ${BUILD_DIR}/${STDOUT_LOG_FILE} s3://${S3_BUCKET_PUBLIC}/
+aws s3 cp --no-progress --region ${S3_REGION} ${BUILD_DIR}/build-kg2-stderr.log s3://${S3_BUCKET_PUBLIC}/
+aws s3 cp --no-progress --region ${S3_REGION} ${BUILD_DIR}/${STDOUT_LOG_FILE} s3://${S3_BUCKET_PUBLIC}/
 
 ## copy the config files to the public S3 bucket
-aws s3 cp --region ${S3_REGION} ${BUILD_DIR}/${OWL_LOAD_INVENTORY_FILE} s3://${S3_BUCKET_PUBLIC}/
+aws s3 cp --no-progress --region ${S3_REGION} ${BUILD_DIR}/${OWL_LOAD_INVENTORY_FILE} s3://${S3_BUCKET_PUBLIC}/
