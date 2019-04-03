@@ -75,6 +75,15 @@ using the command:
 
     tail -f setup-kg2.log
 
+Next, build SNOMED, as follows: rejoin the `screen` session using `screen -r`.
+In the `screen` session, do this:
+
+    ~/kg2-code/build-snomed.sh > ~/kg2-build/build-snomed.log 2>&1
+    
+You can watch the progress via:
+
+    tail -f ~/kg2-build/build-snomed.log
+
 Next, rejoin the screen session using `screen -r`.  Within the `screen` session, run:
 
     RTX/code/kg2/build-kg2.sh
