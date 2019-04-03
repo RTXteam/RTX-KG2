@@ -7,7 +7,7 @@ source ${CONFIG_DIR}/master-config.shinc
 ## build OWL-XML representation of SNOMED CT
 ${VENV_DIR}/bin/pip3 install SNOMEDToOWL
 SNOMEDCT_FILE_BASE=SnomedCT_USEditionRF2_PRODUCTION_20180901T120000Z
-aws s3 cp --region ${S3_REGION} s3://${S3_BUCKET}/${SNOMEDCT_FILE_BASE}.zip ${BUILD_DIR}/
+aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/${SNOMEDCT_FILE_BASE}.zip ${BUILD_DIR}/
 unzip ${BUILD_DIR}/${SNOMEDCT_FILE_BASE}.zip -d ${BUILD_DIR}
 ${VENV_DIR}/bin/SNOMEDToOWL -f xml ${BUILD_DIR}/${SNOMEDCT_FILE_BASE}/Snapshot \
            ${VENV_DIR}/lib/python3.6/site-packages/SNOMEDCTToOWL/conf/sct_core_us_gb.json \
