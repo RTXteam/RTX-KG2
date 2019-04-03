@@ -46,22 +46,23 @@ CONFIG_FILE=${UMLS_DIR}/config.prop
 cd ${MMSYS_HOME}
 
 ## create log4j properties file
-cat ${MMSYS_DIR}/log4j.properties <<EOF
-# Set root logger level to DEBUG and its only appender to A1.
-log4j.rootLogger=DEBUG, A1
-
-# A1 is set to be a ConsoleAppender.
-log4j.appender.A1=org.apache.log4j.ConsoleAppender
-
-# A1 uses PatternLayout.
-log4j.appender.A1.layout=org.apache.log4j.PatternLayout
-log4j.appender.A1.layout.ConversionPattern=%-4r [%t] %-5p %c %x - %m%n
+cat ${MMSYS_HOME}/etc/subset-new.log4j.properties <<EOF
+applicationRoot = .
+log4j.rootLogger = ALL,console
+log4j.logger.gov.nih.nlm.umls = WARN,umls
+log4j.logger.org.java.plugin = ALL,console
+log4j.appender.console = org.apache.log4j.ConsoleAppender
+log4j.appender.console.layout = org.apache.log4j.PatternLayout
+log4j.appender.console.layout.conversionPattern = %d [%t] %-5p %c %m%n
+log4j.appender.umls = org.apache.log4j.ConsoleAppender
+log4j.appender.umls.layout = org.apache.log4j.PatternLayout
+log4j.appender.umls.layout.conversionPattern = %d [%t] %-5p %c %m%n
 EOF
 
 ## export UMLS to Rich Release Format (RRF)
 ${JAVA_HOME}/bin/java -Djava.awt.headless=true \
                       -Djpf.boot.config=${MMSYS_HOME}/etc/subset.boot.properties \
-                      -Dlog4j.configuration=${MMSYS_HOME}/etc/subset.log4j.properties \
+                      -Dlog4j.configuration=${MMSYS_HOME}/etc/subset-new.log4j.properties \
                       -Dinput.uri=${METADIR} \
                       -Doutput.uri=${DESTDIR} \
                       -Dmmsys.config.uri=${CONFIG_FILE} \
