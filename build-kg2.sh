@@ -34,3 +34,5 @@ aws s3 cp --no-progress --region ${S3_REGION} ${BUILD_DIR}/${STDOUT_LOG_FILE} s3
 
 ## copy the config files to the public S3 bucket
 aws s3 cp --no-progress --region ${S3_REGION} ${BUILD_DIR}/${OWL_LOAD_INVENTORY_FILE} s3://${S3_BUCKET_PUBLIC}/
+
+echo "================= script finished ================="
