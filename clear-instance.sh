@@ -21,3 +21,4 @@ then
     rm -r -f ~/*.log
 fi
 
+echo "================= script finished ================="
