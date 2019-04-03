@@ -104,9 +104,8 @@ Run these commands in the `bash` shell, in order:
 
     ssh ubuntu@kg2.saramsey.org
     
-(assuming that the hostname for the remote instance public IP address is
-`kg2.saramsey.org`).  Inside a `bash` session on the remote instance, now follow
-the instructions for Option 1 above.
+This should initiate a `bash` session on the remote instance. Within that `bash`
+session, continue to follow the instructions for Option 1 (from the beginning).
 
 ### Option 3: in an Ubuntu container in Docker (UNTESTED, IN DEVELOPMENT)
 
