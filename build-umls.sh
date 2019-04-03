@@ -46,7 +46,7 @@ CONFIG_FILE=${UMLS_DIR}/config.prop
 cd ${MMSYS_HOME}
 
 ## create log4j properties file
-cat ${MMSYS_HOME}/etc/subset-new.log4j.properties <<EOF
+cat >${MMSYS_HOME}/etc/subset-new.log4j.properties <<EOF
 applicationRoot = .
 log4j.rootLogger = ALL,console
 log4j.logger.gov.nih.nlm.umls = WARN,umls
