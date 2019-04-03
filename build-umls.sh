@@ -46,7 +46,7 @@ CONFIG_FILE=${UMLS_DIR}/config.prop
 cd ${MMSYS_HOME}
 
 ## create log4j properties file
-cat >${MMSYS_HOME}/etc/subset-new.log4j.properties <<EOF
+cat >${MMSYS_HOME}/log4j.properties <<EOF
 applicationRoot = .
 log4j.rootLogger = ALL,console
 log4j.logger.gov.nih.nlm.umls = WARN,umls
@@ -62,7 +62,6 @@ EOF
 ## export UMLS to Rich Release Format (RRF)
 ${JAVA_HOME}/bin/java -Djava.awt.headless=true \
                       -Djpf.boot.config=${MMSYS_HOME}/etc/subset.boot.properties \
-                      -Dlog4j.configuration=${MMSYS_HOME}/etc/subset-new.log4j.properties \
                       -Dinput.uri=${METADIR} \
                       -Doutput.uri=${DESTDIR} \
                       -Dmmsys.config.uri=${CONFIG_FILE} \
