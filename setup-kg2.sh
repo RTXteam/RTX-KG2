@@ -60,7 +60,7 @@ curl -s -L ${BUILD_DIR} https://github.com/RTXteam/owltools/releases/download/v0
 chmod +x ${BUILD_DIR}/owltools
 
 ## setup AWS CLI
-if ! aws s3 cp --region ${S3_REGION} s3://${S3_BUCKET}/test /tmp/; then
+if ! aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/test /tmp/; then
     aws configure
 else
     rm /tmp/test
@@ -76,3 +76,4 @@ make
 make check
 sudo make install
 sudo ldconfig
+
