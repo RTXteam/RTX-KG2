@@ -102,8 +102,6 @@ Run these commands in the `bash` shell, in order:
     
     RTX/code/kg2/ec2-setup-remote-instance.sh
 
-    ssh ubuntu@kg2.saramsey.org
-    
 This should initiate a `bash` session on the remote instance. Within that `bash`
 session, continue to follow the instructions for Option 1 (from the beginning).
 
