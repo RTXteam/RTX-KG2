@@ -22,6 +22,8 @@ fi
 ## clone the RTX repo into the instance
 ssh ubuntu@${INSTANCE_HOSTNAME} git clone https://github.com/RTXteam/RTX.git
 
+ssh -t ubuntu@${INSTANCE_HOSTNAME}
+
 ## setup the instance using the setup script
 ## THIS IS DISABLED FOR THE TIME BEING: (SAR)
 ## ssh -t ubuntu@${INSTANCE_HOSTNAME} RTX/code/kg2/setup-kg2.sh
