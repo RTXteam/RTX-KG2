@@ -77,3 +77,4 @@ make check
 sudo make install
 sudo ldconfig
 
+echo "================= script finished ================="
