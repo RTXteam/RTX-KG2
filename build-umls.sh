@@ -45,19 +45,7 @@ export JAVA_HOME=${MMSYS_DIR}/jre/linux
 CONFIG_FILE=${UMLS_DIR}/config.prop
 cd ${MMSYS_HOME}
 
-## create log4j properties file
-cat >${MMSYS_HOME}/log4j.properties <<EOF
-applicationRoot = .
-log4j.rootLogger = ALL,console
-log4j.logger.gov.nih.nlm.umls = WARN,umls
-log4j.logger.org.java.plugin = ALL,console
-log4j.appender.console = org.apache.log4j.ConsoleAppender
-log4j.appender.console.layout = org.apache.log4j.PatternLayout
-log4j.appender.console.layout.conversionPattern = %d [%t] %-5p %c %m%n
-log4j.appender.umls = org.apache.log4j.ConsoleAppender
-log4j.appender.umls.layout = org.apache.log4j.PatternLayout
-log4j.appender.umls.layout.conversionPattern = %d [%t] %-5p %c %m%n
-EOF
+cp ${MMSYS_HOME}/etc/subset.log4j.properties ${MMSYS_HOME}/log4j.properties
 
 ## export UMLS to Rich Release Format (RRF)
 ${JAVA_HOME}/bin/java -Djava.awt.headless=true \
