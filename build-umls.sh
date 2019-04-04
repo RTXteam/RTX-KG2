@@ -108,6 +108,7 @@ cd ${UMLS2RDF_DIR}
 ${UMLS_VENV_DIR}/bin/python2.7 umls2rdf.py
 ./checkOutputSyntax.sh
 
+## convert files from Turtle format to OWL/RDF format
 for ttl_file_name in `ls ${UMLS2RDF_DIR}/output/*.ttl`
 do
     file_path_no_ext=${ttl_file_name%.*}
@@ -121,6 +122,7 @@ MEM_BYTES=`cat /proc/meminfo | grep MemTotal | cut -f2 -d\: | cut -f1 -dk | sed 
 DIVISOR=1048576
 MEM_GB=$((MEM_BYTES/DIVISOR))
 
+## merge the UMLS OWL files into a single umls.owl file
 OWLTOOLS_MEMORY=${MEM_GB}G ${BUILD_DIR}/owltools $(ls ${UMLS2RDF_DIR}/output/*.owl) \
                --merge-support-ontologies -o ${BUILD_DIR}/umls.owl
 
