@@ -12,7 +12,9 @@ MMSYS_DIR=${UMLS_DIR}/${UMLS_FILE_BASE}
 UMLS_RRDIST_DIR=${UMLS_DIR}
 UMLS_DEST_DIR=${UMLS_RRDIST_DIR}/META
 MYSQL_CONF=${UMLS_DIR}/mysql-config.conf
-UMLS2RDF_DIR=${UMLS_DIR}/umls2rdf-rtx-1.0
+UMLS2RDF_RELEASE=rtx-1.0
+UMLS2RDF_PKGNAME=umls2rdf-${UMLS2RDF_RELEASE}
+UMLS2RDF_DIR=${UMLS_DIR}/${UMLS2RDF_PKGNAME}
 
 sudo apt-get update
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password ${MYSQL_PASSWORD}"
@@ -84,21 +86,30 @@ cat ${UMLS_DEST_DIR}/mysql_tables.sql-original | sed 's/\\r\\n/\\n/g' > ${UMLS_D
 cd ${UMLS_DEST_DIR} && ./populate_mysql_db_configured.sh
 
 ## download and unpack the umls2rdf software
-cd ${UMLS_DIR}
-curl -s -L https://github.com/RTXteam/umls2rdf/archive/rtx-1.0.tar.gz > umls2rdf-rtx-1.0.tar.gz
-tar xvzf umls2rdf-rtx-1.0.tar.gz
-cat umls2rdf-rtx-1.0/conf_sample.py | sed 's/your-host/localhost/g' | \
+curl -s -L https://github.com/RTXteam/umls2rdf/archive/${UMLS2RDF_RELEASE}.tar.gz > ${UMLS2RDF_PKGNAME}.tar.gz
+tar xzf ${UMLS2RDF_PKGNAME}.tar.gz -C ${UMLS_DIR}
+
+## make the umls2rdf config file
+cat ${UMLS2RDF_DIR}/conf_sample.py | sed 's/your-host/localhost/g' | \
     sed 's/umls2015ab/umls/g' | \
     sed 's/your db user/ubuntu/g' | \
     sed 's/your db pass/1337/g' | \
-    sed 's/2015ab/2018ab/g' > umls2rdf-rtx-1.0/conf.py
+    sed 's/2015ab/2018ab/g' > ${UMLS2RDF_DIR}/conf.py
 
-## umls2rdf is legacy software written to run in python2.7
-export UMLS_VENV_DIR=${UMLS_DIR}/venv27
+## umls2rdf is legacy software written to run in python2.7; set up the virtualenv
+UMLS_VENV_DIR=${UMLS_DIR}/venv27
 virtualenv --python=python2.7 ${UMLS_VENV_DIR}
 ${UMLS_VENV_DIR}/bin/pip install mysqlclient
+
+## run umls2rdf
 cd ${UMLS2RDF_DIR}
 ${UMLS_VENV_DIR}/bin/python2.7 umls2rdf.py
 ./checkOutputSyntax.sh
+
+for ttl_file_name in `ls ${UMLS2RDF_DIR}/output/*.ttl`
+do
+    file_name_no_ext=${ttl_file_name%.*}
+    ${BUILD_DIR}/robot convert --input ${ttl_file_name} --output ${file_name_no_ext}.owl
+done
 
 echo "================= script finished ================="
