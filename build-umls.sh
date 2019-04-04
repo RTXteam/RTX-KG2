@@ -12,6 +12,7 @@ MMSYS_DIR=${UMLS_DIR}/${UMLS_FILE_BASE}
 UMLS_RRDIST_DIR=${UMLS_DIR}
 UMLS_DEST_DIR=${UMLS_RRDIST_DIR}/META
 MYSQL_CONF=${UMLS_DIR}/mysql-config.conf
+UMLS2RDF_DIR=${UMLS_DIR}/umls2rdf-rtx-1.0
 
 sudo apt-get update
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password ${MYSQL_PASSWORD}"
@@ -96,7 +97,7 @@ cat umls2rdf-rtx-1.0/conf_sample.py | sed 's/your-host/localhost/g' | \
 export UMLS_VENV_DIR=${UMLS_DIR}/venv27
 virtualenv --python=python2.7 ${UMLS_VENV_DIR}
 ${UMLS_VENV_DIR}/bin/pip install mysqlclient
-cd umls2rdf-rtx-1.0
+cd ${UMLS2RDF_DIR}
 ${UMLS_VENV_DIR}/bin/python2.7 umls2rdf.py
 ./checkOutputSyntax.sh
 
