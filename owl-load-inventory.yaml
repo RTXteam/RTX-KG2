@@ -86,3 +86,7 @@
   url: ## intentionally left blank which will map to "None" in the resulting python data structure
   file: snomed-relax.owl
   title: SNOMED CT Ontology
+-
+  url: ## intentionally left blank which will map to "None" in the resulting python data structure
+  file: umls.owl
+  title: UMLS
