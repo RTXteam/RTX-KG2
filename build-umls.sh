@@ -18,7 +18,7 @@ UMLS2RDF_RELEASE=rtx-1.0
 UMLS2RDF_PKGNAME=umls2rdf-${UMLS2RDF_RELEASE}
 UMLS2RDF_DIR=${UMLS_DIR}/${UMLS2RDF_PKGNAME}
 
-sudo apt-get update
+sudo apt-get update -y
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password ${MYSQL_PASSWORD}"
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password ${MYSQL_PASSWORD}"
 sudo apt-get install -y mysql-server \
