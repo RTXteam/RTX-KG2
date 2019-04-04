@@ -50,6 +50,7 @@ export JAVA_HOME=${MMSYS_DIR}/jre/linux
 CONFIG_FILE=${UMLS_DIR}/config.prop
 cd ${MMSYS_HOME}
 
+## this is a workaround for a strange runtime warning I was getting from apache log4j
 cp ${MMSYS_HOME}/etc/subset.log4j.properties ${MMSYS_HOME}/log4j.properties
 
 ## estimate amount of system ram, in GB
@@ -75,18 +76,22 @@ password = ${MYSQL_PASSWORD}
 host = localhost
 EOF
 
+## create the "umls" database
 mysql --defaults-extra-file=${MYSQL_CONF} \
       -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DBNAME} CHARACTER SET utf8 COLLATE utf8_unicode_ci"
 
+## set mysql server variable to allow loading data from a local file
 mysql --defaults-extra-file=${MYSQL_CONF} \
       -e "set global local_infile=1"
 
+## fill in the authentication and database variables in the shell script for populating the mysql database
 cat ${UMLS_DEST_DIR}/populate_mysql_db.sh | \
     sed "s/<username>/${MYSQL_USER}/g" | \
     sed 's|<path to MYSQL_HOME>|/usr|g' | \
     sed "s/<password>/${MYSQL_PASSWORD}/g" | \
     sed "s/<db_name>/${MYSQL_DBNAME}/g" > ${UMLS_DEST_DIR}/populate_mysql_db_configured.sh
 
+## enable the loading script to be runnable
 chmod +x ${UMLS_DEST_DIR}/populate_mysql_db_configured.sh
 
 cp ${UMLS_DEST_DIR}/mysql_tables.sql ${UMLS_DEST_DIR}/mysql_tables.sql-original
