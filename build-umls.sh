@@ -80,7 +80,7 @@ chmod +x ${UMLS_DEST_DIR}/populate_mysql_db_configured.sh
 
 cp ${UMLS_DEST_DIR}/mysql_tables.sql ${UMLS_DEST_DIR}/mysql_tables.sql-original
 cat ${UMLS_DEST_DIR}/mysql_tables.sql-original | sed 's/\\r\\n/\\n/g' > ${UMLS_DEST_DIR}/mysql_tables.sql
-${UMLS_DEST_DIR}/populate_mysql_db_configured.sh
+cd ${UMLS_DEST_DIR} && ./populate_mysql_db_configured.sh
 
 ## download and unpack the umls2rdf software
 cd ${UMLS_DIR}
