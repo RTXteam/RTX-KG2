@@ -85,7 +85,7 @@ cd ${UMLS_DEST_DIR} && ./populate_mysql_db_configured.sh
 
 ## download and unpack the umls2rdf software
 cd ${UMLS_DIR}
-curl -s -L https://github.com/RTXteam/umls2rdf/archive/umls2rdf-rtx-1.0.tar.gz > umls2rdf-rtx-1.0.tar.gz
+curl -s -L https://github.com/RTXteam/umls2rdf/archive/rtx-1.0.tar.gz > umls2rdf-rtx-1.0.tar.gz
 tar xvzf umls2rdf-rtx-1.0.tar.gz
 cat umls2rdf-rtx-1.0/conf_sample.py | sed 's/your-host/localhost/g' | \
     sed 's/umls2015ab/umls/g' | \
