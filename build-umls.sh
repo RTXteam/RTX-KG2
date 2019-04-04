@@ -52,13 +52,19 @@ cd ${MMSYS_HOME}
 
 cp ${MMSYS_HOME}/etc/subset.log4j.properties ${MMSYS_HOME}/log4j.properties
 
+## estimate amount of system ram, in GB
+MEM_BYTES=`cat /proc/meminfo | grep MemTotal | cut -f2 -d\: | cut -f1 -dk | sed 's/ //g'`
+DIVISOR=1048576
+MEM_GB=$((MEM_BYTES/DIVISOR))
+
+
 ## export UMLS to Rich Release Format (RRF)
 ${JAVA_HOME}/bin/java -Djava.awt.headless=true \
                       -Djpf.boot.config=${MMSYS_HOME}/etc/subset.boot.properties \
                       -Dinput.uri=${METADIR} \
                       -Doutput.uri=${DESTDIR} \
                       -Dmmsys.config.uri=${CONFIG_FILE} \
-                      -Xms300M -Xmx1000M org.java.plugin.boot.Boot
+                      -Xms300M -Xmx${MEM_GB}G org.java.plugin.boot.Boot
 
 MYSQL_PWD=${MYSQL_PASSWORD} mysql -u root -e "CREATE USER '${MYSQL_USER}'@'localhost' IDENTIFIED BY '${MYSQL_PASSWORD}'"
 MYSQL_PWD=${MYSQL_PASSWORD} mysql -u root -e "GRANT ALL PRIVILEGES ON *.* to '${MYSQL_USER}'@'localhost'"
@@ -116,11 +122,6 @@ do
     ${BUILD_DIR}/robot convert --input ${ttl_file_name} --output /tmp/${file_name_no_ext}.owl
     mv /tmp/${file_name_no_ext}.owl ${file_path_no_ext}.owl
 done
-
-## estimate amount of system ram, in GB
-MEM_BYTES=`cat /proc/meminfo | grep MemTotal | cut -f2 -d\: | cut -f1 -dk | sed 's/ //g'`
-DIVISOR=1048576
-MEM_GB=$((MEM_BYTES/DIVISOR))
 
 ## merge the UMLS OWL files into a single umls.owl file
 OWLTOOLS_MEMORY=${MEM_GB}G ${BUILD_DIR}/owltools $(ls ${UMLS2RDF_DIR}/output/*.owl) \
