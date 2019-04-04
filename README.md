@@ -32,9 +32,10 @@ The computing environment where you will be running the KG2 build should be
 running Ubuntu 18.04 with `git` installed and configured in your shell path.
 Your build environment should have the following minimum specifications:
 
-- 64 GB of system RAM
+- 128 GB of system RAM
 - 500 GB of disk space in the root file system 
 - high-speed network access
+- ideally, AWS zone `us-west-2` since that is where the S3 buckets are located
 
 The KG2 build system has been tested *only* under Ubuntu 18.04. If you want to
 build KG2 but don't have a native installation of Ubuntu 18.04 available, your
@@ -50,7 +51,7 @@ it uploads the `kg2.json` file to the public S3 bucket `rtx-kg2-public`.
 ## My normal EC2 instance
 
 - AMI: Ubuntu Server 18.04 LTS (HVM), SSD Volume Type - `ami-005bdb005fb00e791` (64-bit x86)
-- Instance type: `m5.4xlarge` 
+- Instance type: `r5.4xlarge` 
 - Storage: 500 GB General Purpose SSD
 - Security Group: `http+ssh`
 
