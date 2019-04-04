@@ -85,7 +85,7 @@ In the `screen` session, do this:
 
     ~/kg2-code/build-snomed.sh > ~/kg2-build/build-snomed.log 2>&1
     
-You can watch the progress via:
+Then exit screen (`ctrl-a d`). You can watch the progress via:
 
     tail -f ~/kg2-build/build-snomed.log
 
