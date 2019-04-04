@@ -86,20 +86,18 @@ cd ${UMLS_DEST_DIR} && ./populate_mysql_db_configured.sh
 cd ${UMLS_DIR}
 curl -s -L https://github.com/RTXteam/umls2rdf/archive/umls2rdf-rtx-1.0.tar.gz > umls2rdf-rtx-1.0.tar.gz
 tar xvzf umls2rdf-rtx-1.0.tar.gz
-cat umls2rdf-umls2rdf-rtx-1.0/conf_sample.py | sed 's/your-host/localhost/g' | \
+cat umls2rdf-rtx-1.0/conf_sample.py | sed 's/your-host/localhost/g' | \
     sed 's/umls2015ab/umls/g' | \
     sed 's/your db user/ubuntu/g' | \
     sed 's/your db pass/1337/g' | \
-    sed 's/2015ab/2018ab/g' > umls2rdf/conf.py
+    sed 's/2015ab/2018ab/g' > umls2rdf-rtx-1.0/conf.py
 
 ## umls2rdf is legacy software written to run in python2.7
 export UMLS_VENV_DIR=${UMLS_DIR}/venv27
 virtualenv --python=python2.7 ${UMLS_VENV_DIR}
 ${UMLS_VENV_DIR}/bin/pip install mysqlclient
-cd umls2rdf
+cd umls2rdf-rtx-1.0
 ${UMLS_VENV_DIR}/bin/python2.7 umls2rdf.py
-
-cd ${UMLS_DIR}/umls2rdf
 ./checkOutputSyntax.sh
 
 echo "================= script finished ================="
