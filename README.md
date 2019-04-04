@@ -62,7 +62,7 @@ Run these commands in the `bash` shell, in order:
 
     cd
     
-    sudo apt-get update
+    sudo apt-get update -y
     
     sudo apt-get install -y screen git
     
