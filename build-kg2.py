@@ -295,7 +295,8 @@ def get_biolink_category_for_node(ontology_node_id: str,
                     raise re
                 if ret_category is not None:
                     break
-    if ret_category is None:  # this is to handle SNOMED CT attributes
+    if ret_category is None:
+        # this is to handle SNOMED CT attributes:
         if node_curie_id.startswith('SNOMEDCT_US'):
             ontology_node_lbl = ontology.node(ontology_node_id).get('lbl', None)
             if ontology_node_lbl is not None:
@@ -305,22 +306,22 @@ def get_biolink_category_for_node(ontology_node_id: str,
                     log_message('Node does not have a label or any parents',
                                 'http://snomed.info/sct/900000000000207008',
                                 node_curie_id, output_stream=sys.stderr)
-            elif node_curie_id.startswith('ENSEMBL:'):
-                curie_suffix = node_curie_id.replace('ENSEMBL:', '')
-                ensembl_match = re.match(ENSEMBL_RE, curie_suffix)
-                if ensembl_match is not None:
-                    ensembl_match_letter = ensembl_match[1]
-                    if ensembl_match_letter == 'G':
-                        ret_category = 'gene'
-                    elif ensembl_match_letter == 'P':
-                        ret_category = 'protein'
-                    elif ensembl_match_letter == 'T':
-                        ret_category = 'transcript'
-                    else:
-                        log_message(message="unrecognized Ensembl ID: " + curie_suffix,
-                                    ontology_name=ontology.id,
-                                    node_curie_id=node_curie_id,
-                                    output_stream=sys.stderr)
+        elif node_curie_id.startswith('ENSEMBL:'):
+            curie_suffix = node_curie_id.replace('ENSEMBL:', '')
+            ensembl_match = re.match(ENSEMBL_RE, curie_suffix)
+            if ensembl_match is not None:
+                ensembl_match_letter = ensembl_match[1]
+                if ensembl_match_letter == 'G':
+                    ret_category = 'gene'
+                elif ensembl_match_letter == 'P':
+                    ret_category = 'protein'
+                elif ensembl_match_letter == 'T':
+                    ret_category = 'transcript'
+                else:
+                    log_message(message="unrecognized Ensembl ID: " + curie_suffix,
+                                ontology_name=ontology.id,
+                                node_curie_id=node_curie_id,
+                                output_stream=sys.stderr)
     return ret_category
 
 
