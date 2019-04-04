@@ -86,7 +86,7 @@ cd ${UMLS_DEST_DIR} && ./populate_mysql_db_configured.sh
 cd ${UMLS_DIR}
 curl -s -L https://github.com/RTXteam/umls2rdf/archive/umls2rdf-rtx-1.0.tar.gz > umls2rdf-rtx-1.0.tar.gz
 tar xvzf umls2rdf-rtx-1.0.tar.gz
-cat umls2rdf/conf_sample.py | sed 's/your-host/localhost/g' | \
+cat umls2rdf-umls2rdf-rtx-1.0/conf_sample.py | sed 's/your-host/localhost/g' | \
     sed 's/umls2015ab/umls/g' | \
     sed 's/your db user/ubuntu/g' | \
     sed 's/your db pass/1337/g' | \
