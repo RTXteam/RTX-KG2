@@ -29,24 +29,37 @@ half-downloaded (i.e., broken) state.
 ## Setup your computing environment
 
 The computing environment where you will be running the KG2 build should be
-running Ubuntu 18.04 with `git` installed and configured in your shell path.
-Your build environment should have the following minimum specifications:
+running Ubuntu 18.04.  Your build environment should have the following minimum
+specifications:
 
 - 128 GB of system RAM
 - 500 GB of disk space in the root file system 
 - high-speed network access
 - ideally, AWS zone `us-west-2` since that is where the S3 buckets are located
 
+Your host OS should *not* have MySQL installed; if MySQL is installed, you will
+need to delete it as follows (WARNING: don't run these steps without first
+making a backup AMI of your system):
+
+    sudo apt-get remove --purge -y mysql*
+    sudo apt-get autoremove -y
+    sudo apt-get autoclean
+    sudo apt-get remove dbconfig-mysql
+    sudo rm -r -f /etc/mysql
+
 The KG2 build system has been tested *only* under Ubuntu 18.04. If you want to
 build KG2 but don't have a native installation of Ubuntu 18.04 available, your
-best bet would be to use Docker (see the `Dockerfile` for this project). You'll
-need to have an Amazon Web Services (AWS) authentication key that is configured
-to be able to read from the `s3://rtx-kg2` Amazon Simple Cloud Storage Service
-(S3) bucket (ask Stephen Ramsey to set this up) and to write to the S3 bucket
-`rtx-kg2-public`. The KG2 build script downloads the UMLS and SNOMED CT
-distributions from a private S3 bucket `rtx-kg2` (these distributions are
-encumbered by licenses so they cannot be put on a public server for download) and
-it uploads the `kg2.json` file to the public S3 bucket `rtx-kg2-public`.
+best bet would be to use Docker (see Option 3 below). 
+
+Aside from your host OS, you'll need to have an Amazon Web Services (AWS)
+authentication key that is configured to be able to read from the `s3://rtx-kg2`
+Amazon Simple Cloud Storage Service (S3) bucket (ask Stephen Ramsey to set this
+up) and to write to the S3 bucket `s3://rtx-kg2-public` (both in the `us-west-2`
+zone). The KG2 build script downloads the UMLS and SNOMED CT distributions from
+the private S3 bucket `rtx-kg2` (these distributions are encumbered by licenses so
+they cannot be put on a public server for download) and it uploads the
+final output `kg2.json` file to the public S3 bucket `rtx-kg2-public`.
+
 
 ## My normal EC2 instance
 
