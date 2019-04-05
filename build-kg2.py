@@ -16,7 +16,6 @@ __status__ = 'Prototype'
 import argparse
 import collections
 import copy
-import datetime
 import errno
 import functools
 import hashlib
