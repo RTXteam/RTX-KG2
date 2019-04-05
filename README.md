@@ -52,7 +52,7 @@ it uploads the `kg2.json` file to the public S3 bucket `rtx-kg2-public`.
 
 - AMI: Ubuntu Server 18.04 LTS (HVM), SSD Volume Type - `ami-005bdb005fb00e791` (64-bit x86)
 - Instance type: `r5.4xlarge` 
-- Storage: 500 GB General Purpose SSD
+- Storage: 500 GiB General Purpose SSD
 - Security Group: `http+ssh`
 
 ## Build instructions
