@@ -80,7 +80,8 @@ using the command:
 
     tail -f setup-kg2.log
 
-Next, build SNOMED, as follows: rejoin the `screen` session using `screen -r`.
+Next, build `snomed.owl` (an OWL representation of the SNOMED CT US English
+distribution), as follows: rejoin the `screen` session using `screen -r`.
 In the `screen` session, do this:
 
     ~/kg2-code/build-snomed.sh > ~/kg2-build/build-snomed.log 2>&1
@@ -89,8 +90,10 @@ Then exit screen (`ctrl-a d`). You can watch the progress via:
 
     tail -f ~/kg2-build/build-snomed.log
 
-Next, build UMLS, as follows: rejoin the `screen` session using `screen -r`.
-In the `screen` session, do this:
+The build process for `snomed.owl` takes about 10 minutes.  Next, build
+`umls.owl` (an OWL representation of the UMLS Level 0 ontologies plus SNOMED
+CT), as follows: rejoin the `screen` session using `screen -r`.  In the `screen`
+session, do this:
 
     ~/kg2-code/build-umls.sh > ~/kg2-build/build-umls.log 2>&1
     
