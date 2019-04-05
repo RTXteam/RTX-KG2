@@ -125,8 +125,11 @@ do
     mv /tmp/${file_name_no_ext}.owl ${file_path_no_ext}.owl
 done
 
-## merge the UMLS OWL files into a single umls.owl file
-OWLTOOLS_MEMORY=${MEM_GB}G ${BUILD_DIR}/owltools $(ls ${UMLS2RDF_DIR}/output/*.owl) \
-               --merge-support-ontologies -o ${BUILD_DIR}/umls.owl
+export ROBOT_JAVA_ARGS="-Xmx${MEM_GB}G"
+${BUILD_DIR}/robot merge --inputs "${UMLS2RDF_DIR}/output/*.owl" --output ${BUILD_DIR}/umls.owl
+
+#### merge the UMLS OWL files into a single umls.owl file
+##OWLTOOLS_MEMORY=${MEM_GB}G ${BUILD_DIR}/owltools $(ls ${UMLS2RDF_DIR}/output/*.owl) \
+##               --merge-support-ontologies -o ${BUILD_DIR}/umls.owl
 
 echo "================= script finished ================="
