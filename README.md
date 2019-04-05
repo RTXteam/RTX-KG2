@@ -101,7 +101,8 @@ You can watch the progress via:
 
     tail -f ~/kg2-build/build-umls.log
 
-Next, rejoin the screen session using `screen -r`.  Within the `screen` session, run:
+The build process for `umls.owl` takes about XX hours. Next, rejoin the screen
+session using `screen -r`.  Within the `screen` session, run:
 
     ~/kg2-code/build-kg2.sh
 
