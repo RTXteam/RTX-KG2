@@ -49,6 +49,7 @@ BIOLINK_CATEGORY_BASE_IRI = 'http://w3id.org/biolink'
 FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
 ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
 ENSEMBL_RE = re.compile('ENS[A-Z]{0,3}([PG])[0-9]{11}')
+TEMP_FILE_PREFIX = 'kg2'
 
 # -------------- subroutines with side-effects go here ------------------
 
@@ -174,7 +175,6 @@ def make_ontology_dict_from_local_file(file_name: str,
                 'description': description}
     return ont_dict
 
-TEMP_FILE_PREFIX='kg2'
 
 def download_file_if_not_exist_locally(url: str, local_file_name: str):
     if url is not None:
