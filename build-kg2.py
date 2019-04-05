@@ -31,6 +31,7 @@ import prefixcommons
 import re
 import shutil
 import ssl
+import subprocess
 import sys
 import tempfile
 import time
@@ -110,12 +111,22 @@ def make_ontology_from_local_file(file_name: str):
     file_name_without_ext = os.path.splitext(file_name)[0]
     file_name_with_pickle_ext = file_name_without_ext + ".pickle"
     if not os.path.isfile(file_name_with_pickle_ext):
-        if not USE_ONTOBIO_JSON_CACHE:
-            delete_ontobio_cache_json(file_name)
+        temp_file_name = tempfile.mkstemp(prefix=TEMP_FILE_PREFIX + '-')[1]
         size = os.path.getsize(file_name)
         log_message(message="Reading ontology file: " + file_name + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
                     ontology_name=None)
-        ont_return = ontobio.ontol_factory.OntologyFactory().create(file_name, ignore_cache=True)
+        cp = subprocess.run(['owltools', file_name, '-o', '-f', 'json', temp_file_name])
+        log_message(message="owltools result: " + cp.stdout, ontology_name=None, output_stream=sys.stdout)
+        log_message(message="owltools result: " + cp.stderr, ontology_name=None, output_stream=sys.stderr)
+        cp.check_resturncode()
+        json_file = file_name_without_ext + ".json"
+        shutil.move(temp_file_name, json_file)
+        size = os.path.getsize(json_file)
+        log_message(message="Reading ontology JSON file: " + json_file + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
+                    ontology_name=None)
+#        if not USE_ONTOBIO_JSON_CACHE:
+#            delete_ontobio_cache_json(file_name)
+        ont_return = ontobio.ontol_factory.OntologyFactory().create(json_file, ignore_cache=True)
     else:
         size = os.path.getsize(file_name_with_pickle_ext)
         log_message("Reading ontology file: " + file_name_with_pickle_ext + "; size: " + "{0:.2f}".format(size/1024) + " KiB", ontology_name=None)
@@ -161,6 +172,7 @@ def make_ontology_dict_from_local_file(file_name: str,
                 'description': description}
     return ont_dict
 
+TEMP_FILE_PREFIX='kg2'
 
 def download_file_if_not_exist_locally(url: str, local_file_name: str):
     if url is not None:
@@ -174,7 +186,7 @@ def download_file_if_not_exist_locally(url: str, local_file_name: str):
             # URLs resolve to HTTPS URLs (would prefer to just use
             # urllib.request.urlretrieve, but it doesn't seem to support
             # specifying an SSL "context" which we need in order to ignore the cert):
-            temp_file_name = tempfile.mkstemp(prefix='kg2')[1]
+            temp_file_name = tempfile.mkstemp(prefix=TEMP_FILE_PREFIX + '-')[1]
             with urllib.request.urlopen(url, context=ctx) as u, open(temp_file_name, 'wb') as f:
                 f.write(u.read())
             shutil.move(temp_file_name, local_file_name)
