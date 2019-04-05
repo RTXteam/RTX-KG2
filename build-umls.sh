@@ -54,10 +54,7 @@ cd ${MMSYS_HOME}
 cp ${MMSYS_HOME}/etc/subset.log4j.properties ${MMSYS_HOME}/log4j.properties
 
 ## estimate amount of system ram, in GB
-MEM_BYTES=`cat /proc/meminfo | grep MemTotal | cut -f2 -d\: | cut -f1 -dk | sed 's/ //g'`
-DIVISOR=1048576
-MEM_GB=$((MEM_BYTES/DIVISOR))
-
+MEM_GB=`${CODE_DIR}/get-system-memory-gb.sh`
 
 ## export UMLS to Rich Release Format (RRF)
 ${JAVA_HOME}/bin/java -Djava.awt.headless=true \
