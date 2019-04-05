@@ -111,15 +111,15 @@ def make_ontology_from_local_file(file_name: str):
     file_name_without_ext = os.path.splitext(file_name)[0]
     file_name_with_pickle_ext = file_name_without_ext + ".pickle"
     if not os.path.isfile(file_name_with_pickle_ext):
-        temp_file_name = tempfile.mkstemp(prefix=TEMP_FILE_PREFIX + '-')[1]
+        temp_file_name = tempfile.mkstemp(prefix=TEMP_FILE_PREFIX + '-')[1] + '.json'
         size = os.path.getsize(file_name)
         log_message(message="Reading ontology file: " + file_name + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
                     ontology_name=None)
-        cp = subprocess.run(['owltools', file_name, '-o', '-f', 'json', temp_file_name])
+        cp = subprocess.run(['robot', 'convert', '--input', file_name, '--output', temp_file_name])
         if cp.stdout is not None:
-            log_message(message="owltools result: " + cp.stdout, ontology_name=None, output_stream=sys.stdout)
+            log_message(message="robot convert result: " + cp.stdout, ontology_name=None, output_stream=sys.stdout)
         if cp.stderr is not None:
-            log_message(message="owltools result: " + cp.stderr, ontology_name=None, output_stream=sys.stderr)
+            log_message(message="robot convert result: " + cp.stderr, ontology_name=None, output_stream=sys.stderr)
         assert cp.returncode == 0
         json_file = file_name_without_ext + ".json"
         shutil.move(temp_file_name, json_file)
