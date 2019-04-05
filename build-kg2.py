@@ -120,7 +120,7 @@ def make_ontology_from_local_file(file_name: str):
             log_message(message="owltools result: " + cp.stdout, ontology_name=None, output_stream=sys.stdout)
         if cp.stderr is not None:
             log_message(message="owltools result: " + cp.stderr, ontology_name=None, output_stream=sys.stderr)
-        cp.check_resturncode()
+        assert cp.returncode == 0
         json_file = file_name_without_ext + ".json"
         shutil.move(temp_file_name, json_file)
         size = os.path.getsize(json_file)
