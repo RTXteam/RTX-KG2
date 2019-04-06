@@ -16,12 +16,12 @@ an EC2 Ubuntu instance, this directory would by default be `/home/ubuntu`). The
 various directories used by the KG2 build system are configured in the `bash`
 include file `master-config.shinc`.
 
-Note about atomicity of file copying: The build software is designed to run with
+Note about atomicity of file moving: The build software is designed to run with
 the `kg2-build` directory being in the same file system as the Python temporary
 file directory (i.e., the directory name that is returned by the variable
 `tempfile.tempdir` in Python). If you modify the KG2 software or runtime
 environment so that `kg2-build` is in a different file system from the file
-system in which the directory `tempfile.tempdir` resides, then the file copying
+system in which the directory `tempfile.tempdir` resides, then the file moving
 operations that are performed by the KG2 build software will not be atomic and
 interruption of `build-kg2.py` could then leave a source data file in a
 half-downloaded (i.e., broken) state.
