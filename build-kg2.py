@@ -305,7 +305,7 @@ def get_biolink_category_for_node(ontology_node_id: str,
                                 ontology_name=ontology.id,
                                 node_curie_id=node_curie_id,
                                 output_stream=sys.stderr)
-                    raise re
+                    assert False
                 if ret_category is not None:
                     break
     if ret_category is None:
