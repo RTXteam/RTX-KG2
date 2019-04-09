@@ -406,14 +406,13 @@ def make_nodes_dict_from_ontology_dict(ontology: ontobio.ontol.Ontology,
                                                             ontology,
                                                             curies_to_categories,
                                                             curie_to_uri_shortener)
-        if node_category_label is not None:
-            node_category_iri = category_label_to_iri_mapper(node_category_label)
-        else:
+        if node_category_label is None:
             if not node_deprecated:
                 log_message("Node does not have a category", ontology.id, node_curie_id, output_stream=sys.stderr)
                 node_category_label = 'unknown category'
             else:
                 node_category_label = 'deprecated node'
+        node_category_iri = category_label_to_iri_mapper(node_category_label)
         node_dict['category'] = node_category_iri
         node_dict['category label'] = node_category_label
         node_deprecated = False
