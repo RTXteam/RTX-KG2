@@ -1,4 +1,8 @@
 -
+  AIR: http://purl.bioontology.org/ontology/AIR/
+-
+  CST: http://purl.bioontology.org/ontology/CST/
+-
   SNOMEDCT_US: http://snomed.info/id/
 -
   SNOMEDCT_US: http://snomed.info/sct/
