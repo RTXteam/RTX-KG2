@@ -14,6 +14,7 @@ prefix-mappings:
     RGD: gene
     SGD: gene
     MGI: gene
+    STY: semantic type
 term-mappings:
     rdfs:isDefinedBy: relationship type
     OIO:inSubset: relationship type
@@ -50,7 +51,7 @@ term-mappings:
     CHEBI:33697: RNA product
     CHEBI:36342: subatomic particle
     CHEBI:78295: biological food component
-    CHEBI:50906: biological process or activity
+    CHEBI:50906: biological process
     CL:0000000: anatomical entity
     DDANAT:0000002: organism taxon
     DOID:4: disease
@@ -133,9 +134,16 @@ term-mappings:
     SNOMEDCT_US:404684003: finding
     SNOMEDCT_US:410607006: organism taxon
     SNOMEDCT_US:410942007: drug
-    SNOMEDCT_US:419891008: record artifact
+    SNOMEDCT_US:419891008: information entity
     SNOMEDCT_US:900000000000441003: information entity
     SO:0000704: gene
+    STY:T122: biological substance
+    STY:T125: protein
+    STY:T126: protein
+    STY:T126: biological food component
+    STY:T129: protein
+    STY:T130: 
+    STY:T131: chemical substance
     UBERON:0001062: anatomical entity
     UBERON:0000105: life stage
     UPHENO:0001001: phenotypic feature
