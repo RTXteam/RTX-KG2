@@ -32,4 +32,8 @@
   AraPort: https://www.araport.org/locus/
 -
   ENSEMBL: http://www.ensembl.org/id/
+-
+  TUI: http://bioportal.bioontology.org/ontologies/umls/tui/
+-
+  CUI: http://bioportal.bioontology.org/ontologies/umls/cui/
 
