@@ -21,6 +21,8 @@ MEM_GB=`${CODE_DIR}/get-system-memory-gb.sh`
 export OWLTOOLS_MEMORY=${MEM_GB}G
 export DEBUG=1  ## for owltools
 
+aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/skos.owl ${BUILD_DIR}/skos.owl
+
 ## run the build-kg2.py script
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/build-kg2.py \
            curies-to-categories.yaml \
