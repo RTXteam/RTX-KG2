@@ -109,8 +109,40 @@ term-mappings:
     NCIT:C48187: material
     NCIT:C20181: conceptual entity
     OBI:0000427: protein
+    owl:Thing: named thing
     PATO:0000001: phenotypic quality
     PR:000000001: protein
+    skos:altLabel: attribute
+    skos:exactMatch: relationship type
+    skos:hiddenLabel: attribute
+    skos:note: attribute
+    skos:broaderTransitive: relationship type
+    skos:related: relationship type
+    skos:mappingRelation: relationship type
+    skos:broader: relationship type
+    skos:narrowMatch: relationship type
+    skos:Collection: information entity type
+    skos:Concept: conceptual entity
+    skos:ConceptScheme: conceptual entity
+    skos:hasTopConcept: relationship type
+    skos:inScheme: relationship type
+    skos:memberList: relationship type
+    skos:definition: attribute
+    skos:scopeNote: attribute
+    skos:historyNote: attribute
+    skos:narrowerTransitive: relationship type
+    skos:narrower: relationship type
+    skos:broadMatch: relationship type
+    skos:notation: attribute
+    skos:editorialNote: attribute
+    skos:topConceptOf: relationship type
+    skos:member: relationship type
+    skos:changeNote: attribute
+    skos:closeMatch: relationship type
+    skos:example: attribute
+    skos:semanticRelation: relationship type
+    skos:relatedMatch: relationship type
+    skos:prefLabel: attribute
     SNOMEDCT_US:48176007: social context
     SNOMEDCT_US:64572001: disease
     SNOMEDCT_US:71388002: procedure
@@ -137,15 +169,35 @@ term-mappings:
     SNOMEDCT_US:419891008: information entity
     SNOMEDCT_US:900000000000441003: information entity
     SO:0000704: gene
-    STY:T122: biological substance
-    STY:T125: protein
-    STY:T126: protein
-    STY:T126: biological food component
-    STY:T129: protein
-    STY:T130: 
-    STY:T131: chemical substance
+    TUI:T017: anatomical entity
+    TUI:T001: organism taxon
+    TUI:T032: attribute
+    TUI:T033: finding
+    TUI:T038: biological process
+    TUI:T047: disease
+    TUI:T052: activity
+    TUI:T053: behavior
+    TUI:T067: phenomenon or process
+    TUI:T073: product
+    TUI:T074: device
+    TUI:T075: device
+    TUI:T078: concept
+    TUI:T090: occupation
+    TUI:T092: organization
+    TUI:T096: group of people
+    TUI:T122: biological substance
+    TUI:T125: protein
+    TUI:T126: protein
+    TUI:T126: biological food component
+    TUI:T129: protein
+    TUI:T131: chemical substance
+    TUI:T170: product
+    TUI:T171: language
+    TUI:T184: phenotypic feature
+    TUI:T200: drug
     UBERON:0001062: anatomical entity
     UBERON:0000105: life stage
+    UMLS:hasSTY: relationship type
     UPHENO:0001001: phenotypic feature
     WD:Q28845870: biological entity
     WD:Q12136: disease
