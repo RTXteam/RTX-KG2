@@ -25,6 +25,7 @@ import ontobio
 import os.path
 import pathlib
 import pickle
+import posixpath
 import pprint
 import prefixcommons
 import re
@@ -70,7 +71,6 @@ def delete_ontobio_cachier_caches():
 def delete_ontobio_cache_json(file_name):
     file_name_hash = hashlib.sha256(file_name.encode()).hexdigest()
     temp_file_path = os.path.join("/tmp", file_name_hash)
-    print("testing if file exists: " + temp_file_path)
     if os.path.exists(temp_file_path):
         try:
             log_message(message="Deleting ontobio JSON cache file: " + temp_file_path)
@@ -115,11 +115,13 @@ def make_ontology_from_local_file(file_name: str):
         size = os.path.getsize(file_name)
         log_message(message="Reading ontology file: " + file_name + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
                     ontology_name=None)
-        cp = subprocess.run(['robot', 'convert', '--input', file_name, '--output', temp_file_name])
+        cp = subprocess.run(['owltools', file_name, '-o', '-f', 'json', temp_file_name])
+        # robot commented out because it is giving a NullPointerException on umls_semantictypes.owl
+#        cp = subprocess.run(['robot', 'convert', '--input', file_name, '--output', temp_file_name])
         if cp.stdout is not None:
-            log_message(message="robot convert result: " + cp.stdout, ontology_name=None, output_stream=sys.stdout)
+            log_message(message="OWL convert result: " + cp.stdout, ontology_name=None, output_stream=sys.stdout)
         if cp.stderr is not None:
-            log_message(message="robot convert result: " + cp.stderr, ontology_name=None, output_stream=sys.stderr)
+            log_message(message="OWL convert result: " + cp.stderr, ontology_name=None, output_stream=sys.stderr)
         assert cp.returncode == 0
         json_file = file_name_without_ext + ".json"
         shutil.move(temp_file_name, json_file)
@@ -162,8 +164,10 @@ def make_ontology_dict_from_local_file(file_name: str,
         ont_version = 'downloaded:' + file_last_modified_timestamp
     ontology_id = ontology.id
     if not ontology_id.startswith('http:'):
-        assert download_url is not None
-        ontology_id = download_url
+        if download_url is not None:
+            ontology_id = download_url
+        else:
+            ontology_id = os.path.basename(file_name)
     ont_dict = {'ontology': ontology,
                 'id': ontology_id,
                 'handle': ontology.handle,
@@ -216,7 +220,7 @@ def make_kg2(curies_to_categories: dict,
         ontology_data.append(ont)
 
     master_ontology = copy.deepcopy(ontology_data[0]['ontology'])
-    master_ontology.merge([ont_dict['ontology'] for ont_dict in ontology_data])
+    master_ontology.merge([ont_dict['ontology'] for ont_dict in ontology_data[1:len(ontology_data)]])
 
     nodes_dict = make_nodes_dict_from_ontology(master_ontology,
                                                curies_to_categories,
@@ -231,10 +235,21 @@ def make_kg2(curies_to_categories: dict,
     kg2_dict = dict()
 
     # get a dictionary of all relationships including xrefs as relationships
-    kg2_dict['edges'] = list(get_rels_dict(nodes_dict,
-                                           master_ontology,
-                                           uri_to_curie_shortener,
-                                           map_of_node_ontology_ids_to_curie_ids).values())
+    all_rels_dict = dict()
+    for ontology in ontology_data:
+        print("-----------------------------------------------------------------------")
+        print("starting to get relationships for ontology: " + ontology['ontology'].id)
+        rels_dict = get_rels_dict(nodes_dict,
+                                  ontology['ontology'],
+                                  uri_to_curie_shortener,
+                                  map_of_node_ontology_ids_to_curie_ids)
+        print("-----------------------------------------------------------------------")
+        all_rels_dict = merge_two_dicts(all_rels_dict, rels_dict)
+    kg2_dict['edges'] = all_rels_dict
+#    kg2_dict['edges'] = list(get_rels_dict(nodes_dict,
+#                                           master_ontology,
+#                                           uri_to_curie_shortener,
+#                                           map_of_node_ontology_ids_to_curie_ids).values())
     log_message('Number of edges: ' + str(len(kg2_dict['edges'])))
     kg2_dict['nodes'] = list(nodes_dict.values())
     for node in kg2_dict['nodes']:
@@ -260,6 +275,8 @@ def make_kg2(curies_to_categories: dict,
 
 
 def shorten_iri_to_curie(iri: str, curie_to_iri_lookaside_list: list = []):
+    if iri.startswith('owl:'):
+        return iri
     curie_list = prefixcommons.contract_uri(iri,
                                             prefixcommons.curie_util.default_curie_maps +
                                             curie_to_iri_lookaside_list)
@@ -367,28 +384,14 @@ def make_nodes_dict_from_ontology(ontology: ontobio.ontol.Ontology,
         node_curie_id = get_node_curie_id_from_ontology_node_id(ontology_node_id,
                                                                 ontology,
                                                                 uri_to_curie_shortener)
-        if len(onto_node_dict) == 0:
-            log_message('Node does has empty dictionary of data', ontology.id, node_curie_id,
-                        output_stream=sys.stderr)
-            continue
-
+#        if len(onto_node_dict) == 0:
+#            log_message('Node has empty dictionary of data', ontology.id, node_curie_id,
+#                        output_stream=sys.stderr)
+#            continue
         iri = onto_node_dict.get('id', None)
-        assert iri.startswith('http:') or iri.startswith('https:')
-        # if not ontology_node_id.startswith('http://snomed.info'):
-        #     if iri is None:
-        #         iri = prefixcommons.expand_uri(node_curie_id)
-        #         if iri == node_curie_id or iri == '':
-        #             continue
-        #     assert iri is not None
-        #     if is_ignorable_ontology_term(iri):
-        #         continue
-        # else:
-        #     # have to handle snomed ontology specially since the node IDs are not CURIE IDs.
-        #     # When we import the SNOMED CT ontology from OWL format into ontobio, the node IDs
-        #     # are of the form: http://snomed.info/id/12237791000119102.
-        #     node_curie_id = ontology_node_id.replace('http://snomed.info/id/', 'SNOMED:')
-        #     iri = prefixcommons.expand_uri(node_curie_id)
-        #     node_curie_id = node_curie_id.replace('SNOMED:', 'SNOMEDCT_US:')
+        if iri is None:
+            iri = ontology_node_id
+
         node_dict = dict()
         node_dict['id'] = node_curie_id
         node_dict['iri'] = iri
@@ -406,15 +409,6 @@ def make_nodes_dict_from_ontology(ontology: ontobio.ontol.Ontology,
                                                             ontology,
                                                             curies_to_categories,
                                                             uri_to_curie_shortener)
-        if node_category_label is None:
-            if not node_deprecated:
-                log_message("Node does not have a category", ontology.id, node_curie_id, output_stream=sys.stderr)
-                node_category_label = 'unknown category'
-            else:
-                node_category_label = 'deprecated node'
-        node_category_iri = category_label_to_iri_mapper(node_category_label)
-        node_dict['category'] = node_category_iri
-        node_dict['category label'] = node_category_label
         node_deprecated = False
         node_description = None
         node_synonyms = None
@@ -444,19 +438,37 @@ def make_nodes_dict_from_ontology(ontology: ontobio.ontol.Ontology,
                         assert node_deprecated
                         node_replaced_by_uri = bpv_val
                         node_replaced_by_curie = uri_to_curie_shortener(node_replaced_by_uri)
-                    elif bpv_pred == 'http://bioportal.bioontology.org/ontologies/umls/tui':
+                    elif bpv_pred == 'http://purl.bioontology.org/ontology/STY':
                         node_tui = bpv_val
-                        node_tui_uri = bpv_pred + '/' + node_tui
+                        # fix some impedance mismatch between URIs used in umls2rdf and in umls_semantictypes.owl:
+                        node_tui_uri = posixpath.join(bpv_pred, node_tui)
                         node_tui_curie = uri_to_curie_shortener(node_tui_uri)
                         assert node_tui_curie is not None
+#                        print('getting category for URI: ' + node_tui_uri + ' and CURIE: ' + node_tui_curie)
                         node_tui_category_label = get_biolink_category_for_node(node_tui_uri,
                                                                                 node_tui_curie,
                                                                                 ontology,
                                                                                 curies_to_categories,
                                                                                 uri_to_curie_shortener)
+#                        print(node_tui_category_label)
                         if node_tui_category_label is None:
                             node_tui_category_label = 'unknown category'
+                            log_message(message='unknown category: ' + node_tui_uri)
                         node_tui_category_iri = category_label_to_iri_mapper(node_tui_category_label)
+                        node_category_label = node_tui_category_label  # override the node category label if we have a TUI
+                    elif bpv_pred == 'http://www.w3.org/2004/02/skos/core#prefLabel':
+                        node_description = bpv_val
+                        
+        if node_category_label is None:
+            if not node_deprecated:
+                log_message("Node does not have a category", ontology.id, node_curie_id, output_stream=sys.stderr)
+                node_category_label = 'unknown category'
+            else:
+                node_category_label = 'deprecated node'
+        node_category_iri = category_label_to_iri_mapper(node_category_label)
+        node_dict['category'] = node_category_iri
+        node_dict['category label'] = node_category_label
+                        
         node_dict['description'] = node_description
         node_dict['synonyms'] = node_synonyms             # slot name is not biolink standard
         node_dict['xrefs'] = node_xrefs                   # slot name is not biolink standard
@@ -468,6 +480,8 @@ def make_nodes_dict_from_ontology(ontology: ontobio.ontol.Ontology,
         node_type = onto_node_dict.get('type', None)
         node_dict['ontology node type'] = node_type       # slot name is not biolink standard
         node_dict['ontology node id'] = ontology_node_id  # slot name is not biolink standard
+        if node_curie_id in ret_dict:
+            node_dict = merge_two_dicts(ret_dict[node_curie_id], node_dict)
         ret_dict[node_curie_id] = node_dict
 
         # check if we need to make a CUI node
@@ -475,7 +489,7 @@ def make_nodes_dict_from_ontology(ontology: ontobio.ontol.Ontology,
             for basic_property_value_dict in basic_property_values:
                 bpv_pred = basic_property_value_dict['pred']
                 bpv_val = basic_property_value_dict['val']
-                if bpv_pred == 'http://bioportal.bioontology.org/ontologies/umls/cui':
+                if bpv_pred == 'http://purl.bioontology.org/ontologies/umls/cui':
                     assert node_tui is not None
                     cui_node_dict = dict(node_dict)
                     cui_uri = bpv_pred + '/' + bpv_val
@@ -500,7 +514,13 @@ def get_rels_dict(nodes: dict,
                   map_of_node_ontology_ids_to_curie_ids: dict):
     rels_dict = dict()
     ont_graph = ontology.get_graph()
+
     for (subject_id, object_id, predicate_dict) in ont_graph.edges(data=True):
+        if subject_id == 'owl:Thing' or object_id == 'owl:Thing':
+            continue
+
+        print(subject_id, '---', object_id)
+        
         # subject_id and object_id are IDs from the original ontology objects; these may not
         # always be the node curie IDs (e.g., for SNOMED terms). Need to map them
         subject_curie_id = map_of_node_ontology_ids_to_curie_ids.get(subject_id, None)
@@ -547,8 +567,7 @@ def get_rels_dict(nodes: dict,
                               'relation': predicate_iri,
                               'relation curie': predicate_curie,  # slot is not biolink standard
                               'negated': False,
-                              'provided by': ontology.id,
-                              'id': None}
+                              'provided by': ontology.id}
     for node_id, node_dict in nodes.items():
         xrefs = node_dict['xrefs']
         if xrefs is not None:
@@ -585,12 +604,9 @@ def make_node_dicts_for_ontologies(ont_dict_list: list,
         ontology = ont_dict['ontology']
         assert type(ontology) == ontobio.ontol.Ontology
         ontology_iri = ont_dict['id']
-        if not ontology_iri.startswith('http:'):
-            log_message(message="unexpected IRI format: " + ontology_iri,
-                        ontology_name=ontology_iri,
-                        output_stream=sys.stderr)
-            assert ontology_iri.startswith('http:')
         ontology_curie_id = uri_to_curie_shortener(ontology_iri)
+        if ontology_curie_id is None or len(ontology_curie_id) == 0:
+            ontology_curie_id = ontology_iri
         ret_dict.update({ontology_curie_id: {
             'id':  ontology_curie_id,
             'iri': ontology_iri,
@@ -669,19 +685,24 @@ def merge_two_dicts(x: dict, y: dict):
         else:
             if value is not None and value != stored_value:
                 if type(value) == str and type(stored_value) == str:
-                    svr = stored_value.replace('_', ' ')
-                    vr = value.replace('_', ' ')
-                    if vr == svr:
-                        ret_dict[key] = svr
+                    if value != stored_value:
+                        if key == 'provided by':
+                            if 'umls_semantictypes' in value:
+                                ret_dict[key] = value
+                        elif key == 'description':
+                            ret_dict[key] = stored_value + '; ' + value
+                        else:
+                            log_message("warning:  for key: " + key + ", dropping second value: " + value,
+                                        output_stream=sys.stderr)
                 elif type(value) == list and type(stored_value) == list:
                     ret_dict[key] = list(set(value + stored_value))
+                    print(ret_dict[key])
+                elif type(value) == dict and type(stored_value) == dict:
+                    ret_dict[key] = merge_two_dicts(value, stored_value)
                 elif key == 'deprecated' and type(value) == bool:
                     ret_dict[key] = True  # special case for deprecation; True always trumps False for this property
                 else:
                     ret_dict[key] = [value, stored_value]
-                    if key not in ('source ontology iri', 'category label', 'category'):
-                        log_message("warning: incompatible data in two dictionaries: " + str(value) + "; " + str(stored_value) + "; key is: " + key,
-                                    file=sys.stderr)
     return ret_dict
 
 
@@ -703,7 +724,13 @@ def make_map_of_node_ontology_ids_to_curie_ids(nodes: dict):
         ontology_node_id = node_dict['ontology node id']
         assert curie_id not in ret_dict
         if ontology_node_id is not None:
-            ret_dict[ontology_node_id] = curie_id
+            if type(ontology_node_id) == str:
+                ret_dict[ontology_node_id] = curie_id
+            elif type(ontology_node_id) == list:
+                for id in ontology_node_id:
+                    ret_dict[id] = curie_id
+            else:
+                assert False
     return ret_dict
 
 
