@@ -33,7 +33,13 @@
 -
   ENSEMBL: http://www.ensembl.org/id/
 -
-  TUI: http://bioportal.bioontology.org/ontologies/umls/tui/
+  CUI: http://purl.bioontology.org/ontologies/umls/cui/
 -
-  CUI: http://bioportal.bioontology.org/ontologies/umls/cui/
+  TUI: http://purl.bioontology.org/ontology/STY/
+-
+  skos: http://www.w3.org/2004/02/skos/core#
+-
+  skos: http://www.w3.org/2008/05/skos#
+-
+  UMLS: http://purl.bioontology.org/ontology/
 
