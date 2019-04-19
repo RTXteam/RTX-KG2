@@ -1,4 +1,12 @@
 -
+  url:
+  file: umls_semantictypes.owl
+  title: UMLS Semantic Types
+-
+  url:
+  file: AI-RHEUM.owl
+  title: Artificial Intelligence Rheumatology Consultant System (AI/RHEUM)
+-
    url:  http://purl.obolibrary.org/obo/bfo.owl
    file: bfo.owl
    title: Basic Formal Ontology
