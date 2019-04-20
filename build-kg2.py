@@ -245,7 +245,7 @@ def make_kg2(curies_to_categories: dict,
                                   map_of_node_ontology_ids_to_curie_ids)
         print("-----------------------------------------------------------------------")
         all_rels_dict = merge_two_dicts(all_rels_dict, rels_dict)
-    kg2_dict['edges'] = all_rels_dict
+    kg2_dict['edges'] = [rel_dict for rel_dict in all_rels_dict.values()]
 #    kg2_dict['edges'] = list(get_rels_dict(nodes_dict,
 #                                           master_ontology,
 #                                           uri_to_curie_shortener,
@@ -519,8 +519,6 @@ def get_rels_dict(nodes: dict,
         if subject_id == 'owl:Thing' or object_id == 'owl:Thing':
             continue
 
-        print(subject_id, '---', object_id)
-        
         # subject_id and object_id are IDs from the original ontology objects; these may not
         # always be the node curie IDs (e.g., for SNOMED terms). Need to map them
         subject_curie_id = map_of_node_ontology_ids_to_curie_ids.get(subject_id, None)
@@ -559,7 +557,7 @@ def get_rels_dict(nodes: dict,
                         ontology_name=ontology.id,
                         output_stream=sys.stderr)
             continue
-        
+
         key = subject_curie_id + ';' + predicate_curie + ';' + object_curie_id + ';' + ontology.id
 
         if rels_dict.get(key, None) is None:
@@ -585,7 +583,7 @@ def get_rels_dict(nodes: dict,
                                           'negated': False,
                                           'provided by': nodes[xref_node_id]['source ontology iri'],
                                           'id': None}
-    return rels_dict
+    return [rel_dict for key, rel_dict in rels_dict.items()]
 
 # --------------- pure functions here -------------------
 # (Note: a "pure" function here can still have logging print statements)
