@@ -559,7 +559,9 @@ def get_rels_dict(nodes: dict,
                         ontology_name=ontology.id,
                         output_stream=sys.stderr)
             continue
-        key = subject_curie_id + ';' + predicate_curie + ';' + object_curie_id
+        
+        key = subject_curie_id + ';' + predicate_curie + ';' + object_curie_id + ';' + ontology.id
+
         if rels_dict.get(key, None) is None:
             rels_dict[key] = {'subject': subject_curie_id,
                               'object': object_curie_id,
@@ -686,10 +688,7 @@ def merge_two_dicts(x: dict, y: dict):
             if value is not None and value != stored_value:
                 if type(value) == str and type(stored_value) == str:
                     if value != stored_value:
-                        if key == 'provided by':
-                            if 'umls_semantictypes' in value:
-                                ret_dict[key] = value
-                        elif key == 'description':
+                        if key == 'description':
                             ret_dict[key] = stored_value + '; ' + value
                         else:
                             log_message("warning:  for key: " + key + ", dropping second value: " + value,
