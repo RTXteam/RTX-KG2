@@ -237,13 +237,10 @@ def make_kg2(curies_to_categories: dict,
     # get a dictionary of all relationships including xrefs as relationships
     all_rels_dict = dict()
     for ontology in ontology_data:
-        print("-----------------------------------------------------------------------")
-        print("starting to get relationships for ontology: " + ontology['ontology'].id)
         rels_dict = get_rels_dict(nodes_dict,
                                   ontology['ontology'],
                                   uri_to_curie_shortener,
                                   map_of_node_ontology_ids_to_curie_ids)
-        print("-----------------------------------------------------------------------")
         all_rels_dict = merge_two_dicts(all_rels_dict, rels_dict)
     kg2_dict['edges'] = [rel_dict for rel_dict in all_rels_dict.values()]
 #    kg2_dict['edges'] = list(get_rels_dict(nodes_dict,
@@ -381,6 +378,10 @@ def make_nodes_dict_from_ontology(ontology: ontobio.ontol.Ontology,
     for ontology_node_id in ontology.nodes():
         onto_node_dict = ontology.node(ontology_node_id)
         assert onto_node_dict is not None
+
+        if ontology_node_id.startswith('_:genid'):
+            continue
+
         node_curie_id = get_node_curie_id_from_ontology_node_id(ontology_node_id,
                                                                 ontology,
                                                                 uri_to_curie_shortener)
@@ -396,11 +397,7 @@ def make_nodes_dict_from_ontology(ontology: ontobio.ontol.Ontology,
         node_dict['id'] = node_curie_id
         node_dict['iri'] = iri
         node_label = onto_node_dict.get('label', None)
-        node_dict['full name'] = node_label
         node_name = onto_node_dict.get('lbl', None)
-        if node_name is None:
-            node_name = node_dict['full name']
-        node_dict['name'] = node_name
         node_meta = onto_node_dict.get('meta', None)
         if node_meta is not None:
             node_deprecated = node_meta.get('deprecated', False)
@@ -432,7 +429,7 @@ def make_nodes_dict_from_ontology(ontology: ontobio.ontol.Ontology,
                 for basic_property_value_dict in basic_property_values:
                     bpv_pred = basic_property_value_dict['pred']
                     bpv_val = basic_property_value_dict['val']
-                    if bpv_pred == 'OIO:creation_date':
+                    if bpv_pred == 'OIO:creation_date' or bpv_pred == 'dcterms:issued':
                         node_creation_date = bpv_val
                     elif bpv_pred == 'IAL:0100001':
                         assert node_deprecated
@@ -457,8 +454,9 @@ def make_nodes_dict_from_ontology(ontology: ontobio.ontol.Ontology,
                         node_tui_category_iri = category_label_to_iri_mapper(node_tui_category_label)
                         node_category_label = node_tui_category_label  # override the node category label if we have a TUI
                     elif bpv_pred == 'http://www.w3.org/2004/02/skos/core#prefLabel':
+                        node_name = bpv_val
+                    elif bpv_pred == 'http://www.w3.org/2004/02/skos/core#definition':
                         node_description = bpv_val
-                        
         if node_category_label is None:
             if not node_deprecated:
                 log_message("Node does not have a category", ontology.id, node_curie_id, output_stream=sys.stderr)
@@ -466,9 +464,19 @@ def make_nodes_dict_from_ontology(ontology: ontobio.ontol.Ontology,
             else:
                 node_category_label = 'deprecated node'
         node_category_iri = category_label_to_iri_mapper(node_category_label)
+
+        # if we have a label but no name, use the label as the name
+        if node_name is None and node_label is not None:
+            node_name = node_label
+
+        # if we have a name but no label, use the name as the label
+        if node_label is None and node_name is not None:
+            node_label = node_name
+
+        node_dict['name'] = node_name
+        node_dict['full name'] = node_label
         node_dict['category'] = node_category_iri
         node_dict['category label'] = node_category_label
-                        
         node_dict['description'] = node_description
         node_dict['synonyms'] = node_synonyms             # slot name is not biolink standard
         node_dict['xrefs'] = node_xrefs                   # slot name is not biolink standard
@@ -517,6 +525,9 @@ def get_rels_dict(nodes: dict,
 
     for (subject_id, object_id, predicate_dict) in ont_graph.edges(data=True):
         if subject_id == 'owl:Thing' or object_id == 'owl:Thing':
+            continue
+
+        if subject_id.startswith('_:genid') or object_id.startswith('_:genid'):
             continue
 
         # subject_id and object_id are IDs from the original ontology objects; these may not
@@ -583,7 +594,7 @@ def get_rels_dict(nodes: dict,
                                           'negated': False,
                                           'provided by': nodes[xref_node_id]['source ontology iri'],
                                           'id': None}
-    return [rel_dict for key, rel_dict in rels_dict.items()]
+    return rels_dict
 
 # --------------- pure functions here -------------------
 # (Note: a "pure" function here can still have logging print statements)
@@ -688,12 +699,13 @@ def merge_two_dicts(x: dict, y: dict):
                     if value != stored_value:
                         if key == 'description':
                             ret_dict[key] = stored_value + '; ' + value
+                        elif key == 'ontology node id' or key == 'ontology node type':
+                            ret_dict[key] = [stored_value, value]
                         else:
-                            log_message("warning:  for key: " + key + ", dropping second value: " + value,
+                            log_message("warning:  for key: " + key + ", dropping second value: " + value + '; keeping first value: ' + stored_value,
                                         output_stream=sys.stderr)
                 elif type(value) == list and type(stored_value) == list:
                     ret_dict[key] = list(set(value + stored_value))
-                    print(ret_dict[key])
                 elif type(value) == dict and type(stored_value) == dict:
                     ret_dict[key] = merge_two_dicts(value, stored_value)
                 elif key == 'deprecated' and type(value) == bool:
