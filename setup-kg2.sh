@@ -38,6 +38,7 @@ virtualenv ${VENV_DIR}
 
 ## Install python3 packages that we will need (Note: we are not using pymongo
 ## directly, but installing it silences a runtime warning from ontobio):
+## (maybe we should eventually move this to a requirements.txt file?)
 ${VENV_DIR}/bin/pip3 install ontobio pymongo
 
 mkdir -p ${BUILD_DIR}
