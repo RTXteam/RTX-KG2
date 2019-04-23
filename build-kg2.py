@@ -210,6 +210,7 @@ def make_kg2(curies_to_categories: dict,
              map_category_label_to_iri: callable,
              ontology_urls_and_files: tuple,
              output_file: str):
+
     ontology_data = []
     for ont_source_info_dict in ontology_urls_and_files:
         local_file_name = download_file_if_not_exist_locally(ont_source_info_dict['url'],
@@ -523,7 +524,7 @@ def get_rels_dict(nodes: dict,
     rels_dict = dict()
     ont_graph = ontology.get_graph()
 
-    for (subject_id, object_id, predicate_dict) in ont_graph.edges(data=True):
+    for (object_id, subject_id, predicate_dict) in ont_graph.edges(data=True):
         if subject_id == 'owl:Thing' or object_id == 'owl:Thing':
             continue
 
