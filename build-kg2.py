@@ -176,6 +176,11 @@ def make_ontology_dict_from_local_file(file_name: str,
                 'version': ont_version,
                 'title': title,
                 'description': description}
+    for node_id in ontology.nodes():
+        ontology.node(node_id)['ontology_id'] = ontology_id
+    ont_graph = ontology.get_graph()
+    for (object_id, subject_id, predicate_dict) in ont_graph.edges(data=True):
+        predicate_dict['ontology_id'] = ontology_id
     return ont_dict
 
 
@@ -223,31 +228,27 @@ def make_kg2(curies_to_categories: dict,
     master_ontology = copy.deepcopy(ontology_data[0]['ontology'])
     master_ontology.merge([ont_dict['ontology'] for ont_dict in ontology_data[1:len(ontology_data)]])
 
+    information_about_ontologies = make_node_dicts_for_ontologies(ontology_data,
+                                                                  uri_to_curie_shortener,
+                                                                  map_category_label_to_iri)
+    
     nodes_dict = make_nodes_dict_from_ontology(master_ontology,
                                                curies_to_categories,
                                                uri_to_curie_shortener,
-                                               map_category_label_to_iri)
+                                               map_category_label_to_iri,
+                                               information_about_ontologies)
 
-    nodes_dict.update(make_node_dicts_for_ontologies(ontology_data,
-                                                     uri_to_curie_shortener,
-                                                     map_category_label_to_iri))
+    nodes_dict.update(information_about_ontologies)
 
     map_of_node_ontology_ids_to_curie_ids = make_map_of_node_ontology_ids_to_curie_ids(nodes_dict)
     kg2_dict = dict()
 
     # get a dictionary of all relationships including xrefs as relationships
-    all_rels_dict = dict()
-    for ontology in ontology_data:
-        rels_dict = get_rels_dict(nodes_dict,
-                                  ontology['ontology'],
+    all_rels_dict = get_rels_dict(nodes_dict,
+                                  master_ontology,
                                   uri_to_curie_shortener,
                                   map_of_node_ontology_ids_to_curie_ids)
-        all_rels_dict = merge_two_dicts(all_rels_dict, rels_dict)
     kg2_dict['edges'] = [rel_dict for rel_dict in all_rels_dict.values()]
-#    kg2_dict['edges'] = list(get_rels_dict(nodes_dict,
-#                                           master_ontology,
-#                                           uri_to_curie_shortener,
-#                                           map_of_node_ontology_ids_to_curie_ids).values())
     log_message('Number of edges: ' + str(len(kg2_dict['edges'])))
     kg2_dict['nodes'] = list(nodes_dict.values())
     for node in kg2_dict['nodes']:
@@ -373,7 +374,8 @@ def get_node_curie_id_from_ontology_node_id(ontology_node_id: str,
 def make_nodes_dict_from_ontology(ontology: ontobio.ontol.Ontology,
                                   curies_to_categories: dict,
                                   uri_to_curie_shortener: callable,
-                                  category_label_to_iri_mapper: callable):
+                                  category_label_to_iri_mapper: callable,
+                                  information_about_ontologies: dict):
     ret_dict = dict()
 
     for ontology_node_id in ontology.nodes():
@@ -474,6 +476,21 @@ def make_nodes_dict_from_ontology(ontology: ontobio.ontol.Ontology,
         if node_label is None and node_name is not None:
             node_label = node_name
 
+        iri_of_ontology = onto_node_dict['ontology_id']
+        if iri_of_ontology is not None:
+            ontology_curie_id = uri_to_curie_shortener(iri_of_ontology)
+            if ontology_curie_id is None or len(ontology_curie_id) == 0:
+                ontology_curie_id = iri_of_ontology
+            source_ontology_information = information_about_ontologies.get(ontology_curie_id, None)
+            if source_ontology_information is None:
+                log_message(message="ontology IRI has no information dictionary available",
+                            ontology_name=iri_of_ontology,
+                            output_stream=sys.stderr)
+                assert False
+            source_ontology_update_date = source_ontology_information['update date']
+            if node_creation_date is not None:
+                node_creation_date = source_ontology_update_date
+
         node_dict['name'] = node_name
         node_dict['full name'] = node_label
         node_dict['category'] = node_category_iri
@@ -525,6 +542,7 @@ def get_rels_dict(nodes: dict,
     ont_graph = ontology.get_graph()
 
     for (object_id, subject_id, predicate_dict) in ont_graph.edges(data=True):
+        assert type(predicate_dict)==dict
         if subject_id == 'owl:Thing' or object_id == 'owl:Thing':
             continue
 
