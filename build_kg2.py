@@ -602,7 +602,7 @@ def get_rels_dict(nodes: dict,
                 for xref_node_id in xrefs:
 #                    print('xref node: ' + xref_node_id)
                     if xref_node_id in nodes:
-                        provided_by = nodes[xref_node_id]['provided by']
+                        provided_by = nodes[node_id]['provided by']
                         key = make_rel_key(node_id, CURIE_OBO_XREF, xref_node_id, provided_by)
                         if rels_dict.get(key, None) is None:
                             rels_dict[key] = {'subject': node_id,
@@ -621,7 +621,14 @@ def get_node_curie_id_from_ontology_node_id(ontology_node_id: str,
                                             uri_to_curie_shortener: callable):
     node_curie_id = None
     if not ontology_node_id.startswith('http:') and not ontology_node_id.startswith('https:'):
-        node_curie_id = ontology_node_id
+        if not ontology_node_id.startswith('OBO:'):
+            node_curie_id = ontology_node_id
+        else:
+            onid_noobo = ontology_node_id.replace('OBO:', '')
+            if '_' not in onid_noobo:
+                node_curie_id = ontology_node_id
+            else:
+                node_curie_id = onid_noobo.replace('_', ':')
     else:
         node_curie_id = uri_to_curie_shortener(ontology_node_id)
         if node_curie_id is None:
@@ -790,7 +797,7 @@ def merge_two_dicts(x: dict, y: dict):
                             if value.endswith('/STY'):
                                 ret_dict[key] = value
                             elif not stored_value.endswith('/STY'):
-                                ret_dict[key] = [stored_value, value]
+                                pass
                         elif key == 'category label':
                             if value == 'unknown category':
                                 pass
@@ -799,6 +806,10 @@ def merge_two_dicts(x: dict, y: dict):
                                 pass
                         elif key == 'update date':
                             pass
+                        elif key == 'name' or key == 'full name':
+                            if value.replace(' ', '_') != stored_value.replace(' ', '_'):
+                                log_message("warning:  for key: " + key + ", dropping second value: " + value + '; keeping first value: ' + stored_value,
+                                            output_stream=sys.stderr)
                         else:
                             log_message("warning:  for key: " + key + ", dropping second value: " + value + '; keeping first value: ' + stored_value,
                                         output_stream=sys.stderr)
@@ -854,7 +865,7 @@ output_file = args.outputFile[0]
 
 curies_to_categories = safe_load_yaml_from_string(read_file_to_string(curies_to_categories_file_name))
 curies_to_uri_lal = safe_load_yaml_from_string(read_file_to_string(curies_to_uri_lal_file_name))
-curies_to_uri_map = prefixcommons.curie_util.default_curie_maps + curies_to_uri_lal
+curies_to_uri_map = curies_to_uri_lal + prefixcommons.curie_util.default_curie_maps
 uri_to_curie_shortener = make_uri_to_curie_shortener(curies_to_uri_map)
 map_category_label_to_iri = functools.partial(convert_biolink_category_to_iri, BIOLINK_CATEGORY_BASE_IRI)
 
