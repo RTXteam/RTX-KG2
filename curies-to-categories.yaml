@@ -2,19 +2,20 @@
 prefix-mappings:
     BSPO: relationship type
     CL: anatomical entity
+    GOREL: relationship type
     HGNC: gene
-    NCBIGene: gene
-    UniProtKB: protein
-    NCBITaxon: organism taxon
-    Orphanet: disease
-    RO: relationship type
     IAO: information entity type
-    UBERON: anatomical entity
-    OMIM: phenotypic feature
-    RGD: gene
-    SGD: gene
     MGI: gene
+    NCBIGene: gene
+    NCBITaxon: organism taxon
+    OMIM: phenotypic feature
+    Orphanet: disease
+    RGD: gene
+    RO: relationship type
+    SGD: gene
     STY: semantic type
+    UBERON: anatomical entity
+    UniProtKB: protein
 term-mappings:
     rdfs:isDefinedBy: relationship type
     OIO:inSubset: relationship type
