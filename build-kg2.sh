@@ -22,7 +22,7 @@ export OWLTOOLS_MEMORY=${MEM_GB}G
 export DEBUG=1  ## for owltools
 
 ## run the build-kg2.py script
-${VENV_DIR}/bin/python3 -u ${CODE_DIR}/build-kg2.py \
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/build_kg2.py \
            curies-to-categories.yaml \
            curies-to-urls-lookaside-list.yaml \
            ${OWL_LOAD_INVENTORY_FILE} \
