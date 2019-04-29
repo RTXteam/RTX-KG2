@@ -6,7 +6,7 @@ RUN useradd ubuntu -m -s /bin/bash
 
 # need to install sudo and wget
 RUN apt-get update
-RUN apt-get install -y git sudo wget git
+RUN apt-get install -y git sudo wget
 
 # give sudo privilege to user ubuntu:
 RUN usermod -aG sudo ubuntu
