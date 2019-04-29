@@ -36,6 +36,8 @@ term-mappings:
     BFO:0000051: relationship type
     BFO:0000054: relationship type
     BFO:0000055: relationship type
+    BFO:0000056: relationship type
+    BFO:0000057: relationship type
     BFO:0000060: relationship type
     BFO:0000061: relationship type
     BFO:0000062: relationship type
@@ -48,9 +50,12 @@ term-mappings:
     CARO:0000003: anatomical entity
     CHEBI:23888: drug
     CHEBI:24431: chemical substance
+    CHEBI:24432: biological role
     CHEBI:25212: metabolite
+    CHEBI:33232: application
     CHEBI:33697: RNA product
     CHEBI:36342: subatomic particle
+    CHEBI:51086: chemical role
     CHEBI:78295: biological food component
     CHEBI:50906: biological process
     CL:0000000: anatomical entity
@@ -59,6 +64,7 @@ term-mappings:
     GO:0005575: cellular component
     GO:0008150: biological process
     GO:0003674: molecular function
+    GOCHEREL:0000001: relationship type
     EFO:0000324: cell type
     EFO:0005066: material
     EFO:0001434: material
