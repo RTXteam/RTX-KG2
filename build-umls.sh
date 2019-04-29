@@ -34,8 +34,9 @@ mkdir -p ${UMLS_DEST_DIR}
 
 ## copy UMLS distribution files and MetamorphoSys config files from S3 to local dir
 aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/umls-${UMLS_FILE_BASE}.zip ${UMLS_DIR}/
-aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/umls-config.prop ${UMLS_DIR}/config.prop
-aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/umls-user.b.prop ${UMLS_DIR}/user.b.prop
+cp ${CODE_DIR}/umls-config.prop ${UMLS_DIR}/config.prop
+#aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/umls-config.prop ${UMLS_DIR}/config.prop
+#aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/umls-user.b.prop ${UMLS_DIR}/user.b.prop
 
 ## unpack UMLS and MetamorphoSys zip archives
 unzip ${UMLS_DIR}/umls-${UMLS_FILE_BASE}.zip -d ${UMLS_DIR}/
