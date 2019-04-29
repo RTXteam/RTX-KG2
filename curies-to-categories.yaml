@@ -175,22 +175,29 @@ term-mappings:
     TUI:T033: finding
     TUI:T038: biological process
     TUI:T047: disease
+    TUI:T051: event
     TUI:T052: activity
     TUI:T053: behavior
     TUI:T067: phenomenon or process
+    TUI:T071: entity
+    TUI:T072: physical object
     TUI:T073: product
     TUI:T074: device
     TUI:T075: device
+    TUI:T077: conceptual entity
     TUI:T078: concept
     TUI:T090: occupation
     TUI:T092: organization
     TUI:T096: group of people
-    TUI:T122: biological substance
+    TUI:T102: attribute
+    TUI:T103: chemical substance
+    TUI:T123: biological substance
     TUI:T125: protein
     TUI:T126: protein
     TUI:T126: biological food component
     TUI:T129: protein
     TUI:T131: chemical substance
+    TUI:T167: substance
     TUI:T170: product
     TUI:T171: language
     TUI:T184: phenotypic feature
