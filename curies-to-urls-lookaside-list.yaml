@@ -13,6 +13,8 @@
 -
   EFO: http://www.ebi.ac.uk/efo/EFO_
 -
+  GOREL: http://purl.obolibrary.org/obo/GOREL_
+-
   NCIT: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#
 -
   MGI: http://www.informatics.jax.org/marker/
