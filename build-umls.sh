@@ -17,6 +17,7 @@ MYSQL_CONF=${UMLS_DIR}/mysql-config.conf
 UMLS2RDF_RELEASE=rtx-1.5
 UMLS2RDF_PKGNAME=umls2rdf-${UMLS2RDF_RELEASE}
 UMLS2RDF_DIR=${UMLS_DIR}/${UMLS2RDF_PKGNAME}
+CONFIG_FILE=${UMLS_DIR}/config.prop
 
 sudo apt-get update -y
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password ${MYSQL_PASSWORD}"
@@ -34,7 +35,7 @@ mkdir -p ${UMLS_DEST_DIR}
 
 ## copy UMLS distribution files and MetamorphoSys config files from S3 to local dir
 aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/umls-${UMLS_FILE_BASE}.zip ${UMLS_DIR}/
-cp ${CODE_DIR}/umls-config.prop ${UMLS_DIR}/config.prop
+cp ${CODE_DIR}/umls-config.prop ${CONFIG_FILE}
 #aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/umls-config.prop ${UMLS_DIR}/config.prop
 #aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/umls-user.b.prop ${UMLS_DIR}/user.b.prop
 
@@ -48,7 +49,6 @@ export DESTDIR=${UMLS_DEST_DIR}
 export MMSYS_HOME=${UMLS_DIR}/${UMLS_FILE_BASE}
 export CLASSPATH=${MMSYS_DIR}:${MMSYS_DIR}/lib/jpf-boot.jar
 export JAVA_HOME=${MMSYS_DIR}/jre/linux
-CONFIG_FILE=${UMLS_DIR}/config.prop
 cd ${MMSYS_HOME}
 
 ## this is a workaround for a strange runtime warning I was getting from apache log4j
