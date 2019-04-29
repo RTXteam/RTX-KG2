@@ -723,47 +723,6 @@ def is_ignorable_ontology_term(iri: str):
     return iri_netloc in ('example.com', 'usefulinc.com') or iri_path.startswith('/ontology/provisional')
 
 
-# def make_nodes_out_of_individ_ontologies_metadata(ont_dict_list: list,
-#                                                   uri_to_curie_shortener: callable,
-#                                                   category_label_to_iri_mapper: callable):
-#     ret_dict = dict()
-#     iris_to_curies = dict()
-
-#     for ontology_info_dict in ont_dict_list:
-#         iri_of_ontology = ontology_info_dict['id']
-#         ontology_curie_id = uri_to_curie_shortener(iri_of_ontology)
-#         if ontology_curie_id is None or len(ontology_curie_id) == 0:
-#             ontology_curie_id = iri_of_ontology
-#         umls_sver = ontology_info_dict.get('umls-sver', None)
-#         updated_date = None
-#         if umls_sver is not None:
-#             # if you can, parse sver string into a date string
-#             updated_date = parse_umls_sver_date(umls_sver)
-#         if updated_date is None:
-#             updated_date = ontology_info_dict['file last modified timestamp']
-
-#         ret_dict.update({ontology_curie_id: {
-#             'id':  ontology_curie_id,
-#             'iri': iri_of_ontology,
-#             'full name': ontology_info_dict['title'],
-#             'name': ontology_info_dict['title'],
-#             'category': category_label_to_iri_mapper('data source'),
-#             'category label': 'data source',
-#             'description': ontology_info_dict['description'],
-#             'synonyms': None,
-#             'xrefs': None,
-#             'creation date': None,
-#             'update date': updated_date,
-#             'deprecated': False,
-#             'replaced by': None,
-#             'provided by': iri_of_ontology,
-#             'ontology node type': 'INDIVIDUAL',
-#             'ontology node id': iri_of_ontology}})
-
-#         iris_to_curies[iri_of_ontology] = ontology_curie_id
-#     return [ret_dict, iris_to_curies]
-
-
 def make_uri_to_curie_shortener(curie_to_iri_map: list = []):
     return lambda iri: shorten_iri_to_curie(iri, curie_to_iri_map)
 
