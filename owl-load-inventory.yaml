@@ -1,100 +1,154 @@
 -
-  url:
+  url: https://identifiers.org/umls/STY
   file: umls_semantictypes.owl
+  download: false
   title: UMLS Semantic Types
 -
-  url:
-  file: AI-RHEUM.owl
+  url: https://identifiers.org/umls/AIR
+  file: umls-air.owl
+  download: false
   title: Artificial Intelligence Rheumatology Consultant System (AI/RHEUM)
 -
-   url:  http://purl.obolibrary.org/obo/bfo.owl
-   file: bfo.owl
-   title: Basic Formal Ontology
+  url: https://identifiers.org/umls/ATC
+  file: umls-atc.owl
+  download: false
+  title: Anatomical Therapeutic Chemical Classification System
+-
+  url: https://identifiers.org/umls/COSTART
+  file: umls-costar.owl
+  download: false
+  title: Coding Symbols for a Thesaurus of Adverse Reaction Terms
+-
+  url: https://identifiers.org/umls/CPT
+  file: umls-cpt.owl
+  download: false
+  title: Current Procedural Terminology
+-
+  url: https://identifiers.org/umls/HCPCS
+  file: umls-hcpcs.owl
+  download: false
+  title: Healthcare Common Procedure Coding System
+-
+  url: https://identifiers.org/umls/HL7
+  file: umls-hl7v3.0.owl
+  download: false
+  title: Health Level Seven Vocabulary
+-
+  url: https://identifiers.org/umls/SNOMEDCT
+  file: umls-snomedct_us.owl
+  download: false
+  title: SNOMED CT Ontology
+-
+  url:  http://purl.obolibrary.org/obo/bfo.owl
+  file: bfo.owl
+  download: true
+  title: Basic Formal Ontology
 -
   url:  http://purl.obolibrary.org/obo/ro.owl
   file: ro.owl
+  download: true
   title: Relation Ontology
 -
   url:  http://purl.obolibrary.org/obo/uberon/ext.owl
   file: uberon-ext.owl
+  download: true
   title: Uber-anatomy Ontology
 -
   url:  http://www.ebi.ac.uk/efo/efo.owl
   file: efo.owl
+  download: true
   title: Experimental Factor Ontology
 -
   url:  http://purl.obolibrary.org/obo/fma.owl
   file: fma.owl
+  download: true
   title: Foundational Model of Anatomy
 -
   url:  http://purl.obolibrary.org/obo/ddanat.owl
   file: ddanat.owl
+  download: true
   title: Dictyostelium discoideum anatomy 
 -
   url:  http://purl.obolibrary.org/obo/cl.owl
   file: cl.owl
+  download: true
   title: Cell Ontology
 -
   url:  http://purl.obolibrary.org/obo/chebi.owl
   file: chebi.owl
+  download: true
   title: Chemical Entities of Biological Interest
 -
   url: http://purl.obolibrary.org/obo/foodon.owl
   file: foodon.owl
+  download: true
   title: FOODON (Food Ontology)
 -
   url:  http://www.orphadata.org/data/ORDO/ORDO_en_2.7.owl
   file: ordo.owl
+  download: true
   title: ORPHANET Rare Disease Ontology
 -
   url:  http://purl.obolibrary.org/obo/ehdaa2.owl
   file: ehdaa2.owl
+  download: true
   title: Human developmental anatomy, abstract
 -
   url:  http://purl.obolibrary.org/obo/bspo.owl
   file: bspo.owl
+  download: true
   title: Biological Spatial Ontology
 -
   url:  http://purl.obolibrary.org/obo/go/extensions/go-plus.owl
   file: go-plus.owl
+  download: true
   title: Gene Ontology
 -
   url:  http://purl.obolibrary.org/obo/hp.owl
   file: hp.owl
+  download: true
   title: Human Phenotype Ontology
 -
   url:  http://purl.obolibrary.org/obo/nbo.owl
   file: nbo.owl
+  download: true
   title: Neuro Behavior Ontology
 -
   url:  http://purl.obolibrary.org/obo/ncbitaxon/subsets/taxslim.owl
   file: taxslim.owl
+  download: true
   title: NCBITaxon
 -
   url:  http://purl.obolibrary.org/obo/pato.owl
   file: pato.owl
+  download: true
   title: Phenotypic Quality Ontology
 -
   url:  http://purl.obolibrary.org/obo/mondo.owl
   file: mondo.owl
+  download: true
   title: MONDO Disease Ontology
 -
   url:  http://purl.obolibrary.org/obo/doid.owl
   file: doid.owl
+  download: true
   title: Disease Ontology
 -
   url:  http://purl.obolibrary.org/obo/pr.owl
   file: pr.owl
+  download: true
   title: Protein Ontology
 -
   url: http://purl.obolibrary.org/obo/ncit/ncit-plus.owl
   file: ncit-plus.owl
+  download: true
   title: NCI Thesaurus OBO Edition
--
-  url: ## intentionally left blank which will map to "None" in the resulting python data structure
-  file: snomed-relax.owl
-  title: SNOMED CT Ontology
--
-  url: ## intentionally left blank which will map to "None" in the resulting python data structure
-  file: umls.owl
-  title: UMLS
+# -
+#   url: ## intentionally left blank which will map to "None" in the resulting python data structure
+#   file: snomed-relax.owl
+#   download: true
+#   title: SNOMED CT Ontology
+# -
+#   url: ## intentionally left blank which will map to "None" in the resulting python data structure
+#   file: umls.owl
+#   title: UMLS
