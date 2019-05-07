@@ -14,7 +14,6 @@ __email__ = ''
 __status__ = 'Prototype'
 
 # informal bug list:
-# - when we load "AI-RHEUM.owl" into ontobio, the ontology.id field is 'http://www.w3.org/2004/02/skos/core'; why?
 # - for CUIs, the 'updated date' is always the current date; maybe "borrow" from the UMLS release date?
 # - some terms are showing up with a local file path as their "source URI"; use a real URI from the config file
 
@@ -49,16 +48,15 @@ import yaml
 
 # -------------- define globals here ---------------
 
-USE_ONTOBIO_JSON_CACHE = True
 BIOLINK_CATEGORY_BASE_IRI = 'http://w3id.org/biolink'
 FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
 ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
-ENSEMBL_RE = re.compile('ENS[A-Z]{0,3}([PG])[0-9]{11}')
 TEMP_FILE_PREFIX = 'kg2'
-YEAR_RE = re.compile('([12][90][0-9]{2})')
-YMD_RE = re.compile('([12][90][0-9]{2})_([0-9]{1,2})_([0-9]{1,2})')
-MY_RE = re.compile('([0-9]{1,2})_[12][90][0-9]{2}')
-YM_RE = re.compile('[12][90][0-9]{2}_([0-9]{1,2})')
+REGEX_ENSEMBL = re.compile('ENS[A-Z]{0,3}([PG])[0-9]{11}')
+REGEX_YEAR = re.compile('([12][90][0-9]{2})')
+REGEX_YEAR_MONTH_DAY = re.compile('([12][90][0-9]{2})_([0-9]{1,2})_([0-9]{1,2})')
+REGEX_MONTH_YEAR = re.compile('([0-9]{1,2})_[12][90][0-9]{2}')
+REGEX_YEAR_MONTH = re.compile('[12][90][0-9]{2}_([0-9]{1,2})')
 
 CURIE_PREFIX_ENSEMBL = 'ENSEMBL:'
 STY_BASE_IRI = 'https://identifiers.org/umls/STY'
@@ -308,20 +306,20 @@ def make_rel_key(subject_id: str,
 
 
 def parse_umls_sver_date(umls_sver: str):
-    umls_sver_match = YEAR_RE.match(umls_sver)
+    umls_sver_match = REGEX_YEAR.match(umls_sver)
     updated_date = None
     if umls_sver_match is not None:
         updated_date = umls_sver_match[0]
     else:
-        umls_sver_match = YMD_RE.match(umls_sver)
+        umls_sver_match = REGEX_YEAR_MONTH_DAY.match(umls_sver)
         if umls_sver_match is not None:
             updated_date = umls_sver_match[0] + '-' + ('%0.2d' % int(umls_sver_match[1])) + '-' + ('%0.2d' % int(umls_sver_match[2]))
         else:
-            umls_sver_match = MY_RE.match(umls_sver)
+            umls_sver_match = REGEX_MONTH_YEAR.match(umls_sver)
             if umls_sver_match is not None:
                 updated_date = umls_sver_match[1] + '-' + ('%0.2d' % int(umls_sver_match[0]))
             else:
-                umls_sver_match = YM_RE.match(umls_sver)
+                umls_sver_match = REGEX_YEAR_MONTH.match(umls_sver)
                 if umls_sver_match is not None:
                     updated_date = umls_sver_match[0] + ('%0.2d' % int(umls_sver_match[1]))
     return updated_date
@@ -690,7 +688,7 @@ def get_biolink_category_for_node(ontology_node_id: str,
                                 node_curie_id, output_stream=sys.stderr)
         elif node_curie_id.startswith(CURIE_PREFIX_ENSEMBL):
             curie_suffix = node_curie_id.replace(CURIE_PREFIX_ENSEMBL, '')
-            ensembl_match = re.match(ENSEMBL_RE, curie_suffix)
+            ensembl_match = re.match(REGEX_ENSEMBL, curie_suffix)
             if ensembl_match is not None:
                 ensembl_match_letter = ensembl_match[1]
                 if ensembl_match_letter == 'G':
@@ -732,15 +730,6 @@ def is_ignorable_ontology_term(iri: str):
 
 def make_uri_to_curie_shortener(curie_to_iri_map: list = []):
     return lambda iri: shorten_iri_to_curie(iri, curie_to_iri_map)
-
-
-def make_arg_parser():
-    arg_parser = argparse.ArgumentParser(description='build-kg2: builds the KG2 knowledge graph for the RTX system')
-    arg_parser.add_argument('categoriesFile', type=str, nargs=1)
-    arg_parser.add_argument('curiesToURILALFile', type=str, nargs=1)
-    arg_parser.add_argument('owlLoadInventoryFile', type=str, nargs=1)
-    arg_parser.add_argument('outputFile', type=str, nargs=1)
-    return arg_parser
 
 
 def convert_owl_camel_case_to_biolink_spaces(name: str):
@@ -852,11 +841,18 @@ def make_map_of_node_ontology_ids_to_curie_ids(nodes: dict):
     return ret_dict
 
 
+def make_arg_parser():
+    arg_parser = argparse.ArgumentParser(description='build-kg2: builds the KG2 knowledge graph for the RTX system')
+    arg_parser.add_argument('categoriesFile', type=str, nargs=1)
+    arg_parser.add_argument('curiesToURILALFile', type=str, nargs=1)
+    arg_parser.add_argument('owlLoadInventoryFile', type=str, nargs=1)
+    arg_parser.add_argument('outputFile', type=str, nargs=1)
+    return arg_parser
+
+
 # --------------- main starts here -------------------
 
-if not USE_ONTOBIO_JSON_CACHE:
-    delete_ontobio_cachier_caches()
-
+delete_ontobio_cachier_caches()
 args = make_arg_parser().parse_args()
 curies_to_categories_file_name = args.categoriesFile[0]
 curies_to_uri_lal_file_name = args.curiesToURILALFile[0]
