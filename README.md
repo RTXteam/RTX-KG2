@@ -39,7 +39,7 @@ specifications:
 
 The Ubuntu system in which you will run the KG2 build should *not* have MySQL
 installed; if MySQL is installed, you will need to delete it as follows
-(WARNING: don't run these steps without first making a backup AMI of your
+(WARNING: don't run this command without first making a backup AMI of your
 system):
 
     source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/delete-mysql-ubuntu.sh)
