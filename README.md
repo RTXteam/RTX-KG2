@@ -58,7 +58,8 @@ programmatically write to the (publicly readable) S3 bucket
 `s3://rtx-kg2-public` (both buckets are in the `us-west-2` AWS zone). The KG2
 build script downloads the UMLS and SNOMED CT distributions from the private S3
 bucket `rtx-kg2` (IANAL, but it appears that these distributions are encumbered
-by licenses so I have not hosted them on a public server for download) and it
+by licenses so I have not hosted them on a public server for download; but you
+can get them for free if you agree to the UMLS and SNOMED CT licenses) and it
 uploads the final output `kg2.json` file to the public S3 bucket
 `rtx-kg2-public`. Alternatively, you can set up your own S3 bucket to which to
 copy the KG2 JSON file, or you can comment the line out of `build-kg2.sh` that
