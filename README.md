@@ -34,7 +34,7 @@ specifications:
 
 - 128 GB of system RAM
 - 500 GB of disk space in the root file system 
-- high-speed network access
+- high-speed networking
 - ideally, AWS zone `us-west-2` since that is where the S3 buckets are located
 
 The Ubuntu system in which you will run the KG2 build should *not* have MySQL
@@ -55,13 +55,14 @@ up), so that the build script can download a copy of the full UMLS distribution.
 You will be asked (by the AWS CLI) to provide this authentication key when you
 run the KG2 build script. Your configured AWS CLI will also need to be able to
 programmatically write to the (publicly readable) S3 bucket
-`s3://rtx-kg2-public` (both buckets are in the `us-west-2` zone). The KG2 build
-script downloads the UMLS and SNOMED CT distributions from the private S3 bucket
-`rtx-kg2` (these distributions are encumbered by licenses so they cannot be put
-on a public server for download) and it uploads the final output `kg2.json` file
-to the public S3 bucket `rtx-kg2-public`. Alternatively, you can set up your own
-S3 bucket to which to copy the KG2 JSON file, or you can comment the line out of
-`build-kg2.sh` that copies the final JSON file to S3.
+`s3://rtx-kg2-public` (both buckets are in the `us-west-2` AWS zone). The KG2
+build script downloads the UMLS and SNOMED CT distributions from the private S3
+bucket `rtx-kg2` (IANAL, but it appears that these distributions are encumbered
+by licenses so I have not hosted them on a public server for download) and it
+uploads the final output `kg2.json` file to the public S3 bucket
+`rtx-kg2-public`. Alternatively, you can set up your own S3 bucket to which to
+copy the KG2 JSON file, or you can comment the line out of `build-kg2.sh` that
+copies the final JSON file to S3.
 
 ## My normal EC2 instance
 
