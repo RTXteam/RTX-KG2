@@ -37,10 +37,12 @@ specifications:
 - high-speed networking
 - ideally, AWS zone `us-west-2` since that is where the S3 buckets are located
 
+## Local shell environment
+
 The Ubuntu system in which you will run the KG2 build should *not* have MySQL
-installed; if MySQL is installed, you will need to delete it as follows
-(WARNING: don't run this command without first making a backup AMI of your
-system):
+installed; if MySQL is installed, you will need to delete it using the following
+`bash` command, which requires `curl`: (WARNING! Please don't run this command
+without first making a backup image of your system, such as an AMI):
 
     source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/delete-mysql-ubuntu.sh)
 
@@ -75,6 +77,9 @@ The `build_kg2.py` script has been tested with the following instance type:
 - Security Group: ingress TCP packets on port 22 (ssh) permitted
 
 ## Build instructions
+
+Note: for Option 2 and Option 3 below, you will need to be using the
+`bash` shell on your local computer.
 
 ### Option 1: build KG2 directly on an Ubuntu system, not via ssh:
 
@@ -140,8 +145,9 @@ two commands (run them in separate bash shell terminals):
 
 ### Option 2: remotely build KG2 in an EC2 instance via ssh, orchestrated from your local computer
 
-In a `bash` terminal session, set up the remote EC2 instance by running
-this command (requires `ssh` installed and in your path):
+This option requires that you have `curl` installed on your local computer. In a
+`bash` terminal session, set up the remote EC2 instance by running this command
+(requires `ssh` installed and in your path):
 
     source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/ec2-setup-remote-instance.sh)
     
