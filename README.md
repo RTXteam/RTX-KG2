@@ -83,9 +83,11 @@ The `build_kg2.py` script has been tested with the following instance type:
 Note: to follow the instructions for Option 2 and Option 3 below, you will need
 to be using the `bash` shell on your local computer.
 
-### Option 1: build KG2 directly on an Ubuntu system, not via ssh:
+### Option 1: build KG2 directly on an Ubuntu system:
 
-(1) change to the home directory for user `ubuntu`:
+These instructions assume that you are logged into an Ubuntu system:
+
+(1) change to the user's home directory:
 
     cd 
     
