@@ -150,16 +150,24 @@ session, continue to follow the instructions for Option 1 (starting at step (4))
 
 ### Option 3: in an Ubuntu container in Docker (UNTESTED, IN DEVELOPMENT)
 
-If you are on Ubuntu and you need to install Docker, you can run this script:
+(1) If you are on Ubuntu and you need to install Docker, you can run this command in `bash` on the host OS:
    
-    RTX/code/kg2/install-docker.sh
+    source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/install-docker.sh)
     
 (otherwise, the subsequent commands in this section assume that Docker is installed
-on whatever host OS you are running). Then run these commands in the `bash` shell:
+on whatever host OS you are running). 
 
-    cd
+(2) Clone the RTX software into your home directory:
+
+    cd 
+    
+    git clone https://github.com/RTXteam/RTX.git
+
+(3) Build a Docker image for KG2:
     
     sudo docker build -t kg2 RTX/code/kg2/
+    
+(4) In a screen session (to provide a persistent pseudo-tty), setup a container and setup KG2 in it:
 
     screen
     
@@ -169,7 +177,15 @@ Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 setup usin
 
     sudo docker exec kg2 "tail -f setup-kg2.log"
 
-Then again inside screen, run:
+(5) Inside the screen session, build UMLS:
+
+    sudo docker exec kg2 "kg2-code/build-umls.sh > ~/kg2-build/build-umls.log 2>&1"
+
+Then exit screen (`ctrl-a d`). You can watch the progress of your UMLS build using the command:
+
+    sudo docker exec kg2 "tail -f kg2-build/build-umls.log"
+
+(6) Build KG2: inside screen, run:
 
     sudo docker exec kg2 "kg2-code/build-kg2.sh"
 
