@@ -70,7 +70,7 @@ The `build_kg2.py` script has been tested with the following instance type:
 - AMI: Ubuntu Server 18.04 LTS (HVM), SSD Volume Type - `ami-005bdb005fb00e791` (64-bit x86)
 - Instance type: `r5.4xlarge` 
 - Storage: 500 GiB General Purpose SSD
-- Security Group: ingress TCP packets on port 80 (http) and 22 (ssh) permitted
+- Security Group: ingress TCP packets on port 22 (ssh) permitted
 
 ## Build instructions
 
