@@ -39,7 +39,7 @@ specifications:
 
 ## We assume there is no MySQL cruft
 
-The Ubuntu system in which you will run the KG2 build should *not* have MySQL
+The target Ubuntu system in which you will run the KG2 build should *not* have MySQL
 installed; if MySQL is installed, you will need to delete it using the following
 `bash` command, which requires `curl`: (WARNING! Please don't run this command
 without first making a backup image of your system, such as an AMI):
