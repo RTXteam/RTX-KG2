@@ -85,7 +85,7 @@ to be using the `bash` shell on your local computer.
 
 ### Option 1: build KG2 directly on an Ubuntu system:
 
-These instructions assume that you are logged into an Ubuntu system:
+These instructions assume that you are logged into the target Ubuntu system:
 
 (1) change to the user's home directory:
 
