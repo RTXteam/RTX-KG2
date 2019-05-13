@@ -131,12 +131,11 @@ two commands (run them in separate bash shell terminals):
     
 ### Option 2: remotely build KG2 in an EC2 instance via ssh, orchestrated from your local computer
 
-Run these commands in the `bash` shell, in order:
+In a `bash` terminal session, set up the remote EC2 instance by running
+this command (requires `ssh` installed and in your path):
 
-    git clone https://github.com/RTXteam/RTX.git
+    source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/ec2-setup-remote-instance.sh)
     
-    RTX/code/kg2/ec2-setup-remote-instance.sh
-
 This should initiate a `bash` session on the remote instance. Within that `bash`
 session, continue to follow the instructions for Option 1 (from the beginning).
 
