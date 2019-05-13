@@ -78,8 +78,8 @@ The `build_kg2.py` script has been tested with the following instance type:
 
 ## Build instructions
 
-Note: for Option 2 and Option 3 below, you will need to be using the
-`bash` shell on your local computer.
+Note: to follow the instructions for Option 2 and Option 3 below, you will need
+to be using the `bash` shell on your local computer.
 
 ### Option 1: build KG2 directly on an Ubuntu system, not via ssh:
 
