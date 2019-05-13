@@ -76,16 +76,20 @@ The `build_kg2.py` script has been tested with the following instance type:
 
 ### Option 1: build KG2 directly on an Ubuntu system, not via ssh:
 
-Run these commands in the `bash` shell, in order:
+Install `git` by running these commands in the `bash` shell, in order:
 
     cd
     
     sudo apt-get update -y
     
     sudo apt-get install -y screen git
-    
+
+Clone the RTX software from GitHub:
+
     git clone https://github.com/RTXteam/RTX.git
-    
+
+Initiate a `screen` session to provide a stable pseudo-tty:
+
     screen
 
 Within the `screen` session, run:
