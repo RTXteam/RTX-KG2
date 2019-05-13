@@ -37,9 +37,10 @@ specifications:
 - high-speed network access
 - ideally, AWS zone `us-west-2` since that is where the S3 buckets are located
 
-Your host OS should *not* have MySQL installed; if MySQL is installed, you will
-need to delete it as follows (WARNING: don't run these steps without first
-making a backup AMI of your system):
+The Ubuntu system in which you will run the KG2 build should *not* have MySQL
+installed; if MySQL is installed, you will need to delete it as follows
+(WARNING: don't run these steps without first making a backup AMI of your
+system):
 
     sudo apt-get remove --purge -y mysql*
     sudo apt-get autoremove -y
