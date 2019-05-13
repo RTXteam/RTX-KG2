@@ -71,7 +71,7 @@ copies the final JSON file to S3.
 
 ## My normal EC2 instance
 
-The `build_kg2.py` script has been tested with the following instance type:
+The KG2 build software has been tested with the following instance type:
 
 - AMI: Ubuntu Server 18.04 LTS (HVM), SSD Volume Type - `ami-005bdb005fb00e791` (64-bit x86)
 - Instance type: `r5.4xlarge` 
