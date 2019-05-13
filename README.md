@@ -76,19 +76,19 @@ The `build_kg2.py` script has been tested with the following instance type:
 
 ### Option 1: build KG2 directly on an Ubuntu system, not via ssh:
 
-Install `git` by running this command in the `bash` shell:
+(1) Install `git` by running this command in the `bash` shell:
 
     cd && sudo apt-get update -y && sudo apt-get install -y screen git
 
-Clone the RTX software from GitHub:
+(2) Clone the RTX software from GitHub:
 
     git clone https://github.com/RTXteam/RTX.git
 
-Initiate a `screen` session to provide a stable pseudo-tty:
+(3) Initiate a `screen` session to provide a stable pseudo-tty:
 
     screen
 
-Within the `screen` session, run:
+(4) Within the `screen` session, run:
 
     RTX/code/kg2/setup-kg2.sh > setup-kg2.log 2>&1
     
@@ -97,7 +97,7 @@ using the command:
 
     tail -f setup-kg2.log
 
-Next, build `snomed.owl` (an OWL representation of the SNOMED CT US English
+(5) Next, build `snomed.owl` (an OWL representation of the SNOMED CT US English
 distribution), as follows: rejoin the `screen` session using `screen -r`.
 In the `screen` session, do this:
 
@@ -107,10 +107,11 @@ Then exit screen (`ctrl-a d`). You can watch the progress via:
 
     tail -f ~/kg2-build/build-snomed.log
 
-The build process for `snomed.owl` takes about 10 minutes.  Next, build
-`umls.owl` (an OWL representation of the UMLS Level 0 ontologies plus SNOMED
-CT), as follows: rejoin the `screen` session using `screen -r`.  In the `screen`
-session, do this:
+The build process for `snomed.owl` takes about 10 minutes.  
+
+(6) Next, build `umls.owl` (an OWL representation of the UMLS Level 0 ontologies
+plus SNOMED CT), as follows: rejoin the `screen` session using `screen -r`.  In
+the `screen` session, do this:
 
     ~/kg2-code/build-umls.sh > ~/kg2-build/build-umls.log 2>&1
     
@@ -118,8 +119,10 @@ You can watch the progress via:
 
     tail -f ~/kg2-build/build-umls.log
 
-The build process for `umls.owl` takes about 5.5 hours. Next, rejoin the screen
-session using `screen -r`.  Within the `screen` session, run:
+The build process for `umls.owl` takes about 5.5 hours. 
+
+(7) Next, we will build KG2. Rejoin the screen session using `screen -r`.  Within
+the `screen` session, run:
 
     ~/kg2-code/build-kg2.sh
 
@@ -128,7 +131,8 @@ two commands (run them in separate bash shell terminals):
 
     tail -f /home/ubuntu/kg2-build/build-kg2-stdout.log
     tail -f /home/ubuntu/kg2-build/build-kg2-stderr.log
-    
+
+
 ### Option 2: remotely build KG2 in an EC2 instance via ssh, orchestrated from your local computer
 
 In a `bash` terminal session, set up the remote EC2 instance by running
@@ -137,7 +141,7 @@ this command (requires `ssh` installed and in your path):
     source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/ec2-setup-remote-instance.sh)
     
 This should initiate a `bash` session on the remote instance. Within that `bash`
-session, continue to follow the instructions for Option 1 (from the beginning).
+session, continue to follow the instructions for Option 1 (starting at step (3)).
 
 ### Option 3: in an Ubuntu container in Docker (UNTESTED, IN DEVELOPMENT)
 
