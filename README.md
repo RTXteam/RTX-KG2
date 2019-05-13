@@ -54,14 +54,17 @@ best bet would be to use Docker (see Option 3 below).
 Aside from your host OS, you'll need to have an Amazon Web Services (AWS)
 authentication key that is configured to be able to read from the `s3://rtx-kg2`
 Amazon Simple Cloud Storage Service (S3) bucket (ask Stephen Ramsey to set this
-up) and to write to the S3 bucket `s3://rtx-kg2-public` (both in the `us-west-2`
-zone). The KG2 build script downloads the UMLS and SNOMED CT distributions from
-the private S3 bucket `rtx-kg2` (these distributions are encumbered by licenses so
-they cannot be put on a public server for download) and it uploads the
-final output `kg2.json` file to the public S3 bucket `rtx-kg2-public`.
+up) and to write to the (publicly readable) S3 bucket `s3://rtx-kg2-public`
+(both buckets are in the `us-west-2` zone). The KG2 build script downloads the
+UMLS and SNOMED CT distributions from the private S3 bucket `rtx-kg2` (these
+distributions are encumbered by licenses so they cannot be put on a public
+server for download) and it uploads the final output `kg2.json` file to the
+public S3 bucket `rtx-kg2-public`.
 
 
 ## My normal EC2 instance
+
+The `build_kg2.py` script has been tested with the following instance type:
 
 - AMI: Ubuntu Server 18.04 LTS (HVM), SSD Volume Type - `ami-005bdb005fb00e791` (64-bit x86)
 - Instance type: `r5.4xlarge` 
