@@ -42,11 +42,7 @@ installed; if MySQL is installed, you will need to delete it as follows
 (WARNING: don't run these steps without first making a backup AMI of your
 system):
 
-    sudo apt-get remove --purge -y mysql*
-    sudo apt-get autoremove -y
-    sudo apt-get autoclean
-    sudo apt-get remove dbconfig-mysql
-    sudo rm -r -f /etc/mysql
+    source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/delete-mysql-ubuntu.sh)
 
 The KG2 build system has been tested *only* under Ubuntu 18.04. If you want to
 build KG2 but don't have a native installation of Ubuntu 18.04 available, your
