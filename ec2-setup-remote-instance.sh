@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euxo pipefail
 
-INSTANCE_HOSTNAME=kg2dev.saramsey.org
+INSTANCE_HOSTNAME=kg2dev.rtx.ai
 PUBLIC_KEY_FILE=id_rsa.pub
 AWS_PEM_FILE=/Volumes/WorkEncrypted/ramseyst-new-aws-login.pem
 
