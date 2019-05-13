@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euxo pipefail
 
+## DANGER: this script wipes an Ubuntu EC2 instance clean
+
 ## setup the shell variables for various directories
 CONFIG_DIR=`dirname "$0"`
 source ${CONFIG_DIR}/master-config.shinc
