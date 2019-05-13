@@ -37,7 +37,7 @@ specifications:
 - high-speed networking
 - ideally, AWS zone `us-west-2` since that is where the S3 buckets are located
 
-## Local shell environment
+## We assume there is no MySQL cruft
 
 The Ubuntu system in which you will run the KG2 build should *not* have MySQL
 installed; if MySQL is installed, you will need to delete it using the following
@@ -49,6 +49,8 @@ without first making a backup image of your system, such as an AMI):
 The KG2 build system has been tested *only* under Ubuntu 18.04. If you want to
 build KG2 but don't have a native installation of Ubuntu 18.04 available, your
 best bet would be to use Docker (see Option 3 below). 
+
+## AWS authentication key and AWS buckets
 
 Aside from your host OS, you'll need to have an Amazon Web Services (AWS)
 authentication key that is configured to be able to read from the `s3://rtx-kg2`
