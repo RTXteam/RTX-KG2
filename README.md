@@ -124,7 +124,7 @@ You can watch the progress via:
 
     tail -f ~/kg2-build/build-umls.log
 
-The build process for `umls.owl` takes about 5.5 hours. 
+Extracting UMLS and building all the UMLS OWL files takes about 5.5 hours. 
 
 (8) Build KG2: Rejoin the screen session using `screen -r`.  Within
 the `screen` session, run:
