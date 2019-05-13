@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euxo pipefail
 
 # Deletes MySQL from an Ubuntu system, including the database(s)
 
