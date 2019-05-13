@@ -109,9 +109,8 @@ Then exit screen (`ctrl-a d`). You can watch the progress via:
 
 The build process for `snomed.owl` takes about 10 minutes.  
 
-(6) Next, build `umls.owl` (an OWL representation of the UMLS Level 0 ontologies
-plus SNOMED CT), as follows: rejoin the `screen` session using `screen -r`.  In
-the `screen` session, do this:
+(6) Next, build all of the UMLS OWL files, as follows: rejoin the `screen`
+session using `screen -r`.  In the `screen` session, do this:
 
     ~/kg2-code/build-umls.sh > ~/kg2-build/build-umls.log 2>&1
     
