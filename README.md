@@ -78,23 +78,23 @@ The `build_kg2.py` script has been tested with the following instance type:
 
 ### Option 1: build KG2 directly on an Ubuntu system, not via ssh:
 
-(0) change to the home directory for user `ubuntu`:
+(1) change to the home directory for user `ubuntu`:
 
     cd 
     
-(1) Install `git` by running this command in the `bash` shell:
+(2) Install `git` by running this command in the `bash` shell:
 
     sudo apt-get update -y && sudo apt-get install -y screen git
 
-(2) Clone the RTX software from GitHub:
+(3) Clone the RTX software from GitHub:
 
     git clone https://github.com/RTXteam/RTX.git
 
-(3) Initiate a `screen` session to provide a stable pseudo-tty:
+(4) Initiate a `screen` session to provide a stable pseudo-tty:
 
     screen
 
-(4) Within the `screen` session, run:
+(5) Setup the KG2 build system: Within the `screen` session, run:
 
     RTX/code/kg2/setup-kg2.sh > setup-kg2.log 2>&1
     
@@ -103,7 +103,7 @@ using the command:
 
     tail -f setup-kg2.log
 
-(5) Next, build `snomed.owl` (an OWL representation of the SNOMED CT US English
+(6) Build `snomed.owl` (an OWL representation of the SNOMED CT US English
 distribution), as follows: rejoin the `screen` session using `screen -r`.
 In the `screen` session, do this:
 
@@ -115,7 +115,7 @@ Then exit screen (`ctrl-a d`). You can watch the progress via:
 
 The build process for `snomed.owl` takes about 10 minutes.  
 
-(6) Next, build all of the UMLS OWL files, as follows: rejoin the `screen`
+(7) Build all of the UMLS OWL files, as follows: rejoin the `screen`
 session using `screen -r`.  In the `screen` session, do this:
 
     ~/kg2-code/build-umls.sh > ~/kg2-build/build-umls.log 2>&1
@@ -126,7 +126,7 @@ You can watch the progress via:
 
 The build process for `umls.owl` takes about 5.5 hours. 
 
-(7) Next, we will build KG2. Rejoin the screen session using `screen -r`.  Within
+(8) Build KG2: Rejoin the screen session using `screen -r`.  Within
 the `screen` session, run:
 
     ~/kg2-code/build-kg2.sh
@@ -146,7 +146,7 @@ this command (requires `ssh` installed and in your path):
     source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/ec2-setup-remote-instance.sh)
     
 This should initiate a `bash` session on the remote instance. Within that `bash`
-session, continue to follow the instructions for Option 1 (starting at step (3)).
+session, continue to follow the instructions for Option 1 (starting at step (4)).
 
 ### Option 3: in an Ubuntu container in Docker (UNTESTED, IN DEVELOPMENT)
 
