@@ -4,467 +4,467 @@
   download: false
   title: UMLS Semantic Types
 - download: false
-  file: umls-atc.owl
+  file: umls-atc.ttl
   title: Anatomical Therapeutic Chemical Classification System
   url: https://identifiers.org/umls/ATC
 - download: false
-  file: umls-ccc.owl
+  file: umls-ccc.ttl
   title: Clinical Care Classification
   url: https://identifiers.org/umls/CCC
 - download: false
-  file: umls-atc.owl
+  file: umls-atc.ttl
   title: Anatomical Therapeutic Chemical Classification System
   url: https://identifiers.org/umls/ATC
 - download: false
-  file: umls-ccc.owl
+  file: umls-ccc.ttl
   title: Clinical Care Classification
   url: https://identifiers.org/umls/CCC
 - download: false
-  file: umls-atc.owl
+  file: umls-atc.ttl
   title: Anatomical Therapeutic Chemical Classification System
   url: https://identifiers.org/umls/ATC
 - download: false
-  file: umls-ccc.owl
+  file: umls-ccc.ttl
   title: Clinical Care Classification
   url: https://identifiers.org/umls/CCC
 - download: false
-  file: umls-atc.owl
+  file: umls-atc.ttl
   title: Anatomical Therapeutic Chemical Classification System
   url: https://identifiers.org/umls/ATC
 - download: false
-  file: umls-ccc.owl
+  file: umls-ccc.ttl
   title: Clinical Care Classification
   url: https://identifiers.org/umls/CCC
 - download: false
-  file: umls-ccs10.owl
+  file: umls-ccs10.ttl
   title: Clinical Classifications Software
   url: https://identifiers.org/umls/CCS
 - download: false
-  file: umls-cdt.owl
+  file: umls-cdt.ttl
   title: Current Dental Terminology
   url: https://identifiers.org/umls/CDT
 - download: false
-  file: umls-chv.owl
+  file: umls-chv.ttl
   title: Consumer Health Vocabulary
   url: https://identifiers.org/umls/CHV
 - download: false
-  file: umls-atc.owl
+  file: umls-atc.ttl
   title: Anatomical Therapeutic Chemical Classification System
   url: https://identifiers.org/umls/ATC
 - download: false
-  file: umls-ccc.owl
+  file: umls-ccc.ttl
   title: Clinical Care Classification
   url: https://identifiers.org/umls/CCC
 - download: false
-  file: umls-ccs10.owl
+  file: umls-ccs10.ttl
   title: Clinical Classifications Software
   url: https://identifiers.org/umls/CCS
 - download: false
-  file: umls-cdt.owl
+  file: umls-cdt.ttl
   title: Current Dental Terminology
   url: https://identifiers.org/umls/CDT
 - download: false
-  file: umls-chv.owl
+  file: umls-chv.ttl
   title: Consumer Health Vocabulary
   url: https://identifiers.org/umls/CHV
 - download: false
-  file: umls-cpt.owl
+  file: umls-cpt.ttl
   title: Current Procedural Terminology
   url: https://identifiers.org/umls/CPT
 - download: false
-  file: umls-cvx.owl
+  file: umls-cvx.ttl
   title: Vaccines Administered
   url: https://identifiers.org/umls/CVX
 - download: false
-  file: umls-drugbank.owl
+  file: umls-drugbank.ttl
   title: DrugBank
   url: https://identifiers.org/umls/DRUGBANK
 - download: false
-  file: umls-atc.owl
+  file: umls-atc.ttl
   title: Anatomical Therapeutic Chemical Classification System
   url: https://identifiers.org/umls/ATC
 - download: false
-  file: umls-ccc.owl
+  file: umls-ccc.ttl
   title: Clinical Care Classification
   url: https://identifiers.org/umls/CCC
 - download: false
-  file: umls-ccs10.owl
+  file: umls-ccs10.ttl
   title: Clinical Classifications Software 10
   url: https://identifiers.org/umls/CCS
 - download: false
-  file: umls-cdt.owl
+  file: umls-cdt.ttl
   title: Current Dental Terminology
   url: https://identifiers.org/umls/CDT
 - download: false
-  file: umls-chv.owl
+  file: umls-chv.ttl
   title: Consumer Health Vocabulary
   url: https://identifiers.org/umls/CHV
 - download: false
-  file: umls-cpt.owl
+  file: umls-cpt.ttl
   title: Current Procedural Terminology
   url: https://identifiers.org/umls/CPT
 - download: false
-  file: umls-cvx.owl
+  file: umls-cvx.ttl
   title: Vaccines Administered
   url: https://identifiers.org/umls/CVX
 - download: false
-  file: umls-drugbank.owl
+  file: umls-drugbank.ttl
   title: DrugBank
   url: https://identifiers.org/umls/DRUGBANK
 - download: false
-  file: umls-dsm-5.owl
+  file: umls-dsm-5.ttl
   title: Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition
   url: https://identifiers.org/umls/DSM5
 - download: false
-  file: umls-fma.owl
+  file: umls-fma.ttl
   title: Foundational Model of Anatomy
   url: https://identifiers.org/umls/FMA
 - download: false
-  file: umls-go.owl
+  file: umls-go.ttl
   title: Gene Ontology
   url: https://identifiers.org/umls/GO
 - download: false
-  file: umls-gs.owl
+  file: umls-gs.ttl
   title: Gold Standard Drug Database
   url: https://identifiers.org/umls/GS
 - download: false
-  file: umls-hcdt.owl
+  file: umls-hcdt.ttl
   title: Current Dental Terminology in HCPCS
   url: https://identifiers.org/umls/HCDT
 - download: false
-  file: umls-hcpcs.owl
+  file: umls-hcpcs.ttl
   title: Healthcare Common Procedure Coding System
   url: https://identifiers.org/umls/HCPCS
 - download: false
-  file: umls-hcpt.owl
+  file: umls-hcpt.ttl
   title: CPT in HCPCS
   url: https://identifiers.org/umls/HCPT
 - download: false
-  file: umls-hgnc.owl
+  file: umls-hgnc.ttl
   title: HUGO Gene Nomenclature Committee
   url: https://identifiers.org/umls/HGNC
 - download: false
-  file: umls-hl7.owl
+  file: umls-hl7.ttl
   title: HL7 Version 3.0
   url: https://identifiers.org/umls/HL7
 - download: false
-  file: umls-hpo.owl
+  file: umls-hpo.ttl
   title: Human Phenotype Ontology
   url: https://identifiers.org/umls/HPO
 - download: false
-  file: umls-icd10.owl
+  file: umls-icd10.ttl
   title: International Classification of Diseases and Related Health Problems,
   url: https://identifiers.org/umls/ICD10
 - download: false
-  file: umls-icd10ae.owl
+  file: umls-icd10ae.ttl
   title: ICD-10, American English Equivalents
   url: https://identifiers.org/umls/ICD10AE
 - download: false
-  file: umls-icd10cm.owl
+  file: umls-icd10cm.ttl
   title: International Classification of Diseases, Tenth Revision, Clinical Modification
   url: https://identifiers.org/umls/ICD10CM
 - download: false
-  file: umls-icd10pcs.owl
+  file: umls-icd10pcs.ttl
   title: ICD-10 Procedure Coding System
   url: https://identifiers.org/umls/ICD10PCS
 - download: false
-  file: umls-icd9cm.owl
+  file: umls-icd9cm.ttl
   title: International Classification of Diseases, Ninth Revision, Clinical Modification
   url: https://identifiers.org/umls/ICD9CM
 - download: false
-  file: umls-icnp.owl
+  file: umls-icnp.ttl
   title: International Classification for Nursing Practice
   url: https://identifiers.org/umls/ICNP
 - download: false
-  file: umls-lnc.owl
+  file: umls-lnc.ttl
   title: Logical Observation Identifiers Names and Codes
   url: https://identifiers.org/umls/LNC
 - download: false
-  file: umls-mdr.owl
+  file: umls-mdr.ttl
   title: MedDRA
   url: https://identifiers.org/umls/MEDDRA
 - download: false
-  file: umls-med-rt.owl
+  file: umls-med-rt.ttl
   title: Medication Reference Terminology
   url: https://identifiers.org/umls/MED-RT
 - download: false
-  file: umls-medcin.owl
+  file: umls-medcin.ttl
   title: MEDCIN
   url: https://identifiers.org/umls/MEDCIN
 - download: false
-  file: umls-medlineplus.owl
+  file: umls-medlineplus.ttl
   title: MedlinePlus Health Topics
   url: https://identifiers.org/umls/MEDLINEPLUS
 - download: false
-  file: umls-mmsl.owl
+  file: umls-mmsl.ttl
   title: Multum
   url: https://identifiers.org/umls/MMSL
 - download: false
-  file: umls-mmx.owl
+  file: umls-mmx.ttl
   title: Micromedex
   url: https://identifiers.org/umls/MMX
 - download: false
-  file: umls-msh.owl
+  file: umls-msh.ttl
   title: Medical Subject Headings
   url: https://identifiers.org/umls/MSH
 - download: false
-  file: umls-mth.owl
+  file: umls-mth.ttl
   title: Metathesaurus Names
   url: https://identifiers.org/umls/MTH
 - download: false
-  file: umls-mthcmsfrf.owl
+  file: umls-mthcmsfrf.ttl
   title: Metathesaurus CMS Formulary Reference File
   url: https://identifiers.org/umls/MTHCMSFRF
 - download: false
-  file: umls-mthhh.owl
+  file: umls-mthhh.ttl
   title: HCPCS Hierarchical Terms (UMLS)
   url: https://identifiers.org/umls/MTHHH
 - download: false
-  file: umls-mthicd9.owl
+  file: umls-mthicd9.ttl
   title: ICD-9-CM Entry Terms
   url: https://identifiers.org/umls/MTHICD9
 - download: false
-  file: umls-mthicpc2eae.owl
+  file: umls-mthicpc2eae.ttl
   title: ICPC2E American English Equivalents
   url: https://identifiers.org/umls/MTHICPC2EAE
 - download: false
-  file: umls-mthicpc2icd10ae.owl
+  file: umls-mthicpc2icd10ae.ttl
   title: ICPC2E-ICD10 Thesaurus, American English Equivalents
   url: https://identifiers.org/umls/MTHICPC2ICD10AE
 - download: false
-  file: umls-mthmst.owl
+  file: umls-mthmst.ttl
   title: Minimal Standard Terminology (UMLS)
   url: https://identifiers.org/umls/MTHMST
 - download: false
-  file: umls-mthspl.owl
+  file: umls-mthspl.ttl
   title: FDA Structured Product Labels
   url: https://identifiers.org/umls/MTHSPL
 - download: false
-  file: umls-mvx.owl
+  file: umls-mvx.ttl
   title: Manufacturers of Vaccines
   url: https://identifiers.org/umls/MVX
 - download: false
-  file: umls-nanda-i.owl
+  file: umls-nanda-i.ttl
   title: NANDA-I Taxonomy
   url: https://identifiers.org/umls/NANDA-I
 - download: false
-  file: umls-ncbi.owl
+  file: umls-ncbi.ttl
   title: NCBI
   url: https://identifiers.org/umls/NCBITAXON
 - download: false
-  file: umls-nci.owl
+  file: umls-nci.ttl
   title: NCI Thesaurus
   url: https://identifiers.org/umls/NCI
 - download: false
-  file: umls-nciseer.owl
+  file: umls-nciseer.ttl
   title: NCI SEER ICD Mappings
   url: https://identifiers.org/umls/NCISEER
 - download: false
-  file: umls-nci_bioc.owl
+  file: umls-nci_bioc.ttl
   title: BioCarta online maps of molecular pathways, adapted for NCI use
   url: https://identifiers.org/umls/NCI_BioC
 - download: false
-  file: umls-nci_bridg.owl
+  file: umls-nci_bridg.ttl
   title: Biomedical Research Integrated Domain Group Model
   url: https://identifiers.org/umls/NCI_BRIDG
 - download: false
-  file: umls-nci_carelex.owl
+  file: umls-nci_carelex.ttl
   title: Content Archive Resource Exchange Lexicon
   url: https://identifiers.org/umls/NCI_CareLex
 - download: false
-  file: umls-nci_cdc.owl
+  file: umls-nci_cdc.ttl
   title: U.S. Centers for Disease Control and Prevention
   url: https://identifiers.org/umls/NCI_CDC
 - download: false
-  file: umls-nci_cdisc.owl
+  file: umls-nci_cdisc.ttl
   title: Clinical Data Interchange Standards Consortium
   url: https://identifiers.org/umls/NCI_CDISC
 - download: false
-  file: umls-nci_cdisc-gloss.owl
+  file: umls-nci_cdisc-gloss.ttl
   title: CDISC Glossary Terminology
   url: https://identifiers.org/umls/NCI_CDISC-GLOSS
 - download: false
-  file: umls-nci_crch.owl
+  file: umls-nci_crch.ttl
   title: Cancer Research Center of Hawaii Nutrition Terminology
   url: https://identifiers.org/umls/NCI_CRCH
 - download: false
-  file: umls-nci_ctcae.owl
+  file: umls-nci_ctcae.ttl
   title: Common Terminology Criteria for Adverse Events
   url: https://identifiers.org/umls/NCI_CTCAE
 - download: false
-  file: umls-nci_ctcae_3.owl
+  file: umls-nci_ctcae_3.ttl
   title: Common Terminology Criteria for Adverse Events 3.0
   url: https://identifiers.org/umls/NCI_CTCAE_3
 - download: false
-  file: umls-nci_ctcae_5.owl
+  file: umls-nci_ctcae_5.ttl
   title: Common Terminology Criteria for Adverse Events 5.0
   url: https://identifiers.org/umls/NCI_CTCAE_5
 - download: false
-  file: umls-nci_ctep-sdc.owl
+  file: umls-nci_ctep-sdc.ttl
   title: Cancer Therapy Evaluation Program - Simple Disease Classification
   url: https://identifiers.org/umls/NCI_CTEP-SDC
 - download: false
-  file: umls-nci_ctrp.owl
+  file: umls-nci_ctrp.ttl
   title: Clinical Trials Reporting Program
   url: https://identifiers.org/umls/NCI_CTRP
 - download: false
-  file: umls-nci_dcp.owl
+  file: umls-nci_dcp.ttl
   title: NCI Division of Cancer Prevention Program
   url: https://identifiers.org/umls/NCI_DCP
 - download: false
-  file: umls-nci_dicom.owl
+  file: umls-nci_dicom.ttl
   title: Digital Imaging Communications in Medicine
   url: https://identifiers.org/umls/NCI_DICOM
 - download: false
-  file: umls-nci_dtp.owl
+  file: umls-nci_dtp.ttl
   title: NCI Developmental Therapeutics Program
   url: https://identifiers.org/umls/NCI_DTP
 - download: false
-  file: umls-nci_fda.owl
+  file: umls-nci_fda.ttl
   title: U.S. Food and Drug Administration
   url: https://identifiers.org/umls/NCI_FDA
 - download: false
-  file: umls-nci_gaia.owl
+  file: umls-nci_gaia.ttl
   title: Global Alignment of Immunization Safety Assessment in pregnancy
   url: https://identifiers.org/umls/NCI_GAIA
 - download: false
-  file: umls-nci_genc.owl
+  file: umls-nci_genc.ttl
   title: Geopolitical Entities, Names, and Codes (GENC) Standard Edition 1
   url: https://identifiers.org/umls/NCI_GENC
 - download: false
-  file: umls-nci_ich.owl
+  file: umls-nci_ich.ttl
   title: International Conference on Harmonization
   url: https://identifiers.org/umls/NCI_ICH
 - download: false
-  file: umls-nci_jax.owl
+  file: umls-nci_jax.ttl
   title: Jackson Laboratories Mouse Terminology, adapted for NCI use
   url: https://identifiers.org/umls/NCI_JAX
 - download: false
-  file: umls-nci_kegg.owl
+  file: umls-nci_kegg.ttl
   title: KEGG Pathway Database
   url: https://identifiers.org/umls/NCI_KEGG
 - download: false
-  file: umls-nci_nci-gloss.owl
+  file: umls-nci_nci-gloss.ttl
   title: NCI Dictionary of Cancer Terms
   url: https://identifiers.org/umls/NCI_NCI-GLOSS
 - download: false
-  file: umls-nci_nci-hgnc.owl
+  file: umls-nci_nci-hgnc.ttl
   title: NCI HUGO Gene Nomenclature
   url: https://identifiers.org/umls/NCI_NCI-HGNC
 - download: false
-  file: umls-nci_nci-hl7.owl
+  file: umls-nci_nci-hl7.ttl
   title: NCI Health Level 7
   url: https://identifiers.org/umls/NCI_NCI-HL7
 - download: false
-  file: umls-nci_ncpdp.owl
+  file: umls-nci_ncpdp.ttl
   title: National Council for Prescription Drug Programs
   url: https://identifiers.org/umls/NCI_NCPDP
 - download: false
-  file: umls-nci_nichd.owl
+  file: umls-nci_nichd.ttl
   title: National Institute of Child Health and Human Development
   url: https://identifiers.org/umls/NCI_NICHD
 - download: false
-  file: umls-nci_pi-rads.owl
+  file: umls-nci_pi-rads.ttl
   title: Prostate Imaging Reporting and Data System
   url: https://identifiers.org/umls/NCI_PI-RADS
 - download: false
-  file: umls-nci_pid.owl
+  file: umls-nci_pid.ttl
   title: National Cancer Institute Nature Pathway Interaction Database
   url: https://identifiers.org/umls/NCI_PID
 - download: false
-  file: umls-nci_reni.owl
+  file: umls-nci_reni.ttl
   title: Registry Nomenclature Information System
   url: https://identifiers.org/umls/NCI_RENI
 - download: false
-  file: umls-nci_ucum.owl
+  file: umls-nci_ucum.ttl
   title: Unified Code for Units of Measure
   url: https://identifiers.org/umls/NCI_UCUM
 - download: false
-  file: umls-nci_zfin.owl
+  file: umls-nci_zfin.ttl
   title: Zebrafish Model Organism Database
   url: https://identifiers.org/umls/NCI_ZFin
 - download: false
-  file: umls-nddf.owl
+  file: umls-nddf.ttl
   title: FDB MedKnowledge
   url: https://identifiers.org/umls/NDDF
 - download: false
-  file: umls-ndfrt.owl
+  file: umls-ndfrt.ttl
   title: National Drug File - Reference Terminology
   url: https://identifiers.org/umls/NDFRT
 - download: false
-  file: umls-ndfrt_fdaspl.owl
+  file: umls-ndfrt_fdaspl.ttl
   title: National Drug File - FDASPL
   url: https://identifiers.org/umls/NDFRT_FDASPL
 - download: false
-  file: umls-ndfrt_fmtsme.owl
+  file: umls-ndfrt_fmtsme.ttl
   title: National Drug File - FMTSME
   url: https://identifiers.org/umls/NDFRT_FMTSME
 - download: false
-  file: umls-neu.owl
+  file: umls-neu.ttl
   title: Neuronames Brain Hierarchy
   url: https://identifiers.org/umls/NEU
 - download: false
-  file: umls-nic.owl
+  file: umls-nic.ttl
   title: Nursing Interventions Classification
   url: https://identifiers.org/umls/NIC
 - download: false
-  file: umls-noc.owl
+  file: umls-noc.ttl
   title: Nursing Outcomes Classification
   url: https://identifiers.org/umls/NOC
 - download: false
-  file: umls-nuccpt.owl
+  file: umls-nuccpt.ttl
   title: National Uniform Claim Committee - Health Care Provider Taxonomy
   url: https://identifiers.org/umls/NUCCPT
 - download: false
-  file: umls-omim.owl
+  file: umls-omim.ttl
   title: Online Mendelian Inheritance in Man
   url: https://identifiers.org/umls/OMIM
 - download: false
-  file: umls-pdq.owl
+  file: umls-pdq.ttl
   title: Physician Data Query
   url: https://identifiers.org/umls/PDQ
 - download: false
-  file: umls-pnds.owl
+  file: umls-pnds.ttl
   title: Perioperative Nursing Data Set
   url: https://identifiers.org/umls/PNDS
 - download: false
-  file: umls-rxnorm.owl
+  file: umls-rxnorm.ttl
   title: RXNORM
   url: https://identifiers.org/umls/RXNORM
 - download: false
-  file: umls-snomedct_us.owl
+  file: umls-snomedct_us.ttl
   title: SNOMED Clinical Terms US Edition
   url: https://identifiers.org/umls/SNOMEDCT
 - download: false
-  file: umls-snomedct_vet.owl
+  file: umls-snomedct_vet.ttl
   title: Veterinary Extension to SNOMED CT
   url: https://identifiers.org/umls/SNOMEDCT_VET
 - download: false
-  file: umls-sop.owl
+  file: umls-sop.ttl
   title: Source of Payment Typology
   url: https://identifiers.org/umls/SOP
 - download: false
-  file: umls-src.owl
+  file: umls-src.ttl
   title: Source Terminology Names (UMLS)
   url: https://identifiers.org/umls/SRC
 - download: false
-  file: umls-umd.owl
+  file: umls-umd.ttl
   title: Universal Medical Device Nomenclature System
   url: https://identifiers.org/umls/UMD
 - download: false
-  file: umls-usp.owl
+  file: umls-usp.ttl
   title: USP Compendial Nomenclature
   url: https://identifiers.org/umls/USP
 - download: false
-  file: umls-uspmg.owl
+  file: umls-uspmg.ttl
   title: USP Model Guidelines
   url: https://identifiers.org/umls/USPMG
 - download: false
-  file: umls-vandf.owl
+  file: umls-vandf.ttl
   title: National Drug File
   url: https://identifiers.org/umls/VANDF
 - download: false
-  file: umls-who.owl
+  file: umls-who.ttl
   title: WHOART
   url: https://identifiers.org/umls/WHO
 -
