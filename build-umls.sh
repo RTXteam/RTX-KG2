@@ -124,7 +124,7 @@ do
     file_path_no_ext=${ttl_file_name%.*}
     file_name_no_ext=`basename ${file_path_no_ext}`
     ${BUILD_DIR}/robot convert --input ${ttl_file_name} --output /tmp/${file_name_no_ext}.owl
-    mv /tmp/${file_name_no_ext}.owl ${file_path_no_ext}.owl
+    mv /tmp/${file_name_no_ext}.owl ${BUILD_DIR}/${file_name_no_ext}.owl
 done
 
 #export ROBOT_JAVA_ARGS="-Xmx${MEM_GB}G"
