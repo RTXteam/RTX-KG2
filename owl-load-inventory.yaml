@@ -1,6 +1,6 @@
 -
   url: https://identifiers.org/umls/STY
-  file: umls_semantictypes.owl
+  file: umls_semantictypes.ttl
   download: false
   title: UMLS Semantic Types
 - download: false
