@@ -43,11 +43,6 @@ ${VENV_DIR}/bin/pip3 install ontobio pymongo
 
 mkdir -p ${BUILD_DIR}
 
-## make local copies of the config files in the build dir
-cp ${CODE_DIR}/curies-to-categories.yaml ${BUILD_DIR}
-cp ${CODE_DIR}/curies-to-urls-lookaside-list.yaml ${BUILD_DIR}
-cp ${CODE_DIR}/owl-load-inventory.yaml ${BUILD_DIR}
-
 ## install ROBOT (software: ROBOT is an OBO Tool) by downloading the jar file
 ## distribution and cURLing the startup script (note github uses URL redirection
 ## so we need the "-L" command-line option, and cURL doesn't like JAR files by
