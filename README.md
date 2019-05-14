@@ -87,14 +87,14 @@ to be using the `bash` shell on your local computer.
 
 These instructions assume that you are logged into the target Ubuntu system:
 
-(1) change to the user's home directory:
-
-    cd 
-    
-(2) Install `git` by running this command in the `bash` shell:
+(1) Install `git` by running this command in the `bash` shell:
 
     sudo apt-get update -y && sudo apt-get install -y screen git
 
+(2) change to the user's home directory:
+
+    cd 
+    
 (3) Clone the RTX software from GitHub:
 
     git clone https://github.com/RTXteam/RTX.git
@@ -155,8 +155,10 @@ This option requires that you have `curl` installed on your local computer. In a
 
     source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/ec2-setup-remote-instance.sh)
     
-This should initiate a `bash` session on the remote instance. Within that `bash`
-session, continue to follow the instructions for Option 1 (starting at step (4)).
+You will be prompted to enter the path to your AWS PEM file and the hostname of
+your AWS instance.  The script should then initiate a `bash` session on the
+remote instance. Within that `bash` session, continue to follow the instructions
+for Option 1 (starting at step (4)).
 
 ### Option 3: in an Ubuntu container in Docker (UNTESTED, IN DEVELOPMENT)
 
