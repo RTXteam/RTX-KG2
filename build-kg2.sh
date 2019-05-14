@@ -12,7 +12,7 @@ OUTPUT_FILE_BASE=kg2.json
 OUTPUT_FILE_FULL=${BUILD_DIR}/${OUTPUT_FILE_BASE}
 STDOUT_LOG_FILE=build-kg2-stdout.log
 STDERR_LOG_FILE=build-kg2-stderr.log
-OWL_LOAD_INVENTORY_FILE=owl-load-inventory.yaml
+OWL_LOAD_INVENTORY_FILE=${CODE_DIR}/owl-load-inventory.yaml
 
 cd ${BUILD_DIR}
 
@@ -23,8 +23,8 @@ export DEBUG=1  ## for owltools
 
 ## run the build-kg2.py script
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/build_kg2.py \
-           curies-to-categories.yaml \
-           curies-to-urls-lookaside-list.yaml \
+           ${CODE_DIR}/curies-to-categories.yaml \
+           ${CODE_DIR}/curies-to-urls-lookaside-list.yaml \
            ${OWL_LOAD_INVENTORY_FILE} \
            ${OUTPUT_FILE_FULL} \
            2>${BUILD_DIR}/${STDERR_LOG_FILE} \
