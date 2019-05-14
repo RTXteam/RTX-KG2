@@ -106,6 +106,7 @@ cat ${UMLS2RDF_DIR}/conf_sample.py | sed 's/your-host/localhost/g' | \
     sed "s/your db user/${MYSQL_USER}/g" | \
     sed "s/your db pass/${MYSQL_PASSWORD}/g" | \
     sed "s|http://purl.bioontology.org/ontology|https://identifiers.org/umls|g" |
+    sed 's|"output"|"${BUILD_DIR}"|g' \
     sed "s/2015ab/${UMLS_VER}/g" > ${UMLS2RDF_DIR}/conf.py
 
 ## umls2rdf is legacy software written to run in python2.7; set up the virtualenv
@@ -118,14 +119,14 @@ cd ${UMLS2RDF_DIR}
 ${UMLS_VENV_DIR}/bin/python2.7 umls2rdf.py
 ./checkOutputSyntax.sh
 
-## convert files from Turtle format to OWL/RDF format
-for ttl_file_name in `ls ${UMLS2RDF_DIR}/output/*.ttl`
-do
-    file_path_no_ext=${ttl_file_name%.*}
-    file_name_no_ext=`basename ${file_path_no_ext}`
-    ${BUILD_DIR}/robot convert --input ${ttl_file_name} --output /tmp/${file_name_no_ext}.owl
-    mv /tmp/${file_name_no_ext}.owl ${BUILD_DIR}/${file_name_no_ext}.owl
-done
+# ## convert files from Turtle format to OWL/RDF format
+# for ttl_file_name in `ls ${UMLS2RDF_DIR}/output/*.ttl`
+# do
+#     file_path_no_ext=${ttl_file_name%.*}
+#     file_name_no_ext=`basename ${file_path_no_ext}`
+#     ${BUILD_DIR}/robot convert --input ${ttl_file_name} --output /tmp/${file_name_no_ext}.owl
+#     mv /tmp/${file_name_no_ext}.owl ${BUILD_DIR}/${file_name_no_ext}.owl
+# done
 
 #export ROBOT_JAVA_ARGS="-Xmx${MEM_GB}G"
 #${BUILD_DIR}/robot merge --inputs "${UMLS2RDF_DIR}/output/*.owl" --output ${BUILD_DIR}/umls.owl
