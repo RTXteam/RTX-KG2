@@ -1,11 +1,15 @@
 #!/bin/bash
 set -euxo pipefail
 
-INSTANCE_HOSTNAME=kg2dev.rtx.ai
 PUBLIC_KEY_FILE=id_rsa.pub
+
 echo "Enter path to your AWS PEM file: "
 read AWS_PEM_FILE
 #AWS_PEM_FILE=/Volumes/WorkEncrypted/ramseyst-new-aws-login.pem
+
+echo "Enter hostname of your instance: "
+read INSTANCE_HOSTNAME
+#INSTANCE_HOSTNAME=kg2dev.rtx.ai
 
 if ! ssh -q -o StrictHostKeyChecking=no ubuntu@${INSTANCE_HOSTNAME} exit; then
     ## remove kg2.saramsey.org from the ~/.ssh/known_hosts file
