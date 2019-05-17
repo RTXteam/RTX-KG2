@@ -55,19 +55,20 @@ best bet would be to use Docker (see Option 3 below).
 Aside from your host OS, you'll need to have an Amazon Web Services (AWS)
 authentication key that is configured to be able to read from the `s3://rtx-kg2`
 Amazon Simple Cloud Storage Service (S3) bucket (ask Stephen Ramsey to set this
-up), so that the build script can download a copy of the full UMLS distribution.
-You will be asked (by the AWS CLI) to provide this authentication key when you
-run the KG2 build script. Your configured AWS CLI will also need to be able to
-programmatically write to the (publicly readable) S3 bucket
-`s3://rtx-kg2-public` (both buckets are in the `us-west-2` AWS zone). The KG2
-build script downloads the UMLS and SNOMED CT distributions from the private S3
-bucket `rtx-kg2` (IANAL, but it appears that these distributions are encumbered
-by licenses so I have not hosted them on a public server for download; but you
-can get them for free if you agree to the UMLS and SNOMED CT licenses) and it
-uploads the final output `kg2.json` file to the public S3 bucket
-`rtx-kg2-public`. Alternatively, you can set up your own S3 bucket to which to
-copy the KG2 JSON file, or you can comment the line out of `build-kg2.sh` that
-copies the final JSON file to S3.
+up), so that the build script can download a copy of the full Unified Medical
+Language System (UMLS) distribution.  You will be asked (by the AWS CLI) to
+provide this authentication key when you run the KG2 build script. Your
+configured AWS CLI will also need to be able to programmatically write to the
+(publicly readable) S3 bucket `s3://rtx-kg2-public` (both buckets are in the
+`us-west-2` AWS zone). The KG2 build script downloads the UMLS distribution
+(including SNOMED CT) from the private S3 bucket `rtx-kg2` (IANAL, but it
+appears that UMLS is encumbered by a license preventing redistribution so I have
+not it them on a public server for download; but you can get it for free at the
+[UMLS website](https://www.nlm.nih.gov/research/umls/) if you agree to the UMLS
+licenses) and it uploads the final output `kg2.json` file to the public S3
+bucket `rtx-kg2-public`. Alternatively, you can set up your own S3 bucket to
+which to copy the KG2 JSON file, or you can comment the line out of
+`build-kg2.sh` that copies the final JSON file to S3.
 
 ## My normal EC2 instance
 
@@ -112,19 +113,7 @@ using the command:
 
     tail -f setup-kg2.log
 
-(6) Build `snomed.owl` (an OWL representation of the SNOMED CT US English
-distribution), as follows: rejoin the `screen` session using `screen -r`.
-In the `screen` session, do this:
-
-    ~/kg2-code/build-snomed.sh > ~/kg2-build/build-snomed.log 2>&1
-    
-Then exit screen (`ctrl-a d`). You can watch the progress via:
-
-    tail -f ~/kg2-build/build-snomed.log
-
-The build process for `snomed.owl` takes about 10 minutes.  
-
-(7) Build all of the UMLS OWL files, as follows: rejoin the `screen`
+(6) Build all of the UMLS OWL files, as follows: rejoin the `screen`
 session using `screen -r`.  In the `screen` session, do this:
 
     ~/kg2-code/build-umls.sh > ~/kg2-build/build-umls.log 2>&1
@@ -135,7 +124,7 @@ You can watch the progress via:
 
 Extracting UMLS and building all the UMLS OWL files takes about 5.5 hours. 
 
-(8) Build KG2: Rejoin the screen session using `screen -r`.  Within
+(7) Build KG2: Rejoin the screen session using `screen -r`.  Within
 the `screen` session, run:
 
     ~/kg2-code/build-kg2.sh
