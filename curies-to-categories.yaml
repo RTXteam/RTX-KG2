@@ -15,6 +15,7 @@ prefix-mappings:
     RO: relationship type
     SGD: gene
     STY: semantic type
+    TUI: semantic type
     UBERON: anatomical entity
     UniProtKB: protein
 term-mappings:
