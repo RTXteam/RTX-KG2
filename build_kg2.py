@@ -392,16 +392,12 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             node_label = onto_node_dict.get('label', None)
             node_name = onto_node_dict.get('lbl', None)
 
-            node_meta = onto_node_dict.get('meta', None)
-            if node_meta is not None:
-                node_deprecated = node_meta.get('deprecated', False)
-
             node_category_label = get_biolink_category_for_node(ontology_node_id,
                                                                 node_curie_id,
                                                                 ontology,
                                                                 curies_to_categories,
                                                                 uri_to_curie_shortener, set())
-            
+
             node_deprecated = False
             node_description = None
             node_synonyms = None
@@ -409,7 +405,10 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             node_creation_date = None
             node_update_date = None
             node_replaced_by_curie = None
+
+            node_meta = onto_node_dict.get('meta', None)
             if node_meta is not None:
+                node_deprecated = node_meta.get('deprecated', False)
                 node_definition = node_meta.get('definition', None)
                 if node_definition is not None:
                     node_description = node_definition['val']
