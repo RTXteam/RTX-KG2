@@ -642,11 +642,19 @@ def get_biolink_category_for_node(ontology_node_id: str,
                                   node_curie_id: str,
                                   ontology: ontobio.ontol.Ontology,
                                   curies_to_categories: dict,
-                                  uri_to_curie_shortener: callable):
+                                  uri_to_curie_shortener: callable,
+                                  ontology_node_ids_previously_seen=set()):
 
     ret_category = None
+
+    # if we have already looked for a category for this node, return None
+    if ontology_node_id in ontology_node_ids_previously_seen:
+        return None
+
     if ontology_node_id == OWL_NOTHING or node_curie_id is None:
         return None
+
+    ontology_node_ids_previously_seen.add(ontology_node_id)
 
 #    print("looking for category for node: " + node_curie_id)
     curie_prefix = get_prefix_from_curie_id(node_curie_id)
@@ -666,7 +674,8 @@ def get_biolink_category_for_node(ontology_node_id: str,
                                                                  parent_node_curie_id,
                                                                  ontology,
                                                                  curies_to_categories,
-                                                                 uri_to_curie_shortener)
+                                                                 uri_to_curie_shortener,
+                                                                 ontology_node_ids_previously_seen)
                 except RecursionError:
                     log_message(message="recursion error: " + ontology_node_id,
                                 ontology_name=ontology.id,
@@ -678,6 +687,7 @@ def get_biolink_category_for_node(ontology_node_id: str,
     if ret_category is None:
         # this is to handle SNOMED CT attributes:
         if node_curie_id.startswith('SNOMEDCT_US'):
+            assert False   # eventually just cut this code block since it shouldn't be triggered anymore
             ontology_node_lbl = ontology.node(ontology_node_id).get('lbl', None)
             if ontology_node_lbl is not None:
                 if '(attribute)' in ontology_node_lbl:
