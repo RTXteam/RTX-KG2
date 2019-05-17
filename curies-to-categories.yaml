@@ -10,6 +10,7 @@ prefix-mappings:
     NCBITaxon: organism taxon
     OMIM: phenotypic feature
     Orphanet: disease
+    PR: protein
     RGD: gene
     RO: relationship type
     SGD: gene
