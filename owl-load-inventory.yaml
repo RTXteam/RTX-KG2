@@ -567,11 +567,11 @@
   file: pr.owl
   download: true
   title: Protein Ontology
--
-  url: http://purl.obolibrary.org/obo/ncit/ncit-plus.owl
-  file: ncit-plus.owl
-  download: true
-  title: NCI Thesaurus OBO Edition
+#-
+#  url: http://purl.obolibrary.org/obo/ncit/ncit-plus.owl
+#  file: ncit-plus.owl
+#  download: true
+#  title: NCI Thesaurus OBO Edition
 # -
 #   url: ## intentionally left blank which will map to "None" in the resulting python data structure
 #   file: snomed-relax.owl
