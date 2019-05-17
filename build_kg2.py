@@ -391,14 +391,17 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             node_dict['iri'] = iri
             node_label = onto_node_dict.get('label', None)
             node_name = onto_node_dict.get('lbl', None)
+
             node_meta = onto_node_dict.get('meta', None)
             if node_meta is not None:
                 node_deprecated = node_meta.get('deprecated', False)
+
             node_category_label = get_biolink_category_for_node(ontology_node_id,
                                                                 node_curie_id,
                                                                 ontology,
                                                                 curies_to_categories,
-                                                                uri_to_curie_shortener)
+                                                                uri_to_curie_shortener, set())
+            
             node_deprecated = False
             node_description = None
             node_synonyms = None
@@ -440,7 +443,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                                                                     node_tui_curie,
                                                                                     ontology,
                                                                                     curies_to_categories,
-                                                                                    uri_to_curie_shortener)
+                                                                                    uri_to_curie_shortener, set())
                             #                        print(node_tui_category_label)
                             if node_tui_category_label is None:
                                 node_tui_category_label = 'unknown category'
@@ -643,7 +646,7 @@ def get_biolink_category_for_node(ontology_node_id: str,
                                   ontology: ontobio.ontol.Ontology,
                                   curies_to_categories: dict,
                                   uri_to_curie_shortener: callable,
-                                  ontology_node_ids_previously_seen=set()):
+                                  ontology_node_ids_previously_seen: set):
 
     ret_category = None
 
@@ -656,7 +659,6 @@ def get_biolink_category_for_node(ontology_node_id: str,
 
     ontology_node_ids_previously_seen.add(ontology_node_id)
 
-#    print("looking for category for node: " + node_curie_id)
     curie_prefix = get_prefix_from_curie_id(node_curie_id)
     curies_to_categories_prefixes = curies_to_categories['prefix-mappings']
     ret_category = curies_to_categories_prefixes.get(curie_prefix, None)
