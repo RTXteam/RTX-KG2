@@ -62,6 +62,7 @@ CURIE_PREFIX_ENSEMBL = 'ENSEMBL:'
 STY_BASE_IRI = 'https://identifiers.org/umls/STY'
 CUI_BASE_IRI = 'https://identifiers.org/umls/cui'
 IRI_SKOS_LABEL = 'http://www.w3.org/2004/02/skos/core#prefLabel'
+IRI_SKOS_ALTLABEL = 'http://www.w3.org/2004/02/skos/core#altLabel'
 IRI_SKOS_DEF = 'http://www.w3.org/2004/02/skos/core#definition'
 IRI_OBO_XREF = 'http://purl.org/obo/owl/oboFormat#oboFormat_xref'
 CURIE_OBO_XREF = 'oboFormat:xref'
@@ -405,6 +406,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             node_creation_date = None
             node_update_date = None
             node_replaced_by_curie = None
+            node_alt_label = set()
 
             node_meta = onto_node_dict.get('meta', None)
             if node_meta is not None:
@@ -451,6 +453,8 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                             node_category_label = node_tui_category_label  # override the node category label if we have a TUI
                         elif bpv_pred == IRI_SKOS_LABEL:
                             node_name = bpv_val
+                        elif bpv_pred == IRI_SKOS_ALTLABEL:
+                            node_alt_label.add(bpv_val)
                         elif bpv_pred == IRI_SKOS_DEF:
                             node_description = bpv_val
             if node_category_label is None:
@@ -465,6 +469,9 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             # if we have a label but no name, use the label as the name
             if node_name is None and node_label is not None:
                 node_name = node_label
+
+            if node_label is None and len(node_alt_label) > 0:
+                node_label = '; '.join(node_alt_label)
 
             # if we have a name but no label, use the name as the label
             if node_label is None and node_name is not None:
