@@ -815,6 +815,10 @@ def merge_two_dicts(x: dict, y: dict):
                                         output_stream=sys.stderr)
                 elif type(value) == list and type(stored_value) == list:
                     ret_dict[key] = list(set(value + stored_value))
+                elif type(value) == list and type(stored_value) == str:
+                    ret_dict[key] = value + [stored_value]
+                elif type(value) == str and type(stored_value) == list:
+                    ret_dict[key] = [value] + stored_value
                 elif type(value) == dict and type(stored_value) == dict:
                     ret_dict[key] = merge_two_dicts(value, stored_value)
                 elif key == 'deprecated' and type(value) == bool:
