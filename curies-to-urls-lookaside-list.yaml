@@ -44,5 +44,7 @@
   skos: http://www.w3.org/2008/05/skos#
 -
   UMLS: https://identifiers.org/umls/
+-
+  BFO: http://www.ifomis.org/bfo/1.1/span#
 
 
