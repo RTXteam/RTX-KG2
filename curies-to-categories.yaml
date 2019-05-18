@@ -14,9 +14,11 @@ prefix-mappings:
     RGD: gene
     RO: relationship type
     SGD: gene
+    SIO: relationship type
     STY: semantic type
     TUI: semantic type
     UBERON: anatomical entity
+    UBPROP: attribute
     UniProtKB: protein
 term-mappings:
     rdfs:isDefinedBy: relationship type
