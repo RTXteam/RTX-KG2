@@ -30,6 +30,6 @@ def make_arg_parser():
 if __name__ == "__main__":
     args = make_arg_parser().parse_args()
     temp_file = tempfile.mkstemp(prefix="kg2nodes")[1]
-    graph = json.load(open(args.inputFile, 'r'))
+    graph = json.load(open(args.inputFile[0], 'r'))
     json.dump(graph['nodes'], open(temp_file, 'w'), indent=4, sort_keys=True)
-    shutil.move(temp_file, args.outputFile)
+    shutil.move(temp_file, args.outputFile[0])
