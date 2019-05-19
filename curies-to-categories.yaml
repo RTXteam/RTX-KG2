@@ -16,7 +16,6 @@ prefix-mappings:
     SGD: gene
     SIO: relationship type
     STY: semantic type
-    TUI: semantic type
     UBERON: anatomical entity
     UBPROP: attribute
     UniProtKB: protein
