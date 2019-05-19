@@ -57,6 +57,7 @@ REGEX_YEAR = re.compile('([12][90][0-9]{2})')
 REGEX_YEAR_MONTH_DAY = re.compile('([12][90][0-9]{2})_([0-9]{1,2})_([0-9]{1,2})')
 REGEX_MONTH_YEAR = re.compile('([0-9]{1,2})_[12][90][0-9]{2}')
 REGEX_YEAR_MONTH = re.compile('[12][90][0-9]{2}_([0-9]{1,2})')
+REGEX_UMLS_CURIE = re.compile('UMLS:([^/]+)/(.*)')
 
 CURIE_PREFIX_ENSEMBL = 'ENSEMBL:'
 STY_BASE_IRI = 'https://identifiers.org/umls/STY'
@@ -312,6 +313,13 @@ def get_biolink_category_for_node(ontology_node_id: str,
     ontology_node_ids_previously_seen.add(ontology_node_id)
 
     curie_prefix = get_prefix_from_curie_id(node_curie_id)
+
+    # Inelegant hack to ensure that TUI: nodes get mapped to "semantic type" while still enabling us
+    # to use get_biolink_category_for_node to determine the specific semantic type of a CUI: based on its
+    # TUI: record. Need to think about a more elegant way to do this. [SAR]
+    if curie_prefix == 'TUI' and ontology.id.endswith('/umls/STY/'):
+        return 'semantic type'
+
     curies_to_categories_prefixes = curies_to_categories['prefix-mappings']
     ret_category = curies_to_categories_prefixes.get(curie_prefix, None)
     if ret_category is None:
@@ -340,19 +348,19 @@ def get_biolink_category_for_node(ontology_node_id: str,
                     break
     if ret_category is None:
         # this is to handle SNOMED CT attributes:
-        if node_curie_id.startswith('SNOMEDCT_US'):
-            assert False   # eventually just cut this code block since it shouldn't be triggered anymore
-            ontology_node_lbl = ontology.node(ontology_node_id).get('lbl', None)
-            if ontology_node_lbl is not None:
-                if '(attribute)' in ontology_node_lbl:
-                    ret_category = 'attribute'
-                else:
-                    log_message('Node does not have a label or any parents',
-                                'http://snomed.info/sct/900000000000207008',
-                                node_curie_id, output_stream=sys.stderr)
-        elif node_curie_id.startswith(CURIE_PREFIX_ENSEMBL):
+        # if node_curie_id.startswith('SNOMEDCT_US'):
+        #     assert False   # eventually just cut this code block since it shouldn't be triggered anymore
+        #     ontology_node_lbl = ontology.node(ontology_node_id).get('lbl', None)
+        #     if ontology_node_lbl is not None:
+        #         if '(attribute)' in ontology_node_lbl:
+        #             ret_category = 'attribute'
+        #         else:
+        #             log_message('Node does not have a label or any parents',
+        #                         'http://snomed.info/sct/900000000000207008',
+        #                         node_curie_id, output_stream=sys.stderr)
+        if node_curie_id.startswith(CURIE_PREFIX_ENSEMBL):
             curie_suffix = node_curie_id.replace(CURIE_PREFIX_ENSEMBL, '')
-            ensembl_match = re.match(REGEX_ENSEMBL, curie_suffix)
+            ensembl_match = REGEX_ENSEMBL.match(curie_suffix)
             if ensembl_match is not None:
                 ensembl_match_letter = ensembl_match[1]
                 if ensembl_match_letter == 'G':
@@ -466,8 +474,9 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             node_dict = dict()
             node_dict['id'] = node_curie_id
             node_dict['iri'] = iri
-            node_label = onto_node_dict.get('label', None)
-            node_name = onto_node_dict.get('lbl', None)
+            node_name = onto_node_dict.get('label', None)
+#            node_name = onto_node_dict.get('lbl', None)
+            node_full_name = None
 
             node_category_label = get_biolink_category_for_node(ontology_node_id,
                                                                 node_curie_id,
@@ -483,6 +492,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             node_update_date = None
             node_replaced_by_curie = None
             node_alt_label = set()
+            node_full_name = None
 
             node_meta = onto_node_dict.get('meta', None)
             if node_meta is not None:
@@ -542,16 +552,13 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
 
             node_category_iri = category_label_to_iri_mapper(node_category_label)
 
-            # if we have a label but no name, use the label as the name
-            if node_name is None and node_label is not None:
-                node_name = node_label
+            if len(node_alt_label) > 0:
+                node_alt_label_str = '; '.join(node_alt_label)
+            else:
+                node_alt_label_str = None
 
-            if node_label is None and len(node_alt_label) > 0:
-                node_label = '; '.join(node_alt_label)
-
-            # if we have a name but no label, use the name as the label
-            if node_label is None and node_name is not None:
-                node_label = node_name
+            if node_name is None and node_alt_label_str is not None:
+                node_name = node_alt_label_str
 
             ontology_curie_id = ontologies_iris_to_curies[iri_of_ontology]
             source_ontology_information = ret_dict.get(ontology_curie_id, None)
@@ -565,7 +572,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                 node_update_date = source_ontology_update_date
 
             node_dict['name'] = node_name
-            node_dict['full name'] = node_label
+            node_dict['full name'] = node_full_name
             node_dict['category'] = node_category_iri
             node_dict['category label'] = node_category_label
             node_dict['description'] = node_description
@@ -579,9 +586,6 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             node_type = onto_node_dict.get('type', None)
             node_dict['ontology node type'] = node_type       # slot name is not biolink standard
             node_dict['ontology node id'] = ontology_node_id  # slot name is not biolink standard
-            if node_curie_id in ret_dict:
-                node_dict = merge_two_dicts(ret_dict[node_curie_id], node_dict)
-            ret_dict[node_curie_id] = node_dict
 
             # check if we need to make a CUI node
             if basic_property_values is not None:
@@ -604,7 +608,15 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         if cui_node_dict_existing is not None:
                             cui_node_dict = merge_two_dicts(cui_node_dict,
                                                             cui_node_dict_existing)
-                            ret_dict[cui_curie] = cui_node_dict
+                        ret_dict[cui_curie] = cui_node_dict
+                        if node_xrefs is None:
+                            node_xrefs = []
+                            node_dict['xrefs'] = node_xrefs
+                        node_xrefs.append(cui_curie)
+
+            if node_curie_id in ret_dict:
+                node_dict = merge_two_dicts(ret_dict[node_curie_id], node_dict)
+            ret_dict[node_curie_id] = node_dict
     return ret_dict
 
 
@@ -686,7 +698,6 @@ def get_rels_dict(nodes: dict,
             xrefs = node_dict['xrefs']
             if xrefs is not None:
                 for xref_node_id in xrefs:
-#                    print('xref node: ' + xref_node_id)
                     if xref_node_id in nodes:
                         provided_by = nodes[node_id]['provided by']
                         key = make_rel_key(node_id, CURIE_OBO_XREF, xref_node_id, provided_by)
@@ -699,6 +710,7 @@ def get_rels_dict(nodes: dict,
                                               'negated': False,
                                               'provided by': provided_by,
                                               'id': None}
+
     return rels_dict
 
 
@@ -725,8 +737,6 @@ def get_node_curie_id_from_ontology_node_id(ontology_node_id: str,
             node_curie_id = ontology_node_id
     return node_curie_id
 
-
-
 # --------------- pure functions here -------------------
 
 
@@ -740,6 +750,9 @@ def shorten_iri_to_curie(iri: str, curie_to_iri_map: list = []):
         curie_id = curie_list[0]
     else:
         curie_id = None
+    umls_match = REGEX_UMLS_CURIE.match(curie_id)  # deal with IRIs like 'https://identifiers.org/umls/ATC/L01AX02' which get converted to CURIE 'UMLS:ATC/L01AX02'
+    if umls_match is not None:
+        curie_id = umls_match[1] + ':' + umls_match[2]
     return curie_id
 
 
@@ -803,7 +816,10 @@ def merge_two_dicts(x: dict, y: dict):
                         if key == 'description':
                             ret_dict[key] = stored_value + '; ' + value
                         elif key == 'ontology node id' or key == 'ontology node type':
-                            ret_dict[key] = [stored_value, value]
+                            log_message("warning:  for key: " + key + ", dropping second value: " + value + '; keeping first value: ' + stored_value,
+                                        output_stream=sys.stderr)
+                            
+                            ret_dict[key] = stored_value
                         elif key == 'provided by':
                             if value.endswith('/STY'):
                                 ret_dict[key] = value
