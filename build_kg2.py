@@ -723,7 +723,7 @@ def get_rels_dict(nodes: dict,
             xrefs = node_dict['xrefs']
             if xrefs is not None:
                 for xref_node_id in xrefs:
-                    if xref_node_id in nodes:
+                    if xref_node_id in nodes and node_id != xref_node_id:
                         provided_by = nodes[node_id]['provided by']
                         key = make_rel_key(node_id, CURIE_OBO_XREF, xref_node_id, provided_by)
                         if rels_dict.get(key, None) is None:
