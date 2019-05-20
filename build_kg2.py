@@ -58,6 +58,7 @@ REGEX_YEAR_MONTH_DAY = re.compile('([12][90][0-9]{2})_([0-9]{1,2})_([0-9]{1,2})'
 REGEX_MONTH_YEAR = re.compile('([0-9]{1,2})_[12][90][0-9]{2}')
 REGEX_YEAR_MONTH = re.compile('[12][90][0-9]{2}_([0-9]{1,2})')
 REGEX_UMLS_CURIE = re.compile('UMLS:([^/]+)/(.*)')
+REGEX_PUBLICATIONS = re.compile('((?:(?:PMID)|(?:ISBN)):\d+)')
 
 CURIE_PREFIX_ENSEMBL = 'ENSEMBL:'
 STY_BASE_IRI = 'https://identifiers.org/umls/STY'
@@ -486,13 +487,14 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
 
             node_deprecated = False
             node_description = None
-            node_synonyms = None
-            node_xrefs = None
             node_creation_date = None
             node_update_date = None
             node_replaced_by_curie = None
             node_alt_label = set()
             node_full_name = None
+            node_publications = set()
+            node_synonyms = set()
+            node_xrefs = set()
 
             node_meta = onto_node_dict.get('meta', None)
             if node_meta is not None:
@@ -502,12 +504,32 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                     node_description = node_definition['val']
                     if node_description.startswith('OBSOLETE:') or node_description.startswith('Obsolete.'):
                         continue
-                node_synonyms = node_meta.get('synonyms', None)
-                if node_synonyms is not None:
-                    node_synonyms = [syn_dict['val'] for syn_dict in node_synonyms if syn_dict['pred'] == 'hasExactSynonym']
-                    node_xrefs = node_meta.get('xrefs', None)
-                if node_xrefs is not None:
-                    node_xrefs = [xref['val'] for xref in node_xrefs]
+                    node_definition_xrefs = node_definition.get('xrefs', None)
+                    if node_definition_xrefs is not None:
+                        assert type(node_definition_xrefs) == list
+                        for xref in node_definition_xrefs:
+                            xref_pub = xref_as_a_publication(xref)
+                            if xref_pub is not None:
+                                node_publications.add(xref_pub)
+
+                node_synonyms_list = node_meta.get('synonyms', None)
+                if node_synonyms_list is not None:
+                    for syn_dict in node_synonyms_list:
+                        syn_pred = syn_dict['pred']
+                        if syn_pred == 'hasExactSynonym':
+                            node_synonyms.add(syn_dict['val'])
+                            syn_xrefs = syn_dict['xrefs']
+                            if len(syn_xrefs) > 0:
+                                for syn_xref in syn_xrefs:
+                                    syn_xref_pub = xref_as_a_publication(syn_xref)
+                                    if syn_xref_pub is not None:
+                                        node_publications.add(syn_xref_pub)
+                    
+                node_xrefs_list = node_meta.get('xrefs', None)
+                if node_xrefs_list is not None:
+                    for xref_dict in node_xrefs_list:
+                        node_xrefs.add(xref_dict['val'])
+#                    node_xrefs = [xref['val'] for xref in node_xrefs_list]
                 basic_property_values = node_meta.get('basicPropertyValues', None)
                 if basic_property_values is not None:
                     for basic_property_value_dict in basic_property_values:
@@ -571,13 +593,16 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             if node_update_date is None:
                 node_update_date = source_ontology_update_date
 
+            if node_description is not None:
+                node_description_pubs = REGEX_PUBLICATIONS.findall(node_description)
+                for pub_curie in node_description_pubs:
+                    node_publications.add(pub_curie)
+
             node_dict['name'] = node_name
             node_dict['full name'] = node_full_name
             node_dict['category'] = node_category_iri
             node_dict['category label'] = node_category_label
             node_dict['description'] = node_description
-            node_dict['synonyms'] = node_synonyms             # slot name is not biolink standard
-            node_dict['xrefs'] = node_xrefs                   # slot name is not biolink standard
             node_dict['creation date'] = node_creation_date   # slot name is not biolink standard
             node_dict['deprecated'] = node_deprecated         # slot name is not biolink standard
             node_dict['update date'] = node_update_date
@@ -586,6 +611,9 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             node_type = onto_node_dict.get('type', None)
             node_dict['ontology node type'] = node_type       # slot name is not biolink standard
             node_dict['ontology node id'] = ontology_node_id  # slot name is not biolink standard
+            node_dict['xrefs'] = list(node_xrefs)             # slot name is not biolink standard
+            node_dict['synonyms'] = list(node_synonyms)       # slot name is not biolink standard
+            node_dict['publications'] = list(node_publications)
 
             # check if we need to make a CUI node
             if basic_property_values is not None:
@@ -609,10 +637,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                             cui_node_dict = merge_two_dicts(cui_node_dict,
                                                             cui_node_dict_existing)
                         ret_dict[cui_curie] = cui_node_dict
-                        if node_xrefs is None:
-                            node_xrefs = []
-                            node_dict['xrefs'] = node_xrefs
-                        node_xrefs.append(cui_curie)
+                        node_dict['xrefs'].append(cui_curie)
 
             if node_curie_id in ret_dict:
                 node_dict = merge_two_dicts(ret_dict[node_curie_id], node_dict)
@@ -883,6 +908,15 @@ def make_map_of_node_ontology_ids_to_curie_ids(nodes: dict):
     return ret_dict
 
 
+def xref_as_a_publication(xref: str):
+    ret_xref = None
+    if xref.upper().startswith('PMID:') or xref.upper().startswith('ISBN:'):
+        ret_xref = xref.upper()
+    elif xref.startswith('https://') or xref.startswith('http://'):
+        ret_xref = xref
+    return ret_xref
+
+    
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='build-kg2: builds the KG2 knowledge graph for the RTX system')
     arg_parser.add_argument('categoriesFile', type=str, nargs=1)
