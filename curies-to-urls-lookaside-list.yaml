@@ -11,6 +11,8 @@
 -
   HGNC: http://identifiers.org/hgnc/
 -
+  HGNC: http://www.genenames.org/cgi-bin/gene_symbol_report?hgnc_id=
+-
   EFO: http://www.ebi.ac.uk/efo/EFO_
 -
   GOREL: http://purl.obolibrary.org/obo/GOREL_
