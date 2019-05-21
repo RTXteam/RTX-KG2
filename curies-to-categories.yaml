@@ -181,6 +181,7 @@ term-mappings:
     SO:0000704: gene
     TUI:T017: anatomical entity
     TUI:T001: organism taxon
+    TUI:T028: gene
     TUI:T032: attribute
     TUI:T033: finding
     TUI:T038: biological process
