@@ -16,6 +16,7 @@ prefix-mappings:
     SGD: gene
     SIO: relationship type
     STY: semantic type
+    SYMP: phenotypic feature
     UBERON: anatomical entity
     UBPROP: attribute
     UniProtKB: protein
@@ -179,6 +180,7 @@ term-mappings:
     SNOMEDCT_US:419891008: information entity
     SNOMEDCT_US:900000000000441003: information entity
     SO:0000704: gene
+    TRANS:0000000: transmission type
     TUI:T017: anatomical entity
     TUI:T001: organism taxon
     TUI:T028: gene
