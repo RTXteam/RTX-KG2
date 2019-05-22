@@ -865,7 +865,8 @@ def merge_two_dicts(x: dict, y: dict):
                 if type(value) == str and type(stored_value) == str:
                     if value.lower() != stored_value.lower():
                         if key == 'description':
-                            ret_dict[key] = stored_value + '; ' + value
+                            if len(value) > len(stored_value):  # use the longer of the two descriptions
+                                ret_dict[key] = value
                         elif key == 'ontology node id' or key == 'ontology node type':
                             log_message("warning:  for key: " + key + ", dropping second value: " + value + '; keeping first value: ' + stored_value,
                                         output_stream=sys.stderr)
