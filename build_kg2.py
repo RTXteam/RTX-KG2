@@ -870,7 +870,6 @@ def merge_two_dicts(x: dict, y: dict):
                         elif key == 'ontology node id' or key == 'ontology node type':
                             log_message("warning:  for key: " + key + ", dropping second value: " + value + '; keeping first value: ' + stored_value,
                                         output_stream=sys.stderr)
-                            
                             ret_dict[key] = stored_value
                         elif key == 'provided by':
                             if value.endswith('/STY'):
