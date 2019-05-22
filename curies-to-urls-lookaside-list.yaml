@@ -50,5 +50,6 @@
   UMLS: https://identifiers.org/umls/
 -
   BFO: http://www.ifomis.org/bfo/1.1/span#
-
+-
+  NCBIGene: http://www.ncbi.nlm.nih.gov/gene/
 
