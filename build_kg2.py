@@ -61,11 +61,11 @@ REGEX_UMLS_CURIE = re.compile('UMLS:([^/]+)/(.*)')
 REGEX_PUBLICATIONS = re.compile('((?:(?:PMID)|(?:ISBN)):\d+)')
 
 CURIE_PREFIX_ENSEMBL = 'ENSEMBL:'
-STY_BASE_IRI = 'https://identifiers.org/umls/STY'
+# STY_BASE_IRI = 'https://identifiers.org/umls/STY'
 CUI_BASE_IRI = 'https://identifiers.org/umls/cui'
-IRI_SKOS_LABEL = 'http://www.w3.org/2004/02/skos/core#prefLabel'
-IRI_SKOS_ALTLABEL = 'http://www.w3.org/2004/02/skos/core#altLabel'
-IRI_SKOS_DEF = 'http://www.w3.org/2004/02/skos/core#definition'
+# IRI_SKOS_LABEL = 'http://www.w3.org/2004/02/skos/core#prefLabel'
+# IRI_SKOS_ALTLABEL = 'http://www.w3.org/2004/02/skos/core#altLabel'
+# IRI_SKOS_DEF = 'http://www.w3.org/2004/02/skos/core#definition'
 IRI_OBO_XREF = 'http://purl.org/obo/owl/oboFormat#oboFormat_xref'
 CURIE_OBO_XREF = 'oboFormat:xref'
 OWL_BASE_CLASS = 'owl:Thing'
@@ -473,6 +473,9 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             if not iri.startswith('http:') and not iri.startswith('https:'):
                 iri = prefixcommons.expand_uri(iri)
 
+            if node_curie_id.startswith('NCBIGene:') or node_curie_id.startswith('HGNC:'):
+                iri = prefixcommons.expand_uri(node_curie_id)
+            
             node_dict = dict()
             node_dict['id'] = node_curie_id
             node_dict['iri'] = iri
@@ -491,7 +494,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             node_creation_date = None
             node_update_date = None
             node_replaced_by_curie = None
-            node_alt_label = set()
+#            node_alt_label = set()
             node_full_name = None
             node_publications = set()
             node_synonyms = set()
@@ -525,7 +528,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                     syn_xref_pub = xref_as_a_publication(syn_xref)
                                     if syn_xref_pub is not None:
                                         node_publications.add(syn_xref_pub)
-                    
+
                 node_xrefs_list = node_meta.get('xrefs', None)
                 if node_xrefs_list is not None:
                     for xref_dict in node_xrefs_list:
@@ -535,14 +538,20 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                 if basic_property_values is not None:
                     for basic_property_value_dict in basic_property_values:
                         bpv_pred = basic_property_value_dict['pred']
+                        bpv_pred_curie = uri_to_curie_shortener(bpv_pred)
+                        if bpv_pred_curie is None:
+                            bpv_pred_curie = bpv_pred
                         bpv_val = basic_property_value_dict['val']
-                        if bpv_pred == 'OIO:creation_date' or bpv_pred == 'dcterms:issued':
+#                        print(bpv_pred_curie + "; " + bpv_val)
+                        if bpv_pred_curie in ['OIO:creation_date', 'dcterms:issued', 'HGNC:DATE_CREATED']:
                             node_creation_date = bpv_val
-                        elif bpv_pred == 'IAL:0100001':
+                        elif bpv_pred_curie == 'HGNC:DATE_LAST_MODIFIED':
+                            node_update_date = bpv_val
+                        elif bpv_pred_curie == 'IAL:0100001':
                             assert node_deprecated
                             node_replaced_by_uri = bpv_val
                             node_replaced_by_curie = uri_to_curie_shortener(node_replaced_by_uri)
-                        elif bpv_pred == STY_BASE_IRI:
+                        elif bpv_pred_curie == 'UMLS:STY':  # STY_BASE_IRI:
                             node_tui = bpv_val
                             # fix some impedance mismatch between URIs used in umls2rdf and in umls_semantictypes.owl:
                             node_tui_uri = posixpath.join(bpv_pred, node_tui)
@@ -560,12 +569,19 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                 log_message(message='unknown category: ' + node_tui_uri)
                             node_tui_category_iri = category_label_to_iri_mapper(node_tui_category_label)
                             node_category_label = node_tui_category_label  # override the node category label if we have a TUI
-                        elif bpv_pred == IRI_SKOS_LABEL:
-                            node_name = bpv_val
-                        elif bpv_pred == IRI_SKOS_ALTLABEL:
-                            node_alt_label.add(bpv_val)
-                        elif bpv_pred == IRI_SKOS_DEF:
+                        elif bpv_pred_curie == 'skos:prefLabel':
+                            if not node_curie_id.startswith('HGNC:'):
+                                node_name = bpv_val
+                            else:
+                                node_full_name = bpv_val
+                        elif bpv_pred_curie == 'skos:altLabel':
+                            node_synonyms.add(bpv_val)
+                        elif bpv_pred_curie == 'skos:definition':
                             node_description = bpv_val
+                        elif bpv_pred_curie == 'HGNC:GENESYMBOL':
+                            node_name = bpv_val
+                            node_synonyms.add(bpv_val)
+
             if node_category_label is None:
                 if not node_deprecated:
                     log_message("Node does not have a category", ontology.id, node_curie_id, output_stream=sys.stderr)
@@ -575,13 +591,13 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
 
             node_category_iri = category_label_to_iri_mapper(node_category_label)
 
-            if len(node_alt_label) > 0:
-                node_alt_label_str = '; '.join(node_alt_label)
-            else:
-                node_alt_label_str = None
+            # if len(node_alt_label) > 0:
+            #     node_alt_label_str = '; '.join(node_alt_label)
+            # else:
+            #     node_alt_label_str = None
 
-            if node_name is None and node_alt_label_str is not None:
-                node_name = node_alt_label_str
+            # if node_name is None and node_alt_label_str is not None:
+            #     node_name = node_alt_label_str
 
             ontology_curie_id = ontologies_iris_to_curies[iri_of_ontology]
             source_ontology_information = ret_dict.get(ontology_curie_id, None)
@@ -620,8 +636,9 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             if basic_property_values is not None:
                 for basic_property_value_dict in basic_property_values:
                     bpv_pred = basic_property_value_dict['pred']
+                    bpv_pred_curie = uri_to_curie_shortener(bpv_pred)
                     bpv_val = basic_property_value_dict['val']
-                    if bpv_pred == CUI_BASE_IRI:
+                    if bpv_pred_curie == 'UMLS:cui':   # CUI_BASE_IRI:
                         assert node_tui is not None
                         cui_node_dict = dict(node_dict)
                         cui_uri = bpv_pred + '/' + bpv_val
@@ -639,7 +656,14 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                                             cui_node_dict_existing)
                         ret_dict[cui_curie] = cui_node_dict
                         node_dict['xrefs'].append(cui_curie)
-
+                    elif bpv_pred_curie == 'HGNC:ENTREZGENE_ID':
+                        entrez_gene_id = bpv_val
+                        entrez_node_dict = dict(node_dict)
+                        entrez_curie = 'NCBIGene:' + entrez_gene_id
+                        entrez_node_dict['id'] = entrez_curie
+                        entrez_node_dict['iri'] = 'https://identifiers.org/NCBIGene/' + entrez_gene_id
+                        ret_dict[entrez_curie] = entrez_node_dict
+                        node_dict['xrefs'].append(entrez_curie)
             if node_curie_id in ret_dict:
                 node_dict = merge_two_dicts(ret_dict[node_curie_id], node_dict)
             ret_dict[node_curie_id] = node_dict
@@ -767,7 +791,7 @@ def get_node_curie_id_from_ontology_node_id(ontology_node_id: str,
 
 
 def shorten_iri_to_curie(iri: str, curie_to_iri_map: list = []):
-    if iri.startswith('owl:'):
+    if iri.startswith('owl:') or iri.startswith('OIO:'):
         return iri
     curie_list = prefixcommons.contract_uri(iri,
                                             curie_to_iri_map)
@@ -776,9 +800,10 @@ def shorten_iri_to_curie(iri: str, curie_to_iri_map: list = []):
         curie_id = curie_list[0]
     else:
         curie_id = None
-    umls_match = REGEX_UMLS_CURIE.match(curie_id)  # deal with IRIs like 'https://identifiers.org/umls/ATC/L01AX02' which get converted to CURIE 'UMLS:ATC/L01AX02'
-    if umls_match is not None:
-        curie_id = umls_match[1] + ':' + umls_match[2]
+    if curie_id is not None:
+        umls_match = REGEX_UMLS_CURIE.match(curie_id)  # deal with IRIs like 'https://identifiers.org/umls/ATC/L01AX02' which get converted to CURIE 'UMLS:ATC/L01AX02'
+        if umls_match is not None:
+            curie_id = umls_match[1] + ':' + umls_match[2]
     return curie_id
 
 
@@ -917,7 +942,7 @@ def xref_as_a_publication(xref: str):
         ret_xref = xref
     return ret_xref
 
-    
+
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='build-kg2: builds the KG2 knowledge graph for the RTX system')
     arg_parser.add_argument('categoriesFile', type=str, nargs=1)
