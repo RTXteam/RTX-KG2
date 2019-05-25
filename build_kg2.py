@@ -478,7 +478,8 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
 
             generated_iri = prefixcommons.expand_uri(node_curie_id)
             if generated_iri != node_curie_id:
-                if generated_iri.startswith('http') and generated_iri != iri:
+                if (generated_iri.startswith('http:') or generated_iri.startswith('https:')) and \
+                   generated_iri != iri:
                     iri = generated_iri
 
             node_dict = dict()
