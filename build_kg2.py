@@ -18,7 +18,6 @@ __status__ = 'Prototype'
 # - some terms are showing up with a local file path as their "source URI"; use a real URI from the config file
 
 import argparse
-import collections
 import copy
 import errno
 import functools
