@@ -881,8 +881,8 @@ def merge_two_dicts(x: dict, y: dict):
                                 ret_dict[key] = value
                         elif key == 'name' or key == 'full name':
                             if value.replace(' ', '_') != stored_value.replace(' ', '_'):
-                                log_message("warning:  for key: " + key + ", dropping second value: " + value + '; keeping first value: ' + stored_value,
-                                            output_stream=sys.stderr)
+                                if len(value) > len(stored_value):
+                                    ret_dict[key] = value
                         else:
                             log_message("warning:  for key: " + key + ", dropping second value: " + value + '; keeping first value: ' + stored_value,
                                         output_stream=sys.stderr)
