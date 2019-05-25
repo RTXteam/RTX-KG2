@@ -283,7 +283,7 @@ def make_kg2(curies_to_categories: dict,
         del node_dict['ontology node ids']
 
 #    timestamp_str = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
-    temp_output_file = tempfile.mkstemp(prefix='kg2')[1]
+    temp_output_file = tempfile.mkstemp(prefix='kg2-')[1]
     with open(temp_output_file, 'w') as outfile:
         json.dump(kg2_dict, outfile, indent=4, sort_keys=True)
     shutil.move(temp_output_file, output_file)
