@@ -275,9 +275,6 @@ def make_kg2(curies_to_categories: dict,
     kg2_dict['edges'] = [rel_dict for rel_dict in all_rels_dict.values()]
     log_message('Number of edges: ' + str(len(kg2_dict['edges'])))
     kg2_dict['nodes'] = list(nodes_dict.values())
-    for node in kg2_dict['nodes']:
-        if node['category'] is None:
-            log_message('Node does not have a category defined', node['provided by'], node['id'], output_stream=sys.stderr)
     log_message('Number of nodes: ' + str(len(kg2_dict['nodes'])))
     del nodes_dict
 
@@ -841,22 +838,6 @@ def safe_load_yaml_from_string(yaml_string: str):
 def get_prefix_from_curie_id(curie_id: str):
     assert ':' in curie_id
     return curie_id.split(':')[0]
-
-
-def count_node_types_with_none_category(nodes: dict):
-    return collections.Counter([curie_id.split(':')[0] for curie_id in nodes.keys() if nodes[curie_id]['category'] is None])
-
-
-def get_nodes_with_none_category(nodes: dict):
-    return {mykey: myvalue for mykey, myvalue in nodes.items() if myvalue['category'] is None}
-
-
-def count_node_curie_prefix_types(nodes: dict):
-    return collections.Counter([node['id'].split(':')[0] for node in nodes.values()])
-
-
-def count_node_category_types(nodes: dict):
-    return collections.Counter([node['category'] for node in nodes.values()])
 
 
 def merge_two_dicts(x: dict, y: dict):
