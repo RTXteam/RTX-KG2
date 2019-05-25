@@ -52,4 +52,12 @@
   BFO: http://www.ifomis.org/bfo/1.1/span#
 -
   NCBIGene: http://www.ncbi.nlm.nih.gov/gene/
+-
+  OBO: http://purl.obolibrary.org/obo#
+-
+  RO: http://www.obofoundry.org/ro/ro.owl#
+-
+  OBO: http://purl.org/obo/owl/OBO_REL#
+-
+  EFO: http://www.ebi.ac.uk/efo/
 
