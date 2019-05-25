@@ -62,7 +62,7 @@ else
     rm /tmp/test
 fi
 
-# setup raptor
+# setup raptor (used by the "checkOutputSyntax.sh" script in the umls2rdf package)
 wget -nv -P ${BUILD_DIR} http://download.librdf.org/source/raptor2-2.0.15.tar.gz
 rm -r -f ${BUILD_DIR}/raptor2-2.0.15
 tar xzf ${BUILD_DIR}/raptor2-2.0.15.tar.gz -C ${BUILD_DIR} 
