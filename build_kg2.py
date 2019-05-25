@@ -954,7 +954,7 @@ running_time = timeit.timeit(lambda: make_kg2(curies_to_categories,
                                               map_category_label_to_iri,
                                               owl_urls_and_files,
                                               output_file), number=1)
-print('running time for KG2 construction: ' + str(running_time))
+print('running time for build_kg2.py: ' + str(running_time))
 
 
 # # ---------------- Notes -----------------
