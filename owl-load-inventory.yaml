@@ -207,14 +207,6 @@
   file: umls-msh.ttl
   title: Medical Subject Headings
   url: https://identifiers.org/umls/MSH
-#- download: false
-#  file: umls-mth.ttl
-#  title: Metathesaurus Names
-#  url: https://identifiers.org/umls/MTH
-#- download: false
-#  file: umls-mthcmsfrf.ttl
-#  title: Metathesaurus CMS Formulary Reference File
-#  url: https://identifiers.org/umls/MTHCMSFRF
 - download: false
   file: umls-mthhh.ttl
   title: HCPCS Hierarchical Terms (UMLS)
@@ -567,17 +559,3 @@
   file: pr.owl
   download: true
   title: Protein Ontology
-#-
-#  url: http://purl.obolibrary.org/obo/ncit/ncit-plus.owl
-#  file: ncit-plus.owl
-#  download: true
-#  title: NCI Thesaurus OBO Edition
-# -
-#   url: ## intentionally left blank which will map to "None" in the resulting python data structure
-#   file: snomed-relax.owl
-#   download: true
-#   title: SNOMED CT Ontology
-# -
-#   url: ## intentionally left blank which will map to "None" in the resulting python data structure
-#   file: umls.owl
-#   title: UMLS
