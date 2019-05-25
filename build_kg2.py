@@ -61,11 +61,7 @@ REGEX_UMLS_CURIE = re.compile('UMLS:([^/]+)/(.*)')
 REGEX_PUBLICATIONS = re.compile('((?:(?:PMID)|(?:ISBN)):\d+)')
 
 CURIE_PREFIX_ENSEMBL = 'ENSEMBL:'
-# STY_BASE_IRI = 'https://identifiers.org/umls/STY'
 CUI_BASE_IRI = 'https://identifiers.org/umls/cui'
-# IRI_SKOS_LABEL = 'http://www.w3.org/2004/02/skos/core#prefLabel'
-# IRI_SKOS_ALTLABEL = 'http://www.w3.org/2004/02/skos/core#altLabel'
-# IRI_SKOS_DEF = 'http://www.w3.org/2004/02/skos/core#definition'
 IRI_OBO_XREF = 'http://purl.org/obo/owl/oboFormat#oboFormat_xref'
 CURIE_OBO_XREF = 'oboFormat:xref'
 OWL_BASE_CLASS = 'owl:Thing'
