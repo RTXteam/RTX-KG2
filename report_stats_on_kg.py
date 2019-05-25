@@ -1,16 +1,8 @@
 #!/usr/bin/python3
 
-'''Prints a report about a JSON-format knowledge graph, to standard output
-
-   Usage: report_stats_on_kg.py <inputFile.json>
-'''
-
-import json
-import argparse
-import collections
 '''Prints a JSON overview report of a JSON knowledge graph in Biolink format, to STDOUT.
 
-   Usage: report_stats_on_kg.py <inputKGFile.json>
+   Usage: report_stats_on_kg.py <inputKGFile.json> <outputKGFile.json>
 '''
 
 __author__ = 'Stephen Ramsey'
@@ -23,9 +15,17 @@ __email__ = ''
 __status__ = 'Prototype'
 
 
+import argparse
+import collections
+import json
+import shutil
+import tempfile
+
+
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='build-kg2: builds the KG2 knowledge graph for the RTX system')
     arg_parser.add_argument('inputFile', type=str, nargs=1)
+    arg_parser.add_argument('outputFile', type=str, nargs=1)
     return arg_parser
 
 
@@ -79,6 +79,7 @@ if __name__ == '__main__':
              'edge_predicate_curies': dict(count_edges_by_predicate_curie(graph['edges'])),
              'edge_predicate_curie_prefixes': dict(count_edges_by_predicate_curie_prefix(graph['edges'])),
              'edge_sources': dict(count_edges_by_source(graph['edges']))}
-    print(json.dumps(stats, indent=4, sort_keys=True))
-
-
+    temp_output_file = tempfile.mkstemp(prefix='kg2-')[1]
+    with open(temp_output_file, 'w') as outfile:
+        json.dump(stats, outfile, indent=4, sort_keys=True)
+    shutil.move(temp_output_file, args.outputFile[0])
