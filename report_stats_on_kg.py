@@ -8,6 +8,19 @@
 import json
 import argparse
 import collections
+'''Prints a JSON overview report of a JSON knowledge graph in Biolink format, to STDOUT.
+
+   Usage: report_stats_on_kg.py <inputKGFile.json>
+'''
+
+__author__ = 'Stephen Ramsey'
+__copyright__ = 'Oregon State University'
+__credits__ = ['Stephen Ramsey']
+__license__ = 'MIT'
+__version__ = '0.1.0'
+__maintainer__ = ''
+__email__ = ''
+__status__ = 'Prototype'
 
 
 def make_arg_parser():
