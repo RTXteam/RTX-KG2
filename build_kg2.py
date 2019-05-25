@@ -52,6 +52,7 @@ BIOLINK_CATEGORY_BASE_IRI = 'http://w3id.org/biolink'
 FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
 ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
 TEMP_FILE_PREFIX = 'kg2'
+
 REGEX_ENSEMBL = re.compile('ENS[A-Z]{0,3}([PG])[0-9]{11}')
 REGEX_YEAR = re.compile('([12][90][0-9]{2})')
 REGEX_YEAR_MONTH_DAY = re.compile('([12][90][0-9]{2})_([0-9]{1,2})_([0-9]{1,2})')
@@ -59,6 +60,8 @@ REGEX_MONTH_YEAR = re.compile('([0-9]{1,2})_[12][90][0-9]{2}')
 REGEX_YEAR_MONTH = re.compile('[12][90][0-9]{2}_([0-9]{1,2})')
 REGEX_UMLS_CURIE = re.compile('UMLS:([^/]+)/(.*)')
 REGEX_PUBLICATIONS = re.compile('((?:(?:PMID)|(?:ISBN)):\d+)')
+REGEX_PURL = re.compile('http://purl.obolibrary.org/obo/([^_]+)_(.*)')
+REGEX_IDORG = re.compile('https://identifiers.org/umls/([^/]+)/(.*)')
 
 CURIE_PREFIX_ENSEMBL = 'ENSEMBL:'
 CUI_BASE_IRI = 'https://identifiers.org/umls/cui'
@@ -472,7 +475,12 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
 
             if node_curie_id.startswith('NCBIGene:') or node_curie_id.startswith('HGNC:'):
                 iri = prefixcommons.expand_uri(node_curie_id)
-            
+
+            generated_iri = prefixcommons.expand_uri(node_curie_id)
+            if generated_iri != node_curie_id:
+                if generated_iri.startswith('http') and generated_iri != iri:
+                    iri = generated_iri
+
             node_dict = dict()
             node_dict['id'] = node_curie_id
             node_dict['iri'] = iri
