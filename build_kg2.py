@@ -285,6 +285,7 @@ def make_kg2(curies_to_categories: dict,
     # delete xrefs from all_nodes_dict
     for node_dict in kg2_dict['nodes']:
         del node_dict['xrefs']
+        del node_dict['ontology node ids']
 
 #    timestamp_str = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
     temp_output_file = tempfile.mkstemp(prefix='kg2')[1]
@@ -451,7 +452,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             'replaced by': None,
             'provided by': iri_of_ontology,
             'ontology node type': 'INDIVIDUAL',
-            'ontology node id': iri_of_ontology}
+            'ontology node ids': [iri_of_ontology]}
 
         ontologies_iris_to_curies[iri_of_ontology] = ontology_curie_id
 
@@ -627,7 +628,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             node_dict['provided by'] = iri_of_ontology        # slot name is not biolink standard
             node_type = onto_node_dict.get('type', None)
             node_dict['ontology node type'] = node_type       # slot name is not biolink standard
-            node_dict['ontology node id'] = ontology_node_id  # slot name is not biolink standard
+            node_dict['ontology node ids'] = [ontology_node_id]  # slot name is not biolink standard
             node_dict['xrefs'] = list(node_xrefs)             # slot name is not biolink standard
             node_dict['synonyms'] = list(node_synonyms)       # slot name is not biolink standard
             node_dict['publications'] = list(node_publications)
@@ -648,7 +649,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         cui_node_dict['iri'] = cui_uri
                         cui_node_dict['category'] = node_tui_category_iri
                         cui_node_dict['category label'] = node_tui_category_label
-                        cui_node_dict['ontology node id'] = None
+                        cui_node_dict['ontology node ids'] = []
                         cui_node_dict['provided by'] = CUI_BASE_IRI
                         cui_node_dict_existing = ret_dict.get(cui_curie, None)
                         if cui_node_dict_existing is not None:
@@ -867,7 +868,7 @@ def merge_two_dicts(x: dict, y: dict):
                         if key == 'description':
                             if len(value) > len(stored_value):  # use the longer of the two descriptions
                                 ret_dict[key] = value
-                        elif key == 'ontology node id' or key == 'ontology node type':
+                        elif key == 'ontology node type':
                             log_message("warning:  for key: " + key + ", dropping second value: " + value + '; keeping first value: ' + stored_value,
                                         output_stream=sys.stderr)
                             ret_dict[key] = stored_value
@@ -877,13 +878,11 @@ def merge_two_dicts(x: dict, y: dict):
                             elif not stored_value.endswith('/STY'):
                                 pass
                         elif key == 'category label':
-                            if value == 'unknown category':
-                                pass
+                            if value != 'unknown category' and stored_value == 'unknown category':
+                                ret_dict[key] = value
                         elif key == 'category':
-                            if value.endswith('/UnknownCategory'):
-                                pass
-                        elif key == 'update date':
-                            pass
+                            if not value.endswith('/UnknownCategory') and stored_value.endswith('/UnknownCategory'):
+                                ret_dict[key] = value
                         elif key == 'name' or key == 'full name':
                             if value.replace(' ', '_') != stored_value.replace(' ', '_'):
                                 log_message("warning:  for key: " + key + ", dropping second value: " + value + '; keeping first value: ' + stored_value,
@@ -921,16 +920,12 @@ def compose_two_multinode_dicts(node1: dict, node2: dict):
 def make_map_of_node_ontology_ids_to_curie_ids(nodes: dict):
     ret_dict = dict()
     for curie_id, node_dict in nodes.items():
-        ontology_node_id = node_dict['ontology node id']
+        ontology_node_ids = node_dict['ontology node ids']
         assert curie_id not in ret_dict
-        if ontology_node_id is not None:
-            if type(ontology_node_id) == str:
-                ret_dict[ontology_node_id] = curie_id
-            elif type(ontology_node_id) == list:
-                for id in ontology_node_id:
-                    ret_dict[id] = curie_id
-            else:
-                assert False
+        assert ontology_node_ids is not None
+        assert type(ontology_node_ids) == list
+        for ontology_node_id in ontology_node_ids:
+            ret_dict[ontology_node_id] = curie_id
     return ret_dict
 
 
