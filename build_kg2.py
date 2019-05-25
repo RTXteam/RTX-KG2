@@ -711,7 +711,7 @@ def get_rels_dict(nodes: dict,
                             output_stream=sys.stderr)
                 continue
             predicate_label = predicate_dict['pred']
-            if not predicate_label.startswith('http:'):
+            if not predicate_label.startswith('http:') and not predicate_label.startswith('https'):
                 if ':' not in predicate_label:
                     if predicate_label != 'subClassOf':
                         predicate_curie = 'owl:' + predicate_label
