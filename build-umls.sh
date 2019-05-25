@@ -117,7 +117,7 @@ ${UMLS_VENV_DIR}/bin/pip install mysqlclient
 ## run umls2rdf
 cd ${UMLS2RDF_DIR}
 ${UMLS_VENV_DIR}/bin/python2.7 umls2rdf.py
-./checkOutputSyntax.sh
+./checkOutputSyntax.sh  # users "rapper" command from the "raptor" package
 
 # ## convert files from Turtle format to OWL/RDF format
 # for ttl_file_name in `ls ${UMLS2RDF_DIR}/output/*.ttl`
