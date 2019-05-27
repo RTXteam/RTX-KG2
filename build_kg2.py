@@ -635,7 +635,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             node_dict['publications'] = list(node_publications)
 
             # check if we need to make a CUI node
-            if basic_property_values is not None:
+            if node_meta is not None and basic_property_values is not None:
                 for basic_property_value_dict in basic_property_values:
                     bpv_pred = basic_property_value_dict['pred']
                     bpv_pred_curie = uri_to_curie_shortener(bpv_pred)
