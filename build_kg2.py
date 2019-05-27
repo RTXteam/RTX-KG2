@@ -868,18 +868,27 @@ def merge_two_dicts(x: dict, y: dict):
                         elif key == 'provided by':
                             if value.endswith('/STY'):
                                 ret_dict[key] = value
-                            elif not stored_value.endswith('/STY'):
-                                pass
                         elif key == 'category label':
                             if value != 'unknown category' and stored_value == 'unknown category':
-                                ret_dict[key] = value
+                                stored_desc = ret_dict.get('description', None)
+                                new_desc = y.get('description', None)
+                                if stored_desc is not None and new_desc is not None:
+                                    if len(new_desc) > len(stored_desc):
+                                        ret_dict[key] = value
                         elif key == 'category':
                             if not value.endswith('/UnknownCategory') and stored_value.endswith('/UnknownCategory'):
-                                ret_dict[key] = value
+                                stored_desc = ret_dict.get('description', None)
+                                new_desc = y.get('description', None)
+                                if stored_desc is not None and new_desc is not None:
+                                    if len(new_desc) > len(stored_desc):
+                                        ret_dict[key] = value
                         elif key == 'name' or key == 'full name':
                             if value.replace(' ', '_') != stored_value.replace(' ', '_'):
-                                if len(value) > len(stored_value):
-                                    ret_dict[key] = value
+                                stored_desc = ret_dict.get('description', None)
+                                new_desc = y.get('description', None)
+                                if stored_desc is not None and new_desc is not None:
+                                    if len(new_desc) > len(stored_desc):
+                                        ret_dict[key] = value
                         else:
                             log_message("warning:  for key: " + key + ", dropping second value: " + value + '; keeping first value: ' + stored_value,
                                         output_stream=sys.stderr)
