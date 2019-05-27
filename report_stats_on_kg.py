@@ -63,6 +63,10 @@ def count_edges_by_predicate_curie(edges: list):
     return collections.Counter([edge['relation curie'] for edge in edges])
 
 
+def count_edges_by_predicate_type(edges: list):
+    return collections.Counter([edge['type'] for edge in edges])
+
+
 def count_edges_by_predicate_curie_prefix(edges: list):
     return collections.Counter([get_prefix_from_curie_id(edge['relation curie']) for edge in edges])
 
@@ -77,6 +81,7 @@ if __name__ == '__main__':
              'node_category_types': dict(count_nodes_by_category(graph['nodes'])),
              'node_source_types': dict(count_nodes_by_source(graph['nodes'])),
              'edge_predicate_curies': dict(count_edges_by_predicate_curie(graph['edges'])),
+             'edge_predicate_types': dict(count_edges_by_predicate_type(graph['edges'])),
              'edge_predicate_curie_prefixes': dict(count_edges_by_predicate_curie_prefix(graph['edges'])),
              'edge_sources': dict(count_edges_by_source(graph['edges']))}
     temp_output_file = tempfile.mkstemp(prefix='kg2-')[1]
