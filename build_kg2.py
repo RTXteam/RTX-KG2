@@ -722,8 +722,11 @@ def get_rels_dict(nodes: dict,
                     predicate_curie = predicate_label
                     predicate_node = nodes.get(predicate_curie, None)
                     if predicate_node is not None:
-                        predicate_label = predicate_node['name']
+                        predicate_label = predicate_node['name'].replace('_', ' ')
                 predicate_iri = prefixcommons.expand_uri(predicate_curie)
+                predicate_curie_new = uri_to_curie_shortener(predicate_iri)
+                if predicate_curie_new is not None:
+                    predicate_curie = predicate_curie_new
             else:
                 predicate_iri = predicate_label
                 predicate_curie = uri_to_curie_shortener(predicate_iri)
@@ -737,6 +740,11 @@ def get_rels_dict(nodes: dict,
                 continue
 
             rel_key = make_rel_key(subject_curie_id, predicate_curie, object_curie_id, ontology_curie_id)
+
+            if ':' in predicate_curie:
+                pred_node = nodes.get(predicate_curie, None)
+                if pred_node is not None:
+                    predicate_label = pred_node['name'].replace('_', ' ')
 
             if rels_dict.get(rel_key, None) is None:
                 rels_dict[rel_key] = {'subject': subject_curie_id,
