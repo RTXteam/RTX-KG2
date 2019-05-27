@@ -75,8 +75,8 @@ which to copy the KG2 JSON file, or you can comment the line out of
 The KG2 build software has been tested with the following instance type:
 
 - AMI: Ubuntu Server 18.04 LTS (HVM), SSD Volume Type - `ami-005bdb005fb00e791` (64-bit x86)
-- Instance type: `r5.4xlarge` 
-- Storage: 500 GiB General Purpose SSD
+- Instance type: `r5.12xlarge` (384 GiB of memory)
+- Storage: 750 GiB General Purpose SSD
 - Security Group: ingress TCP packets on port 22 (ssh) permitted
 
 ## Build instructions
