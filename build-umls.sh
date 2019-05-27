@@ -7,26 +7,16 @@ source ${CONFIG_DIR}/master-config.shinc
 UMLS_VER=2018AB
 UMLS_FILE_BASE=${UMLS_VER}-full
 UMLS_DIR=${BUILD_DIR}/umls
-MYSQL_USER=ubuntu
-MYSQL_PASSWORD=1337
-MYSQL_DBNAME=umls
 MMSYS_DIR=${UMLS_DIR}/${UMLS_FILE_BASE}
 UMLS_RRDIST_DIR=${UMLS_DIR}
 UMLS_DEST_DIR=${UMLS_RRDIST_DIR}/META
-MYSQL_CONF=${UMLS_DIR}/mysql-config.conf
 UMLS2RDF_RELEASE=rtx-1.6
 UMLS2RDF_PKGNAME=umls2rdf-${UMLS2RDF_RELEASE}
 UMLS2RDF_DIR=${UMLS_DIR}/${UMLS2RDF_PKGNAME}
 CONFIG_FILE=${UMLS_DIR}/config.prop
+MYSQL_DBNAME=umls
 
 sudo apt-get update -y
-sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password ${MYSQL_PASSWORD}"
-sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password ${MYSQL_PASSWORD}"
-sudo apt-get install -y mysql-server \
-     mysql-client \
-     git \
-     libmysqlclient-dev \
-     python-dev 
 
 ## make directories that we need
 mkdir -p ${UMLS_DIR}
@@ -65,22 +55,9 @@ ${JAVA_HOME}/bin/java -Djava.awt.headless=true \
                       -Dmmsys.config.uri=${CONFIG_FILE} \
                       -Xms300M -Xmx${MEM_GB}G org.java.plugin.boot.Boot
 
-MYSQL_PWD=${MYSQL_PASSWORD} mysql -u root -e "CREATE USER '${MYSQL_USER}'@'localhost' IDENTIFIED BY '${MYSQL_PASSWORD}'"
-MYSQL_PWD=${MYSQL_PASSWORD} mysql -u root -e "GRANT ALL PRIVILEGES ON *.* to '${MYSQL_USER}'@'localhost'"
-cat >${MYSQL_CONF} <<EOF
-[client]
-user = ${MYSQL_USER}
-password = ${MYSQL_PASSWORD}
-host = localhost
-EOF
-
 ## create the "umls" database
 mysql --defaults-extra-file=${MYSQL_CONF} \
       -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DBNAME} CHARACTER SET utf8 COLLATE utf8_unicode_ci"
-
-## set mysql server variable to allow loading data from a local file
-mysql --defaults-extra-file=${MYSQL_CONF} \
-      -e "set global local_infile=1"
 
 ## fill in the authentication and database variables in the shell script for populating the mysql database
 cat ${UMLS_DEST_DIR}/populate_mysql_db.sh | \
