@@ -4,6 +4,9 @@ set -euxo pipefail
 ## setup the shell variables for various directories
 CONFIG_DIR=`dirname "$0"`
 
+MYSQL_USER=ubuntu
+MYSQL_PASSWORD=1337
+
 source ${CONFIG_DIR}/master-config.shinc
 
 ## sym-link into RTX/code/kg2
@@ -15,6 +18,7 @@ fi
 sudo apt-get update
 sudo apt-get install -y python3-minimal \
      python3-pip \
+     python-dev \
      default-jre \
      awscli \
      zip \
@@ -25,7 +29,14 @@ sudo apt-get install -y python3-minimal \
      libxml2-dev \
      gtk-doc-tools \
      libtool \
-     automake
+     automake \
+     git
+
+sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password ${MYSQL_PASSWORD}"
+sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password ${MYSQL_PASSWORD}"
+sudo apt-get install -y mysql-server \
+     mysql-client \
+     libmysqlclient-dev
 
 ## this is for convenience when I am remote working
 sudo apt-get install -y emacs
@@ -72,5 +83,19 @@ make
 make check
 sudo make install
 sudo ldconfig
+
+MYSQL_PWD=${MYSQL_PASSWORD} mysql -u root -e "CREATE USER '${MYSQL_USER}'@'localhost' IDENTIFIED BY '${MYSQL_PASSWORD}'"
+MYSQL_PWD=${MYSQL_PASSWORD} mysql -u root -e "GRANT ALL PRIVILEGES ON *.* to '${MYSQL_USER}'@'localhost'"
+cat >${MYSQL_CONF} <<EOF
+[client]
+user = ${MYSQL_USER}
+password = ${MYSQL_PASSWORD}
+host = localhost
+EOF
+
+## set mysql server variable to allow loading data from a local file
+mysql --defaults-extra-file=${MYSQL_CONF} \
+      -e "set global local_infile=1"
+
 
 echo "================= script finished ================="
