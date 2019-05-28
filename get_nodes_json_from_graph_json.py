@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 '''Extracts the nodes from a knowledge graph that is in JSON format; saves the nodes in JSON format.
 
