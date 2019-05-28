@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 '''Prints a JSON overview report of a JSON knowledge graph in Biolink format, to STDOUT.
 
