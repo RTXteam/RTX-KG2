@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import MySQLdb
 import getpass
 # Generate configuration for the "umls2rdf" software, by querying which data sources are
