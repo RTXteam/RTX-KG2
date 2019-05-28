@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # generates a YAML configuration file listing all of the UMLS-derived OWL files
 # for use with build-kg2.py
 import pandas
