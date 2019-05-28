@@ -257,12 +257,18 @@ def make_kg2(curies_to_categories: dict,
         metadata_dict['ontology'] = ont
         owl_file_information_dict_list.append(metadata_dict)
 
+    log_message('Calling make_nodes_dict_from_ontologies_list')
+    
     nodes_dict = make_nodes_dict_from_ontologies_list(owl_file_information_dict_list,
                                                       curies_to_categories,
                                                       uri_to_curie_shortener,
                                                       map_category_label_to_iri)
 
+    log_message('Calling make_map_of_node_ontology_ids_to_curie_ids')
+
     map_of_node_ontology_ids_to_curie_ids = make_map_of_node_ontology_ids_to_curie_ids(nodes_dict)
+
+    log_message('Calling get_rels_dict')
 
     # get a dictionary of all relationships including xrefs as relationships
     all_rels_dict = get_rels_dict(nodes_dict,
@@ -284,6 +290,9 @@ def make_kg2(curies_to_categories: dict,
 
 #    timestamp_str = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
     temp_output_file = tempfile.mkstemp(prefix='kg2-')[1]
+
+    log_message('Saving JSON file')
+
     with open(temp_output_file, 'w') as outfile:
         json.dump(kg2_dict, outfile, indent=4, sort_keys=True)
     shutil.move(temp_output_file, output_file)
