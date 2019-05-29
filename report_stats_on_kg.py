@@ -3,6 +3,7 @@
 '''Prints a JSON overview report of a JSON knowledge graph in Biolink format, to STDOUT.
 
    Usage: report_stats_on_kg.py <inputKGFile.json> <outputKGFile.json>
+   The input file can be optionally gzipped (specify with the .gz extension).
 '''
 
 __author__ = 'Stephen Ramsey'
@@ -17,6 +18,7 @@ __status__ = 'Prototype'
 
 import argparse
 import collections
+import gzip
 import json
 import shutil
 import tempfile
@@ -73,7 +75,13 @@ def count_edges_by_predicate_curie_prefix(edges: list):
 
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
-    graph = json.load(open(args.inputFile[0], 'r'))
+    input_file_name = args.inputFile[0]
+    if not input_file_name.endswith('.gz'):
+        input_file = open(input_file_name, 'r')
+        graph = json.load(input_file)
+    else:
+        input_file = gzip.GzipFile(input_file_name, 'r')
+        graph = json.loads(input_file.read().decode('utf-8'))
     stats = {'num_nodes': len(graph['nodes']),
              'num_edges': len(graph['edges']),
              'node_curie_prefixes': dict(count_nodes_by_curie_prefix(graph['nodes'])),
