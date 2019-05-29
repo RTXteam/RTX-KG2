@@ -353,17 +353,6 @@ def get_biolink_category_for_node(ontology_node_id: str,
                 if ret_category is not None:
                     break
     if ret_category is None:
-        # this is to handle SNOMED CT attributes:
-        # if node_curie_id.startswith('SNOMEDCT_US'):
-        #     assert False   # eventually just cut this code block since it shouldn't be triggered anymore
-        #     ontology_node_lbl = ontology.node(ontology_node_id).get('lbl', None)
-        #     if ontology_node_lbl is not None:
-        #         if '(attribute)' in ontology_node_lbl:
-        #             ret_category = 'attribute'
-        #         else:
-        #             log_message('Node does not have a label or any parents',
-        #                         'http://snomed.info/sct/900000000000207008',
-        #                         node_curie_id, output_stream=sys.stderr)
         if node_curie_id.startswith(CURIE_PREFIX_ENSEMBL):
             curie_suffix = node_curie_id.replace(CURIE_PREFIX_ENSEMBL, '')
             ensembl_match = REGEX_ENSEMBL.match(curie_suffix)
@@ -840,7 +829,10 @@ def make_uri_to_curie_shortener(curie_to_iri_map: list = []):
 def convert_owl_camel_case_to_biolink_spaces(name: str):
     s1 = FIRST_CAP_RE.sub(r'\1 \2', name)
     converted = ALL_CAP_RE.sub(r'\1 \2', s1).lower()
-    return converted.replace('sub class', 'subclass')
+    converted = converted.replace('sub class', 'subclass')
+    if converted[0].istitle():
+        converted[0] = converted[0].lower()
+    return converted
 
 
 def convert_biolink_category_to_iri(biolink_category_base_iri, biolink_category_label: str):
