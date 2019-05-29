@@ -91,10 +91,10 @@
   file: umls-icd10pcs.ttl
   title: ICD-10 Procedure Coding System
   url: https://identifiers.org/umls/ICD10PCS
-- download: false
-  file: umls-icd9cm.ttl
-  title: International Classification of Diseases, Ninth Revision, Clinical Modification
-  url: https://identifiers.org/umls/ICD9CM
+#- download: false
+#  file: umls-icd9cm.ttl
+#  title: International Classification of Diseases, Ninth Revision, Clinical Modification
+#  url: https://identifiers.org/umls/ICD9CM
 - download: false
   file: umls-icnp.ttl
   title: International Classification for Nursing Practice
@@ -135,10 +135,10 @@
   file: umls-mthhh.ttl
   title: HCPCS Hierarchical Terms (UMLS)
   url: https://identifiers.org/umls/MTHHH
-- download: false
-  file: umls-mthicd9.ttl
-  title: ICD-9-CM Entry Terms
-  url: https://identifiers.org/umls/MTHICD9
+#- download: false
+#  file: umls-mthicd9.ttl
+#  title: ICD-9-CM Entry Terms
+#  url: https://identifiers.org/umls/MTHICD9
 - download: false
   file: umls-mthicpc2eae.ttl
   title: ICPC2E American English Equivalents
