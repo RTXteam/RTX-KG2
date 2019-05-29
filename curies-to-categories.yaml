@@ -2,6 +2,7 @@
 prefix-mappings:
     BSPO: relationship type
     CL: anatomical entity
+    DOID: disease
     GOREL: relationship type
     HGNC: gene
     IAO: information entity type
@@ -64,7 +65,6 @@ term-mappings:
     CHEBI:50906: biological process
     CL:0000000: anatomical entity
     DDANAT:0000002: organism taxon
-    DOID:4: disease
     GO:0005575: cellular component
     GO:0008150: biological process
     GO:0003674: molecular function
