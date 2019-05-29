@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 '''Builds the RTX "KG2" second-generation knowledge graph, from various OWL input files.
 
-   Usage: build-kg2.py <categoriesFile.yaml> <curiesToURILALFile> <owlLoadInventoryFile.yaml> <outputFile>
+   Usage: build_kg2.py <categoriesFile.yaml> <curiesToURILALFile> <owlLoadInventoryFile.yaml> <outputFile>
+   (note: outputFile can end in .json or in .gz; if the latter, it will be written as a gzipped file.
 '''
 
 __author__ = 'Stephen Ramsey'
@@ -21,6 +22,7 @@ import argparse
 import copy
 import errno
 import functools
+import gzip
 import hashlib
 import io
 import json
@@ -237,7 +239,7 @@ def make_kg2(curies_to_categories: dict,
              uri_to_curie_shortener: callable,
              map_category_label_to_iri: callable,
              owl_urls_and_files: tuple,
-             output_file: str):
+             output_file_name: str):
 
     owl_file_information_dict_list = []
 
@@ -289,13 +291,17 @@ def make_kg2(curies_to_categories: dict,
         del node_dict['ontology node ids']
 
 #    timestamp_str = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
-    temp_output_file = tempfile.mkstemp(prefix='kg2-')[1]
+    temp_output_file_name = tempfile.mkstemp(prefix='kg2-')[1]
 
     log_message('Saving JSON file')
 
-    with open(temp_output_file, 'w') as outfile:
-        json.dump(kg2_dict, outfile, indent=4, sort_keys=True)
-    shutil.move(temp_output_file, output_file)
+    if not output_file_name.endswith('.gz'):
+        temp_output_file = open(temp_output_file_name, 'w')
+        json.dump(kg2_dict, temp_output_file, indent=4, sort_keys=True)        
+    else:
+        temp_output_file = gzip.GzipFile(temp_output_file_name, 'w')
+        temp_output_file.write(json.dumps(kg2_dict, indent=4, sort_keys=True).encode('utf-8'))
+    shutil.move(temp_output_file_name, output_file_name)
 
 #    pickle.dump(kg2_dict, open(os.path.join(output_dir, 'kg2-' + timestamp_str + '.pickle'), 'wb'))
 
@@ -942,7 +948,7 @@ def xref_as_a_publication(xref: str):
 
 
 def make_arg_parser():
-    arg_parser = argparse.ArgumentParser(description='build-kg2: builds the KG2 knowledge graph for the RTX system')
+    arg_parser = argparse.ArgumentParser(description='build_kg2: builds the KG2 knowledge graph for the RTX system')
     arg_parser.add_argument('categoriesFile', type=str, nargs=1)
     arg_parser.add_argument('curiesToURILALFile', type=str, nargs=1)
     arg_parser.add_argument('owlLoadInventoryFile', type=str, nargs=1)
@@ -952,28 +958,28 @@ def make_arg_parser():
 
 # --------------- main starts here -------------------
 
-delete_ontobio_cachier_caches()
-args = make_arg_parser().parse_args()
-curies_to_categories_file_name = args.categoriesFile[0]
-curies_to_uri_lal_file_name = args.curiesToURILALFile[0]
-owl_load_inventory_file = args.owlLoadInventoryFile[0]
-output_file = args.outputFile[0]
+if __name__ == '__main__':
+    delete_ontobio_cachier_caches()
+    args = make_arg_parser().parse_args()
+    curies_to_categories_file_name = args.categoriesFile[0]
+    curies_to_uri_lal_file_name = args.curiesToURILALFile[0]
+    owl_load_inventory_file = args.owlLoadInventoryFile[0]
+    output_file = args.outputFile[0]
 
-curies_to_categories = safe_load_yaml_from_string(read_file_to_string(curies_to_categories_file_name))
-curies_to_uri_lal = safe_load_yaml_from_string(read_file_to_string(curies_to_uri_lal_file_name))
-curies_to_uri_map = curies_to_uri_lal + prefixcommons.curie_util.default_curie_maps
-uri_to_curie_shortener = make_uri_to_curie_shortener(curies_to_uri_map)
-map_category_label_to_iri = functools.partial(convert_biolink_category_to_iri, BIOLINK_CATEGORY_BASE_IRI)
+    curies_to_categories = safe_load_yaml_from_string(read_file_to_string(curies_to_categories_file_name))
+    curies_to_uri_lal = safe_load_yaml_from_string(read_file_to_string(curies_to_uri_lal_file_name))
+    curies_to_uri_map = curies_to_uri_lal + prefixcommons.curie_util.default_curie_maps
+    uri_to_curie_shortener = make_uri_to_curie_shortener(curies_to_uri_map)
+    map_category_label_to_iri = functools.partial(convert_biolink_category_to_iri, BIOLINK_CATEGORY_BASE_IRI)
 
-owl_urls_and_files = tuple(safe_load_yaml_from_string(read_file_to_string(owl_load_inventory_file)))
+    owl_urls_and_files = tuple(safe_load_yaml_from_string(read_file_to_string(owl_load_inventory_file)))
 
-running_time = timeit.timeit(lambda: make_kg2(curies_to_categories,
-                                              uri_to_curie_shortener,
-                                              map_category_label_to_iri,
-                                              owl_urls_and_files,
-                                              output_file), number=1)
-print('running time for build_kg2.py: ' + str(running_time))
-
+    running_time = timeit.timeit(lambda: make_kg2(curies_to_categories,
+                                                  uri_to_curie_shortener,
+                                                  map_category_label_to_iri,
+                                                  owl_urls_and_files,
+                                                  output_file), number=1)
+    print('running time for build_kg2.py: ' + str(running_time))
 
 # # ---------------- Notes -----------------
 # # - use NCBI Entrez Gene IDs for gene identifiers
