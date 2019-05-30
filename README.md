@@ -116,7 +116,7 @@ using the command:
 (6) Build KG2: Rejoin the screen session using `screen -r`.  Within
 the `screen` session, run:
 
-    ~/kg2-code/build-kg2.sh all > ~/kg2-code/build-kg2.log 2>&1
+    ~/kg2-code/build-kg2.sh all > ~/kg2-build/build-kg2.log 2>&1
 
 Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 build by using these
 commands (run them in separate bash shell terminals):
