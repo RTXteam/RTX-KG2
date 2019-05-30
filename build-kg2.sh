@@ -27,7 +27,10 @@ MEM_GB=`${CODE_DIR}/get-system-memory-gb.sh`
 export OWLTOOLS_MEMORY=${MEM_GB}G
 export DEBUG=1  ## for owltools
 
-## run the build-kg2.py script
+## Build UMLS TTL files; for now, we run this script separately so it is commented out:
+#${CODE_DIR}/build-umls.sh > ${BUILD_DIR}/build-umls.log 2>&1
+
+## run the build_kg2_from_owl.py script
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/build_kg2_from_owl.py \
            ${CODE_DIR}/curies-to-categories.yaml \
            ${CODE_DIR}/curies-to-urls-lookaside-list.yaml \
@@ -35,6 +38,9 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/build_kg2_from_owl.py \
            ${OUTPUT_FILE_FULL} \
            2>${BUILD_DIR}/${STDERR_LOG_FILE} \
            1>${BUILD_DIR}/${STDOUT_LOG_FILE}
+
+## run the build_semmeddb.sh; for now, we run this script separately so it is commented out:
+#${CODE_DIR}/build-semmeddb.sh > ${BUILD_DIR}/build-semmeddb.log 2>&1
 
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/kg2_merge.py ${OUTPUT_FILE_FULL} ${BUILD_DIR}/kg2-semmeddb.json.gz ${FINAL_OUTPUT_FILE_FULL}
 
