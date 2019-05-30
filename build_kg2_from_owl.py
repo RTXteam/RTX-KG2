@@ -731,11 +731,9 @@ def get_rels_dict(nodes: dict,
                     predicate_curie = predicate_label
                     predicate_node = nodes.get(predicate_curie, None)
                     if predicate_node is not None:
-                        predicate_label_new = predicate_node['name'].replace('_', ' ')
-                        if predicate_label_new is not None:
-                            predicate_label = predicate_label_new
-                            if predicate_label[0].isupper():
-                                predicate_label = predicate_label[0].lower() + predicate_label[1:]
+                        predicate_label = predicate_node['name'].replace('_', ' ')
+                        if predicate_label[0].isupper():
+                            predicate_label = predicate_label[0].lower() + predicate_label[1:]
 
                 predicate_iri = prefixcommons.expand_uri(predicate_curie)
                 predicate_curie_new = uri_to_curie_shortener(predicate_iri)
