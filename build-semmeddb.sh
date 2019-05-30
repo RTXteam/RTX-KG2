@@ -28,6 +28,7 @@ mysql --defaults-extra-file=${MYSQL_CONF} --database=${MYSQL_DBNAME} < ${SEMMED_
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/semmeddb_mysql_to_json.py \
 	   ${MYSQL_CONF} \
 	   ${MYSQL_DBNAME} \
-	   ${SEMMED_OUTPUT_FILE}
+	   ${SEMMED_OUTPUT_FILE} > ${BUILD_DIR}/build-semmeddb.log 2>&1
+
 
 
