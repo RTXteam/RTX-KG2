@@ -58,12 +58,13 @@ if __name__ == '__main__':
                            'type': relation_type,
                            'relation': relation_iri,
                            'relation curie': 'SEMMEDDB:' + relation_type,
-                           'publications': list(set(['PMID:' + pmid])),
+                           'publications': ['PMID:' + pmid],
                            'negated': False,
                            'provided by': SEMMEDDB_IRI}
                 preds_dict[key] = key_val
             else:
-                key_val['publications'].append('PMID:' + pmid)
+                new_pubs = key_val['publications'] + ['PMID:' + pmid]
+                key_val['publications'] = list(set(new_pubs))
     connection.close()
     out_list = {'edges': [rel_dict for rel_dict in preds_dict.values()],
                 'nodes': []}
