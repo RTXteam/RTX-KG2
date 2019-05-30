@@ -63,7 +63,7 @@ configured AWS CLI will also need to be able to programmatically write to the
 `us-west-2` AWS zone). The KG2 build script downloads the UMLS distribution
 (including SNOMED CT) from the private S3 bucket `rtx-kg2` (IANAL, but it
 appears that UMLS is encumbered by a license preventing redistribution so I have
-not it them on a public server for download; but you can get it for free at the
+not hosted them on a public server for download; but you can get it for free at the
 [UMLS website](https://www.nlm.nih.gov/research/umls/) if you agree to the UMLS
 licenses) and it uploads the final output `kg2.json` file to the public S3
 bucket `rtx-kg2-public`. Alternatively, you can set up your own S3 bucket to
