@@ -15,8 +15,8 @@ REPORT_FILE_BASE=kg2-report.json
 OUTPUT_FILE_FULL=${BUILD_DIR}/${OUTPUT_FILE_BASE}
 OUTPUT_NODES_FILE_FULL=${BUILD_DIR}/${OUTPUT_NODES_FILE_BASE}
 REPORT_FILE_FULL=${BUILD_DIR}/${REPORT_FILE_BASE}
-STDOUT_LOG_FILE=build-kg2-stdout.log
-STDERR_LOG_FILE=build-kg2-stderr.log
+STDOUT_LOG_FILE=build-kg2-from-owl-stdout.log
+STDERR_LOG_FILE=build-kg2-from-owl-stderr.log
 OWL_LOAD_INVENTORY_FILE=${CODE_DIR}/owl-load-inventory.yaml
 FINAL_OUTPUT_FILE_FULL=${BUILD_DIR}/${FINAL_OUTPUT_FILE_BASE}
 
@@ -28,7 +28,7 @@ export OWLTOOLS_MEMORY=${MEM_GB}G
 export DEBUG=1  ## for owltools
 
 ## run the build-kg2.py script
-${VENV_DIR}/bin/python3 -u ${CODE_DIR}/build_kg2.py \
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/build_kg2_from_owl.py \
            ${CODE_DIR}/curies-to-categories.yaml \
            ${CODE_DIR}/curies-to-urls-lookaside-list.yaml \
            ${OWL_LOAD_INVENTORY_FILE} \
