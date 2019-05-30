@@ -64,17 +64,21 @@ if __name__ == '__main__':
                 preds_dict[key] = key_val
             else:
                 new_pubs = key_val['publications'] + ['PMID:' + pmid]
-                key_val['publications'] = list(set(new_pubs))
+                key_val['publications'] = new_pubs
     connection.close()
-    out_list = {'edges': [rel_dict for rel_dict in preds_dict.values()],
-                'nodes': []}
+    out_graph = {'edges': [rel_dict for rel_dict in preds_dict.values()],
+                 'nodes': []}
+    for rel_dict in out_graph['edges']:
+        if len(rel_dict['publications']) > 1:
+            rel_dict['publications'] = list(set(rel_dict['publications']))
+
     output_file_name = args.outputFile[0]
     temp_output_file_name = tempfile.mkstemp(prefix='kg2-')[1]
     if not output_file_name.endswith('.gz'):
         temp_output_file = open(temp_output_file_name, 'w')
-        json.dump(out_list, temp_output_file, indent=4, sort_keys=True)
+        json.dump(out_graph, temp_output_file, indent=4, sort_keys=True)
     else:
         temp_output_file = gzip.GzipFile(temp_output_file_name, 'w')
-        temp_output_file.write(json.dumps(out_list, indent=4, sort_keys=True).encode('utf-8'))
+        temp_output_file.write(json.dumps(out_graph, indent=4, sort_keys=True).encode('utf-8'))
     shutil.move(temp_output_file_name, output_file_name)
 
