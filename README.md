@@ -35,7 +35,7 @@ specifications:
 - 384 GiB of system RAM
 - 750 GiB of disk space in the root file system 
 - high-speed networking
-- ideally, AWS zone `us-west-2` since that is where the S3 buckets are located
+- ideally, AWS zone `us-west-2` since that is where the RTX KG2 S3 buckets are located
 
 ## We assume there is no MySQL cruft
 
@@ -116,15 +116,13 @@ using the command:
 (6) Build KG2: Rejoin the screen session using `screen -r`.  Within
 the `screen` session, run:
 
-    ~/kg2-code/build-kg2.sh all
+    ~/kg2-code/build-kg2.sh all > ~/kg2-code/build-kg2.log 2>&1
 
 Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 build by using these
-commands for the three build stages (run them in separate bash shell terminals):
+commands (run them in separate bash shell terminals):
 
-    tail -f ~/kg2-build/build-umls.log
-    tail -f ~/kg2-build/build-kg2-stdout.log
-    tail -f ~/kg2-build/build-kg2-stderr.log
-    tail -f ~/kg2-build/build-semmeddb.log
+    tail -f ~/kg2-build/build-kg2.log
+    tail -f ~/kg2-build/build-kg2-from-owl-stderr.log
 
 ### Option 2: remotely build KG2 in an EC2 instance via ssh, orchestrated from your local computer
 
@@ -173,12 +171,10 @@ Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 setup usin
     sudo docker exec kg2 "kg2-code/build-kg2.sh all"
 
 Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 setup using the
-following commands for each of the three build steps (in separate terminal sessions):
+following commands (in separate terminal sessions):
 
-    sudo docker exec -it kg2 "tail -f kg2-build/build-umls.log"
-    sudo docker exec -it kg2 "tail -f /home/ubuntu/kg2-build/build-kg2-stdout.log"
-    sudo docker exec -it kg2 "tail -f /home/ubuntu/kg2-build/build-kg2-stderr.log"
-    sudo docker exec -it kg2 "tail -f kg2-build/build-semmeddb.log"
+    sudo docker exec -it kg2 "tail -f kg2-build/build-kg2.log"
+    sudo docker exec -it kg2 "tail -f kg2-build/build-kg2-from-owl-stderr.log"
 
 ## The output KG
 
