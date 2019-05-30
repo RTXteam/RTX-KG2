@@ -186,11 +186,11 @@ The `build-kg2.sh` script (run via one of the three methods shown above) creates
 a JSON file `kg2.json` and copies it to a publicly accessible S3 bucket
 `rtx-kg2-public`. You can access the JSON file via HTTP, as shown here:
 
-    curl https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2.json > kg2.json
+    curl https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2.json.gz > kg2.json.gz
 
 Or using the AWS command-line interface (CLI) tool `aws` with the command
 
-    aws s3 cp s3://rtx-kg2-public/kg2.json .
+    aws s3 cp s3://rtx-kg2-public/kg2.json.gz .
 
 You can access the various artifacts from the KG2 build (config file, log file,
 etc.) at the AWS static website endpoint for the 
