@@ -65,10 +65,10 @@ configured AWS CLI will also need to be able to programmatically write to the
 appears that UMLS is encumbered by a license preventing redistribution so I have
 not hosted them on a public server for download; but you can get it for free at the
 [UMLS website](https://www.nlm.nih.gov/research/umls/) if you agree to the UMLS
-licenses) and it uploads the final output `kg2.json` file to the public S3
+licenses) and it uploads the final output `kg2.json.gz` file to the public S3
 bucket `rtx-kg2-public`. Alternatively, you can set up your own S3 bucket to
-which to copy the KG2 JSON file, or you can comment the line out of
-`build-kg2.sh` that copies the final JSON file to S3.
+which to copy the gzipped KG2 JSON file, or you can comment the line out of
+`build-kg2.sh` that copies the final gzipped JSON file to S3.
 
 ## My normal EC2 instance
 
