@@ -1,5 +1,7 @@
 #!/bin/bash
 set -euxo pipefail
+# Usage: build-kg2.sh [all]
+# The 'all' argument means that the script will build the UMLS and SemMedDB files
 
 ## load the master config file
 CONFIG_DIR=`dirname "$0"`
@@ -27,8 +29,11 @@ MEM_GB=`${CODE_DIR}/get-system-memory-gb.sh`
 export OWLTOOLS_MEMORY=${MEM_GB}G
 export DEBUG=1  ## for owltools
 
-## Build UMLS TTL files; for now, we run this script separately so it is commented out:
-#${CODE_DIR}/build-umls.sh > ${BUILD_DIR}/build-umls.log 2>&1
+## Build UMLS TTL files
+if [ $1 == 'all' ]
+then
+   ${CODE_DIR}/build-umls.sh > ${BUILD_DIR}/build-umls.log 2>&1
+fi
 
 ## run the build_kg2_from_owl.py script
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/build_kg2_from_owl.py \
@@ -39,8 +44,11 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/build_kg2_from_owl.py \
            2>${BUILD_DIR}/${STDERR_LOG_FILE} \
            1>${BUILD_DIR}/${STDOUT_LOG_FILE}
 
-## Build kg2-semmeddb.json.gz; for now, we run this script separately so it is commented out:
-#${CODE_DIR}/build-semmeddb.sh > ${BUILD_DIR}/build-semmeddb.log 2>&1
+if [ $1 == 'all' ]
+then
+## Build kg2-semmeddb.json.gz
+    ${CODE_DIR}/build-semmeddb.sh > ${BUILD_DIR}/build-semmeddb.log 2>&1
+fi
 
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/kg2_merge.py ${OUTPUT_FILE_FULL} ${BUILD_DIR}/kg2-semmeddb.json.gz ${FINAL_OUTPUT_FILE_FULL}
 
