@@ -622,7 +622,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                     node_publications.add(pub_curie)
 
             # deal with node names that are ALLCAPS
-            if node_name.isupper():
+            if node_name is not None and node_name.isupper():
                 node_name = node_name.lower()
                 node_name = node_name[0].upper() + node_name[1:]
 
