@@ -113,28 +113,18 @@ using the command:
 
     tail -f setup-kg2.log
 
-(6) Build all of the UMLS OWL files, as follows: rejoin the `screen`
-session using `screen -r`.  In the `screen` session, do this:
-
-    ~/kg2-code/build-umls.sh > ~/kg2-build/build-umls.log 2>&1
-    
-You can watch the progress via:
-
-    tail -f ~/kg2-build/build-umls.log
-
-Extracting UMLS and building all the UMLS OWL files takes about 5.5 hours. 
-
-(7) Build KG2: Rejoin the screen session using `screen -r`.  Within
+(6) Build KG2: Rejoin the screen session using `screen -r`.  Within
 the `screen` session, run:
 
-    ~/kg2-code/build-kg2.sh
+    ~/kg2-code/build-kg2.sh all
 
 Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 build by using these
-two commands (run them in separate bash shell terminals):
+commands for the three build stages (run them in separate bash shell terminals):
 
-    tail -f /home/ubuntu/kg2-build/build-kg2-stdout.log
-    tail -f /home/ubuntu/kg2-build/build-kg2-stderr.log
-
+    tail -f ~/kg2-build/build-umls.log
+    tail -f ~/kg2-build/build-kg2-stdout.log
+    tail -f ~/kg2-build/build-kg2-stderr.log
+    tail -f ~/kg2-build/build-semmeddb.log
 
 ### Option 2: remotely build KG2 in an EC2 instance via ssh, orchestrated from your local computer
 
@@ -178,23 +168,17 @@ Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 setup usin
 
     sudo docker exec kg2 "tail -f setup-kg2.log"
 
-(5) Inside the screen session, build UMLS:
+(5) Build KG2: inside screen, run:
 
-    sudo docker exec kg2 "kg2-code/build-umls.sh > ~/kg2-build/build-umls.log 2>&1"
-
-Then exit screen (`ctrl-a d`). You can watch the progress of your UMLS build using the command:
-
-    sudo docker exec kg2 "tail -f kg2-build/build-umls.log"
-
-(6) Build KG2: inside screen, run:
-
-    sudo docker exec kg2 "kg2-code/build-kg2.sh"
+    sudo docker exec kg2 "kg2-code/build-kg2.sh all"
 
 Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 setup using the
-following two commands (in two two separate terminals):
+following commands for each of the three build steps (in separate terminal sessions):
 
-    sudo docker exec -it kg2 tail -f /home/ubuntu/kg2-build/build-kg2-stdout.log
-    sudo docker exec -it kg2 tail -f /home/ubuntu/kg2-build/build-kg2-stderr.log
+    sudo docker exec -it kg2 "tail -f kg2-build/build-umls.log"
+    sudo docker exec -it kg2 "tail -f /home/ubuntu/kg2-build/build-kg2-stdout.log"
+    sudo docker exec -it kg2 "tail -f /home/ubuntu/kg2-build/build-kg2-stderr.log"
+    sudo docker exec -it kg2 "tail -f kg2-build/build-semmeddb.log"
 
 ## The output KG
 
