@@ -29,9 +29,9 @@ MEM_GB=`${CODE_DIR}/get-system-memory-gb.sh`
 export OWLTOOLS_MEMORY=${MEM_GB}G
 export DEBUG=1  ## for owltools
 
-## Build UMLS TTL files
 if [ $1 == 'all' ]
 then
+## Build UMLS TTL files
    ${CODE_DIR}/build-umls.sh > ${BUILD_DIR}/build-umls.log 2>&1
 fi
 
