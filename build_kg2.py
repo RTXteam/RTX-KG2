@@ -621,6 +621,11 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                 for pub_curie in node_description_pubs:
                     node_publications.add(pub_curie)
 
+            # deal with node names that are ALLCAPS
+            if node_name.isupper():
+                node_name = node_name.lower()
+                node_name = node_name[0].upper() + node_name[1:]
+
             node_dict['name'] = node_name
             node_dict['full name'] = node_full_name
             node_dict['category'] = node_category_iri
@@ -727,6 +732,9 @@ def get_rels_dict(nodes: dict,
                     predicate_node = nodes.get(predicate_curie, None)
                     if predicate_node is not None:
                         predicate_label = predicate_node['name'].replace('_', ' ')
+                        if predicate_label[0].isupper():
+                            predicate_label = predicate_label[0].lower() + predicate_label[1:]
+
                 predicate_iri = prefixcommons.expand_uri(predicate_curie)
                 predicate_curie_new = uri_to_curie_shortener(predicate_iri)
                 if predicate_curie_new is not None:
@@ -757,6 +765,7 @@ def get_rels_dict(nodes: dict,
                                       'relation': predicate_iri,
                                       'relation curie': predicate_curie,  # slot is not biolink standard
                                       'negated': False,
+                                      'publicatons': [],
                                       'provided by': ontology_id}
         for node_id, node_dict in nodes.items():
             xrefs = node_dict['xrefs']
@@ -772,8 +781,8 @@ def get_rels_dict(nodes: dict,
                                               'relation': IRI_OBO_XREF,
                                               'relation curie': CURIE_OBO_XREF,
                                               'negated': False,
-                                              'provided by': provided_by,
-                                              'id': None}
+                                              'publications': [],
+                                              'provided by': provided_by}
 
     return rels_dict
 
