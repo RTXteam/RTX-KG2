@@ -17,7 +17,6 @@ REPORT_FILE_BASE=kg2-report.json
 OUTPUT_FILE_FULL=${BUILD_DIR}/${OUTPUT_FILE_BASE}
 OUTPUT_NODES_FILE_FULL=${BUILD_DIR}/${OUTPUT_NODES_FILE_BASE}
 REPORT_FILE_FULL=${BUILD_DIR}/${REPORT_FILE_BASE}
-STDOUT_LOG_FILE=build-kg2-from-owl-stdout.log
 STDERR_LOG_FILE=build-kg2-from-owl-stderr.log
 OWL_LOAD_INVENTORY_FILE=${CODE_DIR}/owl-load-inventory.yaml
 FINAL_OUTPUT_FILE_FULL=${BUILD_DIR}/${FINAL_OUTPUT_FILE_BASE}
@@ -32,7 +31,7 @@ export DEBUG=1  ## for owltools
 if [ $1 == 'all' ]
 then
 ## Build UMLS TTL files
-   ${CODE_DIR}/build-umls.sh > ${BUILD_DIR}/build-umls.log 2>&1
+   ${CODE_DIR}/build-umls.sh
 fi
 
 ## run the build_kg2_from_owl.py script
@@ -41,13 +40,12 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/build_kg2_from_owl.py \
            ${CODE_DIR}/curies-to-urls-lookaside-list.yaml \
            ${OWL_LOAD_INVENTORY_FILE} \
            ${OUTPUT_FILE_FULL} \
-           2>${BUILD_DIR}/${STDERR_LOG_FILE} \
-           1>${BUILD_DIR}/${STDOUT_LOG_FILE}
+           2>${BUILD_DIR}/${STDERR_LOG_FILE}
 
 if [ $1 == 'all' ]
 then
 ## Build kg2-semmeddb.json.gz
-    ${CODE_DIR}/build-semmeddb.sh > ${BUILD_DIR}/build-semmeddb.log 2>&1
+    ${CODE_DIR}/build-semmeddb.sh
 fi
 
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/kg2_merge.py ${OUTPUT_FILE_FULL} ${BUILD_DIR}/kg2-semmeddb.json.gz ${FINAL_OUTPUT_FILE_FULL}
