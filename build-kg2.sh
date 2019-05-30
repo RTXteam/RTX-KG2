@@ -28,7 +28,9 @@ MEM_GB=`${CODE_DIR}/get-system-memory-gb.sh`
 export OWLTOOLS_MEMORY=${MEM_GB}G
 export DEBUG=1  ## for owltools
 
-if [ $1 == 'all' ]
+BUILD_FLAG=${1:-""}
+
+if [ ${BUILD_FLAG} == 'all' ]
 then
 ## Build UMLS TTL files
    ${CODE_DIR}/build-umls.sh
@@ -42,7 +44,7 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/build_kg2_from_owl.py \
            ${OUTPUT_FILE_FULL} \
            2>${BUILD_DIR}/${STDERR_LOG_FILE}
 
-if [ $1 == 'all' ]
+if [ ${BUILD_FLAG} == 'all' ]
 then
 ## Build kg2-semmeddb.json.gz
     ${CODE_DIR}/build-semmeddb.sh
