@@ -39,7 +39,7 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/build_kg2_from_owl.py \
            2>${BUILD_DIR}/${STDERR_LOG_FILE} \
            1>${BUILD_DIR}/${STDOUT_LOG_FILE}
 
-## run the build_semmeddb.sh; for now, we run this script separately so it is commented out:
+## Build kg2-semmeddb.json.gz; for now, we run this script separately so it is commented out:
 #${CODE_DIR}/build-semmeddb.sh > ${BUILD_DIR}/build-semmeddb.log 2>&1
 
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/kg2_merge.py ${OUTPUT_FILE_FULL} ${BUILD_DIR}/kg2-semmeddb.json.gz ${FINAL_OUTPUT_FILE_FULL}
