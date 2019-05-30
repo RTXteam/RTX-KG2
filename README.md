@@ -32,8 +32,8 @@ The computing environment where you will be running the KG2 build should be
 running Ubuntu 18.04.  Your build environment should have the following minimum
 specifications:
 
-- 128 GB of system RAM
-- 500 GB of disk space in the root file system 
+- 384 GiB of system RAM
+- 750 GiB of disk space in the root file system 
 - high-speed networking
 - ideally, AWS zone `us-west-2` since that is where the S3 buckets are located
 
