@@ -132,20 +132,25 @@ def make_ontology_from_local_file(file_name: str):
     file_name_without_ext = os.path.splitext(file_name)[0]
     file_name_with_pickle_ext = file_name_without_ext + ".pickle"
     if not os.path.isfile(file_name_with_pickle_ext):
-        temp_file_name = tempfile.mkstemp(prefix=TEMP_FILE_PREFIX + '-')[1] + '.json'
-        size = os.path.getsize(file_name)
-        log_message(message="Reading ontology file: " + file_name + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
-                    ontology_name=None)
-        cp = subprocess.run(['owltools', file_name, '-o', '-f', 'json', temp_file_name])
-        # robot commented out because it is giving a NullPointerException on umls_semantictypes.owl
-#        cp = subprocess.run(['robot', 'convert', '--input', file_name, '--output', temp_file_name])
-        if cp.stdout is not None:
-            log_message(message="OWL convert result: " + cp.stdout, ontology_name=None, output_stream=sys.stdout)
-        if cp.stderr is not None:
-            log_message(message="OWL convert result: " + cp.stderr, ontology_name=None, output_stream=sys.stderr)
-        assert cp.returncode == 0
-        json_file = file_name_without_ext + ".json"
-        shutil.move(temp_file_name, json_file)
+        # the ontology hsa not been saved as a pickle file, so we need to load it from a text file
+        if not file_name.endswith('.json'):
+            temp_file_name = tempfile.mkstemp(prefix=TEMP_FILE_PREFIX + '-')[1] + '.json'
+            size = os.path.getsize(file_name)
+            log_message(message="Reading ontology file: " + file_name + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
+                        ontology_name=None)
+            cp = subprocess.run(['owltools', file_name, '-o', '-f', 'json', temp_file_name])
+            # robot commented out because it is giving a NullPointerException on umls_semantictypes.owl
+            # Once robot no longer gives a NullPointerException, we can use it like this:
+            #        cp = subprocess.run(['robot', 'convert', '--input', file_name, '--output', temp_file_name])
+            if cp.stdout is not None:
+                log_message(message="OWL convert result: " + cp.stdout, ontology_name=None, output_stream=sys.stdout)
+            if cp.stderr is not None:
+                log_message(message="OWL convert result: " + cp.stderr, ontology_name=None, output_stream=sys.stderr)
+            assert cp.returncode == 0
+            json_file = file_name_without_ext + ".json"
+            shutil.move(temp_file_name, json_file)
+        else:
+            json_file = file_name
         size = os.path.getsize(json_file)
         log_message(message="Reading ontology JSON file: " + json_file + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
                     ontology_name=None)
@@ -486,7 +491,6 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             node_dict['id'] = node_curie_id
             node_dict['iri'] = iri
             node_name = onto_node_dict.get('label', None)
-#            node_name = onto_node_dict.get('lbl', None)
             node_full_name = None
 
             node_category_label = get_biolink_category_for_node(ontology_node_id,
@@ -500,7 +504,6 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             node_creation_date = None
             node_update_date = None
             node_replaced_by_curie = None
-#            node_alt_label = set()
             node_full_name = None
             node_publications = set()
             node_synonyms = set()
@@ -539,7 +542,6 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                 if node_xrefs_list is not None:
                     for xref_dict in node_xrefs_list:
                         node_xrefs.add(xref_dict['val'])
-#                    node_xrefs = [xref['val'] for xref in node_xrefs_list]
                 basic_property_values = node_meta.get('basicPropertyValues', None)
                 if basic_property_values is not None:
                     for basic_property_value_dict in basic_property_values:
@@ -548,7 +550,6 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         if bpv_pred_curie is None:
                             bpv_pred_curie = bpv_pred
                         bpv_val = basic_property_value_dict['val']
-#                        print(bpv_pred_curie + "; " + bpv_val)
                         if bpv_pred_curie in ['OIO:creation_date', 'dcterms:issued', 'HGNC:DATE_CREATED']:
                             node_creation_date = bpv_val
                         elif bpv_pred_curie == 'HGNC:DATE_LAST_MODIFIED':
@@ -563,13 +564,13 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                             node_tui_uri = posixpath.join(bpv_pred, node_tui)
                             node_tui_curie = uri_to_curie_shortener(node_tui_uri)
                             assert node_tui_curie is not None
-                            #                        print('getting category for URI: ' + node_tui_uri + ' and CURIE: ' + node_tui_curie)
+
                             node_tui_category_label = get_biolink_category_for_node(node_tui_uri,
                                                                                     node_tui_curie,
                                                                                     ontology,
                                                                                     curies_to_categories,
                                                                                     uri_to_curie_shortener, set())
-                            #                        print(node_tui_category_label)
+
                             if node_tui_category_label is None:
                                 node_tui_category_label = 'unknown category'
                                 log_message(message='unknown category: ' + node_tui_uri)
@@ -596,14 +597,6 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                     node_category_label = 'deprecated node'
 
             node_category_iri = category_label_to_iri_mapper(node_category_label)
-
-            # if len(node_alt_label) > 0:
-            #     node_alt_label_str = '; '.join(node_alt_label)
-            # else:
-            #     node_alt_label_str = None
-
-            # if node_name is None and node_alt_label_str is not None:
-            #     node_name = node_alt_label_str
 
             ontology_curie_id = ontologies_iris_to_curies[iri_of_ontology]
             source_ontology_information = ret_dict.get(ontology_curie_id, None)
