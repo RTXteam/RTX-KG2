@@ -20,7 +20,7 @@ BUILD_FLAG=${1:-""}
 ## set the path to include ${BUILD_DIR}
 export PATH=$PATH:${BUILD_DIR}
 
-if [ ${BUILD_FLAG} == 'all' ]
+if [ ${BUILD_FLAG} == 'test' ]
 then
     TEST_SUFFIX='-test'
 else
