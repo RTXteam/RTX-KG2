@@ -1,8 +1,11 @@
 #!/bin/bash
 set -euxo pipefail
+# Usage: build-umls.sh [OUTPUT_DIR]
 
 CONFIG_DIR=`dirname "$0"`
 source ${CONFIG_DIR}/master-config.shinc
+
+OUTPUT_DIR=${1:-${BUILD_DIR}}
 
 UMLS_VER=2018AB
 UMLS_FILE_BASE=${UMLS_VER}-full
@@ -26,8 +29,6 @@ mkdir -p ${UMLS_DEST_DIR}
 ## copy UMLS distribution files and MetamorphoSys config files from S3 to local dir
 aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/umls-${UMLS_FILE_BASE}.zip ${UMLS_DIR}/
 cp ${CODE_DIR}/umls-config.prop ${CONFIG_FILE}
-#aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/umls-config.prop ${UMLS_DIR}/config.prop
-#aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/umls-user.b.prop ${UMLS_DIR}/user.b.prop
 
 ## unpack UMLS and MetamorphoSys zip archives
 unzip ${UMLS_DIR}/umls-${UMLS_FILE_BASE}.zip -d ${UMLS_DIR}/
@@ -83,7 +84,7 @@ cat ${UMLS2RDF_DIR}/conf_sample.py | sed 's/your-host/localhost/g' | \
     sed "s/your db user/${MYSQL_USER}/g" | \
     sed "s/your db pass/${MYSQL_PASSWORD}/g" | \
     sed "s|http://purl.bioontology.org/ontology|https://identifiers.org/umls|g" |
-    sed "s|output|${BUILD_DIR}|g" \
+    sed "s|output|${OUTPUT_DIR}|g" \
     sed "s/2015ab/${UMLS_VER}/g" > ${UMLS2RDF_DIR}/conf.py
 
 ## umls2rdf is legacy software written to run in python2.7; set up the virtualenv
@@ -91,22 +92,13 @@ UMLS_VENV_DIR=${UMLS_DIR}/venv27
 virtualenv --python=python2.7 ${UMLS_VENV_DIR}
 ${UMLS_VENV_DIR}/bin/pip install mysqlclient
 
-## run umls2rdf
+## change to the UMLS2RDF_DIR directory
 cd ${UMLS2RDF_DIR}
+
+## run umls2rdf
 ${UMLS_VENV_DIR}/bin/python2.7 umls2rdf.py
+
+## verify the output files
 ./checkOutputSyntax.sh  # users "rapper" command from the "raptor" package
-
-# ## convert files from Turtle format to OWL/RDF format
-# for ttl_file_name in `ls ${UMLS2RDF_DIR}/output/*.ttl`
-# do
-#     file_path_no_ext=${ttl_file_name%.*}
-#     file_name_no_ext=`basename ${file_path_no_ext}`
-#     ${BUILD_DIR}/robot convert --input ${ttl_file_name} --output /tmp/${file_name_no_ext}.owl
-#     mv /tmp/${file_name_no_ext}.owl ${BUILD_DIR}/${file_name_no_ext}.owl
-# done
-
-#export ROBOT_JAVA_ARGS="-Xmx${MEM_GB}G"
-#${BUILD_DIR}/robot merge --inputs "${UMLS2RDF_DIR}/output/*.owl" --output ${BUILD_DIR}/umls.owl
-
 
 echo "================= script finished ================="
