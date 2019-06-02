@@ -3,6 +3,7 @@
 
    Usage: kg2_merge.py <kg_alpha.json> <kg_beta.json> <output.json>
    Note: any of the three file arguments can have a ".gz" extension, in which case gzip is used for reading/writing.
+   (WARNING: using the gzip option significantly increases transient memory usage)
 '''
 
 __author__ = 'Stephen Ramsey'
@@ -17,8 +18,7 @@ __status__ = 'Prototype'
 import argparse
 import gzip
 import json
-import pprint
-import pymysql
+import kg2_util
 import shutil
 import tempfile
 
@@ -46,8 +46,12 @@ if __name__ == '__main__':
     else:
         kg2_file = gzip.GzipFile(kg2_file_name, 'r')
         kg2 = json.loads(kg2_file.read().decode('utf-8'))
+    for node in kg2['nodes']:
+        if node in kg1['nodes']:
+            node_id = node['id']
+            kg1_node = kg1['nodes'][node_id]
+            kg1[node_id] = kg2_util.merge_two_dicts(kg1_node, node)
     kg1['edges'] = kg1['edges'] + kg2['edges']
-    kg1['nodes'] = kg1['nodes'] + kg2['nodes']
     temp_output_file_name = tempfile.mkstemp(prefix='kg2-')[1]
     output_file_name = args.outputFile[0]
     if not output_file_name.endswith('.gz'):
@@ -58,6 +62,3 @@ if __name__ == '__main__':
         temp_output_file.write(json.dumps(kg1, indent=4, sort_keys=True).encode('utf-8'))
     shutil.move(temp_output_file_name, output_file_name)
 
-        
-
-    
