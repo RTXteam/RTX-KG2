@@ -16,8 +16,6 @@ SEMMED_DIR=${BUILD_DIR}/semmeddb
 SEMMED_SQL_FILE=semmed${SEMMED_VER}_R_WHOLEDB_${SEMMED_DATE}.sql
 MYSQL_DBNAME=semmeddb
 
-#https://skr3.nlm.nih.gov/SemMedDB/download/semmedVER31_R_WHOLEDB_06302018.sql.gz
-
 mkdir -p ${SEMMED_DIR}
 
 ## estimate amount of system ram, in GB
