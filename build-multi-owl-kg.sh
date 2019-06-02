@@ -31,7 +31,7 @@ STDERR_LOG_FILE=build-kg2-from-owl-stderr${TEST_SUFFIX}.log
 
 
 ## run the build_kg2_from_owl.py script
-${VENV_DIR}/bin/python3 -u ${CODE_DIR}/multi_owl_to_json_kg.py \
+cd ${BUILD_DIR} && ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/multi_owl_to_json_kg.py \
            ${CODE_DIR}/curies-to-categories.yaml \
            ${CODE_DIR}/curies-to-urls-lookaside-list.yaml \
            ${OWL_LOAD_INVENTORY_FILE} \
