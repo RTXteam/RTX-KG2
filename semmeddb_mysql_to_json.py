@@ -27,27 +27,38 @@ SEMMEDDB_IRI = 'https://skr3.nlm.nih.gov/SemMedDB'
 
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='semmeddb_mysql_to_json.py: extracts all the predicate triples from SemMedDB, in the RTX KG2 JSON format')
+    arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
     arg_parser.add_argument('mysqlConfigFile', type=str, nargs=1)
     arg_parser.add_argument('mysqlDBName', type=str, nargs=1)
     arg_parser.add_argument('outputFile', type=str, nargs=1)
     return arg_parser
 
+
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
     mysql_config_file = args.mysqlConfigFile[0]
     mysql_db_name = args.mysqlDBName[0]
+    test_mode = args.test[0]
     connection = pymysql.connect(read_default_file=mysql_config_file, db='semmeddb')
     preds_dict = dict()
+    sql_statement = ("SELECT PMID, SUBJECT_CUI, PREDICATE, OBJECT_CUI, DP, SENTENCE, SUBJECT_SCORE, "
+                     "OBJECT_SCORE, CURR_TIMESTAMP FROM ((PREDICATION NATURAL JOIN CITATIONS ON PMID) "
+                     "NATURAL JOIN SENTENCES ON SENTENCE_ID) NATURAL JOIN PREDICATION_AUX ON PREDICATION_ID")
+    if test_mode:
+        sql_statement += " LIMIT 10000"
     with connection.cursor() as cursor:
-        cursor.execute("select * from PREDICATION")
+        cursor.execute(sql_statement)
         results = cursor.fetchall()
-        for result in results:
-            pmid = result[2]
-            subject_cui = result[4]
-            predicate = result[3]
-            object_cui = result[8]
+        for (pmid, subject_cui, predicate, object_cui, pub_date, sentence,
+             subject_score, object_score, curr_timestamp) in results:
             key = subject_cui + '-' + predicate + '-' + object_cui
             key_val = preds_dict.get(key, None)
+            publication_curie = 'PMID:' + pmid
+            publication_info_dict = {
+                'publication date': pub_date,
+                'sentence': sentence,
+                'subject score': subject_score,
+                'object score': object_score}
             if key_val is None:
                 relation_type = predicate.replace('_', ' ').lower()
                 relation_iri = relation_type.title().replace(' ', '')
@@ -58,13 +69,15 @@ if __name__ == '__main__':
                            'type': relation_type,
                            'relation': relation_iri,
                            'relation curie': 'SEMMEDDB:' + relation_type,
-                           'publications': ['PMID:' + pmid],
                            'negated': False,
+                           'publications': [publication_curie],
+                           'publications info': {publication_curie: publication_info_dict},
+                           'update date': curr_timestamp,
                            'provided by': SEMMEDDB_IRI}
                 preds_dict[key] = key_val
             else:
-                new_pubs = key_val['publications'] + ['PMID:' + pmid]
-                key_val['publications'] = new_pubs
+                key_val['publications info'][publication_curie] = publication_info_dict
+                key_val['publications'] = key_val['publications'] + [publication_curie]
     connection.close()
     out_graph = {'edges': [rel_dict for rel_dict in preds_dict.values()],
                  'nodes': []}
