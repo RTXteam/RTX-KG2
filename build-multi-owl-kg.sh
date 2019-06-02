@@ -17,7 +17,7 @@ MEM_GB=`${CODE_DIR}/get-system-memory-gb.sh`
 export OWLTOOLS_MEMORY=${MEM_GB}G
 export DEBUG=1  ## for owltools
 
-if [ ${BUILD_FLAG} == 'test' ]
+if [ "${BUILD_FLAG}" == 'test' ]
 then
     TEST_SUFFIX='-test'
 else
