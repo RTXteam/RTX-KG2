@@ -4,12 +4,17 @@ set -euxo pipefail
 CONFIG_DIR=`dirname "$0"`
 source ${CONFIG_DIR}/master-config.shinc
 
+## supply a default value for the BUILD_FLAG string
+BUILD_FLAG=${1:-""}
+
 SEMMED_VER=VER31
 SEMMED_DATE=06302018
 SEMMED_DIR=${BUILD_DIR}/semmeddb
-SEMMED_SQL_FILE=semmed${SEMMED_VER}_R_PREDICATION_${SEMMED_DATE}.sql
-SEMMED_OUTPUT_FILE=${BUILD_DIR}/kg2-semmeddb.json.gz
+SEMMED_SQL_FILE=semmed${SEMMED_VER}_R_WHOLEDB_${SEMMED_DATE}.sql
+SEMMED_OUTPUT_FILE=${BUILD_DIR}/kg2-semmeddb.json
 MYSQL_DBNAME=semmeddb
+
+#https://skr3.nlm.nih.gov/SemMedDB/download/semmedVER31_R_WHOLEDB_06302018.sql.gz
 
 mkdir -p ${SEMMED_DIR}
 
@@ -25,7 +30,15 @@ mysql --defaults-extra-file=${MYSQL_CONF} \
 
 mysql --defaults-extra-file=${MYSQL_CONF} --database=${MYSQL_DBNAME} < ${SEMMED_DIR}/${SEMMED_SQL_FILE}
 
+if [ ${BUILD_FLAG} == 'test' ]
+then
+    TEST_ARG='--test'
+else
+    TEST_ARG=''
+fi
+
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/semmeddb_mysql_to_json.py \
+           ${TEST_ARG} \
 	   ${MYSQL_CONF} \
 	   ${MYSQL_DBNAME} \
 	   ${SEMMED_OUTPUT_FILE} > ${BUILD_DIR}/build-semmeddb.log 2>&1
