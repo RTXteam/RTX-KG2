@@ -27,7 +27,7 @@ else
     TEST_SUFFIX=''
 fi
 
-SEMMED_OUTPUT_FILE=${BUILD_DIR}/kg2-semmeddb.json
+SEMMED_OUTPUT_FILE=${BUILD_DIR}/kg2-semmeddb-edges.json
 
 OUTPUT_FILE_BASE=kg2-owl${TEST_SUFFIX}.json
 OUTPUT_FILE_FULL=${BUILD_DIR}/${OUTPUT_FILE_BASE}
@@ -63,7 +63,7 @@ fi
 ## Combine all the TTL files and OBO Foundry OWL files into KG and save as JSON:
 ${CODE_DIR}/build-multi-owl-kg.sh
 
-${VENV_DIR}/bin/python3 ${CODE_DIR}/merge_json_kgs.py ${OUTPUT_FILE_FULL} \
+${VENV_DIR}/bin/python3 ${CODE_DIR}/add_edges_to_kg_json.py ${OUTPUT_FILE_FULL} \
            ${SEMMED_OUTPUT_FILE} ${FINAL_OUTPUT_FILE_FULL}
 
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/get_nodes_json_from_kg_json.py \
