@@ -16,8 +16,8 @@ __status__ = 'Prototype'
 
 import argparse
 import gzip
+import kg2_util
 import json
-import pprint
 import pymysql
 import shutil
 import tempfile
@@ -72,7 +72,7 @@ if __name__ == '__main__':
                            'negated': False,
                            'publications': [publication_curie],
                            'publications info': {publication_curie: publication_info_dict},
-                           'update date': curr_timestamp,
+                           'update date': kg2_util.format_timestamp(curr_timestamp),
                            'provided by': SEMMEDDB_IRI}
                 preds_dict[key] = key_val
             else:
