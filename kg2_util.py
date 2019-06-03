@@ -15,6 +15,7 @@ __email__ = ''
 __status__ = 'Prototype'
 
 import copy
+import datetime
 import io
 import os
 import pprint
@@ -139,3 +140,7 @@ def compose_two_multinode_dicts(node1: dict, node2: dict):
             if value is not None:
                 ret_dict[key] = merge_two_dicts(node1[key], value)
     return ret_dict
+
+
+def format_timestamp(timestamp: datetime):
+    return time.strftime(timestamp, '%Y-%m-%d %H:%M:%S %Z')
