@@ -43,7 +43,7 @@ if __name__ == '__main__':
     preds_dict = dict()
     sql_statement = ("SELECT PMID, SUBJECT_CUI, PREDICATE, OBJECT_CUI, DP, SENTENCE, SUBJECT_SCORE, "
                      "OBJECT_SCORE, CURR_TIMESTAMP FROM ((PREDICATION NATURAL JOIN CITATIONS) "
-                     "NATURAL JOIN SENTENCES) NATURAL JOIN PREDICATION_AUX")
+                     "NATURAL JOIN SENTENCE) NATURAL JOIN PREDICATION_AUX")
     if test_mode:
         sql_statement += " LIMIT 10000"
     with connection.cursor() as cursor:
