@@ -152,8 +152,7 @@ def load_owl_file_return_ontology_and_metadata(file_name: str,
                                                download_url: str = None,
                                                ontology_title: str = None):
     ontology = make_ontology_from_local_file(file_name)
-    file_last_modified_timestamp = time.strftime('%Y-%m-%d %H:%M:%S %Z',
-                                                 kg2_util.get_file_last_modified_timestamp(file_name))
+    file_last_modified_timestamp = kg2_util.format_timestamp(kg2_util.get_file_last_modified_timestamp(file_name))
     print("file: " + file_name + "; last modified: " + file_last_modified_timestamp)
     ont_version = ontology.meta.get('version', None)
     bpv = ontology.meta.get('basicPropertyValues', None)
