@@ -38,7 +38,7 @@ if __name__ == '__main__':
     args = make_arg_parser().parse_args()
     mysql_config_file = args.mysqlConfigFile[0]
     mysql_db_name = args.mysqlDBName[0]
-    test_mode = args.test[0]
+    test_mode = args.test
     connection = pymysql.connect(read_default_file=mysql_config_file, db='semmeddb')
     preds_dict = dict()
     sql_statement = ("SELECT PMID, SUBJECT_CUI, PREDICATE, OBJECT_CUI, DP, SENTENCE, SUBJECT_SCORE, "
