@@ -42,8 +42,8 @@ if __name__ == '__main__':
     connection = pymysql.connect(read_default_file=mysql_config_file, db='semmeddb')
     preds_dict = dict()
     sql_statement = ("SELECT PMID, SUBJECT_CUI, PREDICATE, OBJECT_CUI, DP, SENTENCE, SUBJECT_SCORE, "
-                     "OBJECT_SCORE, CURR_TIMESTAMP FROM ((PREDICATION NATURAL JOIN CITATIONS ON PMID) "
-                     "NATURAL JOIN SENTENCES ON SENTENCE_ID) NATURAL JOIN PREDICATION_AUX ON PREDICATION_ID")
+                     "OBJECT_SCORE, CURR_TIMESTAMP FROM ((PREDICATION NATURAL JOIN CITATIONS) "
+                     "NATURAL JOIN SENTENCES) NATURAL JOIN PREDICATION_AUX")
     if test_mode:
         sql_statement += " LIMIT 10000"
     with connection.cursor() as cursor:
