@@ -143,4 +143,4 @@ def compose_two_multinode_dicts(node1: dict, node2: dict):
 
 
 def format_timestamp(timestamp: datetime):
-    return time.strftime(timestamp, '%Y-%m-%d %H:%M:%S %Z')
+    return time.strftime('%Y-%m-%d %H:%M:%S %Z', timestamp)
