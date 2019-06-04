@@ -75,7 +75,7 @@ ${VENV_DIR}/bin/python3 ${CODE_DIR}/report_stats_on_kg.py \
            ${FINAL_OUTPUT_FILE_FULL} ${REPORT_FILE_FULL}
 
 gzip ${FINAL_OUTPUT_FILE_FULL}
-gzip ${FINAL_OUTPUT_NODES_FILE_FULL}
+gzip ${OUTPUT_NODES_FILE_FULL}
 
 ## copy the KG to the public S3 bucket
 aws s3 cp --no-progress --region ${S3_REGION} ${FINAL_OUTPUT_FILE_FULL}.gz s3://${S3_BUCKET_PUBLIC}/
