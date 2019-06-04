@@ -15,13 +15,15 @@ CONFIG_DIR=`dirname "$0"`
 source ${CONFIG_DIR}/master-config.shinc
 
 ## supply a default value for the BUILD_FLAG string
-BUILD_FLAG=${1:-""}
+BUILD_FLAG=$1
+echo "${BUILD_FLAG}"
 
 ## set the path to include ${BUILD_DIR}
 export PATH=$PATH:${BUILD_DIR}
 
 if [ "${BUILD_FLAG}" == 'test' ]
 then
+    echo "********** TEST MODE **********"
     TEST_SUFFIX='-test'
 else
     TEST_SUFFIX=''
@@ -61,7 +63,7 @@ then
 fi
 
 ## Combine all the TTL files and OBO Foundry OWL files into KG and save as JSON:
-${CODE_DIR}/build-multi-owl-kg.sh
+${CODE_DIR}/build-multi-owl-kg.sh ${BUILD_FLAG}
 
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/add_edges_to_kg_json.py ${OUTPUT_FILE_FULL} \
            ${SEMMED_OUTPUT_FILE} ${FINAL_OUTPUT_FILE_FULL}
