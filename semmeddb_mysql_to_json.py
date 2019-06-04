@@ -109,6 +109,9 @@ if __name__ == '__main__':
             if object_entrez_id is not None:
                 make_rel(preds_dict, 'CUI:' + subject_cui, 'NCBIGene:' + object_entrez_id,
                          predicate, pmid, pub_date, sentence, subject_score, object_score)
+            if subject_entrez_id is not None and object_entrez_id is not None:
+                make_rel(preds_dict, 'NCBIGene:' + subject_entrez_id, 'NCBIGene:' + object_entrez_id,
+                         predicate, pmid, pub_date, sentence, subject_score, object_score)
     connection.close()
     out_graph = {'edges': [rel_dict for rel_dict in preds_dict.values()],
                  'nodes': []}
