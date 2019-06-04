@@ -36,7 +36,6 @@ import ssl
 import subprocess
 import sys
 import tempfile
-import time
 import timeit
 import urllib.parse
 import urllib.request
@@ -671,6 +670,9 @@ def get_rels_dict(nodes: dict,
                     else:
                         predicate_curie = 'rdfs:subClassOf'
                         predicate_label = convert_owl_camel_case_to_biolink_spaces(predicate_label)
+                        if predicate_label[0].isupper():
+                            predicate_label = predicate_label[0].lower() + predicate_label[1:]
+
                 else:
                     predicate_curie = predicate_label
                     predicate_node = nodes.get(predicate_curie, None)
