@@ -49,35 +49,37 @@ if __name__ == '__main__':
     with connection.cursor() as cursor:
         cursor.execute(sql_statement)
         results = cursor.fetchall()
-        for (pmid, subject_cui, predicate, object_cui, pub_date, sentence,
+        for (pmid, subject_cui_str, predicate, object_cui_str, pub_date, sentence,
              subject_score, object_score, curr_timestamp) in results:
-            key = subject_cui + '-' + predicate + '-' + object_cui
-            key_val = preds_dict.get(key, None)
-            publication_curie = 'PMID:' + pmid
-            publication_info_dict = {
-                'publication date': pub_date,
-                'sentence': sentence,
-                'subject score': subject_score,
-                'object score': object_score}
-            if key_val is None:
-                relation_type = predicate.replace('_', ' ').lower()
-                relation_iri = relation_type.title().replace(' ', '')
-                relation_iri = relation_iri[0].lower() + relation_iri[1:]
-                relation_iri = SEMMEDDB_IRI + '#' + relation_iri
-                key_val = {'subject': 'CUI:' + subject_cui,
-                           'object': 'CUI:' + object_cui,
-                           'type': relation_type,
-                           'relation': relation_iri,
-                           'relation curie': 'SEMMEDDB:' + relation_type,
-                           'negated': False,
-                           'publications': [publication_curie],
-                           'publications info': {publication_curie: publication_info_dict},
-                           'update date': kg2_util.format_timestamp(curr_timestamp.timetuple()),
-                           'provided by': SEMMEDDB_IRI}
-                preds_dict[key] = key_val
-            else:
-                key_val['publications info'][publication_curie] = publication_info_dict
-                key_val['publications'] = key_val['publications'] + [publication_curie]
+            for subject_cui in subject_cui_str.split("|"):
+                for object_cui in object_cui_str.split("|"):
+                    key = subject_cui + '-' + predicate + '-' + object_cui
+                    key_val = preds_dict.get(key, None)
+                    publication_curie = 'PMID:' + pmid
+                    publication_info_dict = {
+                        'publication date': pub_date,
+                        'sentence': sentence,
+                        'subject score': subject_score,
+                        'object score': object_score}
+                    if key_val is None:
+                        relation_type = predicate.replace('_', ' ').lower()
+                        relation_iri = relation_type.title().replace(' ', '')
+                        relation_iri = relation_iri[0].lower() + relation_iri[1:]
+                        relation_iri = SEMMEDDB_IRI + '#' + relation_iri
+                        key_val = {'subject': 'CUI:' + subject_cui,
+                                   'object': 'CUI:' + object_cui,
+                                   'type': relation_type,
+                                   'relation': relation_iri,
+                                   'relation curie': 'SEMMEDDB:' + relation_type,
+                                   'negated': False,
+                                   'publications': [publication_curie],
+                                   'publications info': {publication_curie: publication_info_dict},
+                                   'update date': kg2_util.format_timestamp(curr_timestamp.timetuple()),
+                                   'provided by': SEMMEDDB_IRI}
+                        preds_dict[key] = key_val
+                    else:
+                        key_val['publications info'][publication_curie] = publication_info_dict
+                        key_val['publications'] = key_val['publications'] + [publication_curie]
     connection.close()
     out_graph = {'edges': [rel_dict for rel_dict in preds_dict.values()],
                  'nodes': []}
