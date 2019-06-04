@@ -20,7 +20,7 @@ BUILD_FLAG=${1:-""}
 ## set the path to include ${BUILD_DIR}
 export PATH=$PATH:${BUILD_DIR}
 
-if [ ${BUILD_FLAG} == 'test' ]
+if [ "${BUILD_FLAG}" == 'test' ]
 then
     TEST_SUFFIX='-test'
 else
@@ -48,13 +48,13 @@ cd ${BUILD_DIR}
 
 MEM_GB=`${CODE_DIR}/get-system-memory-gb.sh`
 
-if [ ${BUILD_FLAG} == 'all' ]
+if [ "${BUILD_FLAG}" == 'all' ]
 then
 ## Build UMLS knowledge sources at TTL files:
    ${CODE_DIR}/build-umls.sh ${BUILD_DIR}
 fi
 
-if [ ${BUILD_FLAG} == 'all' ]
+if [ "${BUILD_FLAG}" == 'all' ]
 then
 ## Build SemMedDB predicates file as JSON:
     ${CODE_DIR}/build-semmeddb.sh ${SEMMED_OUTPUT_FILE}
