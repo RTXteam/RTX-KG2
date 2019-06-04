@@ -36,7 +36,6 @@ import ssl
 import subprocess
 import sys
 import tempfile
-import time
 import timeit
 import urllib.parse
 import urllib.request
