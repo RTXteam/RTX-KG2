@@ -30,7 +30,7 @@ mysql --defaults-extra-file=${MYSQL_CONF} \
 
 mysql --defaults-extra-file=${MYSQL_CONF} --database=${MYSQL_DBNAME} < ${SEMMED_DIR}/${SEMMED_SQL_FILE}
 
-if [ ${BUILD_FLAG} == 'test' ]
+if [ "${BUILD_FLAG}" == 'test' ]
 then
     TEST_ARG='--test'
 else
