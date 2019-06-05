@@ -15,7 +15,7 @@ CONFIG_DIR=`dirname "$0"`
 source ${CONFIG_DIR}/master-config.shinc
 
 ## supply a default value for the BUILD_FLAG string
-BUILD_FLAG=$1
+BUILD_FLAG=${1:-""}
 echo "${BUILD_FLAG}"
 
 ## set the path to include ${BUILD_DIR}
