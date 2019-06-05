@@ -68,9 +68,24 @@ def count_edges_by_predicate_curie(edges: list):
 def count_edges_by_predicate_type(edges: list):
     return collections.Counter([edge['type'] for edge in edges])
 
-
 def count_edges_by_predicate_curie_prefix(edges: list):
     return collections.Counter([get_prefix_from_curie_id(edge['relation curie']) for edge in edges])
+
+def count_predicates_by_predicate_curie_prefix(edges: list):
+    unique_relation_curies = set([edge['relation curie'] for edge in edges])
+    return collections.Counter([get_prefix_from_curie_id(curie) for curie in unique_relation_curies])
+
+def count_types_of_pairs_of_curies_for_xrefs(edges: list):
+    prefix_pairs_list = list()
+    for edge in edges:
+        if edge['type'] == 'xref':
+            subject_curie = edge['subject']
+            subject_prefix = get_prefix_from_curie_id(subject_curie)
+            object_curie = edge['object']
+            object_prefix = get_prefix_from_curie_id(object_curie)
+            key = subject_prefix + '---' + object_prefix
+            prefix_pairs_list.append(key)
+    return collections.Counter(prefix_pairs_list)
 
 
 if __name__ == '__main__':
@@ -82,16 +97,18 @@ if __name__ == '__main__':
     else:
         input_file = gzip.GzipFile(input_file_name, 'r')
         graph = json.loads(input_file.read().decode('utf-8'))
-    stats = {'num_nodes': len(graph['nodes']),
-             'num_edges': len(graph['edges']),
-             'node_curie_prefixes': dict(count_nodes_by_curie_prefix(graph['nodes'])),
-             'node_curie_prefixes_for_nodes_without_category': dict(count_nodes_by_curie_prefix_given_no_category(graph['nodes'])),
-             'node_category_types': dict(count_nodes_by_category(graph['nodes'])),
-             'node_source_types': dict(count_nodes_by_source(graph['nodes'])),
-             'edge_predicate_curies': dict(count_edges_by_predicate_curie(graph['edges'])),
-             'edge_predicate_types': dict(count_edges_by_predicate_type(graph['edges'])),
-             'edge_predicate_curie_prefixes': dict(count_edges_by_predicate_curie_prefix(graph['edges'])),
-             'edge_sources': dict(count_edges_by_source(graph['edges']))}
+    stats = {'number_of_nodes': len(graph['nodes']),
+             'number_of_edges': len(graph['edges']),
+             'number_of_nodes_by_curie_prefix': dict(count_nodes_by_curie_prefix(graph['nodes'])),
+             'number_of_nodes_without_category__by_curie_prefix': dict(count_nodes_by_curie_prefix_given_no_category(graph['nodes'])),
+             'number_of_nodes_by_category_label': dict(count_nodes_by_category(graph['nodes'])),
+             'number_of_nodes_by_source': dict(count_nodes_by_source(graph['nodes'])),
+             'number_of_edges_by_predicate_curie': dict(count_edges_by_predicate_curie(graph['edges'])),
+             'number_of_edges_by_predicate_type': dict(count_edges_by_predicate_type(graph['edges'])),
+             'number_of_edges_by_predicate_curie_prefixes': dict(count_edges_by_predicate_curie_prefix(graph['edges'])),
+             'number_of_predicates_by_predicate_curie_prefixes': dict(count_predicates_by_predicate_curie_prefix(graph['edges'])),
+             'number_of_edges_by_source': dict(count_edges_by_source(graph['edges'])),
+             'xref_node_curie_prefix_pair_counts': dict(count_types_of_pairs_of_curies_for_xrefs(graph['edges']))}
     temp_output_file = tempfile.mkstemp(prefix='kg2-')[1]
     with open(temp_output_file, 'w') as outfile:
         json.dump(stats, outfile, indent=4, sort_keys=True)
