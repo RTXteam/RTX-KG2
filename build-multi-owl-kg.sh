@@ -1,4 +1,5 @@
 #!/bin/bash
+# Usage: build-multi-owl-kg.sh <output_file.json> [test]
 
 set -euxo pipefail
 
