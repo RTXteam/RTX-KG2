@@ -58,7 +58,7 @@ fi
 if [ "${BUILD_FLAG}" == 'all' ]
 then
 ## Build SemMedDB predicates file as JSON:
-    ${CODE_DIR}/build-semmeddb.sh ${SEMMED_OUTPUT_FILE}
+    ${CODE_DIR}/build-semmeddb.sh ${SEMMED_OUTPUT_FILE} ${BUILD_FLAG}
 fi
 
 ## Combine all the TTL files and OBO Foundry OWL files into KG and save as JSON:
