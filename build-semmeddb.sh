@@ -16,7 +16,7 @@ SEMMED_DIR=${BUILD_DIR}/semmeddb
 SEMMED_SQL_FILE=semmed${SEMMED_VER}_R_WHOLEDB_${SEMMED_DATE}.sql
 MYSQL_DBNAME=semmeddb
 
-if [ "${BUILD_FLAG}" == "" ]
+if [[ "${BUILD_FLAG}" != "test" && "${BUILD_FLAG}" != "extractonly" ]]
 then
     
     mkdir -p ${SEMMED_DIR}
