@@ -29,7 +29,7 @@ else
     TEST_SUFFIX=''
 fi
 
-SEMMED_OUTPUT_FILE=${BUILD_DIR}/kg2-semmeddb-edges.json
+SEMMED_OUTPUT_FILE=${BUILD_DIR}/kg2-semmeddb${TEST_SUFFIX}-edges.json
 
 OUTPUT_FILE_BASE=kg2-owl${TEST_SUFFIX}.json
 OUTPUT_FILE_FULL=${BUILD_DIR}/${OUTPUT_FILE_BASE}
@@ -43,7 +43,6 @@ OUTPUT_NODES_FILE_FULL=${BUILD_DIR}/${OUTPUT_NODES_FILE_BASE}
 REPORT_FILE_BASE=kg2-report${TEST_SUFFIX}.json
 REPORT_FILE_FULL=${BUILD_DIR}/${REPORT_FILE_BASE}
 
-STDERR_LOG_FILE=build-kg2-from-owl-stderr${TEST_SUFFIX}.log
 OWL_LOAD_INVENTORY_FILE=${CODE_DIR}/owl-load-inventory${TEST_SUFFIX}.yaml
 
 cd ${BUILD_DIR}
@@ -63,7 +62,7 @@ then
 fi
 
 ## Combine all the TTL files and OBO Foundry OWL files into KG and save as JSON:
-${CODE_DIR}/build-multi-owl-kg.sh ${BUILD_FLAG}
+${CODE_DIR}/build-multi-owl-kg.sh ${OUTPUT_FILE_FULL} ${BUILD_FLAG}
 
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/add_edges_to_kg_json.py ${OUTPUT_FILE_FULL} \
            ${SEMMED_OUTPUT_FILE} ${FINAL_OUTPUT_FILE_FULL}
@@ -83,8 +82,9 @@ aws s3 cp --no-progress --region ${S3_REGION} ${OUTPUT_NODES_FILE_FULL}.gz s3://
 aws s3 cp --no-progress --region ${S3_REGION} ${REPORT_FILE_FULL} s3://${S3_BUCKET_PUBLIC}/
 
 ## copy the log files to the public S3 bucket
-aws s3 cp --no-progress --region ${S3_REGION} ${BUILD_DIR}/build-kg2-stderr.log s3://${S3_BUCKET_PUBLIC}/
-aws s3 cp --no-progress --region ${S3_REGION} ${BUILD_DIR}/${STDERR_LOG_FILE} s3://${S3_BUCKET_PUBLIC}/
+BUILD_MULTI_OWL_STDERR_FILE="${FINAL_OUTPUT_FILE_FULL%.*}"-stderr.log
+
+aws s3 cp --no-progress --region ${S3_REGION} ${BUILD_MULTI_OWL_STDERR_FILE} s3://${S3_BUCKET_PUBLIC}/
 
 ## copy the config files to the public S3 bucket
 aws s3 cp --no-progress --region ${S3_REGION} ${OWL_LOAD_INVENTORY_FILE} s3://${S3_BUCKET_PUBLIC}/
