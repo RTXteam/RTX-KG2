@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 '''semmeddb_mysql_to_json.py: extracts all the predicate triples from SemMedDB, in the RTX KG2 JSON format
 
-   Usage: semmeddb_mysql_to_json.py <mysqlConfigFile> <mysqlDBName> <outputFile.json>
+   Usage: semmeddb_mysql_to_json.py [--test] <mysqlConfigFile> <mysqlDBName> <outputFile.json>
 '''
 
 __author__ = 'Stephen Ramsey'
