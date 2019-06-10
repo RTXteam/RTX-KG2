@@ -32,8 +32,8 @@ The computing environment where you will be running the KG2 build should be
 running Ubuntu 18.04.  Your build environment should have the following minimum
 specifications:
 
-- 384 GiB of system RAM
-- 750 GiB of disk space in the root file system 
+- 488 GiB of system RAM
+- 1,023 GiB of disk space in the root file system 
 - high-speed networking
 - ideally, AWS zone `us-west-2` since that is where the RTX KG2 S3 buckets are located
 
@@ -75,8 +75,8 @@ which to copy the gzipped KG2 JSON file, or you can comment the line out of
 The KG2 build software has been tested with the following instance type:
 
 - AMI: Ubuntu Server 18.04 LTS (HVM), SSD Volume Type - `ami-005bdb005fb00e791` (64-bit x86)
-- Instance type: `r5.12xlarge` (384 GiB of memory)
-- Storage: 750 GiB General Purpose SSD
+- Instance type: `r4.16xlarge` (488 GiB of memory)
+- Storage: 1,023 GiB General Purpose SSD
 - Security Group: ingress TCP packets on port 22 (ssh) permitted
 
 ## Build instructions
@@ -118,11 +118,13 @@ the `screen` session, run:
 
     ~/kg2-code/build-kg2.sh all > ~/kg2-build/build-kg2.log 2>&1
 
-Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 build by using these
-commands (run them in separate bash shell terminals):
+Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 build by using this
+command:
 
     tail -f ~/kg2-build/build-kg2.log
-    tail -f ~/kg2-build/build-kg2-from-owl-stderr.log
+    
+Note that the `build-multi-owl-kg.sh` script also saves `stderr` from running `multi_owl_to_json_kg.py`
+to a file `~/kg2-build/build-kg2-from-owl-stderr.log`.
 
 ### Option 2: remotely build KG2 in an EC2 instance via ssh, orchestrated from your local computer
 
@@ -171,10 +173,12 @@ Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 setup usin
     sudo docker exec kg2 "kg2-code/build-kg2.sh all > /home/ubuntu/kg2-build/build-kg2.log 2>&1"
 
 Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 setup using the
-following commands (in separate terminal sessions):
+following command:
 
     sudo docker exec -it kg2 "tail -f kg2-build/build-kg2.log"
-    sudo docker exec -it kg2 "tail -f kg2-build/build-kg2-from-owl-stderr.log"
+
+Note that the `build-multi-owl-kg.sh` script also saves `stderr` from running `multi_owl_to_json_kg.py`
+to a file `~/kg2-build/build-kg2-from-owl-stderr.log` inside the container.
 
 ## The output KG
 
