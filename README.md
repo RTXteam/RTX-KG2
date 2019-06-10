@@ -29,12 +29,12 @@ half-downloaded (i.e., broken) state.
 ## Setup your computing environment
 
 The computing environment where you will be running the KG2 build should be
-running Ubuntu 18.04.  Your build environment should have the following minimum
+running Ubuntu 18.04.  Your build environment should have the following *minimum*
 specifications:
 
-- 488 GiB of system RAM
+- 488 GiB of system memory
 - 1,023 GiB of disk space in the root file system 
-- high-speed networking
+- high-speed networking (20 Gb/s networking) and storage
 - ideally, AWS zone `us-west-2` since that is where the RTX KG2 S3 buckets are located
 
 ## We assume there is no MySQL cruft
@@ -81,7 +81,8 @@ The KG2 build software has been tested with the following instance type:
 
 As of June 10, 2019, an on-demand `r4.16xlarge` instance in the `us-west-2` AWS
 zone costs $4.26 per hour, so the cost to build KG2 (estimated to take a week)
-would be approximately $715.
+would be approximately $715 (this is currently just a rough estimate, plus or
+minus 30%).
 
 ## Build instructions
 
