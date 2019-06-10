@@ -68,7 +68,7 @@ ${VENV_DIR}/bin/python3 ${CODE_DIR}/add_edges_to_kg_json.py ${OUTPUT_FILE_FULL} 
            ${SEMMED_OUTPUT_FILE} ${FINAL_OUTPUT_FILE_FULL}
 
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/get_nodes_json_from_kg_json.py \
-           ${FINAL_OUTPUT_FILE_FULL} ${OUTPUT_NODES_FILE_FULL}
+           ${OUTPUT_FILE_FULL} ${OUTPUT_NODES_FILE_FULL}
 
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/report_stats_on_kg.py \
            ${FINAL_OUTPUT_FILE_FULL} ${REPORT_FILE_FULL}
