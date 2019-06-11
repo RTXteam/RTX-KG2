@@ -649,29 +649,33 @@ def get_rels_dict(nodes: dict,
                                      node_curie_id=object_id,
                                      output_stream=sys.stderr)
                 continue
-            predicate_label = predicate_dict['pred']
-            if not predicate_label.startswith('http:') and not predicate_label.startswith('https'):
-                if ':' not in predicate_label:
-                    if predicate_label != 'subClassOf':
-                        predicate_curie = 'owl:' + predicate_label
+
+            predicate_label = None
+            edge_pred_string = predicate_dict['pred']
+            if not edge_pred_string.startswith('http:') and not edge_pred_string.startswith('https'):
+                # edge_pred_string is not a URI; this is the most common case
+                if ':' not in edge_pred_string:
+                    # edge_pred_string is not a CURIE; this is the most common subcase
+                    if edge_pred_string != 'subClassOf':
+                        predicate_curie = 'owl:' + edge_pred_string
                     else:
                         predicate_curie = 'rdfs:subClassOf'
-                        predicate_label = convert_owl_camel_case_to_biolink_spaces(predicate_label)
-
+                    predicate_label = convert_camel_case_to_snake_case(edge_pred_string)
                 else:
-                    predicate_curie = predicate_label
+                    # edge_pred_string is a CURIE
+                    predicate_curie = edge_pred_string
                     predicate_node = nodes.get(predicate_curie, None)
                     if predicate_node is not None:
-                        predicate_label = predicate_node['name'].replace('_', ' ')
-#                        if predicate_label[0].isupper():
-#                            predicate_label = predicate_label[0].lower() + predicate_label[1:]
-
+                        predicate_label = predicate_node['name']
+                    else:
+                        # predicate has no node object defined; just pull the label out of the CURIE
+                        predicate_label = edge_pred_string.split(':')[1].split('#')[-1]
                 predicate_iri = prefixcommons.expand_uri(predicate_curie)
                 predicate_curie_new = uri_to_curie_shortener(predicate_iri)
                 if predicate_curie_new is not None:
                     predicate_curie = predicate_curie_new
             else:
-                predicate_iri = predicate_label
+                predicate_iri = edge_pred_string
                 predicate_curie = uri_to_curie_shortener(predicate_iri)
             if predicate_curie is None:
                 kg2_util.log_message(message="predicate IRI has no CURIE: " + predicate_iri,
@@ -688,17 +692,19 @@ def get_rels_dict(nodes: dict,
             if ontology_node is not None:
                 ontology_update_date = ontology_node['update date']
 
-            if ':' in predicate_curie:
+            if predicate_label is None and ':' in predicate_curie:
                 pred_node = nodes.get(predicate_curie, None)
                 if pred_node is not None:
                     predicate_label = pred_node['name'].replace('_', ' ')
                     if predicate_label[0].isupper():
                         predicate_label = predicate_label[0].lower() + predicate_label[1:]
 
+            assert predicate_label is not None
+
             if rels_dict.get(rel_key, None) is None:
                 rels_dict[rel_key] = {'subject': subject_curie_id,
                                       'object': object_curie_id,
-                                      'type': predicate_label,
+                                      'edge label': predicate_label,
                                       'relation': predicate_iri,
                                       'relation curie': predicate_curie,  # slot is not biolink standard
                                       'negated': False,
@@ -716,7 +722,7 @@ def get_rels_dict(nodes: dict,
                         if rels_dict.get(key, None) is None:
                             rels_dict[key] = {'subject': node_id,
                                               'object': xref_node_id,
-                                              'type': 'xref',
+                                              'edge label': 'xref',
                                               'relation': IRI_OBO_XREF,
                                               'relation curie': CURIE_OBO_XREF,
                                               'negated': False,
@@ -736,11 +742,7 @@ def get_node_curie_id_from_ontology_node_id(ontology_node_id: str,
         if not ontology_node_id.startswith('OBO:'):
             node_curie_id = ontology_node_id
         else:
-            onid_noobo = ontology_node_id.replace('OBO:', '')
-            if '_' not in onid_noobo:
-                node_curie_id = ontology_node_id
-            else:
-                node_curie_id = onid_noobo.replace('_', ':')
+            node_curie_id = uri_to_curie_shortener(prefixcommons.expand_uri(ontology_node_id))
     else:
         node_curie_id = uri_to_curie_shortener(ontology_node_id)
         if node_curie_id is None:
@@ -769,6 +771,7 @@ def shorten_iri_to_curie(iri: str, curie_to_iri_map: list = []):
         umls_match = REGEX_UMLS_CURIE.match(curie_id)
         if umls_match is not None:
             curie_id = umls_match[1] + ':' + umls_match[2]
+
     return curie_id
 
 
@@ -783,13 +786,22 @@ def make_uri_to_curie_shortener(curie_to_iri_map: list = []):
     return lambda iri: shorten_iri_to_curie(iri, curie_to_iri_map)
 
 
-def convert_owl_camel_case_to_biolink_spaces(name: str):
-    s1 = FIRST_CAP_RE.sub(r'\1 \2', name)
-    converted = ALL_CAP_RE.sub(r'\1 \2', s1).lower()
-    converted = converted.replace('sub class', 'subclass')
+# def convert_owl_camel_case_to_biolink_spaces(name: str):
+#     s1 = FIRST_CAP_RE.sub(r'\1 \2', name)
+#     converted = ALL_CAP_RE.sub(r'\1 \2', s1).lower()
+#     converted = converted.replace('sub class', 'subclass')
+#     if converted[0].istitle():
+#         converted[0] = converted[0].lower()
+#     return converted
+
+
+def convert_camel_case_to_snake_case(name: str):
+    s1 = FIRST_CAP_RE.sub(r'\1_\2', name)
+    converted = ALL_CAP_RE.sub(r'\1_\2', s1).lower()
+    converted = converted.replace('sub_class', 'subclass')
     if converted[0].istitle():
         converted[0] = converted[0].lower()
-    return converted
+    return converted.replace(' ', '_')
 
 
 def convert_biolink_category_to_iri(biolink_category_base_iri, biolink_category_label: str):
