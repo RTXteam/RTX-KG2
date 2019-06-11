@@ -82,8 +82,9 @@ The KG2 build software has been tested with the following instance type:
 As of June 10, 2019, an on-demand `r4.16xlarge` instance in the `us-west-2` AWS
 zone costs $4.26 per hour, so the cost to build KG2 (estimated to take a week)
 would be approximately $715 (this is currently just a rough estimate, plus or
-minus 30%). If you use a spot instance, your cost would be probably 25-50% of
-that.
+minus 30%). [Unfortunately, AWS doesn't seem to allow the provisioning of spot
+instances while specifying minimum memory greater than 240 GiB; but perhaps soon
+that will happen, and if so, it could save significantly on the cost of building KG2.]
 
 ## Build instructions
 
