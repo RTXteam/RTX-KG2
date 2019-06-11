@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euxo pipefail
-# Usage: build-semmeddb.sh <output_file.json> [test|extractonly]
+# Usage: build-semmeddb.sh <output_file.json> [test|extractonly|all]
 
 CONFIG_DIR=`dirname "$0"`
 source ${CONFIG_DIR}/master-config.shinc
@@ -8,7 +8,7 @@ source ${CONFIG_DIR}/master-config.shinc
 SEMMED_OUTPUT_FILE=${1:-"${BUILD_DIR}/kg2-semmeddb.json"}
 
 ## supply a default value for the BUILD_FLAG string
-BUILD_FLAG=${2:-""}
+BUILD_FLAG=${2:-"all"}
 
 SEMMED_VER=VER31
 SEMMED_DATE=06302018
