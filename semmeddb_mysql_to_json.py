@@ -21,7 +21,7 @@ import re
 
 
 SEMMEDDB_IRI = 'https://skr3.nlm.nih.gov/SemMedDB'
-NEG_REGEX = re.compile('^neg ', re.M)
+NEG_REGEX = re.compile('^neg_', re.M)
 
 
 def make_rel(preds_dict: dict,
