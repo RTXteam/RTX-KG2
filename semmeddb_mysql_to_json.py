@@ -53,7 +53,7 @@ def make_rel(preds_dict: dict,
         relation_iri = SEMMEDDB_IRI + '#' + relation_iri
         key_val = {'subject': subject_curie,
                    'object': object_curie,
-                   'association type': relation_type,
+                   'edge label': relation_type,
                    'relation': relation_iri,
                    'relation curie': 'SEMMEDDB:' + relation_type,
                    'negated': negated,
