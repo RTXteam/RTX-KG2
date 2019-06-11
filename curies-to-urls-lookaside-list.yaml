@@ -62,3 +62,33 @@
   OBO: http://purl.org/obo/owl/OBO_REL#
 -
   EFO: http://www.ebi.ac.uk/efo/
+-
+  MONDO: http://purl.obolibrary.org/obo/mondo#
+-
+  BTO: http://purl.obolibrary.org/obo/bto#
+-
+  CHEBI: http://purl.obolibrary.org/obo/chebi#
+-
+  CL: http://purl.obolibrary.org/obo/cl#
+-
+  OBO: http://purl.obolibrary.org/obo/core#
+-
+  DDANAT: http://purl.obolibrary.org/obo/ddanat#
+-
+  DOID: http://purl.obolibrary.org/obo/doid#
+-
+  ENVO: http://purl.obolibrary.org/obo/envo#
+-
+  FMA: http://purl.obolibrary.org/obo/fma#
+-
+  NBO: http://purl.obolibrary.org/obo/nbo#
+-
+  PATO: http://purl.obolibrary.org/obo/pato#
+-
+  PR: http://purl.obolibrary.org/obo/pr#
+-
+  SO: http://purl.obolibrary.org/obo/so#
+-
+  UBERON: http://purl.obolibrary.org/obo/uberon/core#
+-
+  UBERON: http://purl.obolibrary.org/obo/uberon/insect-anatomy#
