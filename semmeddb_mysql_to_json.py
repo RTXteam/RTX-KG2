@@ -17,8 +17,11 @@ __status__ = 'Prototype'
 import argparse
 import kg2_util
 import pymysql
+import re
+
 
 SEMMEDDB_IRI = 'https://skr3.nlm.nih.gov/SemMedDB'
+NEG_REGEX = re.compile('^neg ', re.M)
 
 
 def make_rel(preds_dict: dict,
@@ -39,16 +42,21 @@ def make_rel(preds_dict: dict,
         'subject score': subject_score,
         'object score': object_score}
     if key_val is None:
-        relation_type = predicate.replace('_', ' ').lower()
+        if NEG_REGEX.match(predicate):
+            negated = True
+            predicate = NEG_REGEX.sub('', predicate, 1)
+        else:
+            negated = False
+        relation_type = predicate.lower()
         relation_iri = relation_type.title().replace(' ', '')
         relation_iri = relation_iri[0].lower() + relation_iri[1:]
         relation_iri = SEMMEDDB_IRI + '#' + relation_iri
         key_val = {'subject': subject_curie,
                    'object': object_curie,
-                   'type': relation_type,
+                   'association type': relation_type,
                    'relation': relation_iri,
                    'relation curie': 'SEMMEDDB:' + relation_type,
-                   'negated': False,
+                   'negated': negated,
                    'publications': [publication_curie],
                    'publications info': {publication_curie: publication_info_dict},
                    'update date': kg2_util.format_timestamp(curr_timestamp.timetuple()),
