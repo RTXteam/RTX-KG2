@@ -669,7 +669,10 @@ def get_rels_dict(nodes: dict,
                         predicate_label = predicate_node['name']
                     else:
                         # predicate has no node object defined; just pull the label out of the CURIE
-                        predicate_label = edge_pred_string.split(':')[1].split('#')[-1]
+                        if edge_pred_string.startswith('OBO:'):
+                            predicate_label = edge_pred_string.split(':')[1].split('#')[-1]
+                        else:
+                            predicate_label = edge_pred_string
                 predicate_iri = prefixcommons.expand_uri(predicate_curie)
                 predicate_curie_new = uri_to_curie_shortener(predicate_iri)
                 if predicate_curie_new is not None:
