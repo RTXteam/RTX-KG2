@@ -66,7 +66,7 @@ def count_edges_by_predicate_curie(edges: list):
 
 
 def count_edges_by_predicate_type(edges: list):
-    return collections.Counter([edge['type'] for edge in edges])
+    return collections.Counter([edge['edge label'] for edge in edges])
 
 def count_edges_by_predicate_curie_prefix(edges: list):
     return collections.Counter([get_prefix_from_curie_id(edge['relation curie']) for edge in edges])
@@ -78,7 +78,7 @@ def count_predicates_by_predicate_curie_prefix(edges: list):
 def count_types_of_pairs_of_curies_for_xrefs(edges: list):
     prefix_pairs_list = list()
     for edge in edges:
-        if edge['type'] == 'xref':
+        if edge['edge label'] == 'xref':
             subject_curie = edge['subject']
             subject_prefix = get_prefix_from_curie_id(subject_curie)
             object_curie = edge['object']
