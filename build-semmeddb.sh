@@ -8,7 +8,7 @@ source ${CONFIG_DIR}/master-config.shinc
 SEMMED_OUTPUT_FILE=${1:-"${BUILD_DIR}/kg2-semmeddb.json"}
 
 ## supply a default value for the BUILD_FLAG string
-BUILD_FLAG=${2:-"all"}
+BUILD_FLAG=${2:-""}
 
 SEMMED_VER=VER31
 SEMMED_DATE=06302018
