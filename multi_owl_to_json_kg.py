@@ -695,12 +695,13 @@ def get_rels_dict(nodes: dict,
             if predicate_label is None and ':' in predicate_curie:
                 pred_node = nodes.get(predicate_curie, None)
                 if pred_node is not None:
-                    predicate_label = pred_node['name'].replace('_', ' ')
+                    predicate_label = pred_node['name']
                     if predicate_label[0].isupper():
                         predicate_label = predicate_label[0].lower() + predicate_label[1:]
 
             assert predicate_label is not None
-
+            predicate_label = predicate_label.replace(' ', '_')
+            
             if rels_dict.get(rel_key, None) is None:
                 rels_dict[rel_key] = {'subject': subject_curie_id,
                                       'object': object_curie_id,
