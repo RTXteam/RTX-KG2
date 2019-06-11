@@ -2,7 +2,6 @@
 '''kg2_merge.py: merge two KGs that are in the KG2 JSON format
 
    Usage: kg2_merge.py <kg_alpha.json> <kg_beta.json> <output.json>
-   Note: any of the three file arguments can have a ".gz" extension, in which case gzip is used for reading/writing.
 '''
 
 __author__ = 'Stephen Ramsey'
