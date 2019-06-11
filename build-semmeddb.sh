@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euxo pipefail
-# Usage: build-semmeddb.sh <output_file.json> [test|extractonly|all]
+# Usage: build-semmeddb.sh <output_file.json> [test|all]
 
 CONFIG_DIR=`dirname "$0"`
 source ${CONFIG_DIR}/master-config.shinc
