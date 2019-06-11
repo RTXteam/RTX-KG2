@@ -15,13 +15,34 @@ __email__ = ''
 __status__ = 'Prototype'
 
 import copy
+import gzip
 import io
+import json
 import os
 import pprint
 import re
+import shutil
 import sys
+import tempfile
 import time
 import yaml
+
+
+def save_json(data, output_file_name: str, test_mode: bool = False):
+    if not test_mode:
+        indent_num = None
+        sort_keys = False
+    else:
+        indent_num = 4
+        sort_keys = True 
+    temp_output_file_name = tempfile.mkstemp(prefix='kg2-')[1]
+    if not output_file_name.endswith('.gz'):
+        temp_output_file = open(temp_output_file_name, 'w')
+        json.dump(data, temp_output_file, indent=indent_num, sort_keys=sort_keys)
+    else:
+        temp_output_file = gzip.GzipFile(temp_output_file_name, 'w')
+        temp_output_file.write(json.dumps(data, indent=indent_num, sort_keys=sort_keys).encode('utf-8'))
+    shutil.move(temp_output_file_name, output_file_name)
 
 
 def get_file_last_modified_timestamp(file_name: str):

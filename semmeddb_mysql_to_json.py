@@ -15,12 +15,8 @@ __status__ = 'Prototype'
 
 
 import argparse
-import gzip
 import kg2_util
-import json
 import pymysql
-import shutil
-import tempfile
 
 SEMMEDDB_IRI = 'https://skr3.nlm.nih.gov/SemMedDB'
 
@@ -62,7 +58,7 @@ def make_rel(preds_dict: dict,
         key_val['publications info'][publication_curie] = publication_info_dict
         key_val['publications'] = key_val['publications'] + [publication_curie]
 
-        
+
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='semmeddb_mysql_to_json.py: extracts all the predicate triples from SemMedDB, in the RTX KG2 JSON format')
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
@@ -117,11 +113,5 @@ if __name__ == '__main__':
             rel_dict['publications'] = list(set(rel_dict['publications']))
 
     output_file_name = args.outputFile[0]
-    temp_output_file_name = tempfile.mkstemp(prefix='kg2-')[1]
-    if not output_file_name.endswith('.gz'):
-        temp_output_file = open(temp_output_file_name, 'w')
-        json.dump(out_graph, temp_output_file, indent=4, sort_keys=True)
-    else:
-        temp_output_file = gzip.GzipFile(temp_output_file_name, 'w')
-        temp_output_file.write(json.dumps(out_graph, indent=4, sort_keys=True).encode('utf-8'))
-    shutil.move(temp_output_file_name, output_file_name)
+
+    kg2_util.save_json(out_graph, output_file_name, test_mode)

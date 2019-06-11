@@ -20,9 +20,7 @@ __status__ = 'Prototype'
 import argparse
 import errno
 import functools
-import gzip
 import hashlib
-import json
 import kg2_util
 import ontobio
 import os.path
@@ -196,7 +194,8 @@ def make_kg2(curies_to_categories: dict,
              uri_to_curie_shortener: callable,
              map_category_label_to_iri: callable,
              owl_urls_and_files: tuple,
-             output_file_name: str):
+             output_file_name: str,
+             test_mode: bool = False):
 
     owl_file_information_dict_list = []
 
@@ -247,20 +246,8 @@ def make_kg2(curies_to_categories: dict,
         del node_dict['xrefs']
         del node_dict['ontology node ids']
 
-#    timestamp_str = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
-    temp_output_file_name = tempfile.mkstemp(prefix='kg2-')[1]
-
     kg2_util.log_message('Saving JSON file')
-
-    if not output_file_name.endswith('.gz'):
-        temp_output_file = open(temp_output_file_name, 'w')
-        json.dump(kg2_dict, temp_output_file, indent=4, sort_keys=True)
-    else:
-        temp_output_file = gzip.GzipFile(temp_output_file_name, 'w')
-        temp_output_file.write(json.dumps(kg2_dict, indent=4, sort_keys=True).encode('utf-8'))
-    shutil.move(temp_output_file_name, output_file_name)
-
-#    pickle.dump(kg2_dict, open(os.path.join(output_dir, 'kg2-' + timestamp_str + '.pickle'), 'wb'))
+    kg2_util.save_json(kg2_dict, output_file_name, test_mode)
 
 
 def get_biolink_category_for_node(ontology_node_id: str,
@@ -837,6 +824,7 @@ def xref_as_a_publication(xref: str):
 
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='multi_owl_to_json_kg.py: builds the KG2 knowledge graph for the RTX system')
+    arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
     arg_parser.add_argument('categoriesFile', type=str, nargs=1)
     arg_parser.add_argument('curiesToURILALFile', type=str, nargs=1)
     arg_parser.add_argument('owlLoadInventoryFile', type=str, nargs=1)
@@ -853,7 +841,7 @@ if __name__ == '__main__':
     curies_to_uri_lal_file_name = args.curiesToURILALFile[0]
     owl_load_inventory_file = args.owlLoadInventoryFile[0]
     output_file = args.outputFile[0]
-
+    test_mode = args.test
     curies_to_categories = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_categories_file_name))
     curies_to_uri_lal = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_uri_lal_file_name))
     curies_to_uri_map = curies_to_uri_lal + prefixcommons.curie_util.default_curie_maps
@@ -866,7 +854,8 @@ if __name__ == '__main__':
                                                   uri_to_curie_shortener,
                                                   map_category_label_to_iri,
                                                   owl_urls_and_files,
-                                                  output_file), number=1)
+                                                  output_file,
+                                                  test_mode), number=1)
     print('running time for multi_owl_to_json_kg.py: ' + str(running_time))
 
 # # ---------------- Notes -----------------

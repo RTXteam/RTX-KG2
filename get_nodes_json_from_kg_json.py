@@ -47,4 +47,3 @@ if __name__ == "__main__":
         temp_file = gzip.GzipFile(temp_file_name, 'w')
         temp_file.write(json.dumps(graph['nodes'], indent=4, sort_keys=True).encode('utf-8'))
     shutil.move(temp_file_name, output_file_name)
-

@@ -15,14 +15,13 @@ __email__ = ''
 __status__ = 'Prototype'
 
 import argparse
-import gzip
+import kg2_util
 import json
-import shutil
-import tempfile
 
 
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='add_edges_to_kg_json.py: takes a JSON file of KG edges and adds the edges to a JSON-specified KG')
+    arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
     arg_parser.add_argument('kgFile', type=str, nargs=1)
     arg_parser.add_argument('kgFileNewEdges', type=str, nargs=1)
     arg_parser.add_argument('outputFile', type=str, nargs=1)
@@ -33,6 +32,7 @@ if __name__ == '__main__':
     args = make_arg_parser().parse_args()
     kg_file_name = args.kgFile[0]
     kg_edges_file_name = args.kgFileNewEdges[0]
+    test_mode = args.test
     kg = json.load(open(kg_file_name, 'r'))
     kg_edges_new = json.load(open(kg_edges_file_name, 'r'))
     nodes_dict = {node['id']: node for node in kg['nodes']}
@@ -44,8 +44,6 @@ if __name__ == '__main__':
             kg['edges'].append(rel_dict)
         else:
             kg_orphan_edges['edges'].append(rel_dict)
-    temp_output_file_name = tempfile.mkstemp(prefix='kg2-')[1]
     output_file_name = args.outputFile[0]
-    temp_output_file = open(temp_output_file_name, 'w')
-    json.dump(kg, temp_output_file, indent=4, sort_keys=True)
-    shutil.move(temp_output_file_name, output_file_name)
+
+    kg2_util.save_json(kg, output_file_name, test_mode)
