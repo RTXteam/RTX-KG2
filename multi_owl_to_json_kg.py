@@ -704,7 +704,7 @@ def get_rels_dict(nodes: dict,
 
             assert predicate_label is not None
             predicate_label = predicate_label.replace(' ', '_')
-            
+
             if rels_dict.get(rel_key, None) is None:
                 rels_dict[rel_key] = {'subject': subject_curie_id,
                                       'object': object_curie_id,
