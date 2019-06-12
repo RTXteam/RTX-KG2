@@ -42,7 +42,7 @@ import urllib.request
 
 # -------------- define globals here ---------------
 
-BIOLINK_CATEGORY_BASE_IRI = 'http://w3id.org/biolink'
+BIOLINK_CATEGORY_BASE_IRI = 'http://w3id.org/biolink/vocab/'
 FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
 ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
 TEMP_FILE_PREFIX = 'kg2'
@@ -384,7 +384,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             'full name': ontology_info_dict['title'],
             'name': ontology_info_dict['title'],
             'category': category_label_to_iri_mapper('data source'),
-            'category label': 'data source',
+            'category label': 'data_source',
             'description': ontology_info_dict['description'],
             'synonym': [],
             'xrefs': [],
@@ -561,7 +561,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             node_dict['name'] = node_name
             node_dict['full name'] = node_full_name
             node_dict['category'] = node_category_iri
-            node_dict['category label'] = node_category_label
+            node_dict['category label'] = node_category_label.replace(' ', '_')
             node_dict['description'] = node_description
             node_dict['creation date'] = node_creation_date   # slot name is not biolink standard
             node_dict['deprecated'] = node_deprecated         # slot name is not biolink standard
@@ -590,7 +590,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         cui_node_dict['id'] = cui_curie
                         cui_node_dict['iri'] = cui_uri
                         cui_node_dict['category'] = node_tui_category_iri
-                        cui_node_dict['category label'] = node_tui_category_label
+                        cui_node_dict['category label'] = node_tui_category_label.replace(' ', '_')
                         cui_node_dict['ontology node ids'] = []
                         cui_node_dict['provided by'] = CUI_BASE_IRI
                         cui_node_dict_existing = ret_dict.get(cui_curie, None)
