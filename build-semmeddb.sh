@@ -2,6 +2,8 @@
 set -euxo pipefail
 # Usage: build-semmeddb.sh <output_file.json> [test|all]
 
+date
+
 CONFIG_DIR=`dirname "$0"`
 source ${CONFIG_DIR}/master-config.shinc
 
@@ -46,5 +48,6 @@ ${VENV_DIR}/bin/python3 ${CODE_DIR}/semmeddb_mysql_to_json.py \
 	   ${MYSQL_DBNAME} \
 	   ${SEMMED_OUTPUT_FILE} > ${BUILD_DIR}/build-semmeddb.log 2>&1
 
+date
 
 
