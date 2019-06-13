@@ -2,6 +2,7 @@
 set -euxo pipefail
 # Usage: build-semmeddb.sh <output_file.json> [test|all]
 
+echo "================= starting build-semmeddb.sh ================="
 date
 
 CONFIG_DIR=`dirname "$0"`
@@ -49,5 +50,6 @@ ${VENV_DIR}/bin/python3 ${CODE_DIR}/semmeddb_mysql_to_json.py \
 	   ${SEMMED_OUTPUT_FILE} > ${BUILD_DIR}/build-semmeddb.log 2>&1
 
 date
+echo "================= script finished ================="
 
 
