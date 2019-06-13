@@ -2,6 +2,8 @@
 set -euxo pipefail
 # Usage: build-umls.sh [OUTPUT_DIR]
 
+date
+
 CONFIG_DIR=`dirname "$0"`
 source ${CONFIG_DIR}/master-config.shinc
 
@@ -101,4 +103,5 @@ ${UMLS_VENV_DIR}/bin/python2.7 umls2rdf.py
 ## verify the output files
 ./checkOutputSyntax.sh  # users "rapper" command from the "raptor" package
 
+date
 echo "================= script finished ================="
