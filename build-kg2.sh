@@ -35,6 +35,7 @@ BUILD_KG2_LOG_FILE=${BUILD_DIR}/build-kg2${TEST_SUFFIX}.log
 
 {
 
+echo "================= starting build-kg2.sh ================="
 date
     
 ## supply a default value for the BUILD_FLAG string
