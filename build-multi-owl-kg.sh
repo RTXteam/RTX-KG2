@@ -23,7 +23,7 @@ fi
 
 OUTPUT_FILE=${1:-"${BUILD_DIR}/kg2-owl${TEST_SUFFIX}.json"}
 OUTPUT_FILE_BASE=`basename ${OUTPUT_FILE}`
-LOG_FILE=`dirname ${OUTPUT_FILE}`/build-${OUTPUT_FILE_BASE%.*}.log
+LOG_FILE=`dirname ${OUTPUT_FILE}`/build-${OUTPUT_FILE_BASE%.*}-stderr.log
 
 OUTPUT_FILE_BASE="${OUTPUT_FILE%.*}"
 
