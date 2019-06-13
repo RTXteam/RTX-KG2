@@ -31,7 +31,7 @@ else
     TEST_ARG=''
 fi
 
-BUILD_KG2_LOG_FILE=${BUILD_DIR}/build-kg2${TEST_ARG}.log
+BUILD_KG2_LOG_FILE=${BUILD_DIR}/build-kg2${TEST_SUFFIX}.log
 
 {
 
