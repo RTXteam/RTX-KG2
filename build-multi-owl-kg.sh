@@ -2,6 +2,7 @@
 # Usage: build-multi-owl-kg.sh <output_file.json> [test]
 set -euxo pipefail
 
+echo "================= starting build-multi-owl-kg.sh ================="
 date
 
 ## load the master config file
@@ -21,7 +22,8 @@ else
 fi
 
 OUTPUT_FILE=${1:-"${BUILD_DIR}/kg2-owl${TEST_SUFFIX}.json"}
-
+OUTPUT_FILE_BASE=`basename ${OUTPUT_FILE}`
+LOG_FILE=`dirname ${OUTPUT_FILE}`/build-${OUTPUT_FILE_BASE%.*}.log
 
 OUTPUT_FILE_BASE="${OUTPUT_FILE%.*}"
 
@@ -46,3 +48,4 @@ cd ${BUILD_DIR} && ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/multi_owl_to_json_kg.p
            2>build-${OUTPUT_FILE_BASE}-stderr.log
 
 date
+echo "================= script finished ================="
