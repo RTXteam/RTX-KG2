@@ -116,7 +116,7 @@ These instructions assume that you are logged into the target Ubuntu system:
 
 (5) Setup the KG2 build system: Within the `screen` session, run:
 
-    RTX/code/kg2/setup-kg2.sh > setup-kg2.log 2>&1
+    bash -x RTX/code/kg2/setup-kg2.sh > setup-kg2.log 2>&1
     
 Then exit screen (`ctrl-a d`). You can watch the progress of `setup-kg2.sh` by
 using the command:
@@ -126,7 +126,7 @@ using the command:
 (6) Build KG2: Rejoin the screen session using `screen -r`.  Within
 the `screen` session, run:
 
-    ~/kg2-code/build-kg2.sh all
+    bash -x ~/kg2-code/build-kg2.sh all
 
 Then exit screen (`ctrl-a d`). Note that there is no need to redirect `stdout`
 or `stderr` to a log file, when executing `build-kg2.sh`; this is because the
@@ -149,7 +149,7 @@ This option requires that you have `curl` installed on your local computer. In a
 You will be prompted to enter the path to your AWS PEM file and the hostname of
 your AWS instance.  The script should then initiate a `bash` session on the
 remote instance. Within that `bash` session, continue to follow the instructions
-for Option 1 (starting at step (4)).
+for Option 1.
 
 ### Option 3: in an Ubuntu container in Docker (UNTESTED, IN DEVELOPMENT)
 
@@ -174,7 +174,7 @@ on whatever host OS you are running).
 
     screen
     
-    sudo docker run -it --name kg2 kg2:latest su - ubuntu -c "RTX/code/kg2/setup-kg2.sh > setup-kg2.log 2>&1"
+    sudo docker run -it --name kg2 kg2:latest su - ubuntu -c "bash -x RTX/code/kg2/setup-kg2.sh > setup-kg2.log 2>&1"
     
 Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 setup using the command:
 
@@ -182,7 +182,7 @@ Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 setup usin
 
 (5) Build KG2: inside screen, run:
 
-    sudo docker exec kg2 "kg2-code/build-kg2.sh all"
+    sudo docker exec kg2 "bash -x kg2-code/build-kg2.sh all"
 
 Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 setup using the
 following command:
