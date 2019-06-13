@@ -5,3 +5,4 @@ kg2.json
 *.out
 *.log
 *.jar
+save/*
