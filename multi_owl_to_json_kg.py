@@ -866,14 +866,9 @@ if __name__ == '__main__':
 
     owl_urls_and_files = tuple(kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(owl_load_inventory_file)))
 
-    running_time = timeit.timeit(lambda: make_kg2(curies_to_categories,
-                                                  uri_to_curie_shortener,
-                                                  map_category_label_to_iri,
-                                                  owl_urls_and_files,
-                                                  output_file,
-                                                  test_mode), number=1)
-    print('running time for multi_owl_to_json_kg.py: ' + str(running_time))
-
-# # ---------------- Notes -----------------
-# # - use NCBI Entrez Gene IDs for gene identifiers
-# # - use UniProt IDs for protein identifiers
+    make_kg2(curies_to_categories,
+             uri_to_curie_shortener,
+             map_category_label_to_iri,
+             owl_urls_and_files,
+             output_file,
+             test_mode)
