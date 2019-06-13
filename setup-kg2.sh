@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euxo pipefail
 
+date
+
 ## setup the shell variables for various directories
 CONFIG_DIR=`dirname "$0"`
 
@@ -97,5 +99,5 @@ EOF
 mysql --defaults-extra-file=${MYSQL_CONF} \
       -e "set global local_infile=1"
 
-
+date
 echo "================= script finished ================="
