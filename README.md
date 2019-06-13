@@ -1,5 +1,8 @@
+# Where to download RTX KG2
 
-# How to build RTX kg2
+http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/
+
+# How to build your own RTX KG2
 
 ## General notes:
 
