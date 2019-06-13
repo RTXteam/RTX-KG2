@@ -2,6 +2,7 @@
 set -euxo pipefail
 # Usage: build-umls.sh [OUTPUT_DIR]
 
+echo "================= starting build-umls.sh ================="
 date
 
 CONFIG_DIR=`dirname "$0"`
