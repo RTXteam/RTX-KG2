@@ -45,7 +45,7 @@ cd ${BUILD_DIR} && ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/multi_owl_to_json_kg.p
            ${CODE_DIR}/curies-to-urls-lookaside-list.yaml \
            ${OWL_LOAD_INVENTORY_FILE} \
            ${OUTPUT_FILE} \
-           2>build-${OUTPUT_FILE_BASE}-stderr.log
+           2>${LOG_FILE}
 
 date
 echo "================= script finished ================="
