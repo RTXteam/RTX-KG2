@@ -182,7 +182,7 @@ Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 setup usin
 
 (5) Build KG2: inside screen, run:
 
-    sudo docker exec kg2 "kg2-code/build-kg2.sh all
+    sudo docker exec kg2 "kg2-code/build-kg2.sh all"
 
 Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 setup using the
 following command:
