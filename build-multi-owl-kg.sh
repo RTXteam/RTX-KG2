@@ -1,7 +1,8 @@
 #!/bin/bash
 # Usage: build-multi-owl-kg.sh <output_file.json> [test]
-
 set -euxo pipefail
+
+date
 
 ## load the master config file
 CONFIG_DIR=`dirname "$0"`
@@ -42,4 +43,6 @@ cd ${BUILD_DIR} && ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/multi_owl_to_json_kg.p
            ${CODE_DIR}/curies-to-urls-lookaside-list.yaml \
            ${OWL_LOAD_INVENTORY_FILE} \
            ${OUTPUT_FILE} \
-           2>${OUTPUT_FILE_BASE}-stderr.log
+           2>build-${OUTPUT_FILE_BASE}-stderr.log
+
+date
