@@ -10,11 +10,11 @@ set -euxo pipefail
 # * The 'test' argument means that the OWL inventory is read from "owl-load-inventory-test.yaml"
 #   and all KG JSON files generated will have the string "-test" appended before their JSON suffixes.
 
+
 ## load the master config file
 CONFIG_DIR=`dirname "$0"`
 source ${CONFIG_DIR}/master-config.shinc
 
-## supply a default value for the BUILD_FLAG string
 BUILD_FLAG=${1:-""}
 echo "${BUILD_FLAG}"
 
@@ -30,6 +30,14 @@ else
     TEST_SUFFIX=''
     TEST_ARG=''
 fi
+
+BUILD_KG2_LOG_FILE=${BUILD_DIR}/build-kg2${TEST_ARG}.log
+
+{
+
+date
+    
+## supply a default value for the BUILD_FLAG string
 
 SEMMED_OUTPUT_FILE=${BUILD_DIR}/kg2-semmeddb${TEST_SUFFIX}-edges.json
 
@@ -82,7 +90,7 @@ aws s3 cp --no-progress --region ${S3_REGION} ${OUTPUT_NODES_FILE_FULL}.gz s3://
 aws s3 cp --no-progress --region ${S3_REGION} ${REPORT_FILE_FULL} s3://${S3_BUCKET_PUBLIC}/
 
 ## copy the log files to the public S3 bucket
-BUILD_MULTI_OWL_STDERR_FILE="${FINAL_OUTPUT_FILE_FULL%.*}"-stderr.log
+BUILD_MULTI_OWL_STDERR_FILE="${BUILD_DIR}/build-${OUTPUT_FILE_BASE%.*}"-stderr.log
 
 aws s3 cp --no-progress --region ${S3_REGION} ${BUILD_MULTI_OWL_STDERR_FILE} s3://${S3_BUCKET_PUBLIC}/
 
@@ -91,5 +99,10 @@ aws s3 cp --no-progress --region ${S3_REGION} ${OWL_LOAD_INVENTORY_FILE} s3://${
 
 # copy the index.html file to the public S3 bucket
 aws s3 cp --no-progress --region ${S3_REGION} ${CODE_DIR}/s3/index.html s3://${S3_BUCKET_PUBLIC}/
+
+date
+} >${BUILD_KG2_LOG_FILE} 2>&1
+
+aws s3 cp --no-progress --region ${S3_REGION} ${BUILD_KG2_LOG_FILE} s3://${S3_BUCKET_PUBLIC}/
 
 echo "================= script finished ================="
