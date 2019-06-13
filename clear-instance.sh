@@ -1,7 +1,15 @@
-#!/bin/bash
-set -euxo pipefail
+#!/usr/bin/env bash
+# clear-instance.sh:  clears out an Ubuntu EC2 instance so that you can reinstall the KG2 build system from scratch
+# Copyright 2019 Stephen A. Ramsey <stephen.ramsey@oregonstate.edu>
+#
+# DANGEROUS: this script wipes an Ubuntu EC2 instance clean
 
-## DANGER: this script wipes an Ubuntu EC2 instance clean
+set -o nounset -o pipefail -o errexit
+
+if [[ $# != 0 || "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
+    echo Usage: "$0"
+    exit 2
+fi
 
 ## setup the shell variables for various directories
 CONFIG_DIR=`dirname "$0"`
@@ -12,14 +20,11 @@ echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
     cd ~
+    bash -x ${CODE_DIR}/delete-mysql-ubuntu.sh
     rm -r -f ${BUILD_DIR}
     rm -r -f ${CODE_DIR}
     rm -r -f ${VENV_DIR}
     rm -r -f ~/RTX
-    sudo apt-get purge -y mysql-server mysql-client mysql-common mysql-server-core-* mysql-client-core-*
-    sudo rm -rf /etc/mysql /var/lib/mysql
-    sudo apt-get -y autoremove
-    sudo apt-get -y autoclean
     rm -r -f ~/.cachier
     rm -r -f ~/*.log
 fi

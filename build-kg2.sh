@@ -1,7 +1,15 @@
-#!/bin/bash
-set -euxo pipefail
+#!/usr/bin/env bash
+# build-kg2.sh:  main build script for the KG2 knowledge graph for the RTX biomedical reasoning system
+# Copyright 2019 Stephen A. Ramsey <stephen.ramsey@oregonstate.edu>
+
+set -o nounset -o pipefail -o errexit
+
+if [[ $# != 0 || "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
+    echo Usage: "$0 [all|test]"
+    exit 2
+fi
+
 # Usage: build-kg2.sh [all|test]
-#
 # * If no argument, then by default only the OWL-based KG2 is generated from scratch. It is then merged
 #   with the pre-existing SemMedDB JSON file. 
 # 
@@ -9,7 +17,6 @@ set -euxo pipefail
 #
 # * The 'test' argument means that the OWL inventory is read from "owl-load-inventory-test.yaml"
 #   and all KG JSON files generated will have the string "-test" appended before their JSON suffixes.
-
 
 ## load the master config file
 CONFIG_DIR=`dirname "$0"`
@@ -63,15 +70,15 @@ MEM_GB=`${CODE_DIR}/get-system-memory-gb.sh`
 if [ "${BUILD_FLAG}" == 'all' ]
 then
 ## Build UMLS knowledge sources at TTL files:
-   ${CODE_DIR}/build-umls.sh ${BUILD_DIR}
+   bash -x ${CODE_DIR}/build-umls.sh ${BUILD_DIR}
 fi
 
 ## Build SemMedDB predicates file as JSON:
-${CODE_DIR}/build-semmeddb.sh ${SEMMED_OUTPUT_FILE} ${BUILD_FLAG}
+bash -x ${CODE_DIR}/build-semmeddb.sh ${SEMMED_OUTPUT_FILE} ${BUILD_FLAG}
 
 ## Combine all the TTL files and OBO Foundry OWL files into KG and save as JSON:
-${CODE_DIR}/build-multi-owl-kg.sh \
-           ${OUTPUT_FILE_FULL} ${BUILD_FLAG}
+bash -x ${CODE_DIR}/build-multi-owl-kg.sh \
+     ${OUTPUT_FILE_FULL} ${BUILD_FLAG}
 
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/add_edges_to_kg_json.py \
            ${TEST_ARG} ${OUTPUT_FILE_FULL} ${SEMMED_OUTPUT_FILE} ${FINAL_OUTPUT_FILE_FULL}

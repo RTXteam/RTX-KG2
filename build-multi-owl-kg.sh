@@ -1,6 +1,15 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# build-multi-owl-kg.sh:  merge multiple OWL/TTL files for the KG2 knowledge graph for the RTX biomedical reasoning system
+# Copyright 2019 Stephen A. Ramsey <stephen.ramsey@oregonstate.edu>
+
+set -o nounset -o pipefail -o errexit
+
+if [[ $# != 0 || "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
+    echo Usage: "$0 [test]"
+    exit 2
+fi
+
 # Usage: build-multi-owl-kg.sh <output_file.json> [test]
-set -euxo pipefail
 
 echo "================= starting build-multi-owl-kg.sh ================="
 date

@@ -1,5 +1,15 @@
-#!/bin/bash
-set -euxo pipefail
+#!/usr/bin/env bash
+# ec2-setup-remote-instance.sh:  configures an EC2 remote instance for KG2 installation (ssh key exchange, etc.)
+# Copyright 2019 Stephen A. Ramsey <stephen.ramsey@oregonstate.edu>
+#
+# NOTE: requires user input at the terminal
+
+set -o nounset -o pipefail -o errexit
+
+if [[ $# != 0 || "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
+    echo Usage: "$0"
+    exit 2
+fi
 
 PUBLIC_KEY_FILE=id_rsa.pub
 

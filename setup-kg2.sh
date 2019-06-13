@@ -1,6 +1,17 @@
-#!/bin/bash
-set -euxo pipefail
+#!/usr/bin/env bash
+# setup-kg2.sh:  setup the environment for building the KG2 knowledge graph for the RTX biomedical reasoning system
+# Copyright 2019 Stephen A. Ramsey <stephen.ramsey@oregonstate.edu>
 
+set -o nounset -o pipefail -o errexit
+
+if [[ $# != 0 || "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
+    echo Usage: "$0"
+    exit 2
+fi
+
+# Usage: setup-kg2.sh
+
+echo "================= starting setup-kg2.sh ================="
 date
 
 ## setup the shell variables for various directories

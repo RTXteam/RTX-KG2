@@ -1,5 +1,14 @@
-#!/bin/bash
-set -euxo pipefail
+#!/usr/bin/env bash
+# build-semmeddb.sh: download the SemMedDB release and convert it to a single JSON file of KG2 graph edges
+# Copyright 2019 Stephen A. Ramsey <stephen.ramsey@oregonstate.edu>
+
+set -o nounset -o pipefail -o errexit
+
+if [[ $# != 0 || "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
+    echo Usage: "$0 [all|test]"
+    exit 2
+fi
+
 # Usage: build-semmeddb.sh <output_file.json> [test|all]
 
 echo "================= starting build-semmeddb.sh ================="

@@ -1,5 +1,14 @@
-#!/bin/bash
-set -euxo pipefail
+#!/usr/bin/env bash
+# build-umls.sh:  download the UMLS release and convert it to a series of TTL files
+# Copyright 2019 Stephen A. Ramsey <stephen.ramsey@oregonstate.edu>
+
+set -o nounset -o pipefail -o errexit
+
+if [[ $# != 0 || "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
+    echo Usage: "$0 [OUTPUT_DIR]"
+    exit 2
+fi
+
 # Usage: build-umls.sh [OUTPUT_DIR]
 
 echo "================= starting build-umls.sh ================="
