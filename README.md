@@ -56,19 +56,19 @@ Aside from your host OS, you'll need to have an Amazon Web Services (AWS)
 authentication key that is configured to be able to read from the `s3://rtx-kg2`
 Amazon Simple Cloud Storage Service (S3) bucket (ask Stephen Ramsey to set this
 up), so that the build script can download a copy of the full Unified Medical
-Language System (UMLS) distribution.  You will be asked (by the AWS CLI) to
-provide this authentication key when you run the KG2 build script. Your
-configured AWS CLI will also need to be able to programmatically write to the
-(publicly readable) S3 bucket `s3://rtx-kg2-public` (both buckets are in the
-`us-west-2` AWS zone). The KG2 build script downloads the UMLS distribution
-(including SNOMED CT) from the private S3 bucket `rtx-kg2` (IANAL, but it
-appears that UMLS is encumbered by a license preventing redistribution so I have
-not hosted them on a public server for download; but you can get it for free at the
-[UMLS website](https://www.nlm.nih.gov/research/umls/) if you agree to the UMLS
-licenses) and it uploads the final output `kg2.json.gz` file to the public S3
-bucket `rtx-kg2-public`. Alternatively, you can set up your own S3 bucket to
-which to copy the gzipped KG2 JSON file, or you can comment the line out of
-`build-kg2.sh` that copies the final gzipped JSON file to S3.
+Language System (UMLS) distribution.  You will be asked (by the AWS Command-line
+Interface, CLI) to provide this authentication key when you run the KG2 build
+script. Your configured AWS CLI will also need to be able to programmatically
+write to the (publicly readable) S3 bucket `s3://rtx-kg2-public` (both buckets
+are in the `us-west-2` AWS zone). The KG2 build script downloads the UMLS
+distribution (including SNOMED CT) from the private S3 bucket `rtx-kg2` (IANAL,
+but it appears that UMLS is encumbered by a license preventing redistribution so
+I have not hosted them on a public server for download; but you can get it for
+free at the [UMLS website](https://www.nlm.nih.gov/research/umls/) if you agree
+to the UMLS licenses) and it uploads the final output `kg2.json.gz` file to the
+public S3 bucket `rtx-kg2-public`. Alternatively, you can set up your own S3
+bucket to which to copy the gzipped KG2 JSON file, or you can comment the line
+out of `build-kg2.sh` that copies the final gzipped JSON file to S3.
 
 ## My normal EC2 instance
 
@@ -123,15 +123,17 @@ using the command:
 (6) Build KG2: Rejoin the screen session using `screen -r`.  Within
 the `screen` session, run:
 
-    ~/kg2-code/build-kg2.sh all > ~/kg2-build/build-kg2.log 2>&1
+    ~/kg2-code/build-kg2.sh all
 
-Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 build by using this
-command:
+Then exit screen (`ctrl-a d`). Note that there is no need to redirect `stdout`
+or `stderr` to a log file, when executing `build-kg2.sh`; this is because the
+script saves its own `stdout` and `stderr` to a log file `build-kg2.log`. You can
+watch the progress of your KG2 build by using this command:
 
     tail -f ~/kg2-build/build-kg2.log
     
 Note that the `build-multi-owl-kg.sh` script also saves `stderr` from running `multi_owl_to_json_kg.py`
-to a file `~/kg2-build/build-kg2-from-owl-stderr.log`.
+to a file `~/kg2-build/build-kg2-owl-stderr.log`.
 
 ### Option 2: remotely build KG2 in an EC2 instance via ssh, orchestrated from your local computer
 
@@ -177,7 +179,7 @@ Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 setup usin
 
 (5) Build KG2: inside screen, run:
 
-    sudo docker exec kg2 "kg2-code/build-kg2.sh all > /home/ubuntu/kg2-build/build-kg2.log 2>&1"
+    sudo docker exec kg2 "kg2-code/build-kg2.sh all
 
 Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 setup using the
 following command:
@@ -185,7 +187,7 @@ following command:
     sudo docker exec -it kg2 "tail -f kg2-build/build-kg2.log"
 
 Note that the `build-multi-owl-kg.sh` script also saves `stderr` from running `multi_owl_to_json_kg.py`
-to a file `~/kg2-build/build-kg2-from-owl-stderr.log` inside the container.
+to a file `~/kg2-build/build-kg2-owl-stderr.log` inside the container.
 
 ## The output KG
 
