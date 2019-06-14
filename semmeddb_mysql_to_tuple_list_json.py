@@ -59,6 +59,7 @@ if __name__ == '__main__':
         cursor.execute(sql_statement)
         results['rows'] = cursor.fetchall()
     connection.close()
-
+    for row in results['rows']:
+        row[-1] = kg2_util.format_timestamp(row[-1].timetuple())
     output_file_name = args.outputFile[0]
     kg2_util.save_json(results, output_file_name, test_mode)
