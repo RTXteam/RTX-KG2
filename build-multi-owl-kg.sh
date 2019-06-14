@@ -4,7 +4,7 @@
 
 set -o nounset -o pipefail -o errexit
 
-if [[ $# != 0 || "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
+if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     echo Usage: "$0 [test]"
     exit 2
 fi
