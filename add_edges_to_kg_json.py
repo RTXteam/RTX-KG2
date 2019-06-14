@@ -50,7 +50,7 @@ if __name__ == '__main__':
                 kg['edges'].append(rel_dict)
             else:
                 kg_orphan_edges_new.append(rel_dict)
-        kg_orphan_edges['edges'].update(kg_orphan_edges_new)
+        kg_orphan_edges['edges'] += kg_orphan_edges_new
         kg2_util.log_message("number of orphan edges: " + str(len(kg_orphan_edges['edges'])),
                              ontology_name=kg_edges_file_name,
                              output_stream=sys.stderr)
