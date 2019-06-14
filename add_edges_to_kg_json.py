@@ -57,4 +57,4 @@ if __name__ == '__main__':
     kg2_util.save_json(kg, output_file_name, test_mode)
     kg_file_orphan_edges = args.kgFileOrphanEdges
     if kg_file_orphan_edges is not None:
-        kg2_util.save_json(kg_orphan_edges, kg_file_orphan_edges[0], test_mode)
+        kg2_util.save_json(kg_orphan_edges, kg_file_orphan_edges, test_mode)
