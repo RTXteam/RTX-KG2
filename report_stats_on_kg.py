@@ -2,7 +2,7 @@
 
 '''Prints a JSON overview report of a JSON knowledge graph in Biolink format, to STDOUT.
 
-   Usage: report_stats_on_kg.py <inputKGFile.json> <outputKGFile.json>
+   Usage: report_stats_on_kg.py --inputFile <inputKGFile.json> --outputFile <outputKGFile.json>
    The input file can be optionally gzipped (specify with the .gz extension).
 '''
 
@@ -27,8 +27,8 @@ import tempfile
 
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='build-kg2: builds the KG2 knowledge graph for the RTX system')
-    arg_parser.add_argument('inputFile', type=str, nargs=1)
-    arg_parser.add_argument('outputFile', type=str, nargs=1)
+    arg_parser.add_argument('--inputFile', type=str, nargs=1)
+    arg_parser.add_argument('--outputFile', type=str, nargs=1)
     return arg_parser
 
 
