@@ -24,10 +24,10 @@ import sys
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='add_edges_to_kg_json.py: takes a JSON file of KG edges and adds the edges to a JSON-specified KG')
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
-    arg_parser.add_argument('kgFile', type=str, nargs=1)
-    arg_parser.add_argument('kgFileNewEdges', type=str, nargs='+')
-    arg_parser.add_argument('kgFileOrphanEdges', type=str, nargs='?', default=None)
-    arg_parser.add_argument('outputFile', type=str, nargs=1)
+    arg_parser.add_argument('--kgFile', type=str, nargs=1)
+    arg_parser.add_argument('--kgFileNewEdges', type=str, nargs='+')
+    arg_parser.add_argument('--kgFileOrphanEdges', type=str, nargs='?', default=None)
+    arg_parser.add_argument('--outputFile', type=str, nargs=1)
     return arg_parser
 
 
