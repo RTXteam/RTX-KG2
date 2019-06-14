@@ -34,7 +34,7 @@ def save_json(data, output_file_name: str, test_mode: bool = False):
         sort_keys = False
     else:
         indent_num = 4
-        sort_keys = True 
+        sort_keys = True
     temp_output_file_name = tempfile.mkstemp(prefix='kg2-')[1]
     if not output_file_name.endswith('.gz'):
         temp_output_file = open(temp_output_file_name, 'w')
