@@ -59,7 +59,7 @@ def make_rel(preds_dict: dict,
                    'negated': negated,
                    'publications': [publication_curie],
                    'publications info': {publication_curie: publication_info_dict},
-                   'update date': kg2_util.format_timestamp(curr_timestamp.timetuple()),
+                   'update date': curr_timestamp,
                    'provided by': SEMMEDDB_IRI}
         preds_dict[key] = key_val
     else:
