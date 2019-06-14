@@ -35,7 +35,6 @@ import ssl
 import subprocess
 import sys
 import tempfile
-import timeit
 import urllib.parse
 import urllib.request
 # import ipdb # need this for interactive debugging
