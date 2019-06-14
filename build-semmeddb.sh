@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# build-semmeddb.sh: download the SemMedDB release and convert it to a single JSON file of KG2 graph edges
+# build-semmeddb.sh: download the SemMedDB release and convert it to a tuple-list JSON file
 # Copyright 2019 Stephen A. Ramsey <stephen.ramsey@oregonstate.edu>
 
 set -o nounset -o pipefail -o errexit
@@ -17,7 +17,7 @@ date
 CONFIG_DIR=`dirname "$0"`
 source ${CONFIG_DIR}/master-config.shinc
 
-SEMMED_OUTPUT_FILE=${1:-"${BUILD_DIR}/kg2-semmeddb.json"}
+SEMMED_OUTPUT_FILE=${1:-"${BUILD_DIR}/kg2-semmeddb-tuplelist.json"}
 
 ## supply a default value for the BUILD_FLAG string
 BUILD_FLAG=${2:-""}
@@ -52,7 +52,7 @@ else
     TEST_ARG=''
 fi
 
-${VENV_DIR}/bin/python3 ${CODE_DIR}/semmeddb_mysql_to_json.py \
+${VENV_DIR}/bin/python3 ${CODE_DIR}/semmeddb_mysql_to_tuple_list_json.py \
            ${TEST_ARG} \
 	   ${MYSQL_CONF} \
 	   ${MYSQL_DBNAME} \
