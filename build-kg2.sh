@@ -53,6 +53,8 @@ SEMMED_OUTPUT_FILE=${BUILD_DIR}/kg2-semmeddb${TEST_SUFFIX}-edges.json
 OUTPUT_FILE_BASE=kg2-owl${TEST_SUFFIX}.json
 OUTPUT_FILE_FULL=${BUILD_DIR}/${OUTPUT_FILE_BASE}
 
+OUTPUT_FILE_ORPHAN_EDGES=${BUILD_DIR}/kg2-orphans${TEST_SUFFIX}-edges.json
+
 FINAL_OUTPUT_FILE_BASE=kg2${TEST_SUFFIX}.json
 FINAL_OUTPUT_FILE_FULL=${BUILD_DIR}/${FINAL_OUTPUT_FILE_BASE}
 
@@ -78,29 +80,39 @@ fi
 bash -x ${CODE_DIR}/build-semmeddb.sh ${SEMMED_TUPLELIST_FILE} ${BUILD_FLAG}
 
 ## Build SemMedDB KG2 edges file as JSON:
-${VENV_DIR}/bin/python3 ${CODE_DIR}/semmeddb_tuple_list_json_to_edges_json.py ${TEST_ARG} \
-           ${SEMMED_TUPLELIST_FILE} ${SEMMED_OUTPUT_FILE}
+${VENV_DIR}/bin/python3 ${CODE_DIR}/semmeddb_tuple_list_json_to_edges_json.py \
+           ${TEST_ARG} \
+           --inputFile ${SEMMED_TUPLELIST_FILE} \
+           --outputFile ${SEMMED_OUTPUT_FILE}
 
 ## Combine all the TTL files and OBO Foundry OWL files into KG and save as JSON:
 bash -x ${CODE_DIR}/build-multi-owl-kg.sh \
      ${OUTPUT_FILE_FULL} ${BUILD_FLAG}
 
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/add_edges_to_kg_json.py \
-           ${TEST_ARG} ${OUTPUT_FILE_FULL} ${SEMMED_OUTPUT_FILE} ${FINAL_OUTPUT_FILE_FULL}
+           ${TEST_ARG} \
+           --kgFile ${OUTPUT_FILE_FULL} \
+           --kgFileNewEdges ${SEMMED_OUTPUT_FILE} \
+           --outputFile ${FINAL_OUTPUT_FILE_FULL} \
+           --kgFileOrphanEdges ${OUTPUT_FILE_ORPHAN_EDGES}
 
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/get_nodes_json_from_kg_json.py \
-           ${FINAL_OUTPUT_FILE_FULL} ${OUTPUT_NODES_FILE_FULL}
+           --inputFile ${FINAL_OUTPUT_FILE_FULL} \
+           --outputFile ${OUTPUT_NODES_FILE_FULL}
 
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/report_stats_on_kg.py \
-           ${FINAL_OUTPUT_FILE_FULL} ${REPORT_FILE_FULL}
+           --inputFile ${FINAL_OUTPUT_FILE_FULL} \
+           --outputFile ${REPORT_FILE_FULL}
 
 gzip -f ${FINAL_OUTPUT_FILE_FULL}
 gzip -f ${OUTPUT_NODES_FILE_FULL}
+gzip -f ${OUTPUT_FILE_ORPHAN_EDGES}
 
 ## copy the KG to the public S3 bucket
 aws s3 cp --no-progress --region ${S3_REGION} ${FINAL_OUTPUT_FILE_FULL}.gz s3://${S3_BUCKET_PUBLIC}/
 aws s3 cp --no-progress --region ${S3_REGION} ${OUTPUT_NODES_FILE_FULL}.gz s3://${S3_BUCKET_PUBLIC}/
 aws s3 cp --no-progress --region ${S3_REGION} ${REPORT_FILE_FULL} s3://${S3_BUCKET_PUBLIC}/
+aws s3 cp --no-progress --region ${S3_REGION} ${OUTPUT_FILE_ORPHAN_EDGES}.gz s3://${S3_BUCKET_PUBLIC}/
 
 ## copy the log files to the public S3 bucket
 BUILD_MULTI_OWL_STDERR_FILE="${BUILD_DIR}/build-${OUTPUT_FILE_BASE%.*}"-stderr.log
