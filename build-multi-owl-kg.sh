@@ -50,10 +50,10 @@ OWL_LOAD_INVENTORY_FILE=${CODE_DIR}/owl-load-inventory${TEST_SUFFIX}.yaml
 ## run the build_kg2_from_owl.py script
 cd ${BUILD_DIR} && ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/multi_owl_to_json_kg.py \
            ${TEST_ARG} \
-           ${CODE_DIR}/curies-to-categories.yaml \
-           ${CODE_DIR}/curies-to-urls-lookaside-list.yaml \
-           ${OWL_LOAD_INVENTORY_FILE} \
-           ${OUTPUT_FILE} \
+           --categoriesFile ${CODE_DIR}/curies-to-categories.yaml \
+           --curiesToURILALFile ${CODE_DIR}/curies-to-urls-lookaside-list.yaml \
+           --owlLoadInventoryFile ${OWL_LOAD_INVENTORY_FILE} \
+           --outputFile ${OUTPUT_FILE} \
            2>${LOG_FILE}
 
 date
