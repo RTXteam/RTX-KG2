@@ -56,5 +56,5 @@ if __name__ == '__main__':
                              output_stream=sys.stderr)
     kg2_util.save_json(kg, output_file_name, test_mode)
     kg_file_orphan_edges = args.kgFileOrphanEdges
-    if kg_file_orphan_edges is not None and len(kg_file_orphan_edges) == 1:
-        kg2_util.save_json(kg_orphan_edges, kg_file_orphan_edges[0])
+    if kg_file_orphan_edges is not None:
+        kg2_util.save_json(kg_orphan_edges, kg_file_orphan_edges[0], test_mode)
