@@ -41,16 +41,21 @@ if __name__ == '__main__':
     kg_orphan_edges = {'edges': []}
     for kg_edges_file_name in kg_edges_file_names:
         kg_orphan_edges_new = []
+        ctr_edges_added = 0
         kg_edges_new = json.load(open(kg_edges_file_name, 'r'))
         nodes_dict = {node['id']: node for node in kg['nodes']}
         for rel_dict in kg_edges_new['edges']:
             subject_curie = rel_dict['subject']
             object_curie = rel_dict['object']
             if subject_curie in nodes_dict and object_curie in nodes_dict:
+                ctr_edges_added += 1
                 kg['edges'].append(rel_dict)
             else:
                 kg_orphan_edges_new.append(rel_dict)
         kg_orphan_edges['edges'] += kg_orphan_edges_new
+        kg2_util.log_message("number edges added: " + str(ctr_edges_added),
+                             ontology_name=kg_edges_file_name,
+                             output_stream=sys.stderr)
         kg2_util.log_message("number of orphan edges: " + str(len(kg_orphan_edges['edges'])),
                              ontology_name=kg_edges_file_name,
                              output_stream=sys.stderr)
