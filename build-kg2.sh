@@ -47,6 +47,7 @@ date
     
 ## supply a default value for the BUILD_FLAG string
 
+SEMMED_TUPLELIST_FILE=${BUILD_DIR}/kg2-semmeddb${TEST_SUFFIX}-tuplelist.json
 SEMMED_OUTPUT_FILE=${BUILD_DIR}/kg2-semmeddb${TEST_SUFFIX}-edges.json
 
 OUTPUT_FILE_BASE=kg2-owl${TEST_SUFFIX}.json
@@ -73,8 +74,12 @@ then
    bash -x ${CODE_DIR}/build-umls.sh ${BUILD_DIR}
 fi
 
-## Build SemMedDB predicates file as JSON:
-bash -x ${CODE_DIR}/build-semmeddb.sh ${SEMMED_OUTPUT_FILE} ${BUILD_FLAG}
+## Build SemMedDB tuplelist file as JSON:
+bash -x ${CODE_DIR}/build-semmeddb.sh ${SEMMED_TUPLELIST_FILE} ${BUILD_FLAG}
+
+## Build SemMedDB KG2 edges file as JSON:
+${VENV_DIR}/bin/python3 ${CODE_DIR}/semmeddb_tuple_list_json_to_edges_json.py ${TEST_ARG} \
+           ${SEMMED_TUPLELIST_FILE} ${SEMMED_OUTPUT_FILE}
 
 ## Combine all the TTL files and OBO Foundry OWL files into KG and save as JSON:
 bash -x ${CODE_DIR}/build-multi-owl-kg.sh \
