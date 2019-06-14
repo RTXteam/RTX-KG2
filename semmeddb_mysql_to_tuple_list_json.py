@@ -41,7 +41,7 @@ if __name__ == '__main__':
     connection = pymysql.connect(read_default_file=mysql_config_file, db='semmeddb')
     preds_dict = dict()
     sql_statement = ("SELECT PMID, SUBJECT_CUI, PREDICATE, OBJECT_CUI, DP, SENTENCE, SUBJECT_SCORE, "
-                     "OBJECT_SCORE, CURR_TIMESTAMP FROM ((PREDICATION NATURAL JOIN CITATIONS) "
+                     "OBJECT_SCORE, DATE_FORMAT(CURR_TIMESTAMP, '%Y-%m-%d %H:%i:%S') FROM ((PREDICATION NATURAL JOIN CITATIONS) "
                      "NATURAL JOIN SENTENCE) NATURAL JOIN PREDICATION_AUX")
     if test_mode:
         sql_statement += " LIMIT 10000"
@@ -59,7 +59,5 @@ if __name__ == '__main__':
         cursor.execute(sql_statement)
         results['rows'] = cursor.fetchall()
     connection.close()
-    for row in results['rows']:
-        row[-1] = kg2_util.format_timestamp(row[-1].timetuple())
     output_file_name = args.outputFile[0]
     kg2_util.save_json(results, output_file_name, test_mode)
