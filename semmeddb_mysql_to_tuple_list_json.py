@@ -54,7 +54,7 @@ if __name__ == '__main__':
                                    'subject_score',
                                    'object_score',
                                    'curr_timestamp']}
-    
+
     with connection.cursor() as cursor:
         cursor.execute(sql_statement)
         results['rows'] = cursor.fetchall()
