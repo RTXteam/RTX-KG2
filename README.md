@@ -110,21 +110,17 @@ These instructions assume that you are logged into the target Ubuntu system:
 
     git clone https://github.com/RTXteam/RTX.git
 
-(4) Initiate a `screen` session to provide a stable pseudo-tty:
+(4) Setup the KG2 build system: 
+
+    RTX/code/kg2/setup-kg2.sh
+
+(If anything goes wrong, look in the log file `setup-kg2.sh` for an error message).
+
+(5) Initiate a `screen` session to provide a stable pseudo-tty:
 
     screen
 
-(5) Setup the KG2 build system: Within the `screen` session, run:
-
-    bash -x RTX/code/kg2/setup-kg2.sh > setup-kg2.log 2>&1
-    
-Then exit screen (`ctrl-a d`). You can watch the progress of `setup-kg2.sh` by
-using the command:
-
-    tail -f setup-kg2.log
-
-(6) Build KG2: Rejoin the screen session using `screen -r`.  Within
-the `screen` session, run:
+(6) Within the `screen` session, run:
 
     bash -x ~/kg2-code/build-kg2.sh all
 
@@ -170,18 +166,18 @@ on whatever host OS you are running).
     
     sudo docker build -t kg2 RTX/code/kg2/
     
-(4) In a screen session (to provide a persistent pseudo-tty), setup a container and setup KG2 in it:
+(4) Setup a container and setup KG2 in it:
+
+    sudo docker run -it --name kg2 kg2:latest su - ubuntu -c "RTX/code/kg2/setup-kg2.sh"
+    
+(If anything goes wrong, look for an error message using `sudo docker exec kg2 "cat setup-kg2.log"`)
+
+(5) Set up a persistent pseudo-tty using `screen`:
 
     screen
     
-    sudo docker run -it --name kg2 kg2:latest su - ubuntu -c "bash -x RTX/code/kg2/setup-kg2.sh > setup-kg2.log 2>&1"
+(6) Inside the `screen` session, run:
     
-Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 setup using the command:
-
-    sudo docker exec kg2 "tail -f setup-kg2.log"
-
-(5) Build KG2: inside screen, run:
-
     sudo docker exec kg2 "bash -x kg2-code/build-kg2.sh all"
 
 Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 setup using the
