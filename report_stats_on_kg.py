@@ -18,6 +18,7 @@ __status__ = 'Prototype'
 
 import argparse
 import collections
+import datetime
 import gzip
 import json
 import shutil
@@ -97,8 +98,9 @@ if __name__ == '__main__':
     else:
         input_file = gzip.GzipFile(input_file_name, 'r')
         graph = json.loads(input_file.read().decode('utf-8'))
-    stats = {'number_of_nodes': len(graph['nodes']),
-             'number_of_edges': len(graph['edges']),
+    stats = {'_number_of_nodes': len(graph['nodes']),   # underscore is to make sure it sorts to the top of the report
+             '_number_of_edges': len(graph['edges']),   # underscore is to make sure it sorts to the top of the report
+             '_report_datetime': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
              'number_of_nodes_by_curie_prefix': dict(count_nodes_by_curie_prefix(graph['nodes'])),
              'number_of_nodes_without_category__by_curie_prefix': dict(count_nodes_by_curie_prefix_given_no_category(graph['nodes'])),
              'number_of_nodes_by_category_label': dict(count_nodes_by_category(graph['nodes'])),
