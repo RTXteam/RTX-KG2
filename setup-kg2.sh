@@ -11,6 +11,7 @@ fi
 
 # Usage: setup-kg2.sh
 
+{
 echo "================= starting setup-kg2.sh ================="
 date
 
@@ -112,3 +113,4 @@ mysql --defaults-extra-file=${MYSQL_CONF} \
 
 date
 echo "================= script finished ================="
+} >~/setup-kg2.log 2>&1
