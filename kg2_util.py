@@ -19,13 +19,20 @@ import gzip
 import io
 import json
 import os
+import pathlib
 import pprint
 import re
 import shutil
+import ssl
 import sys
 import tempfile
 import time
+import urllib.request
 import yaml
+
+TEMP_FILE_PREFIX = 'kg2'
+FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
+ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
 
 
 def save_json(data, output_file_name: str, test_mode: bool = False):
@@ -164,3 +171,31 @@ def compose_two_multinode_dicts(node1: dict, node2: dict):
 
 def format_timestamp(timestamp: time.struct_time):
     return time.strftime('%Y-%m-%d %H:%M:%S %Z', timestamp)
+
+
+def download_file_if_not_exist_locally(url: str, local_file_name: str):
+    if url is not None:
+        local_file_path = pathlib.Path(local_file_name)
+        if not local_file_path.is_file():
+            ctx = ssl.create_default_context()
+            ctx.check_hostname = False
+            ctx.verify_mode = ssl.CERT_NONE
+            # the following code is ugly but necessary because sometimes the TLS
+            # certificates of remote sites are broken and some of the PURL'd
+            # URLs resolve to HTTPS URLs (would prefer to just use
+            # urllib.request.urlretrieve, but it doesn't seem to support
+            # specifying an SSL "context" which we need in order to ignore the cert):
+            temp_file_name = tempfile.mkstemp(prefix=TEMP_FILE_PREFIX + '-')[1]
+            with urllib.request.urlopen(url, context=ctx) as u, open(temp_file_name, 'wb') as f:
+                f.write(u.read())
+            shutil.move(temp_file_name, local_file_name)
+    return local_file_name
+
+
+def convert_camel_case_to_snake_case(name: str):
+    s1 = FIRST_CAP_RE.sub(r'\1_\2', name)
+    converted = ALL_CAP_RE.sub(r'\1_\2', s1).lower()
+    converted = converted.replace('sub_class', 'subclass')
+    if converted[0].istitle():
+        converted[0] = converted[0].lower()
+    return converted.replace(' ', '_')
