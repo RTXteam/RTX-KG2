@@ -1,4 +1,4 @@
-# Where to download RTX KG2
+# Where to download the RTX KG2 knowledge graph
 
 http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/
 
