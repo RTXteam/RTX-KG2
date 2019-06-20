@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 '''Builds the RTX "KG2" second-generation knowledge graph, from various OWL input files.
 
-   Usage: multi_owl_to_json_kg.py --categoriesFile <categoriesFile.yaml> --curiesToURILALFile <curiesToURILALFile> 
+   Usage: multi_owl_to_json_kg.py --categoriesFile <categoriesFile.yaml> --curiesToURILALFile <curiesToURILALFile>
                                   --owlLoadInventoryFile <owlLoadInventoryFile.yaml> --outputFile <outputFile>
    (note: outputFile can end in .json or in .gz; if the latter, it will be written as a gzipped file;
    but using the gzip options for input or output seems to significantly increase transient memory
@@ -25,27 +25,21 @@ import hashlib
 import kg2_util
 import ontobio
 import os.path
-import pathlib
 import pickle
 import posixpath
 import prefixcommons
 import re
 import shutil
-import ssl
 import subprocess
 import sys
 import tempfile
 import urllib.parse
 import urllib.request
-# import ipdb # need this for interactive debugging
 
 
 # -------------- define globals here ---------------
 
 BIOLINK_CATEGORY_BASE_IRI = 'http://w3id.org/biolink/vocab/'
-FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
-ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
-TEMP_FILE_PREFIX = 'kg2'
 
 REGEX_ENSEMBL = re.compile('ENS[A-Z]{0,3}([PG])[0-9]{11}')
 REGEX_YEAR = re.compile('([12][90][0-9]{2})')
@@ -97,7 +91,7 @@ def make_ontology_from_local_file(file_name: str):
     if not os.path.isfile(file_name_with_pickle_ext):
         # the ontology hsa not been saved as a pickle file, so we need to load it from a text file
         if not file_name.endswith('.json'):
-            temp_file_name = tempfile.mkstemp(prefix=TEMP_FILE_PREFIX + '-')[1] + '.json'
+            temp_file_name = tempfile.mkstemp(prefix=kg2_util.TEMP_FILE_PREFIX + '-')[1] + '.json'
             size = os.path.getsize(file_name)
             kg2_util.log_message(message="Reading ontology file: " + file_name + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
                                  ontology_name=None)
@@ -124,25 +118,6 @@ def make_ontology_from_local_file(file_name: str):
         kg2_util.log_message("Reading ontology file: " + file_name_with_pickle_ext + "; size: " + "{0:.2f}".format(size/1024) + " KiB", ontology_name=None)
         ont_return = pickle.load(open(file_name_with_pickle_ext, "rb"))
     return ont_return
-
-
-def download_file_if_not_exist_locally(url: str, local_file_name: str):
-    if url is not None:
-        local_file_path = pathlib.Path(local_file_name)
-        if not local_file_path.is_file():
-            ctx = ssl.create_default_context()
-            ctx.check_hostname = False
-            ctx.verify_mode = ssl.CERT_NONE
-            # the following code is ugly but necessary because sometimes the TLS
-            # certificates of remote sites are broken and some of the PURL'd
-            # URLs resolve to HTTPS URLs (would prefer to just use
-            # urllib.request.urlretrieve, but it doesn't seem to support
-            # specifying an SSL "context" which we need in order to ignore the cert):
-            temp_file_name = tempfile.mkstemp(prefix=TEMP_FILE_PREFIX + '-')[1]
-            with urllib.request.urlopen(url, context=ctx) as u, open(temp_file_name, 'wb') as f:
-                f.write(u.read())
-            shutil.move(temp_file_name, local_file_name)
-    return local_file_name
 
 
 def load_owl_file_return_ontology_and_metadata(file_name: str,
@@ -203,8 +178,8 @@ def make_kg2(curies_to_categories: dict,
     for ont_source_info_dict in owl_urls_and_files:
         if ont_source_info_dict['download']:
             # get the OWL file onto the local file system and get a full path to it
-            local_file_name = download_file_if_not_exist_locally(ont_source_info_dict['url'],
-                                                                 ont_source_info_dict['file'])
+            local_file_name = kg2_util.download_file_if_not_exist_locally(ont_source_info_dict['url'],
+                                                                          ont_source_info_dict['file'])
         else:
             local_file_name = ont_source_info_dict['file']
             assert os.path.exists(ont_source_info_dict['file'])
@@ -660,7 +635,7 @@ def get_rels_dict(nodes: dict,
                         predicate_curie = 'owl:' + edge_pred_string
                     else:
                         predicate_curie = 'rdfs:subClassOf'
-                    predicate_label = convert_camel_case_to_snake_case(edge_pred_string)
+                    predicate_label = kg2_util.convert_camel_case_to_snake_case(edge_pred_string)
                 else:
                     # edge_pred_string is a CURIE
                     predicate_curie = edge_pred_string
@@ -788,24 +763,6 @@ def is_ignorable_ontology_term(iri: str):
 
 def make_uri_to_curie_shortener(curie_to_iri_map: list = []):
     return lambda iri: shorten_iri_to_curie(iri, curie_to_iri_map)
-
-
-# def convert_owl_camel_case_to_biolink_spaces(name: str):
-#     s1 = FIRST_CAP_RE.sub(r'\1 \2', name)
-#     converted = ALL_CAP_RE.sub(r'\1 \2', s1).lower()
-#     converted = converted.replace('sub class', 'subclass')
-#     if converted[0].istitle():
-#         converted[0] = converted[0].lower()
-#     return converted
-
-
-def convert_camel_case_to_snake_case(name: str):
-    s1 = FIRST_CAP_RE.sub(r'\1_\2', name)
-    converted = ALL_CAP_RE.sub(r'\1_\2', s1).lower()
-    converted = converted.replace('sub_class', 'subclass')
-    if converted[0].istitle():
-        converted[0] = converted[0].lower()
-    return converted.replace(' ', '_')
 
 
 def convert_biolink_category_to_iri(biolink_category_base_iri, biolink_category_label: str):
