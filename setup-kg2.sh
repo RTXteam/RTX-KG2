@@ -20,6 +20,7 @@ CONFIG_DIR=`dirname "$0"`
 
 MYSQL_USER=ubuntu
 MYSQL_PASSWORD=1337
+CURL_GET="curl -s -L"
 
 source ${CONFIG_DIR}/master-config.shinc
 
@@ -72,12 +73,12 @@ mkdir -p ${BUILD_DIR}
 ## distribution and cURLing the startup script (note github uses URL redirection
 ## so we need the "-L" command-line option, and cURL doesn't like JAR files by
 ## default so we need the "application/zip")
-curl -s -L -H "Accept: application/zip" https://github.com/RTXteam/robot/releases/download/v1.3.0/robot.jar > ${BUILD_DIR}/robot.jar 
+${CURL_GET} -H "Accept: application/zip" https://github.com/RTXteam/robot/releases/download/v1.3.0/robot.jar > ${BUILD_DIR}/robot.jar 
 curl -s https://raw.githubusercontent.com/RTXteam/robot/v1.3.0/bin/robot > ${BUILD_DIR}/robot
 chmod +x ${BUILD_DIR}/robot
 
 ## setup owltools
-curl -s -L ${BUILD_DIR} https://github.com/RTXteam/owltools/releases/download/v0.3.0/owltools > ${BUILD_DIR}/owltools
+${CURL_GET} ${BUILD_DIR} https://github.com/RTXteam/owltools/releases/download/v0.3.0/owltools > ${BUILD_DIR}/owltools
 chmod +x ${BUILD_DIR}/owltools
 
 ## setup AWS CLI
@@ -98,6 +99,7 @@ make check
 sudo make install
 sudo ldconfig
 
+# setup MySQL
 MYSQL_PWD=${MYSQL_PASSWORD} mysql -u root -e "CREATE USER '${MYSQL_USER}'@'localhost' IDENTIFIED BY '${MYSQL_PASSWORD}'"
 MYSQL_PWD=${MYSQL_PASSWORD} mysql -u root -e "GRANT ALL PRIVILEGES ON *.* to '${MYSQL_USER}'@'localhost'"
 cat >${MYSQL_CONF} <<EOF
@@ -110,6 +112,16 @@ EOF
 ## set mysql server variable to allow loading data from a local file
 mysql --defaults-extra-file=${MYSQL_CONF} \
       -e "set global local_infile=1"
+
+# setup Apache Jena
+JENA_VERSION=3.12.0
+JENA_BASE_DIR=apache-jena-${JENA_VERSION}
+JENA_TARBALL=${JENA_BASE_DIR}.tar.gz
+JENA_DIR=${BUILD_DIR}/${JENA_BASE_DIR}
+JENA_BASE_URI=http://mirrors.sonic.net/apache/jena/binaries/${JENA_TARBALL}
+${CURL_GET} ${JENA_BASE_URI} > ${BUILD_DIR}/${JENA_TARBALL}
+tar xvzf ${BUILD_DIR}/${JENA_TARBALL} -C ${BUILD_DIR}
+ln -s ${BUILD_DIR}/${JENA_BASE_DIR} ${BUILD_DIR}/apache-jena
 
 date
 echo "================= script finished ================="

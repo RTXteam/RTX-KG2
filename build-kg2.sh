@@ -126,8 +126,9 @@ aws s3 cp --no-progress --region ${S3_REGION} ${OWL_LOAD_INVENTORY_FILE} s3://${
 aws s3 cp --no-progress --region ${S3_REGION} ${CODE_DIR}/s3-index.html s3://${S3_BUCKET_PUBLIC}/index.html
 
 date
+echo "================= script finished ================="
+
 } >${BUILD_KG2_LOG_FILE} 2>&1
 
 aws s3 cp --no-progress --region ${S3_REGION} ${BUILD_KG2_LOG_FILE} s3://${S3_BUCKET_PUBLIC}/
 
-echo "================= script finished ================="

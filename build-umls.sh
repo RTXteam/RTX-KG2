@@ -111,7 +111,7 @@ cd ${UMLS2RDF_DIR}
 ${UMLS_VENV_DIR}/bin/python2.7 umls2rdf.py
 
 ## verify the output files
-./checkOutputSyntax.sh  # users "rapper" command from the "raptor" package
+./checkOutputSyntax.sh  # uses "rapper" command from the "raptor" package
 
 date
 echo "================= script finished ================="
