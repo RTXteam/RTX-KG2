@@ -19,7 +19,7 @@ CHEMBL_DIR=${BUILD_DIR}/chembl
 CHEMBL_BASE_URI=ftp://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBL-RDF
 CHEMBL_VERSION=25.0
 JENA_DIR=${BUILD_DIR}/apache-jena
-JENA_DB_DIR=${BUILD_DIR}/jena-db/
+JENA_DB_DIR=${CHEMBL_DIR}/jena-db/
 CURL_GET="curl -s -L"
 CHEMBL_FILES=""
 
