@@ -114,13 +114,14 @@ These instructions assume that you are logged into the target Ubuntu system:
 
     RTX/code/kg2/setup-kg2.sh
 
-(If anything goes wrong, look in the log file `setup-kg2.sh` for an error message).
+(5) Look in the log file `/home/ubuntu/setup-kg2.sh` to see if the script
+completed successfully; it should end with `======= script finished ======`.
 
-(5) Initiate a `screen` session to provide a stable pseudo-tty:
+(6) Initiate a `screen` session to provide a stable pseudo-tty:
 
     screen
 
-(6) Within the `screen` session, run:
+(7) Within the `screen` session, run:
 
     bash -x ~/kg2-code/build-kg2.sh all
 
