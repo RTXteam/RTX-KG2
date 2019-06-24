@@ -40,7 +40,7 @@ specifications:
 - high-speed networking (20 Gb/s networking) and storage
 - ideally, AWS zone `us-west-2` since that is where the RTX KG2 S3 buckets are located
 
-## We assume there is no MySQL cruft
+## The KG2 build system assumes there is no MySQL database already present
 
 The target Ubuntu system in which you will run the KG2 build should *not* have MySQL
 installed; if MySQL is installed, you will need to delete it using the following
