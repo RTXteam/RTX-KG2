@@ -15,6 +15,9 @@ date
 CONFIG_DIR=`dirname "$0"`
 source ${CONFIG_DIR}/master-config.shinc
 
+## supply a default value for the BUILD_FLAG string
+BUILD_FLAG=${1:-""}
+
 CHEMBL_DIR=${BUILD_DIR}/chembl
 CHEMBL_VERSION=25
 CURL_GET="curl -s -L"
