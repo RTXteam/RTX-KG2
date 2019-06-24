@@ -114,6 +114,10 @@ These instructions assume that you are logged into the target Ubuntu system:
 
     RTX/code/kg2/setup-kg2.sh
 
+Note that there is no need to redirect `stdout` or `stderr` to a log file, when
+executing `setup-kg2.sh`; this is because the script saves its own `stdout` and
+`stderr` to a log file `/home/ubuntu/setup-kg2.log`.
+
 (5) Look in the log file `/home/ubuntu/setup-kg2.sh` to see if the script
 completed successfully; it should end with `======= script finished ======`.
 
