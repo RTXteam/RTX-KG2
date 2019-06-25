@@ -24,6 +24,7 @@ import tempfile
 
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='build-kg2: builds the KG2 knowledge graph for the RTX system')
+    arg_parser.add_argument('--test', dest='test', action='store_true', default=False)
     arg_parser.add_argument('--inputFile', type=str, nargs=1)
     arg_parser.add_argument('--outputFile', type=str, nargs=1)
     return arg_parser
@@ -31,6 +32,7 @@ def make_arg_parser():
 
 if __name__ == "__main__":
     args = make_arg_parser().parse_args()
+    test_mode = args.test
     temp_file_name = tempfile.mkstemp(prefix="kg2-")[1]
     input_file_name = args.inputFile[0]
     if not input_file_name.endswith('.gz'):
@@ -41,4 +43,4 @@ if __name__ == "__main__":
         graph = json.loads(input_file.read().decode('utf-8'))
     del graph['edges']
     output_file_name = args.outputFile[0]
-    kg2_util.save_json(graph, output_file_name)
+    kg2_util.save_json(graph, output_file_name, test_mode)
