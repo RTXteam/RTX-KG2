@@ -32,7 +32,6 @@ def make_arg_parser():
 
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
-    kg_file_name = args.kgFile[0]
     kg_file_names = args.kgFiles
     test_mode = args.test
     output_file_name = args.outputFile[0]
