@@ -8,7 +8,7 @@
 
 __author__ = 'Stephen Ramsey'
 __copyright__ = 'Oregon State University'
-__credits__ = ['Stephen Ramsey']
+__credits__ = ['Stephen Ramsey', 'Erica Wood', 'Veronica Flores']
 __license__ = 'MIT'
 __version__ = '0.1.0'
 __maintainer__ = ''
@@ -58,6 +58,24 @@ def count_nodes_by_source(nodes: list):
     return collections.Counter([node['provided by'] for node in nodes])
 
 
+def count_number_of_nodes_by_source_and_category(nodes: list):
+    fulldict = {}
+    sourcedict = collections.Counter([node['provided by'] for node in nodes])
+    sourcecatdict = {}
+    categorylist = []
+    for source in sourcedict:
+        categorylist = []
+        for node in nodes:
+            if node['provided by'] == source:
+                categorylist.append(node['category label'])
+        sourcecatdict.update({source: categorylist})
+    for defintion in sourcecatdict:
+        thislist = sourcecatdict.get(defintion)
+        sourcecount = collections.Counter(sourcecatdict.get(defintion))
+        fulldict.update({defintion: sourcecount})
+    return fulldict
+
+
 def count_edges_by_source(edges: list):
     return collections.Counter([edge['provided by'] for edge in edges])
 
@@ -69,12 +87,15 @@ def count_edges_by_predicate_curie(edges: list):
 def count_edges_by_predicate_type(edges: list):
     return collections.Counter([edge['edge label'] for edge in edges])
 
+
 def count_edges_by_predicate_curie_prefix(edges: list):
     return collections.Counter([get_prefix_from_curie_id(edge['relation curie']) for edge in edges])
+
 
 def count_predicates_by_predicate_curie_prefix(edges: list):
     unique_relation_curies = set([edge['relation curie'] for edge in edges])
     return collections.Counter([get_prefix_from_curie_id(curie) for curie in unique_relation_curies])
+
 
 def count_types_of_pairs_of_curies_for_xrefs(edges: list):
     prefix_pairs_list = list()
@@ -110,7 +131,9 @@ if __name__ == '__main__':
              'number_of_edges_by_predicate_curie_prefixes': dict(count_edges_by_predicate_curie_prefix(graph['edges'])),
              'number_of_predicates_by_predicate_curie_prefixes': dict(count_predicates_by_predicate_curie_prefix(graph['edges'])),
              'number_of_edges_by_source': dict(count_edges_by_source(graph['edges'])),
-             'xref_node_curie_prefix_pair_counts': dict(count_types_of_pairs_of_curies_for_xrefs(graph['edges']))}
+             'xref_node_curie_prefix_pair_counts': dict(count_types_of_pairs_of_curies_for_xrefs(graph['edges'])),
+             'number_of_nodes_by_source_and_category': dict(count_number_of_nodes_by_source_and_category(graph['nodes']))}
+
     temp_output_file = tempfile.mkstemp(prefix='kg2-')[1]
     with open(temp_output_file, 'w') as outfile:
         json.dump(stats, outfile, indent=4, sort_keys=True)
