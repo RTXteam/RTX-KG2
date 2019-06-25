@@ -89,10 +89,10 @@ ${VENV_DIR}/bin/python3 ${CODE_DIR}/semmeddb_tuple_list_json_to_edges_json.py \
 bash -x ${CODE_DIR}/build-multi-owl-kg.sh \
      ${OUTPUT_FILE_FULL} ${BUILD_FLAG}
 
-${VENV_DIR}/bin/python3 ${CODE_DIR}/add_edges_to_kg_json.py \
+${VENV_DIR}/bin/python3 ${CODE_DIR}/merge_graphs.py \
            ${TEST_ARG} \
-           --kgFile ${OUTPUT_FILE_FULL} \
-           --kgFileNewEdges ${SEMMED_OUTPUT_FILE} \
+           --kgFiles ${OUTPUT_FILE_FULL} \
+                     ${SEMMED_OUTPUT_FILE} \
            --outputFile ${FINAL_OUTPUT_FILE_FULL} \
            --kgFileOrphanEdges ${OUTPUT_FILE_ORPHAN_EDGES}
 

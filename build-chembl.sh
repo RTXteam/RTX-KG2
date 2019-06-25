@@ -15,50 +15,29 @@ date
 CONFIG_DIR=`dirname "$0"`
 source ${CONFIG_DIR}/master-config.shinc
 
+## supply a default value for the BUILD_FLAG string
+BUILD_FLAG=${1:-""}
+
 CHEMBL_DIR=${BUILD_DIR}/chembl
-CHEMBL_BASE_URI=ftp://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBL-RDF
-CHEMBL_VERSION=25.0
-JENA_DIR=${BUILD_DIR}/apache-jena
-JENA_DB_DIR=${BUILD_DIR}/jena-db/
+CHEMBL_VERSION=25
 CURL_GET="curl -s -L"
-CHEMBL_FILES=""
+CHEMBL_DB_TARBALL=chembl_${CHEMBL_VERSION}_mysql.tar.gz
+MYSQL_DBNAME=chembl_${CHEMBL_VERSION}
+CHEMBL_SQL_FILE=${CHEMBL_DIR}/chembl_${CHEMBL_VERSION}/chembl_${CHEMBL_VERSION}_mysql/chembl_${CHEMBL_VERSION}_mysql.dmp
 
-# mkdir -p ${CHEMBL_DIR}
+if [[ "${BUILD_FLAG}" == "all" ]]
+then
+#    mkdir -p ${CHEMBL_DIR}
 
-for base_file_type in \
-    molecule \
-	moa \
-	indication \
-	document \
-	molecule_chebi_ls \
-	target \
-	targetcmpt \
-	targetcmpt_uniprot_ls \
-	targetrel \
-	unichem \
-	singletarget_targetcmpt_ls \
-	protclass \
-	molhierarchy \
-	complextarget_targetcmpt_ls \
-	assay \
-	activity
-do
-    CHEMBL_FILE=chembl_${CHEMBL_VERSION}_${base_file_type}.ttl
-    if [ ! -f ${CHEMBL_FILE} ]
-    then
-	${CURL_GET} ${CHEMBL_BASE_URI}/${CHEMBL_VERSION}/chembl_${CHEMBL_VERSION}_${base_file_type}.ttl.gz > \
-		    ${CHEMBL_DIR}/chembl_${CHEMBL_VERSION}_${base_file_type}.ttl.gz
-	gunzip -f ${CHEMBL_DIR}/chembl_${CHEMBL_VERSION}_${base_file_type}.ttl.gz
-    fi
-    CHEMBL_FILES="${CHEMBL_FILES} ${CHEMBL_FILE}"
-done
+#    ${CURL_GET} ftp://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/${CHEMBL_DB_TARBALL} > ${CHEMBL_DIR}/${CHEMBL_DB_TARBALL}
 
-rm -r -f ${JENA_DB_DIR}
-${JENA_DIR}/bin/tdbloader2 --loc ${JENA_DB_DIR} ${CHEMBL_FILES}
+#    tar xzf ${CHEMBL_DIR}/${CHEMBL_DB_TARBALL} -C ${CHEMBL_DIR}
 
-# sudo apt-get -y update
-# sudo apt-get 
+    mysql --defaults-extra-file=${MYSQL_CONF} \
+          -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DBNAME} DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;"
 
+    mysql --defaults-extra-file=${MYSQL_CONF} --database=${MYSQL_DBNAME} < ${CHEMBL_SQL_FILE}
+fi
 
 date
 echo "================= script finished ================="

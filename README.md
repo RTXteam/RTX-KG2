@@ -40,7 +40,7 @@ specifications:
 - high-speed networking (20 Gb/s networking) and storage
 - ideally, AWS zone `us-west-2` since that is where the RTX KG2 S3 buckets are located
 
-## We assume there is no MySQL cruft
+## The KG2 build system assumes there is no MySQL database already present
 
 The target Ubuntu system in which you will run the KG2 build should *not* have MySQL
 installed; if MySQL is installed, you will need to delete it using the following
@@ -114,13 +114,18 @@ These instructions assume that you are logged into the target Ubuntu system:
 
     RTX/code/kg2/setup-kg2.sh
 
-(If anything goes wrong, look in the log file `setup-kg2.sh` for an error message).
+Note that there is no need to redirect `stdout` or `stderr` to a log file, when
+executing `setup-kg2.sh`; this is because the script saves its own `stdout` and
+`stderr` to a log file `/home/ubuntu/setup-kg2.log`.
 
-(5) Initiate a `screen` session to provide a stable pseudo-tty:
+(5) Look in the log file `/home/ubuntu/setup-kg2.sh` to see if the script
+completed successfully; it should end with `======= script finished ======`.
+
+(6) Initiate a `screen` session to provide a stable pseudo-tty:
 
     screen
 
-(6) Within the `screen` session, run:
+(7) Within the `screen` session, run:
 
     bash -x ~/kg2-code/build-kg2.sh all
 
