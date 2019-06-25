@@ -77,7 +77,7 @@ if __name__ == '__main__':
         kg2_util.log_message("number of orphan edges: " + str(len(kg_orphan_edges['edges'])),
                              ontology_name=kg_file_name,
                              output_stream=sys.stderr)
-    kg = {'nodes': nodes,
+    kg = {'nodes': [node for node in nodes.values()],
           'edges': edges}
     kg2_util.save_json(kg, output_file_name, test_mode)
     kg_file_orphan_edges = args.kgFileOrphanEdges
