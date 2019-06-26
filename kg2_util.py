@@ -33,6 +33,7 @@ import yaml
 TEMP_FILE_PREFIX = 'kg2'
 FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
 ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
+BIOLINK_CATEGORY_BASE_IRI = 'http://w3id.org/biolink/vocab/'
 
 
 def save_json(data, output_file_name: str, test_mode: bool = False):
@@ -192,6 +193,10 @@ def download_file_if_not_exist_locally(url: str, local_file_name: str):
     return local_file_name
 
 
+def convert_snake_case_to_camel_case(name: str):
+    return name.title().replace('_', '')
+
+
 def convert_camel_case_to_snake_case(name: str):
     s1 = FIRST_CAP_RE.sub(r'\1_\2', name)
     converted = ALL_CAP_RE.sub(r'\1_\2', s1).lower()
@@ -199,3 +204,9 @@ def convert_camel_case_to_snake_case(name: str):
     if converted[0].istitle():
         converted[0] = converted[0].lower()
     return converted.replace(' ', '_')
+
+
+def convert_biolink_category_to_iri(biolink_category_label: str,
+                                    biolink_category_base_iri: str):
+    return urllib.parse.urljoin(biolink_category_base_iri,
+                                biolink_category_label.title().replace(' ', ''))
