@@ -110,15 +110,16 @@ def make_edges(records: list, nodes_dict: dict):
     for record_dict in records:
         accession = record_dict['AC'][0]
         curie_id = 'UniProtKB:' + accession
-        record_xrefs = record_dict['DR']
-        for xref_str in record_xrefs:
-            hgnc_match = REGEX_HGNC.match(xref_str)
-            if hgnc_match is not None:
-                ret_list.append(make_edge(hgnc_match[1], curie_id, 'encodes', nodes_dict[curie_id]['update date']))
-            gene_id_match = REGEX_NCBIGeneID.match(xref_str)
-            if gene_id_match is not None:
-                subject_id = 'NCBIGene:' + gene_id_match[1]
-                ret_list.append(make_edge(subject_id, curie_id, 'encodes', nodes_dict[curie_id]['update date']))
+        record_xrefs = record_dict.get('DR', None)
+        if record_xrefs is not None:
+            for xref_str in record_xrefs:
+                hgnc_match = REGEX_HGNC.match(xref_str)
+                if hgnc_match is not None:
+                    ret_list.append(make_edge(hgnc_match[1], curie_id, 'encodes', nodes_dict[curie_id]['update date']))
+                gene_id_match = REGEX_NCBIGeneID.match(xref_str)
+                if gene_id_match is not None:
+                    subject_id = 'NCBIGene:' + gene_id_match[1]
+                    ret_list.append(make_edge(subject_id, curie_id, 'encodes', nodes_dict[curie_id]['update date']))
     return ret_list
 
 
