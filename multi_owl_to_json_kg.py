@@ -39,8 +39,6 @@ import urllib.request
 
 # -------------- define globals here ---------------
 
-BIOLINK_CATEGORY_BASE_IRI = 'http://w3id.org/biolink/vocab/'
-
 REGEX_ENSEMBL = re.compile('ENS[A-Z]{0,3}([PG])[0-9]{11}')
 REGEX_YEAR = re.compile('([12][90][0-9]{2})')
 REGEX_YEAR_MONTH_DAY = re.compile('([12][90][0-9]{2})_([0-9]{1,2})_([0-9]{1,2})')
@@ -765,10 +763,6 @@ def make_uri_to_curie_shortener(curie_to_iri_map: list = []):
     return lambda iri: shorten_iri_to_curie(iri, curie_to_iri_map)
 
 
-def convert_biolink_category_to_iri(biolink_category_base_iri, biolink_category_label: str):
-    return urllib.parse.urljoin(biolink_category_base_iri, biolink_category_label.title().replace(' ', ''))
-
-
 def get_prefix_from_curie_id(curie_id: str):
     assert ':' in curie_id
     return curie_id.split(':')[0]
@@ -819,7 +813,8 @@ if __name__ == '__main__':
     curies_to_uri_lal = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_uri_lal_file_name))
     curies_to_uri_map = curies_to_uri_lal + prefixcommons.curie_util.default_curie_maps
     uri_to_curie_shortener = make_uri_to_curie_shortener(curies_to_uri_map)
-    map_category_label_to_iri = functools.partial(convert_biolink_category_to_iri, BIOLINK_CATEGORY_BASE_IRI)
+    map_category_label_to_iri = functools.partial(kg2_util.convert_biolink_category_to_iri,
+                                                  biolink_category_base_iri=kg2_util.BIOLINK_CATEGORY_BASE_IRI)
 
     owl_urls_and_files = tuple(kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(owl_load_inventory_file)))
 
