@@ -193,11 +193,11 @@
   file: umls-nanda-i.ttl
   title: NANDA-I Taxonomy
   url: https://identifiers.org/umls/NANDA-I
--
-  download: false
-  file: umls-ncbi.ttl
-  title: NCBI
-  url: https://identifiers.org/umls/NCBITAXON
+#-
+#  download: false
+#  file: umls-ncbi.ttl
+#  title: NCBI
+#  url: https://identifiers.org/umls/NCBITAXON
 -
   download: false
   file: umls-nci.ttl
