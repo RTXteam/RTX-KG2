@@ -92,3 +92,5 @@
   UBERON: http://purl.obolibrary.org/obo/uberon/core#
 -
   UBERON: http://purl.obolibrary.org/obo/uberon/insect-anatomy#
+-
+  BioLink: http://w3id.org/biolink/vocab/
