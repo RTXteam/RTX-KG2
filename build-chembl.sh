@@ -22,7 +22,7 @@ CHEMBL_DIR=${BUILD_DIR}/chembl
 CHEMBL_VERSION=25
 CURL_GET="curl -s -L"
 CHEMBL_DB_TARBALL=chembl_${CHEMBL_VERSION}_mysql.tar.gz
-MYSQL_DBNAME=chembl_${CHEMBL_VERSION}
+MYSQL_DBNAME=chembl
 CHEMBL_SQL_FILE=${CHEMBL_DIR}/chembl_${CHEMBL_VERSION}/chembl_${CHEMBL_VERSION}_mysql/chembl_${CHEMBL_VERSION}_mysql.dmp
 
 if [[ "${BUILD_FLAG}" == "all" ]]
@@ -33,10 +33,11 @@ then
 
 #    tar xzf ${CHEMBL_DIR}/${CHEMBL_DB_TARBALL} -C ${CHEMBL_DIR}
 
-    mysql --defaults-extra-file=${MYSQL_CONF} \
-          -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DBNAME} DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;"
+#    mysql --defaults-extra-file=${MYSQL_CONF} \
+#          -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DBNAME} DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;"
 
-    mysql --defaults-extra-file=${MYSQL_CONF} --database=${MYSQL_DBNAME} < ${CHEMBL_SQL_FILE}
+#    mysql --defaults-extra-file=${MYSQL_CONF} --database=${MYSQL_DBNAME} < ${CHEMBL_SQL_FILE}
+    true
 fi
 
 date
