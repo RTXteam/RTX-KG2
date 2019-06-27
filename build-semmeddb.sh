@@ -5,11 +5,11 @@
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0 [all|test]"
+    echo Usage: "$0 <output_file.json>
     exit 2
 fi
 
-# Usage: build-semmeddb.sh <output_file.json> [test|all]
+# Usage: build-semmeddb.sh <output_file.json>
 
 echo "================= starting build-semmeddb.sh ================="
 date
@@ -45,15 +45,7 @@ then
     mysql --defaults-extra-file=${MYSQL_CONF} --database=${MYSQL_DBNAME} < ${SEMMED_DIR}/${SEMMED_SQL_FILE}
 fi
 
-if [ "${BUILD_FLAG}" == 'test' ]
-then
-    TEST_ARG='--test'
-else
-    TEST_ARG=''
-fi
-
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/semmeddb_mysql_to_tuple_list_json.py \
-           ${TEST_ARG} \
 	   --mysqlConfigFile ${MYSQL_CONF} \
 	   --mysqlDBName ${MYSQL_DBNAME} \
 	   --outputFile ${SEMMED_OUTPUT_FILE}
