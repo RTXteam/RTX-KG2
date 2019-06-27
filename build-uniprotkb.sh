@@ -15,31 +15,20 @@ date
 CONFIG_DIR=`dirname "$0"`
 source ${CONFIG_DIR}/master-config.shinc
 
+UNIPROTKB_DAT_FILE=${1:-"${BUILD_DIR}/uniprot_sprot.dat"}
+
 ## supply a default value for the BUILD_FLAG string
 BUILD_FLAG=${1:-""}
 
 UNIPROTKB_DIR=${BUILD_DIR}/uniprotkb
 CURL_GET="curl -s -L"
-UNIPROTKB_DAT_FILE=${UNIPROTKB_DIR}/uniprotkb_sprot.dat
-UNIPROTKB_JSON_FILE=${BUILD_DIR}/kg-uniprotkb.json
 
 mkdir -p ${UNIPROTKB_DIR}
 ${CURL_GET} ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.dat.gz  \
             > ${UNIPROTKB_DIR}/uniprot_sprot.dat.gz
 
-gunzip -f ${UNIPROTKB_DAT_FILE}.gz
+gunzip -f -c ${UNIPROTKB_DIR}/uniprot_sprot.dat.gz > ${UNIPROTKB_DAT_FILE}
 
-if [ "${BUILD_FLAG}" == 'test' ]
-then
-    TEST_ARG='--test'
-else
-    TEST_ARG=''
-fi
-
-${VENV_DIR}/bin/python3 ${CODE_DIR}/uniprotkb_dat_to_json.py \
-           ${TEST_ARG} \
-	   --inputFile ${UNIPROTKB_DAT_FILE} \
-	   --outputFile ${UNIPROTKB_JSON_FILE} 
 
 date
 echo "================= script finished ================="
