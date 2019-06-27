@@ -50,6 +50,8 @@ date
 SEMMED_TUPLELIST_FILE=${BUILD_DIR}/kg2-semmeddb${TEST_SUFFIX}-tuplelist.json
 SEMMED_OUTPUT_FILE=${BUILD_DIR}/kg2-semmeddb${TEST_SUFFIX}-edges.json
 
+UNIPROTKB_OUTPUT_FILE=${BUILD_DIR}/kg-uniprotkb.json
+
 OUTPUT_FILE_BASE=kg2-owl${TEST_SUFFIX}.json
 OUTPUT_FILE_FULL=${BUILD_DIR}/${OUTPUT_FILE_BASE}
 
@@ -93,6 +95,7 @@ ${VENV_DIR}/bin/python3 ${CODE_DIR}/merge_graphs.py \
            ${TEST_ARG} \
            --kgFiles ${OUTPUT_FILE_FULL} \
                      ${SEMMED_OUTPUT_FILE} \
+                     ${UNIPROTKB_OUTPUT_FILE} \
            --outputFile ${FINAL_OUTPUT_FILE_FULL} \
            --kgFileOrphanEdges ${OUTPUT_FILE_ORPHAN_EDGES}
 
