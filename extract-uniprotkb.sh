@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# build-uniprotkb.sh: download UniProtKB dat distribution and extract to a JSON file
+# build-uniprotkb.sh: download UniProtKB dat distribution and extract to a dat file
 # Copyright 2019 Stephen A. Ramsey <stephen.ramsey@oregonstate.edu>
 
 set -o nounset -o pipefail -o errexit
