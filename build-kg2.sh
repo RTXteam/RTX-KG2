@@ -51,7 +51,7 @@ SEMMED_TUPLELIST_FILE=${BUILD_DIR}/kg2-semmeddb${TEST_SUFFIX}-tuplelist.json
 SEMMED_OUTPUT_FILE=${BUILD_DIR}/kg2-semmeddb${TEST_SUFFIX}-edges.json
 
 UNIPROTKB_DAT_FILE=${BUILD_DIR}/uniprot_sprot.dat
-UNIPROTKB_OUTPUT_FILE=${BUILD_DIR}/kg-uniprotkb.json
+UNIPROTKB_OUTPUT_FILE=${BUILD_DIR}/kg2-uniprotkb${TEST_SUFFIX}.json
 
 OUTPUT_FILE_BASE=kg2-owl${TEST_SUFFIX}.json
 OUTPUT_FILE_FULL=${BUILD_DIR}/${OUTPUT_FILE_BASE}
@@ -87,7 +87,7 @@ fi
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/uniprotkb_dat_to_json.py \
            ${TEST_ARG} \
 	   --inputFile ${UNIPROTKB_DAT_FILE} \
-	   --outputFile ${UNIPROTKB_JSON_FILE} 
+	   --outputFile ${UNIPROTKB_OUTPUT_FILE} 
 
 ## Build SemMedDB KG2 edges file as JSON:
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/semmeddb_tuple_list_json_to_edges_json.py \
