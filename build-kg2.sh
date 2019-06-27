@@ -50,6 +50,7 @@ date
 SEMMED_TUPLELIST_FILE=${BUILD_DIR}/kg2-semmeddb${TEST_SUFFIX}-tuplelist.json
 SEMMED_OUTPUT_FILE=${BUILD_DIR}/kg2-semmeddb${TEST_SUFFIX}-edges.json
 
+UNIPROTKB_DAT_FILE=${BUILD_DIR}/uniprot_sprot.dat
 UNIPROTKB_OUTPUT_FILE=${BUILD_DIR}/kg-uniprotkb.json
 
 OUTPUT_FILE_BASE=kg2-owl${TEST_SUFFIX}.json
@@ -75,11 +76,18 @@ MEM_GB=`${CODE_DIR}/get-system-memory-gb.sh`
 if [ "${BUILD_FLAG}" == 'all' ]
 then
 ## Build UMLS knowledge sources at TTL files:
-   bash -x ${CODE_DIR}/build-umls.sh ${BUILD_DIR}
+    bash -x ${CODE_DIR}/extract-umls.sh ${BUILD_DIR}
+    bash -x ${CODE_DIR}/extract-uniprotkb.sh ${UNIPROTKB_DAT_FILE}
+    bash -x ${CODE_DIR}/extract-semmeddb.sh ${SEMMED_TUPLELIST_FILE}
 fi
 
 ## Build SemMedDB tuplelist file as JSON:
-bash -x ${CODE_DIR}/build-semmeddb.sh ${SEMMED_TUPLELIST_FILE} ${BUILD_FLAG}
+
+## extract JSON file for UniProtKB
+${VENV_DIR}/bin/python3 ${CODE_DIR}/uniprotkb_dat_to_json.py \
+           ${TEST_ARG} \
+	   --inputFile ${UNIPROTKB_DAT_FILE} \
+	   --outputFile ${UNIPROTKB_JSON_FILE} 
 
 ## Build SemMedDB KG2 edges file as JSON:
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/semmeddb_tuple_list_json_to_edges_json.py \
