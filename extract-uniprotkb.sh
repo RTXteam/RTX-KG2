@@ -27,8 +27,8 @@ mkdir -p ${UNIPROTKB_DIR}
 ${CURL_GET} ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.dat.gz  \
             > ${UNIPROTKB_DIR}/uniprot_sprot.dat.gz
 
-gunzip -f -c ${UNIPROTKB_DIR}/uniprot_sprot.dat.gz > ${UNIPROTKB_DAT_FILE}
-
+zcat ${UNIPROTKB_DIR}/uniprot_sprot.dat.gz > /tmp/uniprot_sprot.dat
+mv /tmp/uniprot_sprott.dat ${UNIPROTKB_DAT_FILE}
 
 date
 echo "================= script finished ================="
