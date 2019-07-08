@@ -1,4 +1,17 @@
 #!/usr/bin/env python3
+'''uniprotkb_dat_to_json.py: Extracts a KG2 JSON file from the UniProtKB distribution in "dat" format
+
+   Usage: uniprotkb_dat_to_json.py [--test] --inputFile <inputFile.dat> --outputFile <outputFile.json>
+'''
+
+__author__ = 'Stephen Ramsey'
+__copyright__ = 'Oregon State University'
+__credits__ = ['Stephen Ramsey']
+__license__ = 'MIT'
+__version__ = '0.1.0'
+__maintainer__ = ''
+__email__ = ''
+__status__ = 'Prototype'
 
 
 import argparse
