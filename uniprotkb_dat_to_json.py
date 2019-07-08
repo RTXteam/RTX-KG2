@@ -91,18 +91,6 @@ def make_arg_parser():
     return arg_parser
 
 
-def make_edge(subject_id: str, object_id: str, predicate_label: str, update_date: str = None):
-    relation = kg2_util.BIOLINK_CATEGORY_BASE_IRI + kg2_util.convert_snake_case_to_camel_case(predicate_label)
-    return {'subject': subject_id,
-            'object': object_id,
-            'edge label': predicate_label,
-            'relation': relation,
-            'relation curie': 'BioLink:' + predicate_label,
-            'negated': False,
-            'publications': [],
-            'publications info': {},
-            'update date': update_date,
-            'provided by': UNIPROTKB_BASE_IRI}
 
 
 def make_edges(records: list, nodes_dict: dict):
@@ -110,16 +98,31 @@ def make_edges(records: list, nodes_dict: dict):
     for record_dict in records:
         accession = record_dict['AC'][0]
         curie_id = 'UniProtKB:' + accession
+        organism_int = record_dict['organism']
+        update_date = nodes_dict[curie_id]['update date']
+        ret_list.append(kg2_util.make_edge(curie_id, 'NCBITaxon:' + str(organism_int),
+                                           'gene_product_has_organism_source',
+                                           UNIPROTKB_BASE_IRI,
+                                           update_date))
         record_xrefs = record_dict.get('DR', None)
         if record_xrefs is not None:
             for xref_str in record_xrefs:
                 hgnc_match = REGEX_HGNC.match(xref_str)
                 if hgnc_match is not None:
-                    ret_list.append(make_edge(hgnc_match[1], curie_id, 'encodes', nodes_dict[curie_id]['update date']))
+                    hgnc_curie = hgnc_match[1]
+                    ret_list.append(kg2_util.make_edge(hgnc_curie,
+                                                       curie_id,
+                                                       'encodes',
+                                                       UNIPROTKB_BASE_IRI,
+                                                       update_date))
                 gene_id_match = REGEX_NCBIGeneID.match(xref_str)
                 if gene_id_match is not None:
-                    subject_id = 'NCBIGene:' + gene_id_match[1]
-                    ret_list.append(make_edge(subject_id, curie_id, 'encodes', nodes_dict[curie_id]['update date']))
+                    ncbi_curie = 'NCBIGene:' + gene_id_match[1]
+                    ret_list.append(kg2_util.make_edge(ncbi_curie,
+                                                       curie_id,
+                                                       'encodes',
+                                                       UNIPROTKB_BASE_IRI,
+                                                       update_date))
     return ret_list
 
 
