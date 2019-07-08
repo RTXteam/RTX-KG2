@@ -1,4 +1,17 @@
 #!/usr/bin/env python3
+'''ensembl_json_to_kg_json.py: Extracts a KG2 JSON file from the Ensembl human gene distribution in JSON format
+
+   Usage: ensembl_json_to_kg_json.py [--test] --inputFile <inputFile.json> --outputFile <outputFile.json>
+'''
+
+__author__ = 'Stephen Ramsey'
+__copyright__ = 'Oregon State University'
+__credits__ = ['Stephen Ramsey']
+__license__ = 'MIT'
+__version__ = '0.1.0'
+__maintainer__ = ''
+__email__ = ''
+__status__ = 'Prototype'
 
 import argparse
 import kg2_util
