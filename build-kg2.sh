@@ -79,16 +79,22 @@ MEM_GB=`${CODE_DIR}/get-system-memory-gb.sh`
 if [ "${BUILD_FLAG}" == 'all' ]
 then
 ## Build UMLS knowledge sources at TTL files:
+    echo "running extract-umls.sh"
     bash -x ${CODE_DIR}/extract-umls.sh ${BUILD_DIR}
 ## Extract UniprotKB
+    echo "running extract-uniprotkb.sh"
     bash -x ${CODE_DIR}/extract-uniprotkb.sh ${UNIPROTKB_DAT_FILE}
 ## Extract SemMedDB
+    echo "running extract-semmeddb.sh"
     bash -x ${CODE_DIR}/extract-semmeddb.sh ${SEMMED_TUPLELIST_FILE}
 ## Extract Ensembl
+    echo "running extract-ensembl.sh"
     bash -x ${CODE_DIR}/extract-ensembl.sh ${ENSEMBL_SOURCE_JSON_FILE}
 fi
 
 ## Build SemMedDB tuplelist file as JSON:
+
+echo "running uniprotkb_dat_to_json.py"
 
 ## extract JSON file for UniProtKB
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/uniprotkb_dat_to_json.py \
@@ -96,17 +102,23 @@ ${VENV_DIR}/bin/python3 ${CODE_DIR}/uniprotkb_dat_to_json.py \
 	   --inputFile ${UNIPROTKB_DAT_FILE} \
 	   --outputFile ${UNIPROTKB_OUTPUT_FILE} 
 
+echo "running semmeddb_tuple_list_json_to_edges_json.py"
+
 ## Build SemMedDB KG2 edges file as JSON:
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/semmeddb_tuple_list_json_to_edges_json.py \
            ${TEST_ARG} \
            --inputFile ${SEMMED_TUPLELIST_FILE} \
            --outputFile ${SEMMED_OUTPUT_FILE}
 
+echo "running ensembl_json_to_kg_json.py"
+
 ## Build Ensembl KG2 edges file as JSON:
-${VENV_DIR}/bin/python3 ${CODE_DIR}/ensembl_json_to_kg2_json.py \
+${VENV_DIR}/bin/python3 ${CODE_DIR}/ensembl_json_to_kg_json.py \
            ${TEST_ARG} \
            --inputFile ${ENSEMBL_SOURCE_JSON_FILE} \
            --outputFile ${ENSEMBL_OUTPUT_FILE}
+
+echo "running build-multi-owl-kg.sh"
 
 ## Combine all the TTL files and OBO Foundry OWL files into KG and save as JSON:
 bash -x ${CODE_DIR}/build-multi-owl-kg.sh \
