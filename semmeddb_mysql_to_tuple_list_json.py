@@ -26,7 +26,7 @@ NEG_REGEX = re.compile('^NEG_', re.M)
 
 
 def make_arg_parser():
-    arg_parser = argparse.ArgumentParser(description='semmeddb_mysql_to_json.py: extracts all the predicate triples from SemMedDB, in the RTX KG2 JSON format')
+    arg_parser = argparse.ArgumentParser(description='semmeddb_mysql_to_tuple_list_json.py: extracts all the predicate triples from SemMedDB, as a list of tuples')
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
     arg_parser.add_argument('--mysqlConfigFile', type=str, nargs=1)
     arg_parser.add_argument('--mysqlDBName', type=str, nargs=1)
