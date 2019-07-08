@@ -67,6 +67,9 @@ OUTPUT_NODES_FILE_FULL=${BUILD_DIR}/${OUTPUT_NODES_FILE_BASE}
 REPORT_FILE_BASE=kg2-report${TEST_SUFFIX}.json
 REPORT_FILE_FULL=${BUILD_DIR}/${REPORT_FILE_BASE}
 
+ENSEMBL_SOURCE_JSON_FILE=${BUILD_DIR}/ensembl/homo_sapiens.json
+ENSEMBL_OUTPUT_FILE=${BUILD_DIR}/kg2-ensembl${TEST_SUFFIX}.json
+
 OWL_LOAD_INVENTORY_FILE=${CODE_DIR}/owl-load-inventory${TEST_SUFFIX}.yaml
 
 cd ${BUILD_DIR}
@@ -77,8 +80,12 @@ if [ "${BUILD_FLAG}" == 'all' ]
 then
 ## Build UMLS knowledge sources at TTL files:
     bash -x ${CODE_DIR}/extract-umls.sh ${BUILD_DIR}
+## Extract UniprotKB
     bash -x ${CODE_DIR}/extract-uniprotkb.sh ${UNIPROTKB_DAT_FILE}
+## Extract SemMedDB
     bash -x ${CODE_DIR}/extract-semmeddb.sh ${SEMMED_TUPLELIST_FILE}
+## Extract Ensembl
+    bash -x ${CODE_DIR}/extract-ensembl.sh ${ENSEMBL_SOURCE_JSON_FILE}
 fi
 
 ## Build SemMedDB tuplelist file as JSON:
@@ -95,6 +102,12 @@ ${VENV_DIR}/bin/python3 ${CODE_DIR}/semmeddb_tuple_list_json_to_edges_json.py \
            --inputFile ${SEMMED_TUPLELIST_FILE} \
            --outputFile ${SEMMED_OUTPUT_FILE}
 
+## Build Ensembl KG2 edges file as JSON:
+${VENV_DIR}/bin/python3 ${CODE_DIR}/ensembl_json_to_kg2_json.py \
+           ${TEST_ARG} \
+           --inputFile ${ENSEMBL_SOURCE_JSON_FILE} \
+           --outputFile ${ENSEMBL_OUTPUT_FILE}
+
 ## Combine all the TTL files and OBO Foundry OWL files into KG and save as JSON:
 bash -x ${CODE_DIR}/build-multi-owl-kg.sh \
      ${OUTPUT_FILE_FULL} ${BUILD_FLAG}
@@ -104,6 +117,7 @@ ${VENV_DIR}/bin/python3 ${CODE_DIR}/merge_graphs.py \
            --kgFiles ${OUTPUT_FILE_FULL} \
                      ${SEMMED_OUTPUT_FILE} \
                      ${UNIPROTKB_OUTPUT_FILE} \
+                     ${ENSEMBL_OUTPUT_FILE} \
            --outputFile ${FINAL_OUTPUT_FILE_FULL} \
            --kgFileOrphanEdges ${OUTPUT_FILE_ORPHAN_EDGES}
 
