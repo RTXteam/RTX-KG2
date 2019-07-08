@@ -30,10 +30,15 @@ import time
 import urllib.request
 import yaml
 
+CURIE_PREFIX_ENSEMBL = 'ENSEMBL:'
 TEMP_FILE_PREFIX = 'kg2'
 FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
 ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
 BIOLINK_CATEGORY_BASE_IRI = 'http://w3id.org/biolink/vocab/'
+
+
+def load_json(input_file_name):
+    return json.load(open(input_file_name, 'r'))
 
 
 def save_json(data, output_file_name: str, test_mode: bool = False):
@@ -158,6 +163,25 @@ def merge_two_dicts(x: dict, y: dict):
     return ret_dict
 
 
+def make_edge(subject_id: str,
+              object_id: str,
+              predicate_label: str,
+              provided_by: str,
+              update_date: str = None):
+    
+    relation = BIOLINK_CATEGORY_BASE_IRI + convert_snake_case_to_camel_case(predicate_label)
+    return {'subject': subject_id,
+            'object': object_id,
+            'edge label': predicate_label,
+            'relation': relation,
+            'relation curie': 'BioLink:' + predicate_label,
+            'negated': False,
+            'publications': [],
+            'publications info': {},
+            'update date': update_date,
+            'provided by': provided_by}
+
+
 def compose_two_multinode_dicts(node1: dict, node2: dict):
     ret_dict = copy.deepcopy(node1)
     for key, value in node2.items():
@@ -207,6 +231,6 @@ def convert_camel_case_to_snake_case(name: str):
 
 
 def convert_biolink_category_to_iri(biolink_category_label: str,
-                                    biolink_category_base_iri: str):
+                                    biolink_category_base_iri: str = BIOLINK_CATEGORY_BASE_IRI):
     return urllib.parse.urljoin(biolink_category_base_iri,
                                 biolink_category_label.title().replace(' ', ''))
