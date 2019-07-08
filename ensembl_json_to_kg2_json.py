@@ -75,14 +75,16 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
         edges.append(kg2_util.make_edge(ensembl_gene_curie_id,
                                         'NCBITaxon:' + str(taxon_id_int),
                                         'gene_found_in_organism',
-                                        ENSEMBL_KB_IRI))
+                                        ENSEMBL_KB_IRI,
+                                        update_date))
         hgnc_list = gene_dict.get('HGNC', None)
         if hgnc_list is not None:
             for hgnc_curie in hgnc_list:
                 edges.append(kg2_util.make_edge(ensembl_gene_curie_id,
                                                 hgnc_curie,
                                                 'xref',
-                                                ENSEMBL_KB_IRI))
+                                                ENSEMBL_KB_IRI,
+                                                update_date))
     return {'nodes': nodes,
             'edges': edges}
 
