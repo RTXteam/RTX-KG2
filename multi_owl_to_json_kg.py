@@ -49,7 +49,6 @@ REGEX_PUBLICATIONS = re.compile('((?:(?:PMID)|(?:ISBN)):\d+)')
 REGEX_PURL = re.compile('http://purl.obolibrary.org/obo/([^_]+)_(.*)')
 REGEX_IDORG = re.compile('https://identifiers.org/umls/([^/]+)/(.*)')
 
-CURIE_PREFIX_ENSEMBL = 'ENSEMBL:'
 CUI_BASE_IRI = 'https://identifiers.org/umls/cui'
 IRI_OBO_XREF = 'http://purl.org/obo/owl/oboFormat#oboFormat_xref'
 CURIE_OBO_XREF = 'oboFormat:xref'
@@ -276,8 +275,8 @@ def get_biolink_category_for_node(ontology_node_id: str,
                 if ret_category is not None:
                     break
     if ret_category is None:
-        if node_curie_id.startswith(CURIE_PREFIX_ENSEMBL):
-            curie_suffix = node_curie_id.replace(CURIE_PREFIX_ENSEMBL, '')
+        if node_curie_id.startswith(kg2_util.CURIE_PREFIX_ENSEMBL):
+            curie_suffix = node_curie_id.replace(kg2_util.CURIE_PREFIX_ENSEMBL, '')
             ensembl_match = REGEX_ENSEMBL.match(curie_suffix)
             if ensembl_match is not None:
                 ensembl_match_letter = ensembl_match[1]
