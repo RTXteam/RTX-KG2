@@ -366,7 +366,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             'deprecated': False,
             'replaced by': None,
             'provided by': iri_of_ontology,
-            'ontology node type': 'INDIVIDUAL',
+#            'ontology node type': 'INDIVIDUAL',
             'ontology node ids': [iri_of_ontology]}
 
         ontologies_iris_to_curies[iri_of_ontology] = ontology_curie_id
@@ -540,8 +540,8 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             node_dict['update date'] = node_update_date
             node_dict['replaced by'] = node_replaced_by_curie  # slot name is not biolink standard
             node_dict['provided by'] = iri_of_ontology        # slot name is not biolink standard
-            node_type = onto_node_dict.get('type', None)
-            node_dict['ontology node type'] = node_type       # slot name is not biolink standard
+#            node_type = onto_node_dict.get('type', None)
+#            node_dict['ontology node type'] = node_type       # slot name is not biolink standard
             node_dict['ontology node ids'] = [ontology_node_id]  # slot name is not biolink standard
             node_dict['xrefs'] = list(node_xrefs)             # slot name is not biolink standard
             node_dict['synonym'] = list(node_synonyms)       # slot name is not biolink standard
