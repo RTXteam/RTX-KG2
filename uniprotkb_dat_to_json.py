@@ -218,9 +218,9 @@ def make_nodes(records: list, map_category_label_to_iri: callable):
             'update date': update_date,
             'deprecated': False,
             'replaced by': None,
-            'provided by': UNIPROTKB_BASE_IRI,
-            'ontology node type': 'INDIVIDUAL'
+            'provided by': UNIPROTKB_BASE_IRI
             }
+#           'ontology node type': 'INDIVIDUAL'
         ret_dict[node_curie] = node_dict
     return ret_dict
 
