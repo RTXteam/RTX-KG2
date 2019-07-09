@@ -26,7 +26,7 @@ source ${CONFIG_DIR}/master-config.shinc
 
 ## sym-link into RTX/code/kg2
 if [ ! -L ${CODE_DIR} ]; then
-    ln -s ~/RTX/code/kg2 ${CODE_DIR}
+    ln -sf ~/RTX/code/kg2 ${CODE_DIR}
 fi
 
 ## install the Linux distro packages that we need (python3-minimal is for docker installations)
@@ -121,7 +121,7 @@ JENA_DIR=${BUILD_DIR}/${JENA_BASE_DIR}
 JENA_BASE_URI=http://mirrors.sonic.net/apache/jena/binaries/${JENA_TARBALL}
 ${CURL_GET} ${JENA_BASE_URI} > ${BUILD_DIR}/${JENA_TARBALL}
 tar xvzf ${BUILD_DIR}/${JENA_TARBALL} -C ${BUILD_DIR}
-ln -s ${BUILD_DIR}/${JENA_BASE_DIR} ${BUILD_DIR}/apache-jena
+ln -sf ${BUILD_DIR}/${JENA_BASE_DIR} ${BUILD_DIR}/apache-jena
 
 date
 echo "================= script finished ================="
