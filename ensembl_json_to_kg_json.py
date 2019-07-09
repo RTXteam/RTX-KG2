@@ -47,14 +47,14 @@ def make_node(ensembl_gene_id: str,
         'category label': category_label,
         'description': None,
         'synonym': [gene_symbol] + other_synonyms,
-        'publications': None,
+        'publications': [],
         'creation date': None,
         'update date': update_date,
         'deprecated': False,
         'replaced by': None,
-        'provided by': ENSEMBL_KB_IRI,
-        'ontology node type': 'INDIVIDUAL'
+        'provided by': ENSEMBL_KB_IRI
     }
+#        'ontology node type': 'INDIVIDUAL'
     return node_dict
 
 
