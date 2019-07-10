@@ -24,14 +24,18 @@ mkdir -p ${UNICHEM_DIR}
 
 ${CURL_GET} ${UNICHEM_FTP_SITE}/oracleDumps/UDRI${UNICHEM_VER}/UC_XREF.txt.gz > ${UNICHEM_DIR}/UC_XREF.txt.gz
 ${CURL_GET} ${UNICHEM_FTP_SITE}/oracleDumps/UDRI${UNICHEM_VER}/UC_SOURCE.txt.gz > ${UNICHEM_DIR}/UC_SOURCE.txt.gz
+${CURL_GET} ${UNICHEM_FTP_SITE}/oracleDumps/UDRI${UNICHEM_VER}/UC_RELEASE.txt.gz > ${UNICHEM_DIR}/UC_RELEASE.txt.gz
 
 CHEMBL_SRC_ID=`zcat ${UNICHEM_DIR}/UC_SOURCE.txt.gz | awk '{if ($2 == "chembl") {printf "%s", $1}}'`
 CHEBI_SRC_ID=`zcat ${UNICHEM_DIR}/UC_SOURCE.txt.gz | awk '{if ($2 == "chebi") {printf "%s", $1}}'`
 
+UPDATE_DATE=`zcat ${UNICHEM_DIR}/UC_RELEASE.txt.gz | tail -1 | cut -f3`
+echo "# ${UPDATE_DATE}" > ${OUTPUT_TSV_FILE}
+
 zcat ${UNICHEM_DIR}/UC_XREF.txt.gz | awk '{if ($2 == '${CHEBI_SRC_ID}') {print $1 "\tCHEBI:" $3}}' | sort -k1 > ${UNICHEM_DIR}/chebi.txt
 zcat ${UNICHEM_DIR}/UC_XREF.txt.gz | awk '{if ($2 == '${CHEMBL_SRC_ID}') {print $1 "\tCHEMBL.COMPOUND:" $3}}' | sort -k1 > ${UNICHEM_DIR}/chembl.txt
 
-join ${UNICHEM_DIR}/chembl.txt ${UNICHEM_DIR}/chebi.txt | sed 's/ /\t/g' | cut -f2-3 > ${OUTPUT_TSV_FILE}
+join ${UNICHEM_DIR}/chembl.txt ${UNICHEM_DIR}/chebi.txt | sed 's/ /\t/g' | cut -f2-3 >> ${OUTPUT_TSV_FILE}
 
 date
 echo "================= script finished ================="
