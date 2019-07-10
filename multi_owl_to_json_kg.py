@@ -555,7 +555,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
 #            node_type = onto_node_dict.get('type', None)
 #            node_dict['ontology node type'] = node_type       # slot name is not biolink standard
             node_dict['ontology node ids'] = [ontology_node_id]  # slot name is not biolink standard
-            node_dict['xrefs'] = list(node_xrefs)             # slot name is not biolink standard
+            node_dict['xrefs'] = list(node_xrefs)            # slot name is not biolink standard
             node_dict['synonym'] = list(node_synonyms)       # slot name is not biolink standard
             node_dict['publications'] = list(node_publications)
 
@@ -582,7 +582,9 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                             cui_node_dict = kg2_util.merge_two_dicts(cui_node_dict,
                                                                      cui_node_dict_existing)
                         ret_dict[cui_curie] = cui_node_dict
-                        node_dict['xrefs'].append(cui_curie)
+                        node_dict_xrefs = node_dict['xrefs']
+                        node_dict_xrefs.append(cui_curie)
+                        node_dict['xrefs'] = list(set(node_dict_xrefs))
                     elif bpv_pred_curie == 'HGNC:ENTREZGENE_ID':
                         entrez_gene_id = bpv_val
                         entrez_node_dict = dict(node_dict)
@@ -590,7 +592,9 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         entrez_node_dict['id'] = entrez_curie
                         entrez_node_dict['iri'] = 'https://identifiers.org/NCBIGene/' + entrez_gene_id
                         ret_dict[entrez_curie] = entrez_node_dict
-                        node_dict['xrefs'].append(entrez_curie)
+                        node_dict_xrefs = node_dict['xrefs']
+                        node_dict_xrefs.append(entrez_curie)
+                        node_dict['xrefs'] = list(set(node_dict_xrefs))
             if node_curie_id in ret_dict:
                 node_dict = kg2_util.merge_two_dicts(ret_dict[node_curie_id], node_dict)
             ret_dict[node_curie_id] = node_dict
