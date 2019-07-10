@@ -18,7 +18,6 @@ source ${CONFIG_DIR}/master-config.shinc
 UNIPROTKB_DAT_FILE=${1:-"${BUILD_DIR}/uniprot_sprot.dat"}
 
 UNIPROTKB_DIR=`dirname ${UNIPROTKB_DAT_FILE}`
-CURL_GET="curl -s -L"
 
 mkdir -p ${UNIPROTKB_DIR}
 ${CURL_GET} ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.dat.gz  \
