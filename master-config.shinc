@@ -5,3 +5,4 @@ S3_REGION=us-west-2
 S3_BUCKET=rtx-kg2
 S3_BUCKET_PUBLIC=rtx-kg2-public
 MYSQL_CONF=~/kg2-build/mysql-config.conf
+CURL_GET="curl -s -L"
