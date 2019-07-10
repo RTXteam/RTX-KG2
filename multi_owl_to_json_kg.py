@@ -48,6 +48,7 @@ REGEX_UMLS_CURIE = re.compile('UMLS:([^/]+)/(.*)')
 REGEX_PUBLICATIONS = re.compile('((?:(?:PMID)|(?:ISBN)):\d+)')
 REGEX_PURL = re.compile('http://purl.obolibrary.org/obo/([^_]+)_(.*)')
 REGEX_IDORG = re.compile('https://identifiers.org/umls/([^/]+)/(.*)')
+REGEX_XREF_END_DESCRIP = re.compile('.*\[([^\]]+)\]$')
 
 CUI_BASE_IRI = 'https://identifiers.org/umls/cui'
 IRI_OBO_XREF = 'http://purl.org/obo/owl/oboFormat#oboFormat_xref'
@@ -428,6 +429,15 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                     node_description = node_definition['val']
                     if node_description.startswith('OBSOLETE:') or node_description.startswith('Obsolete.'):
                         continue
+                    node_description_xrefs_match = REGEX_XREF_END_DESCRIP.match(node_description)
+                    if node_description_xrefs_match is not None:
+                        node_description_xrefs_str = node_description_xrefs_match[1]
+                        node_description_xrefs_list = node_description_xrefs_str.split(',')
+                        for node_description_xref_str in node_description_xrefs_list:
+                            node_description_xref_str = node_description_xref_str.strip()
+                            if ':' in node_description_xref_str:
+                                node_xrefs.add(node_description_xref_str)
+
                     node_definition_xrefs = node_definition.get('xrefs', None)
                     if node_definition_xrefs is not None:
                         assert type(node_definition_xrefs) == list
