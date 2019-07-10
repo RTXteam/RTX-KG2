@@ -752,6 +752,8 @@ def get_node_curie_id_from_ontology_node_id(ontology_node_id: str,
 def shorten_iri_to_curie(iri: str, curie_to_iri_map: list = []):
     if iri.startswith('owl:') or iri.startswith('OIO:'):
         return iri
+    if "/GO_GO%3A" in iri:  # hack for fixing issue #410
+        iri = iri.replace("/GO_GO%3A", "/GO_")  
     curie_list = prefixcommons.contract_uri(iri,
                                             curie_to_iri_map)
     assert len(curie_list) in [0, 1]
