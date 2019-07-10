@@ -88,7 +88,7 @@ then
 ## Extract UniprotKB
     echo "running extract-uniprotkb.sh"
     bash -x ${CODE_DIR}/extract-uniprotkb.sh ${UNIPROTKB_DAT_FILE}
-## Extract SemMedDB
+## Extract SemMedDB to tuple-list JSON
     echo "running extract-semmeddb.sh"
     bash -x ${CODE_DIR}/extract-semmeddb.sh ${SEMMED_TUPLELIST_FILE}
 ## Extract Ensembl
@@ -98,8 +98,6 @@ then
     echo "running extract-chembl.sh"
     bash -x ${CODE_DIR}/extract-chembl.sh ${CHEMBL_MYSQL_DBNAME}
 fi
-
-## Build SemMedDB tuplelist file as JSON:
 
 echo "running uniprotkb_dat_to_json.py"
 
