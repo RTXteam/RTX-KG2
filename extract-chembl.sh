@@ -5,9 +5,11 @@
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0"
+    echo Usage: "$0 <mysql_db_name>"
     exit 2
 fi
+
+MYSQL_DBNAME=${1:-"chembl"}
 
 echo "================= starting build-chembl.sh ================="
 date
@@ -17,9 +19,7 @@ source ${CONFIG_DIR}/master-config.shinc
 
 CHEMBL_DIR=${BUILD_DIR}/chembl
 CHEMBL_VERSION=25
-CURL_GET="curl -s -L"
 CHEMBL_DB_TARBALL=chembl_${CHEMBL_VERSION}_mysql.tar.gz
-MYSQL_DBNAME=chembl
 CHEMBL_SQL_FILE=${CHEMBL_DIR}/chembl_${CHEMBL_VERSION}/chembl_${CHEMBL_VERSION}_mysql/chembl_${CHEMBL_VERSION}_mysql.dmp
 
 mkdir -p ${CHEMBL_DIR}

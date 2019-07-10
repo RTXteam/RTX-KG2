@@ -70,7 +70,11 @@ REPORT_FILE_FULL=${BUILD_DIR}/${REPORT_FILE_BASE}
 ENSEMBL_SOURCE_JSON_FILE=${BUILD_DIR}/ensembl/homo_sapiens.json
 ENSEMBL_OUTPUT_FILE=${BUILD_DIR}/kg2-ensembl${TEST_SUFFIX}.json
 
+CHEMBL_OUTPUT_FILE=${BUILD_DIR}/kg2-chembl${TEST_SUFFIX}.json
+
 OWL_LOAD_INVENTORY_FILE=${CODE_DIR}/owl-load-inventory${TEST_SUFFIX}.yaml
+
+CHEMBL_MYSQL_DBNAME=chembl
 
 cd ${BUILD_DIR}
 
@@ -90,6 +94,9 @@ then
 ## Extract Ensembl
     echo "running extract-ensembl.sh"
     bash -x ${CODE_DIR}/extract-ensembl.sh ${ENSEMBL_SOURCE_JSON_FILE}
+## Extract ChEMBL
+    echo "running extract-chembl.sh"
+    bash -x ${CODE_DIR}/extract-chembl.sh ${CHEMBL_MYSQL_DBNAME}
 fi
 
 ## Build SemMedDB tuplelist file as JSON:
@@ -117,6 +124,15 @@ ${VENV_DIR}/bin/python3 ${CODE_DIR}/ensembl_json_to_kg_json.py \
            ${TEST_ARG} \
            --inputFile ${ENSEMBL_SOURCE_JSON_FILE} \
            --outputFile ${ENSEMBL_OUTPUT_FILE}
+
+echo "running chembl_mysql_to_kg_json.py"
+
+## Build Chembl KG2 edges file as JSON:
+${VENV_DIR}/bin/python3 ${CODE_DIR}/chembl_mysql_to_kg_json.py \
+           ${TEST_ARG} \
+           --mysqlConfigFile ${MYSQL_CONF} \
+           --mysqlDBName chembl \
+           --outputFile ${CHEMBL_OUTPUT_FILE}
 
 echo "running build-multi-owl-kg.sh"
 
