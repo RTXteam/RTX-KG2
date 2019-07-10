@@ -87,7 +87,7 @@ cat ${UMLS_DEST_DIR}/mysql_tables.sql-original | sed 's/\\r\\n/\\n/g' > ${UMLS_D
 cd ${UMLS_DEST_DIR} && ./populate_mysql_db_configured.sh
 
 ## download and unpack the umls2rdf software
-curl -s -L https://github.com/RTXteam/umls2rdf/archive/${UMLS2RDF_RELEASE}.tar.gz > ${UMLS2RDF_PKGNAME}.tar.gz
+${CURL_GET} https://github.com/RTXteam/umls2rdf/archive/${UMLS2RDF_RELEASE}.tar.gz > ${UMLS2RDF_PKGNAME}.tar.gz
 tar xzf ${UMLS2RDF_PKGNAME}.tar.gz -C ${UMLS_DIR}
 
 ## make the umls2rdf config file
