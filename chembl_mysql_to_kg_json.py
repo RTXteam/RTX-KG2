@@ -121,6 +121,8 @@ if __name__ == '__main__':
         cursor.execute(sql)
         update_date = cursor.fetchone()[0]
 
+# create node objects for ChEMBL compounds
+
     sql = '''select distinct
        molecule_dictionary.chembl_id,
        molecule_dictionary.pref_name,
@@ -164,6 +166,8 @@ if __name__ == '__main__':
 
         curie_id = 'CHEMBL.COMPOUND:' + chembl_id
         category_label = 'chemical_substance'
+
+        # query to get all synonyms and publications associated with the ChEMBL molecule
 
         sql_synonyms = '''select distinct compound_name, src_short_name, src_compound_id, pubmed_id 
                           from (compound_records natural join source) 
@@ -211,6 +215,8 @@ if __name__ == '__main__':
                               update_date)
         nodes.append(node_dict)
 
+# create node objects for ChEMBL targets
+
     sql = '''select distinct
              target_dictionary.chembl_id,
              target_dictionary.tax_id,
@@ -245,6 +251,57 @@ if __name__ == '__main__':
                               update_date)
         nodes.append(node_dict)
 
+# create node objects for "mechanism_of_action" types
+
+    sql = 'select distinct mechanism_of_action from drug_mechanism'
+    if test_mode:
+        sql += str_sql_row_limit_test_mode
+    with connection.cursor() as cursor:
+        cursor.execute(sql)
+        results = cursor.fetchall()
+    for (mechanism_of_action,) in results:
+        node_label = mechanism_of_action.lower().replace(' ', '_')
+        node_curie_id = CHEMBL_CURIE_BASE_MECHANISM + ':' + node_label
+        category_label = 'mechanism_of_action'
+        node_dict = make_node(node_curie_id,
+                              CHEMBL_BASE_IRI_PREDICATE + node_label,
+                              mechanism_of_action,
+                              category_label,
+                              None,
+                              [],
+                              [],
+                              update_date)
+        nodes.append(node_dict)
+
+# get action_type nodes and their subclass_of relationships
+
+    sql = 'select action_type, description, parent_type from action_type'
+    with connection.cursor() as cursor:
+        cursor.execute(sql)
+        results = cursor.fetchall()
+    for (action_type, description, parent_type) in results:
+        name = action_type.lower()
+        predicate_label = name.replace(' ', '_')
+        curie_id = 'CHEMBL:' + predicate_label
+        category_label = 'semantic_type'
+        node_dict = make_node(curie_id,
+                              CHEMBL_BASE_IRI_PREDICATE + chembl_id,
+                              name,
+                              category_label,
+                              description,
+                              [],
+                              [],
+                              update_date)
+        nodes.append(node_dict)
+        parent_label = parent_type.lower().replace(' ', '_')
+        parent_curie_id = 'CHEMBL:' + parent_label
+        edges.append(make_edge(curie_id,
+                               parent_curie_id,
+                               'subclass_of',
+                               update_date))
+
+# get target-to-target subset_of relationships
+
     sql = '''select distinct
              t1.chembl_id,
              target_relations.relationship,
@@ -268,6 +325,9 @@ if __name__ == '__main__':
                                object_curie_id,
                                predicate_label,
                                update_date))
+
+# get ChEMBL target-to-protein and target-to-RNA relationships
+
     sql = '''select distinct
              target_dictionary.chembl_id,
              target_components.homologue,
@@ -302,63 +362,20 @@ if __name__ == '__main__':
                                predicate_label,
                                update_date))
 
-    sql = 'select action_type, description, parent_type from action_type'
-    with connection.cursor() as cursor:
-        cursor.execute(sql)
-        results = cursor.fetchall()
-    for (action_type, description, parent_type) in results:
-        name = action_type.lower()
-        predicate_label = name.replace(' ', '_')
-        curie_id = 'CHEMBL:' + predicate_label
-        category_label = 'semantic_type'
-        node_dict = make_node(curie_id,
-                              CHEMBL_BASE_IRI_PREDICATE + chembl_id,
-                              name,
-                              category_label,
-                              description,
-                              [],
-                              [],
-                              update_date)
-        nodes.append(node_dict)
-        parent_label = parent_type.lower().replace(' ', '_')
-        parent_curie_id = 'CHEMBL:' + parent_label
-        edges.append(make_edge(curie_id,
-                               parent_curie_id,
-                               'subclass_of',
-                               update_date))
-
-    sql = 'select distinct mechanism_of_action from drug_mechanism'
-    if test_mode:
-        sql += str_sql_row_limit_test_mode
-    with connection.cursor() as cursor:
-        cursor.execute(sql)
-        results = cursor.fetchall()
-    for (mechanism_of_action,) in results:
-        node_label = mechanism_of_action.lower().replace(' ', '_')
-        node_curie_id = CHEMBL_CURIE_BASE_MECHANISM + ':' + node_label
-        category_label = 'mechanism_of_action'
-        node_dict = make_node(node_curie_id,
-                              CHEMBL_BASE_IRI_PREDICATE + node_label,
-                              mechanism_of_action,
-                              category_label,
-                              None,
-                              [],
-                              [],
-                              update_date)
-        nodes.append(node_dict)
+# get drug-to-target edges and additional information about drugs (direct_interaction, has_role, etc.)
 
     sql = '''select distinct
-        molecule_dictionary.chembl_id,
-        drug_mechanism.mechanism_of_action,
-        drug_mechanism.direct_interaction,
-        mechanism_refs.ref_url,
-        action_type.action_type,
-        target_dictionary.chembl_id
-        from (((molecule_dictionary
-        natural join drug_mechanism)
-        inner join target_dictionary on drug_mechanism.tid = target_dictionary.tid)
-        natural join action_type
-        left join mechanism_refs on drug_mechanism.mec_id = mechanism_refs.mec_id)'''
+             molecule_dictionary.chembl_id,
+             drug_mechanism.mechanism_of_action,
+             drug_mechanism.direct_interaction,
+             mechanism_refs.ref_url,
+             action_type.action_type,
+             target_dictionary.chembl_id
+             from (((molecule_dictionary
+             natural join drug_mechanism)
+             inner join target_dictionary on drug_mechanism.tid = target_dictionary.tid)
+             natural join action_type
+             left join mechanism_refs on drug_mechanism.mec_id = mechanism_refs.mec_id)'''
     if test_mode:
         sql += str_sql_row_limit_test_mode
     with connection.cursor() as cursor:
@@ -395,6 +412,7 @@ if __name__ == '__main__':
                                    'has_role',
                                    update_date))
 
+# get molecule-to-disease indications
 
     sql = '''select md.chembl_id, di.mesh_id 
              from molecule_dictionary as md 
