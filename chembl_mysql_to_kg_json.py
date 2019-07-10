@@ -125,7 +125,6 @@ if __name__ == '__main__':
        molecule_dictionary.pref_name,
        molecule_dictionary.molecule_type,
        molecule_dictionary.max_phase,
-       molecule_dictionary.chebi_par_id,
        molecule_dictionary.availability_type,
        compound_structures.standard_inchi,
        compound_structures.standard_inchi_key,
