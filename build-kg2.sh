@@ -149,6 +149,7 @@ ${VENV_DIR}/bin/python3 ${CODE_DIR}/merge_graphs.py \
                      ${SEMMED_OUTPUT_FILE} \
                      ${UNIPROTKB_OUTPUT_FILE} \
                      ${ENSEMBL_OUTPUT_FILE} \
+                     ${UNICHEM_OUTPUT_TSV_FILE} \
            --outputFile ${FINAL_OUTPUT_FILE_FULL} \
            --kgFileOrphanEdges ${OUTPUT_FILE_ORPHAN_EDGES}
 
