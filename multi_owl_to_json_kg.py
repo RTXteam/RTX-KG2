@@ -505,15 +505,6 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                             node_name = bpv_val
                             node_synonyms.add(bpv_val)
 
-            node_description_xrefs_match = REGEX_XREF_END_DESCRIP.match(node_description)
-            if node_description_xrefs_match is not None:
-                node_description_xrefs_str = node_description_xrefs_match[1]
-                node_description_xrefs_list = node_description_xrefs_str.split(',')
-                for node_description_xref_str in node_description_xrefs_list:
-                    node_description_xref_str = node_description_xref_str.strip()
-                    if ':' in node_description_xref_str:
-                        node_xrefs.add(node_description_xref_str)
-
             if node_category_label is None:
                 if not node_deprecated:
                     kg2_util.log_message("Node does not have a category", ontology.id, node_curie_id, output_stream=sys.stderr)
@@ -535,14 +526,21 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                 node_update_date = source_ontology_update_date
 
             if node_description is not None:
+                node_description_xrefs_match = REGEX_XREF_END_DESCRIP.match(node_description)
+                if node_description_xrefs_match is not None:
+                    node_description_xrefs_str = node_description_xrefs_match[1]
+                    node_description_xrefs_list = node_description_xrefs_str.split(',')
+                    for node_description_xref_str in node_description_xrefs_list:
+                        node_description_xref_str = node_description_xref_str.strip()
+                        if ':' in node_description_xref_str:
+                            node_xrefs.add(node_description_xref_str)
                 node_description_pubs = REGEX_PUBLICATIONS.findall(node_description)
                 for pub_curie in node_description_pubs:
                     node_publications.add(pub_curie)
 
             # deal with node names that are ALLCAPS
             if node_name is not None and node_name.isupper():
-                node_name = node_name.lower()
-                node_name = node_name[0].upper() + node_name[1:]
+                node_name = kg2_util.allcaps_to_only_first_letter_capitalized(node_name)
 
             node_dict['name'] = node_name
             node_dict['full name'] = node_full_name
