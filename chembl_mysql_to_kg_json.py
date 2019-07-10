@@ -177,7 +177,7 @@ if __name__ == '__main__':
                  pubmed_id) in synonym_results:
                 synonym_set.add(compound_name)
                 if pubmed_id is not None:
-                    publications_set.add('PMID:' + pubmed_id)
+                    publications_set.add('PMID:' + str(pubmed_id))
                 if src_compound_id is not None and src_short_name is not None and src_short_name != "LITERATURE":
                     synonym_set.add(src_short_name + ':' + src_compound_id)
         compound_synonyms = list(synonym_set)
