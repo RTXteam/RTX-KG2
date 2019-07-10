@@ -26,7 +26,5 @@ OUTPUT_DIR=`dirname ${ENSEMBL_JSON_FILE}`
 
 mkdir -p ${OUTPUT_DIR}
 
-CURL_GET="curl -s -L"
-
 ${CURL_GET} ftp://ftp.ensembl.org/pub/release-${ENSEMBL_RELEASE}/json/homo_sapiens/homo_sapiens.json > ${ENSEMBL_JSON_FILE}
 
