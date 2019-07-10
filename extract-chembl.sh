@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# build-chembl.sh: download ChEMBL MySQL dump and load into a MySQL DB
+# extract-chembl.sh: download ChEMBL MySQL dump and load into a MySQL DB
 # Copyright 2019 Stephen A. Ramsey <stephen.ramsey@oregonstate.edu>
 
 set -o nounset -o pipefail -o errexit
