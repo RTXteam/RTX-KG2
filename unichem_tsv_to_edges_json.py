@@ -56,6 +56,7 @@ if __name__ == '__main__':
         for line in input_file:
             if line.startswith('#'):
                 update_date = line.split('# ')[1]
+                continue
             (chembl_curie_id, chebi_curie_id) = line.rstrip().split('\t')
             edges.append(make_xref(chembl_curie_id, chebi_curie_id, update_date))
             edges.append(make_xref(chebi_curie_id, chembl_curie_id, update_date))
