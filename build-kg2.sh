@@ -47,10 +47,10 @@ date
     
 ## supply a default value for the BUILD_FLAG string
 
-SEMMED_TUPLELIST_FILE=${BUILD_DIR}/kg2-semmeddb${TEST_SUFFIX}-tuplelist.json
+SEMMED_TUPLELIST_FILE=${BUILD_DIR}/semmeddb/kg2-semmeddb${TEST_SUFFIX}-tuplelist.json
 SEMMED_OUTPUT_FILE=${BUILD_DIR}/kg2-semmeddb${TEST_SUFFIX}-edges.json
 
-UNIPROTKB_DAT_FILE=${BUILD_DIR}/uniprot_sprot.dat
+UNIPROTKB_DAT_FILE=${BUILD_DIR}/uniprotkb/uniprot_sprot.dat
 UNIPROTKB_OUTPUT_FILE=${BUILD_DIR}/kg2-uniprotkb${TEST_SUFFIX}.json
 
 OUTPUT_FILE_BASE=kg2-owl${TEST_SUFFIX}.json
