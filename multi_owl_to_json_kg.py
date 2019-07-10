@@ -429,15 +429,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                     node_description = node_definition['val']
                     if node_description.startswith('OBSOLETE:') or node_description.startswith('Obsolete.'):
                         continue
-                    node_description_xrefs_match = REGEX_XREF_END_DESCRIP.match(node_description)
-                    if node_description_xrefs_match is not None:
-                        node_description_xrefs_str = node_description_xrefs_match[1]
-                        node_description_xrefs_list = node_description_xrefs_str.split(',')
-                        for node_description_xref_str in node_description_xrefs_list:
-                            node_description_xref_str = node_description_xref_str.strip()
-                            if ':' in node_description_xref_str:
-                                node_xrefs.add(node_description_xref_str)
-
+ 
                     node_definition_xrefs = node_definition.get('xrefs', None)
                     if node_definition_xrefs is not None:
                         assert type(node_definition_xrefs) == list
@@ -512,6 +504,15 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         elif bpv_pred_curie == 'HGNC:GENESYMBOL':
                             node_name = bpv_val
                             node_synonyms.add(bpv_val)
+
+            node_description_xrefs_match = REGEX_XREF_END_DESCRIP.match(node_description)
+            if node_description_xrefs_match is not None:
+                node_description_xrefs_str = node_description_xrefs_match[1]
+                node_description_xrefs_list = node_description_xrefs_str.split(',')
+                for node_description_xref_str in node_description_xrefs_list:
+                    node_description_xref_str = node_description_xref_str.strip()
+                    if ':' in node_description_xref_str:
+                        node_xrefs.add(node_description_xref_str)
 
             if node_category_label is None:
                 if not node_deprecated:
