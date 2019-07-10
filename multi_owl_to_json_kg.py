@@ -577,6 +577,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         cui_node_dict['category label'] = node_tui_category_label.replace(' ', '_')
                         cui_node_dict['ontology node ids'] = []
                         cui_node_dict['provided by'] = CUI_BASE_IRI
+                        cui_node_dict['xrefs'] = []
                         cui_node_dict_existing = ret_dict.get(cui_curie, None)
                         if cui_node_dict_existing is not None:
                             cui_node_dict = kg2_util.merge_two_dicts(cui_node_dict,
