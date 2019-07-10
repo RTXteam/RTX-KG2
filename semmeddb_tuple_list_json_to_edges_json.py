@@ -82,8 +82,12 @@ if __name__ == '__main__':
     test_mode = args.test
     input_data = json.load(open(input_file_name, 'r'))
     preds_dict = dict()
+    row_ctr = 0
     for (pmid, subject_cui_str, predicate, object_cui_str, pub_date, sentence,
          subject_score, object_score, curr_timestamp) in input_data['rows']:
+        row_ctr += 1
+        if test_mode and row_ctr > 10000:
+            break
         subject_cui_split = subject_cui_str.split("|")
         subject_cui = subject_cui_split[0]
         if len(subject_cui_split) > 1:
