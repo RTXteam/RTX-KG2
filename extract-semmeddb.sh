@@ -36,13 +36,12 @@ then
     MEM_GB=`${CODE_DIR}/get-system-memory-gb.sh`
 
     aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/${SEMMED_SQL_FILE}.gz ${SEMMED_DIR}/
-    gunzip ${SEMMED_DIR}/${SEMMED_SQL_FILE}.gz
 
 ## create the "umls" database
     mysql --defaults-extra-file=${MYSQL_CONF} \
           -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DBNAME} CHARACTER SET utf8 COLLATE utf8_unicode_ci"
 
-    mysql --defaults-extra-file=${MYSQL_CONF} --database=${MYSQL_DBNAME} < ${SEMMED_DIR}/${SEMMED_SQL_FILE}
+    zcat ${SEMMED_DIR}/${SEMMED_SQL_FILE}.gz | mysql --defaults-extra-file=${MYSQL_CONF} --database=${MYSQL_DBNAME}
 fi
 
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/semmeddb_mysql_to_tuple_list_json.py \
