@@ -76,6 +76,8 @@ OWL_LOAD_INVENTORY_FILE=${CODE_DIR}/owl-load-inventory${TEST_SUFFIX}.yaml
 
 CHEMBL_MYSQL_DBNAME=chembl
 
+UNICHEM_OUTPUT_TSV_FILE=${BUILD_DIR}/unichem/chembl-to-chebi.tsv
+
 cd ${BUILD_DIR}
 
 MEM_GB=`${CODE_DIR}/get-system-memory-gb.sh`
@@ -97,6 +99,9 @@ then
 ## Extract ChEMBL
     echo "running extract-chembl.sh"
     bash -x ${CODE_DIR}/extract-chembl.sh ${CHEMBL_MYSQL_DBNAME}
+## Extract UniChem chembl-to-chebi mappings
+    echo "running extract-unichem.sh"
+    bash -x ${CODE_DIR}/extract-unichem.sh ${UNICHEM_OUTPUT_TSV_FILE}
 fi
 
 echo "running uniprotkb_dat_to_json.py"
