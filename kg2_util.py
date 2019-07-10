@@ -84,6 +84,10 @@ def purge(dir, pattern):
             os.remove(os.path.join(exp_dir, f))
 
 
+def allcaps_to_only_first_letter_capitalized(allcaps: str):
+    return allcaps[0] + allcaps[1:].lower()
+
+
 def safe_load_yaml_from_string(yaml_string: str):
     return yaml.safe_load(io.StringIO(yaml_string))
 
