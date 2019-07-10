@@ -452,7 +452,10 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                 node_xrefs_list = node_meta.get('xrefs', None)
                 if node_xrefs_list is not None:
                     for xref_dict in node_xrefs_list:
-                        node_xrefs.add(xref_dict['val'])
+                        xref_curie = xref_dict['val']
+                        if xref_curie.startswith('MESH:'):
+                            xref_curie = xref_curie.replace('MESH:', 'MSH:')
+                        node_xrefs.add(xref_curie)
                 basic_property_values = node_meta.get('basicPropertyValues', None)
                 if basic_property_values is not None:
                     for basic_property_value_dict in basic_property_values:
