@@ -394,6 +394,25 @@ if __name__ == '__main__':
                                    mech_curie_id,
                                    'has_role',
                                    update_date))
+
+
+    sql = '''select md.chembl_id, di.mesh_id 
+             from molecule_dictionary as md 
+             inner join drug_indication as di on md.molregno = di.molregno'''
+    if test_mode:
+        sql += str_sql_row_limit_test_mode
+    with connection.cursor() as cursor:
+        cursor.execute(sql)
+        results = cursor.fetchall()
+    for (chembl_id, mesh_id) in results:
+        subject_curie_id = CHEMBL_CURIE_BASE_COMPOUND + ':' + chembl_id
+        object_curie_id = 'MSH:' + mesh_id
+        predicate_label = 'has_indication'
+        edges.append(make_edge(subject_curie_id,
+                               object_curie_id,
+                               predicate_label,
+                               update_date,
+                               []))
     kg2_util.save_json({'nodes': nodes, 'edges': edges},
                        output_file_name,
                        test_mode)
