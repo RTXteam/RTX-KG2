@@ -168,7 +168,7 @@ def make_edge(subject_id: str,
               predicate_label: str,
               provided_by: str,
               update_date: str = None):
-    
+
     relation = BIOLINK_CATEGORY_BASE_IRI + convert_snake_case_to_camel_case(predicate_label)
     return {'subject': subject_id,
             'object': object_id,
