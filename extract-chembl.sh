@@ -27,11 +27,13 @@ mkdir -p ${CHEMBL_DIR}
 ${CURL_GET} ftp://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/${CHEMBL_DB_TARBALL} > ${CHEMBL_DIR}/${CHEMBL_DB_TARBALL}
 
 tar xzf ${CHEMBL_DIR}/${CHEMBL_DB_TARBALL} -C ${CHEMBL_DIR}
+rm -f ${CHEMBL_DIR}/${CHEMBL_DB_TARBALL}
+gzip ${CHEMBL_SQL_FILE}
 
 mysql --defaults-extra-file=${MYSQL_CONF} \
       -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DBNAME} DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;"
 
-mysql --defaults-extra-file=${MYSQL_CONF} --database=${MYSQL_DBNAME} < ${CHEMBL_SQL_FILE}
+zcat ${CHEMBL_SQL_FILE}.gz | mysql --defaults-extra-file=${MYSQL_CONF} --database=${MYSQL_DBNAME}
 
 date
 echo "================= script finished ================="
