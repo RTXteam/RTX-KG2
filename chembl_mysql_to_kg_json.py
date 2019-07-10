@@ -118,7 +118,7 @@ if __name__ == '__main__':
     sql = "select DATE_FORMAT(creation_date, '%Y-%m-%d') from version"
     with connection.cursor() as cursor:
         cursor.execute(sql)
-        update_date = cursor.fetch()
+        update_date = cursor.fetchone()
 
     sql = '''select distinct
        molecule_dictionary.chembl_id,
