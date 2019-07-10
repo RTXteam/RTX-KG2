@@ -139,6 +139,7 @@ if __name__ == '__main__':
     with connection.cursor() as cursor:
         cursor.execute(sql)
         molecule_sql_results = cursor.fetchall()
+    row_ctr = 0
     for (chembl_id,
          pref_name,
          molecule_type,
@@ -149,6 +150,9 @@ if __name__ == '__main__':
          canonical_smiles,
          full_mwt,
          molregno) in molecule_sql_results:
+        row_ctr += 1
+        if row_ctr % 10000 == 0:
+            print("have processed " + str(row_ctr) + " compounds")
         synonyms = []
         if standard_inchi is not None:
             synonyms.append(standard_inchi)
@@ -166,21 +170,25 @@ if __name__ == '__main__':
                           where molregno ='''
 
         sql_synonyms += str(molregno)
+        publications = []
+        publications_set = set()
         with connection.cursor() as cursor:
             cursor.execute(sql_synonyms)
             synonym_results = cursor.fetchall()
             synonym_set = set()
-            publications_set = set()
             for (compound_name,
                  src_short_name,
                  src_compound_id,
                  pubmed_id) in synonym_results:
+                if pref_name is None and compound_name is not None:
+                    pref_name = compound_name
                 synonym_set.add(compound_name)
                 if pubmed_id is not None:
                     publications_set.add('PMID:' + str(pubmed_id))
                 if src_compound_id is not None and src_short_name is not None and src_short_name != "LITERATURE":
                     synonym_set.add(src_short_name + ':' + src_compound_id)
         compound_synonyms = list(synonym_set)
+        publications += list(publications_set)
         synonyms += compound_synonyms
         description = pref_name
         if full_mwt is not None:
@@ -189,7 +197,14 @@ if __name__ == '__main__':
             description.append('; MAX_FDA_APPROVAL_PHASE: ' + str(max_phase_int))
         id = CHEMBL_CURIE_BASE_COMPOUND + ':' + chembl_id
         iri = CHEMBL_BASE_IRI_COMPOUND + chembl_id
-        node_dict = make_node(id, iri, pref_name, category_label, description, synonyms, [], update_date)
+        node_dict = make_node(id,
+                              iri,
+                              pref_name,
+                              category_label,
+                              description,
+                              synonyms,
+                              publications,
+                              update_date)
         nodes.append(node_dict)
 
     sql = '''select distinct
