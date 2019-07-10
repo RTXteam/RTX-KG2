@@ -107,6 +107,7 @@ if __name__ == '__main__':
     args = get_args()
     mysql_config_file = args.mysqlConfigFile[0]
     mysql_db_name = args.mysqlDBName[0]
+    output_file_name = args.outputFile[0]
     test_mode = args.test
     connection = pymysql.connect(read_default_file=mysql_config_file, db=mysql_db_name)
 
@@ -118,7 +119,7 @@ if __name__ == '__main__':
     sql = "select DATE_FORMAT(creation_date, '%Y-%m-%d') from version"
     with connection.cursor() as cursor:
         cursor.execute(sql)
-        update_date = cursor.fetchone()
+        update_date = cursor.fetchone()[0]
 
     sql = '''select distinct
        molecule_dictionary.chembl_id,
@@ -190,11 +191,14 @@ if __name__ == '__main__':
         compound_synonyms = list(synonym_set)
         publications += list(publications_set)
         synonyms += compound_synonyms
-        description = pref_name
+        if pref_name is not None:
+            description = pref_name
+        else:
+            description = ''
         if full_mwt is not None:
-            description.append('; FULL_MW:' + str(full_mwt))
+            description += '; FULL_MW:' + str(full_mwt)
         if max_phase_int is not None:
-            description.append('; MAX_FDA_APPROVAL_PHASE: ' + str(max_phase_int))
+            description += '; MAX_FDA_APPROVAL_PHASE: ' + str(max_phase_int)
         id = CHEMBL_CURIE_BASE_COMPOUND + ':' + chembl_id
         iri = CHEMBL_BASE_IRI_COMPOUND + chembl_id
         node_dict = make_node(id,
@@ -329,7 +333,7 @@ if __name__ == '__main__':
     with connection.cursor() as cursor:
         cursor.execute(sql)
         results = cursor.fetchall()
-    for (mechanism_of_action) in results:
+    for (mechanism_of_action,) in results:
         node_label = mechanism_of_action.lower().replace(' ', '_')
         node_curie_id = CHEMBL_CURIE_BASE_MECHANISM + ':' + node_label
         category_label = 'mechanism_of_action'
@@ -390,3 +394,6 @@ if __name__ == '__main__':
                                    mech_curie_id,
                                    'has_role',
                                    update_date))
+    kg2_util.save_json({'nodes': nodes, 'edges': edges},
+                       output_file_name,
+                       test_mode)
