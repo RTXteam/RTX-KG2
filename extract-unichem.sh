@@ -11,7 +11,7 @@ fi
 
 OUTPUT_TSV_FILE=${1:-"${BUILD_DIR}/unichem/chembl-to-chebi.tsv"}
 
-echo "================= starting build-chembl.sh ================="
+echo "================= starting build-unichem.sh ================="
 date
 
 CONFIG_DIR=`dirname "$0"`
