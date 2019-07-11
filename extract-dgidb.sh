@@ -14,6 +14,9 @@ OUTPUT_TSV_FILE=${1:-"${BUILD_DIR}/dgidb/interations.tsv"}
 echo "================= starting build-unichem.sh ================="
 date
 
+CONFIG_DIR=`dirname "$0"`
+source ${CONFIG_DIR}/master-config.shinc
+
 DGIDB_DIR=`dirname ${OUTPUT_TSV_FILE}`
 
 mkdir -p ${DGIDB_DIR}
