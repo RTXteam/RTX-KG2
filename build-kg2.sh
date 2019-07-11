@@ -77,6 +77,7 @@ OWL_LOAD_INVENTORY_FILE=${CODE_DIR}/owl-load-inventory${TEST_SUFFIX}.yaml
 CHEMBL_MYSQL_DBNAME=chembl
 
 UNICHEM_OUTPUT_TSV_FILE=${BUILD_DIR}/unichem/chembl-to-chebi.tsv
+UNICHEM_OUTPUT_FILE=${BUILD_DIR}/kg2-unichem${TEST_SUFFIX}.json
 
 cd ${BUILD_DIR}
 
@@ -143,13 +144,24 @@ echo "running build-multi-owl-kg.sh"
 bash -x ${CODE_DIR}/build-multi-owl-kg.sh \
      ${OUTPUT_FILE_FULL} ${BUILD_FLAG}
 
+echo "running unichem_tsv_to_edges_json.py"
+
+## Make JSON file for UniChem
+
+${VENV_DIR}/bin/python3 ${CODE_DIR}/unichem_tsv_to_edges_json.py \
+           ${TEST_ARG} \
+           --inputFile ${UNICHEM_OUTPUT_TSV_FILE} \
+           --outputFile ${UNICHEM_OUTPUT_FILE}
+
+## Merge all the KG JSON files
+
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/merge_graphs.py \
            ${TEST_ARG} \
            --kgFiles ${OUTPUT_FILE_FULL} \
                      ${SEMMED_OUTPUT_FILE} \
                      ${UNIPROTKB_OUTPUT_FILE} \
                      ${ENSEMBL_OUTPUT_FILE} \
-                     ${UNICHEM_OUTPUT_TSV_FILE} \
+                     ${UNICHEM_OUTPUT_FILE} \
            --outputFile ${FINAL_OUTPUT_FILE_FULL} \
            --kgFileOrphanEdges ${OUTPUT_FILE_ORPHAN_EDGES}
 
