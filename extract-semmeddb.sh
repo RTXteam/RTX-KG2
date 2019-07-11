@@ -44,7 +44,16 @@ then
     zcat ${SEMMED_DIR}/${SEMMED_SQL_FILE}.gz | mysql --defaults-extra-file=${MYSQL_CONF} --database=${MYSQL_DBNAME}
 fi
 
+if [[ "${BUILD_FLAG}" == "test" ]]
+then
+   TEST_ARG = " --test"
+else
+   TEST_ARG = ""
+fi
+
+
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/semmeddb_mysql_to_tuple_list_json.py \
+           ${TEST_ARG} \
 	   --mysqlConfigFile ${MYSQL_CONF} \
 	   --mysqlDBName ${MYSQL_DBNAME} \
 	   --outputFile ${SEMMED_OUTPUT_FILE}
