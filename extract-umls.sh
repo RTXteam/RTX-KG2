@@ -68,6 +68,9 @@ ${JAVA_HOME}/bin/java -Djava.awt.headless=true \
                       -Dmmsys.config.uri=${CONFIG_FILE} \
                       -Xms300M -Xmx${MEM_GB}G org.java.plugin.boot.Boot
 
+MYSQL_USER=`grep 'user = ' ${MYSQL_CONF} | sed 's/user = //g'`
+MYSQL_PASSWORD=`grep 'password = ' ${MYSQL_CONF} | sed 's/password = //g'`
+
 ## create the "umls" database
 mysql --defaults-extra-file=${MYSQL_CONF} \
       -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DBNAME} CHARACTER SET utf8 COLLATE utf8_unicode_ci"
