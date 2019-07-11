@@ -134,7 +134,7 @@ echo "running chembl_mysql_to_kg_json.py"
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/chembl_mysql_to_kg_json.py \
            ${TEST_ARG} \
            --mysqlConfigFile ${MYSQL_CONF} \
-           --mysqlDBName chembl \
+           --mysqlDBName ${CHEMBL_MYSQL_DBNAME} \
            --outputFile ${CHEMBL_OUTPUT_FILE}
 
 echo "running build-multi-owl-kg.sh"
