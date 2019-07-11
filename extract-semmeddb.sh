@@ -46,9 +46,9 @@ fi
 
 if [[ "${BUILD_FLAG}" == "test" ]]
 then
-   TEST_ARG = " --test"
+   TEST_ARG=" --test"
 else
-   TEST_ARG = ""
+   TEST_ARG=""
 fi
 
 
