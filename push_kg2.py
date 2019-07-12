@@ -31,9 +31,16 @@ class push_kg2:
         # Connection information for the neo4j server, populated with orangeboard
         self.driver = GraphDatabase.driver(bolt, auth=basic_auth(user, password))
 
+    def close(self):
+        """
+        Closes the driver connection
+        """
+        self.driver.close()
+
     def push_nodes(self, json_file, batch = 10000):
         """
         :param json_file: A string containing the path (or URL) to the json file
+        :param batch: A string or integer containing a positive integer number of nodes to include in each batch upload
         """
         if isinstance(batch, int):
             batch = str(batch)
@@ -122,5 +129,6 @@ if __name__ == "__main__":
         if args.debug:
             print(str(count), " batches of ", args.batch," edges uploaded in ", str(time.time() - t0), " seconds.")
 
+    kg2_pusher.close()
 
 
