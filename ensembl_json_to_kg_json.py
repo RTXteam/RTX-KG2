@@ -93,11 +93,18 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
         hgnc_list = gene_dict.get('HGNC', None)
         if hgnc_list is not None:
             for hgnc_curie in hgnc_list:
-                edges.append(kg2_util.make_edge(ensembl_gene_curie_id,
-                                                hgnc_curie,
-                                                'xref',
-                                                ENSEMBL_KB_IRI,
-                                                update_date))
+                edges.append({
+                    'subject': ensembl_gene_curie_id,
+                    'object': hgnc_curie,
+                    'edge label': 'is_equivalent_to',
+                    'relation': kg2_util.IRI_OWL_SAME_AS,
+                    'relation curie': kg2_util.CURIE_OWL_SAME_AS,
+                    'negated': False,
+                    'publications': [],
+                    'publications info': {},
+                    'update date': update_date,
+                    'provided by': ENSEMBL_KB_IRI
+                })
     return {'nodes': nodes,
             'edges': edges}
 
