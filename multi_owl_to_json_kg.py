@@ -711,13 +711,13 @@ def get_rels_dict(nodes: dict,
                 for xref_node_id in xrefs:
                     if xref_node_id in nodes and node_id != xref_node_id:
                         provided_by = nodes[node_id]['provided by']
-                        key = make_rel_key(node_id, kg2_util.CURIE_OBO_XREF, xref_node_id, provided_by)
+                        key = make_rel_key(node_id, CURIE_OBO_XREF, xref_node_id, provided_by)
                         if rels_dict.get(key, None) is None:
                             rels_dict[key] = {'subject': node_id,
                                               'object': xref_node_id,
                                               'edge label': 'xref',
-                                              'relation': kg2_util.IRI_OBO_XREF,
-                                              'relation curie': kg2_util.CURIE_OBO_XREF,
+                                              'relation': IRI_OBO_XREF,
+                                              'relation curie': CURIE_OBO_XREF,
                                               'negated': False,
                                               'publications': [],
                                               'publications info': {},

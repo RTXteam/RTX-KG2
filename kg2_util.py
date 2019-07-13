@@ -35,8 +35,8 @@ TEMP_FILE_PREFIX = 'kg2'
 FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
 ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
 BIOLINK_CATEGORY_BASE_IRI = 'http://w3id.org/biolink/vocab/'
-IRI_OBO_XREF = 'http://purl.org/obo/owl/oboFormat#oboFormat_xref'
-CURIE_OBO_XREF = 'oboFormat:xref'
+IRI_OWL_SAME_AS = 'http://www.w3.org/2002/07/owl#sameAs'
+CURIE_OWL_SAME_AS = 'owl:sameAs'
 
 
 def load_json(input_file_name):
