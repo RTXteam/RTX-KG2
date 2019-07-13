@@ -26,7 +26,7 @@ if __name__ == '__main__':
     input_file_name = args.inputFile[0]
     output_file_name = args.outputFile[0]
     graph = kg2_util.load_json(input_file_name)
-    nodes = graph['nodes'][range(0, len(graph['nodes']), 5)]
+    nodes = graph['nodes'][list(range(0, len(graph['nodes']), 5))]
     nodes_id_set = set([node['id'] for node in nodes])
     edges = [edge for edge in graph['edges'] if edge['subject'] in nodes_id_set and edge['object'] in nodes_id_set]
     kg2_util.save_json({'nodes': nodes, 'edges': edges}, output_file_name)
