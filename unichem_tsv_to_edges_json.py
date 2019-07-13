@@ -26,7 +26,7 @@ def make_xref(subject: str,
     return {
         'subject': subject,
         'object': object,
-        'edge label': 'xref',
+        'edge label': 'is_equivalent_to',
         'relation': kg2_util.IRI_OWL_SAME_AS,
         'relation curie': kg2_util.CURIE_OWL_SAME_AS,
         'negated': False,
