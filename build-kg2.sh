@@ -76,7 +76,7 @@ OWL_LOAD_INVENTORY_FILE=${CODE_DIR}/owl-load-inventory${TEST_SUFFIX}.yaml
 
 CHEMBL_MYSQL_DBNAME=chembl
 
-UNICHEM_OUTPUT_TSV_FILE=${BUILD_DIR}/unichem/chembl-to-chebi.tsv
+UNICHEM_OUTPUT_TSV_FILE=${BUILD_DIR}/unichem/chembl-to-curies.tsv
 UNICHEM_OUTPUT_FILE=${BUILD_DIR}/kg2-unichem${TEST_SUFFIX}.json
 
 cd ${BUILD_DIR}

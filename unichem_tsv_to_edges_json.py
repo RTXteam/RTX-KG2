@@ -37,7 +37,7 @@ def make_xref(subject: str,
 
 
 def make_arg_parser():
-    arg_parser = argparse.ArgumentParser(description='unichem_tsv_to_edges_json.py: loads TSV ChEMBL-CHEBI mappings and converts into RTX KG2 JSON format')
+    arg_parser = argparse.ArgumentParser(description='unichem_tsv_to_edges_json.py: loads TSV ChEMBL-CURIE mappings and converts into RTX KG2 JSON format')
     arg_parser.add_argument('--test', dest='test', action='store_true', default=False)
     arg_parser.add_argument('--inputFile', type=str, nargs=1)
     arg_parser.add_argument('--outputFile', type=str, nargs=1)
@@ -61,9 +61,9 @@ if __name__ == '__main__':
             line_ctr += 1
             if test_mode and line_ctr > 10000:
                 break
-            (chembl_curie_id, chebi_curie_id) = line.rstrip().split('\t')
-            edges.append(make_xref(chembl_curie_id, chebi_curie_id, update_date))
-            edges.append(make_xref(chebi_curie_id, chembl_curie_id, update_date))
+            (chembl_curie_id, equiv_curie_id) = line.rstrip().split('\t')
+            edges.append(make_xref(chembl_curie_id, equiv_curie_id, update_date))
+            edges.append(make_xref(equiv_curie_id, chembl_curie_id, update_date))
 
     output_file_name = args.outputFile[0]
     out_graph = {'edges': edges, 'nodes': nodes}
