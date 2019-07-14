@@ -87,6 +87,9 @@ term-mappings:
     HP:0000001: phenotypic feature
     HsapDv:0000000: life stage
     MONDO:0000001: disease
+    MONDO:0021125: disease characteristic
+    MONDO:0042489: disease susceptibility
+    MONDO:0021007: disease
     MPATH:0: pathological entity
     NCBITaxon:1: organism taxon
     NCIT:C22187: disease
