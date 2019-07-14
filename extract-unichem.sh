@@ -9,13 +9,12 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     exit 2
 fi
 
-OUTPUT_TSV_FILE=${1:-"${BUILD_DIR}/unichem/chembl-to-curies.tsv"}
-
 echo "================= starting build-unichem.sh ================="
 date
 
 CONFIG_DIR=`dirname "$0"`
 source ${CONFIG_DIR}/master-config.shinc
+OUTPUT_TSV_FILE=${1:-"${BUILD_DIR}/unichem/chembl-to-curies.tsv"}
 UNICHEM_DIR=`dirname ${OUTPUT_TSV_FILE}`
 UNICHEM_VER=232
 UNICHEM_FTP_SITE=ftp://ftp.ebi.ac.uk/pub/databases/chembl/UniChem/data
