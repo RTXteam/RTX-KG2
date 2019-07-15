@@ -110,6 +110,19 @@ def count_types_of_pairs_of_curies_for_xrefs(edges: list):
     return collections.Counter(prefix_pairs_list)
 
 
+def count_types_of_pairs_of_curies_for_equivs(edges: list):
+    prefix_pairs_list = list()
+    for edge in edges:
+        if edge['edge label'] == 'is_equivalent_to':
+            subject_curie = edge['subject']
+            subject_prefix = get_prefix_from_curie_id(subject_curie)
+            object_curie = edge['object']
+            object_prefix = get_prefix_from_curie_id(object_curie)
+            key = subject_prefix + '---' + object_prefix
+            prefix_pairs_list.append(key)
+    return collections.Counter(prefix_pairs_list)
+
+
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
     input_file_name = args.inputFile[0]
@@ -132,6 +145,7 @@ if __name__ == '__main__':
              'number_of_predicates_by_predicate_curie_prefixes': dict(count_predicates_by_predicate_curie_prefix(graph['edges'])),
              'number_of_edges_by_source': dict(count_edges_by_source(graph['edges'])),
              'xref_node_curie_prefix_pair_counts': dict(count_types_of_pairs_of_curies_for_xrefs(graph['edges'])),
+             'equiv_node_curie_prefix_pair_counts': dict(count_types_of_pairs_of_curies_for_equivs(graph['edges'])),
              'number_of_nodes_by_source_and_category': dict(count_number_of_nodes_by_source_and_category(graph['nodes']))}
 
     temp_output_file = tempfile.mkstemp(prefix='kg2-')[1]

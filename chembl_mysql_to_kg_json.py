@@ -85,22 +85,16 @@ def make_node(id: str,
               synonym: list,
               publications: list,
               update_date: str):
-    return {
-            'id': id,
-            'iri': iri,
-            'full name': name,
-            'name': name,
-            'category': kg2_util.convert_biolink_category_to_iri(category_label),
-            'category label': category_label,
-            'description': description,
-            'synonym': synonyms,
-            'publications': publications,
-            'creation date': None,
-            'update date': update_date,
-            'deprecated': False,
-            'replaced by': None,
-            'provided by': CHEMBL_KB_IRI
-        }
+    node_dict = kg2_util.make_node(id,
+                                   iri,
+                                   name,
+                                   category_label,
+                                   update_date,
+                                   CHEMBL_KB_IRI)
+    node_dict['description'] = description
+    node_dict['synonym'] = synonyms
+    node_dict['publications'] = publications
+    return node_dict
 
 
 if __name__ == '__main__':

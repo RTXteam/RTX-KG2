@@ -21,6 +21,22 @@ ENSEMBL_BASE_IRI = 'http://ensembl.org/Homo_sapiens/Gene/Summary?db=core;g='
 ENSEMBL_KB_IRI = 'http://ensembl.org/Homo_sapiens/Gene'
 
 
+def make_edge(subject_curie_id: str,
+              object_curie_id: str,
+              predicate_label: str,
+              update_date: str):
+    relation = kg2_util.BIOLINK_CATEGORY_BASE_IRI + kg2_util.convert_snake_case_to_camel_case(predicate_label)
+    relation_curie = kg2_util.BIOLINK_CURIE_PREFIX + ':' + predicate_label.replace(' ', '_')
+    rel = kg2_util.make_edge(subject_curie_id,
+                             object_curie_id,
+                             relation,
+                             relation_curie,
+                             predicate_label,
+                             ENSEMBL_KB_IRI,
+                             update_date)
+    return rel
+
+
 def get_args():
     arg_parser = argparse.ArgumentParser(description='ensembl_json_to_kg2_json.py: builds a KG2 JSON representation for Ensembl genes')
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
@@ -38,23 +54,14 @@ def make_node(ensembl_gene_id: str,
     if other_synonyms is None:
         other_synonyms = []
     node_curie = kg2_util.CURIE_PREFIX_ENSEMBL + ensembl_gene_id
-    node_dict = {
-        'id': node_curie,
-        'iri': ENSEMBL_BASE_IRI + '/' + ensembl_gene_id,
-        'full name': description,
-        'name': description,
-        'category': kg2_util.convert_biolink_category_to_iri(category_label),
-        'category label': category_label,
-        'description': None,
-        'synonym': [gene_symbol] + other_synonyms,
-        'publications': [],
-        'creation date': None,
-        'update date': update_date,
-        'deprecated': False,
-        'replaced by': None,
-        'provided by': ENSEMBL_KB_IRI
-    }
-#        'ontology node type': 'INDIVIDUAL'
+    iri = ENSEMBL_BASE_IRI + '/' + ensembl_gene_id
+    node_dict = kg2_util.make_node(node_curie,
+                                   iri,
+                                   description,
+                                   category_label,
+                                   update_date,
+                                   ENSEMBL_KB_IRI)
+    node_dict['synonym'] = [gene_symbol] + other_synonyms
     return node_dict
 
 
@@ -85,17 +92,18 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
         ensembl_gene_curie_id = node_dict['id']
         taxon_id_int = gene_dict.get('taxon_id', None)
         assert taxon_id_int == 9606, "unexpected taxon ID"
-        edges.append(kg2_util.make_edge(ensembl_gene_curie_id,
-                                        'NCBITaxon:' + str(taxon_id_int),
-                                        'gene_found_in_organism',
-                                        ENSEMBL_KB_IRI,
-                                        update_date))
+        edges.append(make_edge(ensembl_gene_curie_id,
+                               'NCBITaxon:' + str(taxon_id_int),
+                               'gene_found_in_organism',
+                               update_date))
         hgnc_list = gene_dict.get('HGNC', None)
         if hgnc_list is not None:
             for hgnc_curie in hgnc_list:
                 edges.append(kg2_util.make_edge(ensembl_gene_curie_id,
                                                 hgnc_curie,
-                                                'xref',
+                                                kg2_util.IRI_OWL_SAME_AS,
+                                                kg2_util.CURIE_OWL_SAME_AS,
+                                                'is_equivalent_to',
                                                 ENSEMBL_KB_IRI,
                                                 update_date))
     return {'nodes': nodes,

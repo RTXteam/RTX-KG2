@@ -35,8 +35,9 @@ TEMP_FILE_PREFIX = 'kg2'
 FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
 ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
 BIOLINK_CATEGORY_BASE_IRI = 'http://w3id.org/biolink/vocab/'
-IRI_OBO_XREF = 'http://purl.org/obo/owl/oboFormat#oboFormat_xref'
-CURIE_OBO_XREF = 'oboFormat:xref'
+BIOLINK_CURIE_PREFIX = 'BioLink'
+IRI_OWL_SAME_AS = 'http://www.w3.org/2002/07/owl#sameAs'
+CURIE_OWL_SAME_AS = 'owl:sameAs'
 
 
 def load_json(input_file_name):
@@ -169,25 +170,6 @@ def merge_two_dicts(x: dict, y: dict):
     return ret_dict
 
 
-def make_edge(subject_id: str,
-              object_id: str,
-              predicate_label: str,
-              provided_by: str,
-              update_date: str = None):
-
-    relation = BIOLINK_CATEGORY_BASE_IRI + convert_snake_case_to_camel_case(predicate_label)
-    return {'subject': subject_id,
-            'object': object_id,
-            'edge label': predicate_label,
-            'relation': relation,
-            'relation curie': 'BioLink:' + predicate_label,
-            'negated': False,
-            'publications': [],
-            'publications info': {},
-            'update date': update_date,
-            'provided by': provided_by}
-
-
 def compose_two_multinode_dicts(node1: dict, node2: dict):
     ret_dict = copy.deepcopy(node1)
     for key, value in node2.items():
@@ -240,3 +222,45 @@ def convert_biolink_category_to_iri(biolink_category_label: str,
                                     biolink_category_base_iri: str = BIOLINK_CATEGORY_BASE_IRI):
     return urllib.parse.urljoin(biolink_category_base_iri,
                                 biolink_category_label.title().replace(' ', ''))
+
+
+def make_node(id: str,
+              iri: str,
+              name: str,
+              category_label: str,
+              update_date: str,
+              provided_by: str):
+    return {'id': id,
+            'iri': iri,
+            'name': name,
+            'full name': name,
+            'category': convert_biolink_category_to_iri(category_label),
+            'category label': category_label.replace(' ', '_'),
+            'description': None,
+            'synonym': [],
+            'publications': [],
+            'creation date': None,
+            'update date': update_date,
+            'deprecated': False,
+            'replaced by': None,
+            'provided by': provided_by}
+
+
+def make_edge(subject_id: str,
+              object_id: str,
+              relation: str,
+              relation_curie: str,
+              predicate_label: str,
+              provided_by: str,
+              update_date: str = None):
+
+    return {'subject': subject_id,
+            'object': object_id,
+            'edge label': predicate_label,
+            'relation': relation,
+            'relation curie': 'BioLink:' + predicate_label,
+            'negated': False,
+            'publications': [],
+            'publications info': {},
+            'update date': update_date,
+            'provided by': provided_by}
