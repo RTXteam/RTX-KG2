@@ -358,6 +358,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                            updated_date,
                                            iri_of_ontology)
         ontology_node['description'] = ontology_info_dict['description']
+        ret_dict[ontology_curie_id] = ontology_node
 
         ontologies_iris_to_curies[iri_of_ontology] = ontology_curie_id
 
@@ -497,8 +498,6 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                     node_category_label = 'unknown category'
                 else:
                     node_category_label = 'deprecated node'
-
-            node_category_iri = category_label_to_iri_mapper(node_category_label)
 
             ontology_curie_id = ontologies_iris_to_curies[iri_of_ontology]
             source_ontology_information = ret_dict.get(ontology_curie_id, None)
