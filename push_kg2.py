@@ -61,8 +61,8 @@ class push_kg2:
                                 'RETURN count(*)' +\
                                 '", {batchSize: ' + batch + ', iterateList: true})'
         with self.driver.session() as session:
+            session.run("CREATE CONSTRAINT ON (n:Base) ASSERT n.id IS UNIQUE")
             res = session.run(cypher_upload_nodes)
-            session.run("CREATE INDEX ON :Base(id)")
         return res.value()[0]
 
     def push_edges(self, json_file, batch = 10000):
