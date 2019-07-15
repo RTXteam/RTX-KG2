@@ -61,7 +61,7 @@ def make_rel(preds_dict: dict,
         edge_dict['publications'] = [publication_curie]
         edge_dict['publications_info'] = {publication_curie: publication_info_dict}
         edge_dict['negated'] = negated
-        preds_dict[key] = key_val
+        preds_dict[key] = edge_dict
     else:
         key_val['publications info'][publication_curie] = publication_info_dict
         key_val['publications'] = key_val['publications'] + [publication_curie]
