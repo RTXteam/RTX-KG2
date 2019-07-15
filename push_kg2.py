@@ -57,7 +57,9 @@ class push_kg2:
                                 'node.iri = n.iri, node.`ontology node type` = n.`ontology node type`, ' +\
                                 'node.`provided by` = n.`provided by`, node.publications = n.publications, ' +\
                                 'node.`replaced by` = n.`replaced by`, node.synonym = n.synonym, ' +\
-                                'node.`update date` = n.`update date` ' +\
+                                'node.`update date` = n.`update date`, ' +\
+                                #Redundancy to make querying by property rather than label possible
+                                'node.`category label` = n.`category label` ' +\
                                 'RETURN count(*)' +\
                                 '", {batchSize: ' + batch + ', iterateList: true})'
         with self.driver.session() as session:
@@ -81,7 +83,9 @@ class push_kg2:
                                 'CALL apoc.create.relationship(a,e.`edge label`,{}, b) YIELD rel ' +\
                                 'SET rel.`provided by` = e.`provided by`, rel.publications = e.publications, ' +\
                                 'rel.negated = e.negated, rel.relation = e.relation, rel.`relation curie` = e.`relation curie`, ' +\
-                                'rel.`update date` = e.`update date` ' +\
+                                'rel.`update date` = e.`update date`, ' +\
+                                #Redundancy to make querying by property rather than label possible
+                                'rel.`edge label` = e.`edge label` ' +\
                                 'RETURN count(*) ' +\
                                 '", {batchSize: ' + batch + ', iterateList: true})'
         with self.driver.session() as session:
