@@ -1,4 +1,13 @@
 #!/bin/bash
+# install neo4j into an Ubuntu 18.04 instance
+# Copyright 2019 Stephen A. Ramsey <stephen.ramsey@oregonstate.edu>
+
+set -o nounset -o pipefail -o errexit
+
+if [[ $# != 0 || "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
+    echo Usage: "$0"
+    exit 2
+fi
 
 sudo apt-get update -y
 sudo apt-get install -y emacs
