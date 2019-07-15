@@ -358,6 +358,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                            updated_date,
                                            iri_of_ontology)
         ontology_node['description'] = ontology_info_dict['description']
+        ontology_node['ontology node ids'] = [iri_of_ontology]
         ret_dict[ontology_curie_id] = ontology_node
 
         ontologies_iris_to_curies[iri_of_ontology] = ontology_curie_id
