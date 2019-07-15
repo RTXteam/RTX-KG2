@@ -15,7 +15,6 @@ __status__ = 'Prototype'
 
 
 import argparse
-import functools
 import kg2_util
 import re
 
@@ -104,6 +103,20 @@ def make_arg_parser():
     return arg_parser
 
 
+def make_edge(subject_curie_id: str,
+              object_curie_id: str,
+              predicate_label: str,
+              update_date: str):
+    relation = kg2_util.BIOLINK_CATEGORY_BASE_IRI + kg2_util.convert_snake_case_to_camel_case(predicate_label)
+    relation_curie = kg2_util.BIOLINK_CURIE_PREFIX + ':' + predicate_label.replace(' ', '_')
+    rel = kg2_util.make_edge(subject_curie_id,
+                             object_curie_id,
+                             relation,
+                             relation_curie,
+                             predicate_label,
+                             UNIPROTKB_BASE_IRI,
+                             update_date)
+    return rel
 
 
 def make_edges(records: list, nodes_dict: dict):
@@ -113,33 +126,31 @@ def make_edges(records: list, nodes_dict: dict):
         curie_id = 'UniProtKB:' + accession
         organism_int = record_dict['organism']
         update_date = nodes_dict[curie_id]['update date']
-        ret_list.append(kg2_util.make_edge(curie_id, 'NCBITaxon:' + str(organism_int),
-                                           'gene_product_has_organism_source',
-                                           UNIPROTKB_BASE_IRI,
-                                           update_date))
+        ret_list.append(make_edge(curie_id,
+                                  'NCBITaxon:' + str(organism_int),
+                                  'gene_product_has_organism_source',
+                                  update_date))
         record_xrefs = record_dict.get('DR', None)
         if record_xrefs is not None:
             for xref_str in record_xrefs:
                 hgnc_match = REGEX_HGNC.match(xref_str)
                 if hgnc_match is not None:
                     hgnc_curie = hgnc_match[1]
-                    ret_list.append(kg2_util.make_edge(hgnc_curie,
-                                                       curie_id,
-                                                       'encodes',
-                                                       UNIPROTKB_BASE_IRI,
-                                                       update_date))
+                    ret_list.append(make_edge(hgnc_curie,
+                                              curie_id,
+                                              'encodes',
+                                              update_date))
                 gene_id_match = REGEX_NCBIGeneID.match(xref_str)
                 if gene_id_match is not None:
                     ncbi_curie = 'NCBIGene:' + gene_id_match[1]
-                    ret_list.append(kg2_util.make_edge(ncbi_curie,
-                                                       curie_id,
-                                                       'encodes',
-                                                       UNIPROTKB_BASE_IRI,
-                                                       update_date))
+                    ret_list.append(make_edge(ncbi_curie,
+                                              curie_id,
+                                              'encodes',
+                                              update_date))
     return ret_list
 
 
-def make_nodes(records: list, map_category_label_to_iri: callable):
+def make_nodes(records: list):
     ret_dict = {}
     for record_dict in records:
         synonyms = [record_dict['SQ']]
@@ -204,23 +215,19 @@ def make_nodes(records: list, map_category_label_to_iri: callable):
             else:
                 name = full_name
         node_curie = 'UniProtKB:' + accession
-        node_dict = {
-            'id': node_curie,
-            'iri': UNIPROTKB_BASE_IRI + '/' + accession,
-            'full name': full_name,
-            'name': name,
-            'category': map_category_label_to_iri('protein'),
-            'category label': 'protein',
-            'description': description,
-            'synonym': synonyms,
-            'publications': publications,
-            'creation date': creation_date,
-            'update date': update_date,
-            'deprecated': False,
-            'replaced by': None,
-            'provided by': UNIPROTKB_BASE_IRI
-            }
-#           'ontology node type': 'INDIVIDUAL'
+        iri = UNIPROTKB_BASE_IRI + '/' + accession
+        category_label = 'protein'
+        node_dict = kg2_util.make_node(node_curie,
+                                       iri,
+                                       name,
+                                       category_label,
+                                       update_date,
+                                       UNIPROTKB_BASE_IRI)
+        node_dict['full name'] = full_name
+        node_dict['description'] = description
+        node_dict['synonym'] = synonyms
+        node_dict['publications'] = publications
+        node_dict['creation date'] = creation_date
         ret_dict[node_curie] = node_dict
     return ret_dict
 
@@ -235,9 +242,7 @@ if __name__ == '__main__':
     uniprot_records = parse_records_from_uniprot_dat(input_file_name,
                                                      DESIRED_SPECIES_INTS,
                                                      test_mode)
-    map_category_label_to_iri = functools.partial(kg2_util.convert_biolink_category_to_iri,
-                                                  biolink_category_base_iri=kg2_util.BIOLINK_CATEGORY_BASE_IRI)
-    nodes_dict = make_nodes(uniprot_records, map_category_label_to_iri)
+    nodes_dict = make_nodes(uniprot_records)
     nodes_list = [node_dict for node_dict in nodes_dict.values()]
     edges_list = make_edges(uniprot_records, nodes_dict)
     output_graph = {'nodes': nodes_list, 'edges': edges_list}

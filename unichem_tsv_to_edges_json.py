@@ -23,17 +23,14 @@ UNICHEM_KB_IRI = 'https://www.ebi.ac.uk/unichem/'
 def make_xref(subject: str,
               object: str,
               update_date: str):
-    return {
-        'subject': subject,
-        'object': object,
-        'edge label': 'is_equivalent_to',
-        'relation': kg2_util.IRI_OWL_SAME_AS,
-        'relation curie': kg2_util.CURIE_OWL_SAME_AS,
-        'negated': False,
-        'publications': [],
-        'publications info': {},
-        'update date': update_date,
-        'provided by': UNICHEM_KB_IRI}
+    edge_dict = kg2_util.make_edge(subject,
+                                   object,
+                                   kg2_util.IRI_OWL_SAME_AS,
+                                   kg2_util.CURIE_OWL_SAME_AS,
+                                   'is_equivalent_to',
+                                   UNICHEM_KB_IRI,
+                                   update_date)
+    return edge_dict
 
 
 def make_arg_parser():
@@ -63,7 +60,6 @@ if __name__ == '__main__':
                 break
             (chembl_curie_id, equiv_curie_id) = line.rstrip().split('\t')
             edges.append(make_xref(chembl_curie_id, equiv_curie_id, update_date))
-            edges.append(make_xref(equiv_curie_id, chembl_curie_id, update_date))
 
     output_file_name = args.outputFile[0]
     out_graph = {'edges': edges, 'nodes': nodes}

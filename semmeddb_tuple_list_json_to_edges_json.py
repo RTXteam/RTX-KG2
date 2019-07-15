@@ -51,16 +51,16 @@ def make_rel(preds_dict: dict,
         relation_iri = relation_type.title().replace(' ', '')
         relation_iri = relation_iri[0].lower() + relation_iri[1:]
         relation_iri = SEMMEDDB_IRI + '#' + relation_iri
-        key_val = {'subject': subject_curie,
-                   'object': object_curie,
-                   'edge label': relation_type,
-                   'relation': relation_iri,
-                   'relation curie': 'SEMMEDDB:' + relation_type,
-                   'negated': negated,
-                   'publications': [publication_curie],
-                   'publications info': {publication_curie: publication_info_dict},
-                   'update date': curr_timestamp,
-                   'provided by': SEMMEDDB_IRI}
+        edge_dict = kg2_util.make_edge(subject_curie,
+                                       object_curie,
+                                       relation_iri,
+                                       'SEMMEDDB:' + relation_type,
+                                       relation_type,
+                                       SEMMEDDB_IRI,
+                                       curr_timestamp)
+        edge_dict['publications'] = [publication_curie]
+        edge_dict['publications_info'] = {publication_curie: publication_info_dict}
+        edge_dict['negated'] = negated
         preds_dict[key] = key_val
     else:
         key_val['publications info'][publication_curie] = publication_info_dict

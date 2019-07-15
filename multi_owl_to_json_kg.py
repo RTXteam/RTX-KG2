@@ -351,24 +351,13 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
         if updated_date is None:
             updated_date = ontology_info_dict['file last modified timestamp']
 
-        ret_dict[ontology_curie_id] = {
-            'id':  ontology_curie_id,
-            'iri': iri_of_ontology,
-            'full name': ontology_info_dict['title'],
-            'name': ontology_info_dict['title'],
-            'category': category_label_to_iri_mapper('data source'),
-            'category label': 'data_source',
-            'description': ontology_info_dict['description'],
-            'synonym': [],
-            'xrefs': [],
-            'publications': [],
-            'creation date': None,
-            'update date': updated_date,
-            'deprecated': False,
-            'replaced by': None,
-            'provided by': iri_of_ontology,
-#            'ontology node type': 'INDIVIDUAL',
-            'ontology node ids': [iri_of_ontology]}
+        ontology_node = kg2_util.make_node(ontology_curie_id,
+                                           iri_of_ontology,
+                                           ontology_info_dict['title'],
+                                           'data source',
+                                           updated_date,
+                                           iri_of_ontology)
+        ontology_node['description'] = ontology_info_dict['description']
 
         ontologies_iris_to_curies[iri_of_ontology] = ontology_curie_id
 
@@ -399,9 +388,6 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                    generated_iri != iri:
                     iri = generated_iri
 
-            node_dict = dict()
-            node_dict['id'] = node_curie_id
-            node_dict['iri'] = iri
             node_name = onto_node_dict.get('label', None)
             node_full_name = None
 
@@ -429,7 +415,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                     node_description = node_definition['val']
                     if node_description.startswith('OBSOLETE:') or node_description.startswith('Obsolete.'):
                         continue
- 
+
                     node_definition_xrefs = node_definition.get('xrefs', None)
                     if node_definition_xrefs is not None:
                         assert type(node_definition_xrefs) == list
@@ -542,18 +528,17 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             if node_name is not None and node_name.isupper():
                 node_name = kg2_util.allcaps_to_only_first_letter_capitalized(node_name)
 
-            node_dict['name'] = node_name
+            node_dict = kg2_util.make_node(node_curie_id,
+                                           iri,
+                                           node_name,
+                                           node_category_label,
+                                           node_update_date,
+                                           iri_of_ontology)
             node_dict['full name'] = node_full_name
-            node_dict['category'] = node_category_iri
-            node_dict['category label'] = node_category_label.replace(' ', '_')
             node_dict['description'] = node_description
             node_dict['creation date'] = node_creation_date   # slot name is not biolink standard
             node_dict['deprecated'] = node_deprecated         # slot name is not biolink standard
-            node_dict['update date'] = node_update_date
             node_dict['replaced by'] = node_replaced_by_curie  # slot name is not biolink standard
-            node_dict['provided by'] = iri_of_ontology        # slot name is not biolink standard
-#            node_type = onto_node_dict.get('type', None)
-#            node_dict['ontology node type'] = node_type       # slot name is not biolink standard
             node_dict['ontology node ids'] = [ontology_node_id]  # slot name is not biolink standard
             node_dict['xrefs'] = list(node_xrefs)            # slot name is not biolink standard
             node_dict['synonym'] = list(node_synonyms)       # slot name is not biolink standard
@@ -577,7 +562,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         cui_node_dict['category label'] = node_tui_category_label.replace(' ', '_')
                         cui_node_dict['ontology node ids'] = []
                         cui_node_dict['provided by'] = CUI_BASE_IRI
-                        cui_node_dict['xrefs'] = []
+                        cui_node_dict['xrefs'] = []  # blanking the "xrefs" here is *vital* in order to avoid issue #395
                         cui_node_dict_existing = ret_dict.get(cui_curie, None)
                         if cui_node_dict_existing is not None:
                             cui_node_dict = kg2_util.merge_two_dicts(cui_node_dict,
@@ -695,16 +680,14 @@ def get_rels_dict(nodes: dict,
             predicate_label = predicate_label.replace(' ', '_')
 
             if rels_dict.get(rel_key, None) is None:
-                rels_dict[rel_key] = {'subject': subject_curie_id,
-                                      'object': object_curie_id,
-                                      'edge label': predicate_label,
-                                      'relation': predicate_iri,
-                                      'relation curie': predicate_curie,  # slot is not biolink standard
-                                      'negated': False,
-                                      'publicatons': [],
-                                      'publications info': {},
-                                      'update date': ontology_update_date,
-                                      'provided by': ontology_id}
+                edge = kg2_util.make_edge(subject_curie_id,
+                                          object_curie_id,
+                                          predicate_iri,
+                                          predicate_curie,
+                                          predicate_label,
+                                          ontology_id,
+                                          ontology_update_date)
+                rels_dict[rel_key] = edge
         for node_id, node_dict in nodes.items():
             xrefs = node_dict['xrefs']
             if xrefs is not None:
@@ -713,16 +696,14 @@ def get_rels_dict(nodes: dict,
                         provided_by = nodes[node_id]['provided by']
                         key = make_rel_key(node_id, CURIE_OBO_XREF, xref_node_id, provided_by)
                         if rels_dict.get(key, None) is None:
-                            rels_dict[key] = {'subject': node_id,
-                                              'object': xref_node_id,
-                                              'edge label': 'xref',
-                                              'relation': IRI_OBO_XREF,
-                                              'relation curie': CURIE_OBO_XREF,
-                                              'negated': False,
-                                              'publications': [],
-                                              'publications info': {},
-                                              'update date': ontology_update_date,
-                                              'provided by': provided_by}
+                            edge = kg2_util.make_edge(node_id,
+                                                      xref_node_id,
+                                                      IRI_OBO_XREF,
+                                                      CURIE_OBO_XREF,
+                                                      'xref',
+                                                      provided_by,
+                                                      ontology_update_date)
+                            rels_dict[key] = edge
 
     return rels_dict
 
