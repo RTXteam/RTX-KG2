@@ -102,6 +102,8 @@ cat ${UMLS2RDF_DIR}/conf_sample.py | sed 's/your-host/localhost/g' | \
     sed "s|output|${OUTPUT_DIR}|g" | \
     sed "s/2015ab/${UMLS_VER}/g" > ${UMLS2RDF_DIR}/conf.py
 
+cp ${CODE_DIR}/umls2rdf-umls.conf ${UMLD2RDF_DIR}/umls.conf
+
 ## umls2rdf is legacy software written to run in python2.7; set up the virtualenv
 UMLS_VENV_DIR=${UMLS_DIR}/venv27
 virtualenv --python=python2.7 ${UMLS_VENV_DIR}
