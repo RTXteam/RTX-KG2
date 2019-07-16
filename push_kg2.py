@@ -35,6 +35,11 @@ class push_kg2:
         # Connection information for the neo4j server, populated with orangeboard
         self.driver = GraphDatabase.driver(bolt, auth=basic_auth(user, password))
 
+    def test_driver(self):
+        with self.driver.session() as session:
+            result = session.run("MATCH (n) return count(*)")
+            print(result)
+
     def close(self):
         """
         Closes the driver connection
@@ -130,6 +135,7 @@ if __name__ == "__main__":
         node_flag = False
 
     kg2_pusher = push_kg2(args.bolt, args.user, args.password)
+    kg2_pusher.test_driver()
     if node_flag:
         t0 = time.time()
         count = kg2_pusher.push_nodes(args.file)
