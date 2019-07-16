@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-'''push_kg2.py: push a JSON KG to an (empty) Neo4j database
+'''push_kg2.py: push a JSON KG to an (empty) Neo4j database (NOTE: if local, the JSON file needs to be in 
+                /var/lib/neo4j/import and readable by user neo4j
 
    Usage: push_kg2.py
 '''
@@ -36,7 +37,7 @@ class push_kg2:
         # Connection information for the neo4j server, populated with orangeboard
         self.driver = GraphDatabase.driver(bolt, auth=basic_auth(user, password))
 
-    def test_driver(self):
+    def test_driver_and_confirm_database_empty(self):
         with self.driver.session() as session:
             result = session.run("MATCH (n) return count(*)")
             res_value = result.value()
@@ -121,8 +122,8 @@ if __name__ == "__main__":
     parser.add_argument("-u", "--user", type=str, help="The neo4j username", default=None)
     parser.add_argument("-p", "--password", type=str, help="The neo4j passworl", default=None)
     parser.add_argument("-b", "--bolt", type=str, help="The neo4j bolt URI (including port)", default="bolt://localhost:7687")
-    parser.add_argument("-f", "--file", type=str, help="The path of the json file for upload prefixed with 'file:///' (can also be a url)",
-                        default="file:///var/lib/neo4j/import/kg2-test.json")
+    parser.add_argument("-f", "--file", type=str, help="The path of the json file for upload prefixed with 'file:///' also be a url)",
+                        default="file:///kg2-test.json")
     parser.add_argument("-n", "--nodes", action="store_true",
                         help="include if you just want to upload nodes (if used in conjunction with edges option will upload both)")
     parser.add_argument("-e", "--edges", action="store_true",
@@ -150,7 +151,7 @@ if __name__ == "__main__":
 
     kg2_pusher = push_kg2(args.bolt, args.user, args.password, args.debug)
     if args.debug:
-        kg2_pusher.test_driver()
+        kg2_pusher.test_driver_and_confirm_database_empty()
     if node_flag:
         t0 = time.time()
         count = kg2_pusher.push_nodes(args.file)
