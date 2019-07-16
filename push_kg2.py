@@ -104,7 +104,7 @@ if __name__ == "__main__":
     parser.add_argument("-p", "--password", type=str, help="The neo4j passworl", default=None)
     parser.add_argument("-b", "--bolt", type=str, help="The neo4j bolt address", default="bolt://kg2ase2.rtx.ai:7687")
     parser.add_argument("-f", "--file", type=str, help="The path of the json file for upload prefixed with 'file:///' (can also be a url)",
-                        defaul="file:///var/lib/neo4j/import/kg2-test2.json")
+                        default="file:///var/lib/neo4j/import/kg2-test2.json")
     parser.add_argument("-n", "--nodes", action="store_true",
                         help="include if you just want to upload nodes (if used in conjunction with edges option will upload both)")
     parser.add_argument("-e", "--edges", action="store_true",
