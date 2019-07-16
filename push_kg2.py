@@ -139,7 +139,7 @@ if __name__ == "__main__":
     parser.add_argument("-u", "--user", type=str, help="The neo4j username", default=None)
     parser.add_argument("-p", "--password", type=str, help="The neo4j passworl", default=None)
     parser.add_argument("-b", "--bolt", type=str, help="The neo4j bolt URI (including port)", default="bolt://localhost:7687")
-    parser.add_argument("-f", "--file", type=str, help="The name <rel_file> of the JSON file to import (<rel_file> should be a relative path to the file within /var/lib/neo4j/import; <rel_file> should *not* contain /var/lib/neo4j/import)",
+    parser.add_argument("-f", "--file", type=str, help="The name <rel_file> of the JSON file to import (<rel_file> should be a relative path to the file within /var/lib/neo4j/import; <rel_file> should *not* contain /var/lib/neo4j/import; file should be readable by user neo4j)",
                         default="file:///kg2-test.json")
     parser.add_argument("-n", "--nodes", action="store_true",
                         help="include if you just want to upload nodes (if used in conjunction with edges option will upload both)")
