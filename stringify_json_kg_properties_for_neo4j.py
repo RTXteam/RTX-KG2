@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-'''stringify_json_kg_properties_for_neo4j.py: Convert list or dictionary fields of a JSON KG into string format, for neo4j import
+'''stringify_json_kg_properties_for_neo4j.py: Convert dictionary fields of a JSON KG into string format, for neo4j import
 
    Usage: stringify_json_kg_properties_for_neo4j.py [--test] --inputFile <inputFile.json> --outputFile <outputFile.json>
 '''
@@ -32,12 +32,6 @@ if __name__ == '__main__':
     output_file_name = args.outputFile[0]
     test_mode = args.test
     graph = kg2_util.load_json(input_file_name)
-    # ------ SAR:  save for now ------
-    # node_properties_to_convert = ['publications', 'synonym']
-    # for node in graph['nodes']:
-    #     for property_name in node_properties_to_convert:
-    #         node[property_name] = json.dumps(node[property_name])
-    # ------ SAR:  save for now ------
     edge_properties_to_convert = ['publications info']
     for edge in graph['edges']:
         for property_name in edge_properties_to_convert:
