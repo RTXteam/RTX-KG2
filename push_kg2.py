@@ -56,7 +56,7 @@ class push_kg2:
         with self.driver.session() as session:
             res = session.run(cypher)
             if self.debug:
-                print(res.summary())
+                print(res.summary().notifications)
             return res
 
     def neo4j_clear(self):
