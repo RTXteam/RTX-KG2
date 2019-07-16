@@ -49,6 +49,23 @@ class push_kg2:
         """
         self.driver.close()
 
+    def run_cypher(self, cypher: str):
+        if self.debug:
+            print(cypher)
+        with self.driver.session() as session:
+            res = session.run(cypher)
+            if self.debug:
+                print(res.summary())
+            return res
+
+    def neo4j_clear(self):
+        """deletes all nodes and relationships in the orangeboard
+
+        :returns: nothing
+        """
+        self.run_cypher('MATCH (n) DETACH DELETE n')
+        self.run_cypher('CALL apoc.schema.assert({},{},true) YIELD label, key')
+
     def push_nodes(self, json_file, batch=10000):
         """
         :param json_file: A string containing the path (or URL) to the json file
@@ -78,13 +95,12 @@ class push_kg2:
             'node.category_label = n.`category label` ' +\
             'RETURN count(*)' +\
             '", {batchSize: ' + batch + ', iterateList: true})'
+        res = self.run_cypher(cypher_upload_nodes)
+        res_ctr = res.value()[0]
         # Redundancy to make querying by property rather than label possible
-        with self.driver.session() as session:
-            session.run("CREATE CONSTRAINT ON (n:Base) ASSERT n.id IS UNIQUE")
-            res = session.run(cypher_upload_nodes)
-            if self.debug:
-                print(res.summary())
-        return res.value()[0]
+        self.run_cypher('CREATE CONSTRAINT ON (n:Base) ASSERT n.id IS UNIQUE')
+
+        return res_ctr
 
     def push_edges(self, json_file, batch=10000):
         """
@@ -109,12 +125,9 @@ class push_kg2:
             'rel.edge_label = e.`edge label` ' +\
             'RETURN count(*) ' +\
             '", {batchSize: ' + batch + ', iterateList: true})'
-        # Redundancy to make querying by property rather than label possible
-        with self.driver.session() as session:
-            res = session.run(cypher_upload_edges)
-            if self.debug:
-                print(res.summary())
-        return res.value()[0]
+        res = self.run_cypher(cypher_upload_edges)
+        res_ctr = res.value()[0]
+        return res_ctr
 
 
 if __name__ == "__main__":
@@ -130,6 +143,7 @@ if __name__ == "__main__":
                         help="include if you just want to upload edges (if used in conjunction with nodes option will upload both)")
     parser.add_argument("--batch", type=int, help="The batch size used for uploading the edges (must be a positive integer)", default=10000)
     parser.add_argument("--debug", action="store_true")
+    parser.add_argument("--clear", action="store_true", help="Clear the neo4j database before uploading data")
     args = parser.parse_args()
 
     if args.user is None or args.password is None:
@@ -152,6 +166,8 @@ if __name__ == "__main__":
     kg2_pusher = push_kg2(args.bolt, args.user, args.password, args.debug)
     if args.debug:
         kg2_pusher.test_driver_and_confirm_database_empty()
+    if args.clear:
+        kg2_pusher.neo4j_clear()
     if node_flag:
         t0 = time.time()
         count = kg2_pusher.push_nodes(args.file)
