@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 '''push_kg2.py: push a JSON KG to an (empty) Neo4j database
 
-   Usage: push_kg2.py 
+   Usage: push_kg2.py
 '''
 
 import os
@@ -17,10 +17,9 @@ except ImportError:
     from RTXConfiguration import RTXConfiguration
 
 
-
 class push_kg2:
 
-    def __init__(self, bolt, user = None, password = None):
+    def __init__(self, bolt, user=None, password=None):
         """
         :param bolt: A string containing the bolt address of the neo4j instance you wish to upload to
         :param user: A string containing the username for neo4j
@@ -143,4 +142,3 @@ if __name__ == "__main__":
             print(str(count), " batches of ", args.batch, " edges uploaded in ", str(time.time() - t0), " seconds.")
 
     kg2_pusher.close()
-
