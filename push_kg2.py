@@ -38,7 +38,7 @@ class push_kg2:
     def test_driver(self):
         with self.driver.session() as session:
             result = session.run("MATCH (n) return count(*)")
-            print(result)
+            print(next(iter(result)))
 
     def close(self):
         """
@@ -135,7 +135,8 @@ if __name__ == "__main__":
         node_flag = False
 
     kg2_pusher = push_kg2(args.bolt, args.user, args.password)
-    kg2_pusher.test_driver()
+    if args.debug:
+        kg2_pusher.test_driver()
     if node_flag:
         t0 = time.time()
         count = kg2_pusher.push_nodes(args.file)
