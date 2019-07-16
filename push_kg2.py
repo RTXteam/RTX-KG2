@@ -5,10 +5,10 @@
    Usage: push_kg2.py
 '''
 
+import argparse
 import os
 import sys
 from neo4j.v1 import GraphDatabase, basic_auth
-import argparse
 import time
 
 try:
@@ -37,11 +37,12 @@ class push_kg2:
         # Connection information for the neo4j server, populated with orangeboard
         self.driver = GraphDatabase.driver(bolt, auth=basic_auth(user, password))
 
-    def test_driver_and_confirm_database_empty(self):
+    def get_number_of_nodes_in_db(self):
+        num_nodes = None
         with self.driver.session() as session:
             result = session.run("MATCH (n) return count(*)")
-            res_value = result.value()
-            assert res_value[0] == 0
+            num_nodes = result.value()
+        return num_nodes
 
     def close(self):
         """
@@ -165,7 +166,9 @@ if __name__ == "__main__":
 
     kg2_pusher = push_kg2(args.bolt, args.user, args.password, args.debug)
     if args.debug:
-        kg2_pusher.test_driver_and_confirm_database_empty()
+        num_nodes = kg2_pusher.get_number_of_nodes_in_db()
+        if num_nodes > 0 and ! args.clear:
+            print("WARNING: pushing nodes to a non-empty database", file=sys.stderr)
     if args.clear:
         kg2_pusher.neo4j_clear()
     if node_flag:
