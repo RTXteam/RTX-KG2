@@ -113,16 +113,6 @@ EOF
 mysql --defaults-extra-file=${MYSQL_CONF} \
       -e "set global local_infile=1"
 
-# setup Apache Jena
-JENA_VERSION=3.12.0
-JENA_BASE_DIR=apache-jena-${JENA_VERSION}
-JENA_TARBALL=${JENA_BASE_DIR}.tar.gz
-JENA_DIR=${BUILD_DIR}/${JENA_BASE_DIR}
-JENA_BASE_URI=http://mirrors.sonic.net/apache/jena/binaries/${JENA_TARBALL}
-${CURL_GET} ${JENA_BASE_URI} > ${BUILD_DIR}/${JENA_TARBALL}
-tar xvzf ${BUILD_DIR}/${JENA_TARBALL} -C ${BUILD_DIR}
-ln -sf ${BUILD_DIR}/${JENA_BASE_DIR} ${BUILD_DIR}/apache-jena
-
 date
 echo "================= script finished ================="
 } >~/setup-kg2.log 2>&1
