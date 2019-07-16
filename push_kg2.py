@@ -19,7 +19,7 @@ except ImportError:
 
 class push_kg2:
 
-    def __init__(self, bolt, user=None, password=None):
+    def __init__(self, bolt, user=None, password=None, debug=False):
         """
         :param bolt: A string containing the bolt address of the neo4j instance you wish to upload to
         :param user: A string containing the username for neo4j
@@ -32,6 +32,7 @@ class push_kg2:
             if password is None:
                 password = rtxConfig.neo4j_password
 
+        self.debug = debug
         # Connection information for the neo4j server, populated with orangeboard
         self.driver = GraphDatabase.driver(bolt, auth=basic_auth(user, password))
 
@@ -79,6 +80,8 @@ class push_kg2:
         with self.driver.session() as session:
             session.run("CREATE CONSTRAINT ON (n:Base) ASSERT n.id IS UNIQUE")
             res = session.run(cypher_upload_nodes)
+            if self.debug:
+                print(res.summary())
         return res.value()[0]
 
     def push_edges(self, json_file, batch=10000):
