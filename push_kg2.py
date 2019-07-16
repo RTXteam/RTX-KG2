@@ -121,6 +121,7 @@ class push_kg2:
             'CALL apoc.create.relationship(a, e.`edge label`, {}, b) YIELD rel ' +\
             'SET rel.provided_by = e.`provided by`, ' +\
             'rel.publications = e.publications, ' +\
+            'rel.publications_info = e.`publications info`, ' +\
             'rel.negated = e.negated, ' +\
             'rel.relation = e.relation, ' +\
             'rel.relation_curie = e.`relation curie`, ' +\
