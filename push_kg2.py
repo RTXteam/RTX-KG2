@@ -59,15 +59,20 @@ class push_kg2:
             'CALL apoc.load.json(file) YIELD value ' +\
             'UNWIND value.nodes AS n RETURN n ' +\
             '"," ' +\
-            "CALL apoc.create.node([n.`category label`, 'Base'], {}) YIELD node " +\
-            'SET node.category = n.category, node.id = n.id, node.name = n.name, ' +\
-            'node.`creation date` = n.`creation date`, node.deprecated = n.deprecated, ' +\
-            'node.description = n.description, node.`full name` = n.`full name`, ' +\
-            'node.iri = n.iri, node.`ontology node type` = n.`ontology node type`, ' +\
-            'node.`provided by` = n.`provided by`, node.publications = n.publications, ' +\
-            'node.`replaced by` = n.`replaced by`, node.synonym = n.synonym, ' +\
-            'node.`update date` = n.`update date`, ' +\
-            'node.`category label` = n.`category label` ' +\
+            "CALL apoc.create.node([n.category_label, 'Base'], {}) YIELD node " +\
+            'SET node.category = n.category, ' +\
+            'node.id = n.id, node.name = n.name, ' +\
+            'node.creation_date = n.`creation date`, ' +\
+            'node.deprecated = n.deprecated, ' +\
+            'node.description = n.description, ' +\
+            'node.full_name = n.`full name`, ' +\
+            'node.iri = n.iri, ' +\
+            'node.provided_by = n.`provided by`, ' +\
+            'node.publications = n.publications, ' +\
+            'node.replaced_by = n.`replaced by`, ' +\
+            'node.synonym = n.synonym, ' +\
+            'node.update_date = n.`update date`, ' +\
+            'node.category_label = n.`category label` ' +\
             'RETURN count(*)' +\
             '", {batchSize: ' + batch + ', iterateList: true})'
         # Redundancy to make querying by property rather than label possible
@@ -89,11 +94,14 @@ class push_kg2:
             'UNWIND value.edges AS e RETURN e ' +\
             '"," ' +\
             'MATCH (a:Base {id:e.subject}) , (b:Base {id:e.object}) ' +\
-            'CALL apoc.create.relationship(a,e.`edge label`,{}, b) YIELD rel ' +\
-            'SET rel.`provided by` = e.`provided by`, rel.publications = e.publications, ' +\
-            'rel.negated = e.negated, rel.relation = e.relation, rel.`relation curie` = e.`relation curie`, ' +\
-            'rel.`update date` = e.`update date`, ' +\
-            'rel.`edge label` = e.`edge label` ' +\
+            'CALL apoc.create.relationship(a, e.`edge label`, {}, b) YIELD rel ' +\
+            'SET rel.provided_by = e.`provided by`, ' +\
+            'rel.publications = e.publications, ' +\
+            'rel.negated = e.negated, ' +\
+            'rel.relation = e.relation, ' +\
+            'rel.relation_curie = e.`relation curie`, ' +\
+            'rel.update_date = e.`update date`, ' +\
+            'rel.edge_label = e.`edge label` ' +\
             'RETURN count(*) ' +\
             '", {batchSize: ' + batch + ', iterateList: true})'
         # Redundancy to make querying by property rather than label possible
