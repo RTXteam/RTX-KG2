@@ -32,10 +32,12 @@ if __name__ == '__main__':
     output_file_name = args.outputFile[0]
     test_mode = args.test
     graph = kg2_util.load_json(input_file_name)
-    node_properties_to_convert = ['publications', 'synonym']
-    for node in graph['nodes']:
-        for property_name in node_properties_to_convert:
-            node[property_name] = json.dumps(node[property_name])
+    # ------ SAR:  save for now ------
+    # node_properties_to_convert = ['publications', 'synonym']
+    # for node in graph['nodes']:
+    #     for property_name in node_properties_to_convert:
+    #         node[property_name] = json.dumps(node[property_name])
+    # ------ SAR:  save for now ------
     edge_properties_to_convert = ['publications info']
     for edge in graph['edges']:
         for property_name in edge_properties_to_convert:
