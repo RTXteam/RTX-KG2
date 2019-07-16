@@ -56,7 +56,9 @@ class push_kg2:
         with self.driver.session() as session:
             res = session.run(cypher)
             if self.debug:
-                print(res.summary().notifications)
+                notifs_list = res.summary().notifications
+                if len(notifs_list) > 0:
+                    print(notifs_list)
             return res
 
     def neo4j_clear(self):
