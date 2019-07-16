@@ -39,7 +39,8 @@ class push_kg2:
     def test_driver(self):
         with self.driver.session() as session:
             result = session.run("MATCH (n) return count(*)")
-            print(next(iter(result)))
+            res_value = result.value()
+            assert res_value[0] == 0
 
     def close(self):
         """
