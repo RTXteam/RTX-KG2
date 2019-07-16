@@ -110,6 +110,8 @@ class push_kg2:
         # Redundancy to make querying by property rather than label possible
         with self.driver.session() as session:
             res = session.run(cypher_upload_edges)
+            if self.debug:
+                print(res.summary())
         return res.value()[0]
 
 
@@ -145,7 +147,7 @@ if __name__ == "__main__":
     elif args.edges and not args.nodes:
         node_flag = False
 
-    kg2_pusher = push_kg2(args.bolt, args.user, args.password)
+    kg2_pusher = push_kg2(args.bolt, args.user, args.password, args.debug)
     if args.debug:
         kg2_pusher.test_driver()
     if node_flag:
