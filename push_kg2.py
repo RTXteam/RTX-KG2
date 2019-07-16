@@ -41,7 +41,7 @@ class push_kg2:
         num_nodes = None
         with self.driver.session() as session:
             result = session.run("MATCH (n) return count(*)")
-            num_nodes = result.value()
+            num_nodes = result.value()[0]
         return num_nodes
 
     def close(self):
