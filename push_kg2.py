@@ -167,7 +167,7 @@ if __name__ == "__main__":
     kg2_pusher = push_kg2(args.bolt, args.user, args.password, args.debug)
     if args.debug:
         num_nodes = kg2_pusher.get_number_of_nodes_in_db()
-        if num_nodes > 0 and ! args.clear:
+        if num_nodes > 0 and not args.clear:
             print("WARNING: pushing nodes to a non-empty database", file=sys.stderr)
     if args.clear:
         kg2_pusher.neo4j_clear()
