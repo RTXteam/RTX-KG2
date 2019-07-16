@@ -108,7 +108,7 @@ fi
 echo "running uniprotkb_dat_to_json.py"
 
 ## extract JSON file for UniProtKB
-${VENV_DIR}/bin/python3 ${CODE_DIR}/uniprotkb_dat_to_json.py \
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/uniprotkb_dat_to_json.py \
            ${TEST_ARG} \
 	   --inputFile ${UNIPROTKB_DAT_FILE} \
 	   --outputFile ${UNIPROTKB_OUTPUT_FILE} 
@@ -116,7 +116,7 @@ ${VENV_DIR}/bin/python3 ${CODE_DIR}/uniprotkb_dat_to_json.py \
 echo "running semmeddb_tuple_list_json_to_edges_json.py"
 
 ## Build SemMedDB KG2 edges file as JSON:
-${VENV_DIR}/bin/python3 ${CODE_DIR}/semmeddb_tuple_list_json_to_edges_json.py \
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/semmeddb_tuple_list_json_to_edges_json.py \
            ${TEST_ARG} \
            --inputFile ${SEMMED_TUPLELIST_FILE} \
            --outputFile ${SEMMED_OUTPUT_FILE}
@@ -124,7 +124,7 @@ ${VENV_DIR}/bin/python3 ${CODE_DIR}/semmeddb_tuple_list_json_to_edges_json.py \
 echo "running ensembl_json_to_kg_json.py"
 
 ## Build Ensembl KG2 edges file as JSON:
-${VENV_DIR}/bin/python3 ${CODE_DIR}/ensembl_json_to_kg_json.py \
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/ensembl_json_to_kg_json.py \
            ${TEST_ARG} \
            --inputFile ${ENSEMBL_SOURCE_JSON_FILE} \
            --outputFile ${ENSEMBL_OUTPUT_FILE}
@@ -132,7 +132,7 @@ ${VENV_DIR}/bin/python3 ${CODE_DIR}/ensembl_json_to_kg_json.py \
 echo "running chembl_mysql_to_kg_json.py"
 
 ## Build Chembl KG2 edges file as JSON:
-${VENV_DIR}/bin/python3 ${CODE_DIR}/chembl_mysql_to_kg_json.py \
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/chembl_mysql_to_kg_json.py \
            ${TEST_ARG} \
            --mysqlConfigFile ${MYSQL_CONF} \
            --mysqlDBName ${CHEMBL_MYSQL_DBNAME} \
@@ -148,14 +148,14 @@ echo "running unichem_tsv_to_edges_json.py"
 
 ## Make JSON file for UniChem
 
-${VENV_DIR}/bin/python3 ${CODE_DIR}/unichem_tsv_to_edges_json.py \
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/unichem_tsv_to_edges_json.py \
            ${TEST_ARG} \
            --inputFile ${UNICHEM_OUTPUT_TSV_FILE} \
            --outputFile ${UNICHEM_OUTPUT_FILE}
 
 ## Merge all the KG JSON files
 
-${VENV_DIR}/bin/python3 ${CODE_DIR}/merge_graphs.py \
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/merge_graphs.py \
            ${TEST_ARG} \
            --kgFiles ${OUTPUT_FILE_FULL} \
                      ${SEMMED_OUTPUT_FILE} \
@@ -166,11 +166,11 @@ ${VENV_DIR}/bin/python3 ${CODE_DIR}/merge_graphs.py \
            --outputFile ${FINAL_OUTPUT_FILE_FULL} \
            --kgFileOrphanEdges ${OUTPUT_FILE_ORPHAN_EDGES}
 
-${VENV_DIR}/bin/python3 ${CODE_DIR}/get_nodes_json_from_kg_json.py \
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/get_nodes_json_from_kg_json.py \
            --inputFile ${FINAL_OUTPUT_FILE_FULL} \
            --outputFile ${OUTPUT_NODES_FILE_FULL}
 
-${VENV_DIR}/bin/python3 ${CODE_DIR}/report_stats_on_kg.py \
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/report_stats_on_kg.py \
            --inputFile ${FINAL_OUTPUT_FILE_FULL} \
            --outputFile ${REPORT_FILE_FULL}
 
