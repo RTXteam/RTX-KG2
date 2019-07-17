@@ -166,23 +166,37 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/merge_graphs.py \
            --outputFile ${FINAL_OUTPUT_FILE_FULL} \
            --kgFileOrphanEdges ${OUTPUT_FILE_ORPHAN_EDGES}
 
+## Get a JSON file with just the nodes in it
+
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/get_nodes_json_from_kg_json.py \
            --inputFile ${FINAL_OUTPUT_FILE_FULL} \
            --outputFile ${OUTPUT_NODES_FILE_FULL}
+
+## Generate a JSON report of statistics on the KG
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/report_stats_on_kg.py \
            --inputFile ${FINAL_OUTPUT_FILE_FULL} \
            --outputFile ${REPORT_FILE_FULL}
 
+NEO4J_COMPATIBLE_OUTPUT_FILE="${FINAL_OUTPUT_FILE_FULL%.*}"-for-neo4j.json
+
+## Generate a Neo4j-compatible JSON KG
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/stringify_json_kg_properties_for_neo4j.py \
+           --inputFile ${FINAL_OUTPUT_FILE_FULL} \
+           --outputfile ${NEO4J_COMPATIBLE_OUTPUT_FILE}
+
+## Compress the huge files
 gzip -f ${FINAL_OUTPUT_FILE_FULL}
 gzip -f ${OUTPUT_NODES_FILE_FULL}
 gzip -f ${OUTPUT_FILE_ORPHAN_EDGES}
+gzip -f ${NEO4J_COMPATIBLE_OUTPUT_FILE}
 
-## copy the KG to the public S3 bucket
+## copy the KG and various build artifacts to the public S3 bucket
 aws s3 cp --no-progress --region ${S3_REGION} ${FINAL_OUTPUT_FILE_FULL}.gz s3://${S3_BUCKET_PUBLIC}/
 aws s3 cp --no-progress --region ${S3_REGION} ${OUTPUT_NODES_FILE_FULL}.gz s3://${S3_BUCKET_PUBLIC}/
 aws s3 cp --no-progress --region ${S3_REGION} ${REPORT_FILE_FULL} s3://${S3_BUCKET_PUBLIC}/
 aws s3 cp --no-progress --region ${S3_REGION} ${OUTPUT_FILE_ORPHAN_EDGES}.gz s3://${S3_BUCKET_PUBLIC}/
+aws s3 cp --no-progress --region ${S3_REGION} ${NEO4J_COMPATIBLE_OUTPUT_FILE}.gz s3://${S3_BUCKET_PUBLIC}/
 
 ## copy the log files to the public S3 bucket
 BUILD_MULTI_OWL_STDERR_FILE="${BUILD_DIR}/build-${OUTPUT_FILE_BASE%.*}"-stderr.log
