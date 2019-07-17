@@ -82,7 +82,7 @@ class push_kg2:
             'CALL apoc.load.json(file) YIELD value ' +\
             'UNWIND value.nodes AS n RETURN n ' +\
             '"," ' +\
-            "CALL apoc.create.node([n.category_label, 'Base'], {}) YIELD node " +\
+            "CALL apoc.create.node([n.`category label`, 'Base'], {}) YIELD node " +\
             'SET node.category = n.category, ' +\
             'node.id = n.id, node.name = n.name, ' +\
             'node.creation_date = n.`creation date`, ' +\
