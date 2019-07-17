@@ -2,7 +2,7 @@
 '''upload_kg_json_to_neo4j.py: push a JSON KG to an (empty) Neo4j database (NOTE: if local, the JSON file needs to be in 
                 /var/lib/neo4j/import and readable by user neo4j
 
-   Usage: upload_kg_json_to_neo4j.py
+   Usage: (run upload_kg_json_to_neo4j.py --help for usage information)
 '''
 
 import argparse
@@ -10,12 +10,6 @@ import os
 import sys
 from neo4j.v1 import GraphDatabase, basic_auth
 import time
-
-try:
-    from RTXConfiguration import RTXConfiguration
-except ImportError:
-    sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    from RTXConfiguration import RTXConfiguration
 
 
 class push_kg2:
@@ -139,8 +133,6 @@ if __name__ == "__main__":
     parser.add_argument("-u", "--user", type=str, help="The neo4j username", default=None)
     parser.add_argument("-p", "--password", type=str, help="The neo4j passworl", default=None)
     parser.add_argument("-b", "--bolt", type=str, help="The neo4j bolt URI (including port)", default="bolt://localhost:7687")
-    parser.add_argument("-f", "--file", type=str, help="The name <rel_file> of the JSON file to import (<rel_file> should be a relative path to the file within /var/lib/neo4j/import; <rel_file> should *not* contain /var/lib/neo4j/import; file should be readable by user neo4j)",
-                        default="file:///kg2-test.json")
     parser.add_argument("-n", "--nodes", action="store_true",
                         help="include if you just want to upload nodes (if used in conjunction with edges option will upload both)")
     parser.add_argument("-e", "--edges", action="store_true",
@@ -148,9 +140,16 @@ if __name__ == "__main__":
     parser.add_argument("--batch", type=int, help="The batch size used for uploading the edges (must be a positive integer)", default=10000)
     parser.add_argument("--debug", action="store_true")
     parser.add_argument("--clear", action="store_true", help="Clear the neo4j database before uploading data")
+    parser.add_argument("file", type=str, help="The name <rel_file> of the JSON file to import (<rel_file> should be a relative path to the file within /var/lib/neo4j/import; <rel_file> should *not* contain /var/lib/neo4j/import; file should be readable by user neo4j)",
+                        default="file:///kg2-test.json")
     args = parser.parse_args()
 
     if args.user is None or args.password is None:
+        try:
+            from RTXConfiguration import RTXConfiguration
+        except ImportError:
+            sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+            from RTXConfiguration import RTXConfiguration
         rtxConfig = RTXConfiguration()
         if args.user is None:
             args.user = rtxConfig.neo4j_username
