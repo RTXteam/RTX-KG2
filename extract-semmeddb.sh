@@ -5,7 +5,7 @@
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0 <output_file.json> [all]"
+    echo Usage: "$0 <output_file.json> [test]"
     exit 2
 fi
 
