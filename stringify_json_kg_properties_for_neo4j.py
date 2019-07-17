@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 '''stringify_json_kg_properties_for_neo4j.py: Convert dictionary fields of a JSON KG into string format, for neo4j import
 
-   Usage: stringify_json_kg_properties_for_neo4j.py [--test] --inputFile <inputFile.json> --outputFile <outputFile.json>
+   Usage: (for usage information, run stringify_json_kg_properties_for_neo4j.py --help)
 '''
 
 __author__ = 'Stephen Ramsey'
