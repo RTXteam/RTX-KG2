@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-'''push_kg2.py: push a JSON KG to an (empty) Neo4j database (NOTE: if local, the JSON file needs to be in 
+'''upload_kg_json_to_neo4j.py: push a JSON KG to an (empty) Neo4j database (NOTE: if local, the JSON file needs to be in 
                 /var/lib/neo4j/import and readable by user neo4j
 
-   Usage: push_kg2.py
+   Usage: upload_kg_json_to_neo4j.py
 '''
 
 import argparse
