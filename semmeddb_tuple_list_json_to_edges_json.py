@@ -86,7 +86,7 @@ if __name__ == '__main__':
     for (pmid, subject_cui_str, predicate, object_cui_str, pub_date, sentence,
          subject_score, object_score, curr_timestamp) in input_data['rows']:
         row_ctr += 1
-        if row_ctr % 10000 == 0:
+        if row_ctr % 100000 == 0:
             print("Have processed " + str(row_ctr) + " rows out of " + str(len(input_data['rows'])) + " rows")
         if test_mode and row_ctr > 10000:
             break
