@@ -5,7 +5,7 @@
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0 <output_file.json> [all]"
+    echo Usage: "$0 <output_file.json> [test]"
     exit 2
 fi
 
@@ -28,14 +28,12 @@ SEMMED_DIR=`dirname "${SEMMED_OUTPUT_FILE}"`
 SEMMED_SQL_FILE=semmed${SEMMED_VER}_R_WHOLEDB_${SEMMED_DATE}.sql
 MYSQL_DBNAME=semmeddb
 
-if [[ "${BUILD_FLAG}" == "all" ]]
-then
-    mkdir -p ${SEMMED_DIR}
+mkdir -p ${SEMMED_DIR}
 
 ## estimate amount of system ram, in GB
-    MEM_GB=`${CODE_DIR}/get-system-memory-gb.sh`
+MEM_GB=`${CODE_DIR}/get-system-memory-gb.sh`
 
-    aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/${SEMMED_SQL_FILE}.gz ${SEMMED_DIR}/
+aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/${SEMMED_SQL_FILE}.gz ${SEMMED_DIR}/
 
 ## if a "semmeddb" database already exists, delete it
     mysql --defaults-extra-file=${MYSQL_CONF} \
@@ -44,9 +42,8 @@ then
 ## create the "semmeddb" database
     mysql --defaults-extra-file=${MYSQL_CONF} \
           -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DBNAME} CHARACTER SET utf8 COLLATE utf8_unicode_ci"
-
-    zcat ${SEMMED_DIR}/${SEMMED_SQL_FILE}.gz | mysql --defaults-extra-file=${MYSQL_CONF} --database=${MYSQL_DBNAME}
-fi
+	
+zcat ${SEMMED_DIR}/${SEMMED_SQL_FILE}.gz | mysql --defaults-extra-file=${MYSQL_CONF} --database=${MYSQL_DBNAME}
 
 if [[ "${BUILD_FLAG}" == "test" ]]
 then
