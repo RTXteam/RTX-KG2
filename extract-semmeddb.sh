@@ -28,6 +28,7 @@ SEMMED_DIR=`dirname "${SEMMED_OUTPUT_FILE}"`
 SEMMED_SQL_FILE=semmed${SEMMED_VER}_R_WHOLEDB_${SEMMED_DATE}.sql
 MYSQL_DBNAME=semmeddb
 
+rm -r -f ${SEMMED_DIR}
 mkdir -p ${SEMMED_DIR}
 
 ## estimate amount of system ram, in GB
