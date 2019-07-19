@@ -37,7 +37,11 @@ then
 
     aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/${SEMMED_SQL_FILE}.gz ${SEMMED_DIR}/
 
-## create the "umls" database
+## if a "semmeddb" database already exists, delete it
+    mysql --defaults-extra-file=${MYSQL_CONF} \
+          -e "DROP DATABASE IF EXISTS ${MYSQL_DBNAME}"
+    
+## create the "semmeddb" database
     mysql --defaults-extra-file=${MYSQL_CONF} \
           -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DBNAME} CHARACTER SET utf8 COLLATE utf8_unicode_ci"
 
