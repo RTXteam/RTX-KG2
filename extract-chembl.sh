@@ -22,6 +22,7 @@ CHEMBL_VERSION=25
 CHEMBL_DB_TARBALL=chembl_${CHEMBL_VERSION}_mysql.tar.gz
 CHEMBL_SQL_FILE=${CHEMBL_DIR}/chembl_${CHEMBL_VERSION}/chembl_${CHEMBL_VERSION}_mysql/chembl_${CHEMBL_VERSION}_mysql.dmp
 
+rm -r -f ${CHEMBL_DIR}
 mkdir -p ${CHEMBL_DIR}
 
 ${CURL_GET} ftp://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/${CHEMBL_DB_TARBALL} > ${CHEMBL_DIR}/${CHEMBL_DB_TARBALL}
