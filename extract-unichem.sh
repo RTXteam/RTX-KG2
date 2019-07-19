@@ -15,11 +15,14 @@ date
 CONFIG_DIR=`dirname "$0"`
 source ${CONFIG_DIR}/master-config.shinc
 OUTPUT_TSV_FILE=${1:-"${BUILD_DIR}/unichem/chembl-to-curies.tsv"}
-UNICHEM_DIR=`dirname ${OUTPUT_TSV_FILE}`
+UNICHEM_DIR=${BUILD_DIR}/unichem
+UNICHEM_OUTPUT_DIR=`dirname ${OUTPUT_TSV_FILE}`
 UNICHEM_VER=232
 UNICHEM_FTP_SITE=ftp://ftp.ebi.ac.uk/pub/databases/chembl/UniChem/data
 
+rm -r -f ${UNICHEM_DIR}
 mkdir -p ${UNICHEM_DIR}
+mkdir -p ${UNICHEM_OUTPUT_DIR}
 
 ${CURL_GET} ${UNICHEM_FTP_SITE}/oracleDumps/UDRI${UNICHEM_VER}/UC_XREF.txt.gz > ${UNICHEM_DIR}/UC_XREF.txt.gz
 ${CURL_GET} ${UNICHEM_FTP_SITE}/oracleDumps/UDRI${UNICHEM_VER}/UC_SOURCE.txt.gz > ${UNICHEM_DIR}/UC_SOURCE.txt.gz
