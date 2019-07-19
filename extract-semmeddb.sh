@@ -24,12 +24,14 @@ BUILD_FLAG=${2:-""}
 
 SEMMED_VER=VER31
 SEMMED_DATE=06302018
-SEMMED_DIR=`dirname "${SEMMED_OUTPUT_FILE}"`
+SEMMED_DIR=${BUILD_DIR}/semmeddb
+SEMMED_OUTPUT_DIR=`dirname "${SEMMED_OUTPUT_FILE}"`
 SEMMED_SQL_FILE=semmed${SEMMED_VER}_R_WHOLEDB_${SEMMED_DATE}.sql
 MYSQL_DBNAME=semmeddb
 
 rm -r -f ${SEMMED_DIR}
 mkdir -p ${SEMMED_DIR}
+mkdir -p ${SEMMED_OUTPUT_DIR}
 
 ## estimate amount of system ram, in GB
 MEM_GB=`${CODE_DIR}/get-system-memory-gb.sh`
