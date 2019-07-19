@@ -71,6 +71,10 @@ ${JAVA_HOME}/bin/java -Djava.awt.headless=true \
 MYSQL_USER=`grep 'user = ' ${MYSQL_CONF} | sed 's/user = //g'`
 MYSQL_PASSWORD=`grep 'password = ' ${MYSQL_CONF} | sed 's/password = //g'`
 
+## if a "umls" database already exists, delete it
+    mysql --defaults-extra-file=${MYSQL_CONF} \
+          -e "DROP DATABASE IF EXISTS ${MYSQL_DBNAME}"
+
 ## create the "umls" database
 mysql --defaults-extra-file=${MYSQL_CONF} \
       -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DBNAME} CHARACTER SET utf8 COLLATE utf8_unicode_ci"
