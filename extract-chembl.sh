@@ -30,6 +30,10 @@ tar xzf ${CHEMBL_DIR}/${CHEMBL_DB_TARBALL} -C ${CHEMBL_DIR}
 rm -f ${CHEMBL_DIR}/${CHEMBL_DB_TARBALL}
 gzip ${CHEMBL_SQL_FILE}
 
+## if a "chembl" database already exists, delete it
+mysql --defaults-extra-file=${MYSQL_CONF} \
+      -e "DROP DATABASE IF EXISTS ${MYSQL_DBNAME}"
+
 mysql --defaults-extra-file=${MYSQL_CONF} \
       -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DBNAME} DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;"
 
