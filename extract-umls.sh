@@ -23,7 +23,6 @@ UMLS_VER=2018AB
 UMLS_FILE_BASE=${UMLS_VER}-full
 UMLS_DIR=${BUILD_DIR}/umls
 MMSYS_DIR=${UMLS_DIR}/${UMLS_FILE_BASE}
-UMLS_RRDIST_DIR=${UMLS_DIR}
 UMLS_DEST_DIR=${UMLS_RRDIST_DIR}/META
 UMLS2RDF_RELEASE=rtx-1.6
 UMLS2RDF_PKGNAME=umls2rdf-${UMLS2RDF_RELEASE}
@@ -34,8 +33,8 @@ MYSQL_DBNAME=umls
 sudo apt-get update -y
 
 ## make directories that we need
+rm -r -f ${UMLS_DIR}
 mkdir -p ${UMLS_DIR}
-mkdir -p ${UMLS_RRDIST_DIR}
 mkdir -p ${UMLS_DEST_DIR}
 
 ## copy UMLS distribution files and MetamorphoSys config files from S3 to local dir
@@ -47,7 +46,7 @@ unzip ${UMLS_DIR}/umls-${UMLS_FILE_BASE}.zip -d ${UMLS_DIR}/
 unzip ${UMLS_DIR}/${UMLS_FILE_BASE}/mmsys.zip -d ${UMLS_DIR}/${UMLS_FILE_BASE}
 
 ## setup environment for running MetamorphoSys
-export METADIR=${UMLS_RRDIST_DIR}
+export METADIR=${UMLS_DIR}
 export DESTDIR=${UMLS_DEST_DIR}
 export MMSYS_HOME=${UMLS_DIR}/${UMLS_FILE_BASE}
 export CLASSPATH=${MMSYS_DIR}:${MMSYS_DIR}/lib/jpf-boot.jar
@@ -72,8 +71,8 @@ MYSQL_USER=`grep 'user = ' ${MYSQL_CONF} | sed 's/user = //g'`
 MYSQL_PASSWORD=`grep 'password = ' ${MYSQL_CONF} | sed 's/password = //g'`
 
 ## if a "umls" database already exists, delete it
-    mysql --defaults-extra-file=${MYSQL_CONF} \
-          -e "DROP DATABASE IF EXISTS ${MYSQL_DBNAME}"
+mysql --defaults-extra-file=${MYSQL_CONF} \
+      -e "DROP DATABASE IF EXISTS ${MYSQL_DBNAME}"
 
 ## create the "umls" database
 mysql --defaults-extra-file=${MYSQL_CONF} \
