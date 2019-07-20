@@ -9,14 +9,14 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     exit 2
 fi
 
-DGIDB_DIR=${1:-"${BUILD_DIR}/dgidb/"}
-DGIDB_FILE=interactions.tsv
-
 echo "================= starting build-unichem.sh ================="
 date
 
 CONFIG_DIR=`dirname "$0"`
 source ${CONFIG_DIR}/master-config.shinc
+
+DGIDB_DIR=${1:-"${BUILD_DIR}/dgidb/"}
+DGIDB_FILE=interactions.tsv
 
 mkdir -p ${DGIDB_DIR}
 
