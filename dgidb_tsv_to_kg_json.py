@@ -37,6 +37,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
             line = line.rstrip()
             if line.startswith('#'):
                 update_date = line.replace('#', '')
+                continue
             gene_ctr += 1
             if test_mode and gene_ctr > 10000:
                 break
