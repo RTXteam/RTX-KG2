@@ -59,7 +59,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
             gene_ctr += 1
             if test_mode and gene_ctr > 10000:
                 break
-            fields = line.rstrip().split("\t")
+            fields = line.rstrip("\n").split("\t")
             fields = [(field if field.strip() != '-' else None) for field in fields]
             [taxon_id_str,
              ncbi_gene_id,
