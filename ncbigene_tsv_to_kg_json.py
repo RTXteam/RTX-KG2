@@ -68,8 +68,8 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
     nodes = []
     edges = []
     gene_ctr = 0
-    with open(input_file_name, 'r') as file:
-        for line in file.readline():
+    with open(input_file_name, 'r') as input_file:
+        for line in input_file:
             if line.startswith('#'):
                 continue
             gene_ctr += 1
@@ -137,7 +137,6 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                                            modify_date)
             edges.append(edge_dict)
             if db_xrefs is not None:
-                [relation, relation_curie] = kg2_util.biolink_predicate_label_to_iri_and_curie('xref')
                 xrefs_list = db_xrefs.split('|')
                 for xref_curie in xrefs_list:
                     if xref_curie.startswith('HGNC:HGNC:'):
@@ -146,13 +145,13 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                         xref_curie = xref_curie.upper()
                     elif xref_curie.startswith('MIM:'):
                         xref_curie = 'OMIM:' + xref_curie.replace('MIM:', '')
-                    edge_dict.append(kg2_util.make_edge(node_curie_id,
-                                                        xref_curie,
-                                                        kg2_util.IRI_OWL_SAME_AS,
-                                                        kg2_util.CURIE_OWL_SAME_AS,
-                                                        'is_equivalent_to',
-                                                        NCBI_BASE_IRI,
-                                                        modify_date))
+                    edges.append(kg2_util.make_edge(node_curie_id,
+                                                    xref_curie,
+                                                    kg2_util.IRI_OWL_SAME_AS,
+                                                    kg2_util.CURIE_OWL_SAME_AS,
+                                                    'is_equivalent_to',
+                                                    NCBI_BASE_IRI,
+                                                    modify_date))
     return {'nodes': nodes,
             'edges': edges}
 
