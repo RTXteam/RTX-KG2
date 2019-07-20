@@ -77,7 +77,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                 break
             fields = line.rstrip().split("\t")
             fields = [(field if field.strip() != '-' else None) for field in fields]
-            (taxon_id_str,
+            [taxon_id_str,
              ncbi_gene_id,
              gene_symbol,
              locus_tag,
@@ -92,7 +92,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
              nomenc_status,
              other_desig,
              modify_date,
-             feature_type) = fields
+             feature_type] = fields
             taxon_id_int = int(taxon_id_str)
             if taxon_id_int != kg2_util.NCBI_TAXON_ID_HUMAN:
                 # skip neanderthal- and denisovan-specific genes
