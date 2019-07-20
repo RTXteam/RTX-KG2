@@ -27,7 +27,7 @@ REGEX_GENE_NAME = re.compile('^Name=([^ \;]+)(\;| )')
 REGEX_GENE_SYNONYMS = re.compile('Synonyms=([^\;]+)')
 REGEX_HGNC = re.compile('^HGNC; (HGNC:\d+)')
 REGEX_NCBIGeneID = re.compile('^GeneID; (\d+)')
-DESIRED_SPECIES_INTS = set([9606])
+DESIRED_SPECIES_INTS = set([kg2_util.NCBI_TAXON_ID_HUMAN])
 
 
 def init_record():
