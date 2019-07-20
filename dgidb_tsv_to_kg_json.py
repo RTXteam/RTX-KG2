@@ -53,6 +53,9 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
              drug_chembl_id,
              PMIDs] = fields
             if drug_chembl_id != "" and entrez_id != "" and interaction_types != "":
+                pmids_list = []
+                if PMIDs != "":
+                    pmids_list = [('PMID:' + pmid.strip()) for pmid in PMIDs.split(',')]
                 interaction_list = interaction_types.split(',')
                 for interaction in interaction_list:
                     interaction = interaction.replace(' ', '_')
@@ -64,6 +67,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                                                    interaction,
                                                    DGIDB_BASE_IRI,
                                                    update_date)
+                    edge_dict['publications'] = pmids_list
                     edges.append(edge_dict)
     return {'nodes': nodes,
             'edges': edges}
