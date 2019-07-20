@@ -276,8 +276,8 @@ def get_biolink_category_for_node(ontology_node_id: str,
                 if ret_category is not None:
                     break
     if ret_category is None:
-        if node_curie_id.startswith(kg2_util.CURIE_PREFIX_ENSEMBL):
-            curie_suffix = node_curie_id.replace(kg2_util.CURIE_PREFIX_ENSEMBL, '')
+        if node_curie_id.startswith(kg2_util.CURIE_PREFIX_ENSEMBL + ':'):
+            curie_suffix = node_curie_id.replace(kg2_util.CURIE_PREFIX_ENSEMBL + ':', '')
             ensembl_match = REGEX_ENSEMBL.match(curie_suffix)
             if ensembl_match is not None:
                 ensembl_match_letter = ensembl_match[1]
