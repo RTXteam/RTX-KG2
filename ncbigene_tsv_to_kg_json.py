@@ -70,6 +70,8 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
     gene_ctr = 0
     with open(input_file_name, 'r') as file:
         for line in file.readline():
+            if line.startswith('#'):
+                continue
             gene_ctr += 1
             if test_mode and gene_ctr > 10000:
                 break
