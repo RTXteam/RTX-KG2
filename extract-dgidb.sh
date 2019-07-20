@@ -10,6 +10,7 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
 fi
 
 DGIDB_DIR=${1:-"${BUILD_DIR}/dgidb/"}
+DGIDB_FILE=interactions.tsv
 
 echo "================= starting build-unichem.sh ================="
 date
@@ -19,8 +20,10 @@ source ${CONFIG_DIR}/master-config.shinc
 
 mkdir -p ${DGIDB_DIR}
 
-${CURL_GET} http://www.dgidb.org/data/interactions.tsv > ${DGIDB_DIR}/interactions.tsv
-${CURL_GET} http://www.dgidb.org/data/genes.tsv > ${DGIDB_DIR}/genes.tsv
+${CURL_GET} http://www.dgidb.org/data/${DGIDB_FILE} > /tmp/${DGIDB_FILE}
+UPDATE_DATE=`${CURL_GET} http://www.dgidb.org/downloads | grep 'Last updated' | sed 's/Last updated //g'`
+echo "#${UPDATE_DATE}" > ${DGIDB_DIR}/${DGIDB_FILE}
+cat /tmp/${DGIDB_FILE} >> ${DGIDB_DIR}/${DGIDB_FILE}
 
 date
 echo "================= script finished ================="
