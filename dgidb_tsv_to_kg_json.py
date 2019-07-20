@@ -27,7 +27,8 @@ GTPI_CURIE_PREFIX = 'GTPI'
 GTPI_LIGAND_SUFFIX = 'GRAC/LigandDisplayForward?ligandId='
 
 TTD_IRI_BASE = 'https://db.idrblab.org/ttd/'
-TTD_CURIE_PREFIX ='TTD'
+TTD_CURIE_PREFIX = 'TTD'
+
 
 def get_args():
     arg_parser = argparse.ArgumentParser(description='dgidb_tsv_to_kg_json.py: builds a KG2 JSON file from the DGIdb interactions.tsv file')
@@ -40,8 +41,7 @@ def get_args():
 def make_kg2_graph(input_file_name: str, test_mode: bool = False):
     nodes = []
     edges = []
-    gene_ctr = 0
-    edge_ctr = 0
+    line_ctr = 0
     update_date = None
     with open(input_file_name, 'r') as input_file:
         for line in input_file:
@@ -51,8 +51,8 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                 continue
             if line.startswith('gene_name\t'):
                 continue
-            gene_ctr += 1
-            if test_mode and gene_ctr > 10000:
+            line_ctr += 1
+            if test_mode and line_ctr > 10000:
                 break
             fields = line.split("\t")
             [gene_name,
@@ -77,7 +77,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                             subject_curie_id = GTPI_CURIE_PREFIX + ':' + drug_claim_name
                             pmid_match = RE_PMID.match(drug_claim_primary_name)
                             if pmid_match is not None:
-                                node_pubs_list = [ pmid_match[2].replace(' ', '').strip() ]
+                                node_pubs_list = [pmid_match[2].replace(' ', '').strip()]
                                 node_name = pmid_match[1].strip()
                             else:
                                 node_name = drug_claim_primary_name
@@ -102,7 +102,6 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                     continue
                 if interaction_types == "":
                     interaction_types = "affects"
-                edge_ctr += 1
                 pmids_list = []
                 if PMIDs.strip() != "":
                     pmids_list = [('PMID:' + pmid.strip()) for pmid in PMIDs.split(',')]
@@ -129,4 +128,4 @@ if __name__ == '__main__':
     output_file_name = args.outputFile[0]
     test_mode = args.test
     graph = make_kg2_graph(input_file_name, test_mode)
-    kg2_util.save_json(graph, output_file_name, True)
+    kg2_util.save_json(graph, output_file_name, test_mode)
