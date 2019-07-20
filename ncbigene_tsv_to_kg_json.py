@@ -48,22 +48,6 @@ def make_node(ncbi_gene_id: str,
     return node_dict
 
 
-def make_edge(subject_curie_id: str,
-              object_curie_id: str,
-              predicate_label: str,
-              update_date: str):
-    relation = kg2_util.BIOLINK_CATEGORY_BASE_IRI + kg2_util.convert_snake_case_to_camel_case(predicate_label)
-    relation_curie = kg2_util.BIOLINK_CURIE_PREFIX + ':' + predicate_label.replace(' ', '_')
-    rel = kg2_util.make_edge(subject_curie_id,
-                             object_curie_id,
-                             relation,
-                             relation_curie,
-                             predicate_label,
-                             NCBI_BASE_IRI,
-                             update_date)
-    return rel
-
-
 def make_kg2_graph(input_file_name: str, test_mode: bool = False):
     nodes = []
     edges = []
