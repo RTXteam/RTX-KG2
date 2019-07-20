@@ -40,7 +40,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
             gene_ctr += 1
             if test_mode and gene_ctr > 10000:
                 break
-            fields = line.rstrip().split("\t")
+            fields = line.split("\t")
             [gene_name,
              gene_claim_name,
              entrez_id,
