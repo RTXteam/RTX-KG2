@@ -25,8 +25,7 @@ def make_edge(subject_curie_id: str,
               object_curie_id: str,
               predicate_label: str,
               update_date: str):
-    relation = kg2_util.BIOLINK_CATEGORY_BASE_IRI + kg2_util.convert_snake_case_to_camel_case(predicate_label)
-    relation_curie = kg2_util.BIOLINK_CURIE_PREFIX + ':' + predicate_label.replace(' ', '_')
+    [relation, relation_curie] = kg2_util.biolink_predicate_label_to_iri_and_curie(predicate_label)
     rel = kg2_util.make_edge(subject_curie_id,
                              object_curie_id,
                              relation,
@@ -38,7 +37,7 @@ def make_edge(subject_curie_id: str,
 
 
 def get_args():
-    arg_parser = argparse.ArgumentParser(description='ensembl_json_to_kg2_json.py: builds a KG2 JSON representation for Ensembl genes')
+    arg_parser = argparse.ArgumentParser(description='ensembl_json_to_kg_json.py: builds a KG2 JSON representation for Ensembl genes')
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
     arg_parser.add_argument('--inputFile', type=str, nargs=1)
     arg_parser.add_argument('--outputFile', type=str, nargs=1)
@@ -53,7 +52,7 @@ def make_node(ensembl_gene_id: str,
     category_label = 'gene'
     if other_synonyms is None:
         other_synonyms = []
-    node_curie = kg2_util.CURIE_PREFIX_ENSEMBL + ensembl_gene_id
+    node_curie = kg2_util.CURIE_PREFIX_ENSEMBL + ':' + ensembl_gene_id
     iri = ENSEMBL_BASE_IRI + '/' + ensembl_gene_id
     node_dict = kg2_util.make_node(node_curie,
                                    iri,
@@ -61,7 +60,7 @@ def make_node(ensembl_gene_id: str,
                                    category_label,
                                    update_date,
                                    ENSEMBL_KB_IRI)
-    node_dict['synonym'] = [gene_symbol] + other_synonyms
+    node_dict['synonym'] = list(set([gene_symbol] + other_synonyms))
     return node_dict
 
 
