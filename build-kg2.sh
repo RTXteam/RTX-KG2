@@ -82,6 +82,9 @@ UNICHEM_OUTPUT_FILE=${BUILD_DIR}/kg2-unichem${TEST_SUFFIX}.json
 NCBI_GENE_TSV_FILE=${BUILD_DIR}/ncbigene/Homo_sapiens.gene_info.tsv
 NCBI_GENE_OUTPUT_FILE=${BUILD_DIR}/kg2-ncbigene${TEST_SUFFIX}.json
 
+DGIDB_DIR=${BUILD_DIR}/dgidb
+DGIDB_OUTPUT_FILE=${BUILD_DIR}/kg2-dgidb${TEST_SUFIX}.json
+
 cd ${BUILD_DIR}
 
 MEM_GB=`${CODE_DIR}/get-system-memory-gb.sh`
@@ -109,6 +112,9 @@ then
 ## Extract NCBI Gene
     echo "running extract-ncbigene.sh"
     bash -x ${CODE_DIR}/extract-ncbigene.sh ${NCBI_GENE_TSV_FILE}
+## Extract DGIDB
+    echo "running extract-dgidb.sh"
+    bash -x ${CODE_DIR}/extract-dgidb.sh ${DGIDB_DIR}
 fi
 
 echo "running uniprotkb_dat_to_json.py"
@@ -166,6 +172,13 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/ncbigene_tsv_to_kg_json.py \
            --inputFile ${NCBI_GENE_TSV_FILE} \
            --outputFile ${NCBI_GENE_OUTPUT_FILE}
 
+## Make JSON file for DGIDB
+
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/dgidb_tsv_to_kg_json.py \
+           ${TEST_ARG} \
+           --inputFile ${DGIDB_DIR}/interactions.tsv \
+           --outputFile ${DGIDB_OUTPUT_FILE}
+
 ## Merge all the KG JSON files
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/merge_graphs.py \
@@ -177,6 +190,7 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/merge_graphs.py \
                      ${UNICHEM_OUTPUT_FILE} \
                      ${CHEMBL_OUTPUT_FILE} \
                      ${NCBI_GENE_OUTPUT_FILE} \
+                     ${DGIDB_OUTPUT_FILE} \
            --outputFile ${FINAL_OUTPUT_FILE_FULL} \
            --kgFileOrphanEdges ${OUTPUT_FILE_ORPHAN_EDGES}
 
@@ -192,25 +206,25 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/report_stats_on_kg.py \
            --inputFile ${FINAL_OUTPUT_FILE_FULL} \
            --outputFile ${REPORT_FILE_FULL}
 
-NEO4J_COMPATIBLE_OUTPUT_FILE="${FINAL_OUTPUT_FILE_FULL%.*}"-for-neo4j.json
+#NEO4J_COMPATIBLE_OUTPUT_FILE="${FINAL_OUTPUT_FILE_FULL%.*}"-for-neo4j.json
 
-## Generate a Neo4j-compatible JSON KG
-${VENV_DIR}/bin/python3 -u ${CODE_DIR}/stringify_json_kg_properties_for_neo4j.py \
-           --inputFile ${FINAL_OUTPUT_FILE_FULL} \
-           --outputfile ${NEO4J_COMPATIBLE_OUTPUT_FILE}
+### Generate a Neo4j-compatible JSON KG
+#${VENV_DIR}/bin/python3 -u ${CODE_DIR}/stringify_json_kg_properties_for_neo4j.py \
+#           --inputFile ${FINAL_OUTPUT_FILE_FULL} \
+#           --outputfile ${NEO4J_COMPATIBLE_OUTPUT_FILE}
 
 ## Compress the huge files
 gzip -f ${FINAL_OUTPUT_FILE_FULL}
 gzip -f ${OUTPUT_NODES_FILE_FULL}
 gzip -f ${OUTPUT_FILE_ORPHAN_EDGES}
-gzip -f ${NEO4J_COMPATIBLE_OUTPUT_FILE}
+#gzip -f ${NEO4J_COMPATIBLE_OUTPUT_FILE}
 
 ## copy the KG and various build artifacts to the public S3 bucket
 aws s3 cp --no-progress --region ${S3_REGION} ${FINAL_OUTPUT_FILE_FULL}.gz s3://${S3_BUCKET_PUBLIC}/
 aws s3 cp --no-progress --region ${S3_REGION} ${OUTPUT_NODES_FILE_FULL}.gz s3://${S3_BUCKET_PUBLIC}/
 aws s3 cp --no-progress --region ${S3_REGION} ${REPORT_FILE_FULL} s3://${S3_BUCKET_PUBLIC}/
 aws s3 cp --no-progress --region ${S3_REGION} ${OUTPUT_FILE_ORPHAN_EDGES}.gz s3://${S3_BUCKET_PUBLIC}/
-aws s3 cp --no-progress --region ${S3_REGION} ${NEO4J_COMPATIBLE_OUTPUT_FILE}.gz s3://${S3_BUCKET_PUBLIC}/
+#aws s3 cp --no-progress --region ${S3_REGION} ${NEO4J_COMPATIBLE_OUTPUT_FILE}.gz s3://${S3_BUCKET_PUBLIC}/
 
 ## copy the log files to the public S3 bucket
 BUILD_MULTI_OWL_STDERR_FILE="${BUILD_DIR}/build-${OUTPUT_FILE_BASE%.*}"-stderr.log
