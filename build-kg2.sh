@@ -83,7 +83,7 @@ NCBI_GENE_TSV_FILE=${BUILD_DIR}/ncbigene/Homo_sapiens.gene_info.tsv
 NCBI_GENE_OUTPUT_FILE=${BUILD_DIR}/kg2-ncbigene${TEST_SUFFIX}.json
 
 DGIDB_DIR=${BUILD_DIR}/dgidb
-DGIDB_OUTPUT_FILE=${BUILD_DIR}/kg2-dgidb${TEST_SUFIX}.json
+DGIDB_OUTPUT_FILE=${BUILD_DIR}/kg2-dgidb${TEST_SUFFIX}.json
 
 cd ${BUILD_DIR}
 
