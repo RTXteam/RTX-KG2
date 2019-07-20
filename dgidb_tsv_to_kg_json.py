@@ -34,8 +34,9 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
     gene_ctr = 0
     with open(input_file_name, 'r') as input_file:
         for line in input_file:
+            line = line.rstrip()
             if line.startswith('#'):
-                update_date = line.replace('#Last updated ', '')
+                update_date = line.replace('#', '')
             gene_ctr += 1
             if test_mode and gene_ctr > 10000:
                 break
