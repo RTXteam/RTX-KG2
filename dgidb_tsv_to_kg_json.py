@@ -20,6 +20,7 @@ import kg2_util
 DGIDB_BASE_IRI = 'http://www.dgidb.org'
 DGIDB_CURIE_PREFIX = 'DGIDB'
 
+
 def get_args():
     arg_parser = argparse.ArgumentParser(description='dgidb_tsv_to_kg_json.py: builds a KG2 JSON file from the DGIdb interactions.tsv file')
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
