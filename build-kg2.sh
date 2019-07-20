@@ -79,6 +79,9 @@ CHEMBL_MYSQL_DBNAME=chembl
 UNICHEM_OUTPUT_TSV_FILE=${BUILD_DIR}/unichem/chembl-to-curies.tsv
 UNICHEM_OUTPUT_FILE=${BUILD_DIR}/kg2-unichem${TEST_SUFFIX}.json
 
+NCBI_GENE_TSV_FILE=${BUILD_DIR}/ncbigene/Homo_sapiens.gene_info.tsv
+NCBI_GENE_OUTPUT_FILE=${BUILD_DIR}/kg2-ncbigene${TEST_SUFFIX}.json
+
 cd ${BUILD_DIR}
 
 MEM_GB=`${CODE_DIR}/get-system-memory-gb.sh`
@@ -103,6 +106,9 @@ then
 ## Extract UniChem chembl-to-chebi mappings
     echo "running extract-unichem.sh"
     bash -x ${CODE_DIR}/extract-unichem.sh ${UNICHEM_OUTPUT_TSV_FILE}
+## Extract NCBI Gene
+    echo "running extract-ncbigene.sh"
+    bash -x ${CODE_DIR}/extract-ncbigene.sh ${NCBI_GENE_TSV_FILE}
 fi
 
 echo "running uniprotkb_dat_to_json.py"
@@ -153,6 +159,13 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/unichem_tsv_to_edges_json.py \
            --inputFile ${UNICHEM_OUTPUT_TSV_FILE} \
            --outputFile ${UNICHEM_OUTPUT_FILE}
 
+## Make JSON file for NCBI Gene
+
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/ncbigene_tsv_to_kg_json.py \
+           ${TEST_ARG} \
+           --inputFile ${NCBI_GENE_TSV_FILE} \
+           --outputFile ${NCBI_GENE_OUTPUT_FILE}
+
 ## Merge all the KG JSON files
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/merge_graphs.py \
@@ -163,6 +176,7 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/merge_graphs.py \
                      ${ENSEMBL_OUTPUT_FILE} \
                      ${UNICHEM_OUTPUT_FILE} \
                      ${CHEMBL_OUTPUT_FILE} \
+                     ${NCBI_GENE_OUTPUT_FILE} \
            --outputFile ${FINAL_OUTPUT_FILE_FULL} \
            --kgFileOrphanEdges ${OUTPUT_FILE_ORPHAN_EDGES}
 
