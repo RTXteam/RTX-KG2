@@ -30,7 +30,7 @@ import time
 import urllib.request
 import yaml
 
-CURIE_PREFIX_ENSEMBL = 'ENSEMBL:'
+CURIE_PREFIX_ENSEMBL = 'ENSEMBL'
 TEMP_FILE_PREFIX = 'kg2'
 FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
 ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
@@ -38,6 +38,9 @@ BIOLINK_CATEGORY_BASE_IRI = 'http://w3id.org/biolink/vocab/'
 BIOLINK_CURIE_PREFIX = 'BioLink'
 IRI_OWL_SAME_AS = 'http://www.w3.org/2002/07/owl#sameAs'
 CURIE_OWL_SAME_AS = 'owl:sameAs'
+NCBI_TAXON_ID_HUMAN = 9606
+CURIE_PREFIX_NCBI_GENE = 'NCBIGene'
+CURIE_PREFIX_NCBI_TAXON = 'NCBITaxon'
 
 
 def load_json(input_file_name):
@@ -264,3 +267,10 @@ def make_edge(subject_id: str,
             'publications info': {},
             'update date': update_date,
             'provided by': provided_by}
+
+
+def biolink_predicate_label_to_iri_and_curie(predicate_label: str):
+    predicate_label = predicate_label.replace(' ', '_')
+    return [BIOLINK_CATEGORY_BASE_IRI + convert_snake_case_to_camel_case(predicate_label),
+            BIOLINK_CURIE_PREFIX + ':' + predicate_label]
+
