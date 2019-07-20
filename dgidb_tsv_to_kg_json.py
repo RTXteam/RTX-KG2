@@ -34,7 +34,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
     gene_ctr = 0
     with open(input_file_name, 'r') as input_file:
         for line in input_file:
-            line = line.rstrip()
+            line = line.rstrip("\n")
             if line.startswith('#'):
                 update_date = line.replace('#', '')
                 continue
