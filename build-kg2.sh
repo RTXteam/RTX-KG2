@@ -165,6 +165,8 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/unichem_tsv_to_edges_json.py \
            --inputFile ${UNICHEM_OUTPUT_TSV_FILE} \
            --outputFile ${UNICHEM_OUTPUT_FILE}
 
+echo "running ncbigene_tsv_to_kg_json.py"
+
 ## Make JSON file for NCBI Gene
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/ncbigene_tsv_to_kg_json.py \
