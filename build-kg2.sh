@@ -177,7 +177,7 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/ncbigene_tsv_to_kg_json.py \
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/dgidb_tsv_to_kg_json.py \
            ${TEST_ARG} \
            --inputFile ${DGIDB_DIR}/interactions.tsv \
-           --outputFile ${DGIDB_OUTPUT_FILE}
+           --outputFile ${DGIDB_OUTPUT_FILE} 2> ${DGIDB_DIR}/dgidb-tsv-to-kg-json.log
 
 ## Merge all the KG JSON files
 
