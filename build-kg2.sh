@@ -174,12 +174,16 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/ncbigene_tsv_to_kg_json.py \
            --inputFile ${NCBI_GENE_TSV_FILE} \
            --outputFile ${NCBI_GENE_OUTPUT_FILE}
 
+echo "running dgidb_tsv_to_kg_json.py"
+
 ## Make JSON file for DGIDB
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/dgidb_tsv_to_kg_json.py \
            ${TEST_ARG} \
            --inputFile ${DGIDB_DIR}/interactions.tsv \
            --outputFile ${DGIDB_OUTPUT_FILE} 2> ${DGIDB_DIR}/dgidb-tsv-to-kg-json.log
+
+echo "running merge_graphs.py"
 
 ## Merge all the KG JSON files
 
@@ -196,11 +200,15 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/merge_graphs.py \
            --outputFile ${FINAL_OUTPUT_FILE_FULL} \
            --kgFileOrphanEdges ${OUTPUT_FILE_ORPHAN_EDGES}
 
+echo "get_nodes_json_from_kg_json.py"
+
 ## Get a JSON file with just the nodes in it
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/get_nodes_json_from_kg_json.py \
            --inputFile ${FINAL_OUTPUT_FILE_FULL} \
            --outputFile ${OUTPUT_NODES_FILE_FULL}
+
+echo "report_stats_on_kg.py"
 
 ## Generate a JSON report of statistics on the KG
 
