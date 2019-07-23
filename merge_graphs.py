@@ -55,6 +55,8 @@ if __name__ == '__main__':
                              output_stream=sys.stderr)
     ctr_edges_added = 0
     edges = []
+    last_edges_added = 0
+    last_orphan_edges = 0
     for kg_file_name in kg_file_names:
         kg_orphan_edges_new = []
         kg2_util.log_message("reading edges from file",
@@ -71,12 +73,15 @@ if __name__ == '__main__':
             else:
                 kg_orphan_edges_new.append(rel_dict)
         kg_orphan_edges['edges'] += kg_orphan_edges_new
-        kg2_util.log_message("number of edges added: " + str(ctr_edges_added),
+        kg2_util.log_message("number of edges added: " + str(ctr_edges_added - last_edges_added),
                              ontology_name=kg_file_name,
                              output_stream=sys.stderr)
-        kg2_util.log_message("number of orphan edges: " + str(len(kg_orphan_edges['edges'])),
+        last_edges_added = ctr_edges_added
+        kg2_util.log_message("number of orphan edges: " + str(len(kg_orphan_edges['edges']) -
+                                                              last_orphan_edges),
                              ontology_name=kg_file_name,
                              output_stream=sys.stderr)
+        last_orphan_edges = len(kg_orphan_edges['edges'])
     kg = {'nodes': [node for node in nodes.values()],
           'edges': edges}
     kg2_util.save_json(kg, output_file_name, test_mode)
