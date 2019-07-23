@@ -59,7 +59,7 @@ def make_rel(preds_dict: dict,
                                        SEMMEDDB_IRI,
                                        curr_timestamp)
         edge_dict['publications'] = [publication_curie]
-        edge_dict['publications_info'] = {publication_curie: publication_info_dict}
+        edge_dict['publications info'] = {publication_curie: publication_info_dict}
         edge_dict['negated'] = negated
         preds_dict[key] = edge_dict
     else:
