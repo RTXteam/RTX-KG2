@@ -80,15 +80,18 @@ KG2. As a minimal example of the data format for `RTXConfiguration-config.json`,
 see the file of the same name in this repository code directory (note: that
 config file can contain authentication information for additional server types
 in the RTX system; those are not shown in the example file in this code
-directory).
+directory). The KG1 Neo4j endpoint need not (and in general, won't be) hosted in
+the same EC2 instance that hosts the KG2 build system. Currently, the KG1 Neo4j
+endpoint is hosted in the instance `kg1endpoint.rtx.ai`; the URI of its Neo4j
+REST HTTP interface is: `http://kg1endpoint.rtx.ai:7474`.
 
 ## My normal EC2 instance
 
 The KG2 build software has been tested with the following instance type:
 
 - AMI: Ubuntu Server 18.04 LTS (HVM), SSD Volume Type - `ami-005bdb005fb00e791` (64-bit x86)
-- Instance type: `r4.16xlarge` (488 GiB of memory)
-- Storage: 1,023 GiB General Purpose SSD
+- Instance type: `r5a.8xlarge` (256 GiB of memory)
+- Storage: 1,023 GiB, Elastic Block Storage
 - Security Group: ingress TCP packets on port 22 (ssh) permitted
 
 As of June 10, 2019, an on-demand `r4.16xlarge` instance in the `us-west-2` AWS
