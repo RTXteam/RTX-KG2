@@ -85,6 +85,9 @@ NCBI_GENE_OUTPUT_FILE=${BUILD_DIR}/kg2-ncbigene${TEST_SUFFIX}.json
 DGIDB_DIR=${BUILD_DIR}/dgidb
 DGIDB_OUTPUT_FILE=${BUILD_DIR}/kg2-dgidb${TEST_SUFFIX}.json
 
+KG1_OUTPUT_FILE=${BUILD_DIR}/kg2-rtx-kg1${TEST_SUFFIX}.json
+RTX_CONFIG_FILE=RTXConfiguration-config.json
+
 cd ${BUILD_DIR}
 
 MEM_GB=`${CODE_DIR}/get-system-memory-gb.sh`
@@ -183,6 +186,17 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/dgidb_tsv_to_kg_json.py \
            --inputFile ${DGIDB_DIR}/interactions.tsv \
            --outputFile ${DGIDB_OUTPUT_FILE} 2> ${DGIDB_DIR}/dgidb-tsv-to-kg-json.log
 
+echo "copying RTX Configuration JSON file from S3"
+
+aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/${RTX_CONFIG_FILE} ${BUILD_DIR}/${RTX_CONFIG_FILE}
+
+echo "extracting KG JSON representation of RTX KG1, from the Neo4j endpoint"
+
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/rtx_kg1_neo4j_to_kg_json.py \
+           ${TEST_ARG} \
+           --configFile ${BUILD_DIR}/${RTX_CONFIG_FILE} \
+           ${KG1_OUTPUT_FILE}
+
 echo "running merge_graphs.py"
 
 ## Merge all the KG JSON files
@@ -197,6 +211,7 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/merge_graphs.py \
                      ${CHEMBL_OUTPUT_FILE} \
                      ${NCBI_GENE_OUTPUT_FILE} \
                      ${DGIDB_OUTPUT_FILE} \
+                     ${KG1_OUTPUT_FILE} \
            --outputFile ${FINAL_OUTPUT_FILE_FULL} \
            --kgFileOrphanEdges ${OUTPUT_FILE_ORPHAN_EDGES}
 
@@ -215,6 +230,7 @@ echo "report_stats_on_kg.py"
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/report_stats_on_kg.py \
            --inputFile ${FINAL_OUTPUT_FILE_FULL} \
            --outputFile ${REPORT_FILE_FULL}
+
 
 #NEO4J_COMPATIBLE_OUTPUT_FILE="${FINAL_OUTPUT_FILE_FULL%.*}"-for-neo4j.json
 
