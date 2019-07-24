@@ -94,12 +94,12 @@ The KG2 build software has been tested with the following instance type:
 - Storage: 1,023 GiB, Elastic Block Storage
 - Security Group: ingress TCP packets on port 22 (ssh) permitted
 
-As of June 10, 2019, an on-demand `r4.16xlarge` instance in the `us-west-2` AWS
-zone costs $4.26 per hour, so the cost to build KG2 (estimated to take 48 hours)
+As of June 10, 2019, an on-demand `r5a.8xlarge` instance in the `us-west-2` AWS
+zone costs $1.81 per hour, so the cost to build KG2 (estimated to take 48 hours)
 would be approximately $200 (this is currently just a rough estimate, plus or
 minus 20%). [Unfortunately, AWS doesn't seem to allow the provisioning of spot
 instances while specifying minimum memory greater than 240 GiB; but perhaps soon
-that will happen, and if so, it could save significantly on the cost of building KG2.]
+that will happen, and if so, it could save significantly on the cost of updating the RTX KG2.]
 
 ## Build instructions
 
