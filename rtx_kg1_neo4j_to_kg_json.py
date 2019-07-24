@@ -86,7 +86,10 @@ if __name__ == '__main__':
         config_data = json.load(open(config_file, 'r'))
         neo4j_user = config_data['Production']['neo4j']['username']
         neo4j_password = config_data['Production']['neo4j']['password']
-        neo4j_endpoint_uri = config_data['Production']['neo4j']['database']
+        if args.endpoint_uri is not None:
+            neo4j_endpoint_uri = args.endpoint_uri
+        else:
+            neo4j_endpoint_uri = config_data['Production']['neo4j']['database']
     else:
         neo4j_user = args.user
         neo4j_password = args.password
