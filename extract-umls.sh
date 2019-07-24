@@ -23,7 +23,7 @@ UMLS_VER=2018AB
 UMLS_FILE_BASE=${UMLS_VER}-full
 UMLS_DIR=${BUILD_DIR}/umls
 MMSYS_DIR=${UMLS_DIR}/${UMLS_FILE_BASE}
-UMLS_DEST_DIR=${UMLS_RRDIST_DIR}/META
+UMLS_DEST_DIR=${UMLS_DIR}/META
 UMLS2RDF_RELEASE=rtx-1.6
 UMLS2RDF_PKGNAME=umls2rdf-${UMLS2RDF_RELEASE}
 UMLS2RDF_DIR=${UMLS_DIR}/${UMLS2RDF_PKGNAME}
@@ -105,7 +105,7 @@ cat ${UMLS2RDF_DIR}/conf_sample.py | sed 's/your-host/localhost/g' | \
     sed "s|output|${OUTPUT_DIR}|g" | \
     sed "s/2015ab/${UMLS_VER}/g" > ${UMLS2RDF_DIR}/conf.py
 
-cp ${CODE_DIR}/umls2rdf-umls.conf ${UMLD2RDF_DIR}/umls.conf
+cp ${CODE_DIR}/umls2rdf-umls.conf ${UMLS2RDF_DIR}/umls.conf
 
 ## umls2rdf is legacy software written to run in python2.7; set up the virtualenv
 UMLS_VENV_DIR=${UMLS_DIR}/venv27
