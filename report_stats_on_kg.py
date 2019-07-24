@@ -144,8 +144,8 @@ if __name__ == '__main__':
              'number_of_edges_by_predicate_curie_prefixes': dict(count_edges_by_predicate_curie_prefix(graph['edges'])),
              'number_of_predicates_by_predicate_curie_prefixes': dict(count_predicates_by_predicate_curie_prefix(graph['edges'])),
              'number_of_edges_by_source': dict(count_edges_by_source(graph['edges'])),
-             'xref_node_curie_prefix_pair_counts': dict(count_types_of_pairs_of_curies_for_xrefs(graph['edges'])),
-             'equiv_node_curie_prefix_pair_counts': dict(count_types_of_pairs_of_curies_for_equivs(graph['edges'])),
+             'types_of_pairs_of_curies_for_xrefs': dict(count_types_of_pairs_of_curies_for_xrefs(graph['edges'])),
+             'types_of_pairs_of_curies_for_equivs': dict(count_types_of_pairs_of_curies_for_equivs(graph['edges'])),
              'number_of_nodes_by_source_and_category': dict(count_number_of_nodes_by_source_and_category(graph['nodes']))}
 
     temp_output_file = tempfile.mkstemp(prefix='kg2-')[1]
