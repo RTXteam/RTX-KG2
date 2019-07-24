@@ -1,5 +1,14 @@
 #!/usr/bin/env python3
 
+__author__ = 'Stephen Ramsey'
+__copyright__ = 'Oregon State University'
+__credits__ = ['Stephen Ramsey', 'Veronica Flores']
+__license__ = 'MIT'
+__version__ = '0.1.0'
+__maintainer__ = ''
+__email__ = ''
+__status__ = 'Prototype'
+
 import datetime
 import json
 import neo4j
