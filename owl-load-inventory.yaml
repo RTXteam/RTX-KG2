@@ -514,7 +514,7 @@
   download: true
   title: FOODON (Food Ontology)
 -
-  url:  http://www.orphadata.org/data/ORDO/ORDO_en_2.7.owl
+  url:  http://data.bioontology.org/ontologies/ORDO/submissions/15/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
   file: ordo.owl
   download: true
   title: ORPHANET Rare Disease Ontology
