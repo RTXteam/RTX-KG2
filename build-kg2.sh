@@ -79,7 +79,7 @@ CHEMBL_MYSQL_DBNAME=chembl
 UNICHEM_OUTPUT_TSV_FILE=${BUILD_DIR}/unichem/chembl-to-curies.tsv
 UNICHEM_OUTPUT_FILE=${BUILD_DIR}/kg2-unichem${TEST_SUFFIX}.json
 
-NCBI_GENE_TSV_FILE=${BUILD_DIR}/ncbigene/Homo_sapiens.gene_info.tsv
+NCBI_GENE_TSV_FILE=${BUILD_DIR}/ncbigene/Homo_sapiens_gene_info.tsv
 NCBI_GENE_OUTPUT_FILE=${BUILD_DIR}/kg2-ncbigene${TEST_SUFFIX}.json
 
 DGIDB_DIR=${BUILD_DIR}/dgidb
