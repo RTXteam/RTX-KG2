@@ -24,7 +24,7 @@ import requests
 import sys
 
 
-TIMEOUT_SEC = 120
+TIMEOUT_SEC = 600
 
 KG1_PROVIDED_BY_TO_KG2_IRIS = {
     'gene_ontology': "http://purl.obolibrary.org/obo/GO",
@@ -61,8 +61,7 @@ def query_neo4j(neo4j_auth: dict, http_uri: str, cypher_query: str):
                                    timeout=TIMEOUT_SEC)
     status_code = query_response.status_code
     if status_code != 200:
-        print('HTTP response status code: ' + str(status_code) + ' for URL: ' + http_uri, file=sys.stderr)
-        query_response = None
+        raise Exception('HTTP response status code: ' + str(status_code) + ' for URL: ' + http_uri)
     return query_response.json()['data']
 
 
