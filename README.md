@@ -77,13 +77,14 @@ also need to place a file `RTXConfiguration-config.json` in the S3 bucket
 Neo4j REST API server) for accessing a RTX KG1 Neo4j endpoint; the KG2 build
 system will dump the KG1 graph from that endpoint and will merge that graph into
 KG2. As a minimal example of the data format for `RTXConfiguration-config.json`,
-see the file of the same name in this repository code directory (note: that
-config file can contain authentication information for additional server types
-in the RTX system; those are not shown in the example file in this code
-directory). The KG1 Neo4j endpoint need not (and in general, won't be) hosted in
-the same EC2 instance that hosts the KG2 build system. Currently, the KG1 Neo4j
-endpoint is hosted in the instance `kg1endpoint.rtx.ai`; the URI of its Neo4j
-REST HTTP interface is: `http://kg1endpoint.rtx.ai:7474`.
+see the file `RTXConfiguration-config-EXAMPLE.json` in this repository code
+directory (note: that config file can contain authentication information for
+additional server types in the RTX system; those are not shown in the example
+file in this code directory). The KG1 Neo4j endpoint need not (and in general,
+won't be) hosted in the same EC2 instance that hosts the KG2 build
+system. Currently, the KG1 Neo4j endpoint is hosted in the instance
+`kg1endpoint.rtx.ai`; the URI of its Neo4j REST HTTP interface is:
+`http://kg1endpoint.rtx.ai:7474`.
 
 ## My normal EC2 instance
 
