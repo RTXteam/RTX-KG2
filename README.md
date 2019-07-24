@@ -35,7 +35,7 @@ The computing environment where you will be running the KG2 build should be
 running Ubuntu 18.04.  Your build environment should have the following *minimum*
 specifications:
 
-- 488 GiB of system memory
+- 256 GiB of system memory
 - 1,023 GiB of disk space in the root file system 
 - high-speed networking (20 Gb/s networking) and storage
 - ideally, AWS zone `us-west-2` since that is where the RTX KG2 S3 buckets are located
@@ -68,26 +68,39 @@ distribution (including SNOMED CT) from the private S3 bucket `rtx-kg2` (IANAL,
 but it appears that UMLS is encumbered by a license preventing redistribution so
 I have not hosted them on a public server for download; but you can get it for
 free at the [UMLS website](https://www.nlm.nih.gov/research/umls/) if you agree
-to the UMLS licenses) and it uploads the final output `kg2.json.gz` file to the
-public S3 bucket `rtx-kg2-public`. Alternatively, you can set up your own S3
+to the UMLS license terms) and it uploads the final output `kg2.json.gz` file to
+the public S3 bucket `rtx-kg2-public`. Alternatively, you can set up your own S3
 bucket to which to copy the gzipped KG2 JSON file, or you can comment the line
-out of `build-kg2.sh` that copies the final gzipped JSON file to S3.
+out of `build-kg2.sh` that copies the final gzipped JSON file to S3. You will
+also need to place a file `RTXConfiguration-config.json` in the S3 bucket
+`s3://rtx-kg2/`, that provides credentials (username, password, and HTTP URI for
+Neo4j REST API server) for accessing a RTX KG1 Neo4j endpoint; the KG2 build
+system will dump the KG1 graph from that endpoint and will merge that graph into
+KG2. As a minimal example of the data format for `RTXConfiguration-config.json`,
+see the file `RTXConfiguration-config-EXAMPLE.json` in this repository code
+directory (note: that config file can contain authentication information for
+additional server types in the RTX system; those are not shown in the example
+file in this code directory). The KG1 Neo4j endpoint need not (and in general,
+won't be) hosted in the same EC2 instance that hosts the KG2 build
+system. Currently, the KG1 Neo4j endpoint is hosted in the instance
+`kg1endpoint.rtx.ai`; the URI of its Neo4j REST HTTP interface is:
+`http://kg1endpoint.rtx.ai:7474`.
 
 ## My normal EC2 instance
 
 The KG2 build software has been tested with the following instance type:
 
 - AMI: Ubuntu Server 18.04 LTS (HVM), SSD Volume Type - `ami-005bdb005fb00e791` (64-bit x86)
-- Instance type: `r4.16xlarge` (488 GiB of memory)
-- Storage: 1,023 GiB General Purpose SSD
+- Instance type: `r5a.8xlarge` (256 GiB of memory)
+- Storage: 1,023 GiB, Elastic Block Storage
 - Security Group: ingress TCP packets on port 22 (ssh) permitted
 
-As of June 10, 2019, an on-demand `r4.16xlarge` instance in the `us-west-2` AWS
-zone costs $4.26 per hour, so the cost to build KG2 (estimated to take 48 hours)
-would be approximately $200 (this is currently just a rough estimate, plus or
+As of June 10, 2019, an on-demand `r5a.8xlarge` instance in the `us-west-2` AWS
+zone costs $1.81 per hour, so the cost to build KG2 (estimated to take four days)
+would be approximately $174 (this is currently just a rough estimate, plus or
 minus 20%). [Unfortunately, AWS doesn't seem to allow the provisioning of spot
 instances while specifying minimum memory greater than 240 GiB; but perhaps soon
-that will happen, and if so, it could save significantly on the cost of building KG2.]
+that will happen, and if so, it could save significantly on the cost of updating the RTX KG2.]
 
 ## Build instructions
 

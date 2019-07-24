@@ -30,6 +30,7 @@ KG1_PROVIDED_BY_TO_KG2_IRIS = {
     'PC2': 'http://pathwaycommons.org/pc11',
     'BioLink': 'http://w3id.org/biolink/vocab',
     'KEGG;UniProtKB': 'https://www.uniprot.org',
+    'UniProtKB': 'https://www.uniprot.org',
     'OMIM': 'http://purl.bioontology.org/ontology/OMIM',
     'DisGeNet': 'http://www.disgenet.org',
     'reactome': 'https://identifiers.org/reactome',
@@ -38,9 +39,19 @@ KG1_PROVIDED_BY_TO_KG2_IRIS = {
     'Pharos': 'https://pharos.nih.gov',
     'Monarch_SciGraph': 'https://pharos.nih.gov',
     'DiseaseOntology': 'http://purl.bioontology.org/ontology/DOID',
+    'DOID': 'http://purl.bioontology.org/ontology/DOID',
     'miRGate': 'http://http://mirgate.bioinfo.cnio.es',
     'SIDER': 'http://sideeffects.embl.de',
-    'MyChem.info': 'http://mychem.info'
+    'MyChem.info': 'http://mychem.info',
+    'GO': 'http://purl.bioontology.org/ontology/GO',
+    'REACT': 'https://identifiers.org/reactome',
+    'HP': 'http://purl.bioontology.org/ontology/HP',
+    'MONDO': 'http://purl.bioontology.org/ontology/MONDO',
+    'UBERON': 'http://purl.bioontology.org/ontology/UBERON',
+    'CL': 'http://purl.bioontology.org/ontology/CL',
+    'KEGG': 'http://genome.jp/kegg',
+    'CHEMBL.COMPOUND': 'https://www.ebi.ac.uk/chembl',
+    'NCBIGene': 'http://www.ncbi.nlm.nih.gov/gene'
     }
 
 
@@ -136,6 +147,10 @@ if __name__ == '__main__':
         node_dict['publications'] = []
         node_dict['update date'] = None
         node_dict['deprecated'] = False
+        curie_prefix = id.split(':')[0]
+        provided_by = KG1_PROVIDED_BY_TO_KG2_IRIS.get(curie_prefix, None)
+        if provided_by is None:
+            raise Exception("unable to get provider for CURIE prefix: " + curie_prefix)
         node_dict['replaced by'] = None
         node_dict['provided by'] = None
 #    pprint.pprint(nodes_list)
