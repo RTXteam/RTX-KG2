@@ -35,7 +35,7 @@ The computing environment where you will be running the KG2 build should be
 running Ubuntu 18.04.  Your build environment should have the following *minimum*
 specifications:
 
-- 488 GiB of system memory
+- 256 GiB of system memory
 - 1,023 GiB of disk space in the root file system 
 - high-speed networking (20 Gb/s networking) and storage
 - ideally, AWS zone `us-west-2` since that is where the RTX KG2 S3 buckets are located
