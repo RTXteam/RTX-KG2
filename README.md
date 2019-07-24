@@ -71,7 +71,16 @@ free at the [UMLS website](https://www.nlm.nih.gov/research/umls/) if you agree
 to the UMLS licenses) and it uploads the final output `kg2.json.gz` file to the
 public S3 bucket `rtx-kg2-public`. Alternatively, you can set up your own S3
 bucket to which to copy the gzipped KG2 JSON file, or you can comment the line
-out of `build-kg2.sh` that copies the final gzipped JSON file to S3.
+out of `build-kg2.sh` that copies the final gzipped JSON file to S3. You will
+also need to place a file `RTXConfiguration-config.json` in the S3 bucket
+`s3://rtx-kg2/`, that provides credentials (username, password, and HTTP URI for
+Neo4j REST API server) for accessing a RTX KG1 Neo4j endpoint; the KG2 build
+system will dump the KG1 graph from that endpoint and will merge that graph into
+KG2. As a minimal example of the data format for `RTXConfiguration-config.json`,
+see the file of the same name in this repository code directory (note: that
+config file can contain authentication information for additional server types
+in the RTX system; those are not shown in the example file in this code
+directory).
 
 ## My normal EC2 instance
 
