@@ -21,6 +21,8 @@ OUTPUT_DIR=`dirname ${NCBI_GENE_TSV_FILE}`
 mkdir -p ${OUTPUT_DIR}
 
 ${CURL_GET} ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Homo_sapiens.gene_info.gz > \
-            ${NCBI_GENE_TSV_FILE}
+            ${NCBI_GENE_TSV_FILE}.gz
+gunzip -f ${NCBI_GENE_TSV_FILE}.gz
+
 date
 echo  "================= script finished ================="
