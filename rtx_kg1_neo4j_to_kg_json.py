@@ -152,7 +152,7 @@ if __name__ == '__main__':
         if provided_by is None:
             raise Exception("unable to get provider for CURIE prefix: " + curie_prefix)
         node_dict['replaced by'] = None
-        node_dict['provided by'] = None
+        node_dict['provided by'] = provided_by
 #    pprint.pprint(nodes_list)
     query_statement = "MATCH (n)-[r]->(m) RETURN n.id, r, m.id"
     if test_mode:
