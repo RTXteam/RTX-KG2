@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 
-__author__ = 'Stephen Ramsey'
+'''Prints a JSON overview report of a knowledge graph in Neo4j, to STDOUT.
+
+   Usage: report_stats_on_neo4j_kg.py 
+   changing the bolt, user, and password accordingly 
+'''
+
+__author__ = 'Veronica Flores'
 __copyright__ = 'Oregon State University'
 __credits__ = ['Stephen Ramsey', 'Veronica Flores']
 __license__ = 'MIT'
