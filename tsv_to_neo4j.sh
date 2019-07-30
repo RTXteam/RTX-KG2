@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # tsv_to_neo4j.sh: Import TSV files generated from JSON KG into Neo4j
-# Copyright 2019 Erica C. Wood
+# Copyright 2019 Stephen A. Ramsey
+# Author Erica Wood
 
 set -o nounset -o pipefail -o errexit
 
