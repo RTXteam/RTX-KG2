@@ -6,6 +6,7 @@ Click==7.0
 dataclasses==0.6
 decorator==4.4.0
 idna==2.8
+ijson==2.4
 isodate==0.6.0
 jsobject==0.10.2
 marshmallow==3.0.0b3
