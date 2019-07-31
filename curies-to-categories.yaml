@@ -84,6 +84,8 @@ term-mappings:
     FMA:85802: attribute entity
     FMA:87205: biological molecule
     FMA:85620: biological molecular complex
+    FOODON:00002403: biological food component
+    FOODON:00002451: food transformation process
     HP:0000001: phenotypic feature
     HsapDv:0000000: life stage
     MONDO:0000001: disease
