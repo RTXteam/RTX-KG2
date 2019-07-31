@@ -8,7 +8,7 @@
 
 __author__ = 'Stephen Ramsey'
 __copyright__ = 'Oregon State University'
-__credits__ = ['Stephen Ramsey']
+__credits__ = ['Stephen Ramsey', 'Erica Wood']
 __license__ = 'MIT'
 __version__ = '0.1.0'
 __maintainer__ = ''
@@ -20,6 +20,7 @@ import gzip
 import json
 import kg2_util
 import tempfile
+from ijson import items
 
 
 def make_arg_parser():
@@ -35,12 +36,18 @@ if __name__ == "__main__":
     test_mode = args.test
     temp_file_name = tempfile.mkstemp(prefix="kg2-")[1]
     input_file_name = args.inputFile[0]
-    if not input_file_name.endswith('.gz'):
-        input_file = open(input_file_name, 'r')
-        graph = json.load(input_file)
+
+    nodes = []
+    if input_file_name.endswith('.gz'):
+            graph = gzip.GzipFile(input_file_name, 'r')
+            for node in items(graph, "nodes"):
+                nodes.append(node)
     else:
-        input_file = gzip.GzipFile(input_file_name, 'r')
-        graph = json.loads(input_file.read().decode('utf-8'))
-    del graph['edges']
+        with open(input_file_name, 'r') as graph:
+            for node in items(graph, "nodes"):
+                nodes.append(node)
+
+    nodes = nodes[0]
+    output_graph = {"nodes": nodes}
     output_file_name = args.outputFile[0]
-    kg2_util.save_json(graph, output_file_name, test_mode)
+    kg2_util.save_json(output_graph, output_file_name, test_mode)
