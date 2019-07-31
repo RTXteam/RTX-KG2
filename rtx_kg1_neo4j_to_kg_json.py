@@ -14,7 +14,8 @@ __email__ = ''
 __status__ = 'Prototype'
 
 # SAVE: this is an example REST query of Neo4j
-#curl -H 'Content-type: application/json' -X POST -d '{"query": "MATCH (n) return count(*)"}' --user neo4j:precisionmedicine http://kg1endpoint.rtx.ai:7474/db/data/cypher
+# curl -H 'Content-type: application/json' -X POST -d '{"query": "MATCH (n) return count(*)"}' \
+#      --user neo4j:precisionmedicine http://kg1endpoint.rtx.ai:7474/db/data/cypher
 
 import argparse
 import json
@@ -183,7 +184,6 @@ if __name__ == '__main__':
         else:
             publications = []
         edge_dict['publications'] = publications
-        edge_dict['publications info'] = {}
         edge_dict['update date'] = None
         provided_by = edge_dict['provided_by']
         if provided_by.startswith('DGIdb;'):
@@ -194,6 +194,18 @@ if __name__ == '__main__':
             print("Unable to find a KG2 provided IRI for this KG1 source: " + provided_by,
                   file=sys.stderr)
         del edge_dict['provided_by']
+        if edge_dict.get('predicate', None) is not None:
+            del edge_dict['predicate']
+        probability = edge_dict.get('probability', None)
+        if probability is not None:
+            publication_info_dict = {'publication date': None,
+                                     'sentence': None,
+                                     'subject score': None,
+                                     'object score': str(probability)}
+            publications_info = {edge_dict['object']: publication_info_dict}
+        else:
+            publications_info = {}
+        edge_dict['publications info'] = publications_info
     graph = {'nodes': nodes_list,
              'edges': edges_list}
     kg2_util.save_json(graph, output_file_name, test_mode)
