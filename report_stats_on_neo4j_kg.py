@@ -77,7 +77,6 @@ def count_nodes_by_source_and_category(session):
     fulldict = {}
     restwolist = []
     sourcelist = []
-
     # scc = source, category, count
     sccdict = restwo.data()
     for dicts in sccdict:
@@ -85,7 +84,6 @@ def count_nodes_by_source_and_category(session):
         # flatten using list comprehension
         scclist = [item for tup in dictionary.items() for item in tup]
         restwolist.append(scclist)
-
     sourcedict = res.data()
     for dictionary in sourcedict:
         items = dictionary.items()
