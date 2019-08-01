@@ -203,6 +203,7 @@ if __name__ == '__main__':
                                      'subject score': None,
                                      'object score': str(probability)}
             publications_info = {edge_dict['object']: publication_info_dict}
+            del edge_dict['probability']
         else:
             publications_info = {}
         edge_dict['publications info'] = publications_info
