@@ -1,5 +1,22 @@
+#!/usr/bin/env python3
+
+''' Creates Neo4j index and constraints for KG2
+
+    Usage: create_indexes_constraints.py --user <Neo4j Username>
+                        --password <Neo4j Password>
+'''
 import neo4j
 import argparse
+
+
+__author__ = 'Erica Wood'
+__copyright__ = 'Oregon State University'
+__credits__ = ['Stephen Ramsey', 'Erica Wood']
+__license__ = 'MIT'
+__version__ = '0.1.0'
+__maintainer__ = ''
+__email__ = ''
+__status__ = 'Prototype'
 
 
 def run_query(query):
