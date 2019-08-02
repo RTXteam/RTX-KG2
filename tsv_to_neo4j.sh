@@ -32,6 +32,11 @@ then
     sudo service neo4j restart
 fi
 
+# delete the old log file and create a new one
+rm -rf ${TSV_DIR}/import.report
+touch ${TSV_DIR}/import.report
+sudo chown neo4j:adm ${TSV_DIR}/import.report
+
 # stop Neo4j database before deleting the database
 sudo service neo4j stop
 sudo rm -rf ${DATABASE_PATH}/databases/${DATABASE}
