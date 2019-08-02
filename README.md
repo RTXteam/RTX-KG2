@@ -111,7 +111,11 @@ to be using the `bash` shell on your local computer.
 
 ### Option 1: build KG2 directly on an Ubuntu system:
 
-These instructions assume that you are logged into the target Ubuntu system:
+These instructions assume that you are logged into the target Ubuntu system, and
+that the Ubuntu system has *not* previously had `setup-kg2.sh` run (if it has
+previously had `setup-kg2.sh` run, you may wish to clear out the instance by running
+`clear-instance.sh` before proceeding, in order to ensure that you are getting the
+exact python packages needed in the latest `requirements.txt` file in the KG2 codebase):
 
 (1) Install `git` by running this command in the `bash` shell:
 
@@ -131,7 +135,13 @@ These instructions assume that you are logged into the target Ubuntu system:
 
 Note that there is no need to redirect `stdout` or `stderr` to a log file, when
 executing `setup-kg2.sh`; this is because the script saves its own `stdout` and
-`stderr` to a log file `/home/ubuntu/setup-kg2.log`.
+`stderr` to a log file `/home/ubuntu/setup-kg2.log`. This script takes just a
+few minutes to complete. The script will ask you to enter your AWS Access Key ID
+and AWS Secret Access Key, for an AWS account with access to the private S3
+bucket that is configured in `master-config.shinc`. It will also ask you to
+enter your default AWS zone, which in our case is normally `us-west-2` (you
+should enter the AWS zone that hosts the private S3 bucket that you intend to
+use with the KG2 build system).
 
 (5) Look in the log file `/home/ubuntu/setup-kg2.sh` to see if the script
 completed successfully; it should end with `======= script finished ======`.
@@ -222,3 +232,17 @@ Or using the AWS command-line interface (CLI) tool `aws` with the command
 You can access the various artifacts from the KG2 build (config file, log file,
 etc.) at the AWS static website endpoint for the 
 `rtx-kg2-public` S3 bucket: <http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/>
+
+# Credits
+
+## Code
+Stephen Ramsey, Finn Womack, Erica Wood, Veronica Flores, and Deqing Qu.
+
+## Technical advice
+David Koslicki, Eric Deutsch, Yao Yao, and Jared Roach.
+
+## Funding
+National Center for Advancing Translational Sciences (award number OT2TR002520).
+
+
+
