@@ -32,6 +32,9 @@ then
     sudo service neo4j restart
 fi
 
+# change the database to read only
+sudo sed -i '/dbms.read_only/c\dbms.read_only=true' /etc/neo4j/neo4j.conf
+
 # delete the old log file and create a new one
 rm -rf ${TSV_DIR}/import.report
 touch ${TSV_DIR}/import.report
