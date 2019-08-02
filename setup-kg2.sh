@@ -81,6 +81,8 @@ chmod +x ${BUILD_DIR}/robot
 ${CURL_GET} ${BUILD_DIR} https://github.com/RTXteam/owltools/releases/download/v0.3.0/owltools > ${BUILD_DIR}/owltools
 chmod +x ${BUILD_DIR}/owltools
 
+} >~/setup-kg2.log 2>&1
+
 ## setup AWS CLI
 if ! aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/test /tmp/; then
     aws configure
@@ -88,6 +90,7 @@ else
     rm /tmp/test
 fi
 
+{
 # setup raptor (used by the "checkOutputSyntax.sh" script in the umls2rdf package)
 wget -nv -P ${BUILD_DIR} http://download.librdf.org/source/raptor2-2.0.15.tar.gz
 rm -r -f ${BUILD_DIR}/raptor2-2.0.15
@@ -115,4 +118,4 @@ mysql --defaults-extra-file=${MYSQL_CONF} \
 
 date
 echo "================= script finished ================="
-} >~/setup-kg2.log 2>&1
+} >>~/setup-kg2.log 2>&1
