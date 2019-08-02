@@ -69,7 +69,6 @@ def all_egdes_have_same_set(edgekeys_list):
     supported_ls = ["edge label", "negated", "object", "provided by",
                     "publications", "publications info",
                     "relation", "relation curie", "subject", "update date"]
-    list_count = 0
     for edgelabel in edgekeys_list:
         if edgelabel not in supported_ls:
             edgekeys_list.remove(edgelabel)
