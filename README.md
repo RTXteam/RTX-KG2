@@ -164,8 +164,7 @@ This option requires that you have `curl` installed on your local computer. In a
     
 You will be prompted to enter the path to your AWS PEM file and the hostname of
 your AWS instance.  The script should then initiate a `bash` session on the
-remote instance. Within that `bash` session, continue to follow the instructions
-for Option 1.
+remote instance. Within that `bash` session, continue to follow the instructions for Option 1, starting at step (4).
 
 ### Option 3: in an Ubuntu container in Docker (UNTESTED, IN DEVELOPMENT)
 
