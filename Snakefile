@@ -46,6 +46,13 @@ rule DGIDB:
     shell:
         "kg2-code/extract-dgidb.sh"
 
+rule KG_One:
+    output:
+        "kg2-build/kg2-rtx-kg1.json"
+    run:
+        shell("aws s3 cp --no-progress --region us-west-2 s3://rtx-kg2/RTXConfiguration-config.json kg2-build/RTXConfiguration-config.json")
+        shell("kg2-venv/bin/python3 -u kg2-code/rtx_kg1_neo4j_to_kg_json.py --configFile kg2-build/RTXConfiguration-config.json {output}")
+
 rule Ontologies_and_TTL:
     input:
         "kg2-build/umls-placeholder.empty"
@@ -119,13 +126,14 @@ rule Merge:
         e = "kg2-build/ensembl.json",
         u = "kg2-build/unichem.json",
         ncbigene = "kg2-build/ncbi.json",
-        dgidb = "kg2-build/dgidb.json"
+        dgidb = "kg2-build/dgidb.json",
+        kg_one = "kg2-build/kg2-rtx-kg1.json"
 
     output:
         f = "kg2-build/full_kg.json",
         orph = "kg2-build/orphan_edges.json"
     shell:
-        "kg2-venv/bin/python3 kg2-code/merge_graphs.py --kgFiles {input.o} {input.t} {input.r} {input.c} {input.e} {input.u} {input.ncbigene} {input.dgidb} --outputFile {output.f} --kgFileOrphanEdges {output.orph}"
+        "kg2-venv/bin/python3 kg2-code/merge_graphs.py --kgFiles {input.o} {input.t} {input.r} {input.c} {input.e} {input.u} {input.ncbigene} {input.dgidb} {input.kg_one} --outputFile {output.f} --kgFileOrphanEdges {output.orph}"
 
 rule Nodes:
     input:
@@ -160,6 +168,6 @@ rule Finish:
         #shell("aws s3 cp --no-progress --region us-west-2 {input.o} s3://rtx-kg2-public")
         #shell("aws s3 cp --no-progress --region us-west-2 {input.f} s3://rtx-kg2-public")
 onsuccess:
-    shell("mail -s 'Snake file has completed!' -r example@gmail.com example@gmail.com < {log}")
+    shell("mail -s 'Snake file has completed!' -r ericacwood@gmail.com ericacwood@gmail.com < {log}")
 onerror:
-    shell("mail -s 'Snake file has failed!' -r example@gmail.com example@gmail.com < {log}")
+    shell("mail -s 'Snake file has failed!' -r ericacwood@gmail.com ericacwood@gmail.com < {log}")
