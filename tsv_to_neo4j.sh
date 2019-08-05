@@ -17,6 +17,9 @@ fi
 echo "================= starting tsv-to-neo4j.sh =================="
 date
 
+CONFIG_DIR=`dirname "$0"`
+source ${CONFIG_DIR}/master-config.shinc
+
 TSV_DIR=${1:-"/var/lib/neo4j/import"}
 DATABASE=${3:-"graph.db"}
 DATABASE_PATH=${6:-"/var/lib/neo4j/data"}
@@ -54,8 +57,9 @@ sudo service neo4j start
 
 # add indexes and constraints to the graph database
 sudo sed -i '/dbms.read_only/c\dbms.read_only=false' /etc/neo4j/neo4j.conf
-source ~/kg2-venv/bin/activate
-python3 RTX/code/kg2/create_indexes_constraints.py --user ${USER} --password ${PASSWORD}
+sudo service neo4j restart
+sleep 1m
+${VENV_DIR}/bin/python3 ${CODE_DIR}/create_indexes_constraints.py --user ${USER} --password ${PASSWORD}
 
 # change the database to read only
 sudo sed -i '/dbms.read_only/c\dbms.read_only=true' /etc/neo4j/neo4j.conf
