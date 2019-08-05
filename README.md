@@ -1,4 +1,22 @@
-# Where to download the RTX KG2 knowledge graph
+# Contact
+
+## Maintenance and technical questions
+
+stephen.ramsey@oregonstate.edu
+
+## Bug reports
+
+Please use the GitHub issues page for this project, and add the label `kg2`.
+
+# How to access RTX KG2
+
+## Neo4j read-only endpoint for RTX KG2 as a graph database
+
+http://kg2endpoint.rtx.ai:7474
+
+(contact the authors for the username and password)
+
+## Where to download the RTX KG2 knowledge graph in JSON format
 
 http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/
 
@@ -235,14 +253,15 @@ etc.) at the AWS static website endpoint for the
 
 # Credits
 
+Thank you to the many people who have contributed to the development of RTX KG2.
+
 ## Code
 Stephen Ramsey, Finn Womack, Erica Wood, Veronica Flores, and Deqing Qu.
 
 ## Technical advice
-David Koslicki, Eric Deutsch, Yao Yao, and Jared Roach.
+David Koslicki, Eric Deutsch, Yao Yao, Jared Roach, Chris Mungall, Tom Conlin, Matt Brush,
+Chunlei Wu, Will Byrd.
 
 ## Funding
 National Center for Advancing Translational Sciences (award number OT2TR002520).
-
-
 
