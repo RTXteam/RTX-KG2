@@ -262,7 +262,7 @@ Stephen Ramsey, Finn Womack, Erica Wood, Veronica Flores, and Deqing Qu.
 
 ## Technical advice
 David Koslicki, Eric Deutsch, Yao Yao, Jared Roach, Chris Mungall, Tom Conlin, Matt Brush,
-Chunlei Wu, Will Byrd.
+Chunlei Wu, and Will Byrd.
 
 ## Funding
 National Center for Advancing Translational Sciences (award number OT2TR002520).
