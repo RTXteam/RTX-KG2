@@ -119,55 +119,63 @@ rule Uniprot_Conversion:
         
 rule Merge:
     input:
-        o = "kg2-build/kg2-owl.json",
-        t = "kg2-build/kg2-uniprotkb.json",
-        r = "kg2-build/kg2-semmeddb-edges.json",
-        c = "kg2-build/chembl.json",
-        e = "kg2-build/ensembl.json",
-        u = "kg2-build/unichem.json",
+        owl = "kg2-build/kg2-owl.json",
+        uniprot = "kg2-build/kg2-uniprotkb.json",
+        semmeddb = "kg2-build/kg2-semmeddb-edges.json",
+        chembl = "kg2-build/chembl.json",
+        ensembl = "kg2-build/ensembl.json",
+        unichem = "kg2-build/unichem.json",
         ncbigene = "kg2-build/ncbi.json",
         dgidb = "kg2-build/dgidb.json",
         kg_one = "kg2-build/kg2-rtx-kg1.json"
 
     output:
-        f = "kg2-build/full_kg.json",
-        orph = "kg2-build/orphan_edges.json"
+        full = "kg2-build/kg2.json",
+        orph = "kg2-build/kg2-orphans-edges.json"
     shell:
-        "kg2-venv/bin/python3 kg2-code/merge_graphs.py --kgFiles {input.o} {input.t} {input.r} {input.c} {input.e} {input.u} {input.ncbigene} {input.dgidb} {input.kg_one} --outputFile {output.f} --kgFileOrphanEdges {output.orph}"
+        "kg2-venv/bin/python3 kg2-code/merge_graphs.py --kgFiles {input.owl} {input.uniprot} {input.semmeddb} {input.chembl} {input.ensembl} {input.unichem} {input.ncbigene} {input.dgidb} {input.kg_one} --outputFile {output.full} --kgFileOrphanEdges {output.orph}"
 
 rule Nodes:
     input:
-        real = "kg2-build/full_kg.json",
-        placeholder = "kg2-build/stats_kg.json"
+        real = "kg2-build/kg2.json",
+        placeholder = "kg2-build/kg2-report.json"
     output:
-        "kg2-build/nodes_kg.json"
+        "kg2-build/kg2-nodes.json"
     shell:
         "kg2-venv/bin/python3 kg2-code/get_nodes_json_from_kg_json.py --inputFile {input.real} --outputFile {output}"
 
 rule Stats:
     input:
-        "kg2-build/full_kg.json"
+        "kg2-build/kg2.json"
     output:
-        "kg2-build/stats_kg.json"
+        "kg2-build/kg2-report.json"
     shell:
         "kg2-venv/bin/python3 kg2-code/report_stats_on_kg.py --inputFile {input} --outputFile {output}"
 
+rule TSV:
+    input:
+        real = "kg2-build/kg2.json",
+        placeholder = "kg2-build/kg2-nodes.json"
+    output:
+        placeholder = "kg2-build/tsv_placeholder.empty"
+    shell:
+        "mkdir -p kg2-build/TSV/ && kg2-venv/bin/python3 json_to_tsv.py --inputFile {input.real} --outputFileLocation kg2-build/TSV/ && touch {output.placeholder}"
+
 rule Finish:
     input:
-        o = "kg2-build/stats_kg.json",
-        t ="kg2-build/nodes_kg.json",
-        r = "kg2-build/full_kg.json",
-        f = "kg2-build/orphan_edges.json"
+        stats = "kg2-build/kg2-report.json",
+        nodes ="kg2-build/kg2-nodes.json",
+        full = "kg2-build/kg2.json",
+        orphan = "kg2-build/kg2-orphans-edges.json",
+        placeholder = "kg2-build/tsv_placeholder.empty"
     run:
-        shell("gzip -f {input.t}")
-        shell("gzip -f {input.r}")
-        shell("gzip -f {input.f}")
+        shell("gzip -f {input.nodes}")
+        shell("gzip -f {input.full}")
+        shell("gzip -f {input.orphan}")
+        shell("tar -czvf kg2-build/kg2_tsv.tar.gz kg2-build/TSV")
 
-        #shell("aws s3 cp --no-progress --region us-west-2 {input.t}.gz s3://rtx-kg2-public")
-        #shell("aws s3 cp --no-progress --region us-west-2 {input.r}.gz s3://rtx-kg2-public")
-        #shell("aws s3 cp --no-progress --region us-west-2 {input.o} s3://rtx-kg2-public")
-        #shell("aws s3 cp --no-progress --region us-west-2 {input.f} s3://rtx-kg2-public")
-onsuccess:
-    shell("mail -s 'Snake file has completed!' -r ericacwood@gmail.com ericacwood@gmail.com < {log}")
-onerror:
-    shell("mail -s 'Snake file has failed!' -r ericacwood@gmail.com ericacwood@gmail.com < {log}")
+        shell("aws s3 cp --no-progress --region us-west-2 {input.nodes}.gz s3://rtx-kg2-public")
+        shell("aws s3 cp --no-progress --region us-west-2 {input.full}.gz s3://rtx-kg2-public")
+        shell("aws s3 cp --no-progress --region us-west-2 {input.stats} s3://rtx-kg2-public")
+        shell("aws s3 cp --no-progress --region us-west-2 {input.orphan}.gz s3://rtx-kg2-public")
+        shell("aws s3 cp --no-progress --region us-west-2 kg2-build/kg2_tsv.tar.gz s3://rtx-kg2-public")
