@@ -113,7 +113,7 @@ def count_types_of_pairs_of_curies_for_xrefs(edges: list):
 def count_types_of_pairs_of_curies_for_equivs(edges: list):
     prefix_pairs_list = list()
     for edge in edges:
-        if edge['edge label'] == 'is_equivalent_to':
+        if edge['edge label'] == 'equivalent_to':
             subject_curie = edge['subject']
             subject_prefix = get_prefix_from_curie_id(subject_curie)
             object_curie = edge['object']
