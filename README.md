@@ -115,7 +115,7 @@ The KG2 build software has been tested with the following instance type:
 - Storage: 1,023 GiB, Elastic Block Storage
 - Security Group: ingress TCP packets on port 22 (ssh) permitted
 
-As of June 10, 2019, an on-demand `r5a.8xlarge` instance in the `us-west-2` AWS
+As of summer 2019, an on-demand `r5a.8xlarge` instance in the `us-west-2` AWS
 zone costs $1.81 per hour, so the cost to build KG2 (estimated to take 67 hours)
 would be approximately $121 (this is currently just a rough estimate, plus or
 minus 20%). [Unfortunately, AWS doesn't seem to allow the provisioning of spot
