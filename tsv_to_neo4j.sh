@@ -55,10 +55,14 @@ sudo -u neo4j neo4j-admin import --nodes "${TSV_DIR}/nodes_header.tsv,${TSV_DIR}
 # start Neo4j database up for use
 sudo service neo4j start
 
-# add indexes and constraints to the graph database
+# change read only to false so that indexes and constraints can be added
 sudo sed -i '/dbms.read_only/c\dbms.read_only=false' /etc/neo4j/neo4j.conf
 sudo service neo4j restart
+
+# wait while neo4j boots up
 sleep 1m
+
+# add indexes and constraints to the graph database
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/create_indexes_constraints.py --user ${USER} --password ${PASSWORD}
 
 # change the database to read only
