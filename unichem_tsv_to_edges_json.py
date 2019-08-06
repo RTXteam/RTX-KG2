@@ -27,7 +27,7 @@ def make_xref(subject: str,
                                    object,
                                    kg2_util.IRI_OWL_SAME_AS,
                                    kg2_util.CURIE_OWL_SAME_AS,
-                                   'is_equivalent_to',
+                                   'equivalent_to',
                                    UNICHEM_KB_IRI,
                                    update_date)
     return edge_dict
