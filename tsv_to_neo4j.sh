@@ -7,7 +7,7 @@ set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     echo Usage: "$0 <path_to_directory_containing_tsv_files> <config-file-change [YES|NO]>\
-    <database-name> <database-path>"
+    <database-name> <neo4j-username> <neo4j-password> [test] <database-path>"
     exit 2
 fi
 
@@ -22,10 +22,11 @@ source ${CONFIG_DIR}/master-config.shinc
 
 TSV_DIR=${1:-"/var/lib/neo4j/import"}
 DATABASE=${3:-"graph.db"}
-DATABASE_PATH=${6:-"/var/lib/neo4j/data"}
+DATABASE_PATH=${7:-"/var/lib/neo4j/data"}
 CONFIG_CHANGE=${2:-"NO"}
 USER=${4:-"neo4j"}
 PASSWORD=${5:-}
+BUILD_FLAG=${6:-""}
 
 if [ "${CONFIG_CHANGE}" == "YES" ]
 then
@@ -36,6 +37,25 @@ then
     # restart neo4j 
     sudo service neo4j restart
 fi
+
+if [[ "${BUILD_FLAG}" == "test" ]]
+then
+    TEST_ARG="-test"
+else
+    TEST_ARG=""
+fi
+
+# delete the old TSV files if it exists
+rm kg2_tsv${TEST_ARG}.tar.gz
+
+# download the latest TSV files from the S3 Bucket
+wget -nv https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2_tsv${TEST_ARG}.tar.gz
+
+# create a folder for the TSV files and move the TSV files into them
+mkdir -p ${TSV_DIR}
+tar -xvzf kg2_tsv${TEST_ARG}.tar.gz -C ${TSV_DIR}
+mv ${TSV_DIR}/kg2-build/TSV/* ${TSV_DIR}
+rm -rf ${TSV_DIR}/kg2-build/
 
 # delete the old log file and create a new one
 rm -rf ${TSV_DIR}/import.report
@@ -52,13 +72,14 @@ sudo -u neo4j neo4j-admin import --nodes "${TSV_DIR}/nodes_header.tsv,${TSV_DIR}
     --max-memory=90G --multiline-fields=true --delimiter "\009" \
     --report-file="${TSV_DIR}/import.report" --database=${DATABASE} --ignore-missing-nodes=true
 
-# start Neo4j database up for use
+# change read only to false so that indexes and constraints can be added
+sudo sed -i '/dbms.read_only/c\dbms.read_only=false' /etc/neo4j/neo4j.conf
 sudo service neo4j start
 
-# add indexes and constraints to the graph database
-sudo sed -i '/dbms.read_only/c\dbms.read_only=false' /etc/neo4j/neo4j.conf
-sudo service neo4j restart
+# wait while neo4j boots up
 sleep 1m
+
+# add indexes and constraints to the graph database
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/create_indexes_constraints.py --user ${USER} --password ${PASSWORD}
 
 # change the database to read only
