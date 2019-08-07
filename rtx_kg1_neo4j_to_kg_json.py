@@ -147,6 +147,7 @@ if __name__ == '__main__':
         node_dict['synonym'] = synonym_list
         node_dict['publications'] = []
         node_dict['update date'] = None
+        node_dict['creation date'] = None
         node_dict['deprecated'] = False
         curie_prefix = id.split(':')[0]
         provided_by = KG1_PROVIDED_BY_TO_KG2_IRIS.get(curie_prefix, None)
