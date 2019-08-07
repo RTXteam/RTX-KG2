@@ -225,6 +225,8 @@ def edges(graph, output_file_location):
         # Add an extra property of "edge label" to the list so that edge_labels
         # can be a property and a label
         edgekeys.append('edge label')
+        edgekeys.append('subject')
+        edgekeys.append('object')
 
         # Create list for values of edge properties to be added to
         vallist = []
