@@ -559,6 +559,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         assert cui_curie is not None
                         cui_node_dict['id'] = cui_curie
                         cui_node_dict['iri'] = cui_uri
+                        cui_node_dict['synonym'] = []
                         cui_node_dict['category'] = node_tui_category_iri
                         cui_node_dict['category label'] = node_tui_category_label.replace(' ', '_')
                         cui_node_dict['ontology node ids'] = []
