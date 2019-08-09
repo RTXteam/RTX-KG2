@@ -8,7 +8,7 @@ rule SemMedDB:
     output:
         "kg2-build/kg2-semmeddb-tuplelist.json"
     shell:
-        "kg2-code/extract-semmeddb.sh {output} config['test']"
+        "kg2-code/extract-semmeddb.sh {output} " + config['test'] + ""
 
 rule UniprotKB:
     output:
@@ -51,7 +51,7 @@ rule KG_One:
         "kg2-build/kg2-rtx-kg1.json"
     run:
         shell("aws s3 cp --no-progress --region us-west-2 s3://rtx-kg2/RTXConfiguration-config.json kg2-build/RTXConfiguration-config.json")
-        shell("kg2-venv/bin/python3 -u kg2-code/rtx_kg1_neo4j_to_kg_json.py config['testdd'] --configFile kg2-build/RTXConfiguration-config.json {output}")
+        shell("kg2-venv/bin/python3 -u kg2-code/rtx_kg1_neo4j_to_kg_json.py " + config['testdd'] + " --configFile kg2-build/RTXConfiguration-config.json {output}")
 
 rule Ontologies_and_TTL:
     input:
@@ -59,7 +59,7 @@ rule Ontologies_and_TTL:
     output:
         "kg2-build/kg2-owl" + config['testd'] + ".json"
     shell:
-        "kg2-code/build-multi-owl-kg.sh ~/{output} config['test']" 
+        "kg2-code/build-multi-owl-kg.sh ~/{output} " + config['test'] + "" 
 
 rule NCBIGene_Conversion:
     input:
@@ -67,7 +67,7 @@ rule NCBIGene_Conversion:
     output:
         "kg2-build/ncbi.json"
     shell:
-        "kg2-venv/bin/python3 kg2-code/ncbigene_tsv_to_kg_json.py config['testdd'] --inputFile {input} --outputFile {output}"
+        "kg2-venv/bin/python3 kg2-code/ncbigene_tsv_to_kg_json.py " + config['testdd'] + " --inputFile {input} --outputFile {output}"
 
 rule DGIDB_Conversion:
     input:
@@ -75,7 +75,7 @@ rule DGIDB_Conversion:
     output:
         "kg2-build/dgidb.json"
     shell:
-        "kg2-venv/bin/python3 kg2-code/dgidb_tsv_to_kg_json.py config['testdd'] --inputFile {input} --outputFile {output}"
+        "kg2-venv/bin/python3 kg2-code/dgidb_tsv_to_kg_json.py " + config['testdd'] + " --inputFile {input} --outputFile {output}"
 
 rule ChemBL_Conversion:
     input:
@@ -83,7 +83,7 @@ rule ChemBL_Conversion:
     output:
         "kg2-build/chembl.json"
     shell:
-        "kg2-venv/bin/python3 kg2-code/chembl_mysql_to_kg_json.py config['testdd'] --mysqlConfigFile ~/kg2-build/mysql-config.conf --mysqlDBName chembl --outputFile {output}"
+        "kg2-venv/bin/python3 kg2-code/chembl_mysql_to_kg_json.py " + config['testdd'] + " --mysqlConfigFile ~/kg2-build/mysql-config.conf --mysqlDBName chembl --outputFile {output}"
 
 rule UniChem_Conversion:
     input:
@@ -91,7 +91,7 @@ rule UniChem_Conversion:
     output:
         "kg2-build/unichem.json"
     shell:
-        "kg2-venv/bin/python3 kg2-code/unichem_tsv_to_edges_json.py config['testdd'] --inputFile {input} --outputFile {output}"
+        "kg2-venv/bin/python3 kg2-code/unichem_tsv_to_edges_json.py " + config['testdd'] + " --inputFile {input} --outputFile {output}"
 
 rule Ensembl_Conversion:
     input:
@@ -99,7 +99,7 @@ rule Ensembl_Conversion:
     output:
         "kg2-build/ensembl.json"
     shell:
-        "kg2-venv/bin/python3 kg2-code/ensembl_json_to_kg_json.py --inputFile {input} --outputFile {output} config['testdd']"
+        "kg2-venv/bin/python3 kg2-code/ensembl_json_to_kg_json.py --inputFile {input} --outputFile {output} " + config['testdd'] + ""
 
 rule SemMed_Conversion:
     input:
@@ -107,7 +107,7 @@ rule SemMed_Conversion:
     output:
         "kg2-build/kg2-semmeddb-edges.json"
     shell:
-        "kg2-venv/bin/python3 kg2-code/semmeddb_tuple_list_json_to_edges_json.py config['testdd'] --inputFile {input} --outputFile {output}"
+        "kg2-venv/bin/python3 kg2-code/semmeddb_tuple_list_json_to_edges_json.py " + config['testdd'] + " --inputFile {input} --outputFile {output}"
 
 rule Uniprot_Conversion:
     input:
@@ -115,7 +115,7 @@ rule Uniprot_Conversion:
     output:
         "kg2-build/kg2-uniprotkb.json"
     shell:
-        "kg2-venv/bin/python3 kg2-code/uniprotkb_dat_to_json.py config['testdd'] --inputFile {input} --outputFile {output}"
+        "kg2-venv/bin/python3 kg2-code/uniprotkb_dat_to_json.py " + config['testdd'] + " --inputFile {input} --outputFile {output}"
         
 rule Merge:
     input:
