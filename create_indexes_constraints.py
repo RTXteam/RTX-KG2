@@ -29,7 +29,7 @@ def run_query(query):
     return query
 
 
-def labels():
+def node_labels():
     labels = "MATCH (n) RETURN distinct labels(n)"
     query = run_query(labels)
     data = query.data()
@@ -42,12 +42,27 @@ def labels():
     return label_list
 
 
-def index_name(label_list):
+def edge_labels():
+    labels = "MATCH (n)-[e]-(m) RETURN distinct type(e)"
+    query = run_query(labels)
+    data = query.data()
+    print(data)
+    label_list = []
+    for dictionary in data:
+        for key in dictionary:
+            value = dictionary[key]
+            label_list.append(value)
+    print(label_list)
+    return label_list
+
+
+def create_index(label_list, property_name):
     """
     :param label_list: a list of the node labels in Neo4j
     """
     for label in label_list:
-        index_query = "CREATE INDEX ON :" + label + " (name)"
+        if label.find(":") < 0: ##CREATE INDEX ON :BFO:0000050 (edge_label) gives error
+            index_query = "CREATE INDEX ON :" + label + " (" + property_name + ")"
         run_query(index_query)
 
 
@@ -72,7 +87,30 @@ if __name__ == '__main__':
     password = arguments.password[0]
     bolt = 'bolt://127.0.0.1:7687'
     driver = neo4j.GraphDatabase.driver(bolt, auth=(username, password))
-    label_list = labels()
-    index_name(label_list)
-    constraint(label_list)
+    node_label_list = node_labels()
+    edge_label_list = edge_labels()
+    create_index(node_label_list, "category")
+    create_index(node_label_list, "category_label")
+    create_index(node_label_list, "deprecated")
+    create_index(node_label_list, "description")
+    create_index(node_label_list, "full_name")
+    create_index(node_label_list, "iri")
+    create_index(node_label_list, "name")
+    create_index(node_label_list, "provided_by")
+    create_index(node_label_list, "publications")
+    create_index(node_label_list, "replaced_by")
+    create_index(node_label_list, "synonym")
+    create_index(node_label_list, "update_date")
+
+    create_index(edge_label_list, "edge_label")
+    create_index(edge_label_list, "negated")
+    create_index(edge_label_list, "object")
+    create_index(edge_label_list, "provided_by")
+    create_index(edge_label_list, "publications")
+    create_index(edge_label_list, "publications_info")
+    create_index(edge_label_list, "relation")
+    create_index(edge_label_list, "relation_curie")
+    create_index(edge_label_list, "subject")
+    create_index(edge_label_list, "update_date")
+    constraint(node_label_list)
     driver.close()
