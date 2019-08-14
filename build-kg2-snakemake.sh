@@ -12,12 +12,12 @@ fi
 
 # Usage: build-kg2-snakemake.sh [test]
 
+CONFIG_DIR=`dirname "$0"`
+source ${CONFIG_DIR}/master-config.shinc
+
 {
 echo "================= starting build-kg2-snakemake.sh =================="
 date
-
-CONFIG_DIR=`dirname "$0"`
-source ${CONFIG_DIR}/master-config.shinc
 
 BUILD_FLAG=${1-""}
 
