@@ -23,6 +23,7 @@ def run_query(query):
     """
     :param query: a cypher statement as a string to run
     """
+    # Start a neo4j session, run a query, then close the session
     session = driver.session()
     query = session.run(query)
     session.close()
@@ -30,10 +31,14 @@ def run_query(query):
 
 
 def node_labels():
+    # Create a list of dictionaries where each key is "labels(n)"
+    # and each value is a list containing a node label
     labels = "MATCH (n) RETURN distinct labels(n)"
     query = run_query(labels)
     data = query.data()
     label_list = []
+    # Iterate through the list and dicitionaries to create a list
+    # of node labels
     for dictionary in data:
         for key in dictionary:
             value = dictionary[key]
@@ -43,16 +48,18 @@ def node_labels():
 
 
 def edge_labels():
+    # Create a list of dictionaries where each key is "type(e)"
+    # and each value is an edge type as a string
     labels = "MATCH (n)-[e]-(m) RETURN distinct type(e)"
     query = run_query(labels)
     data = query.data()
-    print(data)
     label_list = []
+    # Iterate through the list and dicitionaries to create a list
+    # of edge labels
     for dictionary in data:
         for key in dictionary:
             value = dictionary[key]
             label_list.append(value)
-    print(label_list)
     return label_list
 
 
@@ -60,6 +67,8 @@ def create_index(label_list, property_name):
     """
     :param label_list: a list of the node labels in Neo4j
     """
+    # For every label in the label list, create an index
+    # on the given property name
     for label in label_list:
         if label.find(":") < 0: ##CREATE INDEX ON :BFO:0000050 (edge_label) gives error
             index_query = "CREATE INDEX ON :" + label + " (" + property_name + ")"
@@ -70,6 +79,8 @@ def constraint(label_list):
     """
     :param label_list: a list of the node labels in Neo4j
     """
+    # For every label in the label list, create a unique constraint
+    # on the node id property
     for label in label_list:
         constraint_query = "CREATE CONSTRAINT ON (n:" + label + ") \
                             ASSERT n.id IS UNIQUE"
@@ -89,6 +100,8 @@ if __name__ == '__main__':
     driver = neo4j.GraphDatabase.driver(bolt, auth=(username, password))
     node_label_list = node_labels()
     edge_label_list = edge_labels()
+    
+    # Create Indexes on Node Properties
     create_index(node_label_list, "category")
     create_index(node_label_list, "category_label")
     create_index(node_label_list, "deprecated")
@@ -102,6 +115,7 @@ if __name__ == '__main__':
     create_index(node_label_list, "synonym")
     create_index(node_label_list, "update_date")
 
+    # Create Indexes on Edge Properties
     create_index(edge_label_list, "edge_label")
     create_index(edge_label_list, "negated")
     create_index(edge_label_list, "object")
