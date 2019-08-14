@@ -32,13 +32,12 @@ else
     TEST_ARG_DD=""
 fi
 
-# create symbolic link for the Snakefile in root directory
+# change into the root director
 cd ~
-ln -sf ~/RTX/code/kg2/Snakefile ~/Snakefile
 
-# activate the virtualenv and start running snakemake
+# activate the virtualenv and start running snakemake with the Snakefile in kg2-code
 source ${VENV_DIR}/bin/activate
-snakemake -R Finish -j --config test="${TEST_ARG}" testd="${TEST_ARG_D}" testdd="${TEST_ARG_DD}"
+snakemake --snakefile /home/ubuntu/kg2-code/Snakefile -R Finish -j --config test="${TEST_ARG}" testd="${TEST_ARG_D}" testdd="${TEST_ARG_DD}"
 
 date
 echo "================ script finished ============================"
