@@ -666,6 +666,11 @@ def get_rels_dict(nodes: dict,
         ontology_curie_id = map_of_node_ontology_ids_to_curie_ids[ontology_id]
         for (object_id, subject_id, predicate_dict) in ont_graph.edges(data=True):
             assert type(predicate_dict) == dict
+
+            ontology_node = nodes.get(ontology_curie_id, None)
+            if ontology_node is not None:
+                ontology_update_date = ontology_node['update date']
+
             if subject_id == OWL_BASE_CLASS or object_id == OWL_BASE_CLASS:
                 continue
 
@@ -692,6 +697,10 @@ def get_rels_dict(nodes: dict,
 
             predicate_label = None
             edge_pred_string = predicate_dict['pred']
+
+            if subject_curie_id.startswith('TUI:') and object_curie_id.startswith('TUI:') and edge_pred_string == 'subClassOf':
+                continue
+
             if not edge_pred_string.startswith('http:') and not edge_pred_string.startswith('https'):
                 # edge_pred_string is not a URI; this is the most common case
                 if ':' not in edge_pred_string:
@@ -710,7 +719,7 @@ def get_rels_dict(nodes: dict,
                     else:
                         # predicate has no node object defined; just pull the label out of the CURIE
                         if edge_pred_string.startswith('OBO:'):
-                            test_curie = edge_pred_string.replace('OBO:','').replace('_',':')
+                            test_curie = edge_pred_string.replace('OBO:', '').replace('_', ':')
                             predicate_node = nodes.get(test_curie, None)
                             if predicate_node is None:
                                 predicate_label = edge_pred_string.split(':')[1].split('#')[-1]
@@ -736,9 +745,7 @@ def get_rels_dict(nodes: dict,
 
             rel_key = make_rel_key(subject_curie_id, predicate_curie, object_curie_id, ontology_curie_id)
 
-            ontology_node = nodes.get(ontology_curie_id, None)
-            if ontology_node is not None:
-                ontology_update_date = ontology_node['update date']
+            
 
             if predicate_label is None and ':' in predicate_curie:
                 pred_node = nodes.get(predicate_curie, None)
