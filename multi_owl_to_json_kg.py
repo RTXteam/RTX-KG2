@@ -680,6 +680,9 @@ def get_rels_dict(nodes: dict,
 
             assert predicate_label is not None
             predicate_label = predicate_label.replace(' ', '_')
+            
+            # Only tested on Food and Efo ontologies
+            predicate_label = kg2_util.convert_camel_case_to_snake_case(predicate_label)
 
             if rels_dict.get(rel_key, None) is None:
                 edge = kg2_util.make_edge(subject_curie_id,
