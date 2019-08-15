@@ -122,14 +122,14 @@ minus 20%). [Unfortunately, AWS doesn't seem to allow the provisioning of spot
 instances while specifying minimum memory greater than 240 GiB; but perhaps soon
 that will happen, and if so, it could save significantly on the cost of updating the RTX KG2.]
 There is also an experimental Snakemake build system which takes advantage of
-symmetric multiprocessing to bring the build time down to 54 hours.
+symmetric multiprocessing to bring the build time down to 54 hours (Option #2).
 
 ## Build instructions
 
 Note: to follow the instructions for Option 2 and Option 3 below, you will need
 to be using the `bash` shell on your local computer.
 
-### Option 1: build KG2 directly on an Ubuntu system:
+### Option 1: build KG2 serially (about 67 hours) directly on an Ubuntu system:
 
 These instructions assume that you are logged into the target Ubuntu system, and
 that the Ubuntu system has *not* previously had `setup-kg2.sh` run (if it has
@@ -176,7 +176,7 @@ completed successfully; it should end with `======= script finished ======`.
 
 Then exit screen (`ctrl-a d`). Note that there is no need to redirect `stdout`
 or `stderr` to a log file, when executing `build-kg2.sh`; this is because the
-script saves its own `stdout` and `stderr` to a log file `build-kg2.log`. You can
+script saves its own `stdout` and `stderr` to a log file `build-kg2.log`. You can 
 watch the progress of your KG2 build by using this command:
 
     tail -f ~/kg2-build/build-kg2.log
@@ -184,7 +184,50 @@ watch the progress of your KG2 build by using this command:
 Note that the `build-multi-owl-kg.sh` script also saves `stderr` from running `multi_owl_to_json_kg.py`
 to a file `~/kg2-build/build-kg2-owl-stderr.log`.
 
-### Option 2: remotely build KG2 in an EC2 instance via ssh, orchestrated from your local computer
+### Option 2: build KG2 in parallel (about 54 hours) directly on an Ubuntu system:
+
+(1)-(5) Follow steps (1) through (5) from Option 1
+
+(6) Initiate a `screen` session to provide a stable pseudo-tty:
+
+    screen
+
+(7) Within the `screen` session, run:
+
+    ~/kg2-code/build-kg2-snakemake.sh
+
+to generate the full size knowledge graph. Then exit screen (using `ctrl-a d`). Note that there is 
+no need to redirect `stdout` or `stderr` to a log file when executing `build-kg2-snakemake.sh`; 
+this is because the script saves its own `stdout` and `stderr` to a log file 
+(`build-kg2-snakemake.log`, located in the build directory). If you don't want to see all of the 
+printouts, but want to know which files have finished, you can look at the log file in `.snakemake/log/` 
+(if you have run snakemake before, choose the file named with the date you started the build).
+
+If you want to create a test size graph (about 31 hours), run:
+
+    ~/kg2-code/build-kg2-snakemake.sh test
+
+You can watch the progress of your KG2 build by using this command:
+
+    tail -f ~/kg2-build/build-kg2-snakemake.log
+    
+Note that the `build-multi-owl-kg.sh` script also saves `stderr` from running `multi_owl_to_json_kg.py`
+to a file `~/kg2-build/build-kg2-owl-stderr.log`.
+
+(8) When the build is complete, look for the following line (the 2nd line from
+    the bottom) in `build-kg2-snakemake.log` and `.snakemake/log/` file (you only need
+    to check one):
+
+    22 of 22 steps (100%) done
+
+If that line is present the Snakefile completed successfully (as more databases are added, 22 could grow to 
+a larger number. The important piece is 100%). If any line says:
+
+    (exited with non-zero exit code)
+
+the code failed.
+
+### Option 3: remotely build KG2 in an EC2 instance via ssh, orchestrated from your local computer
 
 This option requires that you have `curl` installed on your local computer. In a
 `bash` terminal session, set up the remote EC2 instance by running this command
@@ -194,9 +237,9 @@ This option requires that you have `curl` installed on your local computer. In a
     
 You will be prompted to enter the path to your AWS PEM file and the hostname of
 your AWS instance.  The script should then initiate a `bash` session on the
-remote instance. Within that `bash` session, continue to follow the instructions for Option 1, starting at step (4).
+remote instance. Within that `bash` session, continue to follow the instructions for Option 1 or 2, starting at step (4).
 
-### Option 3: in an Ubuntu container in Docker (UNTESTED, IN DEVELOPMENT)
+### Option 4: in an Ubuntu container in Docker (UNTESTED, IN DEVELOPMENT)
 
 (1) If you are on Ubuntu and you need to install Docker, you can run this command in `bash` on the host OS:
    
@@ -248,6 +291,14 @@ a JSON file `kg2.json.gz` and copies it to a publicly accessible S3 bucket
 Or using the AWS command-line interface (CLI) tool `aws` with the command
 
     aws s3 cp s3://rtx-kg2-public/kg2.json.gz .
+
+The TSV files for the knowledge graph can be accessed via HTTP as well, shown here:
+
+    curl https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2_tsv.tar.gz > kg2_tsv.tar.gz
+
+Or using the AWS command-line interface (CLI) tool `aws` with the command
+
+    aws s3 cp s3://rtx-kg2-public/kg2_tsv.tar.gz .
 
 You can access the various artifacts from the KG2 build (config file, log file,
 etc.) at the AWS static website endpoint for the 
