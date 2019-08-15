@@ -57,6 +57,7 @@ if __name__ == '__main__':
     edges = []
     last_edges_added = 0
     last_orphan_edges = 0
+    edge_keys = set()
     for kg_file_name in kg_file_names:
         kg_orphan_edges_new = []
         kg2_util.log_message("reading edges from file",
@@ -69,7 +70,10 @@ if __name__ == '__main__':
             object_curie = rel_dict['object']
             if subject_curie in nodes and object_curie in nodes:
                 ctr_edges_added += 1
-                edges.append(rel_dict)
+                edge_key = kg2_util.make_edge_key(rel_dict)
+                if edge_key not in edge_keys:
+                    edge_keys.add(edge_key)
+                    edges.append(rel_dict)
             else:
                 kg_orphan_edges_new.append(rel_dict)
         kg_orphan_edges['edges'] += kg_orphan_edges_new
