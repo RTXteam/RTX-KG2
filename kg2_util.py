@@ -249,6 +249,13 @@ def make_node(id: str,
             'provided by': provided_by}
 
 
+def make_edge_key(edge_dict: dict):
+    return edge_dict['subject'] + '---' + \
+           edge_dict['object'] + '---' + \
+           edge_dict['relation curie'] + '---' + \
+           edge_dict['provided by']
+
+
 def make_edge(subject_id: str,
               object_id: str,
               relation: str,
