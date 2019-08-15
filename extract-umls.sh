@@ -103,6 +103,7 @@ cat ${UMLS2RDF_DIR}/conf_sample.py | sed 's/your-host/localhost/g' | \
     sed "s/your db pass/${MYSQL_PASSWORD}/g" | \
     sed "s|http://purl.bioontology.org/ontology|https://identifiers.org/umls|g" | \
     sed "s|output|${OUTPUT_DIR}|g" | \
+    sed "s|INCLUDE_SEMANTIC_TYPES = True|INCLUDE_SEMANTIC_TYPES = False|g" | \
     sed "s/2015ab/${UMLS_VER}/g" > ${UMLS2RDF_DIR}/conf.py
 
 cp ${CODE_DIR}/umls2rdf-umls.conf ${UMLS2RDF_DIR}/umls.conf
