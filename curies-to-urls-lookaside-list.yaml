@@ -21,7 +21,7 @@
 -
   NCIT: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#
 -
-  MGI: http://www.informatics.jax.org/marker/
+  MGI: "http://www.informatics.jax.org/marker/MGI:"
 -
   SGD: http://www.yeastgenome.org/cgi-bin/locus.fpl?dbid=
 -
