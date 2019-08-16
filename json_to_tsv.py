@@ -70,7 +70,7 @@ def date():
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
-def all_egdes_have_same_set(edgekeys_list):
+def check_all_edges_have_same_set(edgekeys_list):
     """
     :param edgekeys_list: A list containing keys for an edge
     """
@@ -80,10 +80,7 @@ def all_egdes_have_same_set(edgekeys_list):
                     "relation", "relation curie", "subject", "update date"]
     for edgelabel in edgekeys_list:
         if edgelabel not in supported_ls:
-            # If an edge property label is not in the list, remove that label
-            edgekeys_list.remove(edgelabel)
-
-    return edgekeys_list
+            raise ValueError("edge label not in supported list: " + edgelabel)
 
 
 def nodes(graph, output_file_location):
@@ -220,7 +217,7 @@ def edges(graph, output_file_location):
         # Add all edge property label to a list in the same order and test
         # to make sure they are the same
         edgekeys = list(sorted(edge.keys()))
-        edgekeys = all_egdes_have_same_set(edgekeys)
+        check_all_edges_have_same_set(edgekeys)
 
         # Add an extra property of "edge label" to the list so that edge_labels
         # can be a property and a label
@@ -257,6 +254,7 @@ def edges(graph, output_file_location):
     # Close the TSV files to prevent a memory leak
     tsvfile.close()
     tsvfile_h.close()
+
 
 if __name__ == '__main__':
     print("Start time: ", date())
