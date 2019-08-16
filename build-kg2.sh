@@ -88,6 +88,9 @@ DGIDB_OUTPUT_FILE=${BUILD_DIR}/kg2-dgidb${TEST_SUFFIX}.json
 KG1_OUTPUT_FILE=${BUILD_DIR}/kg2-rtx-kg1${TEST_SUFFIX}.json
 RTX_CONFIG_FILE=RTXConfiguration-config.json
 
+KG2_TSV_DIR=${BUILD_DIR}/TSV
+KG2_TSV_TARBALL=${BUILD_DIR}/kg2_tsv${TEST_SUFFIX}.tar.gz
+
 cd ${BUILD_DIR}
 
 MEM_GB=`${CODE_DIR}/get-system-memory-gb.sh`
@@ -231,14 +234,6 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/report_stats_on_json_kg.py \
            --inputFile ${FINAL_OUTPUT_FILE_FULL} \
            --outputFile ${REPORT_FILE_FULL}
 
-
-#NEO4J_COMPATIBLE_OUTPUT_FILE="${FINAL_OUTPUT_FILE_FULL%.*}"-for-neo4j.json
-
-### Generate a Neo4j-compatible JSON KG
-#${VENV_DIR}/bin/python3 -u ${CODE_DIR}/stringify_json_kg_properties_for_neo4j.py \
-#           --inputFile ${FINAL_OUTPUT_FILE_FULL} \
-#           --outputfile ${NEO4J_COMPATIBLE_OUTPUT_FILE}
-
 ## Compress the huge files
 gzip -f ${FINAL_OUTPUT_FILE_FULL}
 gzip -f ${OUTPUT_NODES_FILE_FULL}
@@ -263,10 +258,22 @@ aws s3 cp --no-progress --region ${S3_REGION} ${OWL_LOAD_INVENTORY_FILE} s3://${
 # copy the index.html file to the public S3 bucket
 aws s3 cp --no-progress --region ${S3_REGION} ${CODE_DIR}/s3-index.html s3://${S3_BUCKET_PUBLIC}/index.html
 
+rm -r -f ${KG2_TSV_DIR}
+mkdir -p ${KG2_TSV_DIR}
+
+## build the TSV files
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/kg_json_to_tsv.py \
+           --inputFile ${FINAL_OUTPUT_FILE_FULL} \
+           --outputFileLocation ${KG2_TSV_DIR}
+tar -czvf ${KG2_TSV_TARBALL} ${KG2_TSV_DIR}
+
+aws s3 cp --no-progress --region ${S3_REGION} ${KG2_TSV_TARBALL} s3://${S3_BUCKET_PUBLIC}/
+
 date
 echo "================= script finished ================="
 
 } >${BUILD_KG2_LOG_FILE} 2>&1
 
+# copy the KG2 build log file to the S3 bucket
 aws s3 cp --no-progress --region ${S3_REGION} ${BUILD_KG2_LOG_FILE} s3://${S3_BUCKET_PUBLIC}/
 
