@@ -150,7 +150,7 @@ rule Stats:
     output:
         "kg2-build/kg2-report" + config['testd'] + ".json"
     shell:
-        "kg2-venv/bin/python3 kg2-code/report_stats_on_kg.py --inputFile {input} --outputFile {output}"
+        "kg2-venv/bin/python3 kg2-code/report_stats_on_json_kg.py --inputFile {input} --outputFile {output}"
 
 rule TSV:
     input:

@@ -223,11 +223,11 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/get_nodes_json_from_kg_json.py \
            --inputFile ${FINAL_OUTPUT_FILE_FULL} \
            --outputFile ${OUTPUT_NODES_FILE_FULL}
 
-echo "report_stats_on_kg.py"
+echo "report_stats_on_json_kg.py"
 
 ## Generate a JSON report of statistics on the KG
 
-${VENV_DIR}/bin/python3 -u ${CODE_DIR}/report_stats_on_kg.py \
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/report_stats_on_json_kg.py \
            --inputFile ${FINAL_OUTPUT_FILE_FULL} \
            --outputFile ${REPORT_FILE_FULL}
 
