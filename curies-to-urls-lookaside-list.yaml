@@ -49,6 +49,8 @@
 -
   UMLS: https://identifiers.org/umls/
 -
+  UMLS: http://purl.obolibrary.org/obo/UMLS_
+-
   BFO: http://www.ifomis.org/bfo/1.1/snap#
 -
   BFO: http://www.ifomis.org/bfo/1.1/span#
