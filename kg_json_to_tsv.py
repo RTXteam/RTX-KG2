@@ -2,8 +2,8 @@
 
 ''' Creates a set of tsv files for importing into Neo4j from KG2 JSON
 
-    Usage: json_to_tsv.py --inputFile <inputKGfile.json>
-                        --outputFileLocation <directory>
+    Usage: kg_json_to_tsv.py --inputFile <inputKGfile.json>
+                             --outputFileLocation <directory>
 '''
 
 import json

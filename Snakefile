@@ -159,7 +159,7 @@ rule TSV:
     output:
         placeholder = "kg2-build/tsv_placeholder.empty"
     shell:
-        "mkdir -p kg2-build/TSV/ && kg2-venv/bin/python3 json_to_tsv.py --inputFile {input.real} --outputFileLocation kg2-build/TSV/ && touch {output.placeholder}"
+        "mkdir -p kg2-build/TSV/ && kg2-venv/bin/python3 kg_json_to_tsv.py --inputFile {input.real} --outputFileLocation kg2-build/TSV/ && touch {output.placeholder}"
 
 rule Finish:
     input:
