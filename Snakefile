@@ -12,9 +12,9 @@ rule SemMedDB:
 
 rule UniprotKB:
     output:
-        "kg2-build/uniprot_sprot.dat"
+        "kg2-build/uniprotkb/uniprot_sprot.dat"
     shell:
-        "kg2-code/extract-uniprotkb.sh"
+        "kg2-code/extract-uniprotkb.sh {output}"
 
 rule Ensembl:
     output:
