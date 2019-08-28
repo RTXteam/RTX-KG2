@@ -111,7 +111,7 @@ rule SemMed_Conversion:
 
 rule Uniprot_Conversion:
     input:
-        "kg2-build/uniprot_sprot.dat"
+        "kg2-build/uniprotkb/uniprot_sprot.dat"
     output:
         "kg2-build/kg2-uniprotkb.json"
     shell:
