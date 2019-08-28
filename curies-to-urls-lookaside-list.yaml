@@ -98,3 +98,5 @@
   BioLink: http://w3id.org/biolink/vocab/
 -
   MESH: https://identifiers.org/umls/MSH/
+-
+  NCIT: https://identifiers.org/umls/NCI/
