@@ -6,7 +6,7 @@ rule UMLS:
 
 rule SemMedDB:
     output:
-        "kg2-build/kg2-semmeddb-tuplelist.json"
+        "kg2-build/semmeddb/kg2-semmeddb-tuplelist.json"
     shell:
         "kg2-code/extract-semmeddb.sh {output} " + config['test'] + ""
 
@@ -103,7 +103,7 @@ rule Ensembl_Conversion:
 
 rule SemMed_Conversion:
     input:
-        "kg2-build/kg2-semmeddb-tuplelist.json"
+        "kg2-build/semmeddb/kg2-semmeddb-tuplelist.json"
     output:
         "kg2-build/kg2-semmeddb-edges.json"
     shell:
