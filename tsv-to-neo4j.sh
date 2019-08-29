@@ -46,7 +46,7 @@ else
 fi
 
 # delete the old TSV files if it exists
-rm kg2_tsv${TEST_ARG}.tar.gz
+rm kg2-tsv${TEST_ARG}.tar.gz
 
 # download the latest TSV files from the S3 Bucket
 wget -nv https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2-tsv${TEST_ARG}.tar.gz
