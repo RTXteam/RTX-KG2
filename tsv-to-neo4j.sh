@@ -49,7 +49,7 @@ fi
 rm kg2_tsv${TEST_ARG}.tar.gz
 
 # download the latest TSV files from the S3 Bucket
-wget -nv https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2_tsv${TEST_ARG}.tar.gz
+wget -nv https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2-tsv${TEST_ARG}.tar.gz
 
 # create a folder for the TSV files and move the TSV files into them
 mkdir -p ${TSV_DIR}
