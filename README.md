@@ -294,11 +294,11 @@ Or using the AWS command-line interface (CLI) tool `aws` with the command
 
 The TSV files for the knowledge graph can be accessed via HTTP as well, shown here:
 
-    curl https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2_tsv.tar.gz > kg2_tsv.tar.gz
+    curl https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2-tsv.tar.gz > kg2-tsv.tar.gz
 
 Or using the AWS command-line interface (CLI) tool `aws` with the command
 
-    aws s3 cp s3://rtx-kg2-public/kg2_tsv.tar.gz .
+    aws s3 cp s3://rtx-kg2-public/kg2-tsv.tar.gz .
 
 You can access the various artifacts from the KG2 build (config file, log file,
 etc.) at the AWS static website endpoint for the 
