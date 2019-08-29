@@ -234,18 +234,25 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/report_stats_on_json_kg.py \
            --inputFile ${FINAL_OUTPUT_FILE_FULL} \
            --outputFile ${REPORT_FILE_FULL}
 
+## build the TSV files
+rm -r -f ${KG2_TSV_DIR}
+mkdir -p ${KG2_TSV_DIR}
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/kg_json_to_tsv.py \
+           --inputFile ${FINAL_OUTPUT_FILE_FULL} \
+           --outputFileLocation ${KG2_TSV_DIR}
+tar -czvf ${KG2_TSV_TARBALL} ${KG2_TSV_DIR}
+aws s3 cp --no-progress --region ${S3_REGION} ${KG2_TSV_TARBALL} s3://${S3_BUCKET_PUBLIC}/
+
 ## Compress the huge files
 gzip -f ${FINAL_OUTPUT_FILE_FULL}
 gzip -f ${OUTPUT_NODES_FILE_FULL}
 gzip -f ${OUTPUT_FILE_ORPHAN_EDGES}
-#gzip -f ${NEO4J_COMPATIBLE_OUTPUT_FILE}
 
 ## copy the KG and various build artifacts to the public S3 bucket
 aws s3 cp --no-progress --region ${S3_REGION} ${FINAL_OUTPUT_FILE_FULL}.gz s3://${S3_BUCKET_PUBLIC}/
 aws s3 cp --no-progress --region ${S3_REGION} ${OUTPUT_NODES_FILE_FULL}.gz s3://${S3_BUCKET_PUBLIC}/
 aws s3 cp --no-progress --region ${S3_REGION} ${REPORT_FILE_FULL} s3://${S3_BUCKET_PUBLIC}/
 aws s3 cp --no-progress --region ${S3_REGION} ${OUTPUT_FILE_ORPHAN_EDGES}.gz s3://${S3_BUCKET_PUBLIC}/
-#aws s3 cp --no-progress --region ${S3_REGION} ${NEO4J_COMPATIBLE_OUTPUT_FILE}.gz s3://${S3_BUCKET_PUBLIC}/
 
 ## copy the log files to the public S3 bucket
 BUILD_MULTI_OWL_STDERR_FILE="${BUILD_DIR}/build-${OUTPUT_FILE_BASE%.*}"-stderr.log
@@ -258,16 +265,6 @@ aws s3 cp --no-progress --region ${S3_REGION} ${OWL_LOAD_INVENTORY_FILE} s3://${
 # copy the index.html file to the public S3 bucket
 aws s3 cp --no-progress --region ${S3_REGION} ${CODE_DIR}/s3-index.html s3://${S3_BUCKET_PUBLIC}/index.html
 
-rm -r -f ${KG2_TSV_DIR}
-mkdir -p ${KG2_TSV_DIR}
-
-## build the TSV files
-${VENV_DIR}/bin/python3 -u ${CODE_DIR}/kg_json_to_tsv.py \
-           --inputFile ${FINAL_OUTPUT_FILE_FULL} \
-           --outputFileLocation ${KG2_TSV_DIR}
-tar -czvf ${KG2_TSV_TARBALL} ${KG2_TSV_DIR}
-
-aws s3 cp --no-progress --region ${S3_REGION} ${KG2_TSV_TARBALL} s3://${S3_BUCKET_PUBLIC}/
 
 date
 echo "================= script finished ================="
