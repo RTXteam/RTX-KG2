@@ -304,6 +304,24 @@ You can access the various artifacts from the KG2 build (config file, log file,
 etc.) at the AWS static website endpoint for the 
 `rtx-kg2-public` S3 bucket: <http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/>
 
+## Hosting the KG on a Neo4j instance
+
+In a clean Ubuntu 18.04 AWS instance, run the following commands:
+
+(1) Clone the RTX software from GitHub:
+
+    git clone https://github.com/RTXteam/RTX.git
+
+(2) Install and configure Neo4j, with APOC:
+
+    RTX/code/kg2/install-neo4j.sh
+
+(3) Load KG2 into Neo4j:
+
+    RTX/code/kg2/tsv-to-neo4j.sh
+    
+The `tsv-to-neo4j.sh` script will store its output to a log file, `~/tsv-to-neo4j.log`.
+
 # Credits
 
 Thank you to the many people who have contributed to the development of RTX KG2.
