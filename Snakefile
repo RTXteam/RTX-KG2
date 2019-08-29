@@ -65,7 +65,7 @@ rule NCBIGene_Conversion:
     input:
         "kg2-build/ncbigene/Homo_sapiens_gene_info.tsv"
     output:
-        "kg2-build/ncbi.json"
+        "kg2-build/kg2-ncbi.json"
     shell:
         "kg2-venv/bin/python3 kg2-code/ncbigene_tsv_to_kg_json.py " + config['testdd'] + " --inputFile {input} --outputFile {output}"
 
@@ -73,7 +73,7 @@ rule DGIDB_Conversion:
     input:
         "kg2-build/dgidb/interactions.tsv"
     output:
-        "kg2-build/dgidb.json"
+        "kg2-build/kg2-dgidb.json"
     shell:
         "kg2-venv/bin/python3 kg2-code/dgidb_tsv_to_kg_json.py " + config['testdd'] + " --inputFile {input} --outputFile {output}"
 
@@ -81,7 +81,7 @@ rule ChemBL_Conversion:
     input:
         placeholder = "kg2-build/chembl-placeholder.empty"
     output:
-        "kg2-build/chembl.json"
+        "kg2-build/kg2-chembl.json"
     shell:
         "kg2-venv/bin/python3 kg2-code/chembl_mysql_to_kg_json.py " + config['testdd'] + " --mysqlConfigFile ~/kg2-build/mysql-config.conf --mysqlDBName chembl --outputFile {output}"
 
@@ -89,7 +89,7 @@ rule UniChem_Conversion:
     input:
         "kg2-build/unichem/chembl-to-curies.tsv"
     output:
-        "kg2-build/unichem.json"
+        "kg2-build/kg2-unichem.json"
     shell:
         "kg2-venv/bin/python3 kg2-code/unichem_tsv_to_edges_json.py " + config['testdd'] + " --inputFile {input} --outputFile {output}"
 
@@ -97,7 +97,7 @@ rule Ensembl_Conversion:
     input:
         "kg2-build/ensembl/ensembl_genes_homo_sapiens.json"
     output:
-        "kg2-build/ensembl.json"
+        "kg2-build/kg-ensembl.json"
     shell:
         "kg2-venv/bin/python3 kg2-code/ensembl_json_to_kg_json.py --inputFile {input} --outputFile {output} " + config['testdd'] + ""
 
@@ -122,11 +122,11 @@ rule Merge:
         owl = "kg2-build/kg2-owl" + config['testd'] + ".json",
         uniprot = "kg2-build/kg2-uniprotkb.json",
         semmeddb = "kg2-build/kg2-semmeddb-edges.json",
-        chembl = "kg2-build/chembl.json",
-        ensembl = "kg2-build/ensembl.json",
-        unichem = "kg2-build/unichem.json",
-        ncbigene = "kg2-build/ncbi.json",
-        dgidb = "kg2-build/dgidb.json",
+        chembl = "kg2-build/kg2-chembl.json",
+        ensembl = "kg2-build/kg2-ensembl.json",
+        unichem = "kg2-build/kg2-unichem.json",
+        ncbigene = "kg2-build/kg2-ncbi.json",
+        dgidb = "kg2-build/kg2-dgidb.json",
         kg_one = "kg2-build/kg2-rtx-kg1.json"
 
     output:
