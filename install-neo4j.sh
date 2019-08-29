@@ -18,32 +18,30 @@ sudo apt-get update -y
 sudo apt-get install -y neo4j
 sudo cp /etc/neo4j/neo4j.conf /etc/neo4j/neo4j.conf.ori
 
-read -p "Do you want neo4j to be configured for write access? " -n 1 -r
-echo
-if  [[ $REPLY =~ ^[Yy]$ ]]
-then
-    cat /etc/neo4j/neo4j.conf | sed 's/#dbms.read_only=false/dbms.read_only=false/g' > /tmp/neo4j.conf
-    sudo service neo4j stop
-    sudo mv /tmp/neo4j.conf /etc/neo4j
-    sudo service neo4j start
-fi
+# read -p "Do you want neo4j to be configured for write access? " -n 1 -r
+# echo
+# if  [[ $REPLY =~ ^[Yy]$ ]]
+# then
+#     cat /etc/neo4j/neo4j.conf | sed 's/#dbms.read_only=false/dbms.read_only=false/g' > /tmp/neo4j.conf
+#     sudo service neo4j stop
+#     sudo mv /tmp/neo4j.conf /etc/neo4j
+#     sudo service neo4j start
+# fi
 
-read -p "Do you want to configure neo4j for external network access? " -n 1 -r
-echo    # (optional) move to a new line
-if [[ $REPLY =~ ^[Yy]$ ]]
-then
+# read -p "Do you want to configure neo4j for external network access? " -n 1 -r
+# echo    # (optional) move to a new line
+# if [[ $REPLY =~ ^[Yy]$ ]]
+# then
     cat /etc/neo4j/neo4j.conf | sed 's/#dbms.connectors.default_listen_address/dbms.connectors.default_listen_address/g' > /tmp/neo4j.conf
     sudo service neo4j stop
     sudo mv /tmp/neo4j.conf /etc/neo4j
     sudo service neo4j start
-fi
+# fi
 
-echo "Now you need to go to http://<hostname>:7474 in your browser and set a default password for the database"
-
-read -p "Do you want to install Apoc?" -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]
-then
+# read -p "Do you want to install Apoc?" -n 1 -r
+# echo
+# if [[ $REPLY =~ ^[Yy]$ ]]
+# then
     cd /tmp
     wget https://github.com/neo4j-contrib/neo4j-apoc-procedures/releases/download/3.5.0.4/apoc-3.5.0.4-all.jar
     sudo service neo4j stop
@@ -52,5 +50,7 @@ then
                                     /tmp/neo4j.conf
     sudo mv /tmp/neo4j.conf /etc/neo4j
     sudo service neo4j start
-fi
+# fi
+
+echo "Now you need to go to http://<hostname>:7474 in your browser and set a default password for the database"
 
