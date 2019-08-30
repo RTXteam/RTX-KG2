@@ -9,7 +9,7 @@ if [[ $# != 0 || "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     exit 2
 fi
 
-# Usage: setup-kg2.sh
+# Usage: setup-kg2-build.sh
 
 {
 echo "================= starting setup-kg2.sh ================="
