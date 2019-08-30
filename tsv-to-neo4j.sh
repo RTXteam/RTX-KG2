@@ -18,15 +18,16 @@ date
 CONFIG_DIR=`dirname "$0"`
 source ${CONFIG_DIR}/master-config.shinc
 
+NEO4J_CONFIG=/etc/neo4j/neo4j.conf
 TSV_DIR=/home/ubuntu
-DATABASE_PATH=/var/lib/neo4j/data
+DATABASE_PATH=`grep dbms.directories.data ${NEO4J_CONFIG} | cut -f2 -d=`
 DATABASE=${1:-"graph.db"}
 USER=${2:-"neo4j"}
 BUILD_FLAG=${3:-""}
 
 # change database and database paths to current database and database path in config file
-sudo sed -i '/dbms.active_database/c\dbms.active_database='${DATABASE}'' /etc/neo4j/neo4j.conf
-sudo sed -i '/dbms.directories.data/c\dbms.directories.data='${DATABASE_PATH}'' /etc/neo4j/neo4j.conf
+sudo sed -i '/dbms.active_database/c\dbms.active_database='${DATABASE}'' ${NEO4J_CONFIG}
+sudo sed -i '/dbms.directories.data/c\dbms.directories.data='${DATABASE_PATH}'' ${NEO4J_CONFIG}
     
 # restart neo4j 
 sudo service neo4j restart
@@ -68,7 +69,7 @@ sudo -u neo4j neo4j-admin import --nodes "${TSV_DIR}/nodes_header.tsv,${TSV_DIR}
     --report-file="${TSV_DIR}/import.report" --database=${DATABASE} --ignore-missing-nodes=true
 
 # change read only to false so that indexes and constraints can be added
-sudo sed -i '/dbms.read_only/c\dbms.read_only=false' /etc/neo4j/neo4j.conf
+sudo sed -i '/dbms.read_only/c\dbms.read_only=false' ${NEO4J_CONFIG}
 sudo service neo4j start
 
 # wait while neo4j boots up
@@ -78,7 +79,7 @@ sleep 1m
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/create_indexes_constraints.py --user ${USER}
 
 # change the database to read only
-sudo sed -i '/dbms.read_only/c\dbms.read_only=true' /etc/neo4j/neo4j.conf
+sudo sed -i '/dbms.read_only/c\dbms.read_only=true' ${NEO4J_CONFIG}
 
 sudo service neo4j restart
 
