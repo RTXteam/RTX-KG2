@@ -6,12 +6,11 @@
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0 <path_to_directory_containing_tsv_files> <config-file-change [YES|NO]>\
-    <database-name> <neo4j-username> <neo4j-password> [test] <database-path>"
+    echo Usage: "$0 <database-name>=graph.db <neo4j-username>=neo4j [test]"
     exit 2
 fi
 
-# Usage: tsv_to_neo4j.sh <path_to_directory_containing_tsv_files> <config-file-change [YES|NO]> <database-name> <database-path>
+# Usage: tsv_to_neo4j.sh <path_to_directory_containing_tsv_files> <database-name>
 
 {
 echo "================= starting tsv-to-neo4j.sh =================="
@@ -20,23 +19,18 @@ date
 CONFIG_DIR=`dirname "$0"`
 source ${CONFIG_DIR}/master-config.shinc
 
-TSV_DIR=${1:-"/var/lib/neo4j/import"}
-DATABASE=${3:-"graph.db"}
-DATABASE_PATH=${7:-"/var/lib/neo4j/data"}
-CONFIG_CHANGE=${2:-"NO"}
-USER=${4:-"neo4j"}
-PASSWORD=${5:-}
-BUILD_FLAG=${6:-""}
+TSV_DIR=/home/ubuntu
+DATABASE_PATH=/var/lib/neo4j/data
+DATABASE=${1:-"graph.db"}
+USER=${2:-"neo4j"}
+BUILD_FLAG=${3:-""}
 
-if [ "${CONFIG_CHANGE}" == "YES" ]
-then
-    # change database and database paths to current database and database path in config file
-    sudo sed -i '/dbms.active_database/c\dbms.active_database='${DATABASE}'' /etc/neo4j/neo4j.conf
-    sudo sed -i '/dbms.directories.data/c\dbms.directories.data='${DATABASE_PATH}'' /etc/neo4j/neo4j.conf
+# change database and database paths to current database and database path in config file
+sudo sed -i '/dbms.active_database/c\dbms.active_database='${DATABASE}'' /etc/neo4j/neo4j.conf
+sudo sed -i '/dbms.directories.data/c\dbms.directories.data='${DATABASE_PATH}'' /etc/neo4j/neo4j.conf
     
-    # restart neo4j 
-    sudo service neo4j restart
-fi
+# restart neo4j 
+sudo service neo4j restart
 
 if [[ "${BUILD_FLAG}" == "test" ]]
 then
@@ -80,7 +74,7 @@ sudo service neo4j start
 sleep 1m
 
 # add indexes and constraints to the graph database
-${VENV_DIR}/bin/python3 ${CODE_DIR}/create_indexes_constraints.py --user ${USER} --password ${PASSWORD}
+${VENV_DIR}/bin/python3 ${CODE_DIR}/create_indexes_constraints.py --user ${USER}
 
 # change the database to read only
 sudo sed -i '/dbms.read_only/c\dbms.read_only=true' /etc/neo4j/neo4j.conf
