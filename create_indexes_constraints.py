@@ -5,9 +5,9 @@
     Usage: create_indexes_constraints.py --user <Neo4j Username>
                         --password <Neo4j Password>
 '''
-import neo4j
 import argparse
-
+import neo4j
+import getpass
 
 __author__ = 'Erica Wood'
 __copyright__ = 'Oregon State University'
@@ -92,15 +92,17 @@ if __name__ == '__main__':
     parser.add_argument("--user", type=str, help="Neo4j Username",
                         nargs=1, required=True)
     parser.add_argument("--password", help="Neo4j Password",
-                        type=str, nargs=1, required=True)
+                        type=str, nargs=1, required=False)
     arguments = parser.parse_args()
     username = arguments.user[0]
     password = arguments.password[0]
+    if password is None:
+        password = getpass.getpass("Please enter the Neo4j database password")
     bolt = 'bolt://127.0.0.1:7687'
     driver = neo4j.GraphDatabase.driver(bolt, auth=(username, password))
     node_label_list = node_labels()
     edge_label_list = edge_labels()
-    
+
     # Create Indexes on Node Properties
     create_index(node_label_list, "category")
     create_index(node_label_list, "category_label")
