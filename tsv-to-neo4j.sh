@@ -19,11 +19,11 @@ CONFIG_DIR=`dirname "$0"`
 source ${CONFIG_DIR}/master-config.shinc
 
 NEO4J_CONFIG=/etc/neo4j/neo4j.conf
-TSV_DIR=/home/ubuntu
 DATABASE_PATH=`grep dbms.directories.data ${NEO4J_CONFIG} | cut -f2 -d=`
 DATABASE=${1:-"graph.db"}
 USER=${2:-"neo4j"}
 BUILD_FLAG=${3:-""}
+TSV_DIR=${BUILD_DIR}/TSV
 
 if [[ "${BUILD_FLAG}" == "test" ]]
 then
@@ -40,8 +40,6 @@ sudo service neo4j restart
 
 # delete the old TSV files if it exists
 rm -f kg2-tsv${TEST_ARG}.tar.gz
-
-TSV_DIR=${BUILD_DIR}/TSV
 
 # create a folder for the TSV files and move the TSV files into them
 rm -r -f ${TSV_DIR}
