@@ -73,7 +73,7 @@ sudo service neo4j start
 sleep 1m
 
 # add indexes and constraints to the graph database
-${VENV_DIR}/bin/python3 ${CODE_DIR}/create_indexes_constraints.py --user ${USER}
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/create_indexes_constraints.py --user ${USER}
 
 # change the database to read only
 sudo sed -i '/dbms.read_only/c\dbms.read_only=true' ${NEO4J_CONFIG}
