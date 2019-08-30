@@ -99,7 +99,7 @@ if __name__ == '__main__':
     if password is not None:
         password = password[0]
     else:
-        password = getpass.getpass("Please enter the Neo4j database password")
+        password = getpass.getpass("Please enter the Neo4j database password: ")
     bolt = 'bolt://127.0.0.1:7687'
     driver = neo4j.GraphDatabase.driver(bolt, auth=(username, password))
     node_label_list = node_labels()
