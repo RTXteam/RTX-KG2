@@ -316,11 +316,13 @@ In a clean Ubuntu 18.04 AWS instance, run the following commands:
 
     RTX/code/kg2/install-neo4j.sh
 
-(3) Load KG2 into Neo4j:
+(3) Set up the Neo4j password, by navigating your HTTP browser to Neo4j on the server (port 7474)
+
+(4) Load KG2 into Neo4j:
 
     RTX/code/kg2/tsv-to-neo4j.sh
     
-The `tsv-to-neo4j.sh` script will store its output to a log file, `~/tsv-to-neo4j.log`.
+In Step 4, you will be prompted to enter the Neo4j database password that you chose in step (3).
 
 # Credits
 
