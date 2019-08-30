@@ -12,7 +12,6 @@ fi
 
 # Usage: tsv_to_neo4j.sh <path_to_directory_containing_tsv_files> <database-name>
 
-{
 echo "================= starting tsv-to-neo4j.sh =================="
 date
 
@@ -83,4 +82,3 @@ sudo service neo4j restart
 
 date
 echo "================ script finished ============================"
-} >~/tsv_to_neo4j.log 2>&1
