@@ -509,7 +509,8 @@
   download: true
   title: Chemical Entities of Biological Interest
 -
-  url: http://purl.obolibrary.org/obo/foodon.owl
+#  url: http://purl.obolibrary.org/obo/foodon.owl  ## commented out due to issue #481
+  url: http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/foodon.owl
   file: foodon.owl
   download: true
   title: FOODON (Food Ontology)
