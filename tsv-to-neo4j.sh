@@ -27,7 +27,6 @@ BUILD_FLAG=${3:-""}
 
 # change database and database paths to current database and database path in config file
 sudo sed -i '/dbms.active_database/c\dbms.active_database='${DATABASE}'' ${NEO4J_CONFIG}
-sudo sed -i '/dbms.directories.data/c\dbms.directories.data='${DATABASE_PATH}'' ${NEO4J_CONFIG}
     
 # restart neo4j 
 sudo service neo4j restart
