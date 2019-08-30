@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
-# setup-kg2.sh:  setup the environment for building the KG2 knowledge graph for the RTX biomedical reasoning system
-# Copyright 2019 Stephen A. Ramsey <stephen.ramsey@oregonstate.edu>
+# setup-kg2-neo4j.sh: setup the environment for hosting the KG2 knowledge graph
+# for the RTX biomedical reasoning system, in the Neo4j graph database
+# Copyright 2019 Stephen A. Ramsey
+# <stephen.ramsey@oregonstate.edu>
 
 set -o nounset -o pipefail -o errexit
 
