@@ -314,7 +314,7 @@ In a clean Ubuntu 18.04 AWS instance, run the following commands:
 
 (2) Install and configure Neo4j, with APOC:
 
-    RTX/code/kg2/install-neo4j.sh
+    RTX/code/kg2/setup-kg2-neo4j.sh
 
 (3) Set up the Neo4j password, by navigating your HTTP browser to Neo4j on the server (port 7474)
 
