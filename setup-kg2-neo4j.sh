@@ -61,6 +61,8 @@ fi
 
 
 {
-date
-echo "================= script finished ================="
+    bash -x ${CODE_DIR}/install-neo4j.sh
+    
+    date
+    echo "================= script finished ================="
 } >>~/setup-kg2-neo4j.log 2>&1
