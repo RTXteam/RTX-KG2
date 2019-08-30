@@ -20,7 +20,6 @@ CONFIG_DIR=`dirname "$0"`
 
 MYSQL_USER=ubuntu
 MYSQL_PASSWORD=1337
-CURL_GET="curl -s -L"
 
 source ${CONFIG_DIR}/master-config.shinc
 
