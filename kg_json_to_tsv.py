@@ -234,6 +234,8 @@ def edges(graph, output_file_location):
             value = edge[key]
             if key == "publications info":
                 value = limit_publication_info_size(key, value)
+            elif key == 'edge label':  # fix for issue number 473 (hyphens in edge labels)
+                value = value.replace('-', '_')
             vallist.append(value)
 
         # Add the edge property labels to the edge header TSV file
