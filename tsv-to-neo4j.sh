@@ -25,18 +25,18 @@ DATABASE=${1:-"graph.db"}
 USER=${2:-"neo4j"}
 BUILD_FLAG=${3:-""}
 
-# change database and database paths to current database and database path in config file
-sudo sed -i '/dbms.active_database/c\dbms.active_database='${DATABASE}'' ${NEO4J_CONFIG}
-    
-# restart neo4j 
-sudo service neo4j restart
-
 if [[ "${BUILD_FLAG}" == "test" ]]
 then
     TEST_ARG="-test"
 else
     TEST_ARG=""
 fi
+
+# change database and database paths to current database and database path in config file
+sudo sed -i '/dbms.active_database/c\dbms.active_database='${DATABASE}'' ${NEO4J_CONFIG}
+    
+# restart neo4j 
+sudo service neo4j restart
 
 # delete the old TSV files if it exists
 rm -f kg2-tsv${TEST_ARG}.tar.gz
