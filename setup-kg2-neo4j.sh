@@ -46,7 +46,7 @@ virtualenv ${VENV_DIR}
 ## Install python3 packages that we will need (Note: we are not using pymongo
 ## directly, but installing it silences a runtime warning from ontobio):
 ## (maybe we should eventually move this to a requirements.txt file?)
-${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-neo4j-kg2.txt
+${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-neo4j.txt
 
 mkdir -p ${BUILD_DIR}
 
