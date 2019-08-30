@@ -240,7 +240,7 @@ mkdir -p ${KG2_TSV_DIR}
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/kg_json_to_tsv.py \
            --inputFile ${FINAL_OUTPUT_FILE_FULL} \
            --outputFileLocation ${KG2_TSV_DIR}
-tar -C ${KG2_TSV_DIR} -czvf ${KG2_TSV_TARBALL} *.tsv
+tar -C ${KG2_TSV_DIR} -czvf ${KG2_TSV_TARBALL} nodes.tsv nodes_header.tsv edges.tsv edges_header.tsv
 aws s3 cp --no-progress --region ${S3_REGION} ${KG2_TSV_TARBALL} s3://${S3_BUCKET_PUBLIC}/
 
 ## Compress the huge files
