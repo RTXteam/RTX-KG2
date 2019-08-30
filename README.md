@@ -132,8 +132,8 @@ to be using the `bash` shell on your local computer.
 ### Option 1: build KG2 serially (about 67 hours) directly on an Ubuntu system:
 
 These instructions assume that you are logged into the target Ubuntu system, and
-that the Ubuntu system has *not* previously had `setup-kg2.sh` run (if it has
-previously had `setup-kg2.sh` run, you may wish to clear out the instance by running
+that the Ubuntu system has *not* previously had `setup-kg2-build.sh` run (if it has
+previously had `setup-kg2-build.sh` run, you may wish to clear out the instance by running
 `clear-instance.sh` before proceeding, in order to ensure that you are getting the
 exact python packages needed in the latest `requirements.txt` file in the KG2 codebase):
 
@@ -151,10 +151,10 @@ exact python packages needed in the latest `requirements.txt` file in the KG2 co
 
 (4) Setup the KG2 build system: 
 
-    RTX/code/kg2/setup-kg2.sh
+    RTX/code/kg2/setup-kg2-build.sh
 
 Note that there is no need to redirect `stdout` or `stderr` to a log file, when
-executing `setup-kg2.sh`; this is because the script saves its own `stdout` and
+executing `setup-kg2-build.sh`; this is because the script saves its own `stdout` and
 `stderr` to a log file `/home/ubuntu/setup-kg2.log`. This script takes just a
 few minutes to complete. The script will ask you to enter your AWS Access Key ID
 and AWS Secret Access Key, for an AWS account with access to the private S3
@@ -163,7 +163,7 @@ enter your default AWS zone, which in our case is normally `us-west-2` (you
 should enter the AWS zone that hosts the private S3 bucket that you intend to
 use with the KG2 build system).
 
-(5) Look in the log file `/home/ubuntu/setup-kg2.sh` to see if the script
+(5) Look in the log file `/home/ubuntu/setup-kg2-build.sh` to see if the script
 completed successfully; it should end with `======= script finished ======`.
 
 (6) Initiate a `screen` session to provide a stable pseudo-tty:
@@ -260,7 +260,7 @@ on whatever host OS you are running).
     
 (4) Setup a container and setup KG2 in it:
 
-    sudo docker run -it --name kg2 kg2:latest su - ubuntu -c "RTX/code/kg2/setup-kg2.sh"
+    sudo docker run -it --name kg2 kg2:latest su - ubuntu -c "RTX/code/kg2/setup-kg2-build.sh"
     
 (If anything goes wrong, look for an error message using `sudo docker exec kg2 "cat setup-kg2.log"`)
 
