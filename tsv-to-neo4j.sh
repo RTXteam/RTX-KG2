@@ -32,7 +32,7 @@ sudo sed -i '/dbms.directories.data/c\dbms.directories.data='${DATABASE_PATH}'' 
 sudo service neo4j restart
 
 if [[ "${BUILD_FLAG}" == "test" ]]
-then
+qthen
     TEST_ARG="-test"
 else
     TEST_ARG=""
@@ -41,15 +41,16 @@ fi
 # delete the old TSV files if it exists
 rm -f kg2-tsv${TEST_ARG}.tar.gz
 
+TSV_DIR=${BUILD_DIR}/TSV
+
 # create a folder for the TSV files and move the TSV files into them
+rm -r -f ${TSV_DIR}
 mkdir -p ${TSV_DIR}
 
 # download the latest TSV files from the S3 Bucket
 ${CURL_GET} https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2-tsv${TEST_ARG}.tar.gz > ${TSV_DIR}/kg2-tsv${TEST_ARG}.tar.gz
 
 tar -xvzf ${TSV_DIR}/kg2-tsv${TEST_ARG}.tar.gz -C ${TSV_DIR}
-mv ${TSV_DIR}/kg2-build/TSV/* ${TSV_DIR}
-rm -rf ${TSV_DIR}/kg2-build/
 
 # delete the old log file and create a new one
 rm -rf ${TSV_DIR}/import.report
