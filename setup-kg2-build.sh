@@ -117,4 +117,4 @@ mysql --defaults-extra-file=${MYSQL_CONF} \
 
 date
 echo "================= script finished ================="
-} >>~/setup-kg2.log 2>&1
+} >>~/setup-kg2-build.log 2>&1
