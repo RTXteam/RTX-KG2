@@ -47,7 +47,7 @@ ${CURL_GET} https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2-tsv${TEST_ARG}
 
 # create a folder for the TSV files and move the TSV files into them
 mkdir -p ${TSV_DIR}
-tar -xvzf kg2-tsv${TEST_ARG}.tar.gz -C ${TSV_DIR}
+tar -xvzf ${TSV_DIR}/kg2-tsv${TEST_ARG}.tar.gz -C ${TSV_DIR}
 mv ${TSV_DIR}/kg2-build/TSV/* ${TSV_DIR}
 rm -rf ${TSV_DIR}/kg2-build/
 
