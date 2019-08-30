@@ -32,7 +32,7 @@ sudo sed -i '/dbms.directories.data/c\dbms.directories.data='${DATABASE_PATH}'' 
 sudo service neo4j restart
 
 if [[ "${BUILD_FLAG}" == "test" ]]
-qthen
+then
     TEST_ARG="-test"
 else
     TEST_ARG=""
