@@ -510,7 +510,7 @@
   title: Chemical Entities of Biological Interest
 -
 #  url: http://purl.obolibrary.org/obo/foodon.owl  ## commented out due to issue #481
-  url: http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/foodon.owl
+  url: https://github.com/FoodOntology/foodon/blob/190bcf018d66a4fba0cbb0e5424e05db599212b0/foodon.owl?raw=true
   file: foodon.owl
   download: true
   title: FOODON (Food Ontology)
