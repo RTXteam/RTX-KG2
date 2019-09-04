@@ -1,8 +1,8 @@
 # Contact
 
-## Maintenance and technical questions
+## Maintenaner
 
-stephen.ramsey@oregonstate.edu
+Stephen Ramsey, Oregon State University (stephen.ramsey@oregonstate.edu)
 
 ## Bug reports
 
@@ -14,7 +14,7 @@ Please use the GitHub issues page for this project, and add the label `kg2`.
 
 http://kg2endpoint.rtx.ai:7474
 
-(contact the authors for the username and password)
+(contact the KG2 maintainer for the username and password)
 
 ## Where to download the RTX KG2 knowledge graph in JSON format
 
@@ -75,17 +75,17 @@ best bet would be to use Docker (see Option 3 below).
 
 Aside from your host OS, you'll need to have an Amazon Web Services (AWS)
 authentication key that is configured to be able to read from the `s3://rtx-kg2`
-Amazon Simple Cloud Storage Service (S3) bucket (ask Stephen Ramsey to set this
-up), so that the build script can download a copy of the full Unified Medical
-Language System (UMLS) distribution.  You will be asked (by the AWS Command-line
-Interface, CLI) to provide this authentication key when you run the KG2 build
-script. Your configured AWS CLI will also need to be able to programmatically
-write to the (publicly readable) S3 bucket `s3://rtx-kg2-public` (both buckets
-are in the `us-west-2` AWS zone). The KG2 build script downloads the UMLS
-distribution (including SNOMED CT) from the private S3 bucket `rtx-kg2` (IANAL,
-but it appears that the UMLS is encumbered by a license preventing
-redistribution so I have not hosted them on a public server for download; but
-you can get it for free at the
+Amazon Simple Cloud Storage Service (S3) bucket (ask the KG2 maintainer to set
+this up), so that the build script can download a copy of the full Unified
+Medical Language System (UMLS) distribution.  You will be asked (by the AWS
+Command-line Interface, CLI) to provide this authentication key when you run the
+KG2 setup script. Your configured AWS CLI will also need to be able to
+programmatically write to the (publicly readable) S3 bucket
+`s3://rtx-kg2-public` (both buckets are in the `us-west-2` AWS zone). The KG2
+build script downloads the UMLS distribution (including SNOMED CT) from the
+private S3 bucket `rtx-kg2` (IANAL, but it appears that the UMLS is encumbered
+by a license preventing redistribution so I have not hosted them on a public
+server for download; but you can get it for free at the
 [UMLS website](https://www.nlm.nih.gov/research/umls/) if you agree to the UMLS
 license terms) and it uploads the final output file `kg2.json.gz` to the public
 S3 bucket `rtx-kg2-public`. Alternatively, you can set up your own S3 bucket to
@@ -326,7 +326,7 @@ In Step 4, you will be prompted to enter the Neo4j database password that you ch
 
 # Credits
 
-Thank you to the many people who have contributed to the development of RTX KG2.
+Thank you to the many people who have contributed to the development of RTX KG2:
 
 ## Code
 Stephen Ramsey, Finn Womack, Erica Wood, Veronica Flores, and Deqing Qu.
