@@ -22,6 +22,7 @@ import re
 
 SEMMEDDB_IRI = 'https://skr3.nlm.nih.gov/SemMedDB'
 NEG_REGEX = re.compile('^NEG_', re.M)
+EDGE_LABELS_EXCLUDE_FOR_LOOPS = {'same_as', 'higher_than', 'lower_than', 'different_from', 'compared_with'}
 
 
 def make_rel(preds_dict: dict,
@@ -81,7 +82,7 @@ if __name__ == '__main__':
     output_file_name = args.outputFile[0]
     test_mode = args.test
     input_data = json.load(open(input_file_name, 'r'))
-    preds_dict = dict()
+    edges_dict = dict()
     row_ctr = 0
     for (pmid, subject_cui_str, predicate, object_cui_str, pub_date, sentence,
          subject_score, object_score, curr_timestamp) in input_data['rows']:
@@ -102,15 +103,17 @@ if __name__ == '__main__':
             object_entrez_id = object_cui_split[1]
         else:
             object_entrez_id = None
-        make_rel(preds_dict, 'CUI:' + subject_cui, 'CUI:' + object_cui, predicate, pmid,
+        if subject_cui == object_cui and predicate.lower() in EDGE_LABELS_EXCLUDE_FOR_LOOPS:
+            continue
+        make_rel(edges_dict, 'CUI:' + subject_cui, 'CUI:' + object_cui, predicate, pmid,
                  pub_date, sentence, subject_score, object_score)
         if subject_entrez_id is not None:
-            make_rel(preds_dict, 'NCBIGene:' + subject_entrez_id, 'CUI:' + object_cui,
+            make_rel(edges_dict, 'NCBIGene:' + subject_entrez_id, 'CUI:' + object_cui,
                      predicate, pmid, pub_date, sentence, subject_score, object_score)
         if object_entrez_id is not None:
-            make_rel(preds_dict, 'CUI:' + subject_cui, 'NCBIGene:' + object_entrez_id,
+            make_rel(edges_dict, 'CUI:' + subject_cui, 'NCBIGene:' + object_entrez_id,
                      predicate, pmid, pub_date, sentence, subject_score, object_score)
-    out_graph = {'edges': [rel_dict for rel_dict in preds_dict.values()],
+    out_graph = {'edges': [rel_dict for rel_dict in edges_dict.values()],
                  'nodes': []}
     for rel_dict in out_graph['edges']:
         if len(rel_dict['publications']) > 1:
