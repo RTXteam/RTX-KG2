@@ -47,22 +47,6 @@ def node_labels():
     return label_list
 
 
-def edge_labels():
-    # Create a list of dictionaries where each key is "type(e)"
-    # and each value is an edge type as a string
-    labels = "MATCH (n)-[e]-(m) RETURN distinct type(e)"
-    query = run_query(labels)
-    data = query.data()
-    label_list = []
-    # Iterate through the list and dicitionaries to create a list
-    # of edge labels
-    for dictionary in data:
-        for key in dictionary:
-            value = dictionary[key]
-            label_list.append(value)
-    return label_list
-
-
 def create_index(label_list, property_name):
     """
     :param label_list: a list of the node labels in Neo4j
@@ -103,7 +87,6 @@ if __name__ == '__main__':
     bolt = 'bolt://127.0.0.1:7687'
     driver = neo4j.GraphDatabase.driver(bolt, auth=(username, password))
     node_label_list = node_labels()
-    edge_label_list = edge_labels()
 
     # Create Indexes on Node Properties
     create_index(node_label_list, "category")
