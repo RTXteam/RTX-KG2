@@ -3,7 +3,7 @@
 ''' Creates Neo4j index and constraints for KG2
 
     Usage: create_indexes_constraints.py --user <Neo4j Username>
-                        --password <Neo4j Password>
+                          [--password <Neo4j Password>]
 '''
 import argparse
 import neo4j
