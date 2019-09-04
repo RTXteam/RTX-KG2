@@ -20,6 +20,7 @@ __status__ = 'Prototype'
 import argparse
 import json
 import kg2_util
+import prefixcommons
 import requests
 import sys
 
@@ -173,11 +174,12 @@ if __name__ == '__main__':
         del edge_dict['source_node_uuid']
         del edge_dict['target_node_uuid']
         predicate_label = edge_dict['relation']
-        if predicate_label == 'BioLink:subclass_of':
-            predicate_label = 'rdfs:subclassOf'
         edge_dict['edge label'] = predicate_label
         del edge_dict['relation']
         [relation, relation_curie] = kg2_util.biolink_predicate_label_to_iri_and_curie(predicate_label)
+        if relation_curie == 'BioLink:subclass_of':
+            relation_curie = 'rdfs:subclassOf'
+            relation = prefixcommons.expand_uri(relation_curie)
         edge_dict['relation'] = relation
         edge_dict['relation curie'] = relation_curie
         edge_dict['negated'] = False
