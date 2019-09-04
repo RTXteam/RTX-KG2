@@ -4,9 +4,9 @@ MAINTAINER Stephen Ramsey (stephen.ramsey@oregonstate.edu)
 # need to add user "ubuntu" and give sudo privilege:
 RUN useradd ubuntu -m -s /bin/bash
 
-# need to install sudo and wget
+# need to install git and sudo
 RUN apt-get update
-RUN apt-get install -y git sudo wget
+RUN apt-get install -y git sudo
 
 # give sudo privilege to user ubuntu:
 RUN usermod -aG sudo ubuntu
