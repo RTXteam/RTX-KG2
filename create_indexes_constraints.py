@@ -119,16 +119,5 @@ if __name__ == '__main__':
 #    create_index(node_label_list, "synonym")
     create_index(node_label_list, "update_date")
 
-    # Create Indexes on Edge Properties
-    create_index(edge_label_list, "edge_label")
-    create_index(edge_label_list, "negated")
-    create_index(edge_label_list, "object")
-    create_index(edge_label_list, "provided_by")
-#   create_index(edge_label_list, "publications")
-#    create_index(edge_label_list, "publications_info")
-#    create_index(edge_label_list, "relation")
-    create_index(edge_label_list, "relation_curie")
-    create_index(edge_label_list, "subject")
-    create_index(edge_label_list, "update_date")
     constraint(node_label_list)
     driver.close()
