@@ -734,6 +734,7 @@ def get_rels_dict(nodes: dict,
             else:
                 predicate_iri = edge_pred_string
                 predicate_curie = uri_to_curie_shortener(predicate_iri)
+
             if predicate_curie is None:
                 kg2_util.log_message(message="predicate IRI has no CURIE: " + predicate_iri,
                                      ontology_name=ontology.id,
@@ -743,9 +744,19 @@ def get_rels_dict(nodes: dict,
             if subject_curie_id == object_curie_id and predicate_label == 'xref':
                 continue
 
-            rel_key = make_rel_key(subject_curie_id, predicate_curie, object_curie_id, ontology_curie_id)
+            if predicate_curie == 'UMLS:hasSTY':
+                subject_node = nodes[subject_curie_id]
+                print(subject_node)
+                object_node = nodes[object_curie_id]
+                print(object_node)
+                subject_description = subject_node['description']
+                if subject_description is None:
+                    subject_description = ''
+                subject_node['description'] = '; '.join([subject_description,
+                                                         'UMLS Semantic Type: ' + object_node['id']])
+                continue
 
-            
+            rel_key = make_rel_key(subject_curie_id, predicate_curie, object_curie_id, ontology_curie_id)
 
             if predicate_label is None and ':' in predicate_curie:
                 pred_node = nodes.get(predicate_curie, None)
