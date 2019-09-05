@@ -114,7 +114,7 @@ term-mappings:
     NCIT:C22188: anatomical entity
     NCIT:C1908: substance
     NCIT:C71460: method
-    NCIT:C16612: gene
+    NCIT:C16612: gene set
     NCIT:C813: RNA
     NCIT:C111298: RNA
     NCIT:C17021: protein
@@ -186,11 +186,11 @@ term-mappings:
     SNOMEDCT_US:410942007: drug
     SNOMEDCT_US:419891008: information entity
     SNOMEDCT_US:900000000000441003: information entity
-    SO:0000704: gene
+    SO:0000704: gene set
     TRANS:0000000: transmission type
     TUI:T017: anatomical entity
     TUI:T001: organism taxon
-    TUI:T028: gene
+    TUI:T028: gene set
     TUI:T032: attribute
     TUI:T033: finding
     TUI:T038: biological process
