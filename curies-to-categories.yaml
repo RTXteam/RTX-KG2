@@ -5,6 +5,7 @@ prefix-mappings:
     DOID: disease
     GOREL: relationship type
     HGNC: gene
+    HP: phenotypic feature
     IAO: information entity type
     MGI: gene
     NCBIGene: gene
@@ -86,7 +87,6 @@ term-mappings:
     FMA:85620: biological molecular complex
     FOODON:00002403: biological food component
     FOODON:00002451: food transformation process
-    HP:0000001: phenotypic feature
     HsapDv:0000000: life stage
     MONDO:0000001: disease
     MONDO:0021125: disease characteristic
