@@ -86,7 +86,7 @@ if __name__ == '__main__':
         password = getpass.getpass("Please enter the Neo4j database password: ")
     bolt = 'bolt://127.0.0.1:7687'
     driver = neo4j.GraphDatabase.driver(bolt, auth=(username, password))
-    node_label_list = node_labels()
+    node_label_list = node_labels() + ['Base']
 
     # Create Indexes on Node Properties
     create_index(node_label_list, "category")
