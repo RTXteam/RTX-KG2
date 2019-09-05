@@ -178,7 +178,7 @@ if __name__ == '__main__':
         del edge_dict['relation']
         [relation, relation_curie] = kg2_util.biolink_predicate_label_to_iri_and_curie(predicate_label)
         if relation_curie == 'BioLink:subclass_of':
-            relation_curie = 'rdfs:subclassOf'
+            relation_curie = 'rdfs:subClassOf'
             relation = prefixcommons.expand_uri(relation_curie)
         edge_dict['relation'] = relation
         edge_dict['relation curie'] = relation_curie
