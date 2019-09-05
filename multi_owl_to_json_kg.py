@@ -752,8 +752,8 @@ def get_rels_dict(nodes: dict,
                 subject_description = subject_node['description']
                 if subject_description is None:
                     subject_description = ''
-                subject_node['description'] = '; '.join([subject_description,
-                                                         'UMLS Semantic Type: ' + object_node['id']])
+                subject_node['description'] = '; '.join(list(filter(None, [subject_description,
+                                                                           'UMLS Semantic Type: ' + object_node['id']])))
                 continue
 
             rel_key = make_rel_key(subject_curie_id, predicate_curie, object_curie_id, ontology_curie_id)
