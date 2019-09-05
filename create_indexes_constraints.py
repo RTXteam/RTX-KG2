@@ -65,10 +65,8 @@ def constraint(label_list):
     """
     # For every label in the label list, create a unique constraint
     # on the node id property
-    for label in label_list:
-        constraint_query = "CREATE CONSTRAINT ON (n:" + label + ") \
-                            ASSERT n.id IS UNIQUE"
-        run_query(constraint_query)
+    constraint_query = "CREATE CONSTRAINT ON (n:Base) ASSERT n.id IS UNIQUE"
+    run_query(constraint_query)
 
 
 if __name__ == '__main__':
