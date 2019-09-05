@@ -12,15 +12,11 @@ fi
 sudo apt-get update -y
 sudo apt-get install -y emacs
 
-# install Oracle Java 8
-sudo add-apt-repository ppa:webupd8team/java
+# install Zulu OpenJDK Java
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0xB1998361219BD9C9
+sudo apt-add-repository 'deb http://repos.azulsystems.com/ubuntu stable main'
 sudo apt-get update
-sudo apt-get install oracle-java8-installer
-sudo apt-get install oracle-java8-set-default
-sudo cat >> /etc/environment <<EOL
-JAVA_HOME=/usr/lib/jvm/java-8-oracle
-JRE_HOME=/usr/lib/jvm/java-8-oracle/jre
-EOL
+sudo apt-get install zulu-8
 
 # install Neo4j
 wget --no-check-certificate -O - https://debian.neo4j.org/neotechnology.gpg.key | sudo apt-key add -
