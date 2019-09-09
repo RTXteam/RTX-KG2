@@ -8,6 +8,7 @@
 import argparse
 import neo4j
 import getpass
+import sys
 
 __author__ = 'Erica Wood'
 __copyright__ = 'Oregon State University'
@@ -54,7 +55,7 @@ def create_index(label_list, property_name):
     # For every label in the label list, create an index
     # on the given property name
     for label in label_list:
-        if label.find(":") < 0: ##CREATE INDEX ON :BFO:0000050 (edge_label) gives error
+        if label.find(":") < 0:  # CREATE INDEX ON :BFO:0000050 (edge_label) gives error
             index_query = "CREATE INDEX ON :" + label + " (" + property_name + ")"
         run_query(index_query)
 
@@ -86,18 +87,16 @@ if __name__ == '__main__':
     driver = neo4j.GraphDatabase.driver(bolt, auth=(username, password))
     node_label_list = node_labels() + ['Base']
 
+    print("NOTE: Please make sure that the Neo4j database is not set to read-only", file=sys.stderr)
+
     # Create Indexes on Node Properties
     create_index(node_label_list, "category")
     create_index(node_label_list, "category_label")
     create_index(node_label_list, "deprecated")
-#    create_index(node_label_list, "description")
     create_index(node_label_list, "full_name")
-#    create_index(node_label_list, "iri")
     create_index(node_label_list, "name")
     create_index(node_label_list, "provided_by")
-#    create_index(node_label_list, "publications")
     create_index(node_label_list, "replaced_by")
-#    create_index(node_label_list, "synonym")
     create_index(node_label_list, "update_date")
 
     constraint(node_label_list)
