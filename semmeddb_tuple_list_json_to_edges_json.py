@@ -33,7 +33,8 @@ def make_rel(preds_dict: dict,
              pub_date: str,
              sentence: str,
              subject_score: str,
-             object_score: str):
+             object_score: str,
+             negated: bool):
     key = subject_curie + '-' + predicate + '-' + object_curie
     key_val = preds_dict.get(key, None)
     publication_curie = 'PMID:' + pmid
@@ -43,11 +44,6 @@ def make_rel(preds_dict: dict,
         'subject score': subject_score,
         'object score': object_score}
     if key_val is None:
-        if NEG_REGEX.match(predicate):
-            negated = True
-            predicate = NEG_REGEX.sub('', predicate, 1)
-        else:
-            negated = False
         relation_type = predicate.lower()
         relation_iri = relation_type.title().replace(' ', '')
         relation_iri = relation_iri[0].lower() + relation_iri[1:]
@@ -103,16 +99,21 @@ if __name__ == '__main__':
             object_entrez_id = object_cui_split[1]
         else:
             object_entrez_id = None
+        if NEG_REGEX.match(predicate):
+            negated = True
+            predicate = NEG_REGEX.sub('', predicate, 1)
+        else:
+            negated = False
         if subject_cui == object_cui and predicate.lower() in EDGE_LABELS_EXCLUDE_FOR_LOOPS:
             continue
         make_rel(edges_dict, 'CUI:' + subject_cui, 'CUI:' + object_cui, predicate, pmid,
-                 pub_date, sentence, subject_score, object_score)
+                 pub_date, sentence, subject_score, object_score, negated)
         if subject_entrez_id is not None:
             make_rel(edges_dict, 'NCBIGene:' + subject_entrez_id, 'CUI:' + object_cui,
-                     predicate, pmid, pub_date, sentence, subject_score, object_score)
+                     predicate, pmid, pub_date, sentence, subject_score, object_score, negated)
         if object_entrez_id is not None:
             make_rel(edges_dict, 'CUI:' + subject_cui, 'NCBIGene:' + object_entrez_id,
-                     predicate, pmid, pub_date, sentence, subject_score, object_score)
+                     predicate, pmid, pub_date, sentence, subject_score, object_score, negated)
     out_graph = {'edges': [rel_dict for rel_dict in edges_dict.values()],
                  'nodes': []}
     for rel_dict in out_graph['edges']:
