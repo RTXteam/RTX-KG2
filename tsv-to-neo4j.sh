@@ -59,10 +59,12 @@ sudo chown neo4j:adm ${TSV_DIR}/import.report
 sudo service neo4j stop
 sudo rm -rf ${DATABASE_PATH}/databases/${DATABASE}
 
+MEM_GB=`${CODE_DIR}/get-system-memory-gb.sh`
+
 # import TSV files into Neo4j as Neo4j
 sudo -u neo4j neo4j-admin import --nodes "${TSV_DIR}/nodes_header.tsv,${TSV_DIR}/nodes.tsv" \
     --relationships "${TSV_DIR}/edges_header.tsv,${TSV_DIR}/edges.tsv" \
-    --max-memory=90G --multiline-fields=true --delimiter "\009" \
+    --max-memory=${MEM_GB}G --multiline-fields=true --delimiter "\009" \
     --report-file="${TSV_DIR}/import.report" --database=${DATABASE} --ignore-missing-nodes=true
 
 # change read only to false so that indexes and constraints can be added
