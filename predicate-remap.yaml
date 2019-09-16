@@ -1,0 +1,986 @@
+inverse_of_sib:
+  delete: null
+subclass_of:
+  invert: has_subclass
+location_of:
+  invert: located_in
+inactive_ingredient_of:
+  rename: part_of
+has_inactive_ingredient:
+  delete: null
+physically_interacts_with:
+  rename: directly_interacts_with
+inverse_of_qb:
+  delete: null
+inverse_of_aq:
+  delete: null
+isa:
+  invert: has_subclass
+higher_than:
+  rename: compared_with
+lower_than:
+  rename: compared_with
+mapped_from:
+  delete: null
+has_active_ingredient:
+  delete: null
+has_active_moiety:
+  delete: null
+has_component:
+  invert: part_of
+component_of:
+  rename: part_of
+concept_in_subset:
+  delete: null
+has_ingredient:
+  invert: part_of
+ingredient_of:
+  rename: part_of
+manifestation_of:
+  invert: has_subclass
+has_manifestation:
+  rename: has_subclass
+has_gene_template:
+  invert: encodes
+class_of:
+  invert: has_subclass
+has_class:
+  rename: has_subclass
+finding_site_of:
+  delete: null
+fragments_for_synonyms:
+  delete: null
+inverse_of_measures:
+  delete: null
+inverse_of_analyzes:
+  delete: null
+time_aspect_of:
+  delete: null
+property_of:
+  delete: null
+dose_form_of:
+  delete: null
+answer_to:
+  delete: null
+inverse_of_isa:
+  rename: has_subclass
+has_system:
+  rename: measurement_of
+system_of:
+  delete: null
+has_method:
+  invert: method_of
+member_of:
+  rename: part_of
+has_member:
+  invert: part_of
+scale_of:
+  delete: null
+property_of:
+  delete: null
+dose_form_of:
+  delete: null
+associated_morphology_of:
+  delete: null
+inverse_of_ro:
+  invert: ro
+capable_of:
+  rename: has_capability
+associated_morphology_of:
+  delete: null
+consists_of:
+  invert: part_of
+constitutes:
+  rename: part_of
+tradename_of:
+  delete: null
+classifies:
+  delete: null
+is_abnormal_cell_of_disease:
+  rename: abnormal_in
+disease_has_abnormal_cell:
+  delete: null
+may_be_treated_by:
+  delete: null
+do_not_code_with:
+  delete: null
+complicates:
+  invert: has_complication
+gene_associated_with:
+  rename: associated_with
+interprets:
+  delete: null
+process_involves_gene:
+  invert: participates_in
+gene_plays_role_in_process:
+  rename: participates_in
+mapping_qualifier_of:
+  delete: null
+direct_procedure_site_of:
+  delete: null
+suffix_of:
+  delete: null
+is_associated_anatomic_site_of:
+  delete: null
+disease_has_associated_anatomic_site:
+  rename: has_associated_site
+regional_part_of:
+  rename: part_of
+has_regional_part:
+  delete: null
+allelic_variant_of:
+  rename: variant_of
+phenotype_of:
+  invert: has_phenotype
+gene_product_has_organism_source:
+  rename: gene_found_in_organism
+disease_has_finding:
+  rename: has_finding
+is_finding_of_disease:
+  delete: null
+has_contraindicated_drug:
+  delete: null
+contraindicated_with_disease:
+  rename: contraindicated_with
+same_as:
+  rename: equivalent_to
+physiologic_effect_of:
+  delete: null
+contraindicated_for:
+  rename: contraindicated_with
+has_constitutional_part:
+  delete: null
+constitutional_part_of:
+  rename: part_of
+is_primary_anatomic_site_of_disease:
+  delete: null
+disease_has_primary_anatomic_site:
+  rename: has_associated_site
+causative_agent_of:
+  rename: causes_or_contributes_to
+has_causative_agent:
+  delete: null
+multipart_of:
+  rename: part_of
+has_multipart:
+  delete: null
+biological_process_involves_gene_product:
+  delete: null
+gene_product_plays_role_in_biological_process:
+  rename: participates_in
+doseformgroup_of:
+  delete: null
+challenge_of:
+  delete: null
+is_normal_tissue_origin_of_disease:
+  delete: null
+disease_has_normal_issue_origin:
+  rename: originates_from
+supersystem_of:
+  delete: null
+gene_encodes_gene_product:
+  rename: encodes
+gene_product_encoded_by_gene:
+  delete: null
+product_component_of:
+  rename: part_of
+has_product_component:
+  delete: null
+is_normal_cell_origin_of_disease:
+  delete: null
+disease_has_normal_cell_origin:
+  rename: originates_from
+has_functional_parent:
+  rename: derived_from
+inhibitor:
+  rename: inhibits
+disease_may_have_finding:
+  rename: may_have_finding
+may_be_finding_of_disease:
+  delete: null
+is_not_abnormal_cell_of_disease:
+  delete: null
+disease_excludes_abnormal_cell:
+  delete: null
+branch_of:
+  delete: null
+entire_anatomy_structure_of:
+  delete: null
+has_entire_anatomy_structure:
+  delete: null
+entire_anatomy_structure_of:
+  delete: null
+inverse_of_rn:
+  invert: rn
+has_gene_product_element:
+  delete: null
+gene_is_element_in_pathway:
+  rename: participates_in
+mechanism_of_action_of:
+  delete: null
+disease_excludes_finding:
+  rename: excludes_finding
+is_not_finding_of_disease:
+  delete: null
+chemotherapy_regimen_has_component:
+  delete: null
+is_component_of_chemotherapy_regimen:
+  rename: part_of
+interpretation_of:
+  delete: null
+may_be_cytogenetic_abnormality_of_disease:
+  delete: associated_with
+disease_may_have_cytogenetic_abnormality:
+  delete: null
+pathological_process_of:
+  delete: null
+has_pathological_process:
+  rename: affects
+has_physical_part_of_anatomic_structure:
+  delete: null
+anatomic_structure_is_physical_part_of:
+  rename: part_of
+evaluation_of:
+  delete: null
+disposition_of:
+  delete: null
+indirect_procedure_site_of:
+  delete: null
+has_indirect_procedure_site:
+  rename: has_site
+is_conjugate_acid_of:
+  delete: null
+is_conjugate_base_of:
+  rename: conjugate_base_of
+is_cytogenetic_abnormality_of_disease:
+  invert: associated_with
+may_be_molecular_abnormality_of_disease:
+  delete: null
+disease_may_have_molecular_abnormality:
+  rename: associated_with
+direct_morphology_of:
+  delete: null
+has_direct_morphology:
+  rename: has_morphology
+different_from:
+  delete: null
+add_on_code_for:
+  delete: null
+precise_ingredient_of:
+  rename: part_of
+has_precise_ingredient:
+  delete: null
+is_imaged_location_for:
+  delete: null
+is_stage_of_disease:
+  delete: null
+disease_is_stage:
+  rename: has_stage
+is_modality_type_for:
+  delete: null
+gene_mutations_contribute_to:
+  rename: mutations_contribute_to
+due_to:
+  delete: null
+cause_of:
+  rename: causes_or_contributes_to
+basis_of_strength_substance_of:
+  rename: active_ingredient_of
+has_basis_of_strength_substance:
+  delete: null
+has_precise_active_ingredient:
+  delete: null
+precise_active_ingredient_of:
+  rename: active_ingredient_of
+inheritance_type_of:
+  delete: null
+is_imaging_focus_of:
+  delete: null
+nichd_parent_of:
+  delete: null
+has_nichd_parent:
+  invert: has_subclass
+contains:
+  invert: part_of
+inverse_of_contains:
+  rename: part_of
+intent_of:
+  delete: null
+laterality_of:
+  delete: null
+has_laterality:
+  delete: null
+is_not_normal_cell_origin_of_disease:
+  delete: null
+diseaes_excludes_normal_cell_origin:
+  delete: null
+temporal_context_of:
+  delete: null
+divisor_of:
+  delete: null
+direct_substance_of:
+  delete: null
+has_direct_substance:
+  rename: has_substance
+subject_relationship_context_of:
+  delete: null
+has_subject_relationship_context:
+  rename: has_context
+device_used_by:
+  delete: null
+may_be_prevented_by:
+  delete: null
+count_of_base_of_active_ingredient_of:
+  delete: null
+has_count_of_base_of_active_ingredient:
+  rename: has_count_of_base_of
+has_ingredients:
+  delete: null
+ingredients_of:
+  rename: part_of
+presentation_strength_numerator_value_of:
+  delete: null
+has_presentation_strength_numerator_value:
+  rename: has_numerator_value
+is_associated_anatomy_of_gene_product:
+  delete: null
+gene_product_has_associated_anatomy:
+  rename: expressed_in
+is_structural_domain_or_motif_of_gene_product:
+  delete: null
+gene_product_has_structural_domain_or_motif:
+  rename: has_domain
+disease_causing_germline_mutations_in:
+  rename: mutations_contribute_to
+related_to:
+  rename: xref
+disease_has_basis_in_dysfunction_of:
+  invert: involved_in
+gene_product_has_biochemical_function:
+  rename: capable_of
+gene_mutations_contribute_to:
+  rename: mutations_contribute_to
+has_part:
+  invert: part_of
+is_biochemical_function_of_gene_product:
+  delete: null
+gene_mapped_to_disease:
+  rename: genetically_associated_with
+disease_mapped_to_gene:
+  delete: null
+presentation_strength_numerator_unit_of:
+  delete: null
+has_presentation_strength_numerator_unit:
+  rename: has_numerator_unit
+direct_device_of:
+  delete: null
+has_direct_device:
+  rename: has_device
+unit_of_presentation_of:
+  delete: null
+has_unit_of_presentation:
+  rename: has_unit
+presentation_strength_denominator_unit_of:
+  delete: null
+presentation_strength_denominator_value_of:
+  delete: null
+has_presentation_strength_denominator_value:
+  rename: has_denominator_value
+has_presentation_strength_denominator_unit:
+  rename: has_denominator_unit
+finding_method_of:
+  delete: null
+ctcae_5_parent_of:
+  rename: has_subclass
+has_ctcae_5_parent:
+  delete: null
+focus_of:
+  delete: null
+occurs_after:
+  delete: null
+clinical_course_of:
+  delete: null
+procedure_site_of:
+  delete: null
+is_chromosomal_location_of_gene:
+  delete: null
+gene_in_chromosomal_location:
+  rename: located_in
+regulated_by:
+  invert: regulates
+conceptual_part_of:
+  rename: part_of
+has_conceptual_part:
+  delete: null
+related_part:
+  delete: null
+is_not_primary_anatomic_site_of_disease:
+  delete: null
+disease_excludes_primary_anatomic_site:
+  delete: null
+is_lateral_anatomic_location_of:
+  delete: null
+has_lateral_anatomic_location:
+  delete: null
+is_presence_of_lateral_location:
+  delete: null
+has_presence_of_lateral_location:
+  delete: null
+organism_has_gene:
+  invert: gene_found_in_organism
+is_aggregation_view_of:
+  delete: null
+has_aggregation_view:
+  delete: null
+is_aggregation_view_of:
+  delete: null
+positively_regulated_by:
+  invert: positively_regulates
+negatively_regulated_by:
+  invert: negatively_regulates
+eo_anatomy_is_associated_with_eo_disease:
+  delete: null
+eo_disease_has_associated_eo_anatomy:
+  rename: affects
+substance_used_by:
+  delete: null
+uses_substance:
+  rename: uses
+specimen_of:
+  delete: null
+form_of:
+  delete: null
+is_timing_for:
+  delete: null
+procedure_context_of:
+  delete: null
+has_procedure_context:
+  rename: has_context
+is_enantiomer_of:
+  rename: isomer_of
+subset_of:
+  invert: has_subclass
+superset_of:
+  rename: has_subclass
+procedure_context_of:
+  delete: null
+has_procedure_context:
+  rename: has_context
+associated_finding_of:
+  delete: null
+has_associated_finding:
+  rename: associated_with
+finding_context_of:
+  delete: null
+has_finding_context:
+  rename: has_context
+has_associated_procedure:
+  rename: has_procedure
+associated_procedure_of:
+  delete: null
+is_given_pharmaceutical_substance_for:
+  delete: null
+has_given_pharmaceutical_substance:
+  rename: has_substance
+sub_property_of:
+  invert: has_subclass
+has_defining_characteristic:
+  rename: has_characteristic
+defining_characteristic_of:
+  delete: null
+finding_informer_of:
+  delete: null
+has_finding_informer:
+  rename: has_informer
+gene_associated_with_disease:
+  rename: associated_with
+disease_has_associated_gene:
+  delete: null
+nerve_supply_of:
+  rename: upstream_of
+has_nerve_supply:
+  delete: null
+blocker:
+  rename: inhibits
+continuous_distally_with:
+  rename: continuous_with
+continuous_proximally_with:
+  rename: continuous_with
+related_to_genetic_biomarker:
+  delete: null
+genetic_biomarker_related_to:
+  rename: involved_in
+cdrh_parent_of:
+  rename: has_subclass
+has_cdrh_parent:
+  delete: null
+chemical_or_drug_has_mechanism_of_action:
+  rename: has_mechanism_of_action
+is_mechanism_of_action_of_drug:
+  delete: null
+is_pharmaceutical_route_for:
+  delete: null
+human_disease_maps_to_eo_disease:
+  rename: analogous_to
+eo_disease_maps_to_human_disease:
+  delete: null
+has_free_acid_or_base_form:
+  delete: null
+is_tautomer_of:
+  rename: isomer_of
+molecular_abnormality_involves_gene:
+  delete: null
+gene_involved_in_molecular_abnormality:
+  rename: involved_in
+is_physiologic_effect_of_chemical_or_drug:
+  delete: null
+chemical_or_drug_has_physiologic_effect:
+  rename: causes_or_contributes_to
+disease_may_have_associated_disease:
+  rename: may_be_associated_with
+may_be_associated_disease_of_diseaes:
+  delete: null
+is_view_type_for:
+  delete: null
+is_chemical_classification_of_gene_product:
+  delete: null
+gene_product_has_chemical_classification:
+  rename: subclass_of
+has_input:
+  invert: involved_in
+tissue_is_expression_site_of_gene_product:
+  delete: null
+gene_product_expressed_in_tissue:
+  rename: expressed_in
+access_device_used_by:
+  delete: null
+is_modification_of:
+  delete: null
+access_of:
+  delete: null
+concentration_strength_numerator_value_of:
+  delete: null
+has_concentration_strength_numerator_value:
+  rename: has_numerator_value
+specimen_source_topography_of:
+  delete: null
+has_specimen_source_topography:
+  rename: obtained_from
+concentration_strength_numerator_unit_of:
+  delete: null
+has_concentration_strength_numerator_unit:
+  rename: has_numerator_unit
+contraindicating_class_of:
+  delete: null
+has_contraindicating_class:
+  rename: contraindicated_with
+contraindicating_class_of:
+  rename: contraindicated_with
+has_primary_input_or_output:
+  invert: involved_in
+concentration_strength_denominator_unit_of:
+  delete: null
+concentration_strength_denominator_value_of:
+  delete: null
+has_concentration_strength_denominator_unit:
+  rename: has_denominator_unit
+has_concentration_strength_denominator_value:
+  delete: has_denominator_value
+tributary_of:
+  rename: upstream_of
+has_tributary:
+  invert: upstream_of
+gene_mutant_encodes_gene_product_sequence_variation:
+  rename: encodes
+gene_product_sequence_variatino_encoded_by_gene_mutant:
+  delete: null
+may_be_abnormal_cell_of_disease:
+  delete: null
+disease_may_have_abnormal_cell:
+  rename: may_affect
+disease_causing_germline_mutations_loss_of_function_in:
+  rename: mutations_contribute_to
+gene_mutations_contribute_to:
+  rename: mutations_contribute_to
+has_related_factor:
+  rename: xref
+related_factor_of:
+  delete: null
+inverse_of_bounds:
+  invert: bounds
+transports_or_maintains_localization_of:
+  rename: transports
+is_modality_subtype_for:
+  delete: null
+revision_status_of:
+  delete: null
+has_primary_input:
+  rename: has_input
+gene_involved_in_pathogenesis_of_disease:
+  rename: associated_with
+gene_associated_with_condition:
+  rename: associated_with
+pathogenesis_of_disease_involves_gene:
+  delete: null
+gene_has_physical_location:
+  rename: has_chromosomal_location
+is_physical_location_of_gene:
+  delete: null
+specimen_substance_of:
+  delete: null
+has_specimen_substance:
+  rename: uses
+specimen_procedure_of:
+  delete: null
+has_specimen_procedure:
+  rename: has_procedure
+is_action_guidance_for:
+  delete: null
+disease_has_basis_in:
+  rename: has_basis_in
+is_associated_disease_of:
+  rename: associated_with
+disease_has_associated_disease:
+  delete: null
+is_presence_guidance_for:
+  rename: subclass_of
+has_presence_guidance:
+  delete: null
+output_of:
+  invert: outputs
+is_not_normal_tissue_origin_of_disease:
+  delete: null
+disease_excludes_normal_tissue_origin:
+  delete: null
+has_potential_to_develop_into:
+  rename: precedes
+channel_blocker:
+  rename: inhibits
+disease_has_location:
+  rename: affects
+efferent_to:
+  delete: null
+afferent_to:
+  rename: drains_into
+version_of:
+  delete: null
+partially_excised_anatomy_has_procedure:
+  rename: has_procedure
+procedure_has_partially_excised_anatomy:
+  delete: null
+medial_to:
+  delete: null
+proximal_to:
+  delete: null
+lateral_to:
+  delete: null
+distal_to:
+  delete: null
+developmental_stage_of:
+  delete: null
+partial_agonist:
+  rename: activates
+disease_causing_germline_mutations_gain_of_function_in:
+  rename: mutations_contribute_to
+time_modifier_of:
+  delete: null
+sends_output_to:
+  delete: null
+has_risk_factor:
+  delete: null
+inverse_of_modifies:
+  delete: null
+has_material_basis_in:
+  rename: has_basis_in
+target_anatomy_has_procedure:
+  delete: null
+procedure_has_target_anatomy:
+  rename: has_target_anatomy
+results_in_development_of:
+  rename: causes_or_contributes_to
+lymphatic_drainage_of:
+  delete: null
+has_lymphatic_drainage:
+  rename: drains_into
+composed_primarily_of:
+  invert: part_of
+allosteric_modulator:
+  rename: regulates
+activator:
+  rename: positively_regulates
+has_segmental_supply:
+  delete: null
+has_at_risk_population:
+  delete: null
+population_at_risk_for:
+  rename: at_risk_for
+surgical_approach_of:
+  delete: null
+has_arterial_supply:
+  delete: null
+enzyme_metabolizes_chemical_or_drug:
+  rename: metabolizes
+chemical_or_drug_is_metabolized_by_enzyme:
+  delete: null
+may_be_diagnoesd_by:
+  delete: null
+anterior_to:
+  delete: null
+posterior_to:
+  delete: null
+realized_in_response_to_stimulus:
+  invert: involved_in
+chromosome_involved_in_cytogenetic_abnormality:
+  delete: null
+cytogenetic_abnormality_involves_chromosome:
+  rename: affects
+modulator:
+  rename: regulates
+indirect_morphology_of:
+  delete: null
+has_indirect_morphology:
+  rename: has_morphology
+is_location_of_biological_process:
+  delete: null
+biological_process_has_associated_location:
+  rename: affects
+contraindicating_mechanism_of_action:
+  delete: null
+has_contraindicating_mechanism_of_action:
+  rename: contraindicated_with
+actual_outcome_of:
+  delete: null
+expected_outcome_of:
+  delete: null
+has_expected_outcome:
+  delete: null
+has_actual_outcome:
+  rename: has_outcome
+has_target:
+  rename: directly_interacts_with
+is_target:
+  delete: null
+gene_product_malfunction_associated_with_disease:
+  rename: associated_with
+associated_with_malfunction_of_gene_product:
+  delete: null
+life_circumstance_of:
+  delete: null
+in_taxon:
+  delete: null  
+# note: this loses exactly one non-loop edge, "enzootic pneumonia of calves" -> "Bovidae".
+receives_attachment_from:
+  invert: attaches_to
+direct_left_of:
+  rename: adjacent_to
+direct_right_of:
+  rename: adjacent_to
+capable_of_part_of:
+  rename: involved_in
+has_plasma_membrane_part:
+  invert: part_of
+complex_has_physical_part:
+  invert: part_of
+gene_product_is_physical_part_of:
+  rename: participates_in
+major_susceptibility_factor_in:
+  rename: associated_with
+lacks_plasma_membrane_part:
+  delete: null
+process_includes_biological_process:
+  rename: has_subclass
+biological_process_is_part_of_process:
+  delete: null
+extends_fibers_into:
+  rename: attached_to
+is_not_molecular_abnormality_of_disease:
+  delete: null
+disease_excludes_molecular_abnormality:
+  delete: null
+excised_anatomy_has_procedure:
+  rename: has_procedure
+procedure_has_excised_anatomy:
+  delete: null
+superior_to:
+  delete: null
+inferior_to:
+  delete: null
+branching_part_of:
+  rename: part_of
+has_developmental_contribution_from:
+  invert: causes_or_contributes_to
+inverse_of_induces:
+  delete: null
+pharmacokinetics_of:
+  delete: null
+cell_type_or_tissue_affected_by_chemical_or_drug:
+  delete: null
+chemical_or_drug_affects_cell_type_or_tissue:
+  rename: affects
+supplies:
+  rename: upstream_of
+has_disease_location:
+  rename: affects
+is_not_cytogenetic_abnormality_of_disease:
+  delete: null
+disease_excludes_cytogenetic_abnormality:
+  delete: null
+is_exam_for:
+  delete: null
+has_contraindicating_physiologic_effect:
+  rename: has_side_effect
+contraindicating_physiologic_effect_of:
+  delete: null
+results_in_morphogenesis_of:
+  rename: outputs
+in_lateral_side_of:
+  rename: part_of
+luminal_space_of:
+  rename: part_of
+scale_type_of:
+  delete: null
+supported_concept_relationship_in:
+  delete: null
+has_supported_concept_relationship:
+  rename: has_relationship
+gene_product_has_gene_product_variant:
+  delete: null
+gene_product_variant_of_gene_product:
+  rename: variant_of
+has_allelic_variant:
+  delete: null
+is_maneuver_type_for:
+  delete: null
+surrounds:
+  invert: surrounded_by
+antibody:
+  rename: targets
+context_binding_of:
+  delete: null
+gene_product_affected_by_chemical_or_drug:
+  delete: null
+chemical_or_drug_affects_gene_product:
+  rename: affects
+regimen_has_accepted_use_for_disease:
+  rename: indicated_for
+disease_has_accepted_treatment_with_regimen:
+  delete: null
+has_muscle_insertion:
+  rename: inserted_into
+has_muscle_origin:
+  rename: attached_to
+bounding_layer_of:
+  invert: surrounded_by
+results_in_acquisition_of_features_of:
+  rename: originates
+biomarker_type_includes_gene_product:
+  delete: null
+gene_product_is_biomarker_type:
+  rename: subset_of
+has_object_guidance:
+  rename: has_guidance
+is_object_guidance_for:
+  delete: null
+immediate_transformation_of:
+  invert: develops_into
+part_anatomy_structure_of:
+  rename: part_of
+has_part_anatomy_structure:
+  delete: null
+dose_form_intended_site_of:
+  rename: has_site
+has_dose_form_intended_site:
+  delete: null
+drains:
+  invert: drains_into
+results_in_assembly_of:
+  rename: originates
+quotient_of:
+  delete: null
+energy_used_by:
+  delete: null
+innervates:
+  rename: attached_to
+anatomic_structure_has_location:
+  delete: null
+is_location_of_anatomic_structure:
+  rename: located_in
+candidate_gene_tested_in:
+  rename: may_be_associated_with
+has_approach_guidance:
+  rename: has_guidance
+is_approach_guidance_for:
+  delete: null
+has_procedure_device:
+  rename: has_device
+procedure_device_of:
+  delete: null
+has_single_level_category:
+  rename: has_category
+has_multi_level_category:
+  rename: has_category
+adjustment_of:
+  delete: null
+is_property_or_attribute_of_eo_disease:
+  delete: null
+eo_disease_has_property_or_attribute:
+  rename: has_property
+has_target_end_location:
+  rename: involves
+dose_form_administration_method_of:
+  delete: null
+has_dose_form_administration_method:
+  rename: has_method
+inverse_of_derives:
+  delete: null
+disease_has_basis_in_disruption_of:
+  rename: affects
+is_cytogenetic_abnormality_of_disease:
+  rename: associated_with
+disease_has_cytogenetic_abnormality:
+  delete: null
+dose_form_release_characteristic_of:
+  delete: null
+has_dose_form_release_characteristic:
+  rename: has_characteristic
+metabolic_site_of:
+  delete: null
+site_of_metabolism:
+  rename: metabolised_by
+binder:
+  rename: directly_interacts_with
+basic_dose_form_of:
+  delete: null
+has_basic_dose_form:
+  rename: has_form
+supported_concept_property_in:
+  delete: null
+has_supported_concept_property:
+  rename: has_property
+gene_has_abnormality:
+  delete: null
+is_abnormality_of_gene:
+  delete: variant_of
+related_object:
+  rename: xref
+dose_form_transformation_of:
+  delete: null
+has_dose_form_transformation:
+  rename: has_transformation
+has_skeleton:
+  invert: located_in
+skeleton_of:
+  rename: located_in
+innervated_by:
+  invert: attached_to
+is_demonym_of:
+  invert: has_demonym
+role_in_the_phenotype_of:
+  rename: involved_in
+part_of_a_fusion_gene_in:
+  rename: involved_in
+has_origin:
+
+  
+  
+  
