@@ -45,7 +45,7 @@ def make_rel(preds_dict: dict,
         'object score': object_score}
     if key_val is None:
         relation_type = predicate.lower()
-        relation_iri = relation_type.title().replace(' ', '')
+        relation_iri = kg2_util.convert_snake_case_to_camel_case(relation_type.replace(' ','_'))
         relation_iri = relation_iri[0].lower() + relation_iri[1:]
         relation_iri = SEMMEDDB_IRI + '#' + relation_iri
         edge_dict = kg2_util.make_edge(subject_curie,
@@ -116,8 +116,7 @@ if __name__ == '__main__':
             make_rel(edges_dict, 'CUI:' + subject_cui, 'NCBIGene:' + object_entrez_id,
                      predicate, pmid, pub_date, sentence, subject_score, object_score, negated)
         if predicate not in nodes_dict:
-            relation_iri = predicate.lower().title().replace(' ', '')
-            relation_iri = relation_iri[0].lower() + relation_iri[1:]
+            relation_iri = kg2_util.convert_snake_case_to_camel_case(predicate.lower().replace(' ','_'))
             relation_iri = SEMMEDDB_IRI + '#' + relation_iri
             nodes_dict[predicate] = kg2_util.make_node(id='SEMMEDDB:' + predicate.lower(),
                                                         iri=relation_iri,

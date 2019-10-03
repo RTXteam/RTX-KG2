@@ -209,7 +209,10 @@ def download_file_if_not_exist_locally(url: str, local_file_name: str):
 
 
 def convert_snake_case_to_camel_case(name: str):
-    return name.title().replace('_', '')
+    name = name.title().replace('_', '')
+    if len(name) > 0:
+        name = name[0].lower() + name[1:]
+    return name
 
 
 def convert_camel_case_to_snake_case(name: str):
