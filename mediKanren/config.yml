@@ -1,0 +1,5 @@
+neo4j:
+  outputname: rtx_kg2
+  username: <username>
+  password: <password>
+  host: http://<url for neo4j>:<http port, default is 7474>

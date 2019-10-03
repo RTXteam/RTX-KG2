@@ -45,7 +45,7 @@ def make_rel(preds_dict: dict,
         'object score': object_score}
     if key_val is None:
         relation_type = predicate.lower()
-        relation_iri = relation_type.title().replace(' ', '')
+        relation_iri = kg2_util.convert_snake_case_to_camel_case(relation_type.replace(' ','_'))
         relation_iri = relation_iri[0].lower() + relation_iri[1:]
         relation_iri = SEMMEDDB_IRI + '#' + relation_iri
         edge_dict = kg2_util.make_edge(subject_curie,
@@ -79,6 +79,7 @@ if __name__ == '__main__':
     test_mode = args.test
     input_data = json.load(open(input_file_name, 'r'))
     edges_dict = dict()
+    nodes_dict = dict()
     row_ctr = 0
     for (pmid, subject_cui_str, predicate, object_cui_str, pub_date, sentence,
          subject_score, object_score, curr_timestamp) in input_data['rows']:
@@ -114,8 +115,17 @@ if __name__ == '__main__':
         if object_entrez_id is not None:
             make_rel(edges_dict, 'CUI:' + subject_cui, 'NCBIGene:' + object_entrez_id,
                      predicate, pmid, pub_date, sentence, subject_score, object_score, negated)
+        if predicate not in nodes_dict:
+            relation_iri = kg2_util.convert_snake_case_to_camel_case(predicate.lower().replace(' ','_'))
+            relation_iri = SEMMEDDB_IRI + '#' + relation_iri
+            nodes_dict[predicate] = kg2_util.make_node(id='SEMMEDDB:' + predicate.lower(),
+                                                        iri=relation_iri,
+                                                        name=predicate.lower(),
+                                                        category_label="relationship type", 
+                                                        update_date=curr_timestamp, 
+                                                        provided_by=SEMMEDDB_IRI)
     out_graph = {'edges': [rel_dict for rel_dict in edges_dict.values()],
-                 'nodes': []}
+                 'nodes': [node_dict for node_dict in nodes_dict.values()]}
     for rel_dict in out_graph['edges']:
         if len(rel_dict['publications']) > 1:
             rel_dict['publications'] = list(set(rel_dict['publications']))
