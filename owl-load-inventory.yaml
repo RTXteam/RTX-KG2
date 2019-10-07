@@ -569,6 +569,11 @@
   file: pr.owl
   download: true
   title: Protein Ontology
+#-
+#  url: http://purl.obolibrary.org/obo/ino.owl
+#  file: ino.owl
+#  download: true
+#  title: Interaction Network Ontology
 # REMOVED FROM THE CONFIG FILE BUT KEPT AS A COMMENT FOR HISTORICAL PURPOSES:
 #-
 #  download: false
