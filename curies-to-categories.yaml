@@ -11,7 +11,6 @@ prefix-mappings:
     NCBIGene: gene
     NCBITaxon: organism taxon
     OMIM: phenotypic feature
-    Orphanet: disease
     PR: protein
     RGD: gene
     RO: relationship type
@@ -127,6 +126,16 @@ term-mappings:
     NCIT:C48187: material
     NCIT:C20181: conceptual entity
     OBI:0000427: protein
+    Orphanet:410298: gene
+    Orphanet:410299: RNA
+    Orphanet:410297: locus
+    Orphanet:C023: life stage
+    Orphanet:C001: disease
+    Orphanet:C009: location
+    Orphanet:409967: incidence
+    Orphanet:C004: prevalence
+    Orphanet:409973: prevalence
+    Orphanet:C005: inheritance
     owl:Thing: named thing
     PATO:0000001: phenotypic quality
     PR:000000001: protein
@@ -171,12 +180,12 @@ term-mappings:
     SNOMEDCT_US:123038009: specimen
     SNOMEDCT_US:125676002: person
     SNOMEDCT_US:138875005: concept
-    SNOMEDCT_US:243796009: situation with explicit context
+    SNOMEDCT_US:243796009: situation
     SNOMEDCT_US:246061005: attribute
     SNOMEDCT_US:254291000: staging and scales
     SNOMEDCT_US:260787004: physical object
     SNOMEDCT_US:272379006: event
-    SNOMEDCT_US:308916002: environmental or geographical location
+    SNOMEDCT_US:308916002: location
     SNOMEDCT_US:362981000: qualifier value
     SNOMEDCT_US:363787002: observable entity  ## could this mapped to some other entity category in Biolink?
     SNOMEDCT_US:370115009: special concept
