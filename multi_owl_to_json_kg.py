@@ -746,9 +746,7 @@ def get_rels_dict(nodes: dict,
 
             if predicate_curie == 'UMLS:hasSTY':
                 subject_node = nodes[subject_curie_id]
-                print(subject_node)
                 object_node = nodes[object_curie_id]
-                print(object_node)
                 subject_description = subject_node['description']
                 if subject_description is None:
                     subject_description = ''
