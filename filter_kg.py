@@ -36,6 +36,7 @@ def make_arg_parser():
     arg_parser.add_argument('inputFileJson', type=str, help="The input KG2 grah, in JSON format")
     arg_parser.add_argument('outputFileJson', type=str, help="The output KG2 graph, in JSON format")
     arg_parser.add_argument('--test', dest='test', action='store_true', default=False)
+    arg_parser.add_argument('--dropNegated', dest='drop_negated', action='store_true', default=False)
     return arg_parser
 
 
@@ -46,6 +47,7 @@ if __name__ == '__main__':
     input_file_name = args.inputFileJson
     output_file_name = args.outputFileJson
     test_mode = args.test
+    drop_negated = args.drop_negated
     predicate_remap_config = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(predicate_remap_file_name))
     curies_to_uri_lal = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_uri_lal_file_name))
     curies_to_uri_map = curies_to_uri_lal + prefixcommons.curie_util.default_curie_maps
@@ -66,7 +68,7 @@ if __name__ == '__main__':
         edge_ctr += 1
         if edge_ctr % 100000 == 0:
             print('processing edge ' + str(edge_ctr) + ' out of ' + str(len(graph['edges'])))
-        if edge_dict['negated']:
+        if drop_negated and edge_dict['negated']:
             continue
         edge_label = edge_dict['edge label']
         simplified_edge_label = edge_label
