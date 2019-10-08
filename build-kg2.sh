@@ -61,6 +61,9 @@ OUTPUT_FILE_ORPHAN_EDGES=${BUILD_DIR}/kg2-orphans${TEST_SUFFIX}-edges.json
 FINAL_OUTPUT_FILE_BASE=kg2${TEST_SUFFIX}.json
 FINAL_OUTPUT_FILE_FULL=${BUILD_DIR}/${FINAL_OUTPUT_FILE_BASE}
 
+SIMPLIFIED_OUTPUT_FILE_BASE=kg2-simplified${TEST_SUFFIX}.json
+SIMPLIFIED_OUTPUT_FILE_FULL=${BUILD_DIR}/${SIMPLIFIED_OUTPUT_FILE_BASE}
+
 OUTPUT_NODES_FILE_BASE=kg2${TEST_SUFFIX}-nodes.json
 OUTPUT_NODES_FILE_FULL=${BUILD_DIR}/${OUTPUT_NODES_FILE_BASE}
 
@@ -90,6 +93,8 @@ RTX_CONFIG_FILE=RTXConfiguration-config.json
 
 KG2_TSV_DIR=${BUILD_DIR}/TSV
 KG2_TSV_TARBALL=${BUILD_DIR}/kg2-tsv${TEST_SUFFIX}.tar.gz
+
+PREDICATE_MAPPING_FILE=${CODE_DIR}/predicate-remap.yaml
 
 cd ${BUILD_DIR}
 
@@ -234,22 +239,33 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/report_stats_on_json_kg.py \
            --inputFile ${FINAL_OUTPUT_FILE_FULL} \
            --outputFile ${REPORT_FILE_FULL}
 
+## Filter the JSON KG and remap predicates:
+
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/filter_kg_and_remap_predicates.py \
+           ${PREDICATE_MAPPING_FILE} \
+           ${CURIES_TO_URLS_FILE} \
+           ${FINAL_OUTPUT_FILE_FULL} \
+           ${SIMPLIFIED_OUTPUT_FILE_FULL} > ${BUILD_DIR}/filter_kg_and_remap_predicates.log 2>&1
+
+gzip -f ${FINAL_OUTPUT_FILE_FULL}
+
 ## build the TSV files
 rm -r -f ${KG2_TSV_DIR}
 mkdir -p ${KG2_TSV_DIR}
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/kg_json_to_tsv.py \
-           --inputFile ${FINAL_OUTPUT_FILE_FULL} \
+           --inputFile ${SIMPLIFIED_OUTPUT_FILE_FULL} \
            --outputFileLocation ${KG2_TSV_DIR}
 tar -C ${KG2_TSV_DIR} -czvf ${KG2_TSV_TARBALL} nodes.tsv nodes_header.tsv edges.tsv edges_header.tsv
 aws s3 cp --no-progress --region ${S3_REGION} ${KG2_TSV_TARBALL} s3://${S3_BUCKET_PUBLIC}/
 
 ## Compress the huge files
-gzip -f ${FINAL_OUTPUT_FILE_FULL}
+gzip -f ${SIMPLIFIED_OUTPUT_FILE_FULL}
 gzip -f ${OUTPUT_NODES_FILE_FULL}
 gzip -f ${OUTPUT_FILE_ORPHAN_EDGES}
 
 ## copy the KG and various build artifacts to the public S3 bucket
-aws s3 cp --no-progress --region ${S3_REGION} ${FINAL_OUTPUT_FILE_FULL}.gz s3://${S3_BUCKET_PUBLIC}/
+aws s3 cp --no-progress --region ${S3_REGION} ${FINAL_OUTPUT_FILE_FULL}.gz s3://${S3_BUCKET}/
+aws s3 cp --no-progress --region ${S3_REGION} ${SIMPLIFIED_OUTPUT_FILE_FULL}.gz s3://${S3_BUCKET}/
 aws s3 cp --no-progress --region ${S3_REGION} ${OUTPUT_NODES_FILE_FULL}.gz s3://${S3_BUCKET_PUBLIC}/
 aws s3 cp --no-progress --region ${S3_REGION} ${REPORT_FILE_FULL} s3://${S3_BUCKET_PUBLIC}/
 aws s3 cp --no-progress --region ${S3_REGION} ${OUTPUT_FILE_ORPHAN_EDGES}.gz s3://${S3_BUCKET_PUBLIC}/
