@@ -95,10 +95,12 @@
 -
   UBERON: http://purl.obolibrary.org/obo/uberon/insect-anatomy#
 -
-  BioLink: http://w3id.org/biolink/vocab/
+  Biolink: http://w3id.org/biolink/vocab/
 -
   MESH: https://identifiers.org/umls/MSH/
 -
   NCIT: https://identifiers.org/umls/NCI/
 -
   UMLS: https://identifiers.org/umls/
+-
+  RTX: http://rtx.ai/identifiers#
