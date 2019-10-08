@@ -132,5 +132,5 @@ if __name__ == '__main__':
         if not record_of_relation_curie_occurrences[relation_curie]:
             print('relation curie is in the config file but was not detected in the graph: ' + relation_curie, file=sys.stderr)
     for relation_curie in relation_curies_not_in_nodes:
-        print('coult not get IRI for relation curie: ' + relation_curie)
+        print('could not get IRI for relation curie: ' + relation_curie)
     kg2_util.save_json(graph, output_file_name, test_mode)
