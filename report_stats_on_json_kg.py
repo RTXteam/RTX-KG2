@@ -70,14 +70,22 @@ def count_number_of_nodes_by_source_and_category(nodes: list):
                 categorylist.append(node['category label'])
         sourcecatdict.update({source: categorylist})
     for defintion in sourcecatdict:
-        thislist = sourcecatdict.get(defintion)
         sourcecount = collections.Counter(sourcecatdict.get(defintion))
         fulldict.update({defintion: sourcecount})
     return fulldict
 
 
 def count_edges_by_source(edges: list):
-    return collections.Counter([edge['provided by'] for edge in edges])
+    ret_data = None
+    if type(edges[0]['provided by']) == str:
+        ret_data = collections.Counter([edge['provided by'] for edge in edges])
+    else:
+        assert type(edges[0]['provided by'] == list)
+        provby_list = []
+        for edge in edges:
+            provby_list += edge['provided_by']
+        ret_data = collections.Counter(provby_list)
+    return ret_data
 
 
 def count_edges_by_predicate_curie(edges: list):
