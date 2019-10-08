@@ -83,7 +83,7 @@ def count_edges_by_source(edges: list):
         assert type(edges[0]['provided by'] == list)
         provby_list = []
         for edge in edges:
-            provby_list += edge['provided_by']
+            provby_list += edge['provided by']
         ret_data = collections.Counter(provby_list)
     return ret_data
 
