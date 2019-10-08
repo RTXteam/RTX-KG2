@@ -66,6 +66,8 @@ if __name__ == '__main__':
         edge_ctr += 1
         if edge_ctr % 100000 == 0:
             print('processing edge ' + str(edge_ctr) + ' out of ' + str(len(graph['edges'])))
+        if edge_dict['negated']:
+            continue
         edge_label = edge_dict['edge label']
         simplified_edge_label = edge_label
         relation_curie = edge_dict['relation curie']
