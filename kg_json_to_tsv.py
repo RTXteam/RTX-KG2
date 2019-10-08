@@ -77,7 +77,9 @@ def check_all_edges_have_same_set(edgekeys_list):
     # Supported_ls is a list of properties that edges can have
     supported_ls = ["edge label", "negated", "object", "provided by",
                     "publications", "publications info",
-                    "relation", "relation curie", "subject", "update date"]
+                    "relation", "relation curie", "subject", "update date",
+                    "simplified relation curie","simplified relation",
+                    "simplified edge label"]
     for edgelabel in edgekeys_list:
         if edgelabel not in supported_ls:
             raise ValueError("edge label not in supported list: " + edgelabel)
@@ -221,7 +223,7 @@ def edges(graph, output_file_location):
 
         # Add an extra property of "edge label" to the list so that edge_labels
         # can be a property and a label
-        edgekeys.append('edge label')
+        edgekeys.append('simplified edge label')
         edgekeys.append('subject')
         edgekeys.append('object')
 
@@ -246,7 +248,10 @@ def edges(graph, output_file_location):
             edgekeys = no_space('provided by', edgekeys, 'provided_by')
             edgekeys = no_space('relation curie', edgekeys, 'relation_curie')
             edgekeys = no_space('update date', edgekeys, 'update_date')
-            edgekeys = no_space('edge label', edgekeys, 'edge_label:TYPE')
+            edgekeys = no_space('simplified relation curie', edgekeys, 'simplified_relation_curie')
+            edgekeys = no_space('simplified relation', edgekeys, 'simplified_relation')
+            edgekeys = no_space('simplified edge label', edgekeys, 'simplified_edge_label')
+            edgekeys = no_space('simplified edge label', edgekeys, 'edge_label:TYPE')
             edgekeys = no_space('edge label', edgekeys, 'edge_label')
             edgekeys = no_space('subject', edgekeys, ':START_ID')
             edgekeys = no_space('object', edgekeys, ':END_ID')
