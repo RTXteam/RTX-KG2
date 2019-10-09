@@ -22,6 +22,7 @@ import datetime
 import gzip
 import json
 import shutil
+import sys
 import tempfile
 
 
@@ -140,21 +141,29 @@ if __name__ == '__main__':
     else:
         input_file = gzip.GzipFile(input_file_name, 'r')
         graph = json.loads(input_file.read().decode('utf-8'))
-    stats = {'_number_of_nodes': len(graph['nodes']),   # underscore is to make sure it sorts to the top of the report
-             '_number_of_edges': len(graph['edges']),   # underscore is to make sure it sorts to the top of the report
+
+    if 'nodes' not in graph:
+        print("WARNING: 'nodes' property is missing from the input JSON.", file=sys.stderr)
+    nodes = graph.get('nodes', [])
+    if 'edges' not in graph:
+        print("WARNING: 'edges' property is missing from the input JSON.", file=sys.stderr)
+    edges = graph.get('edges', [])
+
+    stats = {'_number_of_nodes': len(nodes),   # underscore is to make sure it sorts to the top of the report
+             '_number_of_edges': len(edges),   # underscore is to make sure it sorts to the top of the report
              '_report_datetime': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-             'number_of_nodes_by_curie_prefix': dict(count_nodes_by_curie_prefix(graph['nodes'])),
-             'number_of_nodes_without_category__by_curie_prefix': dict(count_nodes_by_curie_prefix_given_no_category(graph['nodes'])),
-             'number_of_nodes_by_category_label': dict(count_nodes_by_category(graph['nodes'])),
-             'number_of_nodes_by_source': dict(count_nodes_by_source(graph['nodes'])),
-             'number_of_edges_by_predicate_curie': dict(count_edges_by_predicate_curie(graph['edges'])),
-             'number_of_edges_by_predicate_type': dict(count_edges_by_predicate_type(graph['edges'])),
-             'number_of_edges_by_predicate_curie_prefixes': dict(count_edges_by_predicate_curie_prefix(graph['edges'])),
-             'number_of_predicates_by_predicate_curie_prefixes': dict(count_predicates_by_predicate_curie_prefix(graph['edges'])),
-             'number_of_edges_by_source': dict(count_edges_by_source(graph['edges'])),
-             'types_of_pairs_of_curies_for_xrefs': dict(count_types_of_pairs_of_curies_for_xrefs(graph['edges'])),
-             'types_of_pairs_of_curies_for_equivs': dict(count_types_of_pairs_of_curies_for_equivs(graph['edges'])),
-             'number_of_nodes_by_source_and_category': dict(count_number_of_nodes_by_source_and_category(graph['nodes']))}
+             'number_of_nodes_by_curie_prefix': dict(count_nodes_by_curie_prefix(nodes)),
+             'number_of_nodes_without_category__by_curie_prefix': dict(count_nodes_by_curie_prefix_given_no_category(nodes)),
+             'number_of_nodes_by_category_label': dict(count_nodes_by_category(nodes)),
+             'number_of_nodes_by_source': dict(count_nodes_by_source(nodes)),
+             'number_of_edges_by_predicate_curie': dict(count_edges_by_predicate_curie(edges)),
+             'number_of_edges_by_predicate_type': dict(count_edges_by_predicate_type(edges)),
+             'number_of_edges_by_predicate_curie_prefixes': dict(count_edges_by_predicate_curie_prefix(edges)),
+             'number_of_predicates_by_predicate_curie_prefixes': dict(count_predicates_by_predicate_curie_prefix(edges)),
+             'number_of_edges_by_source': dict(count_edges_by_source(edges)),
+             'types_of_pairs_of_curies_for_xrefs': dict(count_types_of_pairs_of_curies_for_xrefs(edges)),
+             'types_of_pairs_of_curies_for_equivs': dict(count_types_of_pairs_of_curies_for_equivs(edges)),
+             'number_of_nodes_by_source_and_category': dict(count_number_of_nodes_by_source_and_category(nodes))}
 
     temp_output_file = tempfile.mkstemp(prefix='kg2-')[1]
     with open(temp_output_file, 'w') as outfile:
