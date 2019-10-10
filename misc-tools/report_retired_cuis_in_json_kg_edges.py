@@ -32,12 +32,12 @@ def make_arg_parser():
     return arg_parser
 
 
-def get_retired_cui_nodes_list():
-    retired_cuis = []
+def get_retired_cui_nodes():
+    retired_cuis = set()
     with open('/home/ubuntu/kg2-build/umls/META/MRCUI.RRF', 'r') as retired_cui_file:
         for line in retired_cui_file:
             cui = line.split('|')[0].strip()  # First column contains the retired CUI
-            retired_cuis.append(cui)
+            retired_cuis.add(cui)
     return retired_cuis
 
 
@@ -71,7 +71,7 @@ if __name__ == '__main__':
         print("ERROR: Input JSON file doesn't have an 'edges' property!", file=sys.stderr)
     else:
         edges = graph['edges']
-        retired_cui_nodes = get_retired_cui_nodes_list()
+        retired_cui_nodes = get_retired_cui_nodes()
         stats = {'_report_datetime': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                  '_total_number_of_edges': len(edges),  # underscore is to make sure it sorts to the top of the report
                  'number_of_edges_referencing_retired_cui_node': count_edges_referencing_retired_cui_node(edges, retired_cui_nodes)}
