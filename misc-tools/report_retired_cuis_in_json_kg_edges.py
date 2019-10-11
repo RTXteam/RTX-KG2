@@ -32,11 +32,22 @@ def make_arg_parser():
     return arg_parser
 
 
-def get_retired_cuis():
-    retired_cuis = set()
+def get_retired_cui_records():
+    retired_cui_records = []
     with open('/home/ubuntu/kg2-build/umls/META/MRCUI.RRF', 'r') as retired_cui_file:
         for line in retired_cui_file:
-            cui = line.split('|')[0].strip()  # First column contains the retired CUI
+            row = line.split('|')
+            retired_cui_records.append(row)
+    return retired_cui_records
+
+
+def get_retired_cuis(retired_cui_records: list, map_type: str = ''):
+    retired_cuis = set()
+    for record in retired_cui_records:
+        cui = record[0]
+        if map_type == '':
+            retired_cuis.add(cui)
+        elif map_type == record[2]:
             retired_cuis.add(cui)
     return retired_cuis
 
@@ -52,9 +63,9 @@ def get_cui(curie_id: str):
     return cui
 
 
-def count_edges_referencing_retired_cui_node(edges: list, retired_cuis: list):
-    return len([edge for edge in edges if (is_cui_node(edge['subject']) and get_cui(edge['subject']) in retired_cuis)
-                                        or (is_cui_node(edge['object']) and get_cui(edge['object']) in retired_cuis)])
+def count_edges_with_cui_in_set(edges: list, cuis: set):
+    return len([edge for edge in edges if (is_cui_node(edge['subject']) and get_cui(edge['subject']) in cuis)
+                                        or (is_cui_node(edge['object']) and get_cui(edge['object']) in cuis)])
 
 
 if __name__ == '__main__':
@@ -71,10 +82,14 @@ if __name__ == '__main__':
         print("ERROR: Input JSON file doesn't have an 'edges' property!", file=sys.stderr)
     else:
         edges = graph['edges']
-        retired_cuis = get_retired_cuis()
+        retired_cui_records = get_retired_cui_records()
+        retired_cuis = get_retired_cuis(retired_cui_records, '')
+        retired_cuis_with_synonym = get_retired_cuis(retired_cui_records, 'SY')
+
         stats = {'_report_datetime': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                  '_total_number_of_edges': len(edges),  # underscore is to make sure it sorts to the top of the report
-                 'number_of_edges_referencing_retired_cui_node': count_edges_referencing_retired_cui_node(edges, retired_cuis)}
+                 'number_of_edges_with_retired_cui': count_edges_with_cui_in_set(edges, retired_cuis),
+                 'number_of_edges_with_retired_cui_with_synonym': count_edges_with_cui_in_set(edges, retired_cuis_with_synonym)}
 
         temp_output_file = tempfile.mkstemp(prefix='kg2-')[1]
         with open(temp_output_file, 'w') as outfile:
