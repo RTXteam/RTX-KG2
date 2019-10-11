@@ -32,7 +32,7 @@ def make_arg_parser():
     return arg_parser
 
 
-def get_retired_cui_nodes():
+def get_retired_cuis():
     retired_cuis = set()
     with open('/home/ubuntu/kg2-build/umls/META/MRCUI.RRF', 'r') as retired_cui_file:
         for line in retired_cui_file:
@@ -52,9 +52,9 @@ def get_cui(curie_id: str):
     return cui
 
 
-def count_edges_referencing_retired_cui_node(edges: list, retired_cui_nodes: list):
-    return len([edge for edge in edges if (is_cui_node(edge['subject']) and get_cui(edge['subject']) in retired_cui_nodes)
-                                        or (is_cui_node(edge['object']) and get_cui(edge['object']) in retired_cui_nodes)])
+def count_edges_referencing_retired_cui_node(edges: list, retired_cuis: list):
+    return len([edge for edge in edges if (is_cui_node(edge['subject']) and get_cui(edge['subject']) in retired_cuis)
+                                        or (is_cui_node(edge['object']) and get_cui(edge['object']) in retired_cuis)])
 
 
 if __name__ == '__main__':
@@ -71,10 +71,10 @@ if __name__ == '__main__':
         print("ERROR: Input JSON file doesn't have an 'edges' property!", file=sys.stderr)
     else:
         edges = graph['edges']
-        retired_cui_nodes = get_retired_cui_nodes()
+        retired_cuis = get_retired_cuis()
         stats = {'_report_datetime': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                  '_total_number_of_edges': len(edges),  # underscore is to make sure it sorts to the top of the report
-                 'number_of_edges_referencing_retired_cui_node': count_edges_referencing_retired_cui_node(edges, retired_cui_nodes)}
+                 'number_of_edges_referencing_retired_cui_node': count_edges_referencing_retired_cui_node(edges, retired_cuis)}
 
         temp_output_file = tempfile.mkstemp(prefix='kg2-')[1]
         with open(temp_output_file, 'w') as outfile:
