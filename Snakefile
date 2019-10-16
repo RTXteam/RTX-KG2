@@ -107,7 +107,7 @@ rule SemMed_Conversion:
     output:
         "kg2-build/kg2-semmeddb-edges.json"
     shell:
-        "kg2-venv/bin/python3 kg2-code/semmeddb_tuple_list_json_to_edges_json.py " + config['testdd'] + " --inputFile {input} --outputFile {output}"
+        "kg2-venv/bin/python3 kg2-code/semmeddb_tuple_list_json_to_kg_json.py " + config['testdd'] + " --inputFile {input} --outputFile {output}"
 
 rule Uniprot_Conversion:
     input:

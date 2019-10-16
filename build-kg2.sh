@@ -139,10 +139,10 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/uniprotkb_dat_to_json.py \
 	   --inputFile ${UNIPROTKB_DAT_FILE} \
 	   --outputFile ${UNIPROTKB_OUTPUT_FILE} 
 
-echo "running semmeddb_tuple_list_json_to_edges_json.py"
+echo "running semmeddb_tuple_list_json_to_kg_json.py"
 
 ## Build SemMedDB KG2 edges file as JSON:
-${VENV_DIR}/bin/python3 -u ${CODE_DIR}/semmeddb_tuple_list_json_to_edges_json.py \
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/semmeddb_tuple_list_json_to_kg_json.py \
            ${TEST_ARG} \
            --inputFile ${SEMMED_TUPLELIST_FILE} \
            --outputFile ${SEMMED_OUTPUT_FILE}

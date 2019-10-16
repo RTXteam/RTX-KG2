@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-'''semmeddb_tuple_list_json_to_edges_json.py: extracts all the predicate triples from SemMedDB, in the RTX KG2 JSON format
+'''semmeddb_tuple_list_json_to_kg_json.py: extracts all the predicate triples from SemMedDB, in the RTX KG2 JSON format
 
-   Usage: semmeddb_tuple_list_json_to_edges_json.py --inputFile <inputFile.json> --outputFile <outputFile.json>
+   Usage: semmeddb_tuple_list_json_to_kg_json.py --inputFile <inputFile.json> --outputFile <outputFile.json>
 '''
 
 __author__ = 'Stephen Ramsey'
