@@ -72,11 +72,32 @@ def make_arg_parser():
     return arg_parser
 
 
+def get_remapped_cuis():
+    """
+    Creates a dictionary of retired CUIs and the current CUIs they map to in UMLS; currently only includes remappings
+    labeled as a 'synonym' (vs. 'broader', 'narrower', or 'other related').
+    """
+    remapped_cuis = dict()
+    with open('/home/ubuntu/kg2-build/umls/META/MRCUI.RRF', 'r') as retired_cui_file:
+        # Line format in MRCUI file: retired_cui|release|map_type|||remapped_cui|is_current|
+        for line in retired_cui_file:
+            row = line.split('|')
+            map_type = row[2]
+            is_current = row[6]
+            old_cui = row[0]
+            new_cui = row[5]
+            # Only include the remapping if it's a 'synonym' (and is current)
+            if map_type == 'SY' and is_current == 'Y' and new_cui != '':
+                remapped_cuis[old_cui] = new_cui
+    return remapped_cuis
+
+
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
     input_file_name = args.inputFile[0]
     output_file_name = args.outputFile[0]
     test_mode = args.test
+    remapped_cuis = get_remapped_cuis()
     input_data = json.load(open(input_file_name, 'r'))
     edges_dict = dict()
     nodes_dict = dict()
@@ -90,12 +111,14 @@ if __name__ == '__main__':
             break
         subject_cui_split = subject_cui_str.split("|")
         subject_cui = subject_cui_split[0]
+        subject_cui = remapped_cuis.get(subject_cui, subject_cui)  # Use remapped CUI if one exists
         if len(subject_cui_split) > 1:
             subject_entrez_id = subject_cui_split[1]
         else:
             subject_entrez_id = None
         object_cui_split = object_cui_str.split("|")
         object_cui = object_cui_split[0]
+        object_cui = remapped_cuis.get(object_cui, object_cui)  # Use remapped CUI if one exists
         if len(object_cui_split) > 1:
             object_entrez_id = object_cui_split[1]
         else:
