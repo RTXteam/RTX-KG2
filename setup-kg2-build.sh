@@ -34,7 +34,6 @@ sudo apt-get install -y python3-minimal \
      python3-pip \
      python-dev \
      default-jre \
-     awscli \
      zip \
      curl \
      wget \

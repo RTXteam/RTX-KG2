@@ -1,4 +1,5 @@
 argh==0.26.2
+awscli==1.16.261
 cachier==1.2.5
 certifi==2019.3.9
 chardet==3.0.4
