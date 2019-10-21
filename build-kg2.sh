@@ -247,6 +247,7 @@ echo "filter the JSON KG and remap predicates"
 ## Filter the JSON KG and remap predicates:
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/filter_kg_and_remap_predicates.py \
+           --dropNegated \
            ${PREDICATE_MAPPING_FILE} \
            ${CURIES_TO_URLS_FILE} \
            ${FINAL_OUTPUT_FILE_FULL} \
