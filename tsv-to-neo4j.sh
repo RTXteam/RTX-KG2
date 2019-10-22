@@ -79,6 +79,7 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/create_indexes_constraints.py --user ${US
 
 # wait for indexing to complete
 sleep 5m
+sudo service neo4j restart
 
 # change the database to read only
 sudo sed -i '/dbms.read_only/c\dbms.read_only=true' ${NEO4J_CONFIG}
