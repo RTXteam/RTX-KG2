@@ -63,7 +63,7 @@ def is_invalid_cui(curie_id: str):
     if is_cui_node(curie_id):
         cui = get_cui(curie_id)
         # CUIs are supposed to contain the letter 'C' followed by 7 numbers
-        return cui[0] != 'C' or len(cui) != 8
+        return cui[0] != 'C' or len(cui) != 8 or not cui[1:].isdigit()
     else:
         return False
 
