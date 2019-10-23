@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-'''Script for investigating usage of invalid/retired CUIs in knowledge graph edges.
+'''Script for investigating usage of invalid and retired CUIs in knowledge graph edges.
 
    Usage: report_problem_cuis_in_kg_edges.py --inputFile <inputKGFile.json> --outputFile <outputFile.json>
    The input file can be optionally gzipped (specify with the .gz extension).
@@ -63,7 +63,7 @@ def is_invalid_cui(curie_id: str):
     if is_cui_node(curie_id):
         cui = get_cui(curie_id)
         # CUIs are supposed to contain the letter 'C' followed by 7 numbers
-        return cui[0] != 'C' or len(cui) != 8 or not cui[1:].isdigit()
+        return len(cui) != 8 or not cui.startswith('C') or not cui[1:].isdigit()
     else:
         return False
 
