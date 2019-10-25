@@ -47,9 +47,9 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
         else:
             phase = "unknown_phase"
         relation = "clinically_tested_" + status + "_" + phase
-        edge_dict = make_edge(subject_id = DRUGBANK_CURIE + df['drug_id'][idx],
+        edge_dict = kg2_util.make_edge(subject_id = DRUGBANK_CURIE + df['drug_id'][idx],
               object_id = UMLS_CURIE + df['ind_id'][idx],
-              relation = REPODB_IRI + '/#' + kg2_util.convert_snake_case_to_camel_case(),
+              relation = REPODB_IRI + '/#' + kg2_util.convert_snake_case_to_camel_case(relation),
               relation_curie = REPODB_CURIE + relation,
               predicate_label = relation,
               provided_by = REPODB_IRI,
