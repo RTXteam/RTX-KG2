@@ -1,19 +1,14 @@
 #!/usr/bin/env python3
 
-'''Counts edges that reference a retired CUI node in a JSON knowledge graph in Biolink format; prints report to STDOUT.
+'''Script for investigating usage of invalid and retired CUIs in knowledge graph edges.
 
-   Usage: report_retired_cuis_in_json_kg_edges.py --inputFile <inputKGFile.json> --outputFile <outputFile.json>
+   Usage: report_problem_cuis_in_kg_edges.py --inputFile <inputKGFile.json> --outputFile <outputFile.json>
    The input file can be optionally gzipped (specify with the .gz extension).
 '''
 
 __author__ = 'Amy Glen'
 __copyright__ = 'Oregon State University'
 __credits__ = ['Stephen Ramsey', 'Amy Glen']
-__license__ = 'MIT'
-__version__ = '0.1.0'
-__maintainer__ = ''
-__email__ = ''
-__status__ = 'Prototype'
 
 
 import argparse
@@ -32,24 +27,20 @@ def make_arg_parser():
     return arg_parser
 
 
-def get_retired_cui_records():
-    retired_cui_records = []
+def get_retired_cuis_by_type():
+    retired_cuis_by_type = dict()
+    retired_cuis_by_type['ALL'] = set()
     with open('/home/ubuntu/kg2-build/umls/META/MRCUI.RRF', 'r') as retired_cui_file:
+        # Line format in MRCUI file: retired_cui|release|map_type|||remapped_cui|is_current|
         for line in retired_cui_file:
             row = line.split('|')
-            retired_cui_records.append(row)
-    return retired_cui_records
-
-
-def get_retired_cuis(retired_cui_records: list, map_type: str = ''):
-    retired_cuis = set()
-    for record in retired_cui_records:
-        cui = record[0]
-        if map_type == '':
-            retired_cuis.add(cui)
-        elif map_type == record[2]:
-            retired_cuis.add(cui)
-    return retired_cuis
+            old_cui = row[0]
+            map_type = row[2]
+            retired_cuis_by_type['ALL'].add(old_cui)
+            if map_type not in retired_cuis_by_type:
+                retired_cuis_by_type[map_type] = set()
+            retired_cuis_by_type[map_type].add(old_cui)
+    return retired_cuis_by_type
 
 
 def is_cui_node(curie_id: str):
@@ -64,8 +55,21 @@ def get_cui(curie_id: str):
 
 
 def count_edges_with_cui_in_set(edges: list, cuis: set):
-    return len([edge for edge in edges if (is_cui_node(edge['subject']) and get_cui(edge['subject']) in cuis)
-                                        or (is_cui_node(edge['object']) and get_cui(edge['object']) in cuis)])
+    return sum(1 for edge in edges if (is_cui_node(edge['subject']) and get_cui(edge['subject']) in cuis)
+                                        or (is_cui_node(edge['object']) and get_cui(edge['object']) in cuis))
+
+
+def is_invalid_cui(curie_id: str):
+    if is_cui_node(curie_id):
+        cui = get_cui(curie_id)
+        # CUIs are supposed to contain the letter 'C' followed by 7 numbers
+        return len(cui) != 8 or not cui.startswith('C') or not cui[1:].isdigit()
+    else:
+        return False
+
+
+def count_edges_with_invalid_cui(edges: list):
+    return sum(1 for edge in edges if is_invalid_cui(edge['subject']) or is_invalid_cui(edge['object']))
 
 
 if __name__ == '__main__':
@@ -82,14 +86,13 @@ if __name__ == '__main__':
         print("ERROR: Input JSON file doesn't have an 'edges' property!", file=sys.stderr)
     else:
         edges = graph['edges']
-        retired_cui_records = get_retired_cui_records()
-        retired_cuis = get_retired_cuis(retired_cui_records, '')
-        retired_cuis_with_synonym = get_retired_cuis(retired_cui_records, 'SY')
+        retired_cuis_by_type = get_retired_cuis_by_type()
 
         stats = {'_report_datetime': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                  '_total_number_of_edges': len(edges),  # underscore is to make sure it sorts to the top of the report
-                 'number_of_edges_with_retired_cui': count_edges_with_cui_in_set(edges, retired_cuis),
-                 'number_of_edges_with_retired_cui_with_synonym': count_edges_with_cui_in_set(edges, retired_cuis_with_synonym)}
+                 'number_of_edges_with_retired_cui': count_edges_with_cui_in_set(edges, retired_cuis_by_type.get('ALL')),
+                 'number_of_edges_with_retired_cui_with_synonym': count_edges_with_cui_in_set(edges, retired_cuis_by_type.get('SY')),
+                 'number_of_edges_with_invalid_cui': count_edges_with_invalid_cui(edges)}
 
         temp_output_file = tempfile.mkstemp(prefix='kg2-')[1]
         with open(temp_output_file, 'w') as outfile:
