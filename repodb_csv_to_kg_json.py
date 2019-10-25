@@ -37,7 +37,15 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
     edges = []
     df = pd.read_csv(input_file_name)
     for idx in range(len(df)):
-        relation = "clinically_tested_" + df['status'][idx].lower() + "_" + df['phase'][idx].lower().replace(" ", "_")
+        if not df['status'][idx].isna():
+            status = df['status'][idx].lower()
+        else:
+            status = "unknown_status"
+        if not df['phase'][idx].isna():
+            phase = df['phase'][idx].lower().replace(" ", "_").replace("/","_or_")
+        else:
+            phase = "unknown_phase"
+        relation = "clinically_tested_" + status + "_" + phase
         edge_dict = make_edge(subject_id = DRUGBANK_CURIE + df['drug_id'][idx],
               object_id = UMLS_CURIE + df['ind_id'][idx],
               relation = REPODB_IRI + '/#' + kg2_util.convert_snake_case_to_camel_case(),
@@ -45,8 +53,9 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
               predicate_label = relation,
               provided_by = REPODB_IRI,
               update_date = None)
-        edge_dict['publications'].append(df['NCT'][idx])
-        edge_dict['publication_info'][df['NCT'][idx]] = CLINICALTRIALS_IRI + df['NCT'][idx]
+        if not df['NCT'][idx].isna():
+            edge_dict['publications'].append(df['NCT'][idx])
+            edge_dict['publication_info'][df['NCT'][idx]] = CLINICALTRIALS_IRI + df['NCT'][idx]
         edges.append(edge_dict)
     return {'nodes': nodes,
             'edges': edges}

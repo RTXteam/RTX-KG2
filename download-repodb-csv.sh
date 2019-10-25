@@ -4,7 +4,7 @@
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0 <output_tsv_dir>"
+    echo Usage: "$0 <output_csv_dir>"
     exit 2
 fi
 
