@@ -16,6 +16,7 @@ import argparse
 import kg2_util
 import pandas as pd
 import sys
+import json
 
 DRUGBANK_CURIE = "DRUGBANK:"
 UMLS_CURIE = "CUI:"
@@ -37,11 +38,11 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
     edges = []
     df = pd.read_csv(input_file_name)
     for idx in range(len(df)):
-        if not df['status'][idx].isna():
+        if not df['status'].isna()[idx]:
             status = df['status'][idx].lower()
         else:
             status = "unknown_status"
-        if not df['phase'][idx].isna():
+        if not df['phase'].isna()[idx]:
             phase = df['phase'][idx].lower().replace(" ", "_").replace("/","_or_")
         else:
             phase = "unknown_phase"
@@ -53,7 +54,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
               predicate_label = relation,
               provided_by = REPODB_IRI,
               update_date = None)
-        if not df['NCT'][idx].isna():
+        if not df['NCT'].isna()[idx]:
             edge_dict['publications'].append(df['NCT'][idx])
             edge_dict['publication_info'][df['NCT'][idx]] = CLINICALTRIALS_IRI + df['NCT'][idx]
         edges.append(edge_dict)
@@ -66,6 +67,9 @@ if __name__ == '__main__':
     output_file_name = args.outputFile[0]
     test_mode = args.test
     graph = make_kg2_graph(input_file_name, test_mode)
-    kg2_util.save_json(graph, output_file_name, test_mode)
+    if args.test:
+        print(json.dumps(graph, indent=2))
+    else:
+        kg2_util.save_json(graph, output_file_name, test_mode)
 
 
