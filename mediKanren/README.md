@@ -2,7 +2,12 @@
 
 ### Setup the enviroment
 
-To download and install everything you need to run kg2 into mediKanren simply run the `setup.sh` script.
+NOTE: This was tested on Ubuntu 18.04
+
+To download and install everything you need to run kg2 into mediKanren simply run the `setup.sh` script on a unpriveliged user with passwordless sudo enabled like so:
+```
+bash -x ./setup.sh > setup.log 2>&1
+```
 
 Alternatively, if you are just trying to run mediKanren and not download and process a new graph you just need to install racket (and git if you do not have it) then run `git clone https://github.com/webyrd/mediKanren.git` to clone the mediKanren repository.
 
