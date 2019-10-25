@@ -49,7 +49,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
         relation = "clinically_tested_" + status + "_" + phase
         edge_dict = kg2_util.make_edge(subject_id = DRUGBANK_CURIE + df['drug_id'][idx],
               object_id = UMLS_CURIE + df['ind_id'][idx],
-              relation = REPODB_IRI + '/#' + kg2_util.convert_snake_case_to_camel_case(relation),
+              relation = REPODB_IRI + '#' + kg2_util.convert_snake_case_to_camel_case(relation),
               relation_curie = REPODB_CURIE + relation,
               predicate_label = relation,
               provided_by = REPODB_IRI,
@@ -67,9 +67,6 @@ if __name__ == '__main__':
     output_file_name = args.outputFile[0]
     test_mode = args.test
     graph = make_kg2_graph(input_file_name, test_mode)
-    if args.test:
-        print(json.dumps(graph, indent=2))
-    else:
-        kg2_util.save_json(graph, output_file_name, test_mode)
+    kg2_util.save_json(graph, output_file_name, test_mode)
 
 
