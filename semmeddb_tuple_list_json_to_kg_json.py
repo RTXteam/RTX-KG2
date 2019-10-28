@@ -3,6 +3,7 @@
 
    Usage: semmeddb_tuple_list_json_to_kg_json.py --inputFile <inputFile.json> --outputFile <outputFile.json>
 '''
+import sys
 
 __author__ = 'Stephen Ramsey'
 __copyright__ = 'Oregon State University'
@@ -23,6 +24,32 @@ import re
 SEMMEDDB_IRI = 'https://skr3.nlm.nih.gov/SemMedDB'
 NEG_REGEX = re.compile('^NEG_', re.M)
 EDGE_LABELS_EXCLUDE_FOR_LOOPS = {'same_as', 'higher_than', 'lower_than', 'different_from', 'compared_with'}
+CUI_PREFIX = 'CUI:'
+NCBIGENE_PREFIX = 'NCBIGene:'
+XREF_EDGE_LABEL = 'xref'
+
+
+def get_remapped_cuis():
+    """
+    Creates a dictionary of retired CUIs and the current CUIs they map to in UMLS; currently only includes remappings
+    labeled as a 'synonym' (vs. 'broader', 'narrower', or 'other related').
+    """
+    remapped_cuis = dict()
+    with open('/home/ubuntu/kg2-build/umls/META/MRCUI.RRF', 'r') as retired_cui_file:
+        # Line format in MRCUI file: retired_cui|release|map_type|||remapped_cui|is_current|
+        for line in retired_cui_file:
+            row = line.split('|')
+            map_type = row[2]
+            is_current = row[6]
+            old_cui = row[0]
+            new_cui = row[5]
+            # Only include the remapping if it's a 'synonym' (and is current)
+            if map_type == 'SY' and is_current == 'Y' and new_cui != '':
+                remapped_cuis[old_cui] = new_cui
+    return remapped_cuis
+
+
+REMAPPED_CUIS = get_remapped_cuis()
 
 
 def make_rel(preds_dict: dict,
@@ -72,24 +99,80 @@ def make_arg_parser():
     return arg_parser
 
 
-def get_remapped_cuis():
+def get_cui_if_exists(field_ids: list):
     """
-    Creates a dictionary of retired CUIs and the current CUIs they map to in UMLS; currently only includes remappings
-    labeled as a 'synonym' (vs. 'broader', 'narrower', or 'other related').
+    Given a list of IDs present in a SemMedDB SUBJECT_CUI or OBJECT_CUI field, this function returns the CUI, if one
+    exists (sometimes only NCBIGene IDs are present).
     """
-    remapped_cuis = dict()
-    with open('/home/ubuntu/kg2-build/umls/META/MRCUI.RRF', 'r') as retired_cui_file:
-        # Line format in MRCUI file: retired_cui|release|map_type|||remapped_cui|is_current|
-        for line in retired_cui_file:
-            row = line.split('|')
-            map_type = row[2]
-            is_current = row[6]
-            old_cui = row[0]
-            new_cui = row[5]
-            # Only include the remapping if it's a 'synonym' (and is current)
-            if map_type == 'SY' and is_current == 'Y' and new_cui != '':
-                remapped_cuis[old_cui] = new_cui
-    return remapped_cuis
+    first_id = field_ids[0]
+    if first_id.upper().startswith('C'):
+        cui = REMAPPED_CUIS.get(first_id, first_id)  # Use remapped CUI if one exists
+        return cui
+    else:
+        return None
+
+
+def get_xref_rels(cui: str, ncbigene_ids: list):
+    """
+    This function creates 'xref' relationships between the input CUI and each input NCBIGene ID; it outputs a list of
+    subject-object-predicate tuples representing each such 'xref' edge.
+    """
+    xref_rels = []
+    for gene_id in ncbigene_ids:
+        xref_rels.append([CUI_PREFIX + cui, NCBIGENE_PREFIX + gene_id, XREF_EDGE_LABEL])
+    return xref_rels
+
+
+def get_rels_to_make_for_row(subject_str: str, object_str: str, predicate: str):
+    """
+    Because SemMedDB subject and object strings can contain multiple IDs (namely, an optional CUI followed by 0 or
+    more NCBIGene IDs), this function determines what edges will need to be created from a given SemMedDB row and
+    outputs a list of tuples containing the subject, object, and predicate for each such edge.
+    (Examples of subject/object CUI strings from SemMedDB: 'C0796614', 'C0796614|931', '6520', '3429|5715|10534'.)
+    """
+    subject_split = subject_str.split("|")
+    object_split = object_str.split("|")
+    subject_cui = get_cui_if_exists(subject_split)
+    object_cui = get_cui_if_exists(object_split)
+    num_subject_ids = len(subject_split)
+    num_object_ids = len(object_split)
+
+    rels_to_make = []
+    if subject_cui and object_cui:
+        # Connect the two CUIs
+        rels_to_make.append((CUI_PREFIX + subject_cui, CUI_PREFIX + object_cui, predicate))
+        # Create xrefs within each side as needed (from the CUI to any NCBIGenes on the same side)
+        if num_subject_ids > 1:
+            rels_to_make += get_xref_rels(subject_cui, subject_split[1:])
+        if num_object_ids > 1:
+            rels_to_make += get_xref_rels(object_cui, object_split[1:])
+    elif subject_cui:
+        # Connect the subject CUI to each NCBIGene on the object side
+        for gene_id in object_split:
+            rels_to_make.append((CUI_PREFIX + subject_cui, NCBIGENE_PREFIX + gene_id, predicate))
+        # Create xrefs within subject side as needed (from CUI to NCBIGenes)
+        if num_subject_ids > 1:
+            rels_to_make += get_xref_rels(subject_cui, subject_split[1:])
+    elif object_cui:
+        # Connect each NCBIGene in the subject to the object CUI
+        for gene_id in subject_split:
+            rels_to_make.append((NCBIGENE_PREFIX + gene_id, CUI_PREFIX + object_cui, predicate))
+        # Create xrefs within object side as needed (from CUI to NCBIGenes)
+        if num_object_ids > 1:
+            rels_to_make += get_xref_rels(object_cui, object_split[1:])
+    elif num_subject_ids == 1:
+        # Connect the subject NCBIGene to each NCBIGene on the object side
+        for object_gene_id in object_split:
+            rels_to_make.append((NCBIGENE_PREFIX + subject_split[0], NCBIGENE_PREFIX + object_gene_id, predicate))
+    elif num_object_ids == 1:
+        # Connect each NCBIGene on the subject side to the object NCBIGene
+        for subject_gene_id in subject_split:
+            rels_to_make.append((NCBIGENE_PREFIX + subject_gene_id, NCBIGENE_PREFIX + object_split[0], predicate))
+    else:
+        print('WARNING: Skipping SemMedDB row because BOTH subject and object have multiple NCBIGene IDs and no CUI.',
+              file=sys.stderr)
+
+    return rels_to_make
 
 
 if __name__ == '__main__':
@@ -97,7 +180,6 @@ if __name__ == '__main__':
     input_file_name = args.inputFile[0]
     output_file_name = args.outputFile[0]
     test_mode = args.test
-    remapped_cuis = get_remapped_cuis()
     input_data = json.load(open(input_file_name, 'r'))
     edges_dict = dict()
     nodes_dict = dict()
@@ -109,35 +191,22 @@ if __name__ == '__main__':
             print("Have processed " + str(row_ctr) + " rows out of " + str(len(input_data['rows'])) + " rows")
         if test_mode and row_ctr > 10000:
             break
-        subject_cui_split = subject_cui_str.split("|")
-        subject_cui = subject_cui_split[0]
-        subject_cui = remapped_cuis.get(subject_cui, subject_cui)  # Use remapped CUI if one exists
-        if len(subject_cui_split) > 1:
-            subject_entrez_id = subject_cui_split[1]
-        else:
-            subject_entrez_id = None
-        object_cui_split = object_cui_str.split("|")
-        object_cui = object_cui_split[0]
-        object_cui = remapped_cuis.get(object_cui, object_cui)  # Use remapped CUI if one exists
-        if len(object_cui_split) > 1:
-            object_entrez_id = object_cui_split[1]
-        else:
-            object_entrez_id = None
         if NEG_REGEX.match(predicate):
             negated = True
             predicate = NEG_REGEX.sub('', predicate, 1)
         else:
             negated = False
-        if subject_cui == object_cui and predicate.lower() in EDGE_LABELS_EXCLUDE_FOR_LOOPS:
-            continue
-        make_rel(edges_dict, 'CUI:' + subject_cui, 'CUI:' + object_cui, predicate, pmid,
-                 pub_date, sentence, subject_score, object_score, negated)
-        if subject_entrez_id is not None:
-            make_rel(edges_dict, 'NCBIGene:' + subject_entrez_id, 'CUI:' + object_cui,
-                     predicate, pmid, pub_date, sentence, subject_score, object_score, negated)
-        if object_entrez_id is not None:
-            make_rel(edges_dict, 'CUI:' + subject_cui, 'NCBIGene:' + object_entrez_id,
-                     predicate, pmid, pub_date, sentence, subject_score, object_score, negated)
+
+        # Create the new edge(s) based on this SemMedDB row
+        for rel_to_make in get_rels_to_make_for_row(subject_cui_str, object_cui_str, predicate):
+            subject_curie = rel_to_make[0]
+            object_curie = rel_to_make[1]
+            edge_label = rel_to_make[2]
+            # Exclude self-edges for certain types of predicates
+            if subject_curie != object_curie or edge_label.lower() not in EDGE_LABELS_EXCLUDE_FOR_LOOPS:
+                make_rel(edges_dict, subject_curie, object_curie, edge_label, pmid, pub_date, sentence,
+                         subject_score, object_score, negated)
+
         if predicate not in nodes_dict:
             relation_iri = kg2_util.convert_snake_case_to_camel_case(predicate.lower().replace(' ','_'))
             relation_iri = SEMMEDDB_IRI + '#' + relation_iri
