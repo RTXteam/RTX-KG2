@@ -19,6 +19,7 @@ import kg2_util
 import re
 
 UNIPROTKB_BASE_IRI = 'https://www.uniprot.org'
+UNIPROTKB_IDENTIFIER_BASE_IRI = 'http://identifiers.org/uniprot'
 RE_ORGANISM_TAXID = re.compile('NCBI_TaxID=(\d+)')
 FIELD_CODES_USE_STRING = ['ID', 'SQ', 'RA', 'RX', 'RT', 'KW', 'CC', 'GN']
 FIELD_CODES_DO_NOT_STRIP_NEWLINE = ['SQ']
@@ -215,7 +216,7 @@ def make_nodes(records: list):
             else:
                 name = full_name
         node_curie = 'UniProtKB:' + accession
-        iri = UNIPROTKB_BASE_IRI + '/' + accession
+        iri = UNIPROTKB_IDENTIFIER_BASE_IRI + '/' + accession
         category_label = 'protein'
         node_dict = kg2_util.make_node(node_curie,
                                        iri,
