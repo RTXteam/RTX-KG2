@@ -108,4 +108,6 @@
   REPODB: http://apps.chiragjpgroup.org/repoDB#
 -
   clinicaltrials: http://clinicaltrials.gov/ct2/show/
+-
+  oboInOwl: http://www.geneontology.org/formats/oboInOwl#
 
