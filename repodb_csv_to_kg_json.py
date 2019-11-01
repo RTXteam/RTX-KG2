@@ -23,6 +23,7 @@ UMLS_CURIE = "CUI:"
 CLINICALTRIALS_IRI = "https://clinicaltrials.gov/ct2/show/"
 REPODB_IRI = "http://apps.chiragjpgroup.org/repoDB/"
 REPODB_CURIE = "REPODB:"
+NCT_CUTRIE = "clinicaltrials:"
 
 
 def get_args():
@@ -55,8 +56,8 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
               provided_by = REPODB_IRI,
               update_date = None)
         if not df['NCT'].isna()[idx]:
-            edge_dict['publications'].append(df['NCT'][idx])
-            edge_dict['publications info'][df['NCT'][idx]] = CLINICALTRIALS_IRI + df['NCT'][idx]
+            edge_dict['publications'].append(NCT_CUTRIE + df['NCT'][idx])
+            edge_dict['publications info'][NCT_CUTRIE + df['NCT'][idx]] = CLINICALTRIALS_IRI + df['NCT'][idx]
         edges.append(edge_dict)
     return {'nodes': nodes,
             'edges': edges}
