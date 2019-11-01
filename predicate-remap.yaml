@@ -124,6 +124,8 @@ CHEMBL:equivalent_to:
   rename: [equivalent_to, 'owl:equivalentClass']
 CHEMBL:has_role:
   rename: [has_role, 'RO:0000087']
+CHEMBL:has_indication:
+  rename: [is_substance_that_treats, 'RO:0002606']
 CHEMBL:has_sequence:
   rename: [has_biological_sequence, 'Biolink:has_biological_sequence']
 CHEMBL:hydrolytic_enzyme: {keep: null}
