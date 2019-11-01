@@ -2020,31 +2020,41 @@ owl:type:
   rename: [subclass_of, 'Biolink:subclass_of']
 rdfs:subClassOf:
   rename: [subclass_of, 'Biolink:subclass_of']
-REPODB:clinically_tested_withdrawn_unknown_phase: {keep: null}
-REPODB:clinically_tested_withdrawn_phase_0: {keep: null}
-REPODB:clinically_tested_withdrawn_phase_1: {keep: null}
-REPODB:clinically_tested_withdrawn_phase_2: {keep: null}
-REPODB:clinically_tested_withdrawn_phase_3: {keep: null}
-REPODB:clinically_tested_withdrawn_phase_1_or_phase_2: {keep: null}
-REPODB:clinically_tested_withdrawn_phase_2_or_phase_3: {keep: null}
-REPODB:clinically_tested_terminated_unknown_phase: {keep: null}
-REPODB:clinically_tested_terminated_phase_0: {keep: null}
-REPODB:clinically_tested_terminated_phase_1: {keep: null}
-REPODB:clinically_tested_terminated_phase_2: {keep: null}
-REPODB:clinically_tested_terminated_phase_3: {keep: null}
-REPODB:clinically_tested_terminated_phase_1_or_phase_2: {keep: null}
-REPODB:clinically_tested_terminated_phase_2_or_phase_3: {keep: null}
-REPODB:clinically_tested_approved_unknown_phase: {keep: null}
-REPODB:clinically_tested_approved_phase_0: {keep: null}
-REPODB:clinically_tested_approved_phase_1: {keep: null}
-REPODB:clinically_tested_approved_phase_2: {keep: null}
-REPODB:clinically_tested_approved_phase_3: {keep: null}
-REPODB:clinically_tested_approved_phase_1_or_phase_2: {keep: null}
-REPODB:clinically_tested_approved_phase_2_or_phase_3: {keep: null}
-REPODB:clinically_tested_suspended_unknown_phase: {keep: null}
-REPODB:clinically_tested_suspended_phase_0: {keep: null}
-REPODB:clinically_tested_suspended_phase_1: {keep: null}
-REPODB:clinically_tested_suspended_phase_2: {keep: null}
-REPODB:clinically_tested_suspended_phase_3: {keep: null}
-REPODB:clinically_tested_suspended_phase_1_or_phase_2: {keep: null}
-REPODB:clinically_tested_suspended_phase_2_or_phase_3: {keep: null}
+REPODB:clinically_tested_withdrawn_phase_0:
+  rename: [intent_to_treat, 'NCIT:C54398']
+REPODB:clinically_tested_withdrawn_phase_1:
+  rename: [intent_to_treat, 'NCIT:C54398']
+REPODB:clinically_tested_withdrawn_phase_2:
+  rename: [intent_to_treat, 'NCIT:C54398']
+REPODB:clinically_tested_withdrawn_phase_3:
+  rename: [intent_to_treat, 'NCIT:C54398']
+REPODB:clinically_tested_withdrawn_phase_1_or_phase_2:
+  rename: [intent_to_treat, 'NCIT:C54398']
+REPODB:clinically_tested_withdrawn_phase_2_or_phase_3:
+  rename: [intent_to_treat, 'NCIT:C54398']
+REPODB:clinically_tested_terminated_phase_0:
+  rename: [intent_to_treat, 'NCIT:C54398']
+REPODB:clinically_tested_terminated_phase_1:
+  rename: [intent_to_treat, 'NCIT:C54398']
+REPODB:clinically_tested_terminated_phase_2:
+  rename: [intent_to_treat, 'NCIT:C54398']
+REPODB:clinically_tested_terminated_phase_3:
+  rename: [intent_to_treat, 'NCIT:C54398']
+REPODB:clinically_tested_terminated_phase_1_or_phase_2:
+  rename: [intent_to_treat, 'NCIT:C54398']
+REPODB:clinically_tested_terminated_phase_2_or_phase_3:
+  rename: [intent_to_treat, 'NCIT:C54398']
+REPODB:clinically_tested_approved_unknown_phase:
+  rename: [is_substance_that_treats, 'RO:0002606']
+REPODB:clinically_tested_suspended_phase_0:
+  rename: [intent_to_treat, 'NCIT:C54398']
+REPODB:clinically_tested_suspended_phase_1:
+  rename: [intent_to_treat, 'NCIT:C54398']
+REPODB:clinically_tested_suspended_phase_2:
+  rename: [intent_to_treat, 'NCIT:C54398']
+REPODB:clinically_tested_suspended_phase_3:
+  rename: [intent_to_treat, 'NCIT:C54398']
+REPODB:clinically_tested_suspended_phase_1_or_phase_2:
+  rename: [intent_to_treat, 'NCIT:C54398']
+REPODB:clinically_tested_suspended_phase_2_or_phase_3:
+  rename: [intent_to_treat, 'NCIT:C54398']
