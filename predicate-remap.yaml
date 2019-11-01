@@ -1160,6 +1160,8 @@ OBO:intersection_of:
   rename: [subclass_of, 'Biolink:subclass_of']
 OBO:subdivision_of:
   rename: [subdivision_of, 'UBERON:subdivision_of']
+OBO:xref:
+  rename: [close_match, 'skos:closeMatch']
 OMIM:allelic_variant_of:
   rename: [variant_of, 'Biolink:variant_to_thing_association']
 OMIM:has_allelic_variant: {delete: null}
