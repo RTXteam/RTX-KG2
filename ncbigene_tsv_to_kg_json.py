@@ -17,7 +17,7 @@ import argparse
 import kg2_util
 
 
-NCBI_BASE_IRI = 'http://www.ncbi.nlm.nih.gov/gene'
+NCBI_BASE_IRI = 'https://www.ncbi.nlm.nih.gov/gene'
 
 
 def get_args():
