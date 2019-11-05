@@ -21,8 +21,7 @@ BFO:0000167:
   invert: [participates_in, 'RO:0000056']
 Biolink:activator:
   rename: [activates, 'RO:0002450']
-Biolink:affects:
-  rename: [affects, 'Biolink:affects']
+Biolink:affects: {keep: null}
 Biolink:agonist:
   rename: [agonist, 'CHEMBL:agonist']
 Biolink:allosteric_modulator:
@@ -69,8 +68,7 @@ Biolink:encodes:
   rename: [has_gene_product, 'Biolink:has_gene_product']
 Biolink:equivalentClass:
   rename: [equivalent_to, 'owl:equivalentClass']
-Biolink:expressed_in:
-  rename: [expressed_in, 'Biolink:expressed_in']
+Biolink:expressed_in: {keep: null}
 Biolink:functionally_related_to:
   rename: [functionally_related_to, 'RO:0002328']
 Biolink:gating_inhibitor:
@@ -87,8 +85,7 @@ Biolink:has_completed:
   rename: [has_completed, 'CL:has_completed']
 Biolink:has_part:
   invert: [part_of, 'BFO:0000050']
-Biolink:has_phenotype:
-  rename: [has_phenotype, 'Biolink:has_phenotype']
+Biolink:has_phenotype: {keep: null}
 Biolink:has_plasma_membrane_part:
   rename: [has_plasma_membrane_part, 'RO:0002104']
 Biolink:indicated_for:
@@ -129,8 +126,7 @@ Biolink:site_of:
   rename: [site_of, 'UBERON:site_of']
 Biolink:stimulator:
   rename: [activates, 'RO:0002450']
-Biolink:subclass_of:
-  rename: [subclass_of, 'Biolink:subclass_of']
+Biolink:subclass_of: {keep: null}
 Biolink:subClassOf:
   rename: [subclass_of, 'Biolink:subclass_of']
 Biolink:targets:
