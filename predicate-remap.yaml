@@ -129,6 +129,8 @@ Biolink:site_of:
   rename: [site_of, 'UBERON:site_of']
 Biolink:stimulator:
   rename: [activates, 'RO:0002450']
+Biolink:subclass_of:
+  rename: [subclass_of, 'Biolink:subclass_of']
 Biolink:subClassOf:
   rename: [subclass_of, 'Biolink:subclass_of']
 Biolink:targets:
