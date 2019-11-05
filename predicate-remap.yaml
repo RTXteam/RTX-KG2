@@ -19,15 +19,15 @@ BFO:0000117:
   invert: [part_of, 'BFO:0000050']
 BFO:0000167:
   invert: [participates_in, 'RO:0000056']
-BioLink:encodes:
+Biolink:encodes:
   rename: [has_gene_product, 'Biolink:has_gene_product']
-BioLink:physically_interacts_with:
+Biolink:physically_interacts_with:
   rename: [directly_interacts_with, 'Biolink:physically_interacts_with']
-BioLink:regulates_activity_of:
+Biolink:regulates_activity_of:
   rename: [regulates, 'RO:0002211']
-BioLink:regulates_expression_of:
+Biolink:regulates_expression_of:
   rename: [regulates_levels_of, 'RO:0002332']
-BioLink:targets:
+Biolink:targets:
   rename: [molecularly_interacts_with, 'RO:0002436']
 BSPO:0000096:
   rename: [anterior_to, 'FMA:anterior_to']
