@@ -19,16 +19,122 @@ BFO:0000117:
   invert: [part_of, 'BFO:0000050']
 BFO:0000167:
   invert: [participates_in, 'RO:0000056']
+Biolink:activator:
+  rename: [activates, 'RO:0002450']
+Biolink:affects:
+  rename: [affects, 'Biolink:affects']
+Biolink:agonist:
+  rename: [agonist, 'CHEMBL:agonist']
+Biolink:allosteric_modulator:
+  rename: [regulates, 'RO:0002211']
+Biolink:antagonist:
+  rename: [antagonist, 'CHEMBL:antagonist']
+Biolink:antibody:
+  rename: [molecularly_interacts_with, 'RO:0002436']
+Biolink:antisense:
+  rename: [antisense, 'RTX:antisense']
+Biolink:antisense_oligonucleotide:
+  rename: [antisense, 'RTX:antisense']
+Biolink:associated_with_disease:
+  rename: [correlated_with_condition, 'RO:0003308']
+Biolink:binder:
+  rename: [directly_interacts_with, 'Biolink:physically_interacts_with']
+Biolink:blocker:
+  rename: [inhibits, 'RO:0002408']
+Biolink:capable_of:
+  rename: [capable_of, 'RO:0002215']
+Biolink:capable_of_part_of:
+  rename: [capable_of_part_of, 'RO:0002216']
+Biolink:causes_or_contributes_to:
+  rename: [causes_or_contributes_to, 'RO:0003302']
+Biolink:channel_blocker:
+  rename: [inhibits, 'RO:0002408']
+Biolink:cofactor:
+  rename: [activates, 'RO:0002450']
+Biolink:composed_primarily_of:
+  rename: [composed_primarily_of, 'RO:0002473']
+Biolink:contains_process:
+  invert: [part_of, 'BFO:0000050']
+Biolink:contraindicated_for:
+  rename: [contraindicated_with, 'NCIT:C37933']
+Biolink:disease_caused_by_disruption_of:
+  invert: [causes_or_contributes_to, 'RO:0003302']
+Biolink:disease_causes_disruption_of:
+  rename: [disease_causes_disruption_of, 'RO:0004024']
+Biolink:disease_has_basis_in_dysfunction_of:
+  rename: [disease_has_basis_in_dysfunction_of, 'RO:0004020']
+Biolink:disease_has_location:
+  rename: [disease_has_location, 'RO:0004026']
 Biolink:encodes:
   rename: [has_gene_product, 'Biolink:has_gene_product']
+Biolink:equivalentClass:
+  rename: [equivalent_to, 'owl:equivalentClass']
+Biolink:expressed_in:
+  rename: [expressed_in, 'Biolink:expressed_in']
+Biolink:functionally_related_to:
+  rename: [functionally_related_to, 'RO:0002328']
+Biolink:gating_inhibitor:
+  rename: [inhibits, 'RO:0002408']
+Biolink:gene_associated_with_condition:
+  rename: [associated_with, 'Biolink:gene_associated_with_condition']
+Biolink:gene_found_in_organism:
+  rename: [in_taxon, 'Biolink:in_taxon']
+Biolink:gene_mutations_contribute_to:
+  rename: [is_causal_susceptibility_factor_for, 'RO:0004015']
+Biolink:gene_product_has_organism_source:
+  rename: [in_taxon, 'Biolink:in_taxon']
+Biolink:has_completed:
+  rename: [has_completed, 'CL:has_completed']
+Biolink:has_part:
+  invert: [part_of, 'BFO:0000050']
+Biolink:has_phenotype:
+  rename: [has_phenotype, 'Biolink:has_phenotype']
+Biolink:has_plasma_membrane_part:
+  rename: [has_plasma_membrane_part, 'RO:0002104']
+Biolink:indicated_for:
+  rename: [is_substance_that_treats, 'RO:0002606']
+Biolink:inducer:
+  rename: [positively_regulates, 'Biolink:positively_regulates']
+Biolink:inhibitor:
+  rename: [inhibits, 'RO:0002449']
+Biolink:inverse_agonist:
+  rename: [inverse_agonist, 'CHEMBL:inverse_agonist']
+Biolink:involved_in:
+  rename: [involved_in, 'RO:0002331']
+Biolink:lacks_part:
+  rename: [lacks_part, 'CL:lacks_part']
+Biolink:modulator:
+  rename: [regulates, 'RO:0002211']
+Biolink:negative_modulator:
+  rename: [negatively_regulates, 'Biolink:negatively_regulates']
+Biolink:output_of:
+  invert: [has_output, 'RO:0002234']
+Biolink:partial_agonist:
+  rename: [activates, 'RO:0002450']
+Biolink:participates_in:
+  rename: [participates_in, 'RO:0000056']
 Biolink:physically_interacts_with:
   rename: [directly_interacts_with, 'Biolink:physically_interacts_with']
+Biolink:positive_allosteric_modulator:
+  rename: [positively_regulates, 'Biolink:positively_regulates']
+Biolink:realized_in_response_to:
+  rename: [realized_in_response_to, 'RO:0009501']
+Biolink:realized_in_response_to_stimulus:
+  rename: [realized_in_response_to_stimulus, 'RO:0004028']
 Biolink:regulates_activity_of:
   rename: [regulates, 'RO:0002211']
 Biolink:regulates_expression_of:
   rename: [regulates_levels_of, 'RO:0002332']
+Biolink:site_of:
+  rename: [site_of, 'UBERON:site_of']
+Biolink:stimulator:
+  rename: [activates, 'RO:0002450']
+Biolink:subClassOf:
+  rename: [subclass_of, 'Biolink:subclass_of']
 Biolink:targets:
   rename: [molecularly_interacts_with, 'RO:0002436']
+Biolink:vaccine:
+  rename: [inhibits, 'RO:0002408']
 BSPO:0000096:
   rename: [anterior_to, 'FMA:anterior_to']
 BSPO:0000097:
@@ -1401,122 +1507,6 @@ RO:has_participant:
   invert: [participates_in, 'RO:0000056']
 RO:participates_in:
   rename: [participates_in, 'RO:0000056']
-RTXKG1:activator:
-  rename: [activates, 'RO:0002450']
-RTXKG1:affects:
-  rename: [affects, 'Biolink:affects']
-RTXKG1:agonist:
-  rename: [agonist, 'CHEMBL:agonist']
-RTXKG1:allosteric_modulator:
-  rename: [regulates, 'RO:0002211']
-RTXKG1:antagonist:
-  rename: [antagonist, 'CHEMBL:antagonist']
-RTXKG1:antibody:
-  rename: [molecularly_interacts_with, 'RO:0002436']
-RTXKG1:antisense:
-  rename: [antisense, 'RTX:antisense']
-RTXKG1:antisense_oligonucleotide:
-  rename: [antisense, 'RTX:antisense']
-RTXKG1:associated_with_disease:
-  rename: [correlated_with_condition, 'RO:0003308']
-RTXKG1:binder:
-  rename: [directly_interacts_with, 'Biolink:physically_interacts_with']
-RTXKG1:blocker:
-  rename: [inhibits, 'RO:0002408']
-RTXKG1:capable_of:
-  rename: [capable_of, 'RO:0002215']
-RTXKG1:capable_of_part_of:
-  rename: [capable_of_part_of, 'RO:0002216']
-RTXKG1:causes_or_contributes_to:
-  rename: [causes_or_contributes_to, 'RO:0003302']
-RTXKG1:channel_blocker:
-  rename: [inhibits, 'RO:0002408']
-RTXKG1:cofactor:
-  rename: [activates, 'RO:0002450']
-RTXKG1:composed_primarily_of:
-  rename: [composed_primarily_of, 'RO:0002473']
-RTXKG1:contains_process:
-  invert: [part_of, 'BFO:0000050']
-RTXKG1:contraindicated_for:
-  rename: [contraindicated_with, 'NCIT:C37933']
-RTXKG1:disease_caused_by_disruption_of:
-  invert: [causes_or_contributes_to, 'RO:0003302']
-RTXKG1:disease_causes_disruption_of:
-  rename: [disease_causes_disruption_of, 'RO:0004024']
-RTXKG1:disease_has_basis_in_dysfunction_of:
-  rename: [disease_has_basis_in_dysfunction_of, 'RO:0004020']
-RTXKG1:disease_has_location:
-  rename: [disease_has_location, 'RO:0004026']
-RTXKG1:encodes:
-  rename: [has_gene_product, 'Biolink:has_gene_product']
-RTXKG1:equivalentClass:
-  rename: [equivalent_to, 'owl:equivalentClass']
-RTXKG1:expressed_in:
-  rename: [expressed_in, 'Biolink:expressed_in']
-RTXKG1:functionally_related_to:
-  rename: [functionally_related_to, 'RO:0002328']
-RTXKG1:gating_inhibitor:
-  rename: [inhibits, 'RO:0002408']
-RTXKG1:gene_associated_with_condition:
-  rename: [associated_with, 'Biolink:gene_associated_with_condition']
-RTXKG1:gene_found_in_organism:
-  rename: [in_taxon, 'Biolink:in_taxon']
-RTXKG1:gene_mutations_contribute_to:
-  rename: [is_causal_susceptibility_factor_for, 'RO:0004015']
-RTXKG1:gene_product_has_organism_source:
-  rename: [in_taxon, 'Biolink:in_taxon']
-RTXKG1:has_completed:
-  rename: [has_completed, 'CL:has_completed']
-RTXKG1:has_part:
-  invert: [part_of, 'BFO:0000050']
-RTXKG1:has_phenotype:
-  rename: [has_phenotype, 'Biolink:has_phenotype']
-RTXKG1:has_plasma_membrane_part:
-  rename: [has_plasma_membrane_part, 'RO:0002104']
-RTXKG1:indicated_for:
-  rename: [is_substance_that_treats, 'RO:0002606']
-RTXKG1:inducer:
-  rename: [positively_regulates, 'Biolink:positively_regulates']
-RTXKG1:inhibitor:
-  rename: [inhibits, 'RO:0002449']
-RTXKG1:inverse_agonist:
-  rename: [inverse_agonist, 'CHEMBL:inverse_agonist']
-RTXKG1:involved_in:
-  rename: [involved_in, 'RO:0002331']
-RTXKG1:lacks_part:
-  rename: [lacks_part, 'CL:lacks_part']
-RTXKG1:modulator:
-  rename: [regulates, 'RO:0002211']
-RTXKG1:negative_modulator:
-  rename: [negatively_regulates, 'Biolink:negatively_regulates']
-RTXKG1:output_of:
-  invert: [has_output, 'RO:0002234']
-RTXKG1:partial_agonist:
-  rename: [activates, 'RO:0002450']
-RTXKG1:participates_in:
-  rename: [participates_in, 'RO:0000056']
-RTXKG1:physically_interacts_with:
-  rename: [directly_interacts_with, 'Biolink:physically_interacts_with']
-RTXKG1:positive_allosteric_modulator:
-  rename: [positively_regulates, 'Biolink:positively_regulates']
-RTXKG1:realized_in_response_to:
-  rename: [realized_in_response_to, 'RO:0009501']
-RTXKG1:realized_in_response_to_stimulus:
-  rename: [realized_in_response_to_stimulus, 'RO:0004028']
-RTXKG1:regulates_activity_of:
-  rename: [regulates, 'RO:0002211']
-RTXKG1:regulates_expression_of:
-  rename: [regulates_levels_of, 'RO:0002332']
-RTXKG1:site_of:
-  rename: [site_of, 'UBERON:site_of']
-RTXKG1:stimulator:
-  rename: [activates, 'RO:0002450']
-RTXKG1:subClassOf:
-  rename: [subclass_of, 'Biolink:subclass_of']
-RTXKG1:targets:
-  rename: [molecularly_interacts_with, 'RO:0002436']
-RTXKG1:vaccine:
-  rename: [inhibits, 'RO:0002408']
 RXNORM:consists_of:
   invert: [part_of, 'BFO:0000050']
 RXNORM:constitutes:
