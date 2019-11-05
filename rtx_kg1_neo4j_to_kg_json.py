@@ -53,7 +53,7 @@ KG1_PROVIDED_BY_TO_KG2_IRIS = {
     'CL': 'http://purl.obolibrary.org/ontology/cl.owl',
     'KEGG': 'http://genome.jp/kegg',
     'CHEMBL.COMPOUND': 'https://www.ebi.ac.uk/chembl',
-    'NCBIGene': 'http://www.ncbi.nlm.nih.gov/gene'
+    'NCBIGene': 'https://www.ncbi.nlm.nih.gov/gene'
     }
 
 

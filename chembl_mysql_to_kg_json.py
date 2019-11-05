@@ -18,7 +18,7 @@ CHEMBL_CURIE_BASE_COMPOUND = 'CHEMBL.COMPOUND'
 CHEMBL_CURIE_BASE_TARGET = 'CHEMBL.TARGET'
 CHEMBL_CURIE_BASE_MECHANISM = 'CHEMBL.MECHANISM'
 CHEMBL_KB_IRI = 'https://www.ebi.ac.uk/chembl'
-CHEMBL_BASE_IRI_COMPOUND = 'https://www.ebi.ac.uk/chembl/compound_report_card/'
+CHEMBL_BASE_IRI_COMPOUND = 'https://www.ebi.ac.uk/chembl/compound/inspect'
 CHEMBL_BASE_IRI_TARGET = 'https://www.ebi.ac.uk/chembl/target_report_card/'
 CHEMBL_BASE_IRI_PREDICATE = 'https://www.ebi.ac.uk/chembl#'
 
@@ -198,7 +198,7 @@ if __name__ == '__main__':
         if max_phase_int is not None:
             description += '; MAX_FDA_APPROVAL_PHASE: ' + str(max_phase_int)
         id = CHEMBL_CURIE_BASE_COMPOUND + ':' + chembl_id
-        iri = CHEMBL_BASE_IRI_COMPOUND + chembl_id
+        iri = CHEMBL_BASE_IRI_COMPOUND + '/' + chembl_id
         node_dict = make_node(id,
                               iri,
                               pref_name,
