@@ -45,6 +45,27 @@ Add "rtx_kg2" under "rtx" so that this now becomes:
 While still in `mediKanren/biolink` run the command `racket gui-simple-v2.rkt` (this may take a little time to load the graph into ram)
 The gui should pop up after it loads everything.
 
+
+### Testing the Indexes
+
+Run `racket` and run the following commands:
+```
+(require "mk-db.rkt")
+(define rtx2 (make-db "data/rtx_kg2"))
+(run* (c) (db:categoryo rtx2 c))
+(run* (p) (db:predicateo rtx2 p))
+(run 10 (c) (db:concepto rtx2 c))
+(run 10 (e) (db:edgeo rtx2 e))
+```
+
+The the above should return:
+1) All of the node labels
+2) All of the predicates
+3) A sample of 10 nodes
+4) A sample of 10 edges
+
+Verify that the above information returned looks correct.
+
 ### Downloading a new graph version
 
 If you wish to download a new graph version a and generate the indexes from that then do the following:
