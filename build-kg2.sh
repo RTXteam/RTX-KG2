@@ -91,6 +91,10 @@ NCBI_GENE_OUTPUT_FILE=${BUILD_DIR}/kg2-ncbigene${TEST_SUFFIX}.json
 DGIDB_DIR=${BUILD_DIR}/dgidb
 DGIDB_OUTPUT_FILE=${BUILD_DIR}/kg2-dgidb${TEST_SUFFIX}.json
 
+REPODB_DIR=${BUILD_DIR}/repodb
+REPODB_INPUT_FILE=${BUILD_DIR}/repodb/repodb.csv
+REPODB_OUTPUT_FILE=${BUILD_DIR}/kg2-repodb${TEST_SUFFIX}.json
+
 KG1_OUTPUT_FILE=${BUILD_DIR}/kg2-rtx-kg1${TEST_SUFFIX}.json
 RTX_CONFIG_FILE=RTXConfiguration-config.json
 
@@ -129,6 +133,9 @@ then
 ## Extract DGIDB
     echo "running extract-dgidb.sh"
     bash -x ${CODE_DIR}/extract-dgidb.sh ${DGIDB_DIR}
+## Download REPODB
+    echo "running download-repodb-csv.sh"
+    bash -x ${CODE_DIR}/download-repodb-csv.sh ${REPODB_DIR}
 fi
 
 echo "running uniprotkb_dat_to_json.py"
@@ -197,6 +204,15 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/dgidb_tsv_to_kg_json.py \
            --inputFile ${DGIDB_DIR}/interactions.tsv \
            --outputFile ${DGIDB_OUTPUT_FILE} 2> ${DGIDB_DIR}/dgidb-tsv-to-kg-json.log
 
+echo "running repodb_csv_to_kg_json.py"
+
+## Make JSON file for REPODB
+
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/repodb_csv_to_kg_json.py \
+           ${TEST_ARG} \
+           --inputFile ${REPODB_INPUT_FILE} \
+           --outputFile ${REPODB_OUTPUT_FILE} 2> ${REPODB_DIR}/repodb-csv-to-kg-json.log
+
 echo "copying RTX Configuration JSON file from S3"
 
 aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/${RTX_CONFIG_FILE} ${BUILD_DIR}/${RTX_CONFIG_FILE}
@@ -222,6 +238,7 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/merge_graphs.py \
                      ${CHEMBL_OUTPUT_FILE} \
                      ${NCBI_GENE_OUTPUT_FILE} \
                      ${DGIDB_OUTPUT_FILE} \
+                     ${REPODB_OUTPUT_FILE} \
                      ${KG1_OUTPUT_FILE} \
            --outputFile ${FINAL_OUTPUT_FILE_FULL} \
            --kgFileOrphanEdges ${OUTPUT_FILE_ORPHAN_EDGES}
