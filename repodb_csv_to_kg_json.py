@@ -27,7 +27,7 @@ NCT_CUTRIE = "clinicaltrials:"
 
 
 def get_args():
-    arg_parser = argparse.ArgumentParser(description='dgidb_tsv_to_kg_json.py: builds a KG2 JSON file from the DGIdb interactions.tsv file')
+    arg_parser = argparse.ArgumentParser(description='repodb_csv_to_kg_json.py: builds a KG2 JSON file from the repodb csv file')
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
     arg_parser.add_argument('--inputFile', type=str, nargs=1)
     arg_parser.add_argument('--outputFile', type=str, nargs=1)

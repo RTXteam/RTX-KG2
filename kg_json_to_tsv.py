@@ -11,6 +11,7 @@ import csv as tsv
 import collections
 import datetime
 import argparse
+import sys
 
 __author__ = 'Erica Wood'
 __copyright__ = 'Oregon State University'
@@ -20,6 +21,8 @@ __version__ = '0.1.0'
 __maintainer__ = ''
 __email__ = ''
 __status__ = 'Prototype'
+
+NEO4J_CHAR_LIMIT = 3000000
 
 
 def no_space(original_str, keyslist, replace_str):
@@ -85,6 +88,18 @@ def check_all_edges_have_same_set(edgekeys_list):
             raise ValueError("edge label not in supported list: " + edgelabel)
 
 
+def truncate_node_synonyms_if_too_large(node_synonym_field, node_id):
+    """
+    Truncates a node's list of synonyms if it's too large for Neo4j. (Neo4j apparently cannot 'read a field larger than
+    buffer size 4194304' - see Github issue #460).
+    """
+    if len(json.dumps(node_synonym_field)) > NEO4J_CHAR_LIMIT:
+        print("warning: truncating 'synonym' field on node {} because it's too big for neo4j".format(node_id), file=sys.stderr)
+        return node_synonym_field[0:20]  # Only include the first 20 synonyms
+    else:
+        return node_synonym_field
+
+
 def nodes(graph, output_file_location):
     """
     :param graph: A dictionary containing KG2
@@ -138,6 +153,8 @@ def nodes(graph, output_file_location):
                 # if it doesn't exist and make the value for that property " "
                 nodekeys.insert(key_count, nodekeys_official[key_count])
                 value = " "
+            elif key == "synonym":
+                value = truncate_node_synonyms_if_too_large(node[key], node['id'])
             else:
                 # If the property does exist, assign the property value
                 value = node[key]
