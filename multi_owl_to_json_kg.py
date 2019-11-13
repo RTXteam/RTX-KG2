@@ -478,8 +478,8 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         xref_curie = xref_dict['val']
                         if xref_curie.startswith('MESH:'):
                             xref_curie = xref_curie.replace('MESH:', 'MSH:')
-                        elif xref_curie.startswith('UMLS:C'):
-                            xref_curie = xref_curie.replace('UMLS:', 'CUI:')
+#                        elif xref_curie.startswith('UMLS:C'):
+#                            xref_curie = xref_curie.replace('UMLS:', 'CUI:')
                         node_xrefs.add(xref_curie)
                 basic_property_values = node_meta.get('basicPropertyValues', None)
                 if basic_property_values is not None:
