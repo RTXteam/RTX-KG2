@@ -56,6 +56,7 @@ CURIE_OBO_XREF = 'oboFormat:xref'
 OWL_BASE_CLASS = 'owl:Thing'
 OWL_NOTHING = 'owl:Nothing'
 MYSTERIOUS_BASE_NODE_ID_TO_FILTER = '_:genid'
+NOCODE = 'NOCODE'
 ENSEMBL_LETTER_TO_CATEGORY = {'P': 'protein',
                               'G': 'gene',
                               'T': 'transcript'}
@@ -400,6 +401,9 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             if ontology_node_id.startswith(MYSTERIOUS_BASE_NODE_ID_TO_FILTER):
                 continue
 
+            if ontology_node_id.endswith(NOCODE):
+                continue
+
             node_curie_id = get_node_curie_id_from_ontology_node_id(ontology_node_id,
                                                                     ontology,
                                                                     uri_to_curie_shortener)
@@ -678,6 +682,9 @@ def get_rels_dict(nodes: dict,
 
             if subject_id.startswith(MYSTERIOUS_BASE_NODE_ID_TO_FILTER) or \
                object_id.startswith(MYSTERIOUS_BASE_NODE_ID_TO_FILTER):
+                continue
+
+            if subject_id.endswith(NOCODE) or object_id.endswith(NOCODE):
                 continue
 
             # subject_id and object_id are IDs from the original ontology objects; these may not
