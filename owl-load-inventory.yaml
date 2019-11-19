@@ -158,11 +158,11 @@
   file: umls-msh.ttl
   title: Medical Subject Headings
   url: https://identifiers.org/umls/MSH
--
-  download: false
-  file: umls-mth.ttl
-  title: Metathesaurus Names
-  url: https://identifiers.org/umls/MTH
+#-
+#  download: false
+#  file: umls-mth.ttl
+#  title: Metathesaurus Names
+#  url: https://identifiers.org/umls/MTH
 -
   download: false
   file: umls-mthhh.ttl
