@@ -2,7 +2,7 @@
 
 ### Setup the enviroment
 
-NOTE: This was tested on Ubuntu 18.04
+NOTE: This was tested on Ubuntu 18.04 system and requires a user with passwordless sudo setup
 
 To download and install everything you need to run kg2 into mediKanren simply run the `setup.sh` script on a unpriveliged user with passwordless sudo enabled like so:
 ```
