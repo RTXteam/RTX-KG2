@@ -70,6 +70,14 @@ Verify that the above information returned looks correct.
 
 If you wish to download a new graph version a and generate the indexes from that then do the following:
 1) Edit `config.yml` so that it has the correct url, username, and password for the kg2 instance you want to download.
+  e.g.
+  ```
+  neo4j:
+    outputname: rtx_kg2
+    username: neo4j
+    password: your_pass
+    host: http://your.url.here:7474
+  ```
 2) run `setup.sh`
 3) run `download-graph.sh`
 4) run `create-index.sh` (This could take a few days and require between 64 and 128 GB of ram)
