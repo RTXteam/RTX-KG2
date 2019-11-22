@@ -287,7 +287,7 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/kg_json_to_tsv.py \
            --inputFile ${SIMPLIFIED_OUTPUT_FILE_FULL} \
            --outputFileLocation ${KG2_TSV_DIR}
 tar -C ${KG2_TSV_DIR} -czvf ${KG2_TSV_TARBALL} nodes.tsv nodes_header.tsv edges.tsv edges_header.tsv
-aws s3 cp --no-progress --region ${S3_REGION} ${KG2_TSV_TARBALL} s3://${S3_BUCKET_PUBLIC}/
+aws s3 cp --no-progress --region ${S3_REGION} ${KG2_TSV_TARBALL} s3://${S3_BUCKET}/
 
 ## Compress the huge files
 gzip -f ${SIMPLIFIED_OUTPUT_FILE_FULL}
@@ -297,7 +297,7 @@ gzip -f ${OUTPUT_FILE_ORPHAN_EDGES}
 ## copy the KG and various build artifacts to the public S3 bucket
 aws s3 cp --no-progress --region ${S3_REGION} ${FINAL_OUTPUT_FILE_FULL}.gz s3://${S3_BUCKET}/
 aws s3 cp --no-progress --region ${S3_REGION} ${SIMPLIFIED_OUTPUT_FILE_FULL}.gz s3://${S3_BUCKET}/
-aws s3 cp --no-progress --region ${S3_REGION} ${OUTPUT_NODES_FILE_FULL}.gz s3://${S3_BUCKET_PUBLIC}/
+aws s3 cp --no-progress --region ${S3_REGION} ${OUTPUT_NODES_FILE_FULL}.gz s3://${S3_BUCKET}/
 aws s3 cp --no-progress --region ${S3_REGION} ${REPORT_FILE_FULL} s3://${S3_BUCKET_PUBLIC}/
 aws s3 cp --no-progress --region ${S3_REGION} ${SIMPLIFIED_REPORT_FILE_FULL} s3://${S3_BUCKET_PUBLIC}/
 aws s3 cp --no-progress --region ${S3_REGION} ${OUTPUT_FILE_ORPHAN_EDGES}.gz s3://${S3_BUCKET_PUBLIC}/
