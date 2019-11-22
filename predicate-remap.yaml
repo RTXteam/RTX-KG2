@@ -497,6 +497,8 @@ FMA:tributary_of:
 FMA:venous_drainage_of: {keep: null}
 FOODON:00001301:
   rename: [model_of, 'Biolink:model_of']
+FOODON:00001563:
+  invert: [part_of, 'BFO:0000050']
 FOODON:00002420:
   invert: [part_of, 'BFO:0000050']
 GO:SIB: {delete: null}
@@ -1983,7 +1985,6 @@ UMD:RB:
 UMD:RO:
   rename: [related_to, 'Biolink:related_to']
 UMD:SIB: {delete: null}
-UMLS:hasSTY: {delete: null}
 USPMG:SIB: {delete: null}
 VANDF:has_ingredient:
   invert: [part_of, 'BFO:0000050']
