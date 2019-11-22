@@ -68,6 +68,8 @@ ${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
 
 mkdir -p ${BUILD_DIR}
 
+SETUP_LOG_FILE=${BUILD_DIR}/setup-kg2-build.log
+
 ## install ROBOT (software: ROBOT is an OBO Tool) by downloading the jar file
 ## distribution and cURLing the startup script (note github uses URL redirection
 ## so we need the "-L" command-line option, and cURL doesn't like JAR files by
@@ -80,7 +82,7 @@ chmod +x ${BUILD_DIR}/robot
 ${CURL_GET} ${BUILD_DIR} https://github.com/RTXteam/owltools/releases/download/v0.3.0/owltools > ${BUILD_DIR}/owltools
 chmod +x ${BUILD_DIR}/owltools
 
-} >~/setup-kg2-build.log 2>&1
+} > ~/${SETUP_LOG_FILE} 2>&1
 
 ## setup AWS CLI
 if ! aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/test /tmp/; then
@@ -117,4 +119,6 @@ mysql --defaults-extra-file=${MYSQL_CONF} \
 
 date
 echo "================= script finished ================="
-} >>~/setup-kg2-build.log 2>&1
+} >> ${SETUP_LOG_FILE} 2>&1
+
+${S3_CP_CMD} ${SETUP_LOG_FILE} s3://${S3_BUCKET_PUBLIC}/
