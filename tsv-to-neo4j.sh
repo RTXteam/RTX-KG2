@@ -46,7 +46,7 @@ rm -r -f ${TSV_DIR}
 mkdir -p ${TSV_DIR}
 
 # download the latest TSV files from the S3 Bucket
-${CURL_GET} https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2-tsv${TEST_ARG}.tar.gz > ${TSV_DIR}/kg2-tsv${TEST_ARG}.tar.gz
+aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/kg2-tsv${TEST_ARG}.tar.gz ${TSV_DIR}/kg2-tsv${TEST_ARG}.tar.gz
 
 tar -xvzf ${TSV_DIR}/kg2-tsv${TEST_ARG}.tar.gz -C ${TSV_DIR}
 
