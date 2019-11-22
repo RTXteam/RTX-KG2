@@ -215,7 +215,7 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/repodb_csv_to_kg_json.py \
 
 echo "copying RTX Configuration JSON file from S3"
 
-aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/${RTX_CONFIG_FILE} ${BUILD_DIR}/${RTX_CONFIG_FILE}
+${S3_CP_CMD} s3://${S3_BUCKET}/${RTX_CONFIG_FILE} ${BUILD_DIR}/${RTX_CONFIG_FILE}
 
 echo "extracting KG JSON representation of RTX KG1, from the Neo4j endpoint"
 
@@ -287,7 +287,7 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/kg_json_to_tsv.py \
            --inputFile ${SIMPLIFIED_OUTPUT_FILE_FULL} \
            --outputFileLocation ${KG2_TSV_DIR}
 tar -C ${KG2_TSV_DIR} -czvf ${KG2_TSV_TARBALL} nodes.tsv nodes_header.tsv edges.tsv edges_header.tsv
-aws s3 cp --no-progress --region ${S3_REGION} ${KG2_TSV_TARBALL} s3://${S3_BUCKET}/
+${S3_CP_CMD} ${KG2_TSV_TARBALL} s3://${S3_BUCKET}/
 
 ## Compress the huge files
 gzip -f ${SIMPLIFIED_OUTPUT_FILE_FULL}
@@ -295,23 +295,23 @@ gzip -f ${OUTPUT_NODES_FILE_FULL}
 gzip -f ${OUTPUT_FILE_ORPHAN_EDGES}
 
 ## copy the KG and various build artifacts to the public S3 bucket
-aws s3 cp --no-progress --region ${S3_REGION} ${FINAL_OUTPUT_FILE_FULL}.gz s3://${S3_BUCKET}/
-aws s3 cp --no-progress --region ${S3_REGION} ${SIMPLIFIED_OUTPUT_FILE_FULL}.gz s3://${S3_BUCKET}/
-aws s3 cp --no-progress --region ${S3_REGION} ${OUTPUT_NODES_FILE_FULL}.gz s3://${S3_BUCKET}/
-aws s3 cp --no-progress --region ${S3_REGION} ${REPORT_FILE_FULL} s3://${S3_BUCKET_PUBLIC}/
-aws s3 cp --no-progress --region ${S3_REGION} ${SIMPLIFIED_REPORT_FILE_FULL} s3://${S3_BUCKET_PUBLIC}/
-aws s3 cp --no-progress --region ${S3_REGION} ${OUTPUT_FILE_ORPHAN_EDGES}.gz s3://${S3_BUCKET_PUBLIC}/
+${S3_CP_CMD} ${FINAL_OUTPUT_FILE_FULL}.gz s3://${S3_BUCKET}/
+${S3_CP_CMD} ${SIMPLIFIED_OUTPUT_FILE_FULL}.gz s3://${S3_BUCKET}/
+${S3_CP_CMD} ${OUTPUT_NODES_FILE_FULL}.gz s3://${S3_BUCKET}/
+${S3_CP_CMD} ${REPORT_FILE_FULL} s3://${S3_BUCKET_PUBLIC}/
+${S3_CP_CMD} ${SIMPLIFIED_REPORT_FILE_FULL} s3://${S3_BUCKET_PUBLIC}/
+${S3_CP_CMD} ${OUTPUT_FILE_ORPHAN_EDGES}.gz s3://${S3_BUCKET_PUBLIC}/
 
 ## copy the log files to the public S3 bucket
 BUILD_MULTI_OWL_STDERR_FILE="${BUILD_DIR}/build-${OUTPUT_FILE_BASE%.*}"-stderr.log
 
-aws s3 cp --no-progress --region ${S3_REGION} ${BUILD_MULTI_OWL_STDERR_FILE} s3://${S3_BUCKET_PUBLIC}/
+${S3_CP_CMD} ${BUILD_MULTI_OWL_STDERR_FILE} s3://${S3_BUCKET_PUBLIC}/
 
 ## copy the config files to the public S3 bucket
-aws s3 cp --no-progress --region ${S3_REGION} ${OWL_LOAD_INVENTORY_FILE} s3://${S3_BUCKET_PUBLIC}/
+${S3_CP_CMD} ${OWL_LOAD_INVENTORY_FILE} s3://${S3_BUCKET_PUBLIC}/
 
 # copy the index.html file to the public S3 bucket
-aws s3 cp --no-progress --region ${S3_REGION} ${CODE_DIR}/s3-index.html s3://${S3_BUCKET_PUBLIC}/index.html
+${S3_CP_CMD} ${CODE_DIR}/s3-index.html s3://${S3_BUCKET_PUBLIC}/index.html
 
 
 date
@@ -320,5 +320,5 @@ echo "================= script finished ================="
 } >${BUILD_KG2_LOG_FILE} 2>&1
 
 # copy the KG2 build log file to the S3 bucket
-aws s3 cp --no-progress --region ${S3_REGION} ${BUILD_KG2_LOG_FILE} s3://${S3_BUCKET_PUBLIC}/
+${S3_CP_CMD} ${BUILD_KG2_LOG_FILE} s3://${S3_BUCKET_PUBLIC}/
 
