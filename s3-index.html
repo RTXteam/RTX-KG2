@@ -6,12 +6,12 @@
     
     <h2>Latest KG2 build:</h2>
     <ul>
-      <li><a href="https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2.json.gz"><code>kg2.json.gz</code></a> (the full knowledge graph, 8.3 GB)</li>
+      <li>KG2, before predicate-remapping and filtering: <code>aws s3 cp --region us-west-2 s3://rtx-kg2/kg2.json.gz .</code></li>
+      <li>KG2, after predicate-remapping and filtering: <code>aws s3 cp --region us-west-2 s3://rtx-kg2/kg2-simplified.json.gz .</code></li>
     </ul>
 
     <h2>Additional information</h2>
     <ul>
-      <li><a href="https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2-nodes.json.gz"><code>kg2-nodes.json.gz</code></a> (just the nodes in the KG2 knowledge graph, 1.8 GB)</li>
       <li><a href="https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2-report.json"><code>kg2-report.json</code></a> (summary report on the KG2, in JSON format, 174 kB)</li>
       <li><a href="https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2-simplified-report.json"><code>kg2-simplified-report.json</code></a> (summary report on the simplified KG2, in JSON format, 174 kB)</li>
       <li><a href="https://s3-us-west-2.amazonaws.com/rtx-kg2-public/build-kg2-stdout.log"><code>build-kg2.log</code></a></li>
