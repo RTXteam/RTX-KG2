@@ -78,7 +78,7 @@ If you wish to download a new graph version a and generate the indexes from that
     password: your_pass
     host: http://your.url.here:7474
   ```
-2) run `setup.sh`
-3) run `download-graph.sh`
-4) run `create-index.sh` (This could take a few days and require between 64 and 128 GB of ram)
+2) run `bash -x ./setup.sh > setup.log 2>&1`
+3) run `bash -x ./download-graph.sh > download-graph.log 2>&1`
+4) run `bash -x ./create-index.sh > create-index.log 2>&1` (This could take a few days and require between 64 and 128 GB of ram)
 5) Follow the the avove steps starting from after downloading the indexes
