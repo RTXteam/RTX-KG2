@@ -123,7 +123,7 @@ if __name__ == '__main__':
         edge_key = edge_dict['subject'] + ' /// ' + simplified_edge_label + ' /// ' + edge_dict['object']
         existing_edge = new_edges.get(edge_key, None)
         if existing_edge is not None:
-            existing_edge['provided by'] += edge_dict['provided by']
+            existing_edge['provided by'] = list(set(existing_edge['provided by'] + edge_dict['provided by']))
             existing_edge['publications'] += edge_dict['publications']
             existing_edge['publications info'].update(edge_dict['publications info'])
         else:
