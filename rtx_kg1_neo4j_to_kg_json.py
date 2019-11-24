@@ -39,7 +39,7 @@ KG1_PROVIDED_BY_TO_KG2_IRIS = {
     'DGIdb': 'http://www.dgidb.org',
     'ChEMBL': 'https://www.ebi.ac.uk/chembl',
     'Pharos': 'https://pharos.nih.gov',
-    'Monarch_SciGraph': 'https://pharos.nih.gov',
+    'Monarch_SciGraph': 'https://scigraph-ontology.monarchinitiative.org/scigraph',
     'DiseaseOntology': 'http://purl.obolibrary.org/obo/doid.owl',
     'DOID': 'http://purl.obolibrary.org/obo/doid.owl',
     'miRGate': 'http://http://mirgate.bioinfo.cnio.es',
