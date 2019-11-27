@@ -110,6 +110,8 @@ cp ${CODE_DIR}/umls2rdf-umls.conf ${UMLS2RDF_DIR}/umls.conf
 ## umls2rdf is legacy software written to run in python2.7; set up the virtualenv
 UMLS_VENV_DIR=${UMLS_DIR}/venv27
 virtualenv --python=python2.7 ${UMLS_VENV_DIR}
+
+## need libssl for installing mysqlclient; it is installed in setup-kg2-build.sh
 ${UMLS_VENV_DIR}/bin/pip install mysqlclient
 
 ## change to the UMLS2RDF_DIR directory
