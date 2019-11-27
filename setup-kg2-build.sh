@@ -44,7 +44,8 @@ sudo apt-get install -y python3-minimal \
      gtk-doc-tools \
      libtool \
      automake \
-     git
+     git \
+     libssl-dev
 
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password ${MYSQL_PASSWORD}"
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password ${MYSQL_PASSWORD}"
