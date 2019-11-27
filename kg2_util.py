@@ -27,6 +27,7 @@ import ssl
 import sys
 import tempfile
 import time
+import urllib.parse
 import urllib.request
 import yaml
 
@@ -279,8 +280,10 @@ def make_edge(subject_id: str,
             'provided by': provided_by}
 
 
-def biolink_predicate_label_to_iri_and_curie(predicate_label: str):
+def predicate_label_to_iri_and_curie(predicate_label: str,
+                                     relation_curie_prefix: str,
+                                     relation_iri_prefix: str):
     predicate_label = predicate_label.replace(' ', '_')
-    return [BIOLINK_CATEGORY_BASE_IRI + convert_snake_case_to_camel_case(predicate_label),
-            BIOLINK_CURIE_PREFIX + ':' + predicate_label]
+    return [urllib.parse.urljoin(relation_iri_prefix, convert_snake_case_to_camel_case(predicate_label)),
+            relation_curie_prefix + ':' + predicate_label]
 

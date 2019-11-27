@@ -27,6 +27,9 @@ import sys
 
 TIMEOUT_SEC = 600
 
+KG1_RELATION_CURIE_PREFIX = 'RTXKG1'
+KG1_RELATION_IRI_PREFIX = 'http://kg1endpoint.rtx.ai'
+
 KG1_PROVIDED_BY_TO_KG2_IRIS = {
     'gene_ontology': "http://purl.obolibrary.org/obo/go-plus.owl",
     'PC2': 'http://pathwaycommons.org/pc11',
@@ -176,7 +179,9 @@ if __name__ == '__main__':
         predicate_label = edge_dict['relation']
         edge_dict['edge label'] = predicate_label
         del edge_dict['relation']
-        [relation, relation_curie] = kg2_util.biolink_predicate_label_to_iri_and_curie(predicate_label)
+        [relation, relation_curie] = kg2_util.predicate_label_to_iri_and_curie(predicate_label,
+                                                                               KG1_RELATION_CURIE_PREFIX,
+                                                                               KG1_RELATION_IRI_PREFIX)
         if relation_curie == 'BioLink:subclass_of':
             relation_curie = 'rdfs:subClassOf'
             relation = prefixcommons.expand_uri(relation_curie)

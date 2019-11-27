@@ -75,8 +75,6 @@ Biolink:gating_inhibitor:
   rename: [inhibits, 'RO:0002408']
 Biolink:gene_associated_with_condition:
   rename: [associated_with, 'Biolink:gene_associated_with_condition']
-Biolink:gene_found_in_organism:
-  rename: [in_taxon, 'Biolink:in_taxon']
 Biolink:gene_mutations_contribute_to:
   rename: [is_causal_susceptibility_factor_for, 'RO:0004015']
 Biolink:gene_product_has_organism_source:
@@ -347,6 +345,8 @@ EFO:0006351:
   rename: [related_to, 'Biolink:related_to']
 EFO:is_executed_in:
   rename: [has_attribute, 'Biolink:has_attribute']
+ENSEMBL:gene_found_in_organism:
+  rename: [in_taxon, 'Biolink:in_taxon']
 ENVO:has_increased_levels_of:
   rename: [related_to, 'Biolink:related_to']
 FMA:SIB: {delete: null}
@@ -853,6 +853,8 @@ NBO:in_response_to:
   invert: [causes_or_contributes_to, 'RO:0003302']
 NBO:is_about:
   rename: [is_about, 'IAO:0000136']
+NCBIGene:gene_found_in_organism:
+  rename: [in_taxon, 'Biolink:in_taxon']
 NCIT:abnormal_cell_affected_by_chemical_or_drug: {delete: null}
 NCIT:abnormality_associated_with_allele: {delete: null}
 NCIT:activity_of_allele: {delete: null}

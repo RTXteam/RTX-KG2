@@ -18,6 +18,7 @@ import kg2_util
 
 
 NCBI_BASE_IRI = 'https://www.ncbi.nlm.nih.gov/gene'
+NCBI_RELATION_CURIE_PREFIX = 'NCBIGene'
 
 
 def get_args():
@@ -111,7 +112,9 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
             nodes.append(node_dict)
             org_curie = kg2_util.CURIE_PREFIX_NCBI_TAXON + ':' + taxon_id_str
             predicate_label = 'gene_found_in_organism'
-            [relation, relation_curie] = kg2_util.biolink_predicate_label_to_iri_and_curie(predicate_label)
+            [relation, relation_curie] = kg2_util.predicate_label_to_iri_and_curie(predicate_label,
+                                                                                   NCBI_RELATION_CURIE_PREFIX,
+                                                                                   NCBI_BASE_IRI)
             edge_dict = kg2_util.make_edge(node_curie_id,
                                            org_curie,
                                            relation,

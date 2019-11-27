@@ -19,13 +19,15 @@ import kg2_util
 
 ENSEMBL_BASE_IRI = 'http://ensembl.org/Homo_sapiens/Gene/Summary?db=core;g='
 ENSEMBL_KB_IRI = 'http://ensembl.org/Homo_sapiens/Gene'
-
+ENSEMBL_RELATION_CURIE_PREFIX = 'ENSEMBL'
 
 def make_edge(subject_curie_id: str,
               object_curie_id: str,
               predicate_label: str,
               update_date: str):
-    [relation, relation_curie] = kg2_util.biolink_predicate_label_to_iri_and_curie(predicate_label)
+    [relation, relation_curie] = kg2_util.predicate_label_to_iri_and_curie(predicate_label,
+                                                                           ENSEMBL_RELATION_CURIE_PREFIX,
+                                                                           ENSEMBL_KB_IRI)
     rel = kg2_util.make_edge(subject_curie_id,
                              object_curie_id,
                              relation,
