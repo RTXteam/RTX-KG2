@@ -45,7 +45,7 @@ KG1_PROVIDED_BY_TO_KG2_IRIS = {
     'Monarch_SciGraph': 'https://scigraph-ontology.monarchinitiative.org/scigraph',
     'DiseaseOntology': 'http://purl.obolibrary.org/obo/doid.owl',
     'DOID': 'http://purl.obolibrary.org/obo/doid.owl',
-    'miRGate': 'http://http://mirgate.bioinfo.cnio.es',
+    'miRGate': 'http://mirgate.bioinfo.cnio.es',
     'SIDER': 'http://sideeffects.embl.de',
     'MyChem.info': 'http://mychem.info',
     'GO': 'http://purl.obolibrary.org/ontology/go-plus.owl',
