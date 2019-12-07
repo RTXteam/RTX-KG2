@@ -148,7 +148,7 @@ if __name__ == '__main__':
          full_mwt,
          molregno) in molecule_sql_results:
         row_ctr += 1
-        if row_ctr % 10000 == 0:
+        if row_ctr % 100000 == 0:
             print("have processed " + str(row_ctr) + " compounds")
         synonyms = []
         if standard_inchi is not None:
