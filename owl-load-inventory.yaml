@@ -450,11 +450,6 @@
   url: https://identifiers.org/umls/SRC
 -
   download: false
-  file: umls-umd.ttl
-  title: Universal Medical Device Nomenclature System
-  url: https://identifiers.org/umls/UMD
--
-  download: false
   file: umls-usp.ttl
   title: USP Compendial Nomenclature
   url: https://identifiers.org/umls/USP
@@ -468,11 +463,6 @@
   file: umls-vandf.ttl
   title: National Drug File
   url: https://identifiers.org/umls/VANDF
--
-  download: false
-  file: umls-who.ttl
-  title: WHOART
-  url: https://identifiers.org/umls/WHO
 -
   url:  http://purl.obolibrary.org/obo/bfo.owl
   file: bfo.owl
