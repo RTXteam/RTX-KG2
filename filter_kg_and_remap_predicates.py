@@ -66,7 +66,7 @@ if __name__ == '__main__':
     edge_ctr = 0
     for edge_dict in graph['edges']:
         edge_ctr += 1
-        if edge_ctr % 100000 == 0:
+        if edge_ctr % 1000000 == 0:
             print('processing edge ' + str(edge_ctr) + ' out of ' + str(len(graph['edges'])))
         if drop_negated and edge_dict['negated']:
             continue
