@@ -129,7 +129,7 @@ def make_edges(records: list, nodes_dict: dict):
         update_date = nodes_dict[curie_id]['update date']
         ret_list.append(make_edge(curie_id,
                                   'NCBITaxon:' + str(organism_int),
-                                  'gene_product_has_organism_source',
+                                  'in_taxon',
                                   update_date))
         record_xrefs = record_dict.get('DR', None)
         if record_xrefs is not None:
