@@ -50,7 +50,7 @@ if __name__ == '__main__':
     drop_negated = args.drop_negated
     predicate_remap_config = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(predicate_remap_file_name))
     curies_to_uri_lal = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_uri_lal_file_name))
-    curies_to_uri_map = curies_to_uri_lal + prefixcommons.curie_util.default_curie_maps
+    curies_to_uri_map = prefixcommons.curie_util.default_curie_maps + curies_to_uri_lal
     graph = kg2_util.load_json(input_file_name)
     edge_keys = set()
     new_edges = dict()
@@ -114,8 +114,13 @@ if __name__ == '__main__':
         if simplified_relation_curie in nodes_dict:
             simplified_relation = nodes_dict[simplified_relation_curie]['iri']
         else:
-            simplified_relation = prefixcommons.expand_uri(simplified_relation_curie, curies_to_uri_map)
-            if simplified_relation == simplified_relation_curie:
+            simplified_relation_curie_prefix = simplified_relation_curie.split(':')[0]
+            simplified_relation_uri_prefix = prefixcommons.expand_uri(simplified_relation_curie_prefix + ':', curies_to_uri_map)
+            if simplified_relation_uri_prefix != simplified_relation_curie_prefix:
+                simplified_relation = kg2_util.predicate_label_to_iri_and_curie(simplified_edge_label,
+                                                                                simplified_relation_curie_prefix,
+                                                                                simplified_relation_uri_prefix)[0]
+            else:
                 simplified_relation = relation
                 relation_curies_not_in_nodes.add(simplified_relation_curie)
         edge_dict['simplified relation'] = simplified_relation
