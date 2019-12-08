@@ -1501,11 +1501,11 @@ RTXKG1:gating_inhibitor:
   rename: [inhibits, 'RO:0002408']
 RTXKG1:gene_associated_with_condition:
   rename: [associated_with, 'Biolink:gene_associated_with_condition']
-RTXKG1:gene_found_in_organism:
-  rename: [in_taxon, 'Biolink:in_taxon']
+#RTXKG1:gene_found_in_organism:
+#  rename: [in_taxon, 'Biolink:in_taxon']
 RTXKG1:gene_mutations_contribute_to:
   rename: [is_causal_susceptibility_factor_for, 'RO:0004015']
-RTXKG1:gene_product_has_organism_source:
+Biolink:gene_product_has_organism_source:
   rename: [in_taxon, 'Biolink:in_taxon']
 RTXKG1:has_completed:
   rename: [has_completed, 'CL:has_completed']
