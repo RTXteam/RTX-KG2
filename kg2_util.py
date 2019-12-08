@@ -284,6 +284,10 @@ def predicate_label_to_iri_and_curie(predicate_label: str,
                                      relation_curie_prefix: str,
                                      relation_iri_prefix: str):
     predicate_label = predicate_label.replace(' ', '_')
-    return [urllib.parse.urljoin(relation_iri_prefix, convert_snake_case_to_camel_case(predicate_label)),
+    if ':' not in predicate_label:
+        predicate_label_to_use = convert_snake_case_to_camel_case(predicate_label)
+    else:
+        predicate_label_to_use = predicate_label.replace(':', '_')
+    return [urllib.parse.urljoin(relation_iri_prefix, predicate_label_to_use),
             relation_curie_prefix + ':' + predicate_label]
 
