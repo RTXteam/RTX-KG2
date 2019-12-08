@@ -21,14 +21,15 @@ BFO:0000167:
   invert: [participates_in, 'RO:0000056']
 Biolink:encodes:
   rename: [has_gene_product, 'Biolink:has_gene_product']
-Biolink:physically_interacts_with:
+RTXKG1:physically_interacts_with:
   rename: [directly_interacts_with, 'Biolink:physically_interacts_with']
-Biolink:regulates_activity_of:
+RTXKG1:regulates_activity_of:
   rename: [regulates, 'RO:0002211']
-Biolink:regulates_expression_of:
+RTXKG1:regulates_expression_of:
   rename: [regulates_levels_of, 'RO:0002332']
-Biolink:subclass_of: {keep: null}
-Biolink:targets:
+RTXKG1:subclass_of:
+  rename: [subclass_of, 'Biolink:subclass_of']
+RTXKG1:targets:
   rename: [molecularly_interacts_with, 'RO:0002436']
 BSPO:0000096:
   rename: [anterior_to, 'FMA:anterior_to']
@@ -2022,11 +2023,11 @@ UBERON:site_of: {keep: null}
 UBERON:subdivision_of: {keep: null}
 UBERON:synapsed_by:
   rename: [synapsed_by, 'RO:0002103']
-UMD:RB:
-  invert: [subclass_of, 'Biolink:subclass_of']
-UMD:RO:
-  rename: [related_to, 'Biolink:related_to']
-UMD:SIB: {delete: null}
+#UMD:RB:
+#  invert: [subclass_of, 'Biolink:subclass_of']
+#UMD:RO:
+#  rename: [related_to, 'Biolink:related_to']
+#UMD:SIB: {delete: null}
 USPMG:SIB: {delete: null}
 VANDF:has_ingredient:
   invert: [part_of, 'BFO:0000050']
@@ -2036,9 +2037,9 @@ VANDF:inverse_isa:
   invert: [subclass_of, 'Biolink:subclass_of']
 VANDF:isa:
   rename: [subclass_of, 'Biolink:subclass_of']
-WHO:RB:
-  invert: [subclass_of, 'Biolink:subclass_of']
-WHO:SIB: {delete: null}
+#WHO:RB:
+#  invert: [subclass_of, 'Biolink:subclass_of']
+#WHO:SIB: {delete: null}
 oboFormat:xref:
   rename: [close_match, 'skos:closeMatch']
 owl:equivalentTo:
