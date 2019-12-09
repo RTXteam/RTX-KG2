@@ -407,6 +407,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             node_curie_id = get_node_curie_id_from_ontology_node_id(ontology_node_id,
                                                                     ontology,
                                                                     uri_to_curie_shortener)
+            assert not node_curie_id.startswith('UMLS:')  # :DEBUG:
 
             iri = onto_node_dict.get('id', None)
             if iri is None:
@@ -482,8 +483,8 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         xref_curie = xref_dict['val']
                         if xref_curie.startswith('MESH:'):
                             xref_curie = xref_curie.replace('MESH:', 'MSH:')
-#                        elif xref_curie.startswith('UMLS:C'):
-#                            xref_curie = xref_curie.replace('UMLS:', 'CUI:')
+                        elif xref_curie.startswith('UMLS:C'):
+                            xref_curie = 'CUI:' + xref_curie.split('UMLS:')[1]
                         node_xrefs.add(xref_curie)
                 basic_property_values = node_meta.get('basicPropertyValues', None)
                 if basic_property_values is not None:
@@ -629,6 +630,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         cui_uri = bpv_pred + '/' + bpv_val
                         cui_curie = uri_to_curie_shortener(cui_uri)
                         assert cui_curie is not None
+                        assert not cui_curie.startswith('UMLS:')  # :DEBUG:
                         cui_node_dict['id'] = cui_curie
                         cui_node_dict['iri'] = cui_uri
                         cui_node_dict['synonym'] = []
@@ -813,7 +815,10 @@ def get_node_curie_id_from_ontology_node_id(ontology_node_id: str,
     node_curie_id = None
     if not ontology_node_id.startswith('http:') and not ontology_node_id.startswith('https:'):
         if not ontology_node_id.startswith('OBO:'):
-            node_curie_id = ontology_node_id
+            if not ontology_node_id.startswith('UMLS:C'):
+                node_curie_id = ontology_node_id
+            else:
+                node_curie_id = 'CUI:' + ontology_node_id.split('UMLS:')[1]
         else:
             node_curie_id = uri_to_curie_shortener(prefixcommons.expand_uri(ontology_node_id))
     else:
@@ -846,7 +851,6 @@ def shorten_iri_to_curie(iri: str, curie_to_iri_map: list = []):
         umls_match = REGEX_UMLS_CURIE.match(curie_id)
         if umls_match is not None:
             curie_id = umls_match[1] + ':' + umls_match[2]
-
     return curie_id
 
 
@@ -890,10 +894,10 @@ def xref_as_a_publication(xref: str):
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='multi_owl_to_json_kg.py: builds the KG2 knowledge graph for the RTX system')
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
-    arg_parser.add_argument('--categoriesFile', type=str, nargs=1)
-    arg_parser.add_argument('--curiesToURILALFile', type=str, nargs=1)
-    arg_parser.add_argument('--owlLoadInventoryFile', type=str, nargs=1)
-    arg_parser.add_argument('--outputFile', type=str, nargs=1)
+    arg_parser.add_argument('categoriesFile', type=str)
+    arg_parser.add_argument('curiesToURILALFile', type=str)
+    arg_parser.add_argument('owlLoadInventoryFile', type=str)
+    arg_parser.add_argument('outputFile', type=str)
     return arg_parser
 
 
@@ -902,14 +906,14 @@ def make_arg_parser():
 if __name__ == '__main__':
     delete_ontobio_cachier_caches()
     args = make_arg_parser().parse_args()
-    curies_to_categories_file_name = args.categoriesFile[0]
-    curies_to_uri_lal_file_name = args.curiesToURILALFile[0]
-    owl_load_inventory_file = args.owlLoadInventoryFile[0]
-    output_file = args.outputFile[0]
+    curies_to_categories_file_name = args.categoriesFile
+    curies_to_uri_lal_file_name = args.curiesToURILALFile
+    owl_load_inventory_file = args.owlLoadInventoryFile
+    output_file = args.outputFile
     test_mode = args.test
     curies_to_categories = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_categories_file_name))
     curies_to_uri_lal = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_uri_lal_file_name))
-    curies_to_uri_map = curies_to_uri_lal + prefixcommons.curie_util.default_curie_maps
+    curies_to_uri_map = prefixcommons.curie_util.default_curie_maps + curies_to_uri_lal
     uri_to_curie_shortener = make_uri_to_curie_shortener(curies_to_uri_map)
     map_category_label_to_iri = functools.partial(kg2_util.convert_biolink_category_to_iri,
                                                   biolink_category_base_iri=kg2_util.BIOLINK_CATEGORY_BASE_IRI)
