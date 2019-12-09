@@ -94,6 +94,10 @@ term-mappings:
     HP:0032443: medical history
     HsapDv:0000000: life stage
     MONDO:0000001: disease
+    # MONDO:0001227 was causing a warning about "Node does not have a category"; not sure why
+    MONDO:0001227: disease
+    # MONDO:0020420 was causing a warning about "Node does not have a category"; not sure why
+    MONDO:0020420: disease
     MONDO:0021125: disease characteristic
     MONDO:0042489: disease susceptibility
     MONDO:0021007: disease
