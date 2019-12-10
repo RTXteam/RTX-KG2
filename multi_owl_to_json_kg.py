@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 '''Builds the RTX "KG2" second-generation knowledge graph, from various OWL input files.
 
-   Usage: multi_owl_to_json_kg.py --categoriesFile <categoriesFile.yaml> --curiesToURILALFile <curiesToURILALFile>
-                                  --owlLoadInventoryFile <owlLoadInventoryFile.yaml> --outputFile <outputFile>
+   Usage: multi_owl_to_json_kg.py <categoriesFile.yaml> <curiesToURILALFile>
+                                  <owlLoadInventoryFile.yaml> <outputFile>
    (note: outputFile can end in .json or in .gz; if the latter, it will be written as a gzipped file;
    but using the gzip options for input or output seems to significantly increase transient memory
    usage)
@@ -407,7 +407,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             node_curie_id = get_node_curie_id_from_ontology_node_id(ontology_node_id,
                                                                     ontology,
                                                                     uri_to_curie_shortener)
-            assert not node_curie_id.startswith('UMLS:')  # :DEBUG:
+            assert not node_curie_id.startswith('UMLS:C')  # :DEBUG:
 
             iri = onto_node_dict.get('id', None)
             if iri is None:
@@ -630,7 +630,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         cui_uri = bpv_pred + '/' + bpv_val
                         cui_curie = uri_to_curie_shortener(cui_uri)
                         assert cui_curie is not None
-                        assert not cui_curie.startswith('UMLS:')  # :DEBUG:
+                        assert not cui_curie.startswith('UMLS:C')  # :DEBUG:
                         cui_node_dict['id'] = cui_curie
                         cui_node_dict['iri'] = cui_uri
                         cui_node_dict['synonym'] = []
