@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+'''chembl_mysql_to_kg_json.py: Extracts a KG in JSON format from the ChEMBL mysql database
+
+   Usage: chembl_mysql_to_kg_json.py [--test] <mysql_conf> <chembl_mysql_dbname> <outputFile.json>
+'''
 
 __author__ = 'Stephen Ramsey'
 __copyright__ = 'Oregon State University'
@@ -51,9 +55,9 @@ TARGET_TYPE_TO_CATEGORY = {
 def get_args():
     arg_parser = argparse.ArgumentParser(description='ensembl_json_to_kg2_json.py: builds a KG2 JSON representation for Ensembl genes')
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
-    arg_parser.add_argument('--mysqlConfigFile', type=str, nargs=1)
-    arg_parser.add_argument('--mysqlDBName', type=str, nargs=1)
-    arg_parser.add_argument('--outputFile', type=str, nargs=1)
+    arg_parser.add_argument('mysqlConfigFile', type=str)
+    arg_parser.add_argument('mysqlDBName', type=str)
+    arg_parser.add_argument('outputFile', type=str)
     return arg_parser.parse_args()
 
 
