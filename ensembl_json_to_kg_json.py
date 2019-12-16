@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 '''ensembl_json_to_kg_json.py: Extracts a KG2 JSON file from the Ensembl human gene distribution in JSON format
 
-   Usage: ensembl_json_to_kg_json.py [--test] --inputFile <inputFile.json> --outputFile <outputFile.json>
+   Usage: ensembl_json_to_kg_json.py [--test] <inputFile.json> <outputFile.json>
 '''
 
 __author__ = 'Stephen Ramsey'
@@ -41,8 +41,8 @@ def make_edge(subject_curie_id: str,
 def get_args():
     arg_parser = argparse.ArgumentParser(description='ensembl_json_to_kg_json.py: builds a KG2 JSON representation for Ensembl genes')
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
-    arg_parser.add_argument('--inputFile', type=str, nargs=1)
-    arg_parser.add_argument('--outputFile', type=str, nargs=1)
+    arg_parser.add_argument('inputFile', type=str)
+    arg_parser.add_argument('outputFile', type=str)
     return arg_parser.parse_args()
 
 
