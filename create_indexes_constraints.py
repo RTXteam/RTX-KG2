@@ -2,8 +2,7 @@
 
 ''' Creates Neo4j index and constraints for KG2
 
-    Usage: create_indexes_constraints.py --user <Neo4j Username>
-                          [--password <Neo4j Password>]
+    Usage: create_indexes_constraints.py <Neo4j Username> [<Neo4j Password>]
 '''
 import argparse
 import neo4j
@@ -72,15 +71,15 @@ def constraint(label_list):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--user", type=str, help="Neo4j Username",
-                        nargs=1, required=True)
-    parser.add_argument("--password", help="Neo4j Password",
-                        type=str, nargs=1, required=False)
+    parser.add_argument("user", type=str, help="Neo4j Username",
+                        nargs=1)
+    parser.add_argument("password", help="Neo4j Password",
+                        type=str, nargs='?')
     arguments = parser.parse_args()
-    username = arguments.user[0]
+    username = arguments.user
     password = arguments.password
     if password is not None:
-        password = password[0]
+        password = password
     else:
         password = getpass.getpass("Please enter the Neo4j database password: ")
     bolt = 'bolt://127.0.0.1:7687'
