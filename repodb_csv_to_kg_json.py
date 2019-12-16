@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 '''repodb_csv_to_kg_json.py: Extracts a KG2 JSON file from the repoDB file in CSV format
-   Usage: repodb_csv_to_kg_json.py [--test] --inputFile <inputFile.tsv> --outputFile <outputFile.json>
+   Usage: repodb_csv_to_kg_json.py [--test] <inputFile.tsv> <outputFile.json>
 '''
 
 __author__ = ''
@@ -15,8 +15,6 @@ __status__ = 'Prototype'
 import argparse
 import kg2_util
 import pandas as pd
-import sys
-import json
 
 DRUGBANK_CURIE = "DRUGBANK:"
 UMLS_CURIE = "CUI:"
@@ -29,8 +27,8 @@ NCT_CUTRIE = "clinicaltrials:"
 def get_args():
     arg_parser = argparse.ArgumentParser(description='repodb_csv_to_kg_json.py: builds a KG2 JSON file from the repodb csv file')
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
-    arg_parser.add_argument('--inputFile', type=str, nargs=1)
-    arg_parser.add_argument('--outputFile', type=str, nargs=1)
+    arg_parser.add_argument('inputFile', type=str)
+    arg_parser.add_argument('outputFile', type=str)
     return arg_parser.parse_args()
 
 
