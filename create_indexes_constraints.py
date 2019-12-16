@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 ''' Creates Neo4j index and constraints for KG2
 
     Usage: create_indexes_constraints.py [--passwordFile=<password-file-name>] <Neo4j Username> [<Neo4j Password>]
