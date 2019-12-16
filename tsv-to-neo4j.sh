@@ -32,6 +32,13 @@ else
     TEST_ARG=""
 fi
 
+PASSWORD_FILE_NAME=`${VENV_DIR}/bin/python3 -u ${CODE_DIR}/prompt_for_password_and_save_to_temp_file.py`
+
+cleanup() {
+    rm -f ${PASSWORD_FILE_NAME}
+}
+trap cleanup 0
+
 # change database and database paths to current database and database path in config file
 sudo sed -i '/dbms.active_database/c\dbms.active_database='${DATABASE}'' ${NEO4J_CONFIG}
     
@@ -75,7 +82,9 @@ sudo service neo4j start
 sleep 1m
 
 # add indexes and constraints to the graph database
-${VENV_DIR}/bin/python3 -u ${CODE_DIR}/create_indexes_constraints.py ${USER}
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/create_indexes_constraints.py --passwordFile ${PASSWORD_FILE_NAME} ${USER}
+
+rm -f ${PASSWORD_FILE_NAME}
 
 # wait for indexing to complete
 sleep 5m
