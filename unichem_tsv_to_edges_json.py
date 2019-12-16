@@ -43,8 +43,8 @@ def make_arg_parser():
 
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
-    input_file_name = args.inputFile[0]
-    output_file_name = args.outputFile[0]
+    input_file_name = args.inputFile
+    output_file_name = args.outputFile
     test_mode = args.test
     edges = []
     nodes = []
