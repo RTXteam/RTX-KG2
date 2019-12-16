@@ -103,9 +103,9 @@ def make_node(id: str,
 
 if __name__ == '__main__':
     args = get_args()
-    mysql_config_file = args.mysqlConfigFile[0]
-    mysql_db_name = args.mysqlDBName[0]
-    output_file_name = args.outputFile[0]
+    mysql_config_file = args.mysqlConfigFile
+    mysql_db_name = args.mysqlDBName
+    output_file_name = args.outputFile
     test_mode = args.test
     connection = pymysql.connect(read_default_file=mysql_config_file, db=mysql_db_name)
 
