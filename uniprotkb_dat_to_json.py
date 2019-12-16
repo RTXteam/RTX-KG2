@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 '''uniprotkb_dat_to_json.py: Extracts a KG2 JSON file from the UniProtKB distribution in "dat" format
 
-   Usage: uniprotkb_dat_to_json.py [--test] --inputFile <inputFile.dat> --outputFile <outputFile.json>
+   Usage: uniprotkb_dat_to_json.py [--test] <inputFile.dat> <outputFile.json>
 '''
 
 __author__ = 'Stephen Ramsey'
@@ -99,8 +99,8 @@ def parse_records_from_uniprot_dat(uniprot_dat_file_name: str,
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='uniprotkb_dat_to_json.py: builds a JSON representation of the UniProtKB')
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
-    arg_parser.add_argument('--inputFile', type=str, nargs=1)
-    arg_parser.add_argument('--outputFile', type=str, nargs=1)
+    arg_parser.add_argument('inputFile', type=str)
+    arg_parser.add_argument('outputFile', type=str)
     return arg_parser
 
 
