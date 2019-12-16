@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 '''semmeddb_tuple_list_json_to_kg_json.py: extracts all the predicate triples from SemMedDB, in the RTX KG2 JSON format
 
-   Usage: semmeddb_tuple_list_json_to_kg_json.py --inputFile <inputFile.json> --outputFile <outputFile.json>
+   Usage: semmeddb_tuple_list_json_to_kg_json.py <inputFile.json> <outputFile.json>
 '''
 import sys
 
@@ -100,8 +100,8 @@ def make_rel(preds_dict: dict,
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='semmeddb_mysql_to_json.py: extracts all the predicate triples from SemMedDB, in the RTX KG2 JSON format')
     arg_parser.add_argument('--test', dest='test', action='store_true', default=False)
-    arg_parser.add_argument('--inputFile', type=str, nargs=1)
-    arg_parser.add_argument('--outputFile', type=str, nargs=1)
+    arg_parser.add_argument('inputFile', type=str)
+    arg_parser.add_argument('outputFile', type=str)
     return arg_parser
 
 
