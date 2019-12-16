@@ -35,8 +35,8 @@ def make_arg_parser():
 
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
-    mysql_config_file = args.mysqlConfigFile[0]
-    mysql_db_name = args.mysqlDBName[0]
+    mysql_config_file = args.mysqlConfigFile
+    mysql_db_name = args.mysqlDBName
     test_mode = args.test
     connection = pymysql.connect(read_default_file=mysql_config_file, db=mysql_db_name)
     preds_dict = dict()
@@ -59,5 +59,5 @@ if __name__ == '__main__':
         cursor.execute(sql_statement)
         results['rows'] = cursor.fetchall()
     connection.close()
-    output_file_name = args.outputFile[0]
+    output_file_name = args.outputFile
     kg2_util.save_json(results, output_file_name, test_mode)
