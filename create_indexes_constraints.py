@@ -2,7 +2,7 @@
 
 ''' Creates Neo4j index and constraints for KG2
 
-    Usage: create_indexes_constraints.py <Neo4j Username> [<Neo4j Password>]
+    Usage: create_indexes_constraints.py [--passwordFile=<password-file-name>] <Neo4j Username> [<Neo4j Password>]
 '''
 import argparse
 import neo4j
@@ -71,18 +71,27 @@ def constraint(label_list):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("user", type=str, help="Neo4j Username",
-                        nargs=1)
-    parser.add_argument("password", help="Neo4j Password",
-                        type=str, nargs='?')
+    parser.add_argument("--passwordFile", type=str, help="File containing the password", required=False, nargs=1, default=None)
+    parser.add_argument("user", type=str, help="Neo4j Username")
+    parser.add_argument("password", help="Neo4j Password", type=str, nargs='?')
     arguments = parser.parse_args()
     username = arguments.user
-    password = arguments.password
-    if password is not None:
-        password = password
-    else:
+    password_file_name = arguments.passwordFile
+    if arguments.password is not None and arguments.passwordFile is not None:
+        print("Not allowed to specify both password_file and password command-line options", file=sys.stderr)
+        sys.exit()
+    password = None
+    if password_file_name is not None:
+        with open(password_file_name[0], 'r') as password_file:
+            password = password_file.readline().rstrip("\n")
+    if password is None:
+        password = arguments.password
+        if password is not None:
+            password = password
+    if password is None:
         password = getpass.getpass("Please enter the Neo4j database password: ")
     bolt = 'bolt://127.0.0.1:7687'
+#    print("user: " + username + "; password: " + password)
     driver = neo4j.GraphDatabase.driver(bolt, auth=(username, password))
     node_label_list = node_labels() + ['Base']
 
