@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 '''dgidb_tsv_to_kg_json.py: Extracts a KG2 JSON file from the DGIdb interactions file in TSV format
 
-   Usage: dgidb_tsv_to_kg_json.py [--test] --inputFile <inputFile.tsv> --outputFile <outputFile.json>
+   Usage: dgidb_tsv_to_kg_json.py [--test] <inputFile.tsv> <outputFile.json>
 '''
 
 __author__ = 'Stephen Ramsey'
@@ -33,8 +33,8 @@ TTD_CURIE_PREFIX = 'TTD'
 def get_args():
     arg_parser = argparse.ArgumentParser(description='dgidb_tsv_to_kg_json.py: builds a KG2 JSON file from the DGIdb interactions.tsv file')
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
-    arg_parser.add_argument('--inputFile', type=str, nargs=1)
-    arg_parser.add_argument('--outputFile', type=str, nargs=1)
+    arg_parser.add_argument('inputFile', type=str)
+    arg_parser.add_argument('outputFile', type=str)
     return arg_parser.parse_args()
 
 
