@@ -14,12 +14,13 @@ __email__ = ''
 __status__ = 'Prototype'
 
 import getpass
+import os
 import tempfile
 
 
 if __name__ == '__main__':
-    password = getpass.getpass("Please enter a password")
+    password = getpass.getpass("Please enter the password: ")
     tempfile = tempfile.mkstemp()[1]
-    with open(tempfile, 'w') as output_file:
+    with open(os.open(tempfile, os.O_CREAT | os.O_WRONLY, 0o600), 'w') as output_file:
         print(password, file=output_file)
     print(tempfile)
