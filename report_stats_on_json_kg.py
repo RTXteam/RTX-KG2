@@ -134,7 +134,7 @@ def count_types_of_pairs_of_curies_for_equivs(edges: list):
 
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
-    input_file_name = args.inputFile[0]
+    input_file_name = args.inputFile
     if not input_file_name.endswith('.gz'):
         input_file = open(input_file_name, 'r')
         graph = json.load(input_file)
@@ -168,4 +168,4 @@ if __name__ == '__main__':
     temp_output_file = tempfile.mkstemp(prefix='kg2-')[1]
     with open(temp_output_file, 'w') as outfile:
         json.dump(stats, outfile, indent=4, sort_keys=True)
-    shutil.move(temp_output_file, args.outputFile[0])
+    shutil.move(temp_output_file, args.outputFile)
