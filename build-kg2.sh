@@ -143,39 +143,39 @@ echo "running uniprotkb_dat_to_json.py"
 ## extract JSON file for UniProtKB
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/uniprotkb_dat_to_json.py \
            ${TEST_ARG} \
-	   --inputFile ${UNIPROTKB_DAT_FILE} \
-	   --outputFile ${UNIPROTKB_OUTPUT_FILE} 
+	   ${UNIPROTKB_DAT_FILE} \
+	   ${UNIPROTKB_OUTPUT_FILE} 
 
 echo "running semmeddb_tuple_list_json_to_kg_json.py"
 
 ## Build SemMedDB KG2 edges file as JSON:
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/semmeddb_tuple_list_json_to_kg_json.py \
            ${TEST_ARG} \
-           --inputFile ${SEMMED_TUPLELIST_FILE} \
-           --outputFile ${SEMMED_OUTPUT_FILE}
+           ${SEMMED_TUPLELIST_FILE} \
+           ${SEMMED_OUTPUT_FILE}
 
 echo "running ensembl_json_to_kg_json.py"
 
 ## Build Ensembl KG2 edges file as JSON:
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/ensembl_json_to_kg_json.py \
            ${TEST_ARG} \
-           --inputFile ${ENSEMBL_SOURCE_JSON_FILE} \
-           --outputFile ${ENSEMBL_OUTPUT_FILE}
+           ${ENSEMBL_SOURCE_JSON_FILE} \
+           ${ENSEMBL_OUTPUT_FILE}
 
 echo "running chembl_mysql_to_kg_json.py"
 
 ## Build Chembl KG2 edges file as JSON:
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/chembl_mysql_to_kg_json.py \
            ${TEST_ARG} \
-           --mysqlConfigFile ${MYSQL_CONF} \
-           --mysqlDBName ${CHEMBL_MYSQL_DBNAME} \
-           --outputFile ${CHEMBL_OUTPUT_FILE}
+           ${MYSQL_CONF} \
+           ${CHEMBL_MYSQL_DBNAME} \
+           ${CHEMBL_OUTPUT_FILE}
 
 echo "running build-multi-owl-kg.sh"
 
 ## Combine all the TTL files and OBO Foundry OWL files into KG and save as JSON:
 bash -x ${CODE_DIR}/build-multi-owl-kg.sh \
-     ${OUTPUT_FILE_FULL} ${BUILD_FLAG}
+           ${OUTPUT_FILE_FULL} ${BUILD_FLAG}
 
 echo "running unichem_tsv_to_edges_json.py"
 
@@ -183,8 +183,8 @@ echo "running unichem_tsv_to_edges_json.py"
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/unichem_tsv_to_edges_json.py \
            ${TEST_ARG} \
-           --inputFile ${UNICHEM_OUTPUT_TSV_FILE} \
-           --outputFile ${UNICHEM_OUTPUT_FILE}
+           ${UNICHEM_OUTPUT_TSV_FILE} \
+           ${UNICHEM_OUTPUT_FILE}
 
 echo "running ncbigene_tsv_to_kg_json.py"
 
@@ -192,8 +192,8 @@ echo "running ncbigene_tsv_to_kg_json.py"
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/ncbigene_tsv_to_kg_json.py \
            ${TEST_ARG} \
-           --inputFile ${NCBI_GENE_TSV_FILE} \
-           --outputFile ${NCBI_GENE_OUTPUT_FILE}
+           ${NCBI_GENE_TSV_FILE} \
+           ${NCBI_GENE_OUTPUT_FILE}
 
 echo "running dgidb_tsv_to_kg_json.py"
 
@@ -201,8 +201,8 @@ echo "running dgidb_tsv_to_kg_json.py"
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/dgidb_tsv_to_kg_json.py \
            ${TEST_ARG} \
-           --inputFile ${DGIDB_DIR}/interactions.tsv \
-           --outputFile ${DGIDB_OUTPUT_FILE} 2> ${DGIDB_DIR}/dgidb-tsv-to-kg-json.log
+           ${DGIDB_DIR}/interactions.tsv \
+           ${DGIDB_OUTPUT_FILE} 2> ${DGIDB_DIR}/dgidb-tsv-to-kg-json.log
 
 echo "running repodb_csv_to_kg_json.py"
 
@@ -210,8 +210,8 @@ echo "running repodb_csv_to_kg_json.py"
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/repodb_csv_to_kg_json.py \
            ${TEST_ARG} \
-           --inputFile ${REPODB_INPUT_FILE} \
-           --outputFile ${REPODB_OUTPUT_FILE} 2> ${REPODB_DIR}/repodb-csv-to-kg-json.log
+           ${REPODB_INPUT_FILE} \
+           ${REPODB_OUTPUT_FILE} 2> ${REPODB_DIR}/repodb-csv-to-kg-json.log
 
 echo "copying RTX Configuration JSON file from S3"
 
@@ -240,24 +240,24 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/merge_graphs.py \
                      ${DGIDB_OUTPUT_FILE} \
                      ${REPODB_OUTPUT_FILE} \
                      ${KG1_OUTPUT_FILE} \
-           --outputFile ${FINAL_OUTPUT_FILE_FULL} \
-           --kgFileOrphanEdges ${OUTPUT_FILE_ORPHAN_EDGES}
+           --kgFileOrphanEdges ${OUTPUT_FILE_ORPHAN_EDGES} \
+           ${FINAL_OUTPUT_FILE_FULL}
 
 echo "get_nodes_json_from_kg_json.py"
 
 ## Get a JSON file with just the nodes in it
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/get_nodes_json_from_kg_json.py \
-           --inputFile ${FINAL_OUTPUT_FILE_FULL} \
-           --outputFile ${OUTPUT_NODES_FILE_FULL}
+           ${FINAL_OUTPUT_FILE_FULL} \
+           ${OUTPUT_NODES_FILE_FULL}
 
 echo "report_stats_on_json_kg.py (full KG)"
 
 ## Generate a JSON report of statistics on the KG
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/report_stats_on_json_kg.py \
-           --inputFile ${FINAL_OUTPUT_FILE_FULL} \
-           --outputFile ${REPORT_FILE_FULL}
+           ${FINAL_OUTPUT_FILE_FULL} \
+           ${REPORT_FILE_FULL}
 
 echo "filter the JSON KG and remap predicates"
 
@@ -275,8 +275,8 @@ echo "report_stats_on_json_kg.py (simplified KG)"
 ## Generate a JSON report of statistics on the KG
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/report_stats_on_json_kg.py \
-           --inputFile ${SIMPLIFIED_OUTPUT_FILE_FULL} \
-           --outputFile ${SIMPLIFIED_REPORT_FILE_FULL}
+           ${SIMPLIFIED_OUTPUT_FILE_FULL} \
+           ${SIMPLIFIED_REPORT_FILE_FULL}
 
 gzip -f ${FINAL_OUTPUT_FILE_FULL}
 
@@ -284,8 +284,9 @@ gzip -f ${FINAL_OUTPUT_FILE_FULL}
 rm -r -f ${KG2_TSV_DIR}
 mkdir -p ${KG2_TSV_DIR}
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/kg_json_to_tsv.py \
-           --inputFile ${SIMPLIFIED_OUTPUT_FILE_FULL} \
-           --outputFileLocation ${KG2_TSV_DIR}
+           ${SIMPLIFIED_OUTPUT_FILE_FULL} \
+           ${KG2_TSV_DIR}
+
 tar -C ${KG2_TSV_DIR} -czvf ${KG2_TSV_TARBALL} nodes.tsv nodes_header.tsv edges.tsv edges_header.tsv
 ${S3_CP_CMD} ${KG2_TSV_TARBALL} s3://${S3_BUCKET}/
 
