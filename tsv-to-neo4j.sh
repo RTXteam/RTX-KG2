@@ -75,7 +75,7 @@ sudo service neo4j start
 sleep 1m
 
 # add indexes and constraints to the graph database
-${VENV_DIR}/bin/python3 -u ${CODE_DIR}/create_indexes_constraints.py --user ${USER}
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/create_indexes_constraints.py ${USER}
 
 # wait for indexing to complete
 sleep 5m
