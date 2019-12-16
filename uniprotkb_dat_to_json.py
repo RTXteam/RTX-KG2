@@ -238,8 +238,8 @@ def make_nodes(records: list):
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
     test_mode = args.test
-    input_file_name = args.inputFile[0]
-    output_file_name = args.outputFile[0]
+    input_file_name = args.inputFile
+    output_file_name = args.outputFile
     uniprot_records = parse_records_from_uniprot_dat(input_file_name,
                                                      DESIRED_SPECIES_INTS,
                                                      test_mode)
