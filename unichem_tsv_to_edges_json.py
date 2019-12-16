@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 '''unichem_tsv_to_edges_json.py: loads TSV ChEMBL-CHEBI mappings and converts into RTX KG2 JSON format
 
-   Usage: unichem_tsv_to_edges_json.py --inputFile <inputFile.tsv> --outputFile <outputFile.json>
+   Usage: unichem_tsv_to_edges_json.py <inputFile.tsv> <outputFile.json>
 '''
 
 __author__ = 'Stephen Ramsey'
@@ -36,8 +36,8 @@ def make_xref(subject: str,
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='unichem_tsv_to_edges_json.py: loads TSV ChEMBL-CURIE mappings and converts into RTX KG2 JSON format')
     arg_parser.add_argument('--test', dest='test', action='store_true', default=False)
-    arg_parser.add_argument('--inputFile', type=str, nargs=1)
-    arg_parser.add_argument('--outputFile', type=str, nargs=1)
+    arg_parser.add_argument('inputFile', type=str)
+    arg_parser.add_argument('outputFile', type=str)
     return arg_parser
 
 
