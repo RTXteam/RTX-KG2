@@ -61,6 +61,5 @@ if __name__ == '__main__':
             (chembl_curie_id, equiv_curie_id) = line.rstrip().split('\t')
             edges.append(make_xref(chembl_curie_id, equiv_curie_id, update_date))
 
-    output_file_name = args.outputFile[0]
     out_graph = {'edges': edges, 'nodes': nodes}
     kg2_util.save_json(out_graph, output_file_name, test_mode)
