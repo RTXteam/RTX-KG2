@@ -183,8 +183,8 @@ def get_rels_to_make_for_row(subject_str: str, object_str: str, predicate: str):
 
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
-    input_file_name = args.inputFile[0]
-    output_file_name = args.outputFile[0]
+    input_file_name = args.inputFile
+    output_file_name = args.outputFile
     test_mode = args.test
     input_data = json.load(open(input_file_name, 'r'))
     edges_dict = dict()
@@ -227,7 +227,5 @@ if __name__ == '__main__':
     for rel_dict in out_graph['edges']:
         if len(rel_dict['publications']) > 1:
             rel_dict['publications'] = list(set(rel_dict['publications']))
-
-    output_file_name = args.outputFile[0]
 
     kg2_util.save_json(out_graph, output_file_name, test_mode)
