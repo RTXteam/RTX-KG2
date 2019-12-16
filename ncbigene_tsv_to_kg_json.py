@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 '''ncbigene_tsv_to_kg_json.py: Extracts a KG2 JSON file from the NCBI human gene distribution in TSV format
 
-   Usage: ncbigene_tsv_to_kg_json.py [--test] --inputFile <inputFile.tsv> --outputFile <outputFile.json>
+   Usage: ncbigene_tsv_to_kg_json.py [--test] <inputFile.tsv> <outputFile.json>
 '''
 
 __author__ = 'Stephen Ramsey'
@@ -24,8 +24,8 @@ NCBI_RELATION_CURIE_PREFIX = 'NCBIGene'
 def get_args():
     arg_parser = argparse.ArgumentParser(description='ncbigene_tsv_to_kg_json.py: builds a KG2 JSON representation for NCBI human genes')
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
-    arg_parser.add_argument('--inputFile', type=str, nargs=1)
-    arg_parser.add_argument('--outputFile', type=str, nargs=1)
+    arg_parser.add_argument('inputFile', type=str)
+    arg_parser.add_argument('outputFile', type=str)
     return arg_parser.parse_args()
 
 
