@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 '''semmeddb_mysql_to_tuple_list_json.py: extracts all the predicate triples from SemMedDB, in a JSON tuple list
 
-   Usage: semmeddb_mysql_to_tuple_list_json.py [--test] --mysqlConfigFile <mysqlConfigFile> 
-                                               --mysqlDBName <mysqlDBName> --outputFile <outputFile.json>
+   Usage: semmeddb_mysql_to_tuple_list_json.py [--test] <mysqlConfigFile> <mysqlDBName> <outputFile.json>
 '''
 
 __author__ = 'Stephen Ramsey'
@@ -28,9 +27,9 @@ NEG_REGEX = re.compile('^NEG_', re.M)
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='semmeddb_mysql_to_tuple_list_json.py: extracts all the predicate triples from SemMedDB, as a list of tuples')
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
-    arg_parser.add_argument('--mysqlConfigFile', type=str, nargs=1)
-    arg_parser.add_argument('--mysqlDBName', type=str, nargs=1)
-    arg_parser.add_argument('--outputFile', type=str, nargs=1)
+    arg_parser.add_argument('mysqlConfigFile', type=str)
+    arg_parser.add_argument('mysqlDBName', type=str)
+    arg_parser.add_argument('outputFile', type=str)
     return arg_parser
 
 
