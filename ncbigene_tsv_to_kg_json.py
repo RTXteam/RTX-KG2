@@ -145,8 +145,8 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
 
 if __name__ == '__main__':
     args = get_args()
-    input_file_name = args.inputFile[0]
-    output_file_name = args.outputFile[0]
+    input_file_name = args.inputFile
+    output_file_name = args.outputFile
     test_mode = args.test
     graph = make_kg2_graph(input_file_name, test_mode)
     kg2_util.save_json(graph, output_file_name, test_mode)
