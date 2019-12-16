@@ -2,13 +2,11 @@
 
 ''' Creates a set of tsv files for importing into Neo4j from KG2 JSON
 
-    Usage: kg_json_to_tsv.py --inputFile <inputKGfile.json>
-                             --outputFileLocation <directory>
+    Usage: kg_json_to_tsv.py  <inputKGfile.json> <outputFileLocationDirectory>
 '''
 
 import json
 import csv as tsv
-import collections
 import datetime
 import argparse
 import sys
@@ -283,21 +281,21 @@ def edges(graph, output_file_location):
 if __name__ == '__main__':
     print("Start time: ", date())
     parser = argparse.ArgumentParser()
-    parser.add_argument("--inputFile", type=str, help="Path to Knowledge Graph \
-                        JSON File to Import",
-                        nargs=1, required=True)
-    parser.add_argument("--outputFileLocation", help="Path to Directory for Output\
-                        TSV Files to Go", type=str, nargs=1, required=True)
+    parser.add_argument("inputFile", type=str, help="Path to Knowledge Graph \
+                        JSON File to Import")
+    parser.add_argument("outputFileLocation", help="Path to Directory for Output\
+                        TSV Files to Go", type=str)
     arguments = parser.parse_args()
     print("Start load: ", date())
-    with open(arguments.inputFile[0]) as json_file:
+    with open(arguments.inputFile) as json_file:
         graph = json.load(json_file)
         print("End load: ", date())
         print("Start nodes: ", date())
-        nodes(graph, arguments.outputFileLocation[0])
+        output_file_location = arguments.outputFileLocation
+        nodes(graph, output_file_location)
         print("Finish nodes: ", date())
         print("Start edges: ", date())
-        edges(graph, arguments.outputFileLocation[0])
+        edges(graph, output_file_location)
         print("Finish edges: ", date())
         json_file.close()
         print("Finish time: ", date())
