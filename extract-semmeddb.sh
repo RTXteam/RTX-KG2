@@ -58,9 +58,9 @@ fi
 
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/semmeddb_mysql_to_tuple_list_json.py \
            ${TEST_ARG} \
-	   --mysqlConfigFile ${MYSQL_CONF} \
-	   --mysqlDBName ${MYSQL_DBNAME} \
-	   --outputFile ${SEMMED_OUTPUT_FILE}
+	   ${MYSQL_CONF} \
+	   ${MYSQL_DBNAME} \
+	   ${SEMMED_OUTPUT_FILE}
 
 date
 echo "================= script finished ================="
