@@ -2,7 +2,7 @@
 
 '''Extracts the nodes from a knowledge graph that is in JSON format; saves the nodes in JSON format.
 
-   Usage: get_nodes_json_from_graph_json.py --inputFile <inputFile.json> --outputFile <outputFile.json>
+   Usage: get_nodes_json_from_graph_json.py <inputFile.json> <outputFile.json>
    Either the input file or the output file can optionally have a ".gz" extension.
 '''
 
@@ -25,8 +25,8 @@ import tempfile
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='build-kg2: builds the KG2 knowledge graph for the RTX system')
     arg_parser.add_argument('--test', dest='test', action='store_true', default=False)
-    arg_parser.add_argument('--inputFile', type=str, nargs=1)
-    arg_parser.add_argument('--outputFile', type=str, nargs=1)
+    arg_parser.add_argument('inputFile', type=str)
+    arg_parser.add_argument('outputFile', type=str)
     return arg_parser
 
 
