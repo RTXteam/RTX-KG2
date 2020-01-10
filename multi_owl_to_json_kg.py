@@ -57,9 +57,12 @@ OWL_BASE_CLASS = 'owl:Thing'
 OWL_NOTHING = 'owl:Nothing'
 MYSTERIOUS_BASE_NODE_ID_TO_FILTER = '_:genid'
 NOCODE = 'NOCODE'
+CUI_PREFIX = 'CUI'
 ENSEMBL_LETTER_TO_CATEGORY = {'P': 'protein',
                               'G': 'gene',
                               'T': 'transcript'}
+
+ontologies_where_cui_had_wrong_prefix = set()
 
 # -------------- subroutines with side-effects go here ------------------
 
@@ -413,6 +416,10 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             if iri is None:
                 iri = ontology_node_id
 
+            # Ensure all CUI nodes use a 'umls/cui' IRI (part of fix for #565)
+            if is_cui_id(node_curie_id):
+                iri = CUI_BASE_IRI + '/' + get_local_id_from_curie_id(node_curie_id)
+
             if not iri.startswith('http:') and not iri.startswith('https:'):
                 iri = prefixcommons.expand_uri(iri)
 
@@ -484,7 +491,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         if xref_curie.startswith('MESH:'):
                             xref_curie = xref_curie.replace('MESH:', 'MSH:')
                         elif xref_curie.startswith('UMLS:C'):
-                            xref_curie = 'CUI:' + xref_curie.split('UMLS:')[1]
+                            xref_curie = CUI_PREFIX + ':' + xref_curie.split('UMLS:')[1]
                         node_xrefs.add(xref_curie)
                 basic_property_values = node_meta.get('basicPropertyValues', None)
                 if basic_property_values is not None:
@@ -631,6 +638,10 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         cui_curie = uri_to_curie_shortener(cui_uri)
                         assert cui_curie is not None
                         assert not cui_curie.startswith('UMLS:C')  # :DEBUG:
+                        # Skip this CUI if it's identical to the ontology node itself (happens with files created
+                        # using 'load_on_cuis' - part of fix for issue #565)
+                        if get_local_id_from_curie_id(cui_curie) == get_local_id_from_curie_id(node_curie_id):
+                            continue
                         cui_node_dict['id'] = cui_curie
                         cui_node_dict['iri'] = cui_uri
                         cui_node_dict['synonym'] = []
@@ -806,6 +817,9 @@ def get_rels_dict(nodes: dict,
                                                       ontology_update_date)
                             rels_dict[key] = edge
 
+    # Temporarily displaying this as a sanity check (should only be the umls 'load_on_cuis' files)
+    print(f"Corrected CUI prefixes from these ontologies: {ontologies_where_cui_had_wrong_prefix}")
+
     return rels_dict
 
 
@@ -818,7 +832,7 @@ def get_node_curie_id_from_ontology_node_id(ontology_node_id: str,
             if not ontology_node_id.startswith('UMLS:C'):
                 node_curie_id = ontology_node_id
             else:
-                node_curie_id = 'CUI:' + ontology_node_id.split('UMLS:')[1]
+                node_curie_id = CUI_PREFIX + ':' + ontology_node_id.split('UMLS:')[1]
         else:
             node_curie_id = uri_to_curie_shortener(prefixcommons.expand_uri(ontology_node_id))
     else:
@@ -829,6 +843,12 @@ def get_node_curie_id_from_ontology_node_id(ontology_node_id: str,
                                  node_curie_id=ontology_node_id,
                                  output_stream=sys.stderr)
             node_curie_id = ontology_node_id
+
+    # Ensure that all CUI CURIE IDs use the "CUI:" prefix (part of fix for issue #565)
+    if is_cui_id(node_curie_id) and get_prefix_from_curie_id(node_curie_id) != CUI_PREFIX:
+        node_curie_id = CUI_PREFIX + ":" + get_local_id_from_curie_id(node_curie_id)
+        ontologies_where_cui_had_wrong_prefix.add(ontology.id)
+
     return node_curie_id
 
 # --------------- pure functions here -------------------
@@ -868,6 +888,25 @@ def make_uri_to_curie_shortener(curie_to_iri_map: list = []):
 def get_prefix_from_curie_id(curie_id: str):
     assert ':' in curie_id
     return curie_id.split(':')[0]
+
+
+def get_local_id_from_curie_id(curie_id: str):
+    """
+    This function returns the local ID from a CURIE ID, where a CURIE ID consists of "<Prefix>:<Local ID>".
+    For example, the function would return "C3540330" for CURIE ID "CUI:C3540330".
+    """
+    assert ':' in curie_id
+    return curie_id.split(':')[1]
+
+
+def is_cui_id(curie_id: str):
+    """
+    This function determines if the local ID in a CURIE ID is a CUI, regardless of the CURIE prefix used.
+    For example, the function would return True for CURIE ID "MTH:C1527116".
+    """
+    local_id = get_local_id_from_curie_id(curie_id)
+    # CUIs consist of the letter 'C' followed by 7 numbers
+    return True if local_id.startswith('C') and len(local_id) == 8 and local_id[1:].isdigit() else False
 
 
 def make_map_of_node_ontology_ids_to_curie_ids(nodes: dict):
