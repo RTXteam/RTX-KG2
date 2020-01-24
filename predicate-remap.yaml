@@ -664,6 +664,10 @@ MMSL:has_ingredient:
   invert: [part_of, 'BFO:0000050']
 MMSL:ingredient_of:
   rename: [part_of, 'BFO:0000050']
+MMSL:inverse_isa:
+  invert: [subclass_of, 'Biolink:subclass_of']
+MMSL:isa:
+  rename: [subclass_of, 'Biolink:subclass_of']
 MONDO:disease_causes_feature: {keep: null}
 MONDO:disease_has_basis_in_accumulation_of: {keep: null}
 MONDO:disease_has_basis_in_development_of: {keep: null}
@@ -673,6 +677,21 @@ MONDO:disease_shares_features_of: {keep: null}
 MONDO:disease_triggers: {keep: null}
 MONDO:part_of_progression_of_disease: {keep: null}
 MONDO:predisposes_towards: {keep: null}
+MTH:exhibited_by:
+  rename: [related_to, 'Biolink:related_to']
+MTH:exhibits: {delete: null}
+MTH:form_of: {delete: null}
+MTH:has_form:
+  rename: [related_to, 'Biolink:related_to']
+MTH:measured_by:
+  rename: [quantifier_qualifier, 'Biolink:quantifier_qualifier']
+MTH:measures: {delete: null}
+MTH:RB:
+  rename: [subclass_of, 'Biolink:subclass_of']
+MTH:RO:
+  invert: [related_to, 'Biolink:related_to']
+MTH:SY:
+  rename: [close_match, 'skos:closeMatch']
 MTHMST:RB:
   rename: [subclass_of, 'Biolink:subclass_of']
 MTHMST:RO:
@@ -1113,6 +1132,8 @@ NDFRT:has_pharmacokinetics:
   rename: [has_route, 'Biolink:has_route']
 NDFRT:has_physiologic_effect:
   rename: [causes_condition, 'RO:0003303']
+NDFRT:has_print_name:
+  rename: [close_match, 'skos:closeMatch']
 NDFRT:has_product_component: {delete: null}
 NDFRT:induced_by: {delete: null}
 NDFRT:induces:
@@ -1134,6 +1155,7 @@ NDFRT:mechanism_of_action_of: {delete: null}
 NDFRT:metabolic_site_of: {delete: null}
 NDFRT:pharmacokinetics_of: {delete: null}
 NDFRT:physiologic_effect_of: {delete: null}
+NDFRT:print_name_of: {delete: null}
 NDFRT:product_component_of:
   rename: [part_of, 'BFO:0000050']
 NDFRT:site_of_metabolism:
