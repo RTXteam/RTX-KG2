@@ -687,7 +687,7 @@ MTH:measured_by:
   rename: [quantifier_qualifier, 'Biolink:quantifier_qualifier']
 MTH:measures: {delete: null}
 MTH:RB:
-  rename: [subclass_of, 'Biolink:subclass_of']
+  invert: [subclass_of, 'Biolink:subclass_of']
 MTH:RO:
   invert: [related_to, 'Biolink:related_to']
 MTH:SY:
