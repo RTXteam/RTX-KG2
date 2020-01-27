@@ -693,7 +693,7 @@ MTH:RO:
 MTH:SY:
   rename: [close_match, 'skos:closeMatch']
 MTHMST:RB:
-  rename: [subclass_of, 'Biolink:subclass_of']
+  invert: [subclass_of, 'Biolink:subclass_of']
 MTHMST:RO:
   invert: [related_to, 'Biolink:related_to']
 MTHMST:associated_with:
