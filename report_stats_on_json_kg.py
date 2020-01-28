@@ -2,7 +2,7 @@
 
 '''Prints a JSON overview report of a JSON knowledge graph in Biolink format, to STDOUT.
 
-   Usage: report_stats_on_json_kg.py <inputKGFile.json> <outputKGFile.json>
+   Usage: report_stats_on_json_kg.py <inputKGFile.json> <outputKGFile.json> [--useSimplifiedPredicates]
    The input file can be optionally gzipped (specify with the .gz extension).
 '''
 
@@ -30,6 +30,7 @@ def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='build-kg2: builds the KG2 knowledge graph for the RTX system')
     arg_parser.add_argument('inputFile', type=str)
     arg_parser.add_argument('outputFile', type=str)
+    arg_parser.add_argument('--useSimplifiedPredicates', dest='use_simplified_predicates', action='store_true', default=False)
     return arg_parser
 
 
@@ -90,19 +91,23 @@ def count_edges_by_source(edges: list):
 
 
 def count_edges_by_predicate_curie(edges: list):
-    return collections.Counter([edge['relation curie'] for edge in edges])
+    curie_field = 'relation curie' if not args.use_simplified_predicates else 'simplified relation curie'
+    return collections.Counter([edge[curie_field] for edge in edges])
 
 
 def count_edges_by_predicate_type(edges: list):
-    return collections.Counter([edge['edge label'] for edge in edges])
+    label_field = 'edge label' if not args.use_simplified_predicates else 'simplified edge label'
+    return collections.Counter([edge[label_field] for edge in edges])
 
 
 def count_edges_by_predicate_curie_prefix(edges: list):
-    return collections.Counter([get_prefix_from_curie_id(edge['relation curie']) for edge in edges])
+    curie_field = 'relation curie' if not args.use_simplified_predicates else 'simplified relation curie'
+    return collections.Counter([get_prefix_from_curie_id(edge[curie_field]) for edge in edges])
 
 
 def count_predicates_by_predicate_curie_prefix(edges: list):
-    unique_relation_curies = set([edge['relation curie'] for edge in edges])
+    curie_field = 'relation curie' if not args.use_simplified_predicates else 'simplified relation curie'
+    unique_relation_curies = set([edge[curie_field] for edge in edges])
     return collections.Counter([get_prefix_from_curie_id(curie) for curie in unique_relation_curies])
 
 
