@@ -2,7 +2,7 @@
 
 '''Prints a JSON overview report of a JSON knowledge graph in Biolink format, to STDOUT.
 
-   Usage: report_stats_on_json_kg.py <inputKGFile.json> <outputKGFile.json> [--useSimplifiedPredicates]
+   Usage: report_stats_on_json_kg.py [--useSimplifiedPredicates] <inputKGFile.json> <outputKGFile.json>
    The input file can be optionally gzipped (specify with the .gz extension).
 '''
 
