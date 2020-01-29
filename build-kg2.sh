@@ -275,6 +275,7 @@ echo "report_stats_on_json_kg.py (simplified KG)"
 ## Generate a JSON report of statistics on the KG
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/report_stats_on_json_kg.py \
+           --useSimplifiedPredicates \
            ${SIMPLIFIED_OUTPUT_FILE_FULL} \
            ${SIMPLIFIED_REPORT_FILE_FULL}
 
