@@ -331,7 +331,7 @@ Thank you to the many people who have contributed to the development of RTX KG2:
 ## Code
 Stephen Ramsey, Amy Glen, Finn Womack, Erica Wood, Veronica Flores, Deqing Qu, and Lindsey Kvarfordt.
 
-## Technical advice
+## Advice and feedback
 David Koslicki, Eric Deutsch, Yao Yao, Jared Roach, Chris Mungall, Tom Conlin, Matt Brush,
 Chunlei Wu, and Will Byrd.
 
