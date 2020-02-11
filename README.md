@@ -329,7 +329,7 @@ In Step 4, you will be prompted to enter the Neo4j database password that you ch
 Thank you to the many people who have contributed to the development of RTX KG2:
 
 ## Code
-Stephen Ramsey, Finn Womack, Erica Wood, Veronica Flores, and Deqing Qu.
+Stephen Ramsey, Amy Glen, Finn Womack, Erica Wood, Veronica Flores, Deqing Qu, and Lindsey Kvarfordt.
 
 ## Technical advice
 David Koslicki, Eric Deutsch, Yao Yao, Jared Roach, Chris Mungall, Tom Conlin, Matt Brush,
