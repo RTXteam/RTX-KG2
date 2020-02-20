@@ -73,6 +73,8 @@ REPORT_FILE_FULL=${BUILD_DIR}/${REPORT_FILE_BASE}
 SIMPLIFIED_REPORT_FILE_BASE=kg2-simplified-report${TEST_SUFFIX}.json
 SIMPLIFIED_REPORT_FILE_FULL=${BUILD_DIR}/${SIMPLIFIED_REPORT_FILE_BASE}
 
+SLIM_OUTPUT_FILE_FULL=${BUILD_DIR}/kg2-slim${TEST_SUFFIX}.json
+
 ENSEMBL_SOURCE_JSON_FILE=${BUILD_DIR}/ensembl/ensembl_genes_homo_sapiens.json
 ENSEMBL_OUTPUT_FILE=${BUILD_DIR}/kg2-ensembl${TEST_SUFFIX}.json
 
@@ -270,6 +272,12 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/filter_kg_and_remap_predicates.py \
            ${FINAL_OUTPUT_FILE_FULL} \
            ${SIMPLIFIED_OUTPUT_FILE_FULL}
 
+echo "generating slimmed-down kg2 (issue #597)"
+
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/slim_kg2.py \
+           --outputFile ${SLIM_OUTPUT_FILE_FULL} \
+           ${SIMPLIFIED_OUTPUT_FILE_FULL}
+
 echo "report_stats_on_json_kg.py (simplified KG)"
 
 ## Generate a JSON report of statistics on the KG
@@ -295,6 +303,7 @@ ${S3_CP_CMD} ${KG2_TSV_TARBALL} s3://${S3_BUCKET}/
 gzip -f ${SIMPLIFIED_OUTPUT_FILE_FULL}
 gzip -f ${OUTPUT_NODES_FILE_FULL}
 gzip -f ${OUTPUT_FILE_ORPHAN_EDGES}
+gzip -f ${SLIM_OUTPUT_FILE_FULL}
 
 ## copy the KG and various build artifacts to the public S3 bucket
 ${S3_CP_CMD} ${FINAL_OUTPUT_FILE_FULL}.gz s3://${S3_BUCKET}/
@@ -303,6 +312,7 @@ ${S3_CP_CMD} ${OUTPUT_NODES_FILE_FULL}.gz s3://${S3_BUCKET}/
 ${S3_CP_CMD} ${REPORT_FILE_FULL} s3://${S3_BUCKET_PUBLIC}/
 ${S3_CP_CMD} ${SIMPLIFIED_REPORT_FILE_FULL} s3://${S3_BUCKET_PUBLIC}/
 ${S3_CP_CMD} ${OUTPUT_FILE_ORPHAN_EDGES}.gz s3://${S3_BUCKET_PUBLIC}/
+${S3_CP_CMD} ${SLIM_OUTPUT_FILE_FULL}.gz s3://${S3_BUCKET}/
 
 ## copy the log files to the public S3 bucket
 BUILD_MULTI_OWL_STDERR_FILE="${BUILD_DIR}/build-${OUTPUT_FILE_BASE%.*}"-stderr.log
