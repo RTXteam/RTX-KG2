@@ -1,6 +1,6 @@
 # Contact
 
-## Maintenaner
+## Maintainer
 
 Stephen Ramsey, Oregon State University (stephen.ramsey@oregonstate.edu)
 
