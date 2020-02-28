@@ -25,8 +25,8 @@ def make_arg_parser():
 
 
 if __name__ == "__main__":
-    node_set = set(["name", "id", "full_name", "category_label"])
-    edge_set = set(["simplified_relation_curie", "subject", "object", "simplified_edge_label", "provided_by"])
+    node_set = set(["name", "id", "full name", "category label"])
+    edge_set = set(["simplified relation curie", "subject", "object", "simplified edge label", "provided by"])
 
     args = make_arg_parser().parse_args()
     pretty = False
