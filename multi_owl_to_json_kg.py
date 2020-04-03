@@ -853,7 +853,7 @@ def shorten_iri_to_curie(iri: str, curie_to_iri_map: list = []):
     if "/GO/GO%3A" in iri:  # hack for fixing issue #410
         iri = iri.replace("/GO/GO%3A", "/GO/")
     if "/HPO/HP%3A" in iri:  # hack for fixing issue #665
-        iri = iri.replace("/HPO/HP%3A", "/HPO/")
+        iri = iri.replace("/HPO/HP%3A", "/HP/")
     curie_list = prefixcommons.contract_uri(iri,
                                             curie_to_iri_map)
     assert len(curie_list) in [0, 1]
