@@ -61,7 +61,6 @@ ENSEMBL_LETTER_TO_CATEGORY = {'P': 'protein',
                               'G': 'gene',
                               'T': 'transcript'}
 
-ontologies_where_cui_had_wrong_prefix = set()
 
 # -------------- subroutines with side-effects go here ------------------
 
@@ -810,9 +809,6 @@ def get_rels_dict(nodes: dict,
                                                       ontology_update_date)
                             rels_dict[key] = edge
 
-    # Temporarily displaying this as a sanity check (should only be the umls 'load_on_cuis' files)
-    print(f"Corrected CUI prefixes from these ontologies: {ontologies_where_cui_had_wrong_prefix}")
-
     return rels_dict
 
 
@@ -840,7 +836,6 @@ def get_node_curie_id_from_ontology_node_id(ontology_node_id: str,
     # Ensure that all CUI CURIE IDs use the "CUI:" prefix (part of fix for issue #565)
     if is_cui_id(node_curie_id) and get_prefix_from_curie_id(node_curie_id) != CUI_PREFIX:
         node_curie_id = CUI_PREFIX + ":" + get_local_id_from_curie_id(node_curie_id)
-        ontologies_where_cui_had_wrong_prefix.add(ontology.id)
 
     return node_curie_id
 
@@ -852,6 +847,8 @@ def shorten_iri_to_curie(iri: str, curie_to_iri_map: list = []):
         return iri
     if "/GO/GO%3A" in iri:  # hack for fixing issue #410
         iri = iri.replace("/GO/GO%3A", "/GO/")
+    if "/HPO/HP%3A" in iri:  # hack for fixing issue #665
+        iri = iri.replace("/HPO/HP%3A", "/HP/")
     curie_list = prefixcommons.contract_uri(iri,
                                             curie_to_iri_map)
     assert len(curie_list) in [0, 1]
