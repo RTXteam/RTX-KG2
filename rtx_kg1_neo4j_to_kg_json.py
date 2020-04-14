@@ -57,7 +57,8 @@ KG1_PROVIDED_BY_TO_KG2_IRIS = {
     'KEGG': 'http://genome.jp/kegg',
     'CHEMBL.COMPOUND': 'https://www.ebi.ac.uk/chembl',
     'NCBIGene': 'https://www.ncbi.nlm.nih.gov/gene',
-    'AQTLTrait': 'http://purl.obolibrary.org/ontology/hp.obo'  # KG1 has a single AQTLTrait node, which has an HP uri
+    'AQTLTrait': 'http://purl.obolibrary.org/ontology/hp.obo',  # KG1 has a single AQTLTrait node, which has an HP uri
+    'GeneProf': 'http://www.geneprof.org/'
     }
 
 
