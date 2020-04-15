@@ -16,6 +16,7 @@ __status__ = 'Prototype'
 
 import copy
 import gzip
+import html.parser
 import io
 import json
 import os
@@ -44,7 +45,26 @@ CURIE_PREFIX_NCBI_GENE = 'NCBIGene'
 CURIE_PREFIX_NCBI_TAXON = 'NCBITaxon'
 
 
-def load_json(input_file_name):
+class MLStripper(html.parser.HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.reset()
+        self.fed = []
+
+    def handle_data(self, d):
+        self.fed.append(d)
+
+    def get_data(self):
+        return ''.join(self.fed)
+
+
+def strip_html(input_string: str) -> str:
+    html_stripper = MLStripper()
+    html_stripper.feed(input_string.replace('</p><p>', '</p><p> '))
+    return html_stripper.get_data()
+
+
+def load_json(input_file_name: str):
     return json.load(open(input_file_name, 'r'))
 
 
