@@ -517,7 +517,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         elif bpv_pred_curie == 'skos:altLabel':
                             node_synonyms.add(bpv_val)
                         elif bpv_pred_curie == 'skos:definition':
-                            node_description = bpv_val
+                            node_description = kg2_util.strip_html(bpv_val)
                         elif bpv_pred_curie == 'HGNC:GENESYMBOL':
                             node_name = bpv_val
                             node_synonyms.add(bpv_val)
