@@ -90,8 +90,11 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
             if symbol_auth is not None and symbol_auth != gene_symbol:
                 node_synonyms = [symbol_auth] + node_synonyms
             node_synonyms = list(set(node_synonyms))
+            full_name = full_name_auth
+            if full_name is None:
+                full_name = description
             node_dict = make_node(ncbi_gene_id,
-                                  full_name_auth,
+                                  full_name,
                                   gene_symbol,
                                   modify_date,
                                   node_synonyms)
