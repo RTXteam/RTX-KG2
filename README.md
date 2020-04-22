@@ -1,8 +1,9 @@
 # Contact
 
-## Maintainer
+## Maintainers
 
-Stephen Ramsey, Oregon State University (stephen.ramsey@oregonstate.edu)
+- Stephen Ramsey, Oregon State University (stephen.ramsey@oregonstate.edu)
+- Amy Glen, Oregon State University (glena@oregonstate.edu)
 
 ## Bug reports
 
