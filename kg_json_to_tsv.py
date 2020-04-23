@@ -260,7 +260,7 @@ def edges(graph, output_file_location):
         if loop == 1:
             edgekeys = no_space('publications info', edgekeys,
                                 'publications_info')
-            edgekeys = no_space('provided by', edgekeys, 'provided_by')
+            edgekeys = no_space('provided by', edgekeys, 'provided_by:string[]')
             edgekeys = no_space('relation curie', edgekeys, 'relation_curie')
             edgekeys = no_space('update date', edgekeys, 'update_date')
             edgekeys = no_space('simplified relation curie', edgekeys, 'simplified_relation_curie')
