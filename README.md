@@ -187,46 +187,46 @@ to a file `~/kg2-build/build-kg2-owl-stderr.log`.
 
 ### Option 2: build KG2 in parallel (about 54 hours) directly on an Ubuntu system: (NOT CURRENTLY WORKING)
 
-(1)-(5) Follow steps (1) through (5) from Option 1
+<!-- (1)-(5) Follow steps (1) through (5) from Option 1 -->
 
-(6) Initiate a `screen` session to provide a stable pseudo-tty:
+<!-- (6) Initiate a `screen` session to provide a stable pseudo-tty: -->
 
-    screen
+<!--     screen -->
 
-(7) Within the `screen` session, run:
+<!-- (7) Within the `screen` session, run: -->
 
-    ~/kg2-code/build-kg2-snakemake.sh
+<!--     ~/kg2-code/build-kg2-snakemake.sh -->
 
-to generate the full size knowledge graph. Then exit screen (using `ctrl-a d`). Note that there is 
-no need to redirect `stdout` or `stderr` to a log file when executing `build-kg2-snakemake.sh`; 
-this is because the script saves its own `stdout` and `stderr` to a log file 
-(`build-kg2-snakemake.log`, located in the build directory). If you don't want to see all of the 
-printouts, but want to know which files have finished, you can look at the log file in `.snakemake/log/` 
-(if you have run snakemake before, choose the file named with the date you started the build).
+<!-- to generate the full size knowledge graph. Then exit screen (using `ctrl-a d`). Note that there is  -->
+<!-- no need to redirect `stdout` or `stderr` to a log file when executing `build-kg2-snakemake.sh`;  -->
+<!-- this is because the script saves its own `stdout` and `stderr` to a log file  -->
+<!-- (`build-kg2-snakemake.log`, located in the build directory). If you don't want to see all of the  -->
+<!-- printouts, but want to know which files have finished, you can look at the log file in `.snakemake/log/`  -->
+<!-- (if you have run snakemake before, choose the file named with the date you started the build). -->
 
-If you want to create a test size graph (about 31 hours), run:
+<!-- If you want to create a test size graph (about 31 hours), run: -->
 
-    ~/kg2-code/build-kg2-snakemake.sh test
+<!--     ~/kg2-code/build-kg2-snakemake.sh test -->
 
-You can watch the progress of your KG2 build by using this command:
+<!-- You can watch the progress of your KG2 build by using this command: -->
 
-    tail -f ~/kg2-build/build-kg2-snakemake.log
+<!--     tail -f ~/kg2-build/build-kg2-snakemake.log -->
     
-Note that the `build-multi-owl-kg.sh` script also saves `stderr` from running `multi_owl_to_json_kg.py`
-to a file `~/kg2-build/build-kg2-owl-stderr.log`.
+<!-- Note that the `build-multi-owl-kg.sh` script also saves `stderr` from running `multi_owl_to_json_kg.py` -->
+<!-- to a file `~/kg2-build/build-kg2-owl-stderr.log`. -->
 
-(8) When the build is complete, look for the following line (the 2nd line from
-    the bottom) in `build-kg2-snakemake.log` and `.snakemake/log/` file (you only need
-    to check one):
+<!-- (8) When the build is complete, look for the following line (the 2nd line from -->
+<!--     the bottom) in `build-kg2-snakemake.log` and `.snakemake/log/` file (you only need -->
+<!--     to check one): -->
 
-    22 of 22 steps (100%) done
+<!--     22 of 22 steps (100%) done -->
 
-If that line is present the Snakefile completed successfully (as more databases are added, 22 could grow to 
-a larger number. The important piece is 100%). If any line says:
+<!-- If that line is present the Snakefile completed successfully (as more databases are added, 22 could grow to  -->
+<!-- a larger number. The important piece is 100%). If any line says: -->
 
-    (exited with non-zero exit code)
+<!--     (exited with non-zero exit code) -->
 
-the code failed.
+<!-- the code failed. -->
 
 ### Option 3: remotely build KG2 in an EC2 instance via ssh, orchestrated from your local computer
 
