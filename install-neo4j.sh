@@ -23,7 +23,7 @@ wget --no-check-certificate -O - https://debian.neo4j.org/neotechnology.gpg.key 
 echo 'deb http://debian.neo4j.org/repo stable/' > /tmp/neo4j.list
 sudo mv /tmp/neo4j.list /etc/apt/sources.list.d/neo4j.list
 sudo apt-get update -y
-sudo apt-get install -y neo4j
+sudo apt-get install -y neo4j=1:3.5.13
 sudo cp /etc/neo4j/neo4j.conf /etc/neo4j/neo4j.conf.ori
 
 # read -p "Do you want neo4j to be configured for write access? " -n 1 -r
@@ -52,9 +52,11 @@ sudo cp /etc/neo4j/neo4j.conf /etc/neo4j/neo4j.conf.ori
 # then
     cd /tmp
     wget https://github.com/neo4j-contrib/neo4j-apoc-procedures/releases/download/3.5.0.4/apoc-3.5.0.4-all.jar
+    wget https://github.com/neo4j-contrib/neo4j-graph-algorithms/releases/download/3.5.4.0/graph-algorithms-algo-3.5.4.0.jar
     sudo service neo4j stop
+    sudo mv /tmp/graph-algorithms-algo-3.5.4.0.jar /var/lib/neo4j/plugins
     sudo mv /tmp/apoc-3.5.0.4-all.jar /var/lib/neo4j/plugins
-    cat /etc/neo4j/neo4j.conf | sed 's/#dbms.security.procedures.unrestricted=my.extensions.example,my.procedures.*/dbms.security.procedures.unrestricted=apoc.*/g' > \
+    cat /etc/neo4j/neo4j.conf | sed 's/#dbms.security.procedures.unrestricted=my.extensions.example,my.procedures.*/dbms.security.procedures.unrestricted=apoc.*,algo.*/g' > \
                                     /tmp/neo4j.conf
     sudo mv /tmp/neo4j.conf /etc/neo4j
     sudo service neo4j start
