@@ -234,7 +234,6 @@ term-mappings:
     TUI:T123: biological substance
     TUI:T125: protein
     TUI:T126: protein
-    TUI:T126: biological food component
     TUI:T129: protein
     TUI:T131: hazardous substance
     TUI:T167: substance
