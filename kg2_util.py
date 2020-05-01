@@ -156,18 +156,22 @@ def merge_two_dicts(x: dict, y: dict):
                             if value.endswith('/STY'):
                                 ret_dict[key] = value
                         elif key == 'category label':
-                            if value != 'unknown category' and stored_value == 'unknown category':
-                                stored_desc = ret_dict.get('description', None)
-                                new_desc = y.get('description', None)
-                                if stored_desc is not None and new_desc is not None:
-                                    if len(new_desc) > len(stored_desc):
+                            if value != 'unknown_category':
+                                if stored_value == 'unknown_category':
+                                    ret_dict[key] = value
+                                else:
+                                    stored_desc = ret_dict.get('description', None)
+                                    new_desc = y.get('description', None)
+                                    if stored_desc is not None and new_desc is not None and len(new_desc) > len(stored_desc):
                                         ret_dict[key] = value
                         elif key == 'category':
-                            if not value.endswith('/UnknownCategory') and stored_value.endswith('/UnknownCategory'):
-                                stored_desc = ret_dict.get('description', None)
-                                new_desc = y.get('description', None)
-                                if stored_desc is not None and new_desc is not None:
-                                    if len(new_desc) > len(stored_desc):
+                            if not value.endswith('/UnknownCategory'):
+                                if stored_value.endswith('/UnknownCategory'):
+                                    ret_dict[key] = value
+                                else:
+                                    stored_desc = ret_dict.get('description', None)
+                                    new_desc = y.get('description', None)
+                                    if stored_desc is not None and new_desc is not None and len(new_desc) > len(stored_desc):
                                         ret_dict[key] = value
                         elif key == 'name' or key == 'full name':
                             if value.replace(' ', '_') != stored_value.replace(' ', '_'):
