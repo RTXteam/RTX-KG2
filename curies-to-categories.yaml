@@ -230,6 +230,7 @@ term-mappings:
     TUI:T096: group of people
     TUI:T102: attribute
     TUI:T103: chemical substance
+    TUI:T116: protein
     TUI:T121: drug
     TUI:T123: biological substance
     TUI:T125: protein
