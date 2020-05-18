@@ -36,6 +36,7 @@ def make_arg_parser():
     arg_parser.add_argument('inputFileJson', type=str, help="The input KG2 grah, in JSON format")
     arg_parser.add_argument('outputFileJson', type=str, help="The output KG2 graph, in JSON format")
     arg_parser.add_argument('--test', dest='test', action='store_true', default=False)
+    arg_parser.add_argument('--dropSelfSubclass', dest='drop_self_subclass', action='store_true', default=False)
     arg_parser.add_argument('--dropNegated', dest='drop_negated', action='store_true', default=False)
     return arg_parser
 
@@ -48,6 +49,7 @@ if __name__ == '__main__':
     output_file_name = args.outputFileJson
     test_mode = args.test
     drop_negated = args.drop_negated
+    drop_self_subclass = args.drop_self_subclass
     predicate_remap_config = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(predicate_remap_file_name))
     curies_to_uri_lal = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_uri_lal_file_name))
     curies_to_uri_map = prefixcommons.curie_util.default_curie_maps + curies_to_uri_lal
@@ -110,6 +112,10 @@ if __name__ == '__main__':
             edge_dict['subject'] = edge_dict['object']
             edge_dict['object'] = new_object
         edge_dict['simplified edge label'] = simplified_edge_label
+        if drop_self_subclass and \
+           simplified_edge_label == 'subclass_of' and \
+           edge_dict['subject'] == edge_dict['object']:
+            continue  # see issue 743
         edge_dict['simplified relation curie'] = simplified_relation_curie
         if simplified_relation_curie in nodes_dict:
             simplified_relation = nodes_dict[simplified_relation_curie]['iri']
