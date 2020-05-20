@@ -55,7 +55,7 @@ def make_node(ensembl_gene_id: str,
     if other_synonyms is None:
         other_synonyms = []
     node_curie = kg2_util.CURIE_PREFIX_ENSEMBL + ':' + ensembl_gene_id
-    iri = ENSEMBL_BASE_IRI + '/' + ensembl_gene_id
+    iri = ENSEMBL_BASE_IRI + ensembl_gene_id
     node_dict = kg2_util.make_node(node_curie,
                                    iri,
                                    description,
