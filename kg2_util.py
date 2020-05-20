@@ -38,7 +38,7 @@ CURIE_PREFIX_ENSEMBL = 'ENSEMBL'
 TEMP_FILE_PREFIX = 'kg2'
 FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
 ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
-BIOLINK_CATEGORY_BASE_IRI = 'https://biolink.github.io/biolink-model/docs'
+BIOLINK_CATEGORY_BASE_IRI = 'https://biolink.github.io/biolink-model/docs/'
 BIOLINK_CURIE_PREFIX = 'Biolink'
 IRI_OWL_SAME_AS = 'http://www.w3.org/2002/07/owl#sameAs'
 CURIE_OWL_SAME_AS = 'owl:sameAs'
@@ -248,6 +248,10 @@ def convert_snake_case_to_camel_case(name: str):
     return name
 
 
+def convert_space_case_to_camel_case(name: str):
+    return name.title().replace(' ', '')
+
+
 def convert_camel_case_to_snake_case(name: str):
     s1 = FIRST_CAP_RE.sub(r'\1_\2', name)
     converted = ALL_CAP_RE.sub(r'\1_\2', s1).lower()
@@ -260,7 +264,7 @@ def convert_camel_case_to_snake_case(name: str):
 def convert_biolink_category_to_iri(biolink_category_label: str,
                                     biolink_category_base_iri: str = BIOLINK_CATEGORY_BASE_IRI):
     return urllib.parse.urljoin(biolink_category_base_iri,
-                                biolink_category_label.title().replace(' ', ''))
+                                convert_space_case_to_camel_case(biolink_category_label))
 
 
 def make_node(id: str,
