@@ -122,7 +122,7 @@ def safe_load_yaml_from_string(yaml_string: str):
 
 
 def make_curies_to_uri_map(curies_to_uri_lal_map_yaml_file_name: str) -> list:
-    curies_to_uri_lal_map_yaml_string = safe_load_yaml_from_string(curies_to_uri_lal_map_yaml_file_name)
+    curies_to_uri_lal_map_yaml_string = read_file_to_string(curies_to_uri_lal_map_yaml_file_name)
     return typing.cast(list, safe_load_yaml_from_string(curies_to_uri_lal_map_yaml_string)) + \
         prefixcommons.curie_util.default_curie_maps
 
