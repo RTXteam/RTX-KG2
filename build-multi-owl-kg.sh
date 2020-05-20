@@ -10,6 +10,7 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
 fi
 
 # Usage: build-multi-owl-kg.sh <output_file.json> [test]
+#        build-multi-owl-kg.sh /home/ubuntu/kg2-build/kg2-owl.json test
 
 echo "================= starting build-multi-owl-kg.sh ================="
 date
