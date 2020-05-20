@@ -45,10 +45,10 @@ REGEX_YEAR_MONTH_DAY = re.compile('([12][90][0-9]{2})_([0-9]{1,2})_([0-9]{1,2})'
 REGEX_MONTH_YEAR = re.compile('([0-9]{1,2})_[12][90][0-9]{2}')
 REGEX_YEAR_MONTH = re.compile('[12][90][0-9]{2}_([0-9]{1,2})')
 REGEX_UMLS_CURIE = re.compile('UMLS:([^/]+)/(.*)')
-REGEX_PUBLICATIONS = re.compile('((?:(?:PMID)|(?:ISBN)):\d+)')
+REGEX_PUBLICATIONS = re.compile(r'((?:(?:PMID)|(?:ISBN)):\d+)')
 REGEX_PURL = re.compile('http://purl.obolibrary.org/obo/([^_]+)_(.*)')
 REGEX_IDORG = re.compile('https://identifiers.org/umls/([^/]+)/(.*)')
-REGEX_XREF_END_DESCRIP = re.compile('.*\[([^\]]+)\]$')
+REGEX_XREF_END_DESCRIP = re.compile(r'.*\[([^\]]+)\]$')
 
 CUI_BASE_IRI = 'https://identifiers.org/umls/cui'
 IRI_OBO_XREF = 'http://purl.org/obo/owl/oboFormat#oboFormat_xref'
@@ -935,8 +935,7 @@ if __name__ == '__main__':
     output_file = args.outputFile
     test_mode = args.test
     curies_to_categories = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_categories_file_name))
-    curies_to_uri_lal = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_uri_lal_file_name))
-    curies_to_uri_map = curies_to_uri_lal + prefixcommons.curie_util.default_curie_maps
+    curies_to_uri_map = kg2_util.make_curies_to_uri_map(curies_to_uri_lal_file_name)
     uri_to_curie_shortener = make_uri_to_curie_shortener(curies_to_uri_map)
     map_category_label_to_iri = functools.partial(kg2_util.convert_biolink_category_to_iri,
                                                   biolink_category_base_iri=kg2_util.BIOLINK_CATEGORY_BASE_IRI)
