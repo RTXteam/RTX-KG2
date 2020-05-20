@@ -62,7 +62,7 @@ def make_node(ensembl_gene_id: str,
                                    category_label,
                                    update_date,
                                    ENSEMBL_KB_IRI)
-    node_dict['synonym'] = list(set([gene_symbol] + other_synonyms))
+    node_dict['synonym'] = [gene_symbol] + list(set(other_synonyms))
     return node_dict
 
 
