@@ -55,8 +55,7 @@ if __name__ == '__main__':
         assert type(drop_self_edges_except) == str
         drop_self_edges_except = set(drop_self_edges_except.split(','))
     predicate_remap_config = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(predicate_remap_file_name))
-    curies_to_uri_lal = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_uri_lal_file_name))
-    curies_to_uri_map = curies_to_uri_lal + prefixcommons.curie_util.default_curie_maps
+    curies_to_uri_map = kg2_util.make_curies_to_uri_map(curies_to_uri_lal_file_name)
     graph = kg2_util.load_json(input_file_name)
     edge_keys = set()
     new_edges = dict()
