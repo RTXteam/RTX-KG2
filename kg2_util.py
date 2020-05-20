@@ -329,4 +329,3 @@ def predicate_label_to_iri_and_curie(predicate_label: str,
         predicate_label_to_use = predicate_label.replace(':', '_')
     return [urllib.parse.urljoin(relation_iri_prefix, predicate_label_to_use),
             relation_curie_prefix + ':' + predicate_label]
-
