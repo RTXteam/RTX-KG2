@@ -309,7 +309,10 @@ def predicate_label_to_iri_and_curie(predicate_label: str,
                                      relation_iri_prefix: str):
     predicate_label = predicate_label.replace(' ', '_')
     if ':' not in predicate_label:
-        predicate_label_to_use = convert_snake_case_to_camel_case(predicate_label)
+        if relation_curie_prefix.lower() != 'biolink':
+            predicate_label_to_use = convert_snake_case_to_camel_case(predicate_label)
+        else:
+            predicate_label_to_use = predicate_label
     else:
         predicate_label_to_use = predicate_label.replace(':', '_')
     return [urllib.parse.urljoin(relation_iri_prefix, predicate_label_to_use),
