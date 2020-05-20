@@ -266,6 +266,7 @@ echo "filter the JSON KG and remap predicates"
 ## Filter the JSON KG and remap predicates:
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/filter_kg_and_remap_predicates.py \
+           ${TEST_ARG} \
            --dropNegated \
            --dropSelfEdgesExcept interacts_with,positively_regulates,inhibits,increase \
            ${PREDICATE_MAPPING_FILE} \
