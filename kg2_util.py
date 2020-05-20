@@ -22,12 +22,14 @@ import json
 import os
 import pathlib
 import pprint
+import prefixcommons
 import re
 import shutil
 import ssl
 import sys
 import tempfile
 import time
+import typing
 import urllib.parse
 import urllib.request
 import yaml
@@ -117,6 +119,12 @@ def allcaps_to_only_first_letter_capitalized(allcaps: str):
 
 def safe_load_yaml_from_string(yaml_string: str):
     return yaml.safe_load(io.StringIO(yaml_string))
+
+
+def make_curies_to_uri_map(curies_to_uri_lal_map_yaml_file_name: str) -> list:
+    curies_to_uri_lal_map_yaml_string = safe_load_yaml_from_string(curies_to_uri_lal_map_yaml_file_name)
+    return typing.cast(list, safe_load_yaml_from_string(curies_to_uri_lal_map_yaml_string)) + \
+        prefixcommons.curie_util.default_curie_maps
 
 
 def log_message(message: str,
