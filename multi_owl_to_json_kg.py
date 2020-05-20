@@ -936,7 +936,7 @@ if __name__ == '__main__':
     test_mode = args.test
     curies_to_categories = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_categories_file_name))
     curies_to_uri_lal = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_uri_lal_file_name))
-    curies_to_uri_map = prefixcommons.curie_util.default_curie_maps + curies_to_uri_lal
+    curies_to_uri_map = curies_to_uri_lal + prefixcommons.curie_util.default_curie_maps
     uri_to_curie_shortener = make_uri_to_curie_shortener(curies_to_uri_map)
     map_category_label_to_iri = functools.partial(kg2_util.convert_biolink_category_to_iri,
                                                   biolink_category_base_iri=kg2_util.BIOLINK_CATEGORY_BASE_IRI)
