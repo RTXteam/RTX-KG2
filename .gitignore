@@ -6,3 +6,5 @@ kg2.json
 *.log
 *.jar
 save/*
+old
+venv
