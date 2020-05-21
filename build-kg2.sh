@@ -253,6 +253,7 @@ echo "get_nodes_json_from_kg_json.py"
 ## Get a JSON file with just the nodes in it
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/get_nodes_json_from_kg_json.py \
+           ${TEST_ARG} \
            ${FINAL_OUTPUT_FILE_FULL} \
            ${OUTPUT_NODES_FILE_FULL}
 
@@ -282,6 +283,7 @@ echo "get_nodes_json_from_kg_json.py (for simplified KG)"
 ## Get a JSON file with just the nodes in it
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/get_nodes_json_from_kg_json.py \
+           ${TEST_ARG} \
            ${SIMPLIFIED_OUTPUT_FILE_FULL} \
            ${SIMPLIFIED_OUTPUT_NODES_FILE_FULL}
 
