@@ -290,8 +290,9 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/get_nodes_json_from_kg_json.py \
 echo "generating slimmed-down kg2 (issue #597)"
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/slim_kg2.py \
-           --outputFile ${SLIM_OUTPUT_FILE_FULL} \
-           ${SIMPLIFIED_OUTPUT_FILE_FULL}
+           ${TEST_ARG} \
+           ${SIMPLIFIED_OUTPUT_FILE_FULL} \
+           ${SLIM_OUTPUT_FILE_FULL} 
 
 echo "report_stats_on_json_kg.py (simplified KG)"
 
