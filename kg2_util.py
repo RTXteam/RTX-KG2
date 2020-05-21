@@ -22,12 +22,14 @@ import json
 import os
 import pathlib
 import pprint
+import prefixcommons
 import re
 import shutil
 import ssl
 import sys
 import tempfile
 import time
+import typing
 import urllib.parse
 import urllib.request
 import yaml
@@ -36,7 +38,7 @@ CURIE_PREFIX_ENSEMBL = 'ENSEMBL'
 TEMP_FILE_PREFIX = 'kg2'
 FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
 ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
-BIOLINK_CATEGORY_BASE_IRI = 'http://w3id.org/biolink/vocab/'
+BIOLINK_CATEGORY_BASE_IRI = 'https://biolink.github.io/biolink-model/docs/'
 BIOLINK_CURIE_PREFIX = 'Biolink'
 IRI_OWL_SAME_AS = 'http://www.w3.org/2002/07/owl#sameAs'
 CURIE_OWL_SAME_AS = 'owl:sameAs'
@@ -119,6 +121,12 @@ def safe_load_yaml_from_string(yaml_string: str):
     return yaml.safe_load(io.StringIO(yaml_string))
 
 
+def make_curies_to_uri_map(curies_to_uri_lal_map_yaml_file_name: str) -> list:
+    curies_to_uri_lal_map_yaml_string = read_file_to_string(curies_to_uri_lal_map_yaml_file_name)
+    return typing.cast(list, safe_load_yaml_from_string(curies_to_uri_lal_map_yaml_string)) + \
+        prefixcommons.curie_util.default_curie_maps
+
+
 def log_message(message: str,
                 ontology_name: str = None,
                 node_curie_id: str = None,
@@ -156,18 +164,22 @@ def merge_two_dicts(x: dict, y: dict):
                             if value.endswith('/STY'):
                                 ret_dict[key] = value
                         elif key == 'category label':
-                            if value != 'unknown category' and stored_value == 'unknown category':
-                                stored_desc = ret_dict.get('description', None)
-                                new_desc = y.get('description', None)
-                                if stored_desc is not None and new_desc is not None:
-                                    if len(new_desc) > len(stored_desc):
+                            if value != 'unknown_category':
+                                if stored_value == 'unknown_category':
+                                    ret_dict[key] = value
+                                else:
+                                    stored_desc = ret_dict.get('description', None)
+                                    new_desc = y.get('description', None)
+                                    if stored_desc is not None and new_desc is not None and len(new_desc) > len(stored_desc):
                                         ret_dict[key] = value
                         elif key == 'category':
-                            if not value.endswith('/UnknownCategory') and stored_value.endswith('/UnknownCategory'):
-                                stored_desc = ret_dict.get('description', None)
-                                new_desc = y.get('description', None)
-                                if stored_desc is not None and new_desc is not None:
-                                    if len(new_desc) > len(stored_desc):
+                            if not value.endswith('/UnknownCategory'):
+                                if stored_value.endswith('/UnknownCategory'):
+                                    ret_dict[key] = value
+                                else:
+                                    stored_desc = ret_dict.get('description', None)
+                                    new_desc = y.get('description', None)
+                                    if stored_desc is not None and new_desc is not None and len(new_desc) > len(stored_desc):
                                         ret_dict[key] = value
                         elif key == 'name' or key == 'full name':
                             if value.replace(' ', '_') != stored_value.replace(' ', '_'):
@@ -236,6 +248,10 @@ def convert_snake_case_to_camel_case(name: str):
     return name
 
 
+def convert_space_case_to_camel_case(name: str):
+    return name.title().replace(' ', '')
+
+
 def convert_camel_case_to_snake_case(name: str):
     s1 = FIRST_CAP_RE.sub(r'\1_\2', name)
     converted = ALL_CAP_RE.sub(r'\1_\2', s1).lower()
@@ -248,7 +264,7 @@ def convert_camel_case_to_snake_case(name: str):
 def convert_biolink_category_to_iri(biolink_category_label: str,
                                     biolink_category_base_iri: str = BIOLINK_CATEGORY_BASE_IRI):
     return urllib.parse.urljoin(biolink_category_base_iri,
-                                biolink_category_label.title().replace(' ', ''))
+                                convert_space_case_to_camel_case(biolink_category_label))
 
 
 def make_node(id: str,
@@ -305,9 +321,11 @@ def predicate_label_to_iri_and_curie(predicate_label: str,
                                      relation_iri_prefix: str):
     predicate_label = predicate_label.replace(' ', '_')
     if ':' not in predicate_label:
-        predicate_label_to_use = convert_snake_case_to_camel_case(predicate_label)
+        if relation_curie_prefix.lower() != 'biolink':
+            predicate_label_to_use = convert_snake_case_to_camel_case(predicate_label)
+        else:
+            predicate_label_to_use = predicate_label
     else:
         predicate_label_to_use = predicate_label.replace(':', '_')
     return [urllib.parse.urljoin(relation_iri_prefix, predicate_label_to_use),
             relation_curie_prefix + ':' + predicate_label]
-

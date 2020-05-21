@@ -23,6 +23,7 @@ UNIPROTKB_IDENTIFIER_BASE_IRI = 'http://identifiers.org/uniprot'
 RE_ORGANISM_TAXID = re.compile('NCBI_TaxID=(\d+)')
 FIELD_CODES_USE_STRING = ['ID', 'SQ', 'RA', 'RX', 'RT', 'KW', 'CC', 'GN']
 FIELD_CODES_DO_NOT_STRIP_NEWLINE = ['SQ']
+FIELD_CODES_DO_NOT_STRIP_RIGHT_SEMICOLON = {'RX'}
 REGEX_PUBLICATIONS = re.compile('((?:(?:PMID)|(?:PubMed)):\d+)')
 REGEX_GENE_NAME = re.compile('^Name=([^ \;]+)')
 REGEX_GENE_SYNONYMS = re.compile('Synonyms=([^\;]+)')
@@ -62,7 +63,9 @@ def parse_records_from_uniprot_dat(uniprot_dat_file_name: str,
                     field_code = 'SQ'
                     field_value = field_value.lstrip()
                 if field_code not in FIELD_CODES_DO_NOT_STRIP_NEWLINE:
-                    field_value = field_value.rstrip('\n').rstrip(';')
+                    field_value = field_value.rstrip('\n')
+                if field_code not in FIELD_CODES_DO_NOT_STRIP_RIGHT_SEMICOLON:
+                    field_value = field_value.rstrip(';')
                 if record.get(field_code, None) is None:
                     if field_code not in FIELD_CODES_USE_STRING:
                         if field_code != 'AC':
@@ -195,8 +198,12 @@ def make_nodes(records: list):
                 update_date = date_str
             date_ctr += 1
         publications_raw = record_dict.get('RX', None)
+        publications = []
         if publications_raw is not None:
-            publications = [pub.strip().replace('=', ':').replace('PubMed:', 'PMID:') for pub in publications_raw.split(';')]
+            for pub in publications_raw.split(';'):
+                pub = pub.strip()
+                if len(pub) > 0:
+                    publications.append(pub.replace('=', ':').replace('PubMed:', 'PMID:'))
         else:
             publications = []
         assert type(publications) == list

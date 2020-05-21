@@ -45,10 +45,10 @@ REGEX_YEAR_MONTH_DAY = re.compile('([12][90][0-9]{2})_([0-9]{1,2})_([0-9]{1,2})'
 REGEX_MONTH_YEAR = re.compile('([0-9]{1,2})_[12][90][0-9]{2}')
 REGEX_YEAR_MONTH = re.compile('[12][90][0-9]{2}_([0-9]{1,2})')
 REGEX_UMLS_CURIE = re.compile('UMLS:([^/]+)/(.*)')
-REGEX_PUBLICATIONS = re.compile('((?:(?:PMID)|(?:ISBN)):\d+)')
+REGEX_PUBLICATIONS = re.compile(r'((?:(?:PMID)|(?:ISBN)):\d+)')
 REGEX_PURL = re.compile('http://purl.obolibrary.org/obo/([^_]+)_(.*)')
 REGEX_IDORG = re.compile('https://identifiers.org/umls/([^/]+)/(.*)')
-REGEX_XREF_END_DESCRIP = re.compile('.*\[([^\]]+)\]$')
+REGEX_XREF_END_DESCRIP = re.compile(r'.*\[([^\]]+)\]$')
 
 CUI_BASE_IRI = 'https://identifiers.org/umls/cui'
 IRI_OBO_XREF = 'http://purl.org/obo/owl/oboFormat#oboFormat_xref'
@@ -448,6 +448,8 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             node_synonyms = set()
             node_xrefs = set()
             node_tui = None
+            node_has_cui = False
+            node_tui_category_label = None
 
             node_meta = onto_node_dict.get('meta', None)
             if node_meta is not None:
@@ -521,41 +523,21 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         elif bpv_pred_curie == 'HGNC:GENESYMBOL':
                             node_name = bpv_val
                             node_synonyms.add(bpv_val)
-                    if len(node_tui_list) > 0:
-                        # fix some impedance mismatch between URIs used in umls2rdf and in umls_semantictypes.owl:
-                        node_tui_info_list = []
-                        for node_tui in node_tui_list:
-                            node_tui_uri = posixpath.join('https://identifiers.org/umls/STY', node_tui)
-                            node_tui_curie = uri_to_curie_shortener(node_tui_uri)
-                            assert node_tui_curie is not None
-                            [node_tui_category_label,
-                             ontology_id_for_node_with_category] = get_biolink_category_for_node(node_tui_uri,
-                                                                                                 node_tui_curie,
-                                                                                                 ontology,
-                                                                                                 curies_to_categories,
-                                                                                                 uri_to_curie_shortener,
-                                                                                                 set(), True)
-                            assert ontology_id_for_node_with_category is not None
-                            if ontology_id_for_node_with_category is not None:
-                                ontology_depth_node_with_category = get_depth_of_ontology_term(ontology_id_for_node_with_category,
-                                                                                               ontology)
-                                assert ontology_depth_node_with_category is not None
-                            if node_tui_category_label is not None:
-                                tui_info_dict = {'curie': node_tui_curie,
-                                                 'depth': ontology_depth_node_with_category,
-                                                 'category_label': node_tui_category_label}
-                                node_tui_info_list.append(tui_info_dict)
-                        if len(node_tui_info_list) > 0:
-                            node_tui_category_label = sorted(node_tui_info_list,
-                                                             key=lambda node_tui_info_dict:
-                                                             node_tui_info_dict['depth'])[-1]['category_label']
-                        if node_tui_category_label is None:
-                            node_tui_category_label = 'unknown category'
-                            kg2_util.log_message(message='unknown category: ' + node_tui_uri)
-                        else:
-                            if node_category_label is None:
-                                node_category_label = node_tui_category_label  # override the node category label if we have a TUI
-                        node_tui_category_iri = category_label_to_iri_mapper(node_tui_category_label)
+                        elif bpv_pred_curie == 'UMLS:cui':
+                            node_has_cui = True
+                    if len(node_tui_list) == 1:
+                        node_tui = node_tui_list[0]
+                        node_tui_uri = posixpath.join('https://identifiers.org/umls/STY', node_tui)
+                        node_tui_curie = uri_to_curie_shortener(node_tui_uri)
+                        assert node_tui_curie is not None
+                        [node_tui_category_label,
+                         _] = get_biolink_category_for_node(node_tui_uri,
+                                                            node_tui_curie,
+                                                            ontology,
+                                                            curies_to_categories,
+                                                            uri_to_curie_shortener,
+                                                            set(), True)
+
                 node_comments = node_meta.get('comments', None)
                 if node_comments is not None:
                     comments_str = 'COMMENTS: ' + (' // '.join(node_comments))
@@ -576,6 +558,19 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                 else:
                     node_category_label = 'deprecated node'
 
+            if node_has_cui:
+                assert node_tui is not None or len(node_tui_list) > 0
+
+                if node_tui_category_label is None:
+                    node_tui_category_label = 'unknown category'
+                    if node_tui is not None:
+                        kg2_util.log_message(message='Node ' + ontology_node_id + ' has CUI whose TUI cannot be mapped to category: ' + node_tui)
+                    else:
+                        kg2_util.log_message(message='Node ' + ontology_node_id + ' has CUI with multiple associated TUIs: ' + ', '.join(node_tui_list))
+                else:
+                    if node_category_label is None:
+                        node_category_label = node_tui_category_label  # override the node category label if we have a TUI
+                node_tui_category_iri = category_label_to_iri_mapper(node_tui_category_label)
             ontology_curie_id = ontologies_iris_to_curies[iri_of_ontology]
             source_ontology_information = ret_dict.get(ontology_curie_id, None)
             if source_ontology_information is None:
@@ -627,7 +622,6 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                     bpv_pred_curie = uri_to_curie_shortener(bpv_pred)
                     bpv_val = basic_property_value_dict['val']
                     if bpv_pred_curie == 'UMLS:cui':   # CUI_BASE_IRI:
-                        assert node_tui is not None
                         cui_node_dict = dict(node_dict)
                         cui_uri = bpv_pred + '/' + bpv_val
                         cui_curie = uri_to_curie_shortener(cui_uri)
@@ -941,8 +935,7 @@ if __name__ == '__main__':
     output_file = args.outputFile
     test_mode = args.test
     curies_to_categories = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_categories_file_name))
-    curies_to_uri_lal = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_uri_lal_file_name))
-    curies_to_uri_map = prefixcommons.curie_util.default_curie_maps + curies_to_uri_lal
+    curies_to_uri_map = kg2_util.make_curies_to_uri_map(curies_to_uri_lal_file_name)
     uri_to_curie_shortener = make_uri_to_curie_shortener(curies_to_uri_map)
     map_category_label_to_iri = functools.partial(kg2_util.convert_biolink_category_to_iri,
                                                   biolink_category_base_iri=kg2_util.BIOLINK_CATEGORY_BASE_IRI)

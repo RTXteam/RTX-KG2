@@ -230,17 +230,19 @@ term-mappings:
     TUI:T096: group of people
     TUI:T102: attribute
     TUI:T103: chemical substance
+    TUI:T116: protein
+    TUI:T120: chemical substance
     TUI:T121: drug
     TUI:T123: biological substance
     TUI:T125: protein
     TUI:T126: protein
-    TUI:T126: biological food component
     TUI:T129: protein
     TUI:T131: hazardous substance
     TUI:T167: substance
     TUI:T170: product
     TUI:T171: language
     TUI:T184: phenotypic feature
+    TUI:T196: chemical substance
     TUI:T200: drug
     UBERON:0001062: anatomical entity
     UBERON:0000105: life stage

@@ -64,6 +64,9 @@ FINAL_OUTPUT_FILE_FULL=${BUILD_DIR}/${FINAL_OUTPUT_FILE_BASE}
 SIMPLIFIED_OUTPUT_FILE_BASE=kg2-simplified${TEST_SUFFIX}.json
 SIMPLIFIED_OUTPUT_FILE_FULL=${BUILD_DIR}/${SIMPLIFIED_OUTPUT_FILE_BASE}
 
+SIMPLIFIED_OUTPUT_NODES_FILE_BASE=kg2-simplified${TEST_SUFFIX}-nodes.json
+SIMPLIFIED_OUTPUT_NODES_FILE_FULL=${BUILD_DIR}/${SIMPLIFIED_OUTPUT_NODES_FILE_BASE}
+
 OUTPUT_NODES_FILE_BASE=kg2${TEST_SUFFIX}-nodes.json
 OUTPUT_NODES_FILE_FULL=${BUILD_DIR}/${OUTPUT_NODES_FILE_BASE}
 
@@ -250,6 +253,7 @@ echo "get_nodes_json_from_kg_json.py"
 ## Get a JSON file with just the nodes in it
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/get_nodes_json_from_kg_json.py \
+           ${TEST_ARG} \
            ${FINAL_OUTPUT_FILE_FULL} \
            ${OUTPUT_NODES_FILE_FULL}
 
@@ -266,17 +270,29 @@ echo "filter the JSON KG and remap predicates"
 ## Filter the JSON KG and remap predicates:
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/filter_kg_and_remap_predicates.py \
+           ${TEST_ARG} \
            --dropNegated \
+           --dropSelfEdgesExcept interacts_with,positively_regulates,inhibits,increase \
            ${PREDICATE_MAPPING_FILE} \
            ${CURIES_TO_URLS_FILE} \
            ${FINAL_OUTPUT_FILE_FULL} \
            ${SIMPLIFIED_OUTPUT_FILE_FULL}
 
+echo "get_nodes_json_from_kg_json.py (for simplified KG)"
+
+## Get a JSON file with just the nodes in it
+
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/get_nodes_json_from_kg_json.py \
+           ${TEST_ARG} \
+           ${SIMPLIFIED_OUTPUT_FILE_FULL} \
+           ${SIMPLIFIED_OUTPUT_NODES_FILE_FULL}
+
 echo "generating slimmed-down kg2 (issue #597)"
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/slim_kg2.py \
-           --outputFile ${SLIM_OUTPUT_FILE_FULL} \
-           ${SIMPLIFIED_OUTPUT_FILE_FULL}
+           ${TEST_ARG} \
+           ${SIMPLIFIED_OUTPUT_FILE_FULL} \
+           ${SLIM_OUTPUT_FILE_FULL} 
 
 echo "report_stats_on_json_kg.py (simplified KG)"
 
@@ -301,6 +317,7 @@ ${S3_CP_CMD} ${KG2_TSV_TARBALL} s3://${S3_BUCKET}/
 
 ## Compress the huge files
 gzip -f ${SIMPLIFIED_OUTPUT_FILE_FULL}
+gzip -f ${SIMPLIFIED_OUTPUT_NODES_FILE_FULL}
 gzip -f ${OUTPUT_NODES_FILE_FULL}
 gzip -f ${OUTPUT_FILE_ORPHAN_EDGES}
 gzip -f ${SLIM_OUTPUT_FILE_FULL}
@@ -313,6 +330,7 @@ ${S3_CP_CMD} ${REPORT_FILE_FULL} s3://${S3_BUCKET_PUBLIC}/
 ${S3_CP_CMD} ${SIMPLIFIED_REPORT_FILE_FULL} s3://${S3_BUCKET_PUBLIC}/
 ${S3_CP_CMD} ${OUTPUT_FILE_ORPHAN_EDGES}.gz s3://${S3_BUCKET_PUBLIC}/
 ${S3_CP_CMD} ${SLIM_OUTPUT_FILE_FULL}.gz s3://${S3_BUCKET}/
+${S3_CP_CMD} ${SIMPLIFIED_OUTPUT_NODES_FILE_FULL}.gz s3://${S3_BUCKET}/
 
 ## copy the log files to the public S3 bucket
 BUILD_MULTI_OWL_STDERR_FILE="${BUILD_DIR}/build-${OUTPUT_FILE_BASE%.*}"-stderr.log

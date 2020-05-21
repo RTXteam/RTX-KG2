@@ -5,7 +5,7 @@
 '''
 __author__ = 'Lindsey Kvarfordt'
 __copyright__ = 'Oregon State University'
-__credits__ = ['Lindsey Kvarfordt']
+__credits__ = ['Lindsey Kvarfordt', 'Stephen Ramsey']
 __license__ = 'MIT'
 __version__ = '0.1.0'
 __maintainer__ = ''
@@ -19,8 +19,9 @@ import kg2_util
 
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description=" slim_kg2.py: reduce graph in KG2 JSON format to only bare-bones node and edge properties.")
+    arg_parser.add_argument('--test', dest='test', action='store_true', default=False)
     arg_parser.add_argument("inputFilepath", type=str)
-    arg_parser.add_argument("--outputFile", type=str, default="./slim_kg2.json")
+    arg_parser.add_argument("outputFilepath", type=str)
     return arg_parser
 
 
@@ -29,9 +30,7 @@ if __name__ == "__main__":
     edge_set = set(["simplified relation curie", "subject", "object", "simplified edge label", "provided by"])
 
     args = make_arg_parser().parse_args()
-    pretty = False
-    if "test" in args.inputFilepath:
-        pretty = True
+    test_mode = args.test
     reduced = {"nodes": [], "edges": []}
     with open(args.inputFilepath, "r") as fp:
         all_data = json.load(fp)
@@ -49,4 +48,4 @@ if __name__ == "__main__":
                     temp_edge[key] = val
             reduced["edges"].append(temp_edge)
 
-    kg2_util.save_json(reduced, args.outputFile, pretty)
+    kg2_util.save_json(reduced, args.outputFilepath, test_mode)
