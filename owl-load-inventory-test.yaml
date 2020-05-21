@@ -48,7 +48,7 @@
 #   file: umls-dsm-5.ttl
 #   title: Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition
 #   url: https://identifiers.org/umls/DSM5
--
+# -
 #  download: false
 #  file: umls-fma.ttl
 #  title: Foundational Model of Anatomy
@@ -584,4 +584,3 @@
 #  file: umls-mthicd9.ttl
 #  title: ICD-9-CM Entry Terms
 #  url: https://identifiers.org/umls/MTHICD9
-
