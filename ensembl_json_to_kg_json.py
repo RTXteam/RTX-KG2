@@ -17,9 +17,9 @@ import argparse
 import kg2_util
 
 
-ENSEMBL_BASE_IRI = 'http://ensembl.org/Homo_sapiens/Gene/Summary?db=core;g='
-ENSEMBL_KB_IRI = 'http://ensembl.org/Homo_sapiens/Gene'
+ENSEMBL_BASE_IRI = 'https://identifiers.org/ensembl:'
 ENSEMBL_RELATION_CURIE_PREFIX = 'ENSEMBL'
+ENSEMBL_KB_IRI = 'https://registry.identifiers.org/registry/ensembl'
 
 def make_edge(subject_curie_id: str,
               object_curie_id: str,
@@ -73,6 +73,16 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
     genebuild_str = ensembl_data['genebuild']
     update_date = genebuild_str.split('/')[1]
     gene_ctr = 0
+
+    ontology_curie_id = kg2_util.IDENTIFIERS_ORG_REGISTRY_CURIE_PREFIX + ':ensembl'
+    ens_kp_node = kg2_util.make_node(ontology_curie_id,
+                                     kg2_util.IDENTIFIERS_ORG_REGISTRY_IRI_BASE + 'ensembl',
+                                     'Ensembl Genes',
+                                     kg2_util.TYPE_DATA_SOURCE,
+                                     update_date,
+                                     ontology_curie_id)
+    nodes.append(ens_kp_node)
+
     for gene_dict in ensembl_data['genes']:
         gene_ctr += 1
         if test_mode and gene_ctr > 10000:

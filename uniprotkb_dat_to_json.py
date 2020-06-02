@@ -16,19 +16,20 @@ __status__ = 'Prototype'
 
 import argparse
 import kg2_util
+import os
 import re
 
 UNIPROTKB_BASE_IRI = 'https://www.uniprot.org'
 UNIPROTKB_IDENTIFIER_BASE_IRI = 'http://identifiers.org/uniprot'
-RE_ORGANISM_TAXID = re.compile('NCBI_TaxID=(\d+)')
+RE_ORGANISM_TAXID = re.compile(r'NCBI_TaxID=(\d+)')
 FIELD_CODES_USE_STRING = ['ID', 'SQ', 'RA', 'RX', 'RT', 'KW', 'CC', 'GN']
 FIELD_CODES_DO_NOT_STRIP_NEWLINE = ['SQ']
 FIELD_CODES_DO_NOT_STRIP_RIGHT_SEMICOLON = {'RX'}
-REGEX_PUBLICATIONS = re.compile('((?:(?:PMID)|(?:PubMed)):\d+)')
-REGEX_GENE_NAME = re.compile('^Name=([^ \;]+)')
-REGEX_GENE_SYNONYMS = re.compile('Synonyms=([^\;]+)')
-REGEX_HGNC = re.compile('^HGNC; (HGNC:\d+)')
-REGEX_NCBIGeneID = re.compile('^GeneID; (\d+)')
+REGEX_PUBLICATIONS = re.compile(r'((?:(?:PMID)|(?:PubMed)):\d+)')
+REGEX_GENE_NAME = re.compile(r'^Name=([^ \;]+)')
+REGEX_GENE_SYNONYMS = re.compile(r'Synonyms=([^\;]+)')
+REGEX_HGNC = re.compile(r'^HGNC; (HGNC:\d+)')
+REGEX_NCBIGeneID = re.compile(r'^GeneID; (\d+)')
 DESIRED_SPECIES_INTS = set([kg2_util.NCBI_TAXON_ID_HUMAN])
 
 
@@ -43,6 +44,7 @@ def parse_records_from_uniprot_dat(uniprot_dat_file_name: str,
     record_list = []
     record = dict()
     line_ctr = 0
+    update_date = os.path.getmtime(uniprot_dat_file_name)
     with open(uniprot_dat_file_name, 'r') as uniprot_file:
         record = init_record()
         for line_str in uniprot_file:
@@ -97,7 +99,7 @@ def parse_records_from_uniprot_dat(uniprot_dat_file_name: str,
                 print("  Number of records: " + str(len(record_list)))
             if line_ctr > 1000000 and test_mode:
                 break
-    return record_list
+    return [record_list, update_date]
 
 
 def make_arg_parser():
@@ -229,7 +231,7 @@ def make_nodes(records: list):
             else:
                 name = full_name
         node_curie = 'UniProtKB:' + accession
-        iri = UNIPROTKB_IDENTIFIER_BASE_IRI + '/' + accession
+        iri = UNIPROTKB_IDENTIFIER_BASE_IRI + ':' + accession
         category_label = 'protein'
         node_dict = kg2_util.make_node(node_curie,
                                        iri,
@@ -253,11 +255,19 @@ if __name__ == '__main__':
     test_mode = args.test
     input_file_name = args.inputFile
     output_file_name = args.outputFile
-    uniprot_records = parse_records_from_uniprot_dat(input_file_name,
-                                                     DESIRED_SPECIES_INTS,
-                                                     test_mode)
+    [uniprot_records,
+     update_date] = parse_records_from_uniprot_dat(input_file_name,
+                                                   DESIRED_SPECIES_INTS,
+                                                   test_mode)
     nodes_dict = make_nodes(uniprot_records)
-    nodes_list = [node_dict for node_dict in nodes_dict.values()]
+    ontology_curie_id = kg2_util.IDENTIFIERS_ORG_REGISTRY_CURIE_PREFIX + ':uniprot'
+    ont_node = kg2_util.make_node(ontology_curie_id,
+                                  kg2_util.IDENTIFIERS_ORG_REGISTRY_IRI_BASE + 'ensembl',
+                                  'UniprotKB',
+                                  kg2_util.TYPE_DATA_SOURCE,
+                                  update_date,
+                                  ontology_curie_id)
+    nodes_list = [ont_node] + [node_dict for node_dict in nodes_dict.values()]
     edges_list = make_edges(uniprot_records, nodes_dict)
     output_graph = {'nodes': nodes_list, 'edges': edges_list}
     kg2_util.save_json(output_graph, output_file_name, test_mode)

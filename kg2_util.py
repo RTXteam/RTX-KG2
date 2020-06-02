@@ -15,6 +15,7 @@ __email__ = ''
 __status__ = 'Prototype'
 
 import copy
+import enum
 import gzip
 import html.parser
 import io
@@ -32,20 +33,26 @@ import time
 import typing
 import urllib.parse
 import urllib.request
+import validators
 import yaml
+from typing import Dict, Optional
 
-CURIE_PREFIX_ENSEMBL = 'ENSEMBL'
 TEMP_FILE_PREFIX = 'kg2'
 FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
 ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
-BIOLINK_CATEGORY_BASE_IRI = 'https://biolink.github.io/biolink-model/docs/'
-BIOLINK_CURIE_PREFIX = 'Biolink'
+BIOLINK_CATEGORY_BASE_IRI = 'https://w3id.org/biolink/'
+BIOLINK_CURIE_PREFIX = 'biolink'
 IRI_OWL_SAME_AS = 'http://www.w3.org/2002/07/owl#sameAs'
 CURIE_OWL_SAME_AS = 'owl:sameAs'
 NCBI_TAXON_ID_HUMAN = 9606
-CURIE_PREFIX_NCBI_GENE = 'NCBIGene'
-CURIE_PREFIX_NCBI_TAXON = 'NCBITaxon'
-
+CURIE_PREFIX_ENSEMBL = 'ensembl'
+CURIE_PREFIX_NCBI_GENE = 'ncbigene'
+CURIE_PREFIX_NCBI_TAXON = 'taxonomy'
+OBO_REL_CURIE_RE = re.compile(r'OBO:([^#]+)#([^#]+)')
+OBO_ONT_CURIE_RE = re.compile(r'OBO:([^\.]+)\.owl')
+TYPE_DATA_SOURCE = 'data source'
+IDENTIFIERS_ORG_REGISTRY_CURIE_PREFIX = 'identifiers_org_registry'
+IDENTIFIERS_ORG_REGISTRY_IRI_BASE = 'https://identifiers.org/registry/'
 
 class MLStripper(html.parser.HTMLParser):
     def __init__(self):
@@ -121,10 +128,94 @@ def safe_load_yaml_from_string(yaml_string: str):
     return yaml.safe_load(io.StringIO(yaml_string))
 
 
-def make_curies_to_uri_map(curies_to_uri_lal_map_yaml_file_name: str) -> list:
-    curies_to_uri_lal_map_yaml_string = read_file_to_string(curies_to_uri_lal_map_yaml_file_name)
-    return typing.cast(list, safe_load_yaml_from_string(curies_to_uri_lal_map_yaml_string)) + \
-        prefixcommons.curie_util.default_curie_maps
+def shorten_iri_to_curie(iri: str, curie_to_iri_map: list) -> str:
+    # if iri.startswith('owl:') or iri.startswith('OIO:'):
+    #     return iri
+    # if "/GO/GO%3A" in iri:  # hack for fixing issue #410
+    #     iri = iri.replace("/GO/GO%3A", "/GO/")
+    # if "/HPO/HP%3A" in iri:  # hack for fixing issue #665
+    #     iri = iri.replace("/HPO/HP%3A", "/HP/")
+
+    curie_list = prefixcommons.contract_uri(iri,
+                                            curie_to_iri_map)
+    if len(curie_list) == 0:
+        return None
+#        print("unable to shorten this iri using built-in list; reverting to prefixcommons default mappings: " + iri,
+#              file=sys.stderr)
+#        curie_list = prefixcommons.contract_uri(iri)
+
+# #    print("mapped iri: " + iri + " to curie: " + str(curie_list))
+#     if len(curie_list) == 0 and iri.startswith('IAO:'):
+#         assert False
+#     if len(curie_list) > 1:
+#         print(curie_list)
+
+ #   if len(curie_list) not in [0, 1]:
+ #       print(iri)
+ #   assert len(curie_list) in [0, 1]
+    if len(curie_list) == 1:
+        curie_id = curie_list[0]
+    else:
+        assert False, "somehow got a list after calling prefixcommons.contract on URI: " + iri + "; list is: " + str(curie_list)
+        curie_id = None
+
+    # if curie_id is not None:
+    #     # deal with IRIs like 'https://identifiers.org/umls/ATC/L01AX02' which get converted to CURIE 'UMLS:ATC/L01AX02'
+    #     umls_match = REGEX_UMLS_CURIE.match(curie_id)
+    #     if umls_match is not None:
+    #         curie_id = umls_match[1] + ':' + umls_match[2]
+
+    return curie_id
+
+
+def make_uri_to_curie_shortener(curie_to_iri_map=None) -> callable:
+    if curie_to_iri_map is None:
+        curie_to_iri_map = []
+    return lambda iri: shorten_iri_to_curie(iri, curie_to_iri_map)
+
+
+def expand_curie_to_iri(curie_id: str, curie_to_iri_map: list) -> Optional[str]:
+    iri = prefixcommons.expand_uri(curie_id, curie_to_iri_map)
+    if iri == curie_id:
+        iri = None
+#        print("unable to expand this curie using built-in list; reverting to prefixcommons default mappi#ngs: " + curie_id,
+#              file=sys.stderr)
+#        iri = prefixcommons.expand_uri(curie_id)
+#        if iri == curie_id:
+#            iri = None
+    return iri
+
+
+def make_curie_to_uri_expander(curie_to_iri_map: list = None) -> callable:
+    if curie_to_iri_map is None:
+        curie_to_iri_map = []
+    return lambda curie_id: expand_curie_to_iri(curie_id, curie_to_iri_map)
+
+
+class IDMapperType(enum.Enum):
+    EXPAND = 1
+    CONTRACT = 2
+
+
+def make_curies_to_uri_map(curies_to_uri_map_yaml_string: str, mapper_type: IDMapperType) -> dict:
+    yaml_data_structure_dict = safe_load_yaml_from_string(curies_to_uri_map_yaml_string)
+    if mapper_type == IDMapperType.CONTRACT:
+        return typing.cast(list, typing.cast(list, yaml_data_structure_dict['use_for_bidirectional_mapping']) +
+                           typing.cast(list, yaml_data_structure_dict['use_for_contraction_only']))
+    elif mapper_type == IDMapperType.EXPAND:
+        return typing.cast(list, typing.cast(list, yaml_data_structure_dict['use_for_bidirectional_mapping']) +
+                           typing.cast(list, yaml_data_structure_dict['use_for_expansion_only']))
+    else:
+        raise ValueError("Invalid mapper type: " + str(mapper_type))
+
+
+def make_uri_curie_mappers(curies_to_uri_file_name: str) -> Dict[str, callable]:
+    yaml_string = read_file_to_string(curies_to_uri_file_name)
+    expand_map = make_curies_to_uri_map(yaml_string, IDMapperType.EXPAND)
+    contract_map = make_curies_to_uri_map(yaml_string, IDMapperType.CONTRACT)
+    expander = make_curie_to_uri_expander(expand_map)
+    contracter = make_uri_to_curie_shortener(contract_map)
+    return {'expand': expander, 'contract': contracter}
 
 
 def log_message(message: str,
@@ -329,3 +420,13 @@ def predicate_label_to_iri_and_curie(predicate_label: str,
         predicate_label_to_use = predicate_label.replace(':', '_')
     return [urllib.parse.urljoin(relation_iri_prefix, predicate_label_to_use),
             relation_curie_prefix + ':' + predicate_label]
+
+
+def is_a_valid_http_url(id: str) -> bool:
+    valid = True
+    try:
+        validators.url(id)
+        valid = id.startswith('http://') or id.startswith('https://')
+    except validators.ValidationFailure:
+        valid = False
+    return valid

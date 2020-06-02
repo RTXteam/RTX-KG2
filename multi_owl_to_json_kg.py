@@ -35,7 +35,7 @@ import sys
 import tempfile
 import urllib.parse
 import urllib.request
-
+import pprint
 
 # -------------- define globals here ---------------
 
@@ -50,13 +50,13 @@ REGEX_PURL = re.compile('http://purl.obolibrary.org/obo/([^_]+)_(.*)')
 REGEX_IDORG = re.compile('https://identifiers.org/umls/([^/]+)/(.*)')
 REGEX_XREF_END_DESCRIP = re.compile(r'.*\[([^\]]+)\]$')
 
-CUI_BASE_IRI = 'https://identifiers.org/umls/cui'
+CUI_BASE_IRI = 'https://identifiers.org/umls:'
 IRI_OBO_XREF = 'http://purl.org/obo/owl/oboFormat#oboFormat_xref'
 CURIE_OBO_XREF = 'oboFormat:xref'
 OWL_BASE_CLASS = 'owl:Thing'
 OWL_NOTHING = 'owl:Nothing'
 MYSTERIOUS_BASE_NODE_ID_TO_FILTER = '_:genid'
-CUI_PREFIX = 'CUI'
+CUI_PREFIX = 'umls'
 ENSEMBL_LETTER_TO_CATEGORY = {'P': 'protein',
                               'G': 'gene',
                               'T': 'transcript'}
@@ -68,6 +68,16 @@ ENSEMBL_LETTER_TO_CATEGORY = {'P': 'protein',
 def delete_ontobio_cachier_caches():
     kg2_util.purge("~/.cachier", ".ontobio*")
     kg2_util.purge("~/.cachier", ".prefixcommons*")
+
+
+def convert_bpv_predicate_to_curie(bpv_pred: str) -> str:
+    if kg2_util.is_a_valid_http_url(bpv_pred):
+#        print(bpv_pred)
+        bpv_pred_curie = uri_to_curie_shortener(bpv_pred)
+    else:
+#        print("doing an expand/contract")
+        bpv_pred_curie = uri_to_curie_shortener(prefixcommons.expand_uri(bpv_pred))
+    return bpv_pred_curie
 
 
 # this function is needed due to an issue with caching in Ontobio; see this GitHub issue:
@@ -170,6 +180,7 @@ def load_owl_file_return_ontology_and_metadata(file_name: str,
 
 def make_kg2(curies_to_categories: dict,
              uri_to_curie_shortener: callable,
+             curie_to_uri_expander: callable,
              map_category_label_to_iri: callable,
              owl_urls_and_files: tuple,
              output_file_name: str,
@@ -198,6 +209,7 @@ def make_kg2(curies_to_categories: dict,
     nodes_dict = make_nodes_dict_from_ontologies_list(owl_file_information_dict_list,
                                                       curies_to_categories,
                                                       uri_to_curie_shortener,
+                                                      curie_to_uri_expander,
                                                       map_category_label_to_iri)
 
     kg2_util.log_message('Calling make_map_of_node_ontology_ids_to_curie_ids')
@@ -210,6 +222,7 @@ def make_kg2(curies_to_categories: dict,
     all_rels_dict = get_rels_dict(nodes_dict,
                                   owl_file_information_dict_list,
                                   uri_to_curie_shortener,
+                                  curie_to_uri_expander,
                                   map_of_node_ontology_ids_to_curie_ids)
 
     kg2_dict = dict()
@@ -262,16 +275,13 @@ def get_biolink_category_for_node(ontology_node_id: str,
     if ontology_node_id in ontology_node_ids_previously_seen:
         return [None, None]
 
-    if ontology_node_id == OWL_NOTHING or node_curie_id is None:
-        return [None, None]
-
     ontology_node_ids_previously_seen.add(ontology_node_id)
 
     curie_prefix = get_prefix_from_curie_id(node_curie_id)
 
     # Inelegant hack to ensure that TUI: nodes get mapped to "semantic type" while still enabling us
-    # to use get_biolink_category_for_node to determine the specific semantic type of a CUI: based on its
-    # TUI: record. Need to think about a more elegant way to do this. [SAR]
+    # to use get_biolink_category_for_node to determine the specific semantic type of a CUI based on its
+    # TUI record. Need to think about a more elegant way to do this. [SAR]
     if curie_prefix == 'TUI' and ontology.id.endswith('/umls/STY/'):
         return ['semantic type', None]
 
@@ -290,7 +300,8 @@ def get_biolink_category_for_node(ontology_node_id: str,
             for parent_ontology_node_id in ontology.parents(ontology_node_id, ['subClassOf']):
                 parent_node_curie_id = get_node_curie_id_from_ontology_node_id(parent_ontology_node_id,
                                                                                ontology,
-                                                                               uri_to_curie_shortener)
+                                                                               uri_to_curie_shortener,
+                                                                               curie_to_uri_expander)
                 try:
                     [ret_category,
                      ontology_node_id_of_node_with_category] = get_biolink_category_for_node(parent_ontology_node_id,
@@ -362,6 +373,7 @@ def parse_umls_sver_date(umls_sver: str):
 def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                          curies_to_categories: dict,
                                          uri_to_curie_shortener: callable,
+                                         curie_to_uri_expander: callable,
                                          category_label_to_iri_mapper: callable):
     ret_dict = dict()
     ontologies_iris_to_curies = dict()
@@ -385,9 +397,10 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
         ontology_node = kg2_util.make_node(ontology_curie_id,
                                            iri_of_ontology,
                                            ontology_info_dict['title'],
-                                           'data source',
+                                           kg2_util.TYPE_DATA_SOURCE,
                                            updated_date,
-                                           iri_of_ontology)
+                                           ontology_curie_id)
+
         ontology_node['description'] = ontology_info_dict['description']
         ontology_node['ontology node ids'] = [iri_of_ontology]
         ontology_node['xrefs'] = []
@@ -402,10 +415,30 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             if ontology_node_id.startswith(MYSTERIOUS_BASE_NODE_ID_TO_FILTER):
                 continue
 
+            if ontology_node_id == OWL_NOTHING:
+                continue
+
             node_curie_id = get_node_curie_id_from_ontology_node_id(ontology_node_id,
                                                                     ontology,
-                                                                    uri_to_curie_shortener)
-            assert not node_curie_id.startswith('UMLS:C')  # :DEBUG:
+                                                                    uri_to_curie_shortener,
+                                                                    curie_to_uri_expander)
+            if node_curie_id is None:
+                kg2_util.log_message(message="Unable to obtain a CURIE for ontology node ID: " + ontology_node_id,
+                                     ontology_name=iri_of_ontology,
+                                     output_stream=sys.stderr)
+                continue
+
+            if node_curie_id.endswith(':'):
+                kg2_util.log_message(message="CURIE has nothing after the colon; prefix is " + node_curie_id + " for ontology node ID: " + ontology_node_id,
+                                     ontology_name=iri_of_ontology,
+                                     output_stream=sys.stderr)
+                continue
+
+            if node_curie_id.startswith('UMLS:C'):
+                kg2_util.log_message(message="CURIE with a UMLS CUI-like structure but that was not successfully split to obtain the CUI",
+                                     ontology_name=iri_of_ontology,
+                                     node_curie_id=node_curie_id,
+                                     output_stream=sys.stderr)
 
             iri = onto_node_dict.get('id', None)
             if iri is None:
@@ -416,12 +449,16 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                 iri = CUI_BASE_IRI + '/' + get_local_id_from_curie_id(node_curie_id)
 
             if not iri.startswith('http:') and not iri.startswith('https:'):
-                iri = prefixcommons.expand_uri(iri)
+                iri = curie_to_uri_expander(iri)
 
             if node_curie_id.startswith('NCBIGene:') or node_curie_id.startswith('HGNC:'):
-                iri = prefixcommons.expand_uri(node_curie_id)
+                iri = curie_to_uri_expander(node_curie_id)
 
-            generated_iri = prefixcommons.expand_uri(node_curie_id)
+            generated_iri = curie_to_uri_expander(node_curie_id)
+            if generated_iri is None:
+                print("for ontology node ID: " + ontology_node_id + "; cannot obtain IRI or CURIE; skipping", file=sys.stderr)
+                continue
+
             if generated_iri != node_curie_id:
                 if (generated_iri.startswith('http:') or generated_iri.startswith('https:')) and \
                    generated_iri != iri:
@@ -430,13 +467,15 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             node_name = onto_node_dict.get('label', None)
             node_full_name = None
 
-            [node_category_label,
-             ontology_id_of_node_with_category] = get_biolink_category_for_node(ontology_node_id,
-                                                                                node_curie_id,
-                                                                                ontology,
-                                                                                curies_to_categories,
-                                                                                uri_to_curie_shortener,
-                                                                                set(), False)
+            if node_curie_id is not None:
+                [node_category_label, _] = get_biolink_category_for_node(ontology_node_id,
+                                                                         node_curie_id,
+                                                                         ontology,
+                                                                         curies_to_categories,
+                                                                         uri_to_curie_shortener,
+                                                                         set(), False)
+            else:
+                node_category_label = None
 
             node_deprecated = False
             node_description = None
@@ -495,7 +534,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                     node_tui_list = []
                     for basic_property_value_dict in basic_property_values:
                         bpv_pred = basic_property_value_dict['pred']
-                        bpv_pred_curie = uri_to_curie_shortener(bpv_pred)
+                        bpv_pred_curie = convert_bpv_predicate_to_curie(bpv_pred)
                         if bpv_pred_curie is None:
                             bpv_pred_curie = bpv_pred
                         bpv_val = basic_property_value_dict['val']
@@ -604,7 +643,8 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                            node_name,
                                            node_category_label,
                                            node_update_date,
-                                           iri_of_ontology)
+                                           ontology_curie_id)
+
             node_dict['full name'] = node_full_name
             node_dict['description'] = node_description
             node_dict['creation date'] = node_creation_date   # slot name is not biolink standard
@@ -619,7 +659,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             if node_meta is not None and basic_property_values is not None:
                 for basic_property_value_dict in basic_property_values:
                     bpv_pred = basic_property_value_dict['pred']
-                    bpv_pred_curie = uri_to_curie_shortener(bpv_pred)
+                    bpv_pred_curie = convert_bpv_predicate_to_curie(bpv_pred)
                     bpv_val = basic_property_value_dict['val']
                     if bpv_pred_curie == 'UMLS:cui':   # CUI_BASE_IRI:
                         cui_node_dict = dict(node_dict)
@@ -666,6 +706,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
 def get_rels_dict(nodes: dict,
                   owl_file_information_dict_list: list,
                   uri_to_curie_shortener: callable,
+                  curie_to_uri_expander: callable,
                   map_of_node_ontology_ids_to_curie_ids: dict):
     rels_dict = dict()
 
@@ -684,6 +725,9 @@ def get_rels_dict(nodes: dict,
             if subject_id == OWL_BASE_CLASS or object_id == OWL_BASE_CLASS:
                 continue
 
+            if subject_id == OWL_NOTHING or object_id == OWL_NOTHING:
+                continue
+
             if subject_id.startswith(MYSTERIOUS_BASE_NODE_ID_TO_FILTER) or \
                object_id.startswith(MYSTERIOUS_BASE_NODE_ID_TO_FILTER):
                 continue
@@ -692,14 +736,14 @@ def get_rels_dict(nodes: dict,
             # always be the node curie IDs (e.g., for SNOMED terms). Need to map them
             subject_curie_id = map_of_node_ontology_ids_to_curie_ids.get(subject_id, None)
             if subject_curie_id is None:
-                kg2_util.log_message(message="ontology node ID has no curie ID in the map",
+                kg2_util.log_message(message="subject node ontology ID has no curie ID in the map",
                                      ontology_name=ontology.id,
                                      node_curie_id=subject_id,
                                      output_stream=sys.stderr)
                 continue
             object_curie_id = map_of_node_ontology_ids_to_curie_ids.get(object_id, None)
             if object_curie_id is None:
-                kg2_util.log_message(message="ontology node ID has no curie ID in the map",
+                kg2_util.log_message(message="object node ontology ID has no curie ID in the map",
                                      ontology_name=ontology.id,
                                      node_curie_id=object_id,
                                      output_stream=sys.stderr)
@@ -737,7 +781,7 @@ def get_rels_dict(nodes: dict,
                                 predicate_curie = test_curie
                         else:
                             predicate_label = edge_pred_string
-                predicate_iri = prefixcommons.expand_uri(predicate_curie)
+                predicate_iri = curie_to_uri_expander(predicate_curie)
                 predicate_curie_new = uri_to_curie_shortener(predicate_iri)
                 if predicate_curie_new is not None:
                     predicate_curie = predicate_curie_new
@@ -770,6 +814,9 @@ def get_rels_dict(nodes: dict,
                 pred_node = nodes.get(predicate_curie, None)
                 if pred_node is not None:
                     predicate_label = pred_node['name']
+                    if predicate_label is None:
+                        print(predicate_curie)
+                        pprint.pprint(pred_node)
                     if predicate_label[0].isupper():
                         predicate_label = predicate_label[0].lower() + predicate_label[1:]
 
@@ -808,54 +855,47 @@ def get_rels_dict(nodes: dict,
 
 def get_node_curie_id_from_ontology_node_id(ontology_node_id: str,
                                             ontology: ontobio.ontol.Ontology,
-                                            uri_to_curie_shortener: callable):
+                                            uri_to_curie_shortener: callable,
+                                            curie_to_uri_expander: callable):
     node_curie_id = None
     if not ontology_node_id.startswith('http:') and not ontology_node_id.startswith('https:'):
-        if not ontology_node_id.startswith('OBO:'):
-            if not ontology_node_id.startswith('UMLS:C'):
-                node_curie_id = ontology_node_id
-            else:
-                node_curie_id = CUI_PREFIX + ':' + ontology_node_id.split('UMLS:')[1]
+        # this ontology_node_id is probably a CURIE ID; proceed accordingly
+        iri = curie_to_uri_expander(ontology_node_id)
+        if iri is not None:
+            node_curie_id = uri_to_curie_shortener(iri)
         else:
-            node_curie_id = uri_to_curie_shortener(prefixcommons.expand_uri(ontology_node_id))
-    else:
-        node_curie_id = uri_to_curie_shortener(ontology_node_id)
-        if node_curie_id is None:
-            kg2_util.log_message(message="could not shorten this IRI to a CURIE",
+            kg2_util.log_message(message="Unable to expand ontology node ID to an IRI",
                                  ontology_name=ontology.id,
                                  node_curie_id=ontology_node_id,
                                  output_stream=sys.stderr)
-            node_curie_id = ontology_node_id
+            return None
+    else:
+        iri = ontology_node_id
+        node_curie_id = uri_to_curie_shortener(iri)
 
-    # Ensure that all CUI CURIE IDs use the "CUI:" prefix (part of fix for issue #565)
-    if is_cui_id(node_curie_id) and get_prefix_from_curie_id(node_curie_id) != CUI_PREFIX:
-        node_curie_id = CUI_PREFIX + ":" + get_local_id_from_curie_id(node_curie_id)
+    if node_curie_id is None:
+        kg2_util.log_message(message="could not shorten this IRI to a CURIE",
+                             ontology_name=ontology.id,
+                             node_curie_id=iri,
+                             output_stream=sys.stderr)
+
+    if node_curie_id is not None:
+        if is_cui_id(node_curie_id) and get_prefix_from_curie_id(node_curie_id) != CUI_PREFIX:
+            node_curie_id = CUI_PREFIX + ':' + get_local_id_from_curie_id(node_curie_id)
+#    if node_curie_id is None:
+#        print(ontology_node_id)
+#    else:
+#    # Ensure that all CUI CURIE IDs use the "umls:" prefix (part of fix for issue #565)
+#        if is_cui_id(node_curie_id) and get_prefix_from_curie_id(node_curie_id) != CUI_PREFIX:
+#            node_curie_id = CUI_PREFIX + ":" + get_local_id_from_curie_id(node_curie_id)
 
     return node_curie_id
 
 # --------------- pure functions here -------------------
 
 
-def shorten_iri_to_curie(iri: str, curie_to_iri_map: list = []):
-    if iri.startswith('owl:') or iri.startswith('OIO:'):
-        return iri
-    if "/GO/GO%3A" in iri:  # hack for fixing issue #410
-        iri = iri.replace("/GO/GO%3A", "/GO/")
-    if "/HPO/HP%3A" in iri:  # hack for fixing issue #665
-        iri = iri.replace("/HPO/HP%3A", "/HP/")
-    curie_list = prefixcommons.contract_uri(iri,
-                                            curie_to_iri_map)
-    assert len(curie_list) in [0, 1]
-    if len(curie_list) == 1:
-        curie_id = curie_list[0]
-    else:
-        curie_id = None
-    if curie_id is not None:
-        # deal with IRIs like 'https://identifiers.org/umls/ATC/L01AX02' which get converted to CURIE 'UMLS:ATC/L01AX02'
-        umls_match = REGEX_UMLS_CURIE.match(curie_id)
-        if umls_match is not None:
-            curie_id = umls_match[1] + ':' + umls_match[2]
-    return curie_id
+
+
 
 
 def is_ignorable_ontology_term(iri: str):
@@ -863,10 +903,6 @@ def is_ignorable_ontology_term(iri: str):
     iri_netloc = parsed_iri.netloc
     iri_path = parsed_iri.path
     return iri_netloc in ('example.com', 'usefulinc.com') or iri_path.startswith('/ontology/provisional')
-
-
-def make_uri_to_curie_shortener(curie_to_iri_map: list = []):
-    return lambda iri: shorten_iri_to_curie(iri, curie_to_iri_map)
 
 
 def get_prefix_from_curie_id(curie_id: str):
@@ -877,7 +913,7 @@ def get_prefix_from_curie_id(curie_id: str):
 def get_local_id_from_curie_id(curie_id: str):
     """
     This function returns the local ID from a CURIE ID, where a CURIE ID consists of "<Prefix>:<Local ID>".
-    For example, the function would return "C3540330" for CURIE ID "CUI:C3540330".
+    For example, the function would return "C3540330" for CURIE ID "umls:C3540330".
     """
     assert ':' in curie_id
     return curie_id.split(':')[1]
@@ -918,7 +954,7 @@ def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='multi_owl_to_json_kg.py: builds the KG2 knowledge graph for the RTX system')
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
     arg_parser.add_argument('categoriesFile', type=str)
-    arg_parser.add_argument('curiesToURILALFile', type=str)
+    arg_parser.add_argument('curiesToURIFile', type=str)
     arg_parser.add_argument('owlLoadInventoryFile', type=str)
     arg_parser.add_argument('outputFile', type=str)
     return arg_parser
@@ -930,13 +966,13 @@ if __name__ == '__main__':
     delete_ontobio_cachier_caches()
     args = make_arg_parser().parse_args()
     curies_to_categories_file_name = args.categoriesFile
-    curies_to_uri_lal_file_name = args.curiesToURILALFile
+    curies_to_uri_file_name = args.curiesToURIFile
     owl_load_inventory_file = args.owlLoadInventoryFile
     output_file = args.outputFile
     test_mode = args.test
     curies_to_categories = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_categories_file_name))
-    curies_to_uri_map = kg2_util.make_curies_to_uri_map(curies_to_uri_lal_file_name)
-    uri_to_curie_shortener = make_uri_to_curie_shortener(curies_to_uri_map)
+    map_dict = kg2_util.make_uri_curie_mappers(curies_to_uri_file_name)
+    [curie_to_uri_expander, uri_to_curie_shortener] = [map_dict['expand'], map_dict['contract']]
     map_category_label_to_iri = functools.partial(kg2_util.convert_biolink_category_to_iri,
                                                   biolink_category_base_iri=kg2_util.BIOLINK_CATEGORY_BASE_IRI)
 
@@ -944,6 +980,7 @@ if __name__ == '__main__':
 
     make_kg2(curies_to_categories,
              uri_to_curie_shortener,
+             curie_to_uri_expander,
              map_category_label_to_iri,
              owl_urls_and_files,
              output_file,

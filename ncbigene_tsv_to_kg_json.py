@@ -15,10 +15,12 @@ __status__ = 'Prototype'
 
 import argparse
 import kg2_util
+import os
 
 
-NCBI_BASE_IRI = 'https://www.ncbi.nlm.nih.gov/gene'
-NCBI_RELATION_CURIE_PREFIX = 'NCBIGene'
+NCBI_BASE_IRI = 'https://identifiers.org/ncbigene:'
+NCBI_RELATION_CURIE_PREFIX = 'ncbigene'
+NCBI_KB_IRI = 'https://identifiers.org/registry/ncbigene'
 
 
 def get_args():
@@ -38,13 +40,13 @@ def make_node(ncbi_gene_id: str,
     if other_synonyms is None:
         other_synonyms = []
     node_curie = kg2_util.CURIE_PREFIX_NCBI_GENE + ':' + ncbi_gene_id
-    iri = NCBI_BASE_IRI + '/' + ncbi_gene_id
+    iri = NCBI_BASE_IRI + ncbi_gene_id
     node_dict = kg2_util.make_node(node_curie,
                                    iri,
                                    full_name,
                                    category_label,
                                    update_date,
-                                   NCBI_BASE_IRI)
+                                   NCBI_KB_IRI)
     node_dict['synonym'] = list(set([gene_symbol] + other_synonyms))
     return node_dict
 
@@ -53,6 +55,17 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
     nodes = []
     edges = []
     gene_ctr = 0
+
+    update_date = os.path.getmtime(input_file_name)
+    ontology_curie_id = kg2_util.IDENTIFIERS_ORG_REGISTRY_CURIE_PREFIX + ':ncbigene'
+    ens_kp_node = kg2_util.make_node(ontology_curie_id,
+                                     kg2_util.IDENTIFIERS_ORG_REGISTRY_IRI_BASE + 'ncbigene',
+                                     'NCBI Genes',
+                                     kg2_util.TYPE_DATA_SOURCE,
+                                     update_date,
+                                     ontology_curie_id)
+    nodes.append(ens_kp_node)
+
     with open(input_file_name, 'r') as input_file:
         for line in input_file:
             if line.startswith('#'):
