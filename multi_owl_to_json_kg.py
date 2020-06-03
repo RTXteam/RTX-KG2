@@ -830,7 +830,7 @@ def get_rels_dict(nodes: dict,
                                           predicate_iri,
                                           predicate_curie,
                                           predicate_label,
-                                          ontology_id,
+                                          ontology_curie_id,
                                           ontology_update_date)
                 rels_dict[rel_key] = edge
         for node_id, node_dict in nodes.items():
