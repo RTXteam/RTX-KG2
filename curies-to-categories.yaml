@@ -4,6 +4,7 @@ prefix-mappings:
     BSPO: relationship type
     CL: anatomical entity
     DOID: disease
+    drugbank: drug
     GOREL: relationship type
     hgnc: gene
     IAO: information entity type

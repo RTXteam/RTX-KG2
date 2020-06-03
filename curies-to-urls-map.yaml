@@ -8,6 +8,8 @@ use_for_bidirectional_mapping:
   -
     AraPort: http://purl.uniprot.org/araport/
   -
+    atc: "https://identifiers.org/atc:"
+  -
     bao: "https://identifiers.org/bao:"
   -
     BFO: http://purl.obolibrary.org/obo/BFO_
@@ -36,17 +38,25 @@ use_for_bidirectional_mapping:
   -
     dc: http://purl.org/dc/elements/1.1/
   -
+    dcterms: http://purl.org/dc/terms/
+  -
     DDANAT: http://purl.obolibrary.org/obo/DDANAT_
   -
     dictybase.gene: "https://identifiers.org/dictybase.gene:"
   -
+    doap: http://usefulinc.com/ns/doap#
+  -
     DOID: http://purl.obolibrary.org/obo/DOID_
+  -
+    drugbank: "https://identifiers.org/drugbank:"
   -
     ecogene: "https://identifiers.org/ecogene:"
   -
     ECTO: http://purl.obolibrary.org/obo/ECTO_
   -
     efo: "https://identifiers.org/efo:"
+  -
+    EHDAA2: "http://purl.obolibrary.org/obo/EHDAA2_"
   -
     ensembl: "https://identifiers.org/ensembl:"
   -
@@ -194,15 +204,17 @@ use_for_bidirectional_mapping:
   -
     TO: http://purl.obolibrary.org/obo/TO_
   -
-    TUI: https://identifiers.org/umls/STY/
+    STY: http://purl.bioontology.org/ontology/STY/
   -
     UBERON: http://purl.obolibrary.org/obo/UBERON_
   -
     umls: "https://identifiers.org/umls:"
   -
-    UMLS: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/
+    umlssource: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/
   -
     UO: http://purl.obolibrary.org/obo/UO_
+  -
+    UPHENO: http://purl.obolibrary.org/obo/UPHENO_
   -
     wb: "https://identifiers.org/wb:"
   -
@@ -218,6 +230,8 @@ use_for_contraction_only:
   -
     AraPort: https://www.araport.org/locus/
   -
+    atc: "https://identifiers.org/umls/ATC/"
+  -
     bao: http://www.bioassayontology.org/bao#
   -
     BFO: http://www.ifomis.org/bfo/1.1/snap#
@@ -228,6 +242,8 @@ use_for_contraction_only:
   -
     biolink: https://w3id.org/biolink/biolinkml/meta/
   -
+    biolink: https://raw.githubusercontent.com/biolink/biolink-model/master/biolink-model.owl
+  -
     BTO: http://purl.obolibrary.org/obo/bto#
   -
     CHEBI: http://purl.obolibrary.org/obo/chebi/
@@ -237,6 +253,8 @@ use_for_contraction_only:
     CL: http://purl.obolibrary.org/obo/cl#
   -
     DDANAT: http://purl.obolibrary.org/obo/ddanat#
+  -
+    drugbank: https://identifiers.org/umls/DRUGBANK/
   -
     ecogene: http://www.ecogene.org/gene/
   -
@@ -308,11 +326,17 @@ use_for_contraction_only:
   -
     snomedct: http://purl.obolibrary.org/obo/SCTID_
   -
+    snomedct: https://identifiers.org/umls/SNOMEDCT/
+  -
     SO: http://purl.obolibrary.org/obo/so#
+  -
+    STY: https://identifiers.org/umls/STY/
   -
     NCBITaxon: http://purl.obolibrary.org/obo/ncbitaxon#
   -
     umls: http://purl.obolibrary.org/obo/UMLS_
+  -
+    umls: https://identifiers.org/umls/MTH/
   -
     umls: http://linkedlifedata.com/resource/umls/id/
   -
