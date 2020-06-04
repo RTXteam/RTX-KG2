@@ -5,6 +5,6 @@ S3_REGION=us-west-2
 S3_BUCKET=rtx-kg2
 S3_BUCKET_PUBLIC=rtx-kg2-public
 S3_CP_CMD="aws s3 cp --no-progress --region ${S3_REGION}"
-MYSQL_CONF=~/kg2-build/mysql-config.conf
+MYSQL_CONF=${BUILD_DIR}/mysql-config.conf
 CURL_GET="curl -s -L"
 CURIES_TO_URLS_FILE=${CODE_DIR}/curies-to-urls-map.yaml
