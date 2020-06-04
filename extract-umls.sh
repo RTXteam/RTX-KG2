@@ -106,18 +106,14 @@ cat ${UMLS2RDF_DIR}/conf_sample.py | sed 's/your-host/localhost/g' | \
 
 cp ${CODE_DIR}/umls2rdf-umls.conf ${UMLS2RDF_DIR}/umls.conf
 
-## umls2rdf is legacy software written to run in python2.7; set up the virtualenv
-UMLS_VENV_DIR=${UMLS_DIR}/venv27
-virtualenv --python=python2.7 ${UMLS_VENV_DIR}
-
 ## need libssl for installing mysqlclient; it is installed in setup-kg2-build.sh
-${UMLS_VENV_DIR}/bin/pip install mysqlclient
+${VENV_DIR}/bin/pip install mysqlclient
 
 ## change to the UMLS2RDF_DIR directory
 cd ${UMLS2RDF_DIR}
 
 ## run umls2rdf
-${UMLS_VENV_DIR}/bin/python2.7 umls2rdf.py
+${VENV_DIR}/bin/python3 umls2rdf.py
 
 ## verify the output files
 ./checkOutputSyntax.sh  # uses "rapper" command from the "raptor" package
