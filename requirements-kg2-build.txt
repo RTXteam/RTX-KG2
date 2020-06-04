@@ -3,6 +3,7 @@ cachier==1.2.5
 certifi==2019.3.9
 chardet==3.0.4
 Click==7.0
+conf==0.4.1
 dataclasses==0.6
 decorator==4.4.0
 HTMLParser==0.0.2
