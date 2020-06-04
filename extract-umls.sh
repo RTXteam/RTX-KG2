@@ -30,6 +30,10 @@ UMLS2RDF_DIR=${UMLS_DIR}/${UMLS2RDF_PKGNAME}
 CONFIG_FILE=${UMLS_DIR}/config.prop
 MYSQL_DBNAME=umls
 
+MYSQL_USER=`grep 'user = ' ${MYSQL_CONF} | sed 's/user = //g'`
+MYSQL_PASSWORD=`grep 'password = ' ${MYSQL_CONF} | sed 's/password = //g'`
+
+
 sudo apt-get update -y
 
 ## make directories that we need
@@ -66,9 +70,6 @@ ${JAVA_HOME}/bin/java -Djava.awt.headless=true \
                       -Doutput.uri=${DESTDIR} \
                       -Dmmsys.config.uri=${CONFIG_FILE} \
                       -Xms300M -Xmx${MEM_GB}G org.java.plugin.boot.Boot
-
-MYSQL_USER=`grep 'user = ' ${MYSQL_CONF} | sed 's/user = //g'`
-MYSQL_PASSWORD=`grep 'password = ' ${MYSQL_CONF} | sed 's/password = //g'`
 
 ## if a "umls" database already exists, delete it
 mysql --defaults-extra-file=${MYSQL_CONF} \
