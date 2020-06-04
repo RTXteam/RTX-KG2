@@ -101,7 +101,6 @@ cat ${UMLS2RDF_DIR}/conf_sample.py | sed 's/your-host/localhost/g' | \
     sed "s/umls2015ab/${MYSQL_DBNAME}/g" | \
     sed "s/your db user/${MYSQL_USER}/g" | \
     sed "s/your db pass/${MYSQL_PASSWORD}/g" | \
-    sed "s|http://purl.bioontology.org/ontology|https://identifiers.org/umls|g" | \
     sed "s|output|${OUTPUT_DIR}|g" | \
     sed "s/2015ab/${UMLS_VER}/g" > ${UMLS2RDF_DIR}/conf.py
 
