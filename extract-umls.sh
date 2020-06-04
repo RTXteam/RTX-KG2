@@ -107,9 +107,6 @@ cat ${UMLS2RDF_DIR}/conf_sample.py | sed 's/your-host/localhost/g' | \
 
 cp ${CODE_DIR}/umls2rdf-umls.conf ${UMLS2RDF_DIR}/umls.conf
 
-## need libssl for installing mysqlclient; it is installed in setup-kg2-build.sh
-${VENV_DIR}/bin/pip3 install mysqlclient
-
 ## change to the UMLS2RDF_DIR directory
 cd ${UMLS2RDF_DIR}
 
