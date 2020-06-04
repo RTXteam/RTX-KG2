@@ -11,6 +11,7 @@ idna==2.8
 isodate==0.6.0
 jsobject==0.10.2
 marshmallow==3.0.0b3
+mysqlclient==1.4.4
 neo4j==1.7.4
 networkx==2.2
 numpy==1.16.3
