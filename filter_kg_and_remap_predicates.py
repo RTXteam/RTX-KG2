@@ -29,6 +29,7 @@ import prefixcommons
 #   distinct edge labels are represented in the file
 # - note (somehow) if a relationship has been inverted, in the "orig_relation_curie" field
 
+
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='filter_kg.py: filters and simplifies the KG2 knowledge grpah for the RTX system')
     arg_parser.add_argument('predicateRemapYaml', type=str, help="The YAML file describing how predicates should be remapped to simpler predicates")
@@ -36,6 +37,7 @@ def make_arg_parser():
     arg_parser.add_argument('inputFileJson', type=str, help="The input KG2 grah, in JSON format")
     arg_parser.add_argument('outputFileJson', type=str, help="The output KG2 graph, in JSON format")
     arg_parser.add_argument('--test', dest='test', action='store_true', default=False)
+    arg_parser.add_argument('--dropSelfEdgesExcept', required=False, dest='drop_self_edges_except', default=None)
     arg_parser.add_argument('--dropNegated', dest='drop_negated', action='store_true', default=False)
     return arg_parser
 
@@ -48,9 +50,12 @@ if __name__ == '__main__':
     output_file_name = args.outputFileJson
     test_mode = args.test
     drop_negated = args.drop_negated
+    drop_self_edges_except = args.drop_self_edges_except
+    if drop_self_edges_except is not None:
+        assert type(drop_self_edges_except) == str
+        drop_self_edges_except = set(drop_self_edges_except.split(','))
     predicate_remap_config = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(predicate_remap_file_name))
-    curies_to_uri_lal = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_uri_lal_file_name))
-    curies_to_uri_map = prefixcommons.curie_util.default_curie_maps + curies_to_uri_lal
+    curies_to_uri_map = kg2_util.make_curies_to_uri_map(curies_to_uri_lal_file_name)
     graph = kg2_util.load_json(input_file_name)
     edge_keys = set()
     new_edges = dict()
@@ -110,6 +115,10 @@ if __name__ == '__main__':
             edge_dict['subject'] = edge_dict['object']
             edge_dict['object'] = new_object
         edge_dict['simplified edge label'] = simplified_edge_label
+        if drop_self_edges_except is not None and \
+           edge_dict['subject'] == edge_dict['object'] and \
+           simplified_edge_label not in drop_self_edges_except:
+            continue  # see issue 743
         edge_dict['simplified relation curie'] = simplified_relation_curie
         if simplified_relation_curie in nodes_dict:
             simplified_relation = nodes_dict[simplified_relation_curie]['iri']

@@ -55,14 +55,14 @@ def make_node(ensembl_gene_id: str,
     if other_synonyms is None:
         other_synonyms = []
     node_curie = kg2_util.CURIE_PREFIX_ENSEMBL + ':' + ensembl_gene_id
-    iri = ENSEMBL_BASE_IRI + '/' + ensembl_gene_id
+    iri = ENSEMBL_BASE_IRI + ensembl_gene_id
     node_dict = kg2_util.make_node(node_curie,
                                    iri,
                                    description,
                                    category_label,
                                    update_date,
                                    ENSEMBL_KB_IRI)
-    node_dict['synonym'] = list(set([gene_symbol] + other_synonyms))
+    node_dict['synonym'] = [gene_symbol] + list(set(other_synonyms))
     return node_dict
 
 

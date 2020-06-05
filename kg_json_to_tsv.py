@@ -251,6 +251,8 @@ def edges(graph, output_file_location):
             value = edge[key]
             if key == "publications info":
                 value = limit_publication_info_size(key, value)
+            elif key == 'provided by':
+                value = str(value).replace("', '", ",").replace("['", "").replace("']", "")
             elif key == 'edge label':  # fix for issue number 473 (hyphens in edge labels)
                 value = value.replace('-', '_').replace('(', '').replace(')', '')
             vallist.append(value)

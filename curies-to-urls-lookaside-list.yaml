@@ -95,6 +95,8 @@
 -
   UBERON: http://purl.obolibrary.org/obo/uberon/insect-anatomy#
 -
+  Biolink: https://biolink.github.io/biolink-model/docs/
+-
   Biolink: http://w3id.org/biolink/vocab/
 -
   MESH: https://identifiers.org/umls/MSH/
@@ -111,4 +113,6 @@
 -
   oboInOwl: http://www.geneontology.org/formats/oboInOwl#
 -
-  RTXKG1: http://www.rtx.ai/
+  RTXKG1: http://arax.rtx.ai/
+-
+  rdf: https://www.w3.org/TR/2004/REC-owl-guide-20040210/#
