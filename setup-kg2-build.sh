@@ -20,6 +20,7 @@ MYSQL_PASSWORD=1337
 
 source ${CONFIG_DIR}/master-config.shinc
 SETUP_LOG_FILE=${BUILD_DIR}/setup-kg2-build.log
+mkdir -p ${BUILD_DIR}
 
 {
 echo "================= starting setup-kg2.sh ================="
@@ -68,8 +69,6 @@ virtualenv ${VENV_DIR}
 ## directly, but installing it silences a runtime warning from ontobio):
 ## (maybe we should eventually move this to a requirements.txt file?)
 ${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
-
-mkdir -p ${BUILD_DIR}
 
 ## install ROBOT (software: ROBOT is an OBO Tool) by downloading the jar file
 ## distribution and cURLing the startup script (note github uses URL redirection
