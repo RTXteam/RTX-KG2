@@ -212,7 +212,8 @@ exact python packages needed in the latest `requirements.txt` file in the KG2 co
 
 (4) Setup the KG2 build system: 
 
-    RTX/code/kg2/setup-kg2-build.sh
+    bash -x RTX/code/kg2/setup-kg2-build.sh > ~/setup-kg2-build.log 2>&1
+    aws s3 cp ~/setup-kg2-build.log s3://rtx-kg2/
 
 Note that there is no need to redirect `stdout` or `stderr` to a log file, when
 executing `setup-kg2-build.sh`; this is because the script saves its own `stdout` and
