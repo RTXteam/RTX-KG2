@@ -114,5 +114,4 @@ mysql --defaults-extra-file=${MYSQL_CONF} \
 
 date
 
-${S3_CP_CMD} ${SETUP_LOG_FILE} s3://${S3_BUCKET_PUBLIC}/
 echo "================= script finished ================="
