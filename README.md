@@ -198,11 +198,13 @@ previously had `setup-kg2-build.sh` run, you may wish to clear out the instance 
 `clear-instance.sh` before proceeding, in order to ensure that you are getting the
 exact python packages needed in the latest `requirements.txt` file in the KG2 codebase):
 
-(1) Install `git` by running this command in the `bash` shell:
+(1) Install the `git` and `screen` packages if they are not already installed (though
+in an Ubuntu 18.04 instance created using the standard AWS AMI, they should already
+be installed):
 
     sudo apt-get update -y && sudo apt-get install -y screen git
 
-(2) change to the user's home directory:
+(2) change to the home directory for user `ubuntu`:
 
     cd 
     
@@ -298,7 +300,8 @@ This option requires that you have `curl` installed on your local computer. In a
     
 You will be prompted to enter the path to your AWS PEM file and the hostname of
 your AWS instance.  The script should then initiate a `bash` session on the
-remote instance. Within that `bash` session, continue to follow the instructions for Option 1 or 2, starting at step (4).
+remote instance. Within that `bash` session, continue to follow the instructions
+for Option 1, starting at step (4).
 
 ### Option 4: in an Ubuntu container in Docker (UNTESTED, IN DEVELOPMENT)
 
@@ -394,7 +397,7 @@ Stephen Ramsey, Amy Glen, Finn Womack, Erica Wood, Veronica Flores, Deqing Qu, a
 
 ## Advice and feedback
 David Koslicki, Eric Deutsch, Yao Yao, Jared Roach, Chris Mungall, Tom Conlin, Matt Brush,
-Chunlei Wu, Harold Solbrig, Will Byrd, and Michael Patton.
+Chunlei Wu, Harold Solbrig, Will Byrd, Michael Patton, and Jim Balhoff.
 
 ## Funding
 National Center for Advancing Translational Sciences (award number OT2TR002520).
