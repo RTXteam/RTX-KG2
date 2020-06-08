@@ -10,18 +10,20 @@ if [[ $# != 0 || "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
 fi
 
 # Usage: setup-kg2-build.sh
-echo "================= starting setup-kg2.sh ================="
+
 
 ## setup the shell variables for various directories
 CONFIG_DIR=`dirname "$0"`
+source ${CONFIG_DIR}/master-config.shinc
 
 MYSQL_USER=ubuntu
 MYSQL_PASSWORD=1337
 
-source ${CONFIG_DIR}/master-config.shinc
-SETUP_LOG_FILE=${BUILD_DIR}/setup-kg2-build.log
 mkdir -p ${BUILD_DIR}
+SETUP_LOG_FILE=${BUILD_DIR}/setup-kg2-build.log
 
+{
+echo "================= starting setup-kg2.sh ================="
 date
 
 ## sym-link into RTX/code/kg2
@@ -79,6 +81,7 @@ chmod +x ${BUILD_DIR}/robot
 ## setup owltools
 ${CURL_GET} ${BUILD_DIR} https://github.com/RTXteam/owltools/releases/download/v0.3.0/owltools > ${BUILD_DIR}/owltools
 chmod +x ${BUILD_DIR}/owltools
+} >${SETUP_LOG_FILE} 2>&1
 
 ## setup AWS CLI
 if ! aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/test /tmp/; then
@@ -87,6 +90,7 @@ else
     rm /tmp/test
 fi
 
+{
 # setup raptor (used by the "checkOutputSyntax.sh" script in the umls2rdf package)
 wget -nv -P ${BUILD_DIR} http://download.librdf.org/source/raptor2-2.0.15.tar.gz
 rm -r -f ${BUILD_DIR}/raptor2-2.0.15
@@ -115,3 +119,6 @@ mysql --defaults-extra-file=${MYSQL_CONF} \
 date
 
 echo "================= script finished ================="
+} > ${SETUP_LOG_FILE} 2>&1
+
+${S3_CP_CMD} ${SETUP_LOG_FILE} s3://${S3_BUCKET_PUBLIC}/
