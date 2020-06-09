@@ -54,6 +54,7 @@ TYPE_DATA_SOURCE = 'data source'
 IDENTIFIERS_ORG_REGISTRY_CURIE_PREFIX = 'identifiers_org_registry'
 IDENTIFIERS_ORG_REGISTRY_IRI_BASE = 'https://identifiers.org/registry/'
 
+
 class MLStripper(html.parser.HTMLParser):
     def __init__(self):
         super().__init__()
@@ -174,6 +175,8 @@ def make_uri_to_curie_shortener(curie_to_iri_map=None) -> callable:
 
 
 def expand_curie_to_iri(curie_id: str, curie_to_iri_map: list) -> Optional[str]:
+    if curie_id.startswith('UMLS:CN'):
+        curie_id = curie_id.replace('UMLS:CN', 'medgen:CN')  # see GitHub issue 810
     iri = prefixcommons.expand_uri(curie_id, curie_to_iri_map)
     if iri == curie_id:
         iri = None
@@ -199,8 +202,8 @@ class IDMapperType(enum.Enum):
 def make_curies_to_uri_map(curies_to_uri_map_yaml_string: str, mapper_type: IDMapperType) -> dict:
     yaml_data_structure_dict = safe_load_yaml_from_string(curies_to_uri_map_yaml_string)
     if mapper_type == IDMapperType.CONTRACT:
-        return typing.cast(list, typing.cast(list, yaml_data_structure_dict['use_for_bidirectional_mapping']) +
-                           typing.cast(list, yaml_data_structure_dict['use_for_contraction_only']))
+        return typing.cast(list, typing.cast(list, typing.cast(list, yaml_data_structure_dict['use_for_bidirectional_mapping']) +
+                                             yaml_data_structure_dict['use_for_contraction_only']))
     elif mapper_type == IDMapperType.EXPAND:
         return typing.cast(list, typing.cast(list, yaml_data_structure_dict['use_for_bidirectional_mapping']) +
                            typing.cast(list, yaml_data_structure_dict['use_for_expansion_only']))
