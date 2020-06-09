@@ -149,10 +149,9 @@ def shorten_iri_to_curie(iri: str, curie_to_iri_map: list) -> str:
 #         assert False
 #     if len(curie_list) > 1:
 #         print(curie_list)
-
- #   if len(curie_list) not in [0, 1]:
- #       print(iri)
- #   assert len(curie_list) in [0, 1]
+#   if len(curie_list) not in [0, 1]:
+#       print(iri)
+#   assert len(curie_list) in [0, 1]
     if len(curie_list) == 1:
         curie_id = curie_list[0]
     else:
@@ -272,6 +271,8 @@ def merge_two_dicts(x: dict, y: dict):
                                     new_desc = y.get('description', None)
                                     if stored_desc is not None and new_desc is not None and len(new_desc) > len(stored_desc):
                                         ret_dict[key] = value
+                                    log_message("for node ID " + x['id'] + ', inconsistent category fields: ' +
+                                                x['category'] + ' and ' + y['category'], output_stream=sys.stderr)
                         elif key == 'name' or key == 'full name':
                             if value.replace(' ', '_') != stored_value.replace(' ', '_'):
                                 stored_desc = ret_dict.get('description', None)
