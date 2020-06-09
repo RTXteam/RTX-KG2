@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# build-semmeddb.sh: download the SemMedDB release and convert it to a tuple-list JSON file
+# extract-semmeddb.sh: download the SemMedDB release and convert it to a tuple-list JSON file
 # Copyright 2019 Stephen A. Ramsey <stephen.ramsey@oregonstate.edu>
 
 set -o nounset -o pipefail -o errexit
@@ -9,7 +9,7 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     exit 2
 fi
 
-# Usage: build-semmeddb.sh <output_file.json>
+# Usage: extract-semmeddb.sh <output_file.json>
 
 echo "================= starting build-semmeddb.sh ================="
 date
