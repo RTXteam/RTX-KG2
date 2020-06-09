@@ -196,7 +196,7 @@ def make_kg2(curies_to_categories: dict,
                                                                           ont_source_info_dict['file'])
         else:
             local_file_name = ont_source_info_dict['file']
-            assert os.path.exists(ont_source_info_dict['file'])
+            assert os.path.exists(ont_source_info_dict['file']), local_file_name
         # load the OWL file dadta into an ontobio.ontol.Ontology data structure and information dictionary
         [ont, metadata_dict] = load_owl_file_return_ontology_and_metadata(local_file_name,
                                                                           ont_source_info_dict['url'],
