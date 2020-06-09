@@ -9,7 +9,7 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     exit 2
 fi
 
-echo "================= starting build-unichem.sh ================="
+echo "================= starting build-dgidb.sh ================="
 date
 
 CONFIG_DIR=`dirname "$0"`
