@@ -33,7 +33,7 @@ import prefixcommons
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='filter_kg.py: filters and simplifies the KG2 knowledge grpah for the RTX system')
     arg_parser.add_argument('predicateRemapYaml', type=str, help="The YAML file describing how predicates should be remapped to simpler predicates")
-    arg_parser.add_argument('curiesToURILALFile', type=str, help="The file mapping CURIE prefixes to URI fragments")
+    arg_parser.add_argument('curiesToURIFile', type=str, help="The file mapping CURIE prefixes to URI fragments")
     arg_parser.add_argument('inputFileJson', type=str, help="The input KG2 grah, in JSON format")
     arg_parser.add_argument('outputFileJson', type=str, help="The output KG2 graph, in JSON format")
     arg_parser.add_argument('--test', dest='test', action='store_true', default=False)
@@ -45,7 +45,7 @@ def make_arg_parser():
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
     predicate_remap_file_name = args.predicateRemapYaml
-    curies_to_uri_lal_file_name = args.curiesToURILALFile
+    curies_to_uri_file_name = args.curiesToURIFile
     input_file_name = args.inputFileJson
     output_file_name = args.outputFileJson
     test_mode = args.test
@@ -55,7 +55,8 @@ if __name__ == '__main__':
         assert type(drop_self_edges_except) == str
         drop_self_edges_except = set(drop_self_edges_except.split(','))
     predicate_remap_config = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(predicate_remap_file_name))
-    curies_to_uri_map = kg2_util.make_curies_to_uri_map(curies_to_uri_lal_file_name)
+    map_dict = kg2_util.make_uri_curie_mappers(curies_to_uri_file_name)
+    [curie_to_uri_expander, uri_to_curie_shortener] = [map_dict['expand'], map_dict['contract']]
     graph = kg2_util.load_json(input_file_name)
     edge_keys = set()
     new_edges = dict()
@@ -124,7 +125,7 @@ if __name__ == '__main__':
             simplified_relation = nodes_dict[simplified_relation_curie]['iri']
         else:
             simplified_relation_curie_prefix = simplified_relation_curie.split(':')[0]
-            simplified_relation_uri_prefix = prefixcommons.expand_uri(simplified_relation_curie_prefix + ':', curies_to_uri_map)
+            simplified_relation_uri_prefix = curie_to_uri_expander(simplified_relation_curie_prefix + ':')
             if simplified_relation_uri_prefix != simplified_relation_curie_prefix:
                 simplified_relation = kg2_util.predicate_label_to_iri_and_curie(simplified_edge_label,
                                                                                 simplified_relation_curie_prefix,
@@ -145,7 +146,8 @@ if __name__ == '__main__':
     del graph['edges']
     graph['edges'] = [edge_dict for edge_dict in new_edges.values()]
     for relation_curie_not_in_config in relation_curies_not_in_config:
-        print('relation curie is missing from the YAML config file: ' + relation_curie_not_in_config, file=sys.stderr)
+        print('relation curie is missing from the YAML config file: ' + relation_curie_not_in_config,
+              file=sys.stderr)
     for relation_curie in record_of_relation_curie_occurrences:
         if not record_of_relation_curie_occurrences[relation_curie]:
             print('relation curie is in the config file but was not detected in the graph: ' + relation_curie, file=sys.stderr)
