@@ -120,6 +120,8 @@ use_for_bidirectional_mapping:
   -
     medgen: "https://identifiers.org/medgen:"
   -
+    medgen.concept: "https://identifiers.org/medgen:CN"
+  -
     MESH: http://purl.bioontology.org/ontology/MSH/
   -
     MF: http://purl.obolibrary.org/obo/MF_
@@ -314,6 +316,8 @@ use_for_contraction_only:
   -
     medgen: http://purl.obolibrary.org/obo/MEDGEN_
   -
+    medgen.concept: "https://identifiers.org/umls:CN"
+  -
     MGI: "http://www.informatics.jax.org/marker/MGI:"
   -
     MONDO: http://purl.obolibrary.org/obo/mondo#
@@ -405,3 +409,5 @@ use_for_expansion_only:
     Orphanet: http://purl.bioontology.org/ontology/ORDO/
   -
     oboInOwl: http://www.geneontology.org/formats/oboInOwl#
+  -
+    UMLS: "https://identifiers.org/umls:"
