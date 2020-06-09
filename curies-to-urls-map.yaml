@@ -104,7 +104,7 @@ use_for_bidirectional_mapping:
   -
     ICD9: http://purl.bioontology.org/ontology/ICD9CM/
   -
-    identifiers_org_registry: "https://identifiers.org/registry/"
+    identifiers_org_registry: "https://registry.identifiers.org/registry/"
   -
     IDO: http://purl.obolibrary.org/obo/IDO_
   -
@@ -228,7 +228,7 @@ use_for_bidirectional_mapping:
   -
     umls: "https://identifiers.org/umls:"
   -
-    umlssource: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/
+    umls_source: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/
   -
     UO: http://purl.obolibrary.org/obo/UO_
   -
