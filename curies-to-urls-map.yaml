@@ -120,8 +120,6 @@ use_for_bidirectional_mapping:
   -
     medgen: "https://identifiers.org/medgen:"
   -
-    medgen.concept: "https://identifiers.org/medgen:CN"
-  -
     MESH: http://purl.bioontology.org/ontology/MSH/
   -
     MF: http://purl.obolibrary.org/obo/MF_
@@ -315,8 +313,6 @@ use_for_contraction_only:
     MEDDRA: http://purl.obolibrary.org/obo/MedDRA_
   -
     medgen: http://purl.obolibrary.org/obo/MEDGEN_
-  -
-    medgen.concept: "https://identifiers.org/umls:CN"
   -
     MGI: "http://www.informatics.jax.org/marker/MGI:"
   -
