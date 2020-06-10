@@ -1,9 +1,9 @@
--
+- # maps to CURIE prefix: biolink
   url: https://raw.githubusercontent.com/biolink/biolink-model/master/biolink-model.owl
   file: biolink-model.owl
   download: true
   title: Biolink meta-model
--
+- # maps to CURIE prefix: UMLSSC
   url: http://purl.bioontology.org/ontology/STY
   file: umls-semantictypes.ttl
   download: false
@@ -172,17 +172,17 @@
   file: umls-vandf.ttl
   title: National Drug File
   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/VANDF
--
+- # maps to CURIE prefix: BFO
   url:  http://purl.obolibrary.org/obo/bfo.owl
   file: bfo.owl
   download: true
   title: Basic Formal Ontology
--
+- # maps to CURIE prefix: GO
   url:  http://purl.obolibrary.org/obo/go/extensions/go-plus.owl
   file: go-plus.owl
   title: Gene Ontology
   download: true
--
+- # maps to CURIE prefix: RO
   url:  http://purl.obolibrary.org/obo/ro.owl
   file: ro.owl
   download: true
