@@ -18,7 +18,7 @@ use_for_bidirectional_mapping:
   -
     BTO: http://purl.obolibrary.org/obo/BTO_
   -
-    biolink: https://w3id.org/biolink/
+    biolink: https://w3id.org/biolink/vocab/
   -
     CARO: http://purl.obolibrary.org/obo/CARO_
   -
@@ -255,8 +255,6 @@ use_for_contraction_only:
     BFO: http://www.ifomis.org/bfo/1.1/snap#
   -
     BFO: http://www.ifomis.org/bfo/1.1/span#
-  -
-    biolink: http://w3id.org/biolink/vocab/
   -
     biolink: https://w3id.org/biolink/biolinkml/meta/
   -
