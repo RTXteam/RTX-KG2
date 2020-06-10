@@ -279,9 +279,16 @@ def get_biolink_category_for_node(ontology_node_id: str,
 
     curie_prefix = get_prefix_from_curie_id(node_curie_id)
 
-    # Inelegant hack to ensure that TUI: nodes get mapped to "semantic type" while still enabling us
-    # to use get_biolink_category_for_node to determine the specific semantic type of a CUI based on its
-    # TUI record. Need to think about a more elegant way to do this. [SAR]
+    if curie_prefix is None:
+        kg2_util.log_message("Unable to get prefix from node CURIE id",
+                             ontology_name=ontology.id,
+                             node_curie_id=node_curie_id,
+                             output_stream=sys.stderr)
+        return [None, None]
+
+        # Inelegant hack to ensure that TUI: nodes get mapped to "semantic type" while still enabling us
+        # to use get_biolink_category_for_node to determine the specific semantic type of a CUI based on its
+        # TUI record. Need to think about a more elegant way to do this. [SAR]
     if curie_prefix == 'TUI' and ontology.id.endswith('/umls/STY/'):
         return ['semantic type', None]
 
@@ -880,8 +887,17 @@ def get_node_curie_id_from_ontology_node_id(ontology_node_id: str,
                              output_stream=sys.stderr)
 
     if node_curie_id is not None:
-        if is_cui_id(node_curie_id) and get_prefix_from_curie_id(node_curie_id) != CUI_PREFIX:
-            node_curie_id = CUI_PREFIX + ':' + get_local_id_from_curie_id(node_curie_id)
+        if is_cui_id(node_curie_id):
+            curie_prefix = get_prefix_from_curie_id(node_curie_id)
+            if curie_prefix is not None:
+                if curie_prefix != CUI_PREFIX:
+                    node_curie_id = CUI_PREFIX + ':' + get_local_id_from_curie_id(node_curie_id)
+            else:
+                kg2_util.log_message(message="could not obtain prefix from node CURIE ID",
+                                     ontology_name=ontology.id,
+                                     node_curie_id=node_curie_id,
+                                     output_stream=sys.stderr)
+
 #    if node_curie_id is None:
 #        print(ontology_node_id)
 #    else:
