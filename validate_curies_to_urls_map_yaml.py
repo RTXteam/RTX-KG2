@@ -70,4 +70,3 @@ for prefix in set(iter(map_data_cont.values())):
 # none of the URLs in the contraction map should be in the bidirectional map_data
 overlap = set(iter(map_data_cont.keys())) & set(iter(map_data_bidir.values()))
 assert len(overlap) == 0, str(overlap)
-
