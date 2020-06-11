@@ -58,7 +58,7 @@ for expa_url in map_data_expa.values():
     if expa_url not in bidir_map_urls:
         found_url_partial_match = False
         for url in bidir_map_urls:
-            if url.startswith(expa_url):
+            if url.startswith(expa_url) or expa_url.startswith(url):
                 found_url_partial_match = True
                 break
         assert found_url_partial_match, expa_url
