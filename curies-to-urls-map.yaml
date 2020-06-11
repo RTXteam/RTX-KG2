@@ -72,7 +72,7 @@ use_for_bidirectional_mapping:
   -
     ECTO: http://purl.obolibrary.org/obo/ECTO_
   -
-    EDAM: http://purl.bioontology.org/edam/
+    EDAM: http://purl.bioontology.org/ontology/edam/
   -
     EFO: http://purl.bioontology.org/ontology/EFO/
   -
@@ -121,6 +121,8 @@ use_for_bidirectional_mapping:
     GEO: http://purl.obolibrary.org/obo/GEO_
   -
     GO: http://purl.obolibrary.org/obo/GO_
+  -
+    HANCESTRO: http://purl.obolibrary.org/obo/HANCESTRO_
   -
     HCPCS: https://hcpcs.codes/a-codes/
   -
@@ -299,8 +301,8 @@ use_for_bidirectional_mapping:
     VANDF: http://purl.bioontology.org/ontology/VANDF/
   -
     VCARD: http://www.w3.org/2006/vcard/
-  -
-    vivo: http://vivoweb.org/ontology/
+  - # there seems to be no PURL provider for the "VIVO" ontology:
+    VIVO: http://vivoweb.org/ontology/core#
   -
     VT: http://purl.obolibrary.org/obo/VT_
   -
@@ -361,6 +363,8 @@ use_for_contraction_only:
     FMA: http://purl.bioontology.org/ontology/FMA/
   -
     GO: "http://purl.bioontology.org/ontology/GO/GO%3A"
+  -
+    HANCESTRO: http://www.ebi.ac.uk/ancestro/ancestro_
   -
     HGNC: "http://www.genenames.org/cgi-bin/gene_symbol_report?hgnc_id="
   -
