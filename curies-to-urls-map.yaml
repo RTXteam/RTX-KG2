@@ -282,6 +282,8 @@ use_for_contraction_only:
   -
     ensembl: http://www.ensembl.org/id/
   -
+    FBgn: https://flybase.org/reports/FBgn
+  -
     FMA: http://purl.obolibrary.org/obo/fma#
   -
     FMA: http://purl.bioontology.org/ontology/FMA/
