@@ -8,23 +8,35 @@ use_for_bidirectional_mapping:
   -
     AraPort: http://purl.uniprot.org/araport/
   -
+    ARG: http://purl.obolibrary.org/obo/ARG_
+  -
+    ARO: http://purl.obolibrary.org/obo/ARO_
+  -
     ATC: http://purl.bioontology.org/ontology/ATC/
   -
     BAO: http://purl.bioontology.org/ontology/BAO/
   -
     BFO: http://purl.obolibrary.org/obo/BFO_
   -
+    bibo: http://purl.org/ontology/bibo/
+  -
+    biolink: https://w3id.org/biolink/vocab/
+  -
+    BRO: http://bioontology.org/ontologies/BiomedicalResourceOntology.owl#
+  -
     BSPO: http://purl.obolibrary.org/obo/BSPO_
   -
     BTO: http://purl.obolibrary.org/obo/BTO_
   -
-    biolink: https://w3id.org/biolink/vocab/
-  -
     CARO: http://purl.obolibrary.org/obo/CARO_
+  -
+    CEPH: http://purl.obolibrary.org/obo/CEPH_
   -
     CGNC: "http://birdgenenames.org/cgnc/GeneReport?id="
   -
     CHEBI: http://purl.obolibrary.org/obo/CHEBI_
+  -
+    CHMO: http://purl.obolibrary.org/obo/CHMO_
   -
     CL: http://purl.obolibrary.org/obo/CL_
   -
@@ -35,6 +47,8 @@ use_for_bidirectional_mapping:
     CP: http://purl.obolibrary.org/obo/CP_
   -
     CPT: http://purl.bioontology.org/ontology/CPT/
+  -
+    CVDO: http://purl.obolibrary.org/obo/CVDO_
   -
     dbpedia: http://dbpedia.org/resource/
   -
@@ -52,9 +66,13 @@ use_for_bidirectional_mapping:
   -
     DRUGBANK: http://purl.bioontology.org/ontology/DRUGBANK/
   -
+    ECOCORE: http://purl.obolibrary.org/obo/ECOCORE_
+  -
     ecogene: "https://identifiers.org/ecogene:"
   -
     ECTO: http://purl.obolibrary.org/obo/ECTO_
+  -
+    EDAM: http://purl.bioontology.org/edam/
   -
     EFO: http://purl.bioontology.org/ontology/EFO/
   -
@@ -68,6 +86,10 @@ use_for_bidirectional_mapping:
   -
     EO: http://purl.obolibrary.org/obo/EO_
   -
+    EPO: http://purl.obolibrary.org/obo/EPO_
+  -
+    ERO: http://purl.obolibrary.org/obo/ERO_
+  -
     ExO: http://purl.obolibrary.org/obo/ExO_
   -
     FAO: http://purl.obolibrary.org/obo/FAO_
@@ -80,6 +102,10 @@ use_for_bidirectional_mapping:
   -
     FBrf: https://flybase.org/reports/FBrf
   -
+    FIX: http://purl.obolibrary.org/obo/FIX_
+  -
+    FLU: http://purl.obolibrary.org/obo/FLU_
+  -
     FMA: http://purl.obolibrary.org/obo/FMA_
   -
     foaf: http://xmlns.com/foaf/0.1/
@@ -87,6 +113,12 @@ use_for_bidirectional_mapping:
     FOODON: http://purl.obolibrary.org/obo/FOODON_
   -
     GARD: http://purl.obolibrary.org/obo/GARD_
+  -
+    GAZ: http://purl.obolibrary.org/obo/GAZ_
+  -
+    GENEPIO: http://purl.obolibrary.org/obo/GENEPIO_
+  -
+    GEO: http://purl.obolibrary.org/obo/GEO_
   -
     GO: http://purl.obolibrary.org/obo/GO_
   -
@@ -104,6 +136,8 @@ use_for_bidirectional_mapping:
   -
     ICD9: http://purl.bioontology.org/ontology/ICD9CM/
   -
+    ICO: http://purl.obolibrary.org/obo/ICO_
+  -
     identifiers_org_registry: "https://registry.identifiers.org/registry/"
   -
     IDO: http://purl.obolibrary.org/obo/IDO_
@@ -120,7 +154,7 @@ use_for_bidirectional_mapping:
   -
     medgen: "https://identifiers.org/medgen:"
   -
-    MESH: http://purl.bioontology.org/ontology/MSH/
+    MESH: http://purl.bioontology.org/ontology/MESH/
   -
     MF: http://purl.obolibrary.org/obo/MF_
   -
@@ -129,6 +163,10 @@ use_for_bidirectional_mapping:
     MFOMD: http://purl.obolibrary.org/obo/MFOMD_
   -
     MGI: "https://identifiers.org/MGI:"
+  -
+    MI: http://purl.obolibrary.org/obo/MI_
+  -
+    MMO: http://purl.obolibrary.org/obo/MMO_
   -
     MOD: http://purl.obolibrary.org/obo/MOD_
   -
@@ -144,11 +182,15 @@ use_for_bidirectional_mapping:
   -
     NCIT: "https://identifiers.org/ncit:"
   -
+    NCRO: http://purl.obolibrary.org/obo/NCRO_
+  -
     NDDF: http://purl.bioontology.org/ontology/NDDF/
   -
     NDFRT: http://purl.bioontology.org/ontology/NDFRT/
   -
     NPO: http://purl.obolibrary.org/obo/NPO_
+  -
+    OAE: http://purl.obolibrary.org/obo/OAE_
   -
     OBA: http://purl.obolibrary.org/obo/OBA_
   -
@@ -160,9 +202,13 @@ use_for_bidirectional_mapping:
   -
     OBOREL: "http://purl.org/obo/owl/OBO_REL#"
   -
+    OCRe: http://purl.org/net/OCRe/
+  -
     OGMS: http://purl.obolibrary.org/obo/OGMS_
   -
     OIO: http://www.geneontology.org/formats/oboInOwl#
+  -
+    OMIABIS: http://purl.obolibrary.org/obo/OMIABIS_
   -
     OMIM: http://purl.obolibrary.org/obo/OMIM_
   -
@@ -174,6 +220,10 @@ use_for_bidirectional_mapping:
   -
     OMOP: https://athena.ohdsi.org/search-terms/terms/
   -
+    OMP: http://purl.obolibrary.org/obo/OMP_
+  -
+    OMRSE: http://purl.obolibrary.org/obo/OMRSE_
+  -
     OncoTree: http://purl.obolibrary.org/obo/ONCOTREE_
   -
     OPL: http://purl.obolibrary.org/obo/OPL_
@@ -184,7 +234,11 @@ use_for_bidirectional_mapping:
   -
     PATO: http://purl.obolibrary.org/obo/PATO_
   -
+    PCO: http://purl.obolibrary.org/obo/PCO_
+  -
     PDQ: http://purl.bioontology.org/ontology/PDQ/
+  -
+    PECO: http://purl.obolibrary.org/obo/PECO_
   -
     PO: http://purl.obolibrary.org/obo/PO_
   -
@@ -218,9 +272,17 @@ use_for_bidirectional_mapping:
   -
     SO: http://purl.obolibrary.org/obo/SO_
   -
+    STATO: http://purl.obolibrary.org/obo/STATO_
+  -
+    SWO: http://www.ebi.ac.uk/swo/
+  -
+    SYMP: http://purl.obolibrary.org/obo/SYMP_
+  -
     NCBITaxon: http://purl.obolibrary.org/obo/NCBITaxon_
   -
     TO: http://purl.obolibrary.org/obo/TO_
+  -
+    TRANS: http://purl.obolibrary.org/obo/TRANS_
   -
     UMLSSC: http://purl.bioontology.org/ontology/STY/
   -
@@ -236,9 +298,17 @@ use_for_bidirectional_mapping:
   -
     VANDF: http://purl.bioontology.org/ontology/VANDF/
   -
+    VCARD: http://www.w3.org/2006/vcard/
+  -
+    vivo: http://vivoweb.org/ontology/
+  -
+    VT: http://purl.obolibrary.org/obo/VT_
+  -
     wb: "https://identifiers.org/wb:"
   -
     wikidata: "https://identifiers.org/wikidata:"
+  -
+    XCO: http://purl.obolibrary.org/obo/XCO_
   -
     ZEA: http://purl.obolibrary.org/obo/ZEA_
   -
@@ -273,6 +343,8 @@ use_for_contraction_only:
     DDANAT: http://purl.obolibrary.org/obo/ddanat#
   -
     ecogene: http://www.ecogene.org/gene/
+  -
+    EDAM: http://edamontology.org/
   -
     EFO: http://www.ebi.ac.uk/efo/EFO_
   -
@@ -340,6 +412,8 @@ use_for_contraction_only:
   -
     OBO: http://purl.obolibrary.org/obo#
   -
+    OCRe: http://purl.org/net/OCRe/research.owl#
+  -
     OMIM: http://purl.bioontology.org/ontology/OMIM/
   -
     OMOP: http://purl.obolibrary.org/obo/COHD_
@@ -399,6 +473,8 @@ use_for_contraction_only:
 use_for_expansion_only:
   -
     dictyBase: "https://identifiers.org/dictybase.gene:"
+  -
+    DATA: http://purl.bioontology.org/ontology/edam/data_
   -
     FlyBase: https://flybase.org/reports/
   -
