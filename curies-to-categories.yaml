@@ -1,6 +1,6 @@
 ---
 prefix-mappings:
-    biolink: semantic type
+    biolink: ontology class
     BSPO: relationship type
     CL: anatomical entity
     DOID: disease
@@ -18,7 +18,6 @@ prefix-mappings:
     RO: relationship type
     sgd: gene
     SIO: relationship type
-    STY: semantic type
     SYMP: phenotypic feature
     UBERON: anatomical entity
     UBPROP: attribute
@@ -36,7 +35,7 @@ term-mappings:
     OIO:shorthand: relationship type
     owl:topObjectProperty: attribute
     OBO:ro/subsets#ro-eco: relationship type
-    BFO:0000001: entity
+    BFO:0000001: named thing
     BFO:0000002: continuant
     BFO:0000003: occurrent
     BFO:0000050: relationship type
@@ -71,10 +70,6 @@ term-mappings:
     CHEBI:50906: biological process
     CL:0000000: anatomical entity
     DDANAT:0000002: organism taxon
-    GO:0005575: cellular component
-    GO:0008150: biological process
-    GO:0003674: molecular function
-    GOCHEREL:0000001: relationship type
     efo:0000324: cell type
     efo:0005066: material
     efo:0001434: material
@@ -94,6 +89,10 @@ term-mappings:
     FMA:86003: anatomical entity
     FOODON:00002403: biological food component
     FOODON:00002451: food transformation process
+    GO:0005575: cellular component
+    GO:0008150: biological process
+    GO:0003674: molecular function
+    GOCHEREL:0000001: relationship type
     HP:0031797: disease characteristic
     HP:0012823: disease characteristic
     HP:0032223: phenotypic feature
@@ -216,46 +215,46 @@ term-mappings:
     snomedct:900000000000441003: information entity
     SO:0000704: gene set
     TRANS:0000000: transmission type
-    TUI:T017: anatomical entity
-    TUI:T001: organism taxon
-    TUI:T028: gene set
-    TUI:T032: attribute
-    TUI:T033: finding
-    TUI:T038: biological process
-    TUI:T047: disease
-    TUI:T051: event
-    TUI:T052: activity
-    TUI:T053: behavior
-    TUI:T067: phenomenon or process
-    TUI:T071: entity
-    TUI:T072: physical object
-    TUI:T073: product
-    TUI:T074: device
-    TUI:T075: device
-    TUI:T077: conceptual entity
-    TUI:T078: concept
-    TUI:T090: occupation
-    TUI:T092: organization
-    TUI:T096: group of people
-    TUI:T102: attribute
-    TUI:T103: chemical substance
-    TUI:T116: protein
-    TUI:T120: chemical substance
-    TUI:T121: drug
-    TUI:T123: biological substance
-    TUI:T125: protein
-    TUI:T126: protein
-    TUI:T129: protein
-    TUI:T131: hazardous substance
-    TUI:T167: substance
-    TUI:T170: product
-    TUI:T171: language
-    TUI:T184: phenotypic feature
-    TUI:T196: chemical substance
-    TUI:T200: drug
     UBERON:0001062: anatomical entity
     UBERON:0000105: life stage
     UMLS:hasSTY: relationship type
+    UMLSSC:T017: anatomical entity
+    UMLSSC:T001: organism taxon
+    UMLSSC:T028: gene set
+    UMLSSC:T032: attribute
+    UMLSSC:T033: finding
+    UMLSSC:T038: biological process
+    UMLSSC:T047: disease
+    UMLSSC:T051: event
+    UMLSSC:T052: activity
+    UMLSSC:T053: behavior
+    UMLSSC:T067: phenomenon or process
+    UMLSSC:T071: entity
+    UMLSSC:T072: physical object
+    UMLSSC:T073: product
+    UMLSSC:T074: device
+    UMLSSC:T075: device
+    UMLSSC:T077: conceptual entity
+    UMLSSC:T078: concept
+    UMLSSC:T090: occupation
+    UMLSSC:T092: organization
+    UMLSSC:T096: group of people
+    UMLSSC:T102: attribute
+    UMLSSC:T103: chemical substance
+    UMLSSC:T116: protein
+    UMLSSC:T120: chemical substance
+    UMLSSC:T121: drug
+    UMLSSC:T123: biological substance
+    UMLSSC:T125: protein
+    UMLSSC:T126: protein
+    UMLSSC:T129: protein
+    UMLSSC:T131: hazardous substance
+    UMLSSC:T167: substance
+    UMLSSC:T170: product
+    UMLSSC:T171: language
+    UMLSSC:T184: phenotypic feature
+    UMLSSC:T196: chemical substance
+    UMLSSC:T200: drug
     UPHENO:0001001: phenotypic feature
     WD:Q28845870: biological entity
     WD:Q12136: disease
