@@ -14,12 +14,15 @@ __maintainer__ = ''
 __email__ = ''
 __status__ = 'Prototype'
 
+import collections
 import copy
 import enum
 import gzip
 import html.parser
 import io
 import json
+import math
+import ontobio
 import os
 import pathlib
 import pprint
@@ -50,9 +53,10 @@ CURIE_PREFIX_NCBI_GENE = 'ncbigene'
 CURIE_PREFIX_NCBI_TAXON = 'taxonomy'
 OBO_REL_CURIE_RE = re.compile(r'OBO:([^#]+)#([^#]+)')
 OBO_ONT_CURIE_RE = re.compile(r'OBO:([^\.]+)\.owl')
-TYPE_DATA_SOURCE = 'data source'
+TYPE_DATA_SOURCE = 'data file'
 IDENTIFIERS_ORG_REGISTRY_CURIE_PREFIX = 'identifiers_org_registry'
 IDENTIFIERS_ORG_REGISTRY_IRI_BASE = 'https://identifiers.org/registry/'
+BIOLINK_BASE_IRI_CATEGORY_IN_OWL_FILE = 'https://w3id.org/biolink/biolinkml/meta/'
 
 
 class MLStripper(html.parser.HTMLParser):
@@ -130,29 +134,11 @@ def safe_load_yaml_from_string(yaml_string: str):
 
 
 def shorten_iri_to_curie(iri: str, curie_to_iri_map: list) -> str:
-    # if iri.startswith('owl:') or iri.startswith('OIO:'):
-    #     return iri
-    # if "/GO/GO%3A" in iri:  # hack for fixing issue #410
-    #     iri = iri.replace("/GO/GO%3A", "/GO/")
-    # if "/HPO/HP%3A" in iri:  # hack for fixing issue #665
-    #     iri = iri.replace("/HPO/HP%3A", "/HP/")
-
     curie_list = prefixcommons.contract_uri(iri,
                                             curie_to_iri_map)
     if len(curie_list) == 0:
         return None
-#        print("unable to shorten this iri using built-in list; reverting to prefixcommons default mappings: " + iri,
-#              file=sys.stderr)
-#        curie_list = prefixcommons.contract_uri(iri)
 
-# #    print("mapped iri: " + iri + " to curie: " + str(curie_list))
-#     if len(curie_list) == 0 and iri.startswith('IAO:'):
-#         assert False
-#     if len(curie_list) > 1:
-#         print(curie_list)
-#   if len(curie_list) not in [0, 1]:
-#       print(iri)
-#   assert len(curie_list) in [0, 1]
     if len(curie_list) == 1:
         curie_id = curie_list[0]
     else:
@@ -180,11 +166,6 @@ def expand_curie_to_iri(curie_id: str, curie_to_iri_map: list) -> Optional[str]:
     iri = prefixcommons.expand_uri(curie_id, curie_to_iri_map)
     if iri == curie_id:
         iri = None
-#        print("unable to expand this curie using built-in list; reverting to prefixcommons default mappi#ngs: " + curie_id,
-#              file=sys.stderr)
-#        iri = prefixcommons.expand_uri(curie_id)
-#        if iri == curie_id:
-#            iri = None
     return iri
 
 
@@ -211,6 +192,30 @@ def make_curies_to_uri_map(curies_to_uri_map_yaml_string: str, mapper_type: IDMa
         raise ValueError("Invalid mapper type: " + str(mapper_type))
 
 
+def get_depths_of_ontology_terms(ontology: ontobio.ontol.Ontology,
+                                 top_node_id: str):
+    queue = collections.deque([top_node_id])
+    distances = dict()
+    distances[top_node_id] = 0
+    while len(queue) > 0:
+        node_id = queue.popleft()
+        node_dist = distances.get(node_id, math.inf)
+        assert not math.isinf(node_dist)
+        for child_node_id in ontology.children(node_id, ['subClassOf']):
+            if math.isinf(distances.get(child_node_id, math.inf)):
+                distances[child_node_id] = node_dist + 1
+                queue.append(child_node_id)
+    return distances
+
+
+def get_biolink_categories_ontology_depths(biolink_ontology: ontobio.ontol.Ontology):
+    url_depths = get_depths_of_ontology_terms(biolink_ontology,
+                                              BIOLINK_BASE_IRI_CATEGORY_IN_OWL_FILE + 'NamedThing')
+    ret_depths = {key.replace(BIOLINK_BASE_IRI_CATEGORY_IN_OWL_FILE, ''): value for key, value in url_depths.items()}
+    ret_depths['UnknownCategory'] = -1
+    return ret_depths
+
+
 def make_uri_curie_mappers(curies_to_uri_file_name: str) -> Dict[str, callable]:
     yaml_string = read_file_to_string(curies_to_uri_file_name)
     expand_map = make_curies_to_uri_map(yaml_string, IDMapperType.EXPAND)
@@ -235,7 +240,7 @@ def log_message(message: str,
     print(ont_str + message + node_str, file=output_stream)
 
 
-def merge_two_dicts(x: dict, y: dict):
+def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
     ret_dict = copy.deepcopy(x)
     for key, value in y.items():
         stored_value = ret_dict.get(key, None)
@@ -257,25 +262,25 @@ def merge_two_dicts(x: dict, y: dict):
                             if value.endswith('/STY'):
                                 ret_dict[key] = value
                         elif key == 'category label':
-                            if value != 'unknown_category':
-                                if stored_value == 'unknown_category':
-                                    ret_dict[key] = value
-                                else:
-                                    stored_desc = ret_dict.get('description', None)
-                                    new_desc = y.get('description', None)
-                                    if stored_desc is not None and new_desc is not None and len(new_desc) > len(stored_desc):
+                            depth_x = biolink_depth_getter(convert_snake_case_to_camel_case(stored_value))
+                            depth_y = biolink_depth_getter(convert_snake_case_to_camel_case(value))
+                            if depth_y is not None:
+                                if depth_x is not None:
+                                    if depth_y > depth_x:
                                         ret_dict[key] = value
+                                else:
+                                    ret_dict[key] = value
                         elif key == 'category':
-                            if not value.endswith('/UnknownCategory'):
-                                if stored_value.endswith('/UnknownCategory'):
-                                    ret_dict[key] = value
-                                else:
-                                    stored_desc = ret_dict.get('description', None)
-                                    new_desc = y.get('description', None)
-                                    if stored_desc is not None and new_desc is not None and len(new_desc) > len(stored_desc):
+                            value_category = urllib.parse(value).path.rsplit('/', 1)[-1]
+                            stored_value_category = urllib.parse(stored_value).path.rsplit('/', 1)[-1]
+                            depth_x = biolink_depth_getter(stored_value_category)
+                            depth_y = biolink_depth_getter(value_category)
+                            if depth_y is not None:
+                                if depth_x is not None:
+                                    if depth_y > depth_x:
                                         ret_dict[key] = value
-                                    log_message("for node ID " + x['id'] + ', inconsistent category fields: ' +
-                                                x['category'] + ' and ' + y['category'], output_stream=sys.stderr)
+                                else:
+                                    ret_dict[key] = value
                         elif key == 'name' or key == 'full name':
                             if value.replace(' ', '_') != stored_value.replace(' ', '_'):
                                 stored_desc = ret_dict.get('description', None)
@@ -293,7 +298,7 @@ def merge_two_dicts(x: dict, y: dict):
                 elif type(value) == str and type(stored_value) == list:
                     ret_dict[key] = list(set([value] + stored_value))
                 elif type(value) == dict and type(stored_value) == dict:
-                    ret_dict[key] = merge_two_dicts(value, stored_value)
+                    ret_dict[key] = merge_two_dicts(value, stored_value, biolink_depth_getter)
                 elif key == 'deprecated' and type(value) == bool:
                     ret_dict[key] = True  # special case for deprecation; True always trumps False for this property
                 else:
@@ -301,16 +306,16 @@ def merge_two_dicts(x: dict, y: dict):
     return ret_dict
 
 
-def compose_two_multinode_dicts(node1: dict, node2: dict):
-    ret_dict = copy.deepcopy(node1)
-    for key, value in node2.items():
-        stored_value = ret_dict.get(key, None)
-        if stored_value is None:
-            ret_dict[key] = value
-        else:
-            if value is not None:
-                ret_dict[key] = merge_two_dicts(node1[key], value)
-    return ret_dict
+# def compose_two_multinode_dicts(node1: dict, node2: dict):
+#     ret_dict = copy.deepcopy(node1)
+#     for key, value in node2.items():
+#         stored_value = ret_dict.get(key, None)
+#         if stored_value is None:
+#             ret_dict[key] = value
+#         else:
+#             if value is not None:
+#                 ret_dict[key] = merge_two_dicts(node1[key], value)
+#     return ret_dict
 
 
 def format_timestamp(timestamp: time.struct_time):
