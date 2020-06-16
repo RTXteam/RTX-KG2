@@ -288,6 +288,8 @@ use_for_bidirectional_mapping:
   -
     TRANS: http://purl.obolibrary.org/obo/TRANS_
   -
+    ttd.target: "https://identifiers.org/ttd.target:"
+  -
     UMLSSC: http://purl.bioontology.org/ontology/STY/
   -
     UBERON: http://purl.obolibrary.org/obo/UBERON_
