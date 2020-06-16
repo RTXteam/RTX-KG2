@@ -26,8 +26,8 @@ GTPI_IRI_BASE = 'https://www.guidetopharmacology.org/'
 GTPI_CURIE_PREFIX = 'GTPI'
 GTPI_LIGAND_SUFFIX = 'GRAC/LigandDisplayForward?ligandId='
 
-TTD_IRI_BASE = 'https://db.idrblab.org/ttd/'
-TTD_CURIE_PREFIX = 'TTD'
+TTD_IRI_BASE = 'https://identifiers.org/ttd.target:'
+TTD_CURIE_PREFIX = 'ttd.target'
 
 
 def get_args():
