@@ -21,6 +21,7 @@ ENSEMBL_BASE_IRI = 'https://identifiers.org/ensembl:'
 ENSEMBL_RELATION_CURIE_PREFIX = 'ENSEMBL'
 ENSEMBL_KB_IRI = 'https://registry.identifiers.org/registry/ensembl'
 
+
 def make_edge(subject_curie_id: str,
               object_curie_id: str,
               predicate_label: str,
