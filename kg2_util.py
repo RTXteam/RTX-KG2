@@ -43,14 +43,19 @@ from typing import Dict, Optional
 TEMP_FILE_PREFIX = 'kg2'
 FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
 ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
-BIOLINK_CATEGORY_BASE_IRI = 'https://w3id.org/biolink/'
-BIOLINK_CURIE_PREFIX = 'biolink'
+BIOLINK_ONTOLOGY_BASE_IRI = 'https://w3id.org/biolink/'
+BIOLINK_CATEGORY_BASE_IRI = 'https://w3id.org/biolink/vocab/'
 IRI_OWL_SAME_AS = 'http://www.w3.org/2002/07/owl#sameAs'
 CURIE_OWL_SAME_AS = 'owl:sameAs'
 NCBI_TAXON_ID_HUMAN = 9606
-CURIE_PREFIX_ENSEMBL = 'ensembl'
-CURIE_PREFIX_NCBI_GENE = 'ncbigene'
-CURIE_PREFIX_NCBI_TAXON = 'taxonomy'
+CURIE_PREFIX_BIOLINK = 'biolink'
+CURIE_PREFIX_ENSEMBL = 'ENSEMBL'
+CURIE_PREFIX_NCBI_GENE = 'NCBIGene'
+CURIE_PREFIX_NCBI_TAXON = 'NCBITaxon'
+CURIE_PREFIX_UMLS_TUI = 'UMLSSC'
+CURIE_PREFIX_HGNC = 'HGNC'
+CURIE_PREFIX_CUI = 'umls'
+
 OBO_REL_CURIE_RE = re.compile(r'OBO:([^#]+)#([^#]+)')
 OBO_ONT_CURIE_RE = re.compile(r'OBO:([^\.]+)\.owl')
 TYPE_DATA_SOURCE = 'data file'
@@ -271,8 +276,8 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                                 else:
                                     ret_dict[key] = value
                         elif key == 'category':
-                            value_category = urllib.parse(value).path.rsplit('/', 1)[-1]
-                            stored_value_category = urllib.parse(stored_value).path.rsplit('/', 1)[-1]
+                            value_category = urllib.parse.urlparse(value).path.rsplit('/', 1)[-1]
+                            stored_value_category = urllib.parse.urlparse(stored_value).path.rsplit('/', 1)[-1]
                             depth_x = biolink_depth_getter(stored_value_category)
                             depth_y = biolink_depth_getter(value_category)
                             if depth_y is not None:
@@ -304,18 +309,6 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                 else:
                     assert False
     return ret_dict
-
-
-# def compose_two_multinode_dicts(node1: dict, node2: dict):
-#     ret_dict = copy.deepcopy(node1)
-#     for key, value in node2.items():
-#         stored_value = ret_dict.get(key, None)
-#         if stored_value is None:
-#             ret_dict[key] = value
-#         else:
-#             if value is not None:
-#                 ret_dict[key] = merge_two_dicts(node1[key], value)
-#     return ret_dict
 
 
 def format_timestamp(timestamp: time.struct_time):
