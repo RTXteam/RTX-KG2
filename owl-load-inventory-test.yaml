@@ -217,9 +217,8 @@
   file: chebi.owl
   download: true
   title: Chemical Entities of Biological Interest
--  ## see issue #481:
+-
   url: http://purl.obolibrary.org/obo/foodon.owl 
-  #url: https://raw.githubusercontent.com/FoodOntology/foodon/master/foodon.owl
   file: foodon.owl
   download: true
   title: FOODON (Food Ontology)
@@ -258,7 +257,7 @@
   file: pato.owl
   download: true
   title: Phenotypic Quality Ontology
--
+- # maps to CURIE prefix MONDO
   url:  http://purl.obolibrary.org/obo/mondo.owl
   file: mondo.owl
   download: true
@@ -278,3 +277,8 @@
   file: ino.owl
   download: true
   title: Interaction Network Ontology
+- # maps to CURIE prefix GENEPIO
+  url: http://purl.obolibrary.org/obo/genepio.owl
+  file: genepio.owl
+  download: true
+  title: Genomic Epidemiology Ontology
