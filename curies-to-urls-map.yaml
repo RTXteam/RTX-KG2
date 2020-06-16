@@ -64,7 +64,7 @@ use_for_bidirectional_mapping:
   -
     DOID: http://purl.obolibrary.org/obo/DOID_
   -
-    DRUGBANK: http://purl.bioontology.org/ontology/DRUGBANK/
+    DRUGBANK: "https://identifiers.org/drugbank:"
   -
     ECOCORE: http://purl.obolibrary.org/obo/ECOCORE_
   -
