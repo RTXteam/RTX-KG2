@@ -35,6 +35,12 @@ use_for_bidirectional_mapping:
     CGNC: "http://birdgenenames.org/cgnc/GeneReport?id="
   -
     CHEBI: http://purl.obolibrary.org/obo/CHEBI_
+  - # the CHEMBL.MECHANISM CURIE prefix is used only for predicates (we use identifiers.org for compounds and targets):
+    CHEMBL.MECHANISM: https://www.ebi.ac.uk/chembl#
+  - # biolink uses the capitalized CURIE prefix:
+    CHEMBL.COMPOUND: "https://identifiers.org/chembl.compound:"
+  - # biolink uses the capitalized CURIE prefix:
+    CHEMBL.TARGET: "https://identifiers.org/chembl.target:"
   -
     CHMO: http://purl.obolibrary.org/obo/CHMO_
   -

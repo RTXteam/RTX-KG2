@@ -21,9 +21,9 @@ import pymysql
 CHEMBL_CURIE_BASE_COMPOUND = 'CHEMBL.COMPOUND'
 CHEMBL_CURIE_BASE_TARGET = 'CHEMBL.TARGET'
 CHEMBL_CURIE_BASE_MECHANISM = 'CHEMBL.MECHANISM'
-CHEMBL_KB_IRI = 'https://www.ebi.ac.uk/chembl'
-CHEMBL_BASE_IRI_COMPOUND = 'https://www.ebi.ac.uk/chembl/compound/inspect'
-CHEMBL_BASE_IRI_TARGET = 'https://www.ebi.ac.uk/chembl/target_report_card/'
+CHEMBL_KB_CURIE_ID = 'identifiers_org_registry:chembl'
+CHEMBL_BASE_IRI_COMPOUND = 'https://identifiers.org/chembl.compound:'
+CHEMBL_BASE_IRI_TARGET = 'https://identifiers.org/chembl.target:'
 CHEMBL_BASE_IRI_PREDICATE = 'https://www.ebi.ac.uk/chembl#'
 
 ROW_LIMIT_TEST_MODE = 10000
@@ -78,7 +78,7 @@ def make_edge(subject_id: str,
             'publications': publications,
             'publications info': {},
             'update date': update_date,
-            'provided by': CHEMBL_KB_IRI}
+            'provided by': CHEMBL_KB_CURIE_ID}
 
 
 def make_node(id: str,
@@ -94,7 +94,7 @@ def make_node(id: str,
                                    name,
                                    category_label,
                                    update_date,
-                                   CHEMBL_KB_IRI)
+                                   CHEMBL_KB_CURIE_ID)
     node_dict['description'] = description
     node_dict['synonym'] = synonyms
     node_dict['publications'] = publications

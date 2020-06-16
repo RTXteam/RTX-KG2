@@ -7,7 +7,7 @@ prefix-mappings:
     DRUGBANK: drug
     GOREL: relationship type
     HGNC: gene
-    IAO: information entity type
+    IAO: abstract entity
     MGI: gene
     NCBIGene: gene
     NCBITaxon: organism taxon
@@ -31,7 +31,7 @@ term-mappings:
     OIO:hasExactSynonym: relationship type
     OIO:hasDbXref: relationship type
     OIO:hasOBOFormatVersion: relationship type
-    OIO:SubsetProperty: information entity type
+    OIO:SubsetProperty: abstract entity
     OIO:shorthand: relationship type
     owl:topObjectProperty: attribute
     OBO:ro/subsets#ro-eco: relationship type
@@ -55,29 +55,29 @@ term-mappings:
     CHEBI:2709: chemical substance
     CHEBI:23888: drug
     CHEBI:24431: chemical substance
-    CHEBI:24432: biological role
+    CHEBI:24432: functional association
     CHEBI:25212: metabolite
-    CHEBI:33232: application
-    CHEBI:33697: RNA
-    CHEBI:36342: subatomic particle
-    CHEBI:51086: chemical role
-    CHEBI:78295: biological food component
+    CHEBI:33232: functional association
+    CHEBI:33697: gene product
+    CHEBI:36342: chemical substance
+    CHEBI:51086: functional association
+    CHEBI:78295: biological entity
     CHEBI:50906: biological process
     CL:0000000: anatomical entity
     DDANAT:0000002: organism taxon
-    EFO:0000324: cell type
-    EFO:0005066: material
-    EFO:0001434: material
+    EFO:0000324: cell line
+    EFO:0005066: material sample
+    EFO:0001434: material sample
     EFO:0000635: anatomical entity
     EFO:0000408: disease
     EFO:0004423: exon
-    EFO:0004446: biological molecular complex
+    EFO:0004446: macromolecular complex
     ENVO:02500000: environmental process
     ENVO:00002297: environmental feature
     FMA:29733: anatomical entity
     FMA:62955: anatomical entity
-    FMA:50592: dimensional entity
-    FMA:85802: attribute entity
+    FMA:50592: abstract entity
+    FMA:85802: attribute
     FMA:87205: biological entity
     FMA:85620: biological entity
     FMA:85972: relationship type
@@ -86,7 +86,7 @@ term-mappings:
     FOODON:00002451: biological process
     GO:0005575: cellular component
     GO:0008150: biological process
-    GO:0003674: molecular function
+    GO:0003674: molecular activity
 #    GOCHEREL:0000001: relationship type
     HP:0031797: phenotypic feature
     HP:0012823: phenotypic feature
@@ -105,42 +105,42 @@ term-mappings:
     MONDO:0042489: disease susceptibility
     MONDO:0021007: disease
     MPATH:0: pathological entity
-    NBO:0000313: behavior
+    NBO:0000313: activity and behavior
     NBO:0000243: phenotypic feature
     NCBITaxon:1: organism taxon
     NCIT:C22187: disease
     NCIT:C20189: attribute
     NCIT:C2991: disease
     NCIT:C20130: gene family
-    NCIT:C12913: cell type
-    NCIT:C42645: information entity type
+    NCIT:C12913: cell line
+    NCIT:C42645: abstract entity
     NCIT:C105551: activity
     NCIT:C12219: anatomical entity
     NCIT:C20633: pathway
     NCIT:C17828: biological process
     NCIT:C12218: therapy
-    NCIT:C16326: behavior
-    NCIT:C43431: activity
+    NCIT:C16326: activity and behavior
+    NCIT:C43431: activity and behavior
     NCIT:C20047: diagnostic or prognostic factor
     NCIT:C7057: finding
     NCIT:C22188: anatomical entity
     NCIT:C1908: substance
     NCIT:C71460: method
     NCIT:C16612: gene grouping
-    NCIT:C813: RNA
-    NCIT:C111298: RNA
+    NCIT:C813: gene product
+    NCIT:C111298: gene product
     NCIT:C17021: protein
     NCIT:C28566: protein
-    NCIT:C21176: biological molecular complex
-    NCIT:C26549: RNA
-    NCIT:C28454: RNA
+    NCIT:C21176: macromolecular complex
+    NCIT:C26549: gene product
+    NCIT:C28454: gene product
     NCIT:C14250: organism taxon
     NCIT:C3910: phenotypic feature
-    NCIT:C48187: material
+    NCIT:C48187: material sample
     NCIT:C20181: conceptual entity
     OBI:0000427: protein
     ORPHANET:410298: gene
-    ORPHANET:410299: RNA
+    ORPHANET:410299: gene product
     ORPHANET:410297: locus
     ORPHANET:C023: life stage
     ORPHANET:C001: disease
@@ -221,8 +221,8 @@ term-mappings:
     UMLSSC:T038: biological process
     UMLSSC:T047: disease
     UMLSSC:T051: event
-    UMLSSC:T052: activity
-    UMLSSC:T053: behavior
+    UMLSSC:T052: activity and behavior
+    UMLSSC:T053: activity and behavior
     UMLSSC:T067: phenomenon or process
     UMLSSC:T071: named thing
     UMLSSC:T072: physical object

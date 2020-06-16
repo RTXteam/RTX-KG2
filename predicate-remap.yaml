@@ -104,66 +104,66 @@ CHEBI:is_substituent_group_from:
   rename: [part_of, 'BFO:0000050']
 CHEBI:is_tautomer_of:
   rename: [close_match, 'skos:closeMatch']
-CHEMBL:activator:
+CHEMBL.MECHANISM:activator:
   rename: [activates, 'RO:0002450']
-CHEMBL:agonist: {keep: null}
-CHEMBL:allosteric_antagonist:
+CHEMBL.MECHANISM:agonist: {keep: null}
+CHEMBL.MECHANISM:allosteric_antagonist:
   rename: [inhibits, 'RO:0002408']
-CHEMBL:antagonist: {keep: null}
-CHEMBL:antisense_inhibitor: {keep: null}
-CHEMBL:binding_agent: {keep: null}
-CHEMBL:blocker:
+CHEMBL.MECHANISM:antagonist: {keep: null}
+CHEMBL.MECHANISM:antisense_inhibitor: {keep: null}
+CHEMBL.MECHANISM:binding_agent: {keep: null}
+CHEMBL.MECHANISM:blocker:
   rename: [inhibits, 'RO:0002408']
-CHEMBL:chelating_agent: {keep: null}
-CHEMBL:cross-linking_agent: {keep: null}
-CHEMBL:degrader:
+CHEMBL.MECHANISM:chelating_agent: {keep: null}
+CHEMBL.MECHANISM:cross-linking_agent: {keep: null}
+CHEMBL.MECHANISM:degrader:
   rename: [increases_degradation_of, 'Biolink:increases_degradation_of']
-CHEMBL:directly_interacts_with:
+CHEMBL.MECHANISM:directly_interacts_with:
   rename: [directly_interacts_with, 'Biolink:physically_interacts_with']
-CHEMBL:disrupting_agent:
+CHEMBL.MECHANISM:disrupting_agent:
   rename: [disrupts, 'Biolink:disrupts']
-CHEMBL:equivalent_to:
+CHEMBL.MECHANISM:equivalent_to:
   rename: [equivalent_to, 'owl:equivalentClass']
-CHEMBL:has_role:
+CHEMBL.MECHANISM:has_role:
   rename: [has_role, 'RO:0000087']
-CHEMBL:has_indication:
+CHEMBL.MECHANISM:has_indication:
   rename: [is_substance_that_treats, 'RO:0002606']
-CHEMBL:has_sequence:
+CHEMBL.MECHANISM:has_sequence:
   rename: [has_biological_sequence, 'Biolink:has_biological_sequence']
-CHEMBL:hydrolytic_enzyme: {keep: null}
-CHEMBL:inhibitor:
+CHEMBL.MECHANISM:hydrolytic_enzyme: {keep: null}
+CHEMBL.MECHANISM:inhibitor:
   rename: [inhibits, 'RO:0002449']
-CHEMBL:inverse_agonist: {keep: null}
-CHEMBL:modulator:
+CHEMBL.MECHANISM:inverse_agonist: {keep: null}
+CHEMBL.MECHANISM:modulator:
   rename: [regulates, 'RO:0002211']
-CHEMBL:negative_allosteric_modulator:
+CHEMBL.MECHANISM:negative_allosteric_modulator:
   rename: [negatively_regulates, 'Biolink:negatively_regulates']
-CHEMBL:negative_modulator:
+CHEMBL.MECHANISM:negative_modulator:
   rename: [negatively_regulates, 'Biolink:negatively_regulates']
-CHEMBL:opener: {keep: null}
-CHEMBL:other: {delete: null}
-CHEMBL:overlaps_with:
+CHEMBL.MECHANISM:opener: {keep: null}
+CHEMBL.MECHANISM:other: {delete: null}
+CHEMBL.MECHANISM:overlaps_with:
   rename: [overlaps, 'RO:0002131']
-CHEMBL:oxidative_enzyme: {keep: null}
-CHEMBL:partial_agonist:
+CHEMBL.MECHANISM:oxidative_enzyme: {keep: null}
+CHEMBL.MECHANISM:partial_agonist:
   rename: [activates, 'RO:0002450']
-CHEMBL:positive_allosteric_modulator:
+CHEMBL.MECHANISM:positive_allosteric_modulator:
   rename: [positively_regulates, 'Biolink:positively_regulates']
-CHEMBL:positive_modulator:
+CHEMBL.MECHANISM:positive_modulator:
   rename: [positively_regulates, 'Biolink:positively_regulates']
-CHEMBL:proteolytic_enzyme:
+CHEMBL.MECHANISM:proteolytic_enzyme:
   rename: [increases_degradation_of, 'Biolink:increases_degradation_of']
-CHEMBL:reducing_agent: {keep: null}
-CHEMBL:releasing_agent: {keep: null}
-CHEMBL:sequestering_agent: {keep: null}
-CHEMBL:stabiliser:
+CHEMBL.MECHANISM:reducing_agent: {keep: null}
+CHEMBL.MECHANISM:releasing_agent: {keep: null}
+CHEMBL.MECHANISM:sequestering_agent: {keep: null}
+CHEMBL.MECHANISM:stabiliser:
   rename: [increases_stability_of, 'Biolink:increases_stability_of']
-CHEMBL:subclass_of:
+CHEMBL.MECHANISM:subclass_of:
   rename: [subclass_of, 'Biolink:subclass_of']
-CHEMBL:subset_of:
+CHEMBL.MECHANISM:subset_of:
   rename: [subclass_of, 'Biolink:subclass_of']
-CHEMBL:substrate: {keep: null}
-CHEMBL:superset_of:
+CHEMBL.MECHANISM:substrate: {keep: null}
+CHEMBL.MECHANISM:superset_of:
   invert: [subclass_of, 'Biolink:subclass_of']
 CL:has_completed: {keep: null}
 CL:has_high_plasma_membrane_amount:
@@ -192,11 +192,11 @@ DGIDB:activator:
 DGIDB:affects:
   rename: [affects, 'Biolink:affects']
 DGIDB:agonist:
-  rename: [agonist, 'CHEMBL:agonist']
+  rename: [agonist, 'CHEMBL.MECHANISM:agonist']
 DGIDB:allosteric_modulator:
   rename: [regulates, 'RO:0002211']
 DGIDB:antagonist:
-  rename: [antagonist, 'CHEMBL:antagonist']
+  rename: [antagonist, 'CHEMBL.MECHANISM:antagonist']
 DGIDB:antibody:
   rename: [molecularly_interacts_with, 'RO:0002436']
 DGIDB:antisense:
@@ -220,7 +220,7 @@ DGIDB:inhibitor:
 DGIDB:inhibitory_allosteric_modulator:
   rename: [inhibits, 'RO:0002408']
 DGIDB:inverse_agonist:
-  rename: [inverse_agonist, 'CHEMBL:inverse_agonist']
+  rename: [inverse_agonist, 'CHEMBL.MECHANISM:inverse_agonist']
 DGIDB:modulator:
   rename: [regulates, 'RO:0002211']
 DGIDB:negative_modulator:
@@ -1473,11 +1473,11 @@ RTXKG1:activator:
   rename: [activates, 'RO:0002450']
 RTXKG1:affects: {keep: null}
 RTXKG1:agonist:
-  rename: [agonist, 'CHEMBL:agonist']
+  rename: [agonist, 'CHEMBL.MECHANISM:agonist']
 RTXKG1:allosteric_modulator:
   rename: [regulates, 'RO:0002211']
 RTXKG1:antagonist:
-  rename: [antagonist, 'CHEMBL:antagonist']
+  rename: [antagonist, 'CHEMBL.MECHANISM:antagonist']
 RTXKG1:antibody:
   rename: [molecularly_interacts_with, 'RO:0002436']
 RTXKG1:antisense:
@@ -1543,7 +1543,7 @@ RTXKG1:inducer:
 RTXKG1:inhibitor:
   rename: [inhibits, 'RO:0002449']
 RTXKG1:inverse_agonist:
-  rename: [inverse_agonist, 'CHEMBL:inverse_agonist']
+  rename: [inverse_agonist, 'CHEMBL.MECHANISM:inverse_agonist']
 RTXKG1:involved_in:
   rename: [involved_in, 'RO:0002331']
 RTXKG1:lacks_part:
