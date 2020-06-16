@@ -23,11 +23,9 @@ import errno
 import functools
 import hashlib
 import kg2_util
-# import networkx
 import ontobio
 import os.path
 import pickle
-import posixpath
 import prefixcommons
 import re
 import shutil
@@ -54,7 +52,6 @@ CURIE_OBO_XREF = 'oboFormat:xref'
 OWL_BASE_CLASS = 'owl:Thing'
 OWL_NOTHING = 'owl:Nothing'
 MYSTERIOUS_BASE_NODE_ID_TO_FILTER = '_:genid'
-CUI_PREFIX = 'umls'
 ENSEMBL_LETTER_TO_CATEGORY = {'P': 'protein',
                               'G': 'gene',
                               'T': 'transcript'}
@@ -237,14 +234,14 @@ def make_kg2(curies_to_categories: dict,
     kg2_util.save_json(kg2_dict, output_file_name, test_mode)
 
 
-def get_biolink_category_for_node2(ontology_node_id: str,
-                                   node_curie_id: str,
-                                   ontology: ontobio.ontol.Ontology,
-                                   curies_to_categories: dict,
-                                   uri_to_curie_shortener: callable,
-                                   ontology_node_ids_previously_seen: set,
-                                   get_node_id_of_node_with_category: bool,
-                                   biolink_category_depths: dict):
+def get_biolink_category_for_node(ontology_node_id: str,
+                                  node_curie_id: str,
+                                  ontology: ontobio.ontol.Ontology,
+                                  curies_to_categories: dict,
+                                  uri_to_curie_shortener: callable,
+                                  ontology_node_ids_previously_seen: set,
+                                  get_node_id_of_node_with_category: bool,
+                                  biolink_category_depths: dict):
 
     if node_curie_id is None:
         kg2_util.log_message("Ontology node " + ontology_node_id + " has node_curie_id of None",
@@ -313,14 +310,14 @@ def get_biolink_category_for_node2(ontology_node_id: str,
                 parent_node_curie_id = parent_nodes_ont_to_curie[parent_ontology_node_id]
                 try:
                     [ret_category,
-                     ontology_node_id_of_node_with_category] = get_biolink_category_for_node2(parent_ontology_node_id,
-                                                                                              parent_node_curie_id,
-                                                                                              ontology,
-                                                                                              curies_to_categories,
-                                                                                              uri_to_curie_shortener,
-                                                                                              ontology_node_ids_previously_seen,
-                                                                                              get_node_id_of_node_with_category,
-                                                                                              biolink_category_depths)
+                     ontology_node_id_of_node_with_category] = get_biolink_category_for_node(parent_ontology_node_id,
+                                                                                             parent_node_curie_id,
+                                                                                             ontology,
+                                                                                             curies_to_categories,
+                                                                                             uri_to_curie_shortener,
+                                                                                             ontology_node_ids_previously_seen,
+                                                                                             get_node_id_of_node_with_category,
+                                                                                             biolink_category_depths)
                     if get_node_id_of_node_with_category and ontology_node_id_of_node_with_category is not None:
                         ret_ontology_node_id_of_node_with_category = ontology_node_id_of_node_with_category
                 except RecursionError:
@@ -390,7 +387,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
 
     biolink_categories_ontology_depths = None
     first_ontology = ontology_info_list[0]['ontology']
-    assert first_ontology.id.startswith(kg2_util.BIOLINK_CATEGORY_BASE_IRI), "biolink needs to be first in owl-load-inventory.yaml"
+    assert first_ontology.id.startswith(kg2_util.BIOLINK_ONTOLOGY_BASE_IRI), "biolink needs to be first in owl-load-inventory.yaml"
     biolink_categories_ontology_depths = kg2_util.get_biolink_categories_ontology_depths(first_ontology)
 
     def biolink_depth_getter(category: str):
@@ -446,54 +443,63 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                      output_stream=sys.stderr)
                 continue
 
-            if node_curie_id.endswith(':'):
-                kg2_util.log_message(message="CURIE has nothing after the colon; prefix is " + node_curie_id + " for ontology node ID: " + ontology_node_id,
-                                     ontology_name=iri_of_ontology,
-                                     output_stream=sys.stderr)
-                continue
+            # if node_curie_id.endswith(':'):
+            #     kg2_util.log_message(message="CURIE has nothing after the colon; prefix is " + node_curie_id + " for ontology node ID: " + ontology_node_id,
+            #                          ontology_name=iri_of_ontology,
+            #                          output_stream=sys.stderr)
+            #     continue
 
-            if node_curie_id.startswith('UMLS:C'):
-                kg2_util.log_message(message="CURIE with a UMLS CUI-like structure but that was not successfully split to obtain the CUI",
-                                     ontology_name=iri_of_ontology,
-                                     node_curie_id=node_curie_id,
-                                     output_stream=sys.stderr)
+            # if node_curie_id.startswith('UMLS:C'):
+            #     kg2_util.log_message(message="CURIE with a UMLS CUI-like structure but that was not successfully split to obtain the CUI",
+            #                          ontology_name=iri_of_ontology,
+            #                          node_curie_id=node_curie_id,
+            #                          output_stream=sys.stderr)
 
             iri = onto_node_dict.get('id', None)
             if iri is None:
                 iri = ontology_node_id
 
-            # Ensure all CUI nodes use a 'umls/cui' IRI (part of fix for #565)
-            if is_cui_id(node_curie_id):
-                iri = CUI_BASE_IRI + '/' + get_local_id_from_curie_id(node_curie_id)
+#            # Ensure all CUI nodes use a 'umls/cui' IRI (part of fix for #565)
+#            if is_cui_id(node_curie_id):
+#                iri = CUI_BASE_IRI + '/' + get_local_id_from_curie_id(node_curie_id)
 
             if not iri.startswith('http:') and not iri.startswith('https:'):
                 iri = curie_to_uri_expander(iri)
 
-            if node_curie_id.startswith('NCBIGene:') or node_curie_id.startswith('HGNC:'):
-                iri = curie_to_uri_expander(node_curie_id)
+#            if node_curie_id.startswith(kg2_util.CURIE_PREFIX_NCBI_GENE) or \
+#               node_curie_id.startswith(kg2_util.CURIE_PREFIX_HGNC):
+#                iri = curie_to_uri_expander(node_curie_id)
 
-            generated_iri = curie_to_uri_expander(node_curie_id)
-            if generated_iri is None:
-                print("for ontology node ID: " + ontology_node_id + "; cannot obtain IRI or CURIE; skipping", file=sys.stderr)
+            iri = curie_to_uri_expander(node_curie_id)
+            if iri is None:
+                kg2_util.log_message(message="Cannot obtain IRI for CURIE",
+                                     ontology_name=iri_of_ontology,
+                                     node_curie_id=node_curie_id,
+                                     output_stream=sys.stderr)
                 continue
+#                print("for ontology node ID: " + ontology_node_id + "; cannot obtain IRI or CURIE; skipping", file=sys.stderr)
+#                continue
 
-            if generated_iri != node_curie_id:
-                if (generated_iri.startswith('http:') or generated_iri.startswith('https:')) and \
-                   generated_iri != iri:
-                    iri = generated_iri
+            assert iri.startswith('http:') or iri.startswith('https:'), iri
+
+#            if generated_iri != node_curie_id:
+#                if (generated_iri.startswith('http:') or generated_iri.startswith('https:')) and \
+#                   generated_iri != iri:
+#                    iri = generated_iri
 
             node_name = onto_node_dict.get('label', None)
             node_full_name = None
 
             assert node_curie_id is not None
 
-            [node_category_label, node_with_category] = get_biolink_category_for_node2(ontology_node_id,
-                                                                                       node_curie_id,
-                                                                                       ontology,
-                                                                                       curies_to_categories,
-                                                                                       uri_to_curie_shortener,
-                                                                                       set(), True,
-                                                                                       biolink_categories_ontology_depths)
+            [node_category_label, node_with_category] = get_biolink_category_for_node(ontology_node_id,
+                                                                                      node_curie_id,
+                                                                                      ontology,
+                                                                                      curies_to_categories,
+                                                                                      uri_to_curie_shortener,
+                                                                                      set(),
+                                                                                      True,
+                                                                                      biolink_categories_ontology_depths)
 
             node_deprecated = False
             node_description = None
@@ -542,10 +548,8 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                 if node_xrefs_list is not None:
                     for xref_dict in node_xrefs_list:
                         xref_curie = xref_dict['val']
-                        if xref_curie.startswith('MESH:'):
-                            xref_curie = xref_curie.replace('MESH:', 'MSH:')
-                        elif xref_curie.startswith('UMLS:C'):
-                            xref_curie = CUI_PREFIX + ':' + xref_curie.split('UMLS:')[1]
+                        if xref_curie.startswith('UMLS:C'):
+                            xref_curie = kg2_util.CURIE_PREFIX_CUI + ':' + xref_curie.split('UMLS:')[1]
                         node_xrefs.add(xref_curie)
                 basic_property_values = node_meta.get('basicPropertyValues', None)
                 if basic_property_values is not None:
@@ -584,17 +588,20 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                             node_has_cui = True
                     if len(node_tui_list) == 1:
                         node_tui = node_tui_list[0]
-                        node_tui_uri = posixpath.join('https://identifiers.org/umls/STY', node_tui)
-                        node_tui_curie = uri_to_curie_shortener(node_tui_uri)
+                        node_tui_curie = kg2_util.CURIE_PREFIX_UMLS_TUI + ':' + node_tui
+                        node_tui_uri = curie_to_uri_expander(node_tui_curie)
+#                        node_tui_uri = posixpath.join('https://identifiers.org/umls/STY', node_tui)
+#                        node_tui_curie = uri_to_curie_shortener(node_tui_uri)
                         assert node_tui_curie is not None
                         [node_tui_category_label,
-                         _] = get_biolink_category_for_node2(node_tui_uri,
-                                                             node_tui_curie,
-                                                             ontology,
-                                                             curies_to_categories,
-                                                             uri_to_curie_shortener,
-                                                             set(), True,
-                                                             biolink_categories_ontology_depths)
+                         _] = get_biolink_category_for_node(node_tui_uri,
+                                                            node_tui_curie,
+                                                            ontology,
+                                                            curies_to_categories,
+                                                            uri_to_curie_shortener,
+                                                            set(),
+                                                            True,
+                                                            biolink_categories_ontology_depths)
 
                 node_comments = node_meta.get('comments', None)
                 if node_comments is not None:
@@ -610,17 +617,18 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                     node_category_label = 'property'
 
             if node_category_label is None:
-                if not node_deprecated:
-                    kg2_util.log_message("Node does not have a category", ontology.id, node_curie_id, output_stream=sys.stderr)
-                    node_category_label = 'unknown category'
-                else:
-                    node_category_label = 'deprecated node'
+                kg2_util.log_message("Node does not have a category", ontology.id, node_curie_id, output_stream=sys.stderr)
+                node_category_label = 'named thing'
+#                if not node_deprecated:
+#                    node_category_label = 'unknown category'
+#                else:
+#                    node_category_label = 'deprecated node'
 
             if node_has_cui:
                 assert node_tui is not None or len(node_tui_list) > 0
 
                 if node_tui_category_label is None:
-                    node_tui_category_label = 'unknown category'
+                    node_tui_category_label = 'named thing'
                     if node_tui is not None:
                         kg2_util.log_message(message='Node ' + ontology_node_id + ' has CUI whose TUI cannot be mapped to category: ' + node_tui)
                     else:
@@ -906,8 +914,8 @@ def get_node_curie_id_from_ontology_node_id(ontology_node_id: str,
         if is_cui_id(node_curie_id):
             curie_prefix = get_prefix_from_curie_id(node_curie_id)
             if curie_prefix is not None:
-                if curie_prefix != CUI_PREFIX:
-                    node_curie_id = CUI_PREFIX + ':' + get_local_id_from_curie_id(node_curie_id)
+                if curie_prefix != kg2_util.CURIE_PREFIX_CUI:
+                    node_curie_id = kg2_util.CURIE_PREFIX_CUI + ':' + get_local_id_from_curie_id(node_curie_id)
             else:
                 kg2_util.log_message(message="could not obtain prefix from node CURIE ID",
                                      ontology_name=ontology.id,
