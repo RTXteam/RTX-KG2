@@ -262,8 +262,8 @@ if __name__ == '__main__':
     nodes_dict = make_nodes(uniprot_records)
     ontology_curie_id = kg2_util.IDENTIFIERS_ORG_REGISTRY_CURIE_PREFIX + ':uniprot'
     ont_node = kg2_util.make_node(ontology_curie_id,
-                                  kg2_util.IDENTIFIERS_ORG_REGISTRY_IRI_BASE + 'ensembl',
-                                  'UniprotKB',
+                                  kg2_util.IDENTIFIERS_ORG_REGISTRY_IRI_BASE + 'uniprot',
+                                  'UniProtKB',
                                   kg2_util.TYPE_DATA_SOURCE,
                                   update_date,
                                   ontology_curie_id)
