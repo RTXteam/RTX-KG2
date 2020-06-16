@@ -19,7 +19,7 @@ import kg2_util
 import os
 import re
 
-UNIPROTKB_PROVIDED_BY_IRI = 'https://registry.identifiers.org/registry/uniprot'
+UNIPROTKB_PROVIDED_BY_CURIE_ID = 'identifiers_org_registry:uniprot'
 UNIPROTKB_IDENTIFIER_BASE_IRI = 'https://identifiers.org/uniprot:'
 RE_ORGANISM_TAXID = re.compile(r'NCBI_TaxID=(\d+)')
 FIELD_CODES_USE_STRING = ['ID', 'SQ', 'RA', 'RX', 'RT', 'KW', 'CC', 'GN']
@@ -121,7 +121,7 @@ def make_edge(subject_curie_id: str,
                              relation,
                              relation_curie,
                              predicate_label,
-                             UNIPROTKB_PROVIDED_BY_IRI,
+                             UNIPROTKB_PROVIDED_BY_CURIE_ID,
                              update_date)
     return rel
 
@@ -238,7 +238,7 @@ def make_nodes(records: list):
                                        name,
                                        category_label,
                                        update_date,
-                                       UNIPROTKB_PROVIDED_BY_IRI)
+                                       UNIPROTKB_PROVIDED_BY_CURIE_ID)
         node_dict['full name'] = full_name
         node_dict['description'] = description
         node_dict['synonym'] = synonyms
