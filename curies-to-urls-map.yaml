@@ -350,6 +350,8 @@ use_for_contraction_only:
   -
     DDANAT: http://purl.obolibrary.org/obo/ddanat#
   -
+    DRUGBANK: http://purl.bioontology.org/ontology/DRUGBANK/
+  -
     ecogene: http://www.ecogene.org/gene/
   -
     EDAM: http://edamontology.org/
