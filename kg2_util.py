@@ -267,8 +267,8 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                             if value.endswith('/STY'):
                                 ret_dict[key] = value
                         elif key == 'category label':
-                            depth_x = biolink_depth_getter(convert_snake_case_to_camel_case(stored_value))
-                            depth_y = biolink_depth_getter(convert_snake_case_to_camel_case(value))
+                            depth_x = biolink_depth_getter(convert_snake_case_to_camel_case(stored_value, uppercase_first_letter=True))
+                            depth_y = biolink_depth_getter(convert_snake_case_to_camel_case(value, uppercase_first_letter=True))
                             if depth_y is not None:
                                 if depth_x is not None:
                                     if depth_y > depth_x:
@@ -334,10 +334,12 @@ def download_file_if_not_exist_locally(url: str, local_file_name: str):
     return local_file_name
 
 
-def convert_snake_case_to_camel_case(name: str):
+def convert_snake_case_to_camel_case(name: str,
+                                     uppercase_first_letter: bool = False):
     name = name.title().replace('_', '')
-    if len(name) > 0:
-        name = name[0].lower() + name[1:]
+    if not uppercase_first_letter:
+        if len(name) > 0:
+            name = name[0].lower() + name[1:]
     return name
 
 

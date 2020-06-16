@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 '''Checks the file "curies-to-urls-map.yaml" for correctness.
-   This script should be run each time `curies-to-urls-map.py` is changed.'''
+   This script should be run each time `curies-to-urls-map.yaml` is changed.'''
 
 __author__ = 'Stephen Ramsey'
 __copyright__ = 'Oregon State University'
