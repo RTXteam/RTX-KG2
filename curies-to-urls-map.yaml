@@ -122,6 +122,8 @@ use_for_bidirectional_mapping:
   -
     GO: http://purl.obolibrary.org/obo/GO_
   -
+    GOREL: http://purl.obolibrary.org/obo/GOREL_
+  -
     HANCESTRO: http://purl.obolibrary.org/obo/HANCESTRO_
   -
     HCPCS: https://hcpcs.codes/a-codes/
@@ -290,9 +292,13 @@ use_for_bidirectional_mapping:
   -
     UBERON: http://purl.obolibrary.org/obo/UBERON_
   -
+    UBPROP: http://purl.obolibrary.org/obo/UBPROP_
+  -
     umls: "https://identifiers.org/umls:"
   -
     umls_source: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/
+  -
+    UNIPROTKB: "https://identifiers.org/uniprot:"
   -
     UO: http://purl.obolibrary.org/obo/UO_
   -
@@ -465,8 +471,6 @@ use_for_contraction_only:
     UBERON: http://purl.obolibrary.org/obo/uberon/core#
   -
     UBERON: http://purl.obolibrary.org/obo/uberon#
-  -
-    UBERON: http://purl.obolibrary.org/obo/UBPROP_
   -
     wb: http://www.wormbase.org/species/c_elegans/gene/
   -
