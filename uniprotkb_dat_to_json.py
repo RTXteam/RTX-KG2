@@ -19,8 +19,8 @@ import kg2_util
 import os
 import re
 
-UNIPROTKB_BASE_IRI = 'https://www.uniprot.org'
-UNIPROTKB_IDENTIFIER_BASE_IRI = 'http://identifiers.org/uniprot'
+UNIPROTKB_PROVIDED_BY_IRI = 'https://registry.identifiers.org/registry/uniprot'
+UNIPROTKB_IDENTIFIER_BASE_IRI = 'https://identifiers.org/uniprot:'
 RE_ORGANISM_TAXID = re.compile(r'NCBI_TaxID=(\d+)')
 FIELD_CODES_USE_STRING = ['ID', 'SQ', 'RA', 'RX', 'RT', 'KW', 'CC', 'GN']
 FIELD_CODES_DO_NOT_STRIP_NEWLINE = ['SQ']
@@ -115,13 +115,13 @@ def make_edge(subject_curie_id: str,
               predicate_label: str,
               update_date: str):
     relation = kg2_util.BIOLINK_CATEGORY_BASE_IRI + kg2_util.convert_snake_case_to_camel_case(predicate_label)
-    relation_curie = kg2_util.BIOLINK_CURIE_PREFIX + ':' + predicate_label.replace(' ', '_')
+    relation_curie = kg2_util.CURIE_PREFIX_BIOLINK + ':' + predicate_label.replace(' ', '_')
     rel = kg2_util.make_edge(subject_curie_id,
                              object_curie_id,
                              relation,
                              relation_curie,
                              predicate_label,
-                             UNIPROTKB_BASE_IRI,
+                             UNIPROTKB_PROVIDED_BY_IRI,
                              update_date)
     return rel
 
@@ -231,14 +231,14 @@ def make_nodes(records: list):
             else:
                 name = full_name
         node_curie = 'UniProtKB:' + accession
-        iri = UNIPROTKB_IDENTIFIER_BASE_IRI + ':' + accession
+        iri = UNIPROTKB_IDENTIFIER_BASE_IRI + accession
         category_label = 'protein'
         node_dict = kg2_util.make_node(node_curie,
                                        iri,
                                        name,
                                        category_label,
                                        update_date,
-                                       UNIPROTKB_BASE_IRI)
+                                       UNIPROTKB_PROVIDED_BY_IRI)
         node_dict['full name'] = full_name
         node_dict['description'] = description
         node_dict['synonym'] = synonyms
