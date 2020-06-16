@@ -288,6 +288,8 @@ use_for_bidirectional_mapping:
   -
     TRANS: http://purl.obolibrary.org/obo/TRANS_
   -
+    ttd.drug: "https://identifiers.org/ttd.drug:"
+  -
     ttd.target: "https://identifiers.org/ttd.target:"
   -
     UMLSSC: http://purl.bioontology.org/ontology/STY/
