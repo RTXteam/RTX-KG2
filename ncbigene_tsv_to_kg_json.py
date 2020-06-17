@@ -20,7 +20,8 @@ import os
 
 NCBI_BASE_IRI = 'https://identifiers.org/ncbigene:'
 NCBI_RELATION_CURIE_PREFIX = 'ncbigene'
-NCBI_KB_IRI = 'https://identifiers.org/registry/ncbigene'
+NCBI_KB_IRI = 'https://oregistry.identifiers.org/registry/ncbigene'
+NCBI_KB_CURIE_ID = 'identifiers_org_registry:ncbigene'
 
 
 def get_args():
@@ -46,7 +47,7 @@ def make_node(ncbi_gene_id: str,
                                    full_name,
                                    category_label,
                                    update_date,
-                                   NCBI_KB_IRI)
+                                   NCBI_KB_CURIE_ID)
     node_dict['synonym'] = list(set([gene_symbol] + other_synonyms))
     return node_dict
 
@@ -127,17 +128,13 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
             node_dict['description'] = node_description
             nodes.append(node_dict)
             org_curie = kg2_util.CURIE_PREFIX_NCBI_TAXON + ':' + taxon_id_str
-            predicate_label = 'gene_found_in_organism'
-            [relation, relation_curie] = kg2_util.predicate_label_to_iri_and_curie(predicate_label,
-                                                                                   NCBI_RELATION_CURIE_PREFIX,
-                                                                                   NCBI_BASE_IRI)
-            edge_dict = kg2_util.make_edge(node_curie_id,
-                                           org_curie,
-                                           relation,
-                                           relation_curie,
-                                           predicate_label,
-                                           NCBI_BASE_IRI,
-                                           modify_date)
+            predicate_label = 'in_taxon'
+
+            edge_dict = kg2_util.make_edge_biolink(node_curie_id,
+                                                   org_curie,
+                                                   predicate_label,
+                                                   NCBI_KB_CURIE_ID,
+                                                   modify_date)
             edges.append(edge_dict)
             if db_xrefs is not None:
                 xrefs_list = db_xrefs.split('|')
@@ -153,7 +150,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                                                     kg2_util.IRI_OWL_SAME_AS,
                                                     kg2_util.CURIE_OWL_SAME_AS,
                                                     'equivalent_to',
-                                                    NCBI_BASE_IRI,
+                                                    NCBI_KB_CURIE_ID,
                                                     modify_date))
     return {'nodes': nodes,
             'edges': edges}

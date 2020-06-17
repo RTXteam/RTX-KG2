@@ -60,7 +60,7 @@ OBO_REL_CURIE_RE = re.compile(r'OBO:([^#]+)#([^#]+)')
 OBO_ONT_CURIE_RE = re.compile(r'OBO:([^\.]+)\.owl')
 TYPE_DATA_SOURCE = 'data file'
 IDENTIFIERS_ORG_REGISTRY_CURIE_PREFIX = 'identifiers_org_registry'
-IDENTIFIERS_ORG_REGISTRY_IRI_BASE = 'https://identifiers.org/registry/'
+IDENTIFIERS_ORG_REGISTRY_IRI_BASE = 'https://registry.identifiers.org/registry/'
 BIOLINK_BASE_IRI_CATEGORY_IN_OWL_FILE = 'https://w3id.org/biolink/biolinkml/meta/'
 
 
@@ -424,6 +424,24 @@ def predicate_label_to_iri_and_curie(predicate_label: str,
         predicate_label_to_use = predicate_label.replace(':', '_')
     return [urllib.parse.urljoin(relation_iri_prefix, predicate_label_to_use),
             relation_curie_prefix + ':' + predicate_label]
+
+
+def make_edge_biolink(subject_curie_id: str,
+                      object_curie_id: str,
+                      predicate_label: str,
+                      provided_by_curie: str,
+                      update_date: str):
+    [relation, relation_curie] = predicate_label_to_iri_and_curie(predicate_label,
+                                                                  CURIE_PREFIX_BIOLINK,
+                                                                  BIOLINK_CATEGORY_BASE_IRI)
+    rel = make_edge(subject_curie_id,
+                    object_curie_id,
+                    relation,
+                    relation_curie,
+                    predicate_label,
+                    provided_by_curie,
+                    update_date)
+    return rel
 
 
 def is_a_valid_http_url(id: str) -> bool:

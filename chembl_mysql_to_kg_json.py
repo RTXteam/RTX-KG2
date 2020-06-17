@@ -258,18 +258,19 @@ if __name__ == '__main__':
         cursor.execute(sql)
         results = cursor.fetchall()
     for (mechanism_of_action,) in results:
-        node_label = mechanism_of_action.lower().replace(' ', '_')
-        node_curie_id = CHEMBL_CURIE_BASE_MECHANISM + ':' + node_label
-        category_label = 'mechanism_of_action'
-        node_dict = make_node(node_curie_id,
-                              CHEMBL_BASE_IRI_PREDICATE + node_label,
-                              mechanism_of_action,
-                              category_label,
-                              None,
-                              [],
-                              [],
-                              update_date)
-        nodes.append(node_dict)
+        if mechanism_of_action is not None:
+            node_label = mechanism_of_action.lower().replace(' ', '_')
+            node_curie_id = CHEMBL_CURIE_BASE_MECHANISM + ':' + node_label
+            category_label = 'mechanism_of_action'
+            node_dict = make_node(node_curie_id,
+                                  CHEMBL_BASE_IRI_PREDICATE + node_label,
+                                  mechanism_of_action,
+                                  category_label,
+                                  None,
+                                  [],
+                                  [],
+                                  update_date)
+            nodes.append(node_dict)
 
 # get action_type nodes and their subclass_of relationships
 
