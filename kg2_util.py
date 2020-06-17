@@ -60,7 +60,7 @@ OBO_REL_CURIE_RE = re.compile(r'OBO:([^#]+)#([^#]+)')
 OBO_ONT_CURIE_RE = re.compile(r'OBO:([^\.]+)\.owl')
 TYPE_DATA_SOURCE = 'data file'
 IDENTIFIERS_ORG_REGISTRY_CURIE_PREFIX = 'identifiers_org_registry'
-IDENTIFIERS_ORG_REGISTRY_IRI_BASE = 'https://identifiers.org/registry/'
+IDENTIFIERS_ORG_REGISTRY_IRI_BASE = 'https://registry.identifiers.org/registry/'
 BIOLINK_BASE_IRI_CATEGORY_IN_OWL_FILE = 'https://w3id.org/biolink/biolinkml/meta/'
 
 
