@@ -129,16 +129,12 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
             nodes.append(node_dict)
             org_curie = kg2_util.CURIE_PREFIX_NCBI_TAXON + ':' + taxon_id_str
             predicate_label = 'in_taxon'
-            [relation, relation_curie] = kg2_util.predicate_label_to_iri_and_curie(predicate_label,
-                                                                                   kg2_util.CURIE_PREFIX_BIOLINK,
-                                                                                   kg2_util.BIOLINK_CATEGORY_BASE_IRI)
-            edge_dict = kg2_util.make_edge(node_curie_id,
-                                           org_curie,
-                                           relation,
-                                           relation_curie,
-                                           predicate_label,
-                                           NCBI_KB_CURIE_ID,
-                                           modify_date)
+
+            edge_dict = kg2_util.make_edge_biolink(node_curie_id,
+                                                   org_curie,
+                                                   predicate_label,
+                                                   NCBI_KB_CURIE_ID,
+                                                   modify_date)
             edges.append(edge_dict)
             if db_xrefs is not None:
                 xrefs_list = db_xrefs.split('|')
