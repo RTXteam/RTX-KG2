@@ -19,7 +19,7 @@ import kg2_util
 
 ENSEMBL_BASE_IRI = 'https://identifiers.org/ensembl:'
 ENSEMBL_RELATION_CURIE_PREFIX = 'ENSEMBL'
-ENSEMBL_KB_CURIE_PREFIX = 'identifiers_org_registry:ensembl'
+ENSEMBL_KB_CURIE_ID = 'identifiers_org_registry:ensembl'
 
 
 def get_args():
@@ -45,7 +45,7 @@ def make_node(ensembl_gene_id: str,
                                    description,
                                    category_label,
                                    update_date,
-                                   ENSEMBL_KB_CURIE_PREFIX)
+                                   ENSEMBL_KB_CURIE_ID)
     node_dict['synonym'] = [gene_symbol] + list(set(other_synonyms))
     return node_dict
 
@@ -90,7 +90,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
         edges.append(kg2_util.make_edge_biolink(ensembl_gene_curie_id,
                                                 'NCBITaxon:' + str(taxon_id_int),
                                                 'in_taxon',
-                                                ENSEMBL_KB_CURIE_PREFIX,
+                                                ENSEMBL_KB_CURIE_ID,
                                                 update_date))
         hgnc_list = gene_dict.get('HGNC', None)
         if hgnc_list is not None:
@@ -100,7 +100,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                                                 kg2_util.IRI_OWL_SAME_AS,
                                                 kg2_util.CURIE_OWL_SAME_AS,
                                                 'equivalent_to',
-                                                ENSEMBL_KB_CURIE_PREFIX,
+                                                ENSEMBL_KB_CURIE_ID,
                                                 update_date))
     return {'nodes': nodes,
             'edges': edges}
