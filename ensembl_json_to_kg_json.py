@@ -19,7 +19,7 @@ import kg2_util
 
 ENSEMBL_BASE_IRI = 'https://identifiers.org/ensembl:'
 ENSEMBL_RELATION_CURIE_PREFIX = 'ENSEMBL'
-ENSEMBL_KB_IRI = 'https://registry.identifiers.org/registry/ensembl'
+ENSEMBL_KB_CURIE_PREFIX = 'identifiers_org_registry:ensembl'
 
 
 def make_edge(subject_curie_id: str,
@@ -27,14 +27,14 @@ def make_edge(subject_curie_id: str,
               predicate_label: str,
               update_date: str):
     [relation, relation_curie] = kg2_util.predicate_label_to_iri_and_curie(predicate_label,
-                                                                           ENSEMBL_RELATION_CURIE_PREFIX,
-                                                                           ENSEMBL_KB_IRI)
+                                                                           kg2_util.CURIE_PREFIX_BIOLINK,
+                                                                           kg2_util.BIOLINK_CATEGORY_BASE_IRI)
     rel = kg2_util.make_edge(subject_curie_id,
                              object_curie_id,
                              relation,
                              relation_curie,
                              predicate_label,
-                             ENSEMBL_KB_IRI,
+                             kg2_util.IDENTIFIERS_ORG_REGISTRY_IRI_BASE + 'ensembl',
                              update_date)
     return rel
 
@@ -62,7 +62,7 @@ def make_node(ensembl_gene_id: str,
                                    description,
                                    category_label,
                                    update_date,
-                                   ENSEMBL_KB_IRI)
+                                   kg2_util.IDENTIFIERS_ORG_REGISTRY_IRI_BASE + 'ensembl')
     node_dict['synonym'] = [gene_symbol] + list(set(other_synonyms))
     return node_dict
 
@@ -106,7 +106,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
         assert taxon_id_int == 9606, "unexpected taxon ID"
         edges.append(make_edge(ensembl_gene_curie_id,
                                'NCBITaxon:' + str(taxon_id_int),
-                               'gene_found_in_organism',
+                               'in_taxon',
                                update_date))
         hgnc_list = gene_dict.get('HGNC', None)
         if hgnc_list is not None:
@@ -116,7 +116,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                                                 kg2_util.IRI_OWL_SAME_AS,
                                                 kg2_util.CURIE_OWL_SAME_AS,
                                                 'equivalent_to',
-                                                ENSEMBL_KB_IRI,
+                                                kg2_util.IDENTIFIERS_ORG_REGISTRY_IRI_BASE + 'ensembl',
                                                 update_date))
     return {'nodes': nodes,
             'edges': edges}
