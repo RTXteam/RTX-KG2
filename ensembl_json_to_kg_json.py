@@ -22,23 +22,6 @@ ENSEMBL_RELATION_CURIE_PREFIX = 'ENSEMBL'
 ENSEMBL_KB_CURIE_PREFIX = 'identifiers_org_registry:ensembl'
 
 
-def make_edge(subject_curie_id: str,
-              object_curie_id: str,
-              predicate_label: str,
-              update_date: str):
-    [relation, relation_curie] = kg2_util.predicate_label_to_iri_and_curie(predicate_label,
-                                                                           kg2_util.CURIE_PREFIX_BIOLINK,
-                                                                           kg2_util.BIOLINK_CATEGORY_BASE_IRI)
-    rel = kg2_util.make_edge(subject_curie_id,
-                             object_curie_id,
-                             relation,
-                             relation_curie,
-                             predicate_label,
-                             kg2_util.IDENTIFIERS_ORG_REGISTRY_IRI_BASE + 'ensembl',
-                             update_date)
-    return rel
-
-
 def get_args():
     arg_parser = argparse.ArgumentParser(description='ensembl_json_to_kg_json.py: builds a KG2 JSON representation for Ensembl genes')
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
@@ -62,7 +45,7 @@ def make_node(ensembl_gene_id: str,
                                    description,
                                    category_label,
                                    update_date,
-                                   kg2_util.IDENTIFIERS_ORG_REGISTRY_IRI_BASE + 'ensembl')
+                                   ENSEMBL_KB_CURIE_PREFIX)
     node_dict['synonym'] = [gene_symbol] + list(set(other_synonyms))
     return node_dict
 
@@ -104,10 +87,11 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
         ensembl_gene_curie_id = node_dict['id']
         taxon_id_int = gene_dict.get('taxon_id', None)
         assert taxon_id_int == 9606, "unexpected taxon ID"
-        edges.append(make_edge(ensembl_gene_curie_id,
-                               'NCBITaxon:' + str(taxon_id_int),
-                               'in_taxon',
-                               update_date))
+        edges.append(kg2_util.make_edge_biolink(ensembl_gene_curie_id,
+                                                'NCBITaxon:' + str(taxon_id_int),
+                                                'in_taxon',
+                                                ENSEMBL_KB_CURIE_PREFIX,
+                                                update_date))
         hgnc_list = gene_dict.get('HGNC', None)
         if hgnc_list is not None:
             for hgnc_curie in hgnc_list:
@@ -116,7 +100,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                                                 kg2_util.IRI_OWL_SAME_AS,
                                                 kg2_util.CURIE_OWL_SAME_AS,
                                                 'equivalent_to',
-                                                kg2_util.IDENTIFIERS_ORG_REGISTRY_IRI_BASE + 'ensembl',
+                                                ENSEMBL_KB_CURIE_PREFIX,
                                                 update_date))
     return {'nodes': nodes,
             'edges': edges}
