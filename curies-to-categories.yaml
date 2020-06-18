@@ -4,7 +4,9 @@ prefix-mappings:
     BSPO: relationship type
     CL: anatomical entity
     DOID: disease
+    DDANAT: anatomical entity
     DRUGBANK: drug
+    FAO: anatomical entity
     GOREL: relationship type
     HGNC: gene
     IAO: information content entity
@@ -13,7 +15,9 @@ prefix-mappings:
     NCBITaxon: organism taxon
     OBO: relationship type
     OMIM: phenotypic feature
+    PATO: phenotypic feature
     PR: protein
+    PW: pathway
     RGD: gene
     RO: relationship type
     sgd: gene
@@ -65,7 +69,6 @@ term-mappings:
     CHEBI:78295: biological entity
     CHEBI:50906: biological process
     CL:0000000: anatomical entity
-    DDANAT:0000002: organism taxon
     EFO:0000324: cell line
     EFO:0005066: material sample
     EFO:0001434: material sample
@@ -153,7 +156,6 @@ term-mappings:
     ORPHANET:409973: frequency value
     ORPHANET:C005: phenotypic feature
     owl:Thing: named thing
-    PATO:0000001: phenotypic feature
     PR:000000001: protein
     SNOMED:48176007: activity and behavior
     SNOMED:64572001: disease
