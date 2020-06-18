@@ -22,6 +22,8 @@ use_for_bidirectional_mapping:
   -
     biolink: https://w3id.org/biolink/vocab/
   -
+    biolink.github: https://raw.githubusercontent.com/biolink/biolink-model/master/
+  -
     BRO: http://bioontology.org/ontologies/BiomedicalResourceOntology.owl#
   -
     BSPO: http://purl.obolibrary.org/obo/BSPO_
@@ -186,6 +188,10 @@ use_for_bidirectional_mapping:
   -
     MOD: http://purl.obolibrary.org/obo/MOD_
   -
+    monarch.biolink: https://api.monarchinitiative.org/api
+  -
+    monarch.scigraph: https://scigraph-ontology.monarchinitiative.org/scigraph
+  -
     MONDO: http://purl.obolibrary.org/obo/MONDO_
   -
     MP: http://purl.obolibrary.org/obo/MP_
@@ -286,8 +292,6 @@ use_for_bidirectional_mapping:
   -
     RXNORM: http://purl.bioontology.org/ontology/RXNORM/
   -
-    SciGraph: https://scigraph-ontology.monarchinitiative.org/scigraph
-  -
     sgd: "https://identifiers.org/sgd:"
   -
     SIO: http://semanticscience.org/resource/SIO_
@@ -361,8 +365,6 @@ use_for_contraction_only:
     BFO: http://www.ifomis.org/bfo/1.1/span#
   -
     biolink: https://w3id.org/biolink/biolinkml/meta/
-  -
-    biolink: https://raw.githubusercontent.com/biolink/biolink-model/master/biolink-model.owl
   -
     BTO: http://purl.obolibrary.org/obo/bto#
   -
@@ -457,6 +459,8 @@ use_for_contraction_only:
     OMOP: http://purl.obolibrary.org/obo/COHD_
   -
     ORPHANET: http://www.orpha.net/ORDO/Orphanet_
+  -
+    ORPHANET: http://data.bioontology.org/ontologies/ORDO/submissions/15/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
   -
     PATO: http://purl.obolibrary.org/obo/pato#
   -
