@@ -58,7 +58,7 @@ KG1_PROVIDED_BY_TO_KG2_IRIS = {
     'CHEMBL.COMPOUND': 'identifiers_org_registry:chembl.compound',
     'NCBIGene': 'identifiers_org_registry:ncbigene',
     'AQTLTrait': 'HP:hp.owl',  # KG1 has a single AQTLTrait node, which has an HP uri
-#    'GeneProf': 'http://www.geneprof.org/'  # I think these edges are gone
+    # 'GeneProf': 'http://www.geneprof.org/'  # I think these edges are gone
     }
 
 
