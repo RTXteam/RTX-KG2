@@ -44,7 +44,11 @@ BUILD_KG2_LOG_FILE=${BUILD_DIR}/build-kg2${TEST_SUFFIX}.log
 
 echo "================= starting build-kg2.sh ================="
 date
-    
+
+echo "running validation tests on KG2 config files"
+
+bash -x ${CODE_DIR}/run-validation-tests.sh
+
 ## supply a default value for the BUILD_FLAG string
 
 SEMMED_TUPLELIST_FILE=${BUILD_DIR}/semmeddb/kg2-semmeddb${TEST_SUFFIX}-tuplelist.json
