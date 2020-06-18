@@ -33,7 +33,7 @@ KG1_RELATION_IRI_PREFIX = 'http://arax.rtx.ai'
 KG1_PROVIDED_BY_TO_KG2_IRIS = {
     'gene_ontology': "GO:go-plus.owl",
     'PC2': 'PC2:',
-    'BioLink': 'biolink:',
+    'BioLink': 'monarch.biolink:',
     'KEGG;UniProtKB': 'identifiers_org_registry:uniprot',
     'UniProtKB': 'identifiers_org_registry:uniprot',
     'OMIM': 'OMIM:',
@@ -42,7 +42,7 @@ KG1_PROVIDED_BY_TO_KG2_IRIS = {
     'DGIdb': 'DGIdb:',
     'ChEMBL': 'identifiers_org_registry:chembl.compound',
     'Pharos': 'pharos:',
-    'Monarch_SciGraph': 'SciGraph:',
+    'Monarch_SciGraph': 'monarch.scigraph:',
     'DiseaseOntology': 'DOID:doid.owl',
     'DOID': 'DOID:doid.owl',
     'miRGate': 'miRGate:',
