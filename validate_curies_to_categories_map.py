@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
-'''Checks the file "curies-to-categories.yaml" for correctness.
-   This script should be run each time `curies-to-categories.yaml` is changed.'''
+'''Checks the file "curies-to-categories.yaml" for correctness.  This script
+   should be run each time `curies-to-categories.yaml` or
+   `curies-to-urls-map.yaml` is changed.
+
+'''
 
 __author__ = 'Stephen Ramsey'
 __copyright__ = 'Oregon State University'
@@ -28,8 +31,12 @@ for curie_id in curies_to_categories_data['term-mappings'].keys():
     prefix = curie_id.split(':')[0]
     assert prefix in curies_to_url_map_data_bidir, prefix
 
-for category in curies_to_categories_data['prefix-mappings'].values():
+categories_to_check = list(curies_to_categories_data['prefix-mappings'].values()) +\
+    list(curies_to_categories_data['term-mappings'].values())
+
+for category in categories_to_check:
     category_camelcase = kg2_util.convert_space_case_to_camel_case(category)
     category_iri = kg2_util.BIOLINK_BASE_IRI_CATEGORY_IN_OWL_FILE + category_camelcase
     print(category_iri)
     assert category_camelcase in biolink_categories_ontology_depths or category_iri in biolink_ont.nodes(), category
+

@@ -64,7 +64,11 @@ use_for_bidirectional_mapping:
   -
     DDANAT: http://purl.obolibrary.org/obo/DDANAT_
   -
+    DGIdb: http://www.dgidb.org
+  -
     dictybase.gene: "https://identifiers.org/dictybase.gene:"
+  -
+    DisGeNET: "http://www.disgenet.org"
   -
     doap: http://usefulinc.com/ns/doap#
   -
@@ -176,6 +180,8 @@ use_for_bidirectional_mapping:
   -
     MI: http://purl.obolibrary.org/obo/MI_
   -
+    miRGate: http://mirgate.bioinfo.cnio.es
+  -
     MMO: http://purl.obolibrary.org/obo/MMO_
   -
     MOD: http://purl.obolibrary.org/obo/MOD_
@@ -185,6 +191,8 @@ use_for_bidirectional_mapping:
     MP: http://purl.obolibrary.org/obo/MP_
   -
     MPATH: http://purl.obolibrary.org/obo/MPATH_
+  -
+    MyChem: http://mychem.info
   -
     NBO: http://purl.obolibrary.org/obo/NBO_
   -
@@ -244,11 +252,15 @@ use_for_bidirectional_mapping:
   -
     PATO: http://purl.obolibrary.org/obo/PATO_
   -
+    PC2: http://pathwaycommons.org/pc11
+  -
     PCO: http://purl.obolibrary.org/obo/PCO_
   -
     PDQ: http://purl.bioontology.org/ontology/PDQ/
   -
     PECO: http://purl.obolibrary.org/obo/PECO_
+  -
+    pharos: http://pharos.nih.gov
   -
     PO: http://purl.obolibrary.org/obo/PO_
   -
@@ -259,6 +271,8 @@ use_for_bidirectional_mapping:
     rdf: https://www.w3.org/TR/2004/REC-owl-guide-20040210/#
   -
     rdfs: http://www.w3.org/2000/01/rdf-schema#
+  -
+    Reactome: "https://identifiers.org/reactome:"
   -
     REPODB: http://apps.chiragjpgroup.org/repoDB#
   -
@@ -271,6 +285,8 @@ use_for_bidirectional_mapping:
     RTXKG1: http://arax.rtx.ai/
   -
     RXNORM: http://purl.bioontology.org/ontology/RXNORM/
+  -
+    SciGraph: https://scigraph-ontology.monarchinitiative.org/scigraph
   -
     sgd: "https://identifiers.org/sgd:"
   -
