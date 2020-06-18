@@ -617,7 +617,10 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                     node_category_label = 'property'
 
             if node_category_label is None:
-                kg2_util.log_message("Node does not have a category", ontology.id, node_curie_id, output_stream=sys.stderr)
+                kg2_util.log_message("Node does not have a category",
+                                     ontology.id,
+                                     node_curie_id,
+                                     output_stream=sys.stderr)
                 node_category_label = 'named thing'
 #                if not node_deprecated:
 #                    node_category_label = 'unknown category'
@@ -630,9 +633,13 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                 if node_tui_category_label is None:
                     node_tui_category_label = 'named thing'
                     if node_tui is not None:
-                        kg2_util.log_message(message='Node ' + ontology_node_id + ' has CUI whose TUI cannot be mapped to category: ' + node_tui)
+                        kg2_util.log_message(message='Node ' + ontology_node_id + ' has CUI whose TUI cannot be mapped to category: ' + node_tui,
+                                             ontology_name=iri_of_ontology,
+                                             output_stream=sys.stderr)
                     else:
-                        kg2_util.log_message(message='Node ' + ontology_node_id + ' has CUI with multiple associated TUIs: ' + ', '.join(node_tui_list))
+                        kg2_util.log_message(message='Node ' + ontology_node_id + ' has CUI with multiple associated TUIs: ' + ', '.join(node_tui_list),
+                                             ontology_name=iri_of_ontology,
+                                             output_stream=sys.stderr)
                 else:
                     if node_category_label is None:
                         node_category_label = node_tui_category_label  # override the node category label if we have a TUI
@@ -794,6 +801,9 @@ def get_rels_dict(nodes: dict,
                         predicate_curie = 'owl:' + edge_pred_string
                     else:
                         predicate_curie = 'rdfs:subClassOf'
+                        kg2_util.log_message(message="Non-IRI predicate string (treating as subclass_of): " + edge_pred_string,
+                                             ontology_name=ontology_id,
+                                             output_stream=sys.stderr)
                     predicate_label = kg2_util.convert_camel_case_to_snake_case(edge_pred_string)
                 else:
                     # edge_pred_string is a CURIE
