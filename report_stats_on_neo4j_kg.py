@@ -15,7 +15,7 @@ __maintainer__ = ''
 __email__ = ''
 __status__ = 'Prototype'
 
-import collections
+
 import datetime
 import json
 import neo4j
@@ -142,7 +142,7 @@ def count_types_of_pairs_of_curies_for_xrefs(session):
 
 
 def count_types_of_pairs_of_curies_for_equivs(session):
-    res = session.run('MATCH (n)-[r:equivalent_to]->(m) WITH\
+    res = session.run('MATCH (n)-[r:same_as]->(m) WITH\
     split(n.id, ":")[0] AS Pair1, split(m.id, ":")[0] AS Pair2, count(n) AS \
     NumberofNodes RETURN DISTINCT Pair1, Pair2, NumberofNodes ORDER BY Pair1')
     return {(record[0] + "---" + record[1]): record[2] for record in
@@ -155,6 +155,7 @@ def count_types_of_pairs_of_curies(session):
     Pair1, Pair2, NumberofNodes ORDER BY Pair1')
     return {(record[0] + "---" + record[1]): record[2] for record in
             res.records()}
+
 
 with neo4j.GraphDatabase.driver('bolt://localhost:7687',
                                 auth=neo4j.basic_auth

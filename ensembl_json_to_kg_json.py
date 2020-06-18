@@ -99,7 +99,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                                                 hgnc_curie,
                                                 kg2_util.IRI_OWL_SAME_AS,
                                                 kg2_util.CURIE_OWL_SAME_AS,
-                                                'equivalent_to',
+                                                'same_as',
                                                 ENSEMBL_KB_CURIE_ID,
                                                 update_date))
     return {'nodes': nodes,
