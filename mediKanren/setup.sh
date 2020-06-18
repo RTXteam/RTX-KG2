@@ -16,7 +16,7 @@ sudo apt-get update
 sudo apt-get install -y python3.7
 
 # Clone the repositories for kgx and mediKanren
-git clone https://github.com/webyrd/mediKanren.git
+git clone https://github.com/RTXteam/mediKanren.git
 git clone https://github.com/RTXteam/kgx.git
 
 # checkout the correct kgx branch
