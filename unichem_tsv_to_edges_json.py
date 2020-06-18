@@ -20,6 +20,7 @@ import kg2_util
 
 UNICHEM_KB_IRI = 'https://www.ebi.ac.uk/unichem/'
 
+
 def make_xref(subject: str,
               object: str,
               update_date: str):
@@ -27,7 +28,7 @@ def make_xref(subject: str,
                                    object,
                                    kg2_util.IRI_OWL_SAME_AS,
                                    kg2_util.CURIE_OWL_SAME_AS,
-                                   'equivalent_to',
+                                   'same_as',
                                    UNICHEM_KB_IRI,
                                    update_date)
     return edge_dict
