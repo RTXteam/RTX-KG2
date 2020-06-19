@@ -65,7 +65,7 @@ def make_rel(preds_dict: dict,
              negated: bool):
     key = subject_curie + '-' + predicate + '-' + object_curie
     key_val = preds_dict.get(key, None)
-    publication_curie = 'PMID:' + pmid
+    publication_curie = kg2_util.CURIE_PREFIX_PMID + ':' + pmid
     publication_info_dict = {
         'publication date': pub_date,
         'sentence': sentence,
