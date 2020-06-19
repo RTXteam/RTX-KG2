@@ -340,6 +340,8 @@ use_for_bidirectional_mapping:
   -
     umls_source: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/
   -
+    UNICHEM_source: "https://www.ebi.ac.uk/unichem/"
+  -
     UNIPROTKB: "https://identifiers.org/uniprot:"
   -
     UO: http://purl.obolibrary.org/obo/UO_

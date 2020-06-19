@@ -198,7 +198,7 @@ def make_equivalent_edges(drug: dict):
     external_identifier_conversion = {"KEGG Drug": kg2_util.CURIE_PREFIX_KEGG,
                                       "UniProtKB": kg2_util.CURIE_PREFIX_UNIPROT,
                                       "Therapeutic Targets Database": kg2_util.CURIE_PREFIX_TTD_DRUG,
-                                      "ChEMBL": kg2_util.CURIE_PREFIX_CHEMBL,
+                                      "ChEMBL": kg2_util.CURIE_PREFIX_CHEMBL_COMPOUND,
                                       "KEGG Compound": kg2_util.CURIE_PREFIX_KEGG,
                                       "ChEBI": kg2_util.CURIE_PREFIX_CHEBI}
     if drug["external-identifiers"] is not None:
