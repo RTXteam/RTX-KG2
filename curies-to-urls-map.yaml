@@ -142,7 +142,7 @@ use_for_bidirectional_mapping:
   -
     HANCESTRO: http://purl.obolibrary.org/obo/HANCESTRO_
   -
-    HCPCS: https://hcpcs.codes/a-codes/
+    HCPCS: http://purl.bioontology.org/ontology/HCPCS/
   -
     HGNC: "https://identifiers.org/hgnc:"
   -
@@ -414,7 +414,11 @@ use_for_contraction_only:
   -
     GO: "http://purl.bioontology.org/ontology/GO/GO%3A"
   -
+    GO: http://purl.bioontology.org/ontology/GO/
+  -
     HANCESTRO: http://www.ebi.ac.uk/ancestro/ancestro_
+  -
+    HCPCS: https://hcpcs.codes/a-codes/
   -
     HGNC: "http://www.genenames.org/cgi-bin/gene_symbol_report?hgnc_id="
   -
@@ -422,13 +426,21 @@ use_for_contraction_only:
   -
     HGNC: "http://identifiers.org/hgnc/"
   -
+    HGNC: http://purl.bioontology.org/ontology/HGNC/
+  -
     HP: "http://purl.bioontology.org/ontology/HPO/HP%3A"
+  -
+    HP: http://purl.bioontology.org/ontology/HPO/
   -
     ICD10: http://purl.obolibrary.org/obo/ICD10_
   -
     ICD10: http://purl.obolibrary.org/obo/ICD10AE_
   -
     ICD10: http://purl.obolibrary.org/obo/ICD10CM_
+  -
+    ICD10: http://purl.bioontology.org/ontology/ICD10AE/
+  -
+    ICD10: http://purl.bioontology.org/ontology/ICD10CM/
   -
     ICD9: http://purl.obolibrary.org/obo/ICD9_
   -
