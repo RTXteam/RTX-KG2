@@ -66,7 +66,7 @@ use_for_bidirectional_mapping:
   -
     DDANAT: http://purl.obolibrary.org/obo/DDANAT_
   -
-    DGIdb: http://www.dgidb.org
+    DGIdb: http://www.dgidb.org/
   -
     dictybase.gene: "https://identifiers.org/dictybase.gene:"
   -
@@ -90,7 +90,7 @@ use_for_bidirectional_mapping:
   -
     EHDAA2: "http://purl.obolibrary.org/obo/EHDAA2_"
   -
-    ensembl: "https://identifiers.org/ensembl:"
+    ENSEMBL: "https://identifiers.org/ensembl:"
   -
     EnsemblGenomes: http://www.ensemblgenomes.org/id/
   -
@@ -136,6 +136,10 @@ use_for_bidirectional_mapping:
   -
     GOREL: http://purl.obolibrary.org/obo/GOREL_
   -
+    GTPI: https://www.guidetopharmacology.org/GRAC/LigandDisplayForward?ligandId=
+  -
+    GTPI_source: https://www.guidetopharmacology.org/
+  -
     HANCESTRO: http://purl.obolibrary.org/obo/HANCESTRO_
   -
     HCPCS: https://hcpcs.codes/a-codes/
@@ -158,9 +162,11 @@ use_for_bidirectional_mapping:
   -
     IDO: http://purl.obolibrary.org/obo/IDO_
   -
-    kegg.disease: "https://identifiers.org/kegg.disease:H"
+    ISBN: https://isbnsearch.org/isbn/
   -
-    kegg.pathway: "https://identifiers.org/kegg.pathway:hsa"
+    KEGG: "https://www.genome.jp/dbget-bin/www_bget?"
+  -
+    KEGG_source: "https://www.genome.jp"
   -
     LOINC: http://purl.bioontology.org/ontology/LNC/
   -
@@ -268,6 +274,8 @@ use_for_bidirectional_mapping:
   -
     pharos: http://pharos.nih.gov
   -
+    PMID: http://www.ncbi.nlm.nih.gov/pubmed/
+  -
     PO: http://purl.obolibrary.org/obo/PO_
   -
     PomBase: "https://identifiers.org/pombase:"
@@ -299,6 +307,8 @@ use_for_bidirectional_mapping:
     SIO: http://semanticscience.org/resource/SIO_
   -
     skos: http://www.w3.org/2004/02/skos/core#
+  -
+    smpdb: "https://identifiers.org/smpdb:"
   -
     SNOMED: http://purl.bioontology.org/ontology/SNOMEDCT/
   -
@@ -392,7 +402,7 @@ use_for_contraction_only:
   -
     EFO: http://www.ebi.ac.uk/efoIri
   -
-    ensembl: http://www.ensembl.org/id/
+    ENSEMBL: http://www.ensembl.org/id/
   -
     FBgn: https://flybase.org/reports/FBgn
   -
@@ -420,9 +430,7 @@ use_for_contraction_only:
   -
     ICD9: http://purl.obolibrary.org/obo/ICD9_
   -
-    kegg.disease: http://purl.obolibrary.org/obo/KEGG_H
-  -
-    kegg.pathway: http://purl.obolibrary.org/obo/KEGG_
+    KEGG: http://purl.obolibrary.org/obo/KEGG_
   -
     MEDDRA: http://purl.obolibrary.org/obo/MedDRA_
   -
