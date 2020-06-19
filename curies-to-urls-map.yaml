@@ -450,6 +450,8 @@ use_for_contraction_only:
   -
     medgen: http://purl.obolibrary.org/obo/MEDGEN_
   -
+    MESH: http://purl.bioontology.org/ontology/MSH/
+  -
     MGI: "http://www.informatics.jax.org/marker/MGI:"
   -
     MONDO: http://purl.obolibrary.org/obo/mondo#

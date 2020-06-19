@@ -11,6 +11,7 @@ prefix-mappings:
     GOREL: relationship type
     HGNC: gene
     IAO: information content entity
+    LOINC: procedure
     MGI: gene
     NCBIGene: gene
     NCBITaxon: organism taxon
@@ -101,6 +102,33 @@ term-mappings:
     HP:0000118: phenotypic feature
     HP:0032443: information content entity
 #    HsapDv:0000000: life stage
+    MEDDRA:10005329: disease
+    MEDDRA:10007541: disease
+    MEDDRA:10010331: disease
+    MEDDRA:10013993: disease
+    MEDDRA:10014698: disease
+    MEDDRA:10015919: disease
+    MEDDRA:10017947: disease
+    MEDDRA:10018065: disease
+    MEDDRA:10019805: disease
+    MEDDRA:10021428: disease
+    MEDDRA:10021881: disease
+    MEDDRA:10022117: phenomenon
+    MEDDRA:10022891: phenomenon
+    MEDDRA:10027433: disease
+    MEDDRA:10028395: disease
+    MEDDRA:10029104: disease
+    MEDDRA:10029205: disease
+    MEDDRA:10036585: disease
+    MEDDRA:10077536: phenomenon
+    MEDDRA:10037175: disease
+    MEDDRA:10038359: disease
+    MEDDRA:10038604: disease
+    MEDDRA:10038738: disease
+    MEDDRA:10040785: disease
+    MEDDRA:10041244: phenomenon
+    MEDDRA:10042613: procedure
+    MEDDRA:10047065: disease
     MONDO:0000001: disease
     # MONDO:0001227 was causing a warning about "Node does not have a category"; not sure why
     MONDO:0001227: disease
