@@ -16,10 +16,18 @@ __status__ = 'Prototype'
 import getpass
 import os
 import tempfile
-
+os.sys.path.append("..") #make modules in the code/ directory accessible
+from RTXConfiguration import RTXConfiguration
 
 if __name__ == '__main__':
-    password = getpass.getpass("Please enter the password: ")
+    try:
+        rtxc = RTXConfiguration()
+        password = rtxc.neo4j_password
+    except Exception as e:
+        #catch and print error if RTXConfigure fails
+        print(e)
+        #then prompt for manual entry
+        password = getpass.getpass("Please enter the password manually: ")
     tempfile = tempfile.mkstemp()[1]
     with open(os.open(tempfile, os.O_CREAT | os.O_WRONLY, 0o600), 'w') as output_file:
         print(password, file=output_file)
