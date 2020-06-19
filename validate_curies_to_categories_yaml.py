@@ -36,5 +36,5 @@ categories_to_check = list(curies_to_categories_data['prefix-mappings'].values()
 
 for category in categories_to_check:
     category_camelcase = kg2_util.convert_space_case_to_camel_case(category)
-    category_iri = kg2_util.BIOLINK_BASE_IRI_CATEGORY_IN_OWL_FILE + category_camelcase
+    category_iri = kg2_util.BASE_URL_BIOLINK_META + category_camelcase
     assert category_camelcase in biolink_categories_ontology_depths or category_iri in biolink_ont.nodes(), category
