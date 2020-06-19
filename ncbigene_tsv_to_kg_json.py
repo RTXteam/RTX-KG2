@@ -19,9 +19,9 @@ import os
 
 
 NCBI_BASE_IRI = 'https://identifiers.org/ncbigene:'
-NCBI_RELATION_CURIE_PREFIX = 'ncbigene'
-NCBI_KB_IRI = 'https://oregistry.identifiers.org/registry/ncbigene'
-NCBI_KB_CURIE_ID = 'identifiers_org_registry:ncbigene'
+NCBI_KB_IRI = 'https://registry.identifiers.org/registry/ncbigene'
+NCBI_KB_CURIE_ID = kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY + ':' + 'ncbigene'
+NCBI_KB_URL = kg2_util.BASE_URL_IDENTIFIERS_ORG_REGISTRY + 'ncbigene'
 
 
 def get_args():
@@ -37,7 +37,7 @@ def make_node(ncbi_gene_id: str,
               gene_symbol: str,
               update_date: str,
               other_synonyms: list = None):
-    category_label = 'gene'
+    category_label = kg2_util.BIOLINK_CATEGORY_GENE
     if other_synonyms is None:
         other_synonyms = []
     node_curie = kg2_util.CURIE_PREFIX_NCBI_GENE + ':' + ncbi_gene_id
@@ -58,11 +58,11 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
     gene_ctr = 0
 
     update_date = os.path.getmtime(input_file_name)
-    ontology_curie_id = kg2_util.IDENTIFIERS_ORG_REGISTRY_CURIE_PREFIX + ':ncbigene'
+    ontology_curie_id = NCBI_KB_CURIE_ID
     ens_kp_node = kg2_util.make_node(ontology_curie_id,
-                                     kg2_util.IDENTIFIERS_ORG_REGISTRY_IRI_BASE + 'ncbigene',
+                                     NCBI_KB_URL,
                                      'NCBI Genes',
-                                     kg2_util.TYPE_DATA_SOURCE,
+                                     kg2_util.BIOLINK_CATEGORY_DATA_FILE,
                                      update_date,
                                      ontology_curie_id)
     nodes.append(ens_kp_node)

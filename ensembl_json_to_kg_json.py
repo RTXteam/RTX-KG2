@@ -17,9 +17,10 @@ import argparse
 import kg2_util
 
 
-ENSEMBL_BASE_IRI = 'https://identifiers.org/ensembl:'
+ENSEMBL_BASE_IRI = kg2_util.BASE_URL_IDENTIFIERS_ORG + 'ensembl:'
 ENSEMBL_RELATION_CURIE_PREFIX = 'ENSEMBL'
-ENSEMBL_KB_CURIE_ID = 'identifiers_org_registry:ensembl'
+ENSEMBL_KB_CURIE_ID = kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY + ':' + 'ensembl'
+ENSEMBL_KB_URI = kg2_util.BASE_URL_IDENTIFIERS_ORG_REGISTRY + "ensembl"
 
 
 def get_args():
@@ -35,7 +36,7 @@ def make_node(ensembl_gene_id: str,
               gene_symbol: str,
               update_date: str,
               other_synonyms: list = None):
-    category_label = 'gene'
+    category_label = kg2_util.BIOLINK_CATEGORY_GENE
     if other_synonyms is None:
         other_synonyms = []
     node_curie = kg2_util.CURIE_PREFIX_ENSEMBL + ':' + ensembl_gene_id
@@ -58,11 +59,11 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
     update_date = genebuild_str.split('/')[1]
     gene_ctr = 0
 
-    ontology_curie_id = kg2_util.IDENTIFIERS_ORG_REGISTRY_CURIE_PREFIX + ':ensembl'
+    ontology_curie_id = ENSEMBL_KB_CURIE_ID
     ens_kp_node = kg2_util.make_node(ontology_curie_id,
-                                     kg2_util.IDENTIFIERS_ORG_REGISTRY_IRI_BASE + 'ensembl',
+                                     ENSEMBL_KB_URI,
                                      'Ensembl Genes',
-                                     kg2_util.TYPE_DATA_SOURCE,
+                                     kg2_util.BIOLINK_CATEGORY_DATA_FILE,
                                      update_date,
                                      ontology_curie_id)
     nodes.append(ens_kp_node)

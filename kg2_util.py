@@ -41,35 +41,57 @@ import yaml
 from typing import Dict, Optional
 
 TEMP_FILE_PREFIX = 'kg2'
-FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
-ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
-BIOLINK_ONTOLOGY_BASE_IRI = 'https://w3id.org/biolink/'
-BIOLINK_CATEGORY_BASE_IRI = 'https://w3id.org/biolink/vocab/'
-IRI_OWL_SAME_AS = 'http://www.w3.org/2002/07/owl#sameAs'
-CURIE_OWL_SAME_AS = 'owl:sameAs'
+FIRST_CAP_RE = re.compile(r'(.)([A-Z][a-z]+)')
+ALL_CAP_RE = re.compile(r'([a-z0-9])([A-Z])')
 NCBI_TAXON_ID_HUMAN = 9606
+
 CURIE_PREFIX_BIOLINK = 'biolink'
+CURIE_PREFIX_CHEBI = 'CHEBI'
+CURIE_PREFIX_CHEMBL = 'CHEMBL.COMPOUND'
+CURIE_PREFIX_CUI = 'umls'
+CURIE_PREFIX_DGIDB = 'DGIdb'
+CURIE_PREFIX_DRUGBANK = 'DRUGBANK'
 CURIE_PREFIX_ENSEMBL = 'ENSEMBL'
+CURIE_PREFIX_GTPI = 'GTPI'
+CURIE_PREFIX_GTPI_SOURCE = 'GTPI_source'
+CURIE_PREFIX_HGNC = 'HGNC'
+CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY = 'identifiers_org_registry'
+CURIE_PREFIX_ISBN = 'ISBN'
+CURIE_PREFIX_KEGG = 'KEGG'
+CURIE_PREFIX_KEGG_SOURCE = 'KEGG_source'
+CURIE_PREFIX_MESH = 'MESH'
 CURIE_PREFIX_NCBI_GENE = 'NCBIGene'
 CURIE_PREFIX_NCBI_TAXON = 'NCBITaxon'
+CURIE_PREFIX_OWL = 'owl'
+CURIE_PREFIX_PMID = 'PMID'
+CURIE_PREFIX_SMPDB = 'smpdb'
+CURIE_PREFIX_TTD_DRUG = 'ttd.drug'
+CURIE_PREFIX_TTD_TARGET = 'ttd.target'
 CURIE_PREFIX_UMLS_TUI = 'UMLSSC'
-CURIE_PREFIX_HGNC = 'HGNC'
-CURIE_PREFIX_CUI = 'umls'
-CURIE_PREFIX_DRUGBANK = 'DRUGBANK'
-CURIE_PREFIX_SMPDB = 'SMPDB'
-CURIE_PREFIX_KEGG = 'KEGG'
-CURIE_PREFIX_TTD = 'ttd.drug'
 CURIE_PREFIX_UNIPROT = 'UNIPROTKB'
-CURIE_PREFIX_CHEMBL = 'CHEMBL.COMPOUND'
-CURIE_PREFIX_CHEBI = 'CHEBI'
 
+BASE_URL_BIOLINK_CONCEPTS = 'https://w3id.org/biolink/vocab/'
+BASE_URL_BIOLINK_ONTOLOGY = 'https://w3id.org/biolink/'
+BASE_URL_BIOLINK_META = 'https://w3id.org/biolink/biolinkml/meta/'
+BASE_URL_DGIDB = 'http://www.dgidb.org/'
+BASE_URL_GTPI = 'https://www.guidetopharmacology.org/GRAC/LigandDisplayForward?ligandId='
+BASE_URL_GTPI_SOURCE = 'https://www.guidetopharmacology.org/'
+BASE_URL_IDENTIFIERS_ORG = 'https://identifiers.org/'
+BASE_URL_IDENTIFIERS_ORG_REGISTRY = 'https://registry.identifiers.org/registry/'
+BASE_URL_KEGG = '"https://www.genome.jp/dbget-bin/www_bget?'
+BASE_URL_OWL = 'http://www.w3.org/2002/07/owl'
+
+BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE = 'chemical substance'
+BIOLINK_CATEGORY_DATA_FILE = 'data file'
+BIOLINK_CATEGORY_DRUG = 'drug'
+BIOLINK_CATEGORY_GENE = 'gene'
+BIOLINK_CATEGORY_PROTEIN = 'protein'
+
+CURIE_OWL_SAME_AS = CURIE_PREFIX_OWL + ':' + 'sameAs'
+IRI_OWL_SAME_AS = BASE_URL_OWL + '#sameAs'
 
 OBO_REL_CURIE_RE = re.compile(r'OBO:([^#]+)#([^#]+)')
 OBO_ONT_CURIE_RE = re.compile(r'OBO:([^\.]+)\.owl')
-TYPE_DATA_SOURCE = 'data file'
-IDENTIFIERS_ORG_REGISTRY_CURIE_PREFIX = 'identifiers_org_registry'
-IDENTIFIERS_ORG_REGISTRY_IRI_BASE = 'https://registry.identifiers.org/registry/'
-BIOLINK_BASE_IRI_CATEGORY_IN_OWL_FILE = 'https://w3id.org/biolink/biolinkml/meta/'
 
 
 class MLStripper(html.parser.HTMLParser):
@@ -223,8 +245,8 @@ def get_depths_of_ontology_terms(ontology: ontobio.ontol.Ontology,
 
 def get_biolink_categories_ontology_depths(biolink_ontology: ontobio.ontol.Ontology):
     url_depths = get_depths_of_ontology_terms(biolink_ontology,
-                                              BIOLINK_BASE_IRI_CATEGORY_IN_OWL_FILE + 'NamedThing')
-    ret_depths = {key.replace(BIOLINK_BASE_IRI_CATEGORY_IN_OWL_FILE, ''): value for key, value in url_depths.items()}
+                                              BASE_URL_BIOLINK_META + 'NamedThing')
+    ret_depths = {key.replace(BASE_URL_BIOLINK_META, ''): value for key, value in url_depths.items()}
     ret_depths['UnknownCategory'] = -1
     return ret_depths
 
@@ -365,7 +387,7 @@ def convert_camel_case_to_snake_case(name: str):
 
 
 def convert_biolink_category_to_iri(biolink_category_label: str,
-                                    biolink_category_base_iri: str = BIOLINK_CATEGORY_BASE_IRI):
+                                    biolink_category_base_iri: str = BASE_URL_BIOLINK_CONCEPTS):
     return urllib.parse.urljoin(biolink_category_base_iri,
                                 convert_space_case_to_camel_case(biolink_category_label))
 
@@ -441,7 +463,7 @@ def make_edge_biolink(subject_curie_id: str,
                       update_date: str):
     [relation, relation_curie] = predicate_label_to_iri_and_curie(predicate_label,
                                                                   CURIE_PREFIX_BIOLINK,
-                                                                  BIOLINK_CATEGORY_BASE_IRI)
+                                                                  BASE_URL_BIOLINK_CONCEPTS)
     rel = make_edge(subject_curie_id,
                     object_curie_id,
                     relation,
