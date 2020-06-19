@@ -3,6 +3,7 @@ prefix-mappings:
     biolink: ontology class
     BSPO: relationship type
     CL: anatomical entity
+    CPT: procedure
     DOID: disease
     DDANAT: anatomical entity
     DRUGBANK: drug
