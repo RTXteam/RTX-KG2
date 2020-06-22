@@ -22,7 +22,7 @@ use_for_bidirectional_mapping:
   -
     biolink: https://w3id.org/biolink/vocab/
   -
-    biolink.github: https://raw.githubusercontent.com/biolink/biolink-model/master/
+    biolink_source: https://raw.githubusercontent.com/biolink/biolink-model/master/
   -
     BRO: http://bioontology.org/ontologies/BiomedicalResourceOntology.owl#
   -
@@ -290,7 +290,7 @@ use_for_bidirectional_mapping:
   -
     Reactome: "https://identifiers.org/reactome:"
   -
-    REPODB: http://apps.chiragjpgroup.org/repoDB#
+    REPODB: http://apps.chiragjpgroup.org/repoDB
   -
     RGD: "https://identifiers.org/rgd:"
   -
@@ -358,7 +358,7 @@ use_for_bidirectional_mapping:
   -
     wb: "https://identifiers.org/wb:"
   -
-    wikidata: "https://identifiers.org/wikidata:"
+    WD: "https://identifiers.org/wikidata:"
   -
     XCO: http://purl.obolibrary.org/obo/XCO_
   -
@@ -532,7 +532,7 @@ use_for_contraction_only:
   -
     wb: http://www.wormbase.org/species/c_elegans/gene/
   -
-    wikidata: http://purl.obolibrary.org/obo/Wikidata_
+    WD: http://purl.obolibrary.org/obo/Wikidata_
   -
     ZFIN: "http://zfin.org/action/marker/view/"
 ############################################

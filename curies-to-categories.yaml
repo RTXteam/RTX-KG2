@@ -254,7 +254,7 @@ term-mappings:
     UMLSSC:T196: chemical substance
     UMLSSC:T200: drug
     UPHENO:0001001: phenotypic feature
-    wikidata:Q28845870: biological entity
-    wikidata:Q12136: disease
-    wikidata:Q16521: organism taxon
-    wikidata:Q7239: organismal entity
+    WD:Q28845870: biological entity
+    WD:Q12136: disease
+    WD:Q16521: organism taxon
+    WD:Q7239: organismal entity
