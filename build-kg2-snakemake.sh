@@ -12,27 +12,27 @@ fi
 
 # Usage: build-kg2-snakemake.sh [test]
 
-CONFIG_DIR=`dirname "$0"`
-source ${CONFIG_DIR}/master-config.shinc
+config_dir=`dirname "$0"`
+source ${config_dir}/master-config.shinc
 
 {
 echo "================= starting build-kg2-snakemake.sh =================="
 date
 
-BUILD_FLAG=${1-""}
+build_flag=${1-""}
 
-if [[ "${BUILD_FLAG}" == "test" ]]
+if [[ "${build_flag}" == "test" ]]
 then
     # The test argument for bash scripts (ex. extract-semmeddb.sh test)
-    TEST_ARG="test"
+    test_arg="test"
     # The test argument for file names (ex. kg2-owl-test.json)
-    TEST_ARG_D="-test"
+    test_arg_d="-test"
     # The test argument for python scripts (ex. python3 uniprotkb_dat_to_json.py --test)
-    TEST_ARG_DD="--test"
+    test_arg_dd="--test"
 else
-    TEST_ARG=""
-    TEST_ARG_D=""
-    TEST_ARG_DD=""
+    test_arg=""
+    test_arg_d=""
+    test_arg_dd=""
 fi
 
 # Change directories into the home directory because snakemake doesn't like ~ in input/output names, so paths are respective
@@ -40,7 +40,7 @@ fi
 # -R Finish: Run all of the rules in the snakefile
 # -j: Run the rules in parallel
 # -config: give the test arguments to the snakefile
-cd ~ && ${VENV_DIR}/bin/snakemake --snakefile /home/ubuntu/kg2-code/Snakefile -R Finish -j --config test="${TEST_ARG}" testd="${TEST_ARG_D}" testdd="${TEST_ARG_DD}"
+cd ~ && ${VENV_DIR}/bin/snakemake --snakefile /home/ubuntu/kg2-code/Snakefile -R Finish -j --config test="${test_arg}" testd="${test_arg_d}" testdd="${test_arg_dd}"
 
 date
 echo "================ script finished ============================"

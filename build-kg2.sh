@@ -58,11 +58,11 @@ output_file_full=${BUILD_DIR}/${output_file_base}
 
 output_file_orphan_edges=${BUILD_DIR}/kg2-orphans${test_suffix}-edges.json
 
-FINAL_output_file_base=kg2${test_suffix}.json
-FINAL_output_file_full=${BUILD_DIR}/${FINAL_output_file_base}
+final_output_file_base=kg2${test_suffix}.json
+final_output_file_full=${BUILD_DIR}/${final_output_file_base}
 
-SIMPLIFIED_output_file_base=kg2-simplified${test_suffix}.json
-SIMPLIFIED_output_file_full=${BUILD_DIR}/${SIMPLIFIED_output_file_base}
+simplified_output_file_base=kg2-simplified${test_suffix}.json
+simplified_output_file_full=${BUILD_DIR}/${simplified_output_file_base}
 
 simplified_output_nodes_file_base=kg2-simplified${test_suffix}-nodes.json
 simplified_output_nodes_file_full=${BUILD_DIR}/${simplified_output_nodes_file_base}
@@ -73,10 +73,10 @@ output_nodes_file_full=${BUILD_DIR}/${output_nodes_file_base}
 report_file_base=kg2-report${test_suffix}.json
 report_file_full=${BUILD_DIR}/${report_file_base}
 
-SIMPLIFIED_report_file_base=kg2-simplified-report${test_suffix}.json
-SIMPLIFIED_report_file_full=${BUILD_DIR}/${SIMPLIFIED_report_file_base}
+simplified_report_file_base=kg2-simplified-report${test_suffix}.json
+simplified_report_file_full=${BUILD_DIR}/${simplified_report_file_base}
 
-SLIM_output_file_full=${BUILD_DIR}/kg2-slim${test_suffix}.json
+slim_output_file_full=${BUILD_DIR}/kg2-slim${test_suffix}.json
 
 ensembl_source_json_file=${BUILD_DIR}/ensembl/ensembl_genes_homo_sapiens.json
 ensembl_output_file=${BUILD_DIR}/kg2-ensembl${test_suffix}.json
@@ -246,7 +246,7 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/merge_graphs.py \
                      ${repodb_output_file} \
                      ${kg1_outpu t_file} \
            --kgFileOrphanEdges ${output_file_orphan_edges} \
-           ${FINAL_output_file_full}
+           ${final_output_file_full}
 
 echo "get_nodes_json_from_kg_json.py"
 
@@ -254,7 +254,7 @@ echo "get_nodes_json_from_kg_json.py"
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/get_nodes_json_from_kg_json.py \
            ${test_arg} \
-           ${FINAL_output_file_full} \
+           ${final_output_file_full} \
            ${output_nodes_file_full}
 
 echo "report_stats_on_json_kg.py (full KG)"
@@ -262,7 +262,7 @@ echo "report_stats_on_json_kg.py (full KG)"
 ## Generate a JSON report of statistics on the KG
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/report_stats_on_json_kg.py \
-           ${FINAL_output_file_full} \
+           ${final_output_file_full} \
            ${report_file_full}
 
 echo "filter the JSON KG and remap predicates"
@@ -275,8 +275,8 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/filter_kg_and_remap_predicates.py \
            --dropSelfEdgesExcept interacts_with,positively_regulates,inhibits,increase \
            ${predicate_mapping_file} \
            ${CURIES_TO_URLS_FILE} \
-           ${FINAL_output_file_full} \
-           ${SIMPLIFIED_output_file_full}
+           ${final_output_file_full} \
+           ${simplified_output_file_full}
 
 echo "get_nodes_json_from_kg_json.py (for simplified KG)"
 
@@ -284,15 +284,15 @@ echo "get_nodes_json_from_kg_json.py (for simplified KG)"
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/get_nodes_json_from_kg_json.py \
            ${test_arg} \
-           ${SIMPLIFIED_output_file_full} \
+           ${simplified_output_file_full} \
            ${simplified_output_nodes_file_full}
 
 echo "generating slimmed-down kg2 (issue #597)"
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/slim_kg2.py \
            ${test_arg} \
-           ${SIMPLIFIED_output_file_full} \
-           ${SLIM_output_file_full} 
+           ${simplified_output_file_full} \
+           ${slim_output_file_full} 
 
 echo "report_stats_on_json_kg.py (simplified KG)"
 
@@ -300,36 +300,36 @@ echo "report_stats_on_json_kg.py (simplified KG)"
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/report_stats_on_json_kg.py \
            --useSimplifiedPredicates \
-           ${SIMPLIFIED_output_file_full} \
-           ${SIMPLIFIED_report_file_full}
+           ${simplified_output_file_full} \
+           ${simplified_report_file_full}
 
-gzip -f ${FINAL_output_file_full}
+gzip -f ${final_output_file_full}
 
 ## build the TSV files
 rm -r -f ${kg2_tsv_dir}
 mkdir -p ${kg2_tsv_dir}
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/kg_json_to_tsv.py \
-           ${SIMPLIFIED_output_file_full} \
+           ${simplified_output_file_full} \
            ${kg2_tsv_dir}
 
 tar -C ${kg2_tsv_dir} -czvf ${kg2_tsv_tarball} nodes.tsv nodes_header.tsv edges.tsv edges_header.tsv
 ${S3_CP_CMD} ${kg2_tsv_tarball} s3://${S3_BUCKET}/
 
 ## Compress the huge files
-gzip -f ${SIMPLIFIED_output_file_full}
+gzip -f ${simplified_output_file_full}
 gzip -f ${simplified_output_nodes_file_full}
 gzip -f ${output_nodes_file_full}
 gzip -f ${output_file_orphan_edges}
-gzip -f ${SLIM_output_file_full}
+gzip -f ${slim_output_file_full}
 
 ## copy the KG and various build artifacts to the public S3 bucket
-${S3_CP_CMD} ${FINAL_output_file_full}.gz s3://${S3_BUCKET}/
-${S3_CP_CMD} ${SIMPLIFIED_output_file_full}.gz s3://${S3_BUCKET}/
+${S3_CP_CMD} ${final_output_file_full}.gz s3://${S3_BUCKET}/
+${S3_CP_CMD} ${simplified_output_file_full}.gz s3://${S3_BUCKET}/
 ${S3_CP_CMD} ${output_nodes_file_full}.gz s3://${S3_BUCKET}/
 ${S3_CP_CMD} ${report_file_full} s3://${S3_BUCKET_PUBLIC}/
-${S3_CP_CMD} ${SIMPLIFIED_report_file_full} s3://${S3_BUCKET_PUBLIC}/
+${S3_CP_CMD} ${simplified_report_file_full} s3://${S3_BUCKET_PUBLIC}/
 ${S3_CP_CMD} ${output_file_orphan_edges}.gz s3://${S3_BUCKET_PUBLIC}/
-${S3_CP_CMD} ${SLIM_output_file_full}.gz s3://${S3_BUCKET}/
+${S3_CP_CMD} ${slim_output_file_full}.gz s3://${S3_BUCKET}/
 ${S3_CP_CMD} ${simplified_output_nodes_file_full}.gz s3://${S3_BUCKET}/
 
 ## copy the log files to the public S3 bucket
