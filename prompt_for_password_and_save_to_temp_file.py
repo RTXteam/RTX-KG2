@@ -16,7 +16,8 @@ __status__ = 'Prototype'
 import getpass
 import os
 import tempfile
-os.sys.path.append("..")  # make modules in the code/ directory accessible
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/../")
 from RTXConfiguration import RTXConfiguration
 
 if __name__ == '__main__':
