@@ -4,7 +4,6 @@
     Usage: prompt_for_password_and_save_to_temp_file.py
 '''
 
-from RTXConfiguration import RTXConfiguration
 __author__ = 'Stephen Ramsey'
 __copyright__ = 'Oregon State University'
 __credits__ = ['Stephen Ramsey']
@@ -18,6 +17,7 @@ import getpass
 import os
 import tempfile
 os.sys.path.append("..")  # make modules in the code/ directory accessible
+from RTXConfiguration import RTXConfiguration
 
 if __name__ == '__main__':
     try:
