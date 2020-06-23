@@ -4,6 +4,7 @@
     Usage: prompt_for_password_and_save_to_temp_file.py
 '''
 
+from RTXConfiguration import RTXConfiguration
 __author__ = 'Stephen Ramsey'
 __copyright__ = 'Oregon State University'
 __credits__ = ['Stephen Ramsey']
@@ -16,17 +17,15 @@ __status__ = 'Prototype'
 import getpass
 import os
 import tempfile
-os.sys.path.append("..") #make modules in the code/ directory accessible
-from RTXConfiguration import RTXConfiguration
+os.sys.path.append("..")  # make modules in the code/ directory accessible
 
 if __name__ == '__main__':
     try:
         rtxc = RTXConfiguration()
+        rtxc.live = "KG2"
         password = rtxc.neo4j_password
     except Exception as e:
-        #catch and print error if RTXConfigure fails
         print(e)
-        #then prompt for manual entry
         password = getpass.getpass("Please enter the password manually: ")
     tempfile = tempfile.mkstemp()[1]
     with open(os.open(tempfile, os.O_CREAT | os.O_WRONLY, 0o600), 'w') as output_file:
