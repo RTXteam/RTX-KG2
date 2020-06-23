@@ -12,18 +12,18 @@ fi
 echo "================= starting build-unichem.sh ================="
 date
 
-CONFIG_DIR=`dirname "$0"`
-source ${CONFIG_DIR}/master-config.shinc
+config_dir=`dirname "$0"`
+source ${config_dir}/master-config.shinc
 
-DGIDB_DIR=${1:-"${BUILD_DIR}/dgidb/"}
-DGIDB_FILE=interactions.tsv
+dgidb_dir=${1:-"${BUILD_DIR}/dgidb/"}
+dgidb_file=interactions.tsv
 
-mkdir -p ${DGIDB_DIR}
+mkdir -p ${dgidb_dir}
 
-${CURL_GET} http://www.dgidb.org/data/${DGIDB_FILE} > /tmp/${DGIDB_FILE}
-UPDATE_DATE=`${CURL_GET} http://www.dgidb.org/downloads | grep 'Last updated' | sed 's/Last updated //g'`
-echo "#${UPDATE_DATE}" > ${DGIDB_DIR}/${DGIDB_FILE}
-cat /tmp/${DGIDB_FILE} >> ${DGIDB_DIR}/${DGIDB_FILE}
+${CURL_GET} http://www.dgidb.org/data/${dgidb_file} > /tmp/${dgidb_file}
+update_date=`${CURL_GET} http://www.dgidb.org/downloads | grep 'Last updated' | sed 's/Last updated //g'`
+echo "#${update_date}" > ${dgidb_dir}/${dgidb_file}
+cat /tmp/${dgidb_file} >> ${dgidb_dir}/${dgidb_file}
 
 date
 echo "================= script finished ================="
