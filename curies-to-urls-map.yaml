@@ -302,6 +302,8 @@ use_for_bidirectional_mapping:
   -
     RXNORM: http://purl.bioontology.org/ontology/RXNORM/
   -
+    SEMMEDDB: https://skr3.nlm.nih.gov/SemMedDB
+  -
     sgd: "https://identifiers.org/sgd:"
   -
     SIO: http://semanticscience.org/resource/SIO_
