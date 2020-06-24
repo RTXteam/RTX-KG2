@@ -227,7 +227,7 @@ echo "extracting KG JSON representation of RTX KG1, from the Neo4j endpoint"
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/rtx_kg1_neo4j_to_kg_json.py \
            ${test_arg} \
            --configFile ${BUILD_DIR}/${rtx_config_file} \
-           ${kg1_outpt_file}
+           ${kg1_output_file}
 
 echo "running merge_graphs.py"
 
@@ -244,7 +244,7 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/merge_graphs.py \
                      ${ncbi_gene_output_file} \
                      ${dgidb_output_file} \
                      ${repodb_output_file} \
-                     ${kg1_outpu t_file} \
+                     ${kg1_output_file} \
            --kgFileOrphanEdges ${output_file_orphan_edges} \
            ${final_output_file_full}
 
