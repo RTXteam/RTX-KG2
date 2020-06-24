@@ -16,12 +16,12 @@ echo "================= starting setup-kg2.sh ================="
 date
 
 ## setup the shell variables for various directories
-CONFIG_DIR=`dirname "$0"`
+config_dir=`dirname "$0"`
 
-MYSQL_USER=ubuntu
-MYSQL_PASSWORD=1337
+mysql_user=ubuntu
+mysql_password=1337
 
-source ${CONFIG_DIR}/master-config.shinc
+source ${config_dir}/master-config.shinc
 
 ## sym-link into RTX/code/kg2
 if [ ! -L ${CODE_DIR} ]; then
@@ -47,8 +47,8 @@ sudo apt-get install -y python3-minimal \
      git \
      libssl-dev
 
-sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password ${MYSQL_PASSWORD}"
-sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password ${MYSQL_PASSWORD}"
+sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password ${mysql_password}"
+sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password ${mysql_password}"
 sudo apt-get install -y mysql-server \
      mysql-client \
      libmysqlclient-dev
@@ -69,7 +69,7 @@ ${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
 
 mkdir -p ${BUILD_DIR}
 
-SETUP_LOG_FILE=${BUILD_DIR}/setup-kg2-build.log
+setup_log_file=${BUILD_DIR}/setup-kg2-build.log
 
 ## install ROBOT (software: ROBOT is an OBO Tool) by downloading the jar file
 ## distribution and cURLing the startup script (note github uses URL redirection
@@ -83,7 +83,7 @@ chmod +x ${BUILD_DIR}/robot
 ${CURL_GET} ${BUILD_DIR} https://github.com/RTXteam/owltools/releases/download/v0.3.0/owltools > ${BUILD_DIR}/owltools
 chmod +x ${BUILD_DIR}/owltools
 
-} > ~/${SETUP_LOG_FILE} 2>&1
+} > ~/${setup_log_file} 2>&1
 
 ## setup AWS CLI
 if ! aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/test /tmp/; then
@@ -105,12 +105,12 @@ sudo make install
 sudo ldconfig
 
 # setup MySQL
-MYSQL_PWD=${MYSQL_PASSWORD} mysql -u root -e "CREATE USER '${MYSQL_USER}'@'localhost' IDENTIFIED BY '${MYSQL_PASSWORD}'"
-MYSQL_PWD=${MYSQL_PASSWORD} mysql -u root -e "GRANT ALL PRIVILEGES ON *.* to '${MYSQL_USER}'@'localhost'"
+mysql_pwd=${mysql_password} mysql -u root -e "CREATE USER '${mysql_user}'@'localhost' IDENTIFIED BY '${mysql_password}'"
+mysql_pwd=${mysql_password} mysql -u root -e "GRANT ALL PRIVILEGES ON *.* to '${mysql_user}'@'localhost'"
 cat >${MYSQL_CONF} <<EOF
 [client]
-user = ${MYSQL_USER}
-password = ${MYSQL_PASSWORD}
+user = ${mysql_user}
+password = ${mysql_password}
 host = localhost
 EOF
 
@@ -120,6 +120,6 @@ mysql --defaults-extra-file=${MYSQL_CONF} \
 
 date
 echo "================= script finished ================="
-} >> ${SETUP_LOG_FILE} 2>&1
+} >> ${setup_log_file} 2>&1
 
-${S3_CP_CMD} ${SETUP_LOG_FILE} s3://${S3_BUCKET_PUBLIC}/
+${S3_CP_CMD} ${setup_log_file} s3://${S3_BUCKET_PUBLIC}/

@@ -14,53 +14,53 @@ fi
 echo "================= starting build-semmeddb.sh ================="
 date
 
-CONFIG_DIR=`dirname "$0"`
-source ${CONFIG_DIR}/master-config.shinc
+config_dir=`dirname "$0"`
+source ${config_dir}/master-config.shinc
 
-SEMMED_OUTPUT_FILE=${1:-"${BUILD_DIR}/kg2-semmeddb-tuplelist.json"}
+semmed_output_file=${1:-"${BUILD_DIR}/kg2-semmeddb-tuplelist.json"}
 
-## supply a default value for the BUILD_FLAG string
-BUILD_FLAG=${2:-""}
+## supply a default value for the build_flag string
+build_flag=${2:-""}
 
-SEMMED_VER=VER31
-SEMMED_DATE=06302018
-SEMMED_DIR=${BUILD_DIR}/semmeddb
-SEMMED_OUTPUT_DIR=`dirname "${SEMMED_OUTPUT_FILE}"`
-SEMMED_SQL_FILE=semmed${SEMMED_VER}_R_WHOLEDB_${SEMMED_DATE}.sql
-MYSQL_DBNAME=semmeddb
+semmed_ver=VER31
+semmed_date=06302018
+semmed_dir=${BUILD_DIR}/semmeddb
+semmed_output_dir=`dirname "${semmed_output_file}"`
+semmed_sql_file=semmed${semmed_ver}_R_WHOLEDB_${semmed_date}.sql
+mysql_dbname=semmeddb
 
-rm -r -f ${SEMMED_DIR}
-mkdir -p ${SEMMED_DIR}
-mkdir -p ${SEMMED_OUTPUT_DIR}
+rm -r -f ${semmed_dir}
+mkdir -p ${semmed_dir}
+mkdir -p ${semmed_output_dir}
 
 ## estimate amount of system ram, in GB
-MEM_GB=`${CODE_DIR}/get-system-memory-gb.sh`
+mem_gb=`${CODE_DIR}/get-system-memory-gb.sh`
 
-aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/${SEMMED_SQL_FILE}.gz ${SEMMED_DIR}/
+aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/${semmed_sql_file}.gz ${semmed_dir}/
 
 ## if a "semmeddb" database already exists, delete it
     mysql --defaults-extra-file=${MYSQL_CONF} \
-          -e "DROP DATABASE IF EXISTS ${MYSQL_DBNAME}"
+          -e "DROP DATABASE IF EXISTS ${mysql_dbname}"
     
 ## create the "semmeddb" database
     mysql --defaults-extra-file=${MYSQL_CONF} \
-          -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DBNAME} CHARACTER SET utf8 COLLATE utf8_unicode_ci"
+          -e "CREATE DATABASE IF NOT EXISTS ${mysql_dbname} CHARACTER SET utf8 COLLATE utf8_unicode_ci"
 	
-zcat ${SEMMED_DIR}/${SEMMED_SQL_FILE}.gz | mysql --defaults-extra-file=${MYSQL_CONF} --database=${MYSQL_DBNAME}
+zcat ${semmed_dir}/${semmed_sql_file}.gz | mysql --defaults-extra-file=${MYSQL_CONF} --database=${mysql_dbname}
 
-if [[ "${BUILD_FLAG}" == "test" ]]
+if [[ "${build_flag}" == "test" ]]
 then
-   TEST_ARG=" --test"
+   test_arg=" --test"
 else
-   TEST_ARG=""
+   test_arg=""
 fi
 
 
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/semmeddb_mysql_to_tuple_list_json.py \
-           ${TEST_ARG} \
+           ${test_arg} \
 	   ${MYSQL_CONF} \
-	   ${MYSQL_DBNAME} \
-	   ${SEMMED_OUTPUT_FILE}
+	   ${mysql_dbname} \
+	   ${semmed_output_file}
 
 date
 echo "================= script finished ================="
