@@ -3,7 +3,7 @@
    Usage: repodb_csv_to_kg_json.py [--test] <inputFile.tsv> <outputFile.json>
 '''
 
-__author__ = ''
+__author__ = 'Finn Womack'
 __copyright__ = 'Oregon State University'
 __credits__ = []
 __license__ = 'MIT'
@@ -14,14 +14,15 @@ __status__ = 'Prototype'
 
 import argparse
 import kg2_util
+import os
 import pandas as pd
 
 DRUGBANK_CURIE = kg2_util.CURIE_PREFIX_DRUGBANK
 UMLS_CURIE = kg2_util.CURIE_PREFIX_CUI
-CLINICALTRIALS_IRI = "https://clinicaltrials.gov/ct2/show/"
 REPODB_IRI = kg2_util.BASE_URL_REPODB
 REPODB_CURIE = kg2_util.CURIE_PREFIX_REPODB
-NCT_CUTRIE = kg2_util.CURIE_PREFIX_CLINICALTRIALS
+NCT_CURIE = kg2_util.CURIE_PREFIX_CLINICALTRIALS
+CLINICALTRIALS_IRI = kg2_util.BASE_URL_IDENTIFIERS_ORG + "clinicaltrials:"
 
 
 def get_args():
@@ -33,7 +34,13 @@ def get_args():
 
 
 def make_kg2_graph(input_file_name: str, test_mode: bool = False):
-    nodes = []
+    update_date = os.path.getmtime(input_file_name)
+    nodes = [kg2_util.make_node(id=REPODB_CURIE + ':',
+                                iri=REPODB_IRI,
+                                name='repoDB drug repositioning database',
+                                category_label=kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                                update_date=update_date,
+                                ontology_curie_id=REPODB_IRI)]
     edges = []
     df = pd.read_csv(input_file_name)
     for idx in range(len(df)):
@@ -54,8 +61,8 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                                        provided_by=REPODB_CURIE + ':',
                                        update_date=None)
         if not df['NCT'].isna()[idx]:
-            edge_dict['publications'].append(NCT_CUTRIE + df['NCT'][idx])
-            edge_dict['publications info'][NCT_CUTRIE + df['NCT'][idx]] = CLINICALTRIALS_IRI + df['NCT'][idx]
+            edge_dict['publications'].append(NCT_CURIE + df['NCT'][idx])
+            edge_dict['publications info'][NCT_CURIE + df['NCT'][idx]] = CLINICALTRIALS_IRI + df['NCT'][idx]
         edges.append(edge_dict)
     return {'nodes': nodes,
             'edges': edges}
