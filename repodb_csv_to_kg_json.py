@@ -40,7 +40,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                                 name='repoDB drug repositioning database',
                                 category_label=kg2_util.BIOLINK_CATEGORY_DATA_FILE,
                                 update_date=update_date,
-                                ontology_curie_id=REPODB_IRI)]
+                                provided_by=REPODB_CURIE + ':')]
     edges = []
     df = pd.read_csv(input_file_name)
     for idx in range(len(df)):
