@@ -48,7 +48,7 @@ date
 ## supply a default value for the build_flag string
 
 semmed_tuplelist_file=${BUILD_DIR}/semmeddb/kg2-semmeddb${test_suffix}-tuplelist.json
-semmed_output_file=${BUILD_DIR}/kg2-semmeddb${test_suffix}bash change variable to lowercase-edges.json
+semmed_output_file=${BUILD_DIR}/kg2-semmeddb${test_suffix}-edges.json
 
 uniprotkb_dat_file=${BUILD_DIR}/uniprotkb/uniprot_sprot.dat
 uniprotkb_output_file=${BUILD_DIR}/kg2-uniprotkb${test_suffix}.json
