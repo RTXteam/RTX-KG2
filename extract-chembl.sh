@@ -9,36 +9,36 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     exit 2
 fi
 
-MYSQL_DBNAME=${1:-"chembl"}
+mysql_dbname=${1:-"chembl"}
 
 echo "================= starting build-chembl.sh ================="
 date
 
-CONFIG_DIR=`dirname "$0"`
-source ${CONFIG_DIR}/master-config.shinc
+config_dir=`dirname "$0"`
+source ${config_dir}/master-config.shinc
 
-CHEMBL_DIR=${BUILD_DIR}/chembl
-CHEMBL_VERSION=25
-CHEMBL_DB_TARBALL=chembl_${CHEMBL_VERSION}_mysql.tar.gz
-CHEMBL_SQL_FILE=${CHEMBL_DIR}/chembl_${CHEMBL_VERSION}/chembl_${CHEMBL_VERSION}_mysql/chembl_${CHEMBL_VERSION}_mysql.dmp
+chembl_dir=${BUILD_DIR}/chembl
+chembl_version=25
+chembl_db_tarball=chembl_${chembl_version}_mysql.tar.gz
+chembl_sql_file=${chembl_dir}/chembl_${chembl_version}/chembl_${chembl_version}_mysql/chembl_${chembl_version}_mysql.dmp
 
-rm -r -f ${CHEMBL_DIR}
-mkdir -p ${CHEMBL_DIR}
+rm -r -f ${chembl_dir}
+mkdir -p ${chembl_dir}
 
-${CURL_GET} ftp://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/${CHEMBL_DB_TARBALL} > ${CHEMBL_DIR}/${CHEMBL_DB_TARBALL}
+${CURL_GET} ftp://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/${chembl_db_tarball} > ${chembl_dir}/${chembl_db_tarball}
 
-tar xzf ${CHEMBL_DIR}/${CHEMBL_DB_TARBALL} -C ${CHEMBL_DIR}
-rm -f ${CHEMBL_DIR}/${CHEMBL_DB_TARBALL}
-gzip ${CHEMBL_SQL_FILE}
+tar xzf ${chembl_dir}/${chembl_db_tarball} -C ${chembl_dir}
+rm -f ${chembl_dir}/${chembl_db_tarball}
+gzip ${chembl_sql_file}
 
 ## if a "chembl" database already exists, delete it
 mysql --defaults-extra-file=${MYSQL_CONF} \
-      -e "DROP DATABASE IF EXISTS ${MYSQL_DBNAME}"
+      -e "DROP DATABASE IF EXISTS ${mysql_dbname}"
 
 mysql --defaults-extra-file=${MYSQL_CONF} \
-      -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DBNAME} DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;"
+      -e "CREATE DATABASE IF NOT EXISTS ${mysql_dbname} DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;"
 
-zcat ${CHEMBL_SQL_FILE}.gz | mysql --defaults-extra-file=${MYSQL_CONF} --database=${MYSQL_DBNAME}
+zcat ${chembl_sql_file}.gz | mysql --defaults-extra-file=${MYSQL_CONF} --database=${mysql_dbname}
 
 date
 echo "================= script finished ================="

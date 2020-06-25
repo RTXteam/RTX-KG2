@@ -19,280 +19,280 @@ fi
 #   and all KG JSON files generated will have the string "-test" appended before their JSON suffixes.
 
 ## load the master config file
-CONFIG_DIR=`dirname "$0"`
-source ${CONFIG_DIR}/master-config.shinc
+config_dir=`dirname "$0"`
+source ${config_dir}/master-config.shinc
 
-BUILD_FLAG=${1:-""}
-echo "${BUILD_FLAG}"
+build_flag=${1:-""}
+echo "${build_flag}"
 
 ## set the path to include ${BUILD_DIR}
 export PATH=$PATH:${BUILD_DIR}
 
-if [ "${BUILD_FLAG}" == 'test' ]
+if [ "${build_flag}" == 'test' ]
 then
     echo "********** TEST MODE **********"
-    TEST_SUFFIX='-test'
-    TEST_ARG='--test'
+    test_suffix='-test'
+    test_arg='--test'
 else
-    TEST_SUFFIX=''
-    TEST_ARG=''
+    test_suffix=''
+    test_arg=''
 fi
 
-BUILD_KG2_LOG_FILE=${BUILD_DIR}/build-kg2${TEST_SUFFIX}.log
+build_kg2_log_file=${BUILD_DIR}/build-kg2${test_suffix}.log
 
 {
 
 echo "================= starting build-kg2.sh ================="
 date
     
-## supply a default value for the BUILD_FLAG string
+## supply a default value for the build_flag string
 
-SEMMED_TUPLELIST_FILE=${BUILD_DIR}/semmeddb/kg2-semmeddb${TEST_SUFFIX}-tuplelist.json
-SEMMED_OUTPUT_FILE=${BUILD_DIR}/kg2-semmeddb${TEST_SUFFIX}-edges.json
+semmed_tuplelist_file=${BUILD_DIR}/semmeddb/kg2-semmeddb${test_suffix}-tuplelist.json
+semmed_output_file=${BUILD_DIR}/kg2-semmeddb${test_suffix}-edges.json
 
-UNIPROTKB_DAT_FILE=${BUILD_DIR}/uniprotkb/uniprot_sprot.dat
-UNIPROTKB_OUTPUT_FILE=${BUILD_DIR}/kg2-uniprotkb${TEST_SUFFIX}.json
+uniprotkb_dat_file=${BUILD_DIR}/uniprotkb/uniprot_sprot.dat
+uniprotkb_output_file=${BUILD_DIR}/kg2-uniprotkb${test_suffix}.json
 
-OUTPUT_FILE_BASE=kg2-owl${TEST_SUFFIX}.json
-OUTPUT_FILE_FULL=${BUILD_DIR}/${OUTPUT_FILE_BASE}
+output_file_base=kg2-owl${test_suffix}.json
+output_file_full=${BUILD_DIR}/${output_file_base}
 
-OUTPUT_FILE_ORPHAN_EDGES=${BUILD_DIR}/kg2-orphans${TEST_SUFFIX}-edges.json
+output_file_orphan_edges=${BUILD_DIR}/kg2-orphans${test_suffix}-edges.json
 
-FINAL_OUTPUT_FILE_BASE=kg2${TEST_SUFFIX}.json
-FINAL_OUTPUT_FILE_FULL=${BUILD_DIR}/${FINAL_OUTPUT_FILE_BASE}
+final_output_file_base=kg2${test_suffix}.json
+final_output_file_full=${BUILD_DIR}/${final_output_file_base}
 
-SIMPLIFIED_OUTPUT_FILE_BASE=kg2-simplified${TEST_SUFFIX}.json
-SIMPLIFIED_OUTPUT_FILE_FULL=${BUILD_DIR}/${SIMPLIFIED_OUTPUT_FILE_BASE}
+simplified_output_file_base=kg2-simplified${test_suffix}.json
+simplified_output_file_full=${BUILD_DIR}/${simplified_output_file_base}
 
-SIMPLIFIED_OUTPUT_NODES_FILE_BASE=kg2-simplified${TEST_SUFFIX}-nodes.json
-SIMPLIFIED_OUTPUT_NODES_FILE_FULL=${BUILD_DIR}/${SIMPLIFIED_OUTPUT_NODES_FILE_BASE}
+simplified_output_nodes_file_base=kg2-simplified${test_suffix}-nodes.json
+simplified_output_nodes_file_full=${BUILD_DIR}/${simplified_output_nodes_file_base}
 
-OUTPUT_NODES_FILE_BASE=kg2${TEST_SUFFIX}-nodes.json
-OUTPUT_NODES_FILE_FULL=${BUILD_DIR}/${OUTPUT_NODES_FILE_BASE}
+output_nodes_file_base=kg2${test_suffix}-nodes.json
+output_nodes_file_full=${BUILD_DIR}/${output_nodes_file_base}
 
-REPORT_FILE_BASE=kg2-report${TEST_SUFFIX}.json
-REPORT_FILE_FULL=${BUILD_DIR}/${REPORT_FILE_BASE}
+report_file_base=kg2-report${test_suffix}.json
+report_file_full=${BUILD_DIR}/${report_file_base}
 
-SIMPLIFIED_REPORT_FILE_BASE=kg2-simplified-report${TEST_SUFFIX}.json
-SIMPLIFIED_REPORT_FILE_FULL=${BUILD_DIR}/${SIMPLIFIED_REPORT_FILE_BASE}
+simplified_report_file_base=kg2-simplified-report${test_suffix}.json
+simplified_report_file_full=${BUILD_DIR}/${simplified_report_file_base}
 
-SLIM_OUTPUT_FILE_FULL=${BUILD_DIR}/kg2-slim${TEST_SUFFIX}.json
+slim_output_file_full=${BUILD_DIR}/kg2-slim${test_suffix}.json
 
-ENSEMBL_SOURCE_JSON_FILE=${BUILD_DIR}/ensembl/ensembl_genes_homo_sapiens.json
-ENSEMBL_OUTPUT_FILE=${BUILD_DIR}/kg2-ensembl${TEST_SUFFIX}.json
+ensembl_source_json_file=${BUILD_DIR}/ensembl/ensembl_genes_homo_sapiens.json
+ensembl_output_file=${BUILD_DIR}/kg2-ensembl${test_suffix}.json
 
-CHEMBL_OUTPUT_FILE=${BUILD_DIR}/kg2-chembl${TEST_SUFFIX}.json
+chemble_output_file=${BUILD_DIR}/kg2-chembl${test_suffix}.json
 
-OWL_LOAD_INVENTORY_FILE=${CODE_DIR}/owl-load-inventory${TEST_SUFFIX}.yaml
+owl_load_inventory_file=${CODE_DIR}/owl-load-inventory${test_suffix}.yaml
 
-CHEMBL_MYSQL_DBNAME=chembl
+chemble_mysql_dbname=chembl
 
-UNICHEM_OUTPUT_TSV_FILE=${BUILD_DIR}/unichem/chembl-to-curies.tsv
-UNICHEM_OUTPUT_FILE=${BUILD_DIR}/kg2-unichem${TEST_SUFFIX}.json
+unichem_output_tsv_file=${BUILD_DIR}/unichem/chembl-to-curies.tsv
+unichem_output_file=${BUILD_DIR}/kg2-unichem${test_suffix}.json
 
-NCBI_GENE_TSV_FILE=${BUILD_DIR}/ncbigene/Homo_sapiens_gene_info.tsv
-NCBI_GENE_OUTPUT_FILE=${BUILD_DIR}/kg2-ncbigene${TEST_SUFFIX}.json
+ncbi_tsv_gene_file=${BUILD_DIR}/ncbigene/Homo_sapiens_gene_info.tsv
+ncbi_gene_output_file=${BUILD_DIR}/kg2-ncbigene${test_suffix}.json
 
-DGIDB_DIR=${BUILD_DIR}/dgidb
-DGIDB_OUTPUT_FILE=${BUILD_DIR}/kg2-dgidb${TEST_SUFFIX}.json
+dgidb_dir=${BUILD_DIR}/dgidb
+dgidb_output_file=${BUILD_DIR}/kg2-dgidb${test_suffix}.json
 
-REPODB_DIR=${BUILD_DIR}/repodb
-REPODB_INPUT_FILE=${BUILD_DIR}/repodb/repodb.csv
-REPODB_OUTPUT_FILE=${BUILD_DIR}/kg2-repodb${TEST_SUFFIX}.json
+repodb_dir=${BUILD_DIR}/repodb
+repodb_input_file=${BUILD_DIR}/repodb/repodb.csv
+repodb_output_file=${BUILD_DIR}/kg2-repodb${test_suffix}.json
 
-KG1_OUTPUT_FILE=${BUILD_DIR}/kg2-rtx-kg1${TEST_SUFFIX}.json
-RTX_CONFIG_FILE=RTXConfiguration-config.json
+kg1_output_file=${BUILD_DIR}/kg2-rtx-kg1${test_suffix}.json
+rtx_config_file=RTXConfiguration-config.json
 
-KG2_TSV_DIR=${BUILD_DIR}/TSV
-KG2_TSV_TARBALL=${BUILD_DIR}/kg2-tsv${TEST_SUFFIX}.tar.gz
+kg2_tsv_dir=${BUILD_DIR}/TSV
+kg2_tsv_tarball=${BUILD_DIR}/kg2-tsv${test_suffix}.tar.gz
 
-PREDICATE_MAPPING_FILE=${CODE_DIR}/predicate-remap.yaml
+predicate_mapping_file=${CODE_DIR}/predicate-remap.yaml
 
 cd ${BUILD_DIR}
 
-MEM_GB=`${CODE_DIR}/get-system-memory-gb.sh`
+mem_gb=`${CODE_DIR}/get-system-memory-gb.sh`
 
-if [ "${BUILD_FLAG}" == 'all' ]
+if [ "${build_flag}" == 'all' ]
 then
 ## Build UMLS knowledge sources at TTL files:
     echo "running extract-umls.sh"
     bash -x ${CODE_DIR}/extract-umls.sh ${BUILD_DIR}
 ## Extract UniprotKB
     echo "running extract-uniprotkb.sh"
-    bash -x ${CODE_DIR}/extract-uniprotkb.sh ${UNIPROTKB_DAT_FILE}
+    bash -x ${CODE_DIR}/extract-uniprotkb.sh ${uniprotkb_dat_file}
 ## Extract SemMedDB to tuple-list JSON
     echo "running extract-semmeddb.sh"
-    bash -x ${CODE_DIR}/extract-semmeddb.sh ${SEMMED_TUPLELIST_FILE}
+    bash -x ${CODE_DIR}/extract-semmeddb.sh ${semmed_tuplelist_file}
 ## Extract Ensembl
     echo "running extract-ensembl.sh"
-    bash -x ${CODE_DIR}/extract-ensembl.sh ${ENSEMBL_SOURCE_JSON_FILE}
+    bash -x ${CODE_DIR}/extract-ensembl.sh ${ensembl_source_json_file}
 ## Extract ChEMBL
     echo "running extract-chembl.sh"
-    bash -x ${CODE_DIR}/extract-chembl.sh ${CHEMBL_MYSQL_DBNAME}
+    bash -x ${CODE_DIR}/extract-chembl.sh ${chemble_mysql_dbname}
 ## Extract UniChem chembl-to-chebi mappings
     echo "running extract-unichem.sh"
-    bash -x ${CODE_DIR}/extract-unichem.sh ${UNICHEM_OUTPUT_TSV_FILE}
+    bash -x ${CODE_DIR}/extract-unichem.sh ${unichem_output_tsv_file}
 ## Extract NCBI Gene
     echo "running extract-ncbigene.sh"
-    bash -x ${CODE_DIR}/extract-ncbigene.sh ${NCBI_GENE_TSV_FILE}
+    bash -x ${CODE_DIR}/extract-ncbigene.sh ${ncbi_tsv_gene_file}
 ## Extract DGIDB
     echo "running extract-dgidb.sh"
-    bash -x ${CODE_DIR}/extract-dgidb.sh ${DGIDB_DIR}
+    bash -x ${CODE_DIR}/extract-dgidb.sh ${dgidb_dir}
 ## Download REPODB
     echo "running download-repodb-csv.sh"
-    bash -x ${CODE_DIR}/download-repodb-csv.sh ${REPODB_DIR}
+    bash -x ${CODE_DIR}/download-repodb-csv.sh ${repodb_dir}
 fi
 
 echo "running uniprotkb_dat_to_json.py"
 
 ## extract JSON file for UniProtKB
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/uniprotkb_dat_to_json.py \
-           ${TEST_ARG} \
-	   ${UNIPROTKB_DAT_FILE} \
-	   ${UNIPROTKB_OUTPUT_FILE} 
+           ${test_arg} \
+	   ${uniprotkb_dat_file} \
+	   ${uniprotkb_output_file} 
 
 echo "running semmeddb_tuple_list_json_to_kg_json.py"
 
 ## Build SemMedDB KG2 edges file as JSON:
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/semmeddb_tuple_list_json_to_kg_json.py \
-           ${TEST_ARG} \
-           ${SEMMED_TUPLELIST_FILE} \
-           ${SEMMED_OUTPUT_FILE}
+           ${test_arg} \
+           ${semmed_tuplelist_file} \
+           ${semmed_output_file}
 
 echo "running ensembl_json_to_kg_json.py"
 
 ## Build Ensembl KG2 edges file as JSON:
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/ensembl_json_to_kg_json.py \
-           ${TEST_ARG} \
-           ${ENSEMBL_SOURCE_JSON_FILE} \
-           ${ENSEMBL_OUTPUT_FILE}
+           ${test_arg} \
+           ${ensembl_source_json_file} \
+           ${ensembl_output_file}
 
 echo "running chembl_mysql_to_kg_json.py"
 
 ## Build Chembl KG2 edges file as JSON:
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/chembl_mysql_to_kg_json.py \
-           ${TEST_ARG} \
+           ${test_arg} \
            ${MYSQL_CONF} \
-           ${CHEMBL_MYSQL_DBNAME} \
-           ${CHEMBL_OUTPUT_FILE}
+           ${chemble_mysql_dbname} \
+           ${chemble_output_file}
 
 echo "running build-multi-owl-kg.sh"
 
 ## Combine all the TTL files and OBO Foundry OWL files into KG and save as JSON:
 bash -x ${CODE_DIR}/build-multi-owl-kg.sh \
-           ${OUTPUT_FILE_FULL} ${BUILD_FLAG}
+           ${output_file_full} ${build_flag}
 
 echo "running unichem_tsv_to_edges_json.py"
 
 ## Make JSON file for UniChem
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/unichem_tsv_to_edges_json.py \
-           ${TEST_ARG} \
-           ${UNICHEM_OUTPUT_TSV_FILE} \
-           ${UNICHEM_OUTPUT_FILE}
+           ${test_arg} \
+           ${unichem_output_tsv_file} \
+           ${unichem_output_file}
 
 echo "running ncbigene_tsv_to_kg_json.py"
 
 ## Make JSON file for NCBI Gene
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/ncbigene_tsv_to_kg_json.py \
-           ${TEST_ARG} \
-           ${NCBI_GENE_TSV_FILE} \
-           ${NCBI_GENE_OUTPUT_FILE}
+           ${test_arg} \
+           ${ncbi_tsv_gene_file} \
+           ${ncbi_gene_output_file}
 
 echo "running dgidb_tsv_to_kg_json.py"
 
 ## Make JSON file for DGIDB
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/dgidb_tsv_to_kg_json.py \
-           ${TEST_ARG} \
-           ${DGIDB_DIR}/interactions.tsv \
-           ${DGIDB_OUTPUT_FILE} 2> ${DGIDB_DIR}/dgidb-tsv-to-kg-json.log
+           ${test_arg} \
+           ${dgidb_dir}/interactions.tsv \
+           ${dgidb_output_file} 2> ${dgidb_dir}/dgidb-tsv-to-kg-json.log
 
 echo "running repodb_csv_to_kg_json.py"
 
 ## Make JSON file for REPODB
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/repodb_csv_to_kg_json.py \
-           ${TEST_ARG} \
-           ${REPODB_INPUT_FILE} \
-           ${REPODB_OUTPUT_FILE} 2> ${REPODB_DIR}/repodb-csv-to-kg-json.log
+           ${test_arg} \
+           ${repodb_input_file} \
+           ${repodb_output_file} 2> ${repodb_dir}/repodb-csv-to-kg-json.log
 
 echo "copying RTX Configuration JSON file from S3"
 
-${S3_CP_CMD} s3://${S3_BUCKET}/${RTX_CONFIG_FILE} ${BUILD_DIR}/${RTX_CONFIG_FILE}
+${S3_CP_CMD} s3://${S3_BUCKET}/${rtx_config_file} ${BUILD_DIR}/${rtx_config_file}
 
 echo "extracting KG JSON representation of RTX KG1, from the Neo4j endpoint"
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/rtx_kg1_neo4j_to_kg_json.py \
-           ${TEST_ARG} \
-           --configFile ${BUILD_DIR}/${RTX_CONFIG_FILE} \
-           ${KG1_OUTPUT_FILE}
+           ${test_arg} \
+           --configFile ${BUILD_DIR}/${rtx_config_file} \
+           ${kg1_output_file}
 
 echo "running merge_graphs.py"
 
 ## Merge all the KG JSON files
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/merge_graphs.py \
-           ${TEST_ARG} \
-           --kgFiles ${OUTPUT_FILE_FULL} \
-                     ${SEMMED_OUTPUT_FILE} \
-                     ${UNIPROTKB_OUTPUT_FILE} \
-                     ${ENSEMBL_OUTPUT_FILE} \
-                     ${UNICHEM_OUTPUT_FILE} \
-                     ${CHEMBL_OUTPUT_FILE} \
-                     ${NCBI_GENE_OUTPUT_FILE} \
-                     ${DGIDB_OUTPUT_FILE} \
-                     ${REPODB_OUTPUT_FILE} \
-                     ${KG1_OUTPUT_FILE} \
-           --kgFileOrphanEdges ${OUTPUT_FILE_ORPHAN_EDGES} \
-           ${FINAL_OUTPUT_FILE_FULL}
+           ${test_arg} \
+           --kgFiles ${output_file_full} \
+                     ${semmed_output_file} \
+                     ${uniprotkb_output_file} \
+                     ${ensembl_output_file} \
+                     ${unichem_output_file} \
+                     ${chemble_output_file} \
+                     ${ncbi_gene_output_file} \
+                     ${dgidb_output_file} \
+                     ${repodb_output_file} \
+                     ${kg1_output_file} \
+           --kgFileOrphanEdges ${output_file_orphan_edges} \
+           ${final_output_file_full}
 
 echo "get_nodes_json_from_kg_json.py"
 
 ## Get a JSON file with just the nodes in it
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/get_nodes_json_from_kg_json.py \
-           ${TEST_ARG} \
-           ${FINAL_OUTPUT_FILE_FULL} \
-           ${OUTPUT_NODES_FILE_FULL}
+           ${test_arg} \
+           ${final_output_file_full} \
+           ${output_nodes_file_full}
 
 echo "report_stats_on_json_kg.py (full KG)"
 
 ## Generate a JSON report of statistics on the KG
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/report_stats_on_json_kg.py \
-           ${FINAL_OUTPUT_FILE_FULL} \
-           ${REPORT_FILE_FULL}
+           ${final_output_file_full} \
+           ${report_file_full}
 
 echo "filter the JSON KG and remap predicates"
 
 ## Filter the JSON KG and remap predicates:
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/filter_kg_and_remap_predicates.py \
-           ${TEST_ARG} \
+           ${test_arg} \
            --dropNegated \
            --dropSelfEdgesExcept interacts_with,positively_regulates,inhibits,increase \
-           ${PREDICATE_MAPPING_FILE} \
+           ${predicate_mapping_file} \
            ${CURIES_TO_URLS_FILE} \
-           ${FINAL_OUTPUT_FILE_FULL} \
-           ${SIMPLIFIED_OUTPUT_FILE_FULL}
+           ${final_output_file_full} \
+           ${simplified_output_file_full}
 
 echo "get_nodes_json_from_kg_json.py (for simplified KG)"
 
 ## Get a JSON file with just the nodes in it
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/get_nodes_json_from_kg_json.py \
-           ${TEST_ARG} \
-           ${SIMPLIFIED_OUTPUT_FILE_FULL} \
-           ${SIMPLIFIED_OUTPUT_NODES_FILE_FULL}
+           ${test_arg} \
+           ${simplified_output_file_full} \
+           ${simplified_output_nodes_file_full}
 
 echo "generating slimmed-down kg2 (issue #597)"
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/slim_kg2.py \
-           ${TEST_ARG} \
-           ${SIMPLIFIED_OUTPUT_FILE_FULL} \
-           ${SLIM_OUTPUT_FILE_FULL} 
+           ${test_arg} \
+           ${simplified_output_file_full} \
+           ${slim_output_file_full} 
 
 echo "report_stats_on_json_kg.py (simplified KG)"
 
@@ -300,45 +300,45 @@ echo "report_stats_on_json_kg.py (simplified KG)"
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/report_stats_on_json_kg.py \
            --useSimplifiedPredicates \
-           ${SIMPLIFIED_OUTPUT_FILE_FULL} \
-           ${SIMPLIFIED_REPORT_FILE_FULL}
+           ${simplified_output_file_full} \
+           ${simplified_report_file_full}
 
-gzip -f ${FINAL_OUTPUT_FILE_FULL}
+gzip -f ${final_output_file_full}
 
 ## build the TSV files
-rm -r -f ${KG2_TSV_DIR}
-mkdir -p ${KG2_TSV_DIR}
+rm -r -f ${kg2_tsv_dir}
+mkdir -p ${kg2_tsv_dir}
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/kg_json_to_tsv.py \
-           ${SIMPLIFIED_OUTPUT_FILE_FULL} \
-           ${KG2_TSV_DIR}
+           ${simplified_output_file_full} \
+           ${kg2_tsv_dir}
 
-tar -C ${KG2_TSV_DIR} -czvf ${KG2_TSV_TARBALL} nodes.tsv nodes_header.tsv edges.tsv edges_header.tsv
-${S3_CP_CMD} ${KG2_TSV_TARBALL} s3://${S3_BUCKET}/
+tar -C ${kg2_tsv_dir} -czvf ${kg2_tsv_tarball} nodes.tsv nodes_header.tsv edges.tsv edges_header.tsv
+${S3_CP_CMD} ${kg2_tsv_tarball} s3://${S3_BUCKET}/
 
 ## Compress the huge files
-gzip -f ${SIMPLIFIED_OUTPUT_FILE_FULL}
-gzip -f ${SIMPLIFIED_OUTPUT_NODES_FILE_FULL}
-gzip -f ${OUTPUT_NODES_FILE_FULL}
-gzip -f ${OUTPUT_FILE_ORPHAN_EDGES}
-gzip -f ${SLIM_OUTPUT_FILE_FULL}
+gzip -f ${simplified_output_file_full}
+gzip -f ${simplified_output_nodes_file_full}
+gzip -f ${output_nodes_file_full}
+gzip -f ${output_file_orphan_edges}
+gzip -f ${slim_output_file_full}
 
 ## copy the KG and various build artifacts to the public S3 bucket
-${S3_CP_CMD} ${FINAL_OUTPUT_FILE_FULL}.gz s3://${S3_BUCKET}/
-${S3_CP_CMD} ${SIMPLIFIED_OUTPUT_FILE_FULL}.gz s3://${S3_BUCKET}/
-${S3_CP_CMD} ${OUTPUT_NODES_FILE_FULL}.gz s3://${S3_BUCKET}/
-${S3_CP_CMD} ${REPORT_FILE_FULL} s3://${S3_BUCKET_PUBLIC}/
-${S3_CP_CMD} ${SIMPLIFIED_REPORT_FILE_FULL} s3://${S3_BUCKET_PUBLIC}/
-${S3_CP_CMD} ${OUTPUT_FILE_ORPHAN_EDGES}.gz s3://${S3_BUCKET_PUBLIC}/
-${S3_CP_CMD} ${SLIM_OUTPUT_FILE_FULL}.gz s3://${S3_BUCKET}/
-${S3_CP_CMD} ${SIMPLIFIED_OUTPUT_NODES_FILE_FULL}.gz s3://${S3_BUCKET}/
+${S3_CP_CMD} ${final_output_file_full}.gz s3://${S3_BUCKET}/
+${S3_CP_CMD} ${simplified_output_file_full}.gz s3://${S3_BUCKET}/
+${S3_CP_CMD} ${output_nodes_file_full}.gz s3://${S3_BUCKET}/
+${S3_CP_CMD} ${report_file_full} s3://${S3_BUCKET_PUBLIC}/
+${S3_CP_CMD} ${simplified_report_file_full} s3://${S3_BUCKET_PUBLIC}/
+${S3_CP_CMD} ${output_file_orphan_edges}.gz s3://${S3_BUCKET_PUBLIC}/
+${S3_CP_CMD} ${slim_output_file_full}.gz s3://${S3_BUCKET}/
+${S3_CP_CMD} ${simplified_output_nodes_file_full}.gz s3://${S3_BUCKET}/
 
 ## copy the log files to the public S3 bucket
-BUILD_MULTI_OWL_STDERR_FILE="${BUILD_DIR}/build-${OUTPUT_FILE_BASE%.*}"-stderr.log
+build_multi_owl_stderr_file="${BUILD_DIR}/build-${output_file_base%.*}"-stderr.log
 
-${S3_CP_CMD} ${BUILD_MULTI_OWL_STDERR_FILE} s3://${S3_BUCKET_PUBLIC}/
+${S3_CP_CMD} ${build_multi_owl_stderr_file} s3://${S3_BUCKET_PUBLIC}/
 
 ## copy the config files to the public S3 bucket
-${S3_CP_CMD} ${OWL_LOAD_INVENTORY_FILE} s3://${S3_BUCKET_PUBLIC}/
+${S3_CP_CMD} ${owl_load_inventory_file} s3://${S3_BUCKET_PUBLIC}/
 
 # copy the index.html file to the public S3 bucket
 ${S3_CP_CMD} ${CODE_DIR}/s3-index.html s3://${S3_BUCKET_PUBLIC}/index.html
@@ -347,8 +347,8 @@ ${S3_CP_CMD} ${CODE_DIR}/s3-index.html s3://${S3_BUCKET_PUBLIC}/index.html
 date
 echo "================= script finished ================="
 
-} >${BUILD_KG2_LOG_FILE} 2>&1
+} >${build_kg2_log_file} 2>&1
 
 # copy the KG2 build log file to the S3 bucket
-${S3_CP_CMD} ${BUILD_KG2_LOG_FILE} s3://${S3_BUCKET_PUBLIC}/
+${S3_CP_CMD} ${build_kg2_log_file} s3://${S3_BUCKET_PUBLIC}/
 

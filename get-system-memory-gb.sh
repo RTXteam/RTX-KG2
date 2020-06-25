@@ -10,8 +10,8 @@ if [[ $# != 0 || "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
 fi
 
 ## estimate the amount of system ram, in GB (Linux-only script)
-MEM_BYTES=`cat /proc/meminfo | grep MemTotal | cut -f2 -d\: | cut -f1 -dk | sed 's/ //g'`
-DIVISOR=1048576
-MEM_GB=$((MEM_BYTES/DIVISOR))
-echo ${MEM_GB}
+mem_bytes=`cat /proc/meminfo | grep MemTotal | cut -f2 -d\: | cut -f1 -dk | sed 's/ //g'`
+divisor=1048576
+mem_gb=$((mem_bytes/divisor))
+echo ${mem_gb}
 
