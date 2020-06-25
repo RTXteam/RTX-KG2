@@ -29,7 +29,7 @@ ${CURL_GET} ftp://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/${chembl_db
 
 tar xzf ${chembl_dir}/${chembl_db_tarball} -C ${chembl_dir}
 rm -f ${chembl_dir}/${chembl_db_tarball}
-gzip {CHEMBL_SQL_FILE}
+gzip {chembl_sql_file}
 
 ## if a "chembl" database already exists, delete it
 mysql --defaults-extra-file=${MYSQL_CONF} \
