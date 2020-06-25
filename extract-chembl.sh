@@ -22,14 +22,14 @@ chembl_version=25
 chembl_db_tarball=chembl_${chembl_version}_mysql.tar.gz
 chembl_sql_file=${chemble_dir}/chembl_${chembl_version}/chembl_${chembl_version}_mysql/chembl_${chembl_version}_mysql.dmp
 
-rm -r-f ${chemble_dir}
-mkdir -p ${chembe_dir}
+rm -r -f ${chembl_dir}
+mkdir -p ${chembl_dir}
 
-${CUR_GET} ftp://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/${chembl_db_tarball} > ${chemble_dir}/${chembl_db_tarball}
+${CURL_GET} ftp://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/${chembl_db_tarball} > ${chembl_dir}/${chembl_db_tarball}
 
-tar xf ${chemble_dir}/${chembl_db_tarball} -C ${chemble_dir}
-rm -f ${chembledir}/${chembl_db_tarball}
-gzip {CHEMBLSQL_FILE}
+tar xzf ${chembl_dir}/${chembl_db_tarball} -C ${chembl_dir}
+rm -f ${chembl_dir}/${chembl_db_tarball}
+gzip {CHEMBL_SQL_FILE}
 
 ## if a "chembl" database already exists, delete it
 mysql --defaults-extra-file=${MYSQL_CONF} \
