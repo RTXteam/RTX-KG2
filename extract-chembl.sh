@@ -20,7 +20,7 @@ source ${config_dir}/master-config.shinc
 chembl_dir=${BUILD_DIR}/chembl
 chembl_version=25
 chembl_db_tarball=chembl_${chembl_version}_mysql.tar.gz
-chembl_sql_file=${chemble_dir}/chembl_${chembl_version}/chembl_${chembl_version}_mysql/chembl_${chembl_version}_mysql.dmp
+chembl_sql_file=${chembl_dir}/chembl_${chembl_version}/chembl_${chembl_version}_mysql/chembl_${chembl_version}_mysql.dmp
 
 rm -r -f ${chembl_dir}
 mkdir -p ${chembl_dir}
@@ -29,7 +29,7 @@ ${CURL_GET} ftp://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/${chembl_db
 
 tar xzf ${chembl_dir}/${chembl_db_tarball} -C ${chembl_dir}
 rm -f ${chembl_dir}/${chembl_db_tarball}
-gzip {chembl_sql_file}
+gzip ${chembl_sql_file}
 
 ## if a "chembl" database already exists, delete it
 mysql --defaults-extra-file=${MYSQL_CONF} \
