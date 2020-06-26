@@ -344,7 +344,7 @@ use_for_bidirectional_mapping:
   -
     UNICHEM_source: "https://www.ebi.ac.uk/unichem/"
   -
-    UNIPROTKB: "https://identifiers.org/uniprot:"
+    UniProtKB: "https://identifiers.org/uniprot:"
   -
     UO: http://purl.obolibrary.org/obo/UO_
   -
