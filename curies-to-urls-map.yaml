@@ -230,6 +230,8 @@ use_for_bidirectional_mapping:
   -
     OBO: http://purl.obolibrary.org/obo/
   -
+    oboFormat: http://purl.org/obo/owl/oboFormat#oboFormat_
+  -
     OBOREL: "http://purl.org/obo/owl/OBO_REL#"
   -
     OCRe: http://purl.org/net/OCRe/

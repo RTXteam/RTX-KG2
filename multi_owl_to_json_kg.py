@@ -47,10 +47,11 @@ REGEX_PUBLICATIONS = re.compile(r'((?:(?:PMID)|(?:ISBN)):\d+)')
 REGEX_XREF_END_DESCRIP = re.compile(r'.*\[([^\]]+)\]$')
 
 CUI_BASE_IRI = kg2_util.BASE_URL_IDENTIFIERS_ORG + 'umls:'
-IRI_OBO_XREF = 'http://purl.org/obo/owl/oboFormat#oboFormat_xref'
-CURIE_OBO_XREF = 'oboFormat:xref'
-OWL_BASE_CLASS = 'owl:Thing'
-OWL_NOTHING = 'owl:Nothing'
+IRI_OBO_XREF = kg2_util.IRI_OBO_FORMAT_XREF
+CURIE_OBO_XREF = kg2_util.CURIE_ID_OBO_FORMAT_XREF
+OWL_BASE_CLASS = kg2_util.CURIE_ID_OWL_THING
+OWL_NOTHING = kg2_util.CURIE_ID_OWL_NOTHING
+
 MYSTERIOUS_BASE_NODE_ID_TO_FILTER = '_:genid'
 ENSEMBL_LETTER_TO_CATEGORY = {'P': 'protein',
                               'G': 'gene',
@@ -117,7 +118,7 @@ def make_ontology_from_local_file(file_name: str):
         size = os.path.getsize(json_file)
         kg2_util.log_message(message="Reading ontology JSON file: " + json_file + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
                              ontology_name=None)
-
+        assert os.path.exists(json_file)
         ont_return = ontobio.ontol_factory.OntologyFactory().create(json_file, ignore_cache=True)
     else:
         size = os.path.getsize(file_name_with_pickle_ext)

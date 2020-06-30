@@ -99,7 +99,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                 edges.append(kg2_util.make_edge(ensembl_gene_curie_id,
                                                 hgnc_curie,
                                                 kg2_util.IRI_OWL_SAME_AS,
-                                                kg2_util.CURIE_OWL_SAME_AS,
+                                                kg2_util.CURIE_ID_OWL_SAME_AS,
                                                 'same_as',
                                                 ENSEMBL_KB_CURIE_ID,
                                                 update_date))
