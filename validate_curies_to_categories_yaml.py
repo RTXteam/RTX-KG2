@@ -18,7 +18,7 @@ import kg2_util
 import ontobio
 import os.path
 
-BIOLINK_MODEL_OWL = 'biolink-model.owl'
+BIOLINK_MODEL_OWL = kg2_util.BIOLINK_MODEL_OWL
 
 curies_to_categories_data = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string('curies-to-categories.yaml'))
 curies_to_url_map_data = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string('curies-to-urls-map.yaml'))

@@ -111,6 +111,8 @@ IRI_OWL_SAME_AS = BASE_URL_OWL + 'sameAs'
 OBO_REL_CURIE_RE = re.compile(r'OBO:([^#]+)#([^#]+)')
 OBO_ONT_CURIE_RE = re.compile(r'OBO:([^\.]+)\.owl')
 
+BIOLINK_MODEL_OWL = 'biolink-model.owl'
+
 
 class MLStripper(html.parser.HTMLParser):
     def __init__(self):
