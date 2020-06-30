@@ -90,8 +90,11 @@ def delete_ontobio_cache_json(file_name: str):
                 raise e
 
 
-# this function will load the ontology object from a pickle file (if it exists) or
-# it will create the ontology object by parsing the OWL-XML ontology file
+# this function will load the ontology object from a pickle file (if it exists)
+# or it will create the ontology object by parsing the OWL-XML ontology file
+# NOTE: it seems that ontobio can't directly read a TTL file, so we convert all
+# input files (whether OWL or TTL) to JSON and then load the JSON files using
+# ontobio, for "simplicity"
 def make_ontology_from_local_file(file_name: str):
     file_name_without_ext = os.path.splitext(file_name)[0]
     file_name_with_pickle_ext = file_name_without_ext + ".pickle"
@@ -103,7 +106,7 @@ def make_ontology_from_local_file(file_name: str):
             kg2_util.log_message(message="Reading ontology file: " + file_name + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
                                  ontology_name=None)
             cp = subprocess.run(['owltools', file_name, '-o', '-f', 'json', temp_file_name])
-            # robot commented out because it is giving a NullPointerException on umls_semantictypes.owl
+            # robot commented out because it is giving a NullPointerException on umls-semantictypes.owl
             # Once robot no longer gives a NullPointerException, we can use it like this:
             #        cp = subprocess.run(['robot', 'convert', '--input', file_name, '--output', temp_file_name])
             if cp.stdout is not None:
