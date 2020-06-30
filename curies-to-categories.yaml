@@ -28,7 +28,7 @@ prefix-mappings:
     SYMP: phenotypic feature
     UBERON: anatomical entity
     UBPROP: attribute
-    UNIPROTKB: protein
+    UniProtKB: protein
 term-mappings:
     rdfs:isDefinedBy: relationship type
     OIO:inSubset: relationship type
