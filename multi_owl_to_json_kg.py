@@ -92,11 +92,12 @@ def delete_ontobio_cache_json(file_name: str):
 
 # This function will load the ontology object from a pickle file (if it exists)
 # or it will create the ontology object by parsing the OWL-XML ontology file
-# NOTE: it seems that ontobio can't directly read a TTL file, so we convert all
-# input files (whether OWL or TTL) to JSON and then load the JSON files using
-# ontobio, for "simplicity". A second reason why we load using JSON is because
-# when it loads an OWL file, ontobio does some internal caching that cannot be
-# opted out of; it does not do this caching if you load an ontology in JSON format.
+# NOTE: it seems that ontobio can't directly read a TTL file (at least, it is
+# not working for me), so we convert all input files (whether OWL or TTL) to
+# JSON and then load the JSON files using ontobio, for "simplicity". A second
+# reason why we load using JSON is because when it loads an OWL file, ontobio
+# does some internal caching that cannot be opted out of; it does not do this
+# caching if you load an ontology in JSON format.
 def make_ontology_from_local_file(file_name: str):
     file_name_without_ext = os.path.splitext(file_name)[0]
     file_name_with_pickle_ext = file_name_without_ext + ".pickle"
