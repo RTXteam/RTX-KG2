@@ -44,7 +44,11 @@ BUILD_KG2_LOG_FILE=${BUILD_DIR}/build-kg2${TEST_SUFFIX}.log
 
 echo "================= starting build-kg2.sh ================="
 date
-    
+
+echo "running validation tests on KG2 config files"
+
+bash -x ${CODE_DIR}/run-validation-tests.sh
+
 ## supply a default value for the BUILD_FLAG string
 
 SEMMED_TUPLELIST_FILE=${BUILD_DIR}/semmeddb/kg2-semmeddb${TEST_SUFFIX}-tuplelist.json
@@ -153,9 +157,16 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/uniprotkb_dat_to_json.py \
 
 echo "running semmeddb_tuple_list_json_to_kg_json.py"
 
+MRCUI_RRF_FILE=${UMLS_DEST_DIR}/MRCUI.RRF
+if [ -f "${MRCUI_RRF_FILE}" ]; then
+    MRCUI_ARG=--mrcuiFile ${MRCUI_RRF_FILE}
+else
+    MRCUI_ARG=
+fi
 ## Build SemMedDB KG2 edges file as JSON:
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/semmeddb_tuple_list_json_to_kg_json.py \
            ${TEST_ARG} \
+           ${MRCUI_ARG} \
            ${SEMMED_TUPLELIST_FILE} \
            ${SEMMED_OUTPUT_FILE}
 
@@ -248,7 +259,7 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/merge_graphs.py \
            --kgFileOrphanEdges ${OUTPUT_FILE_ORPHAN_EDGES} \
            ${FINAL_OUTPUT_FILE_FULL}
 
-echo "get_nodes_json_from_kg_json.py"
+echo "running get_nodes_json_from_kg_json.py"
 
 ## Get a JSON file with just the nodes in it
 
@@ -278,7 +289,7 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/filter_kg_and_remap_predicates.py \
            ${FINAL_OUTPUT_FILE_FULL} \
            ${SIMPLIFIED_OUTPUT_FILE_FULL}
 
-echo "get_nodes_json_from_kg_json.py (for simplified KG)"
+echo "running get_nodes_json_from_kg_json.py (for simplified KG)"
 
 ## Get a JSON file with just the nodes in it
 

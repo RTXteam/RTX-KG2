@@ -22,6 +22,8 @@ use_for_bidirectional_mapping:
   -
     biolink: https://w3id.org/biolink/vocab/
   -
+    biolink_source: https://raw.githubusercontent.com/biolink/biolink-model/master/
+  -
     BRO: http://bioontology.org/ontologies/BiomedicalResourceOntology.owl#
   -
     BSPO: http://purl.obolibrary.org/obo/BSPO_
@@ -64,7 +66,11 @@ use_for_bidirectional_mapping:
   -
     DDANAT: http://purl.obolibrary.org/obo/DDANAT_
   -
+    DGIdb: http://www.dgidb.org/
+  -
     dictybase.gene: "https://identifiers.org/dictybase.gene:"
+  -
+    DisGeNET: "http://www.disgenet.org"
   -
     doap: http://usefulinc.com/ns/doap#
   -
@@ -84,7 +90,7 @@ use_for_bidirectional_mapping:
   -
     EHDAA2: "http://purl.obolibrary.org/obo/EHDAA2_"
   -
-    ensembl: "https://identifiers.org/ensembl:"
+    ENSEMBL: "https://identifiers.org/ensembl:"
   -
     EnsemblGenomes: http://www.ensemblgenomes.org/id/
   -
@@ -130,9 +136,13 @@ use_for_bidirectional_mapping:
   -
     GOREL: http://purl.obolibrary.org/obo/GOREL_
   -
+    GTPI: https://www.guidetopharmacology.org/GRAC/LigandDisplayForward?ligandId=
+  -
+    GTPI_source: https://www.guidetopharmacology.org/
+  -
     HANCESTRO: http://purl.obolibrary.org/obo/HANCESTRO_
   -
-    HCPCS: https://hcpcs.codes/a-codes/
+    HCPCS: http://purl.bioontology.org/ontology/HCPCS/
   -
     HGNC: "https://identifiers.org/hgnc:"
   -
@@ -152,9 +162,11 @@ use_for_bidirectional_mapping:
   -
     IDO: http://purl.obolibrary.org/obo/IDO_
   -
-    kegg.disease: "https://identifiers.org/kegg.disease:H"
+    ISBN: https://isbnsearch.org/isbn/
   -
-    kegg.pathway: "https://identifiers.org/kegg.pathway:hsa"
+    KEGG: "https://www.genome.jp/dbget-bin/www_bget?"
+  -
+    KEGG_source: "https://www.genome.jp"
   -
     LOINC: http://purl.bioontology.org/ontology/LNC/
   -
@@ -176,15 +188,23 @@ use_for_bidirectional_mapping:
   -
     MI: http://purl.obolibrary.org/obo/MI_
   -
+    miRGate: http://mirgate.bioinfo.cnio.es
+  -
     MMO: http://purl.obolibrary.org/obo/MMO_
   -
     MOD: http://purl.obolibrary.org/obo/MOD_
+  -
+    monarch.biolink: https://api.monarchinitiative.org/api
+  -
+    monarch.scigraph: https://scigraph-ontology.monarchinitiative.org/scigraph
   -
     MONDO: http://purl.obolibrary.org/obo/MONDO_
   -
     MP: http://purl.obolibrary.org/obo/MP_
   -
     MPATH: http://purl.obolibrary.org/obo/MPATH_
+  -
+    MyChem: http://mychem.info
   -
     NBO: http://purl.obolibrary.org/obo/NBO_
   -
@@ -244,11 +264,17 @@ use_for_bidirectional_mapping:
   -
     PATO: http://purl.obolibrary.org/obo/PATO_
   -
+    PC2: http://pathwaycommons.org/pc11
+  -
     PCO: http://purl.obolibrary.org/obo/PCO_
   -
     PDQ: http://purl.bioontology.org/ontology/PDQ/
   -
     PECO: http://purl.obolibrary.org/obo/PECO_
+  -
+    pharos: http://pharos.nih.gov
+  -
+    PMID: http://www.ncbi.nlm.nih.gov/pubmed/
   -
     PO: http://purl.obolibrary.org/obo/PO_
   -
@@ -256,11 +282,15 @@ use_for_bidirectional_mapping:
   -
     PR: http://purl.obolibrary.org/obo/PR_
   -
+    PW: http://purl.obolibrary.org/obo/PW_
+  -
     rdf: https://www.w3.org/TR/2004/REC-owl-guide-20040210/#
   -
     rdfs: http://www.w3.org/2000/01/rdf-schema#
   -
-    REPODB: http://apps.chiragjpgroup.org/repoDB#
+    Reactome: "https://identifiers.org/reactome:"
+  -
+    REPODB: http://apps.chiragjpgroup.org/repoDB
   -
     RGD: "https://identifiers.org/rgd:"
   -
@@ -272,11 +302,15 @@ use_for_bidirectional_mapping:
   -
     RXNORM: http://purl.bioontology.org/ontology/RXNORM/
   -
+    SEMMEDDB: https://skr3.nlm.nih.gov/SemMedDB
+  -
     sgd: "https://identifiers.org/sgd:"
   -
     SIO: http://semanticscience.org/resource/SIO_
   -
     skos: http://www.w3.org/2004/02/skos/core#
+  -
+    smpdb: "https://identifiers.org/smpdb:"
   -
     SNOMED: http://purl.bioontology.org/ontology/SNOMEDCT/
   -
@@ -308,7 +342,9 @@ use_for_bidirectional_mapping:
   -
     umls_source: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/
   -
-    UNIPROTKB: "https://identifiers.org/uniprot:"
+    UNICHEM_source: "https://www.ebi.ac.uk/unichem/"
+  -
+    UniProtKB: "https://identifiers.org/uniprot:"
   -
     UO: http://purl.obolibrary.org/obo/UO_
   -
@@ -324,7 +360,7 @@ use_for_bidirectional_mapping:
   -
     wb: "https://identifiers.org/wb:"
   -
-    wikidata: "https://identifiers.org/wikidata:"
+    WD: "https://identifiers.org/wikidata:"
   -
     XCO: http://purl.obolibrary.org/obo/XCO_
   -
@@ -345,8 +381,6 @@ use_for_contraction_only:
     BFO: http://www.ifomis.org/bfo/1.1/span#
   -
     biolink: https://w3id.org/biolink/biolinkml/meta/
-  -
-    biolink: https://raw.githubusercontent.com/biolink/biolink-model/master/biolink-model.owl
   -
     BTO: http://purl.obolibrary.org/obo/bto#
   -
@@ -372,7 +406,7 @@ use_for_contraction_only:
   -
     EFO: http://www.ebi.ac.uk/efoIri
   -
-    ensembl: http://www.ensembl.org/id/
+    ENSEMBL: http://www.ensembl.org/id/
   -
     FBgn: https://flybase.org/reports/FBgn
   -
@@ -382,7 +416,11 @@ use_for_contraction_only:
   -
     GO: "http://purl.bioontology.org/ontology/GO/GO%3A"
   -
+    GO: http://purl.bioontology.org/ontology/GO/
+  -
     HANCESTRO: http://www.ebi.ac.uk/ancestro/ancestro_
+  -
+    HCPCS: https://hcpcs.codes/a-codes/
   -
     HGNC: "http://www.genenames.org/cgi-bin/gene_symbol_report?hgnc_id="
   -
@@ -390,7 +428,11 @@ use_for_contraction_only:
   -
     HGNC: "http://identifiers.org/hgnc/"
   -
+    HGNC: http://purl.bioontology.org/ontology/HGNC/
+  -
     HP: "http://purl.bioontology.org/ontology/HPO/HP%3A"
+  -
+    HP: http://purl.bioontology.org/ontology/HPO/
   -
     ICD10: http://purl.obolibrary.org/obo/ICD10_
   -
@@ -398,15 +440,19 @@ use_for_contraction_only:
   -
     ICD10: http://purl.obolibrary.org/obo/ICD10CM_
   -
+    ICD10: http://purl.bioontology.org/ontology/ICD10AE/
+  -
+    ICD10: http://purl.bioontology.org/ontology/ICD10CM/
+  -
     ICD9: http://purl.obolibrary.org/obo/ICD9_
   -
-    kegg.disease: http://purl.obolibrary.org/obo/KEGG_H
-  -
-    kegg.pathway: http://purl.obolibrary.org/obo/KEGG_
+    KEGG: http://purl.obolibrary.org/obo/KEGG_
   -
     MEDDRA: http://purl.obolibrary.org/obo/MedDRA_
   -
     medgen: http://purl.obolibrary.org/obo/MEDGEN_
+  -
+    MESH: http://purl.bioontology.org/ontology/MSH/
   -
     MGI: "http://www.informatics.jax.org/marker/MGI:"
   -
@@ -441,6 +487,8 @@ use_for_contraction_only:
     OMOP: http://purl.obolibrary.org/obo/COHD_
   -
     ORPHANET: http://www.orpha.net/ORDO/Orphanet_
+  -
+    ORPHANET: http://data.bioontology.org/ontologies/ORDO/submissions/15/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
   -
     PATO: http://purl.obolibrary.org/obo/pato#
   -
@@ -486,7 +534,7 @@ use_for_contraction_only:
   -
     wb: http://www.wormbase.org/species/c_elegans/gene/
   -
-    wikidata: http://purl.obolibrary.org/obo/Wikidata_
+    WD: http://purl.obolibrary.org/obo/Wikidata_
   -
     ZFIN: "http://zfin.org/action/marker/view/"
 ############################################

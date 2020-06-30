@@ -1,6 +1,8 @@
 BUILD_DIR=~/kg2-build
 VENV_DIR=~/kg2-venv
 CODE_DIR=~/kg2-code
+UMLS_DIR=${BUILD_DIR}/umls
+UMLS_DEST_DIR=${UMLS_DIR}/META
 S3_REGION=us-west-2
 S3_BUCKET=rtx-kg2
 S3_BUCKET_PUBLIC=rtx-kg2-public

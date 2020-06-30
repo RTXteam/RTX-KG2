@@ -6,7 +6,6 @@
     <outputFile.json>
 '''
 
-import json
 import kg2_util as kg2_util
 import argparse
 import xmltodict
@@ -21,11 +20,11 @@ __maintainer__ = ''
 __email__ = ''
 __status__ = 'Prototype'
 
-DRUGBANK_BASE_IRI = 'https://identifiers.org/drugbank:'
-DRUGBANK_KB_CURIE_ID = kg2_util.IDENTIFIERS_ORG_REGISTRY_CURIE_PREFIX \
+DRUGBANK_BASE_IRI = kg2_util.BASE_URL_IDENTIFIERS_ORG + 'drugbank:'
+DRUGBANK_KB_CURIE_ID = kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY \
                                 + ":drugbank"
-DRUGBANK_RELATION_CURIE_PREFIX = 'DRUGBANK'
-DRUGBANK_KB_IRI = 'https://registry.identifiers.org/registry/drugbank'
+DRUGBANK_RELATION_CURIE_PREFIX = kg2_util.CURIE_PREFIX_DRUGBANK
+DRUGBANK_KB_IRI = kg2_util.BASE_URL_IDENTIFIERS_ORG_REGISTRY + 'drugbank'
 
 
 def get_args():
@@ -70,7 +69,7 @@ def format_edge(subject_id: str,
                 object_id: str,
                 predicate_label: str,
                 description: str,
-                publications: list=None):
+                publications: list = None):
     [relation, relation_curie] = kg2_util.predicate_label_to_iri_and_curie(predicate_label,
                                                                            DRUGBANK_RELATION_CURIE_PREFIX,
                                                                            DRUGBANK_KB_IRI)
@@ -122,7 +121,7 @@ def make_node(drug: dict):
                            update_date=drug["@updated"],
                            synonyms=synonyms,
                            publications=publications,
-                           category_label="drug",
+                           category_label=kg2_util.BIOLINK_CATEGORY_DRUG,
                            creation_date=drug["@created"])
         ''' For description, also consider "drug["description"]" --
             might be a good question for Steve
@@ -159,7 +158,7 @@ def make_category_edges(drug: dict):
                        subject_id is not None and \
                        category["category"] is not None:
                         edge = format_edge(subject_id,
-                                           "MESH:" + category["mesh-id"],
+                                           kg2_util.CURIE_PREFIX_MESH + category["mesh-id"],
                                            predicate_label,
                                            category["category"])
                         category_edges.append(edge)
@@ -198,8 +197,8 @@ def make_equivalent_edges(drug: dict):
 
     external_identifier_conversion = {"KEGG Drug": kg2_util.CURIE_PREFIX_KEGG,
                                       "UniProtKB": kg2_util.CURIE_PREFIX_UNIPROT,
-                                      "Therapeutic Targets Database": kg2_util.CURIE_PREFIX_TTD,
-                                      "ChEMBL": kg2_util.CURIE_PREFIX_CHEMBL,
+                                      "Therapeutic Targets Database": kg2_util.CURIE_PREFIX_TTD_DRUG,
+                                      "ChEMBL": kg2_util.CURIE_PREFIX_CHEMBL_COMPOUND,
                                       "KEGG Compound": kg2_util.CURIE_PREFIX_KEGG,
                                       "ChEBI": kg2_util.CURIE_PREFIX_CHEBI}
     if drug["external-identifiers"] is not None:
@@ -239,16 +238,16 @@ def make_pathway_edges(drug: dict):
 
     if drug["pathways"] is not None:
         if drug["pathways"]["pathway"] is not None:
-                if isinstance(drug["pathways"]["pathway"], list):
-                    for pathway in drug["pathways"]["pathway"]:
-                        pathway_edges.append(extract_pathway_edge(pathway,
-                                                                  subject_id,
-                                                                  predicate_label))
-                if isinstance(drug["pathways"]["pathway"], dict):
-                    pathway = drug["pathways"]["pathway"]
+            if isinstance(drug["pathways"]["pathway"], list):
+                for pathway in drug["pathways"]["pathway"]:
                     pathway_edges.append(extract_pathway_edge(pathway,
                                                               subject_id,
                                                               predicate_label))
+            if isinstance(drug["pathways"]["pathway"], dict):
+                pathway = drug["pathways"]["pathway"]
+                pathway_edges.append(extract_pathway_edge(pathway,
+                                                          subject_id,
+                                                          predicate_label))
     return pathway_edges
 
 
@@ -258,13 +257,13 @@ def extract_polypeptide(target: dict,
                         predicate_label: str):
     edge = None
     if polypeptide["@id"] is not None:
-                object_id = kg2_util.CURIE_PREFIX_UNIPROT + \
-                            ":" + polypeptide["@id"]
-                edge = format_edge(subject_id,
-                                   object_id,
-                                   predicate_label,
-                                   polypeptide["general-function"],
-                                   get_publications(target["references"]))
+        object_id = kg2_util.CURIE_PREFIX_UNIPROT + \
+                    ":" + polypeptide["@id"]
+        edge = format_edge(subject_id,
+                           object_id,
+                           predicate_label,
+                           polypeptide["general-function"],
+                           get_publications(target["references"]))
     return edge
 
 
@@ -350,7 +349,7 @@ def make_kg2_graph(drugbank_dict: dict, test_mode: bool):
     drugbank_kp_node = kg2_util.make_node(DRUGBANK_KB_CURIE_ID,
                                           DRUGBANK_KB_IRI,
                                           "DrugBank",
-                                          kg2_util.TYPE_DATA_SOURCE,
+                                          kg2_util.BIOLINK_CATEGORY_DATA_FILE,
                                           update_date,
                                           DRUGBANK_KB_CURIE_ID)
 

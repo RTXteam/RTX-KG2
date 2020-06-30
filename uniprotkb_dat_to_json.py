@@ -19,8 +19,10 @@ import kg2_util
 import os
 import re
 
-UNIPROTKB_PROVIDED_BY_CURIE_ID = 'identifiers_org_registry:uniprot'
-UNIPROTKB_IDENTIFIER_BASE_IRI = 'https://identifiers.org/uniprot:'
+UNIPROTKB_PROVIDED_BY_CURIE_ID = kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY + ':' + 'uniprot'
+UNIPROTKB_IDENTIFIER_BASE_IRI = kg2_util.BASE_URL_IDENTIFIERS_ORG + 'uniprot:'
+UNIPROT_KB_URL = kg2_util.BASE_URL_IDENTIFIERS_ORG_REGISTRY + 'uniprot'
+
 RE_ORGANISM_TAXID = re.compile(r'NCBI_TaxID=(\d+)')
 FIELD_CODES_USE_STRING = ['ID', 'SQ', 'RA', 'RX', 'RT', 'KW', 'CC', 'GN']
 FIELD_CODES_DO_NOT_STRIP_NEWLINE = ['SQ']
@@ -114,7 +116,7 @@ def make_edge(subject_curie_id: str,
               object_curie_id: str,
               predicate_label: str,
               update_date: str):
-    relation = kg2_util.BIOLINK_CATEGORY_BASE_IRI + kg2_util.convert_snake_case_to_camel_case(predicate_label)
+    relation = kg2_util.BASE_URL_BIOLINK_CONCEPTS + kg2_util.convert_snake_case_to_camel_case(predicate_label)
     relation_curie = kg2_util.CURIE_PREFIX_BIOLINK + ':' + predicate_label.replace(' ', '_')
     rel = kg2_util.make_edge(subject_curie_id,
                              object_curie_id,
@@ -130,7 +132,7 @@ def make_edges(records: list, nodes_dict: dict):
     ret_list = []
     for record_dict in records:
         accession = record_dict['AC'][0]
-        curie_id = 'UniProtKB:' + accession
+        curie_id = kg2_util.CURIE_PREFIX_UNIPROT + ':' + accession
         organism_int = record_dict['organism']
         update_date = nodes_dict[curie_id]['update date']
         ret_list.append(make_edge(curie_id,
@@ -205,12 +207,12 @@ def make_nodes(records: list):
             for pub in publications_raw.split(';'):
                 pub = pub.strip()
                 if len(pub) > 0:
-                    publications.append(pub.replace('=', ':').replace('PubMed:', 'PMID:'))
+                    publications.append(pub.replace('=', ':').replace('PubMed:', kg2_util.CURIE_PREFIX_PMID + ':'))
         else:
             publications = []
         assert type(publications) == list
         assert type(description) == str
-        publications += [pub.replace('PubMed:', 'PMID:') for pub in REGEX_PUBLICATIONS.findall(description)]
+        publications += [pub.replace('PubMed:', kg2_util.CURIE_PREFIX_PMID + ':') for pub in REGEX_PUBLICATIONS.findall(description)]
         publications = list(set(publications))
         gene_names_str = record_dict.get('GN', None)
         gene_symbol = None
@@ -230,9 +232,9 @@ def make_nodes(records: list):
                 name = gene_symbol
             else:
                 name = full_name
-        node_curie = 'UniProtKB:' + accession
+        node_curie = kg2_util.CURIE_PREFIX_UNIPROTKB + ':' + accession
         iri = UNIPROTKB_IDENTIFIER_BASE_IRI + accession
-        category_label = 'protein'
+        category_label = kg2_util.BIOLINK_CATEGORY_PROTEIN
         node_dict = kg2_util.make_node(node_curie,
                                        iri,
                                        name,
@@ -260,11 +262,11 @@ if __name__ == '__main__':
                                                    DESIRED_SPECIES_INTS,
                                                    test_mode)
     nodes_dict = make_nodes(uniprot_records)
-    ontology_curie_id = kg2_util.IDENTIFIERS_ORG_REGISTRY_CURIE_PREFIX + ':uniprot'
+    ontology_curie_id = UNIPROTKB_PROVIDED_BY_CURIE_ID
     ont_node = kg2_util.make_node(ontology_curie_id,
-                                  kg2_util.IDENTIFIERS_ORG_REGISTRY_IRI_BASE + 'uniprot',
+                                  UNIPROT_KB_URL,
                                   'UniProtKB',
-                                  kg2_util.TYPE_DATA_SOURCE,
+                                  kg2_util.BIOLINK_CATEGORY_DATA_FILE,
                                   update_date,
                                   ontology_curie_id)
     nodes_list = [ont_node] + [node_dict for node_dict in nodes_dict.values()]

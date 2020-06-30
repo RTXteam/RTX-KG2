@@ -27,38 +27,38 @@ import sys
 
 TIMEOUT_SEC = 600
 
-KG1_RELATION_CURIE_PREFIX = 'RTXKG1'
-KG1_RELATION_IRI_PREFIX = 'http://arax.rtx.ai'
+KG1_RELATION_CURIE_PREFIX = kg2_util.CURIE_PREFIX_RTX_KG1
+KG1_RELATION_IRI_PREFIX = kg2_util.BASE_URL_RTX_KG1
 
 KG1_PROVIDED_BY_TO_KG2_IRIS = {
-    'gene_ontology': "http://purl.obolibrary.org/obo/go-plus.owl",
-    'PC2': 'http://pathwaycommons.org/pc11',
-    'BioLink': 'http://w3id.org/biolink/vocab',
-    'KEGG;UniProtKB': 'https://www.uniprot.org',
-    'UniProtKB': 'https://www.uniprot.org',
-    'OMIM': 'http://purl.bioontology.org/ontology/OMIM',
-    'DisGeNet': 'http://www.disgenet.org',
-    'reactome': 'https://identifiers.org/reactome',
-    'DGIdb': 'http://www.dgidb.org',
-    'ChEMBL': 'https://www.ebi.ac.uk/chembl',
-    'Pharos': 'https://pharos.nih.gov',
-    'Monarch_SciGraph': 'https://scigraph-ontology.monarchinitiative.org/scigraph',
-    'DiseaseOntology': 'http://purl.obolibrary.org/obo/doid.owl',
-    'DOID': 'http://purl.obolibrary.org/obo/doid.owl',
-    'miRGate': 'http://mirgate.bioinfo.cnio.es',
-    'SIDER': 'http://sideeffects.embl.de',
-    'MyChem.info': 'http://mychem.info',
-    'GO': 'http://purl.obolibrary.org/ontology/go-plus.owl',
-    'REACT': 'https://identifiers.org/reactome',
-    'HP': 'http://purl.obolibrary.org/ontology/hp.obo',
-    'MONDO': 'http://purl.obolibrary.org/ontology/mondo.owl',
-    'UBERON': 'http://purl.obolibrary.org/ontology/uberon-ext.owl',
-    'CL': 'http://purl.obolibrary.org/ontology/cl.owl',
-    'KEGG': 'http://genome.jp/kegg',
-    'CHEMBL.COMPOUND': 'https://www.ebi.ac.uk/chembl',
-    'NCBIGene': 'https://www.ncbi.nlm.nih.gov/gene',
-    'AQTLTrait': 'http://purl.obolibrary.org/ontology/hp.obo',  # KG1 has a single AQTLTrait node, which has an HP uri
-    'GeneProf': 'http://www.geneprof.org/'
+    'gene_ontology': "GO:go-plus.owl",
+    'PC2': 'PC2:',
+    'BioLink': 'monarch.biolink:',
+    'KEGG;UniProtKB': 'identifiers_org_registry:uniprot',
+    'UniProtKB': 'identifiers_org_registry:uniprot',
+    'OMIM': 'OMIM:',
+    'DisGeNet': 'DisGeNET:',
+    'reactome': 'identifiers_org_registry:reactome',
+    'DGIdb': 'DGIdb:',
+    'ChEMBL': 'identifiers_org_registry:chembl.compound',
+    'Pharos': 'pharos:',
+    'Monarch_SciGraph': 'monarch.scigraph:',
+    'DiseaseOntology': 'DOID:doid.owl',
+    'DOID': 'DOID:doid.owl',
+    'miRGate': 'miRGate:',
+    'SIDER': 'identifiers_org_registry:sider.effect',
+    'MyChem.info': 'MyChem:',
+    'GO': 'GO:go-plus.owl',
+    'REACT': 'identifiers_org_registry:reactome',
+    'HP': 'HP:hp.owl',
+    'MONDO': 'MONDO:mondo.owl',
+    'UBERON': 'UBERON:uberon-ext.owl',
+    'CL': 'CL:cl.owl',
+    'KEGG': 'identifiers_org_registry:kegg.compound',
+    'CHEMBL.COMPOUND': 'identifiers_org_registry:chembl.compound',
+    'NCBIGene': 'identifiers_org_registry:ncbigene',
+    'AQTLTrait': 'HP:hp.owl',  # KG1 has a single AQTLTrait node, which has an HP uri
+    # 'GeneProf': 'http://www.geneprof.org/'  # I think these edges are gone
     }
 
 
@@ -184,7 +184,7 @@ if __name__ == '__main__':
         [relation, relation_curie] = kg2_util.predicate_label_to_iri_and_curie(predicate_label,
                                                                                KG1_RELATION_CURIE_PREFIX,
                                                                                KG1_RELATION_IRI_PREFIX)
-        if relation_curie == 'BioLink:subclass_of':
+        if relation_curie == 'bioLink:subclass_of':
             relation_curie = 'rdfs:subClassOf'
             relation = prefixcommons.expand_uri(relation_curie)
         edge_dict['relation'] = relation

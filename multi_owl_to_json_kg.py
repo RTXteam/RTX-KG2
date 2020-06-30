@@ -46,7 +46,7 @@ REGEX_YEAR_MONTH = re.compile('[12][90][0-9]{2}_([0-9]{1,2})')
 REGEX_PUBLICATIONS = re.compile(r'((?:(?:PMID)|(?:ISBN)):\d+)')
 REGEX_XREF_END_DESCRIP = re.compile(r'.*\[([^\]]+)\]$')
 
-CUI_BASE_IRI = 'https://identifiers.org/umls:'
+CUI_BASE_IRI = kg2_util.BASE_URL_IDENTIFIERS_ORG + 'umls:'
 IRI_OBO_XREF = 'http://purl.org/obo/owl/oboFormat#oboFormat_xref'
 CURIE_OBO_XREF = 'oboFormat:xref'
 OWL_BASE_CLASS = 'owl:Thing'
@@ -387,7 +387,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
 
     biolink_categories_ontology_depths = None
     first_ontology = ontology_info_list[0]['ontology']
-    assert first_ontology.id.startswith(kg2_util.BIOLINK_ONTOLOGY_BASE_IRI), "biolink needs to be first in owl-load-inventory.yaml"
+    assert first_ontology.id.startswith(kg2_util.BASE_URL_BIOLINK_ONTOLOGY), "biolink needs to be first in owl-load-inventory.yaml"
     biolink_categories_ontology_depths = kg2_util.get_biolink_categories_ontology_depths(first_ontology)
 
     def biolink_depth_getter(category: str):
@@ -412,7 +412,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
         ontology_node = kg2_util.make_node(ontology_curie_id,
                                            iri_of_ontology,
                                            ontology_info_dict['title'],
-                                           kg2_util.TYPE_DATA_SOURCE,
+                                           kg2_util.BIOLINK_CATEGORY_DATA_FILE,
                                            updated_date,
                                            ontology_curie_id)
 
@@ -617,12 +617,12 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                     node_category_label = 'property'
 
             if node_category_label is None:
-                kg2_util.log_message("Node does not have a category", ontology.id, node_curie_id, output_stream=sys.stderr)
                 node_category_label = 'named thing'
-#                if not node_deprecated:
-#                    node_category_label = 'unknown category'
-#                else:
-#                    node_category_label = 'deprecated node'
+                if not node_deprecated:
+                    kg2_util.log_message("Node does not have a category",
+                                         ontology.id,
+                                         node_curie_id,
+                                         output_stream=sys.stderr)
 
             if node_has_cui:
                 assert node_tui is not None or len(node_tui_list) > 0
@@ -630,9 +630,13 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                 if node_tui_category_label is None:
                     node_tui_category_label = 'named thing'
                     if node_tui is not None:
-                        kg2_util.log_message(message='Node ' + ontology_node_id + ' has CUI whose TUI cannot be mapped to category: ' + node_tui)
+                        kg2_util.log_message(message='Node ' + ontology_node_id + ' has CUI whose TUI cannot be mapped to category: ' + node_tui,
+                                             ontology_name=iri_of_ontology,
+                                             output_stream=sys.stderr)
                     else:
-                        kg2_util.log_message(message='Node ' + ontology_node_id + ' has CUI with multiple associated TUIs: ' + ', '.join(node_tui_list))
+                        kg2_util.log_message(message='Node ' + ontology_node_id + ' has CUI with multiple associated TUIs: ' + ', '.join(node_tui_list),
+                                             ontology_name=iri_of_ontology,
+                                             output_stream=sys.stderr)
                 else:
                     if node_category_label is None:
                         node_category_label = node_tui_category_label  # override the node category label if we have a TUI
@@ -721,7 +725,6 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         entrez_curie = 'NCBIGene:' + entrez_gene_id
                         entrez_node_dict['id'] = entrez_curie
                         entrez_node_dict['iri'] = curie_to_uri_expander(entrez_curie)
-                        # entrez_node_dict['iri'] = 'https://identifiers.org/NCBIGene/' + entrez_gene_id
                         ret_dict[entrez_curie] = entrez_node_dict
                         node_dict_xrefs = node_dict['xrefs']
                         node_dict_xrefs.append(entrez_curie)
@@ -794,6 +797,9 @@ def get_rels_dict(nodes: dict,
                         predicate_curie = 'owl:' + edge_pred_string
                     else:
                         predicate_curie = 'rdfs:subClassOf'
+                        kg2_util.log_message(message="Non-IRI predicate string (treating as subclass_of): " + edge_pred_string,
+                                             ontology_name=ontology_id,
+                                             output_stream=sys.stderr)
                     predicate_label = kg2_util.convert_camel_case_to_snake_case(edge_pred_string)
                 else:
                     # edge_pred_string is a CURIE
@@ -980,7 +986,7 @@ def make_map_of_node_ontology_ids_to_curie_ids(nodes: dict):
 
 def xref_as_a_publication(xref: str):
     ret_xref = None
-    if xref.upper().startswith('PMID:') or xref.upper().startswith('ISBN:'):
+    if xref.upper().startswith(kg2_util.CURIE_PREFIX_PMID + ':') or xref.upper().startswith(kg2_util.CURIE_PREFIX_ISBN + ':'):
         ret_xref = xref.upper()
     elif xref.startswith('https://') or xref.startswith('http://'):
         ret_xref = xref
@@ -1012,7 +1018,7 @@ if __name__ == '__main__':
     map_dict = kg2_util.make_uri_curie_mappers(curies_to_uri_file_name)
     [curie_to_uri_expander, uri_to_curie_shortener] = [map_dict['expand'], map_dict['contract']]
     map_category_label_to_iri = functools.partial(kg2_util.convert_biolink_category_to_iri,
-                                                  biolink_category_base_iri=kg2_util.BIOLINK_CATEGORY_BASE_IRI)
+                                                  biolink_category_base_iri=kg2_util.BASE_URL_BIOLINK_CONCEPTS)
 
     owl_urls_and_files = tuple(kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(owl_load_inventory_file)))
 

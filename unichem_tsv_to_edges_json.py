@@ -18,7 +18,8 @@ import argparse
 import kg2_util
 
 
-UNICHEM_KB_IRI = 'https://www.ebi.ac.uk/unichem/'
+UNICHEM_KB_CURIE = kg2_util.CURIE_PREFIX_UNICHEM_SOURCE + ':'
+
 
 def make_xref(subject: str,
               object: str,
@@ -27,8 +28,8 @@ def make_xref(subject: str,
                                    object,
                                    kg2_util.IRI_OWL_SAME_AS,
                                    kg2_util.CURIE_OWL_SAME_AS,
-                                   'equivalent_to',
-                                   UNICHEM_KB_IRI,
+                                   'same_as',
+                                   UNICHEM_KB_CURIE,
                                    update_date)
     return edge_dict
 

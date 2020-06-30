@@ -18,13 +18,13 @@ import argparse
 import kg2_util
 import pymysql
 
-CHEMBL_CURIE_BASE_COMPOUND = 'CHEMBL.COMPOUND'
-CHEMBL_CURIE_BASE_TARGET = 'CHEMBL.TARGET'
-CHEMBL_CURIE_BASE_MECHANISM = 'CHEMBL.MECHANISM'
-CHEMBL_KB_CURIE_ID = 'identifiers_org_registry:chembl'
-CHEMBL_BASE_IRI_COMPOUND = 'https://identifiers.org/chembl.compound:'
-CHEMBL_BASE_IRI_TARGET = 'https://identifiers.org/chembl.target:'
-CHEMBL_BASE_IRI_PREDICATE = 'https://www.ebi.ac.uk/chembl#'
+CHEMBL_CURIE_BASE_COMPOUND = kg2_util.CURIE_PREFIX_CHEMBL_COMPOUND
+CHEMBL_CURIE_BASE_TARGET = kg2_util.CURIE_PREFIX_CHEMBL_TARGET
+CHEMBL_CURIE_BASE_MECHANISM = kg2_util.CURIE_PREFIX_CHEMBL_MECHANISM
+CHEMBL_KB_CURIE_ID = kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY + ':' + 'chembl'
+CHEMBL_BASE_IRI_COMPOUND = kg2_util.BASE_URL_IDENTIFIERS_ORG + 'chembl.compound:'
+CHEMBL_BASE_IRI_TARGET = kg2_util.BASE_URL_IDENTIFIERS_ORG + 'chembl.target:'
+CHEMBL_BASE_IRI_PREDICATE = kg2_util.BASE_URL_CHEMBL_MECHANISM
 
 ROW_LIMIT_TEST_MODE = 10000
 
@@ -187,7 +187,7 @@ if __name__ == '__main__':
                     pref_name = compound_name
                 synonym_set.add(compound_name)
                 if pubmed_id is not None:
-                    publications_set.add('PMID:' + str(pubmed_id))
+                    publications_set.add(kg2_util.CURIE_PREFIX_PMID + ':' + str(pubmed_id))
                 if src_compound_id is not None and src_short_name is not None and src_short_name != "LITERATURE":
                     synonym_set.add(src_short_name + ':' + src_compound_id)
         compound_synonyms = list(synonym_set)
