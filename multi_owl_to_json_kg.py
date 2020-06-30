@@ -119,7 +119,7 @@ def make_ontology_from_local_file(file_name: str):
         kg2_util.log_message(message="Reading ontology JSON file: " + json_file + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
                              ontology_name=None)
         assert os.path.exists(json_file)
-        ont_return = ontobio.ontol_factory.OntologyFactory().create(json_file, ignore_cache=True)
+        ont_return = kg2_util.load_ontology_from_owl_or_json_file(json_file)
     else:
         size = os.path.getsize(file_name_with_pickle_ext)
         kg2_util.log_message("Reading ontology file: " + file_name_with_pickle_ext + "; size: " + "{0:.2f}".format(size/1024) + " KiB", ontology_name=None)

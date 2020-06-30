@@ -502,3 +502,8 @@ def is_a_valid_http_url(id: str) -> bool:
     except validators.ValidationFailure:
         valid = False
     return valid
+
+
+def load_ontology_from_owl_or_json_file(ontology_file_name: str):
+    ont_factory = ontobio.ontol_factory.OntologyFactory()
+    return ont_factory.create(ontology_file_name, ignore_cache=True)

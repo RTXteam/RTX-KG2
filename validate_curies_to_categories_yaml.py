@@ -25,7 +25,7 @@ curies_to_url_map_data = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_
 curies_to_url_map_data_bidir = {next(iter(listitem.keys())) for listitem in curies_to_url_map_data['use_for_bidirectional_mapping']}
 
 assert os.path.exists(BIOLINK_MODEL_OWL)
-biolink_ont = ontobio.ontol_factory.OntologyFactory().create(BIOLINK_MODEL_OWL)
+biolink_ont = kg2_util.load_ontology_from_owl_or_json_file(BIOLINK_MODEL_OWL)
 biolink_categories_ontology_depths = kg2_util.get_biolink_categories_ontology_depths(biolink_ont)
 
 for prefix in curies_to_categories_data['prefix-mappings'].keys():
