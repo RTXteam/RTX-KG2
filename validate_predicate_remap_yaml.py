@@ -24,7 +24,6 @@ for relation_curie, instructions_dict in map_data.items():
     for instruction, instructions_list in instructions_dict.items():
         if instruction == 'keep':
             relation_curie_to_check = relation_curie
-            assert not relation_curie.startswith('biolink:')
         elif instruction == 'delete':
             continue
         else:
