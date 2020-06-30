@@ -22,7 +22,6 @@ curies_to_url_map_data_bidir = {next(iter(listitem.keys())) for listitem in curi
 map_data = yaml.safe_load(open('predicate-remap.yaml', 'r'))
 for relation_curie, instructions_dict in map_data.items():
     for instruction, instructions_list in instructions_dict.items():
-        print(instruction + "; " + str(instructions_list))
         if instruction == 'keep':
             relation_curie_to_check = relation_curie
             assert not relation_curie.startswith('biolink:')
