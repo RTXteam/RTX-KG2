@@ -11,7 +11,7 @@ fi
 
 # Usage: build-umls.sh [OUTPUT_DIR]
 
-echo "================= starting build-umls.sh ================="
+echo "================= starting extract-umls.sh ================="
 date
 
 CONFIG_DIR=`dirname "$0"`
@@ -115,4 +115,4 @@ ${VENV_DIR}/bin/python3 umls2rdf.py
 ./checkOutputSyntax.sh  # uses "rapper" command from the "raptor" package
 
 date
-echo "================= script finished ================="
+echo "================= finished extract-umls.sh ================="
