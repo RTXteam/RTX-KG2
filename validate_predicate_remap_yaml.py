@@ -14,12 +14,26 @@ __maintainer__ = ''
 __email__ = ''
 __status__ = 'Prototype'
 
+import argparse
+import kg2_util
 import yaml
 
-curies_to_url_map_data = yaml.safe_load(open('curies-to-urls-map.yaml', 'r'))
+
+def make_arg_parser():
+    arg_parser = argparse.ArgumentParser(description='validate_predicate_remap_yaml.py: checks the file `predicate-remap.yaml` for correctness.')
+    arg_parser.add_argument('curiesToURLsMapFile', type=str)
+    arg_parser.add_argument('predicateRemapFile', type=str)
+    return arg_parser
+
+
+args = make_arg_parser().parse_args()
+curies_to_urls_map_file_name = args.curiesToURLsMapFile
+predicate_remap_file_name = args.predicateRemapFile
+
+curies_to_url_map_data = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_urls_map_file_name))
 curies_to_url_map_data_bidir = {next(iter(listitem.keys())) for listitem in curies_to_url_map_data['use_for_bidirectional_mapping']}
 
-map_data = yaml.safe_load(open('predicate-remap.yaml', 'r'))
+map_data = yaml.safe_load(open(predicate_remap_file_name, 'r'))
 for relation_curie, instructions_dict in map_data.items():
     for instruction, instructions_list in instructions_dict.items():
         if instruction == 'keep':
