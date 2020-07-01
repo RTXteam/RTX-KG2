@@ -356,7 +356,7 @@ ${S3_CP_CMD} ${CODE_DIR}/s3-index.html s3://${S3_BUCKET_PUBLIC}/index.html
 
 
 date
-echo "================= script finished ================="
+echo "================= finished build-kg2.sh ================="
 
 } >${BUILD_KG2_LOG_FILE} 2>&1
 
