@@ -9,6 +9,7 @@ prefix-mappings:
     DRUGBANK: drug
     FAO: anatomical entity
     GOREL: relationship type
+    HCPCS: procedure
     HGNC: gene
     IAO: information content entity
     LOINC: procedure
