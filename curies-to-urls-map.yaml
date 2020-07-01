@@ -312,7 +312,7 @@ use_for_bidirectional_mapping:
   -
     skos: http://www.w3.org/2004/02/skos/core#
   -
-    smpdb: "https://identifiers.org/smpdb:"
+    SMPDB: "https://identifiers.org/smpdb:"
   -
     SNOMED: http://purl.bioontology.org/ontology/SNOMEDCT/
   -
