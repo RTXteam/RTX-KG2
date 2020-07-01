@@ -237,6 +237,16 @@ DOID:derives_from:
   rename: [derives_from, 'RO:0001000']
 DOID:has_symptom:
   rename: [has_phenotype, 'biolink:has_phenotype']
+DRUGBANK:category:
+  rename: [has_attribute, 'biolink:has_attribute']
+DRUGBANK:drug-interaction:
+  rename: [physically_interacts_with, 'biolink: physically_interacts_with']
+DRUGBANK:external-identifier:
+  rename: [same_as, 'biolink:same_as']
+DRUGBANK:pathway:
+  rename: [chemical_to_pathway_association, 'biolink:chemical_to_pathway_association']
+DRUGBANK:target:
+  rename: [physically_interacts_with, 'biolink:physically_interacts_with']
 EFO:0000784:
   rename: [affects, 'biolink:affects']
 EFO:0001697:
