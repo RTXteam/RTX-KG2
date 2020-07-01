@@ -2067,7 +2067,8 @@ oboFormat:xref:
 owl:equivalentTo:
   rename: [same_as, 'biolink:same_as']
 owl:inverseOf: {keep: null}
-owl:sameAs: {keep: null}
+owl:sameAs:
+  rename: [same_as, 'biolink:same_as']
 owl:subPropertyOf:
   rename: [subclass_of, 'biolink:subclass_of']
 owl:type:
