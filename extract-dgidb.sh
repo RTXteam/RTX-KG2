@@ -9,7 +9,7 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     exit 2
 fi
 
-echo "================= starting build-dgidb.sh ================="
+echo "================= starting extract-dgidb.sh ================="
 date
 
 CONFIG_DIR=`dirname "$0"`
@@ -26,4 +26,4 @@ echo "#${UPDATE_DATE}" > ${DGIDB_DIR}/${DGIDB_FILE}
 cat /tmp/${DGIDB_FILE} >> ${DGIDB_DIR}/${DGIDB_FILE}
 
 date
-echo "================= script finished ================="
+echo "================= finished extract-dgidb.sh ================="
