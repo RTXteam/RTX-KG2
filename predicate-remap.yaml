@@ -123,7 +123,7 @@ CHEMBL.MECHANISM:directly_interacts_with:
 CHEMBL.MECHANISM:disrupting_agent:
   rename: [disrupts, 'biolink:disrupts']
 CHEMBL.MECHANISM:equivalent_to:
-  rename: [equivalent_to, 'owl:equivalentClass']
+  rename: [same_as, 'biolink:same_as']
 CHEMBL.MECHANISM:has_role:
   rename: [has_role, 'RO:0000087']
 CHEMBL.MECHANISM:has_indication:
@@ -1515,7 +1515,7 @@ RTXKG1:disease_has_basis_in_dysfunction_of:
 RTXKG1:disease_has_location:
   rename: [disease_has_location, 'RO:0004026']
 RTXKG1:equivalentClass:
-  rename: [equivalent_to, 'owl:equivalentClass']
+  rename: [same_as, 'biolink:same_as']
 RTXKG1:expressed_in: {keep: null}
 RTXKG1:functionally_related_to:
   rename: [functionally_related_to, 'RO:0002328']
@@ -2065,9 +2065,10 @@ VANDF:isa:
 oboFormat:xref:
   rename: [close_match, 'skos:closeMatch']
 owl:equivalentTo:
-  rename: [equivalent_to, 'owl:equivalentClass']
+  rename: [same_as, 'biolink:same_as']
 owl:inverseOf: {keep: null}
-owl:sameAs: {keep: null}
+owl:sameAs:
+  rename: [same_as, 'biolink:same_as']
 owl:subPropertyOf:
   rename: [subclass_of, 'biolink:subclass_of']
 owl:type:
