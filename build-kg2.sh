@@ -104,6 +104,13 @@ REPODB_DIR=${BUILD_DIR}/repodb
 REPODB_INPUT_FILE=${BUILD_DIR}/repodb/repodb.csv
 REPODB_OUTPUT_FILE=${BUILD_DIR}/kg2-repodb${TEST_SUFFIX}.json
 
+SMPDB_DIR=${BUILD_DIR}/smpdb/
+SMPDB_INPUT_FILE=${SMPDB_DIR}/smpdb_pathways.csv
+SMPDB_OUTPUT_FILE=${BUILD_DIR}/kg2-smpdb.json
+
+DRUGBANK_INPUT_FILE=${BUILD_DIR}/drugbank.xml
+DRUGBANK_OUTPUT_FILE=${BUILD_DIR}/kg2-drugbank${TEST_SUFFIX}.json
+
 KG1_OUTPUT_FILE=${BUILD_DIR}/kg2-rtx-kg1${TEST_SUFFIX}.json
 RTX_CONFIG_FILE=RTXConfiguration-config.json
 
@@ -143,6 +150,14 @@ then
 ## Download REPODB
     echo "running download-repodb-csv.sh"
     bash -x ${CODE_DIR}/download-repodb-csv.sh ${REPODB_DIR}
+
+## Download SMPDB
+    echo "running extract-smpdb.sh"
+    bash -x ${CODE_DIR}/extract-smpdb.sh ${SMPDB_DIR}
+
+## Download DrugBank
+    echo "running extract-drubank.sh"
+    bash -x ${CODE_DIR}/extract-smpdb.sh ${DRUGBANK_INPUT_FILE}
 fi
 
 echo "running uniprotkb_dat_to_json.py"
@@ -226,6 +241,22 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/repodb_csv_to_kg_json.py \
            ${TEST_ARG} \
            ${REPODB_INPUT_FILE} \
            ${REPODB_OUTPUT_FILE} 2> ${REPODB_DIR}/repodb-csv-to-kg-json.log
+
+echo "running drugbank_xml_to_kg_json.py"
+
+## Make JSON file for DrugBank
+
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/drugbank_xml_to_kg_json.py \
+           ${TEST_ARG} \
+           ${DRUGBANK_INPUT_FILE} \
+           ${DRUGBANK_OUTPUT_FILE} 2> ${BUILD_DIR}/drubank-xml-to-kg-json.log
+
+## Make JSON file for DrugBank
+
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/smpdb_csv_to_kg_json.py \
+           ${TEST_ARG} \
+           ${SMPDB_INPUT_FILE} \
+           ${SMPDB_OUTPUT_FILE}
 
 echo "copying RTX Configuration JSON file from S3"
 
