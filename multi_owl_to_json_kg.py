@@ -109,7 +109,7 @@ def make_ontology_from_local_file(file_name: str):
             kg2_util.log_message(message="Reading ontology file: " + file_name + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
                                  ontology_name=None)
             cp = subprocess.run(['owltools', file_name, '-o', '-f', 'json', temp_file_name],
-                                 check=True)
+                                check=True)
             # robot commented out because it is giving a NullPointerException on umls-semantictypes.owl
             # Once robot no longer gives a NullPointerException, we can use it like this:
             #        cp = subprocess.run(['robot', 'convert', '--input', file_name, '--output', temp_file_name])
