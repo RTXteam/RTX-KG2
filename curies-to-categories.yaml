@@ -12,6 +12,7 @@ prefix-mappings:
     HCPCS: procedure
     HGNC: gene
     IAO: information content entity
+    ICD10: disease
     LOINC: procedure
     MGI: gene
     NCBIGene: gene
