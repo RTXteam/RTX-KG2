@@ -47,10 +47,11 @@ REGEX_PUBLICATIONS = re.compile(r'((?:(?:PMID)|(?:ISBN)):\d+)')
 REGEX_XREF_END_DESCRIP = re.compile(r'.*\[([^\]]+)\]$')
 
 CUI_BASE_IRI = kg2_util.BASE_URL_IDENTIFIERS_ORG + 'umls:'
-IRI_OBO_XREF = 'http://purl.org/obo/owl/oboFormat#oboFormat_xref'
-CURIE_OBO_XREF = 'oboFormat:xref'
-OWL_BASE_CLASS = 'owl:Thing'
-OWL_NOTHING = 'owl:Nothing'
+IRI_OBO_XREF = kg2_util.IRI_OBO_FORMAT_XREF
+CURIE_OBO_XREF = kg2_util.CURIE_ID_OBO_FORMAT_XREF
+OWL_BASE_CLASS = kg2_util.CURIE_ID_OWL_THING
+OWL_NOTHING = kg2_util.CURIE_ID_OWL_NOTHING
+
 MYSTERIOUS_BASE_NODE_ID_TO_FILTER = '_:genid'
 ENSEMBL_LETTER_TO_CATEGORY = {'P': 'protein',
                               'G': 'gene',
@@ -89,8 +90,14 @@ def delete_ontobio_cache_json(file_name: str):
                 raise e
 
 
-# this function will load the ontology object from a pickle file (if it exists) or
-# it will create the ontology object by parsing the OWL-XML ontology file
+# This function will load the ontology object from a pickle file (if it exists)
+# or it will create the ontology object by parsing the OWL-XML ontology file
+# NOTE: it seems that ontobio can't directly read a TTL file (at least, it is
+# not working for me), so we convert all input files (whether OWL or TTL) to
+# JSON and then load the JSON files using ontobio, for "simplicity". A second
+# reason why we load using JSON is because when it loads an OWL file, ontobio
+# does some internal caching that cannot be opted out of; it does not do this
+# caching if you load an ontology in JSON format.
 def make_ontology_from_local_file(file_name: str):
     file_name_without_ext = os.path.splitext(file_name)[0]
     file_name_with_pickle_ext = file_name_without_ext + ".pickle"
@@ -101,8 +108,9 @@ def make_ontology_from_local_file(file_name: str):
             size = os.path.getsize(file_name)
             kg2_util.log_message(message="Reading ontology file: " + file_name + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
                                  ontology_name=None)
-            cp = subprocess.run(['owltools', file_name, '-o', '-f', 'json', temp_file_name])
-            # robot commented out because it is giving a NullPointerException on umls_semantictypes.owl
+            cp = subprocess.run(['owltools', file_name, '-o', '-f', 'json', temp_file_name],
+                                check=True)
+            # robot commented out because it is giving a NullPointerException on umls-semantictypes.owl
             # Once robot no longer gives a NullPointerException, we can use it like this:
             #        cp = subprocess.run(['robot', 'convert', '--input', file_name, '--output', temp_file_name])
             if cp.stdout is not None:
@@ -117,8 +125,8 @@ def make_ontology_from_local_file(file_name: str):
         size = os.path.getsize(json_file)
         kg2_util.log_message(message="Reading ontology JSON file: " + json_file + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
                              ontology_name=None)
-
-        ont_return = ontobio.ontol_factory.OntologyFactory().create(json_file, ignore_cache=True)
+        assert os.path.exists(json_file)
+        ont_return = kg2_util.load_ontology_from_owl_or_json_file(json_file)
     else:
         size = os.path.getsize(file_name_with_pickle_ext)
         kg2_util.log_message("Reading ontology file: " + file_name_with_pickle_ext + "; size: " + "{0:.2f}".format(size/1024) + " KiB", ontology_name=None)

@@ -11,7 +11,7 @@ fi
 
 MYSQL_DBNAME=${1:-"chembl"}
 
-echo "================= starting build-chembl.sh ================="
+echo "================= starting extract-chembl.sh ================="
 date
 
 CONFIG_DIR=`dirname "$0"`
@@ -41,4 +41,4 @@ mysql --defaults-extra-file=${MYSQL_CONF} \
 zcat ${CHEMBL_SQL_FILE}.gz | mysql --defaults-extra-file=${MYSQL_CONF} --database=${MYSQL_DBNAME}
 
 date
-echo "================= script finished ================="
+echo "================= finished extract-chembl.sh ================="

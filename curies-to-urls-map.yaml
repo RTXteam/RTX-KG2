@@ -230,6 +230,8 @@ use_for_bidirectional_mapping:
   -
     OBO: http://purl.obolibrary.org/obo/
   -
+    oboFormat: http://purl.org/obo/owl/oboFormat#oboFormat_
+  -
     OBOREL: "http://purl.org/obo/owl/OBO_REL#"
   -
     OCRe: http://purl.org/net/OCRe/
@@ -310,7 +312,7 @@ use_for_bidirectional_mapping:
   -
     skos: http://www.w3.org/2004/02/skos/core#
   -
-    smpdb: "https://identifiers.org/smpdb:"
+    SMPDB: "https://identifiers.org/smpdb:"
   -
     SNOMED: http://purl.bioontology.org/ontology/SNOMEDCT/
   -

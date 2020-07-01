@@ -9,7 +9,7 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     exit 2
 fi
 
-echo "================= starting build-unichem.sh ================="
+echo "================= starting extract-unichem.sh ================="
 date
 
 CONFIG_DIR=`dirname "$0"`
@@ -43,4 +43,4 @@ join ${UNICHEM_DIR}/chembl.txt ${UNICHEM_DIR}/chebi.txt | sed 's/ /\t/g' | cut -
 join ${UNICHEM_DIR}/chembl.txt ${UNICHEM_DIR}/drugbank.txt | sed 's/ /\t/g' | cut -f2-3 >> ${OUTPUT_TSV_FILE}
 
 date
-echo "================= script finished ================="
+echo "================= finished extract-unichem.sh ================="

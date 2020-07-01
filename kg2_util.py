@@ -65,12 +65,13 @@ CURIE_PREFIX_KEGG_SOURCE = 'KEGG_source'
 CURIE_PREFIX_MESH = 'MESH'
 CURIE_PREFIX_NCBI_GENE = 'NCBIGene'
 CURIE_PREFIX_NCBI_TAXON = 'NCBITaxon'
+CURIE_PREFIX_OBO_FORMAT = 'oboFormat'
 CURIE_PREFIX_OWL = 'owl'
 CURIE_PREFIX_PMID = 'PMID'
 CURIE_PREFIX_REPODB = 'REPODB'
 CURIE_PREFIX_RTX_KG1 = 'RTXKG1'
 CURIE_PREFIX_SEMMEDDB = 'SEMMEDDB'
-CURIE_PREFIX_SMPDB = 'smpdb'
+CURIE_PREFIX_SMPDB = 'SMPDB'
 CURIE_PREFIX_TTD_DRUG = 'ttd.drug'
 CURIE_PREFIX_TTD_TARGET = 'ttd.target'
 CURIE_PREFIX_UMLS_TUI = 'UMLSSC'
@@ -87,7 +88,8 @@ BASE_URL_GTPI_SOURCE = 'https://www.guidetopharmacology.org/'
 BASE_URL_IDENTIFIERS_ORG = 'https://identifiers.org/'
 BASE_URL_IDENTIFIERS_ORG_REGISTRY = 'https://registry.identifiers.org/registry/'
 BASE_URL_KEGG = '"https://www.genome.jp/dbget-bin/www_bget?'
-BASE_URL_OWL = 'http://www.w3.org/2002/07/owl'
+BASE_URL_OBO_FORMAT = 'http://purl.org/obo/owl/oboFormat#oboFormat_'
+BASE_URL_OWL = 'http://www.w3.org/2002/07/owl#'
 BASE_URL_REPODB = 'http://apps.chiragjpgroup.org/repoDB'
 BASE_URL_RTX_KG1 = 'http://arax.rtx.ai'
 BASE_URL_SEMMEDDB = 'https://skr3.nlm.nih.gov/SemMedDB'
@@ -98,11 +100,18 @@ BIOLINK_CATEGORY_DRUG = 'drug'
 BIOLINK_CATEGORY_GENE = 'gene'
 BIOLINK_CATEGORY_PROTEIN = 'protein'
 
-CURIE_OWL_SAME_AS = CURIE_PREFIX_OWL + ':' + 'sameAs'
-IRI_OWL_SAME_AS = BASE_URL_OWL + '#sameAs'
+CURIE_ID_OWL_SAME_AS = CURIE_PREFIX_OWL + ':' + 'sameAs'
+CURIE_ID_OWL_NOTHING = CURIE_PREFIX_OWL + ':' + 'Nothing'
+CURIE_ID_OWL_THING = CURIE_PREFIX_OWL + ':' + 'Thing'
+CURIE_ID_OBO_FORMAT_XREF = CURIE_PREFIX_OBO_FORMAT + ':' + 'xref'
+
+IRI_OBO_FORMAT_XREF = BASE_URL_OBO_FORMAT + 'xref'
+IRI_OWL_SAME_AS = BASE_URL_OWL + 'sameAs'
 
 OBO_REL_CURIE_RE = re.compile(r'OBO:([^#]+)#([^#]+)')
 OBO_ONT_CURIE_RE = re.compile(r'OBO:([^\.]+)\.owl')
+
+BIOLINK_MODEL_OWL = 'biolink-model.owl'
 
 
 class MLStripper(html.parser.HTMLParser):
@@ -493,3 +502,8 @@ def is_a_valid_http_url(id: str) -> bool:
     except validators.ValidationFailure:
         valid = False
     return valid
+
+
+def load_ontology_from_owl_or_json_file(ontology_file_name: str):
+    ont_factory = ontobio.ontol_factory.OntologyFactory()
+    return ont_factory.create(ontology_file_name, ignore_cache=True)

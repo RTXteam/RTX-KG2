@@ -11,7 +11,7 @@ fi
 
 # Usage: extract-semmeddb.sh <output_file.json>
 
-echo "================= starting build-semmeddb.sh ================="
+echo "================= starting extract-semmeddb.sh ================="
 date
 
 CONFIG_DIR=`dirname "$0"`
@@ -63,6 +63,6 @@ ${VENV_DIR}/bin/python3 ${CODE_DIR}/semmeddb_mysql_to_tuple_list_json.py \
 	   ${SEMMED_OUTPUT_FILE}
 
 date
-echo "================= script finished ================="
+echo "================= finished extract-semmeddb.sh ================="
 
 

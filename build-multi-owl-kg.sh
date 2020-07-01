@@ -58,4 +58,4 @@ cd ${BUILD_DIR} && ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/multi_owl_to_json_kg.p
            2>${LOG_FILE}
 
 date
-echo "================= script finished ================="
+echo "================= finished build-multi-owl-kg.sh ================="

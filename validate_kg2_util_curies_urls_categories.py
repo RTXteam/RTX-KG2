@@ -44,3 +44,15 @@ for variable_name in dir(kg2_util):
     elif variable_name.startswith('BIOLINK_CATEGORY_'):
         category_label = getattr(kg2_util, variable_name)
         assert category_label in categories_to_check, category_label
+    elif variable_name.startswith('CURIE_ID_'):
+        curie_id = getattr(kg2_util, variable_name)
+        assert ':' in curie_id, variable_name
+        assert curie_id.split(':')[0] in curies_to_url_map_data_bidir, variable_name
+    elif variable_name.startswith('IRI_'):
+        url = getattr(kg2_util, variable_name)
+        found_match = False
+        for map_url in curies_to_url_map_data_bidir.values():
+            if url.startswith(map_url):
+                found_match = True
+                break
+        assert found_match, 'URL mismatch: ' + variable_name

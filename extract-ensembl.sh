@@ -9,7 +9,7 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     exit 2
 fi
 
-echo "================= starting build-ensembl.sh ================="
+echo "================= starting extract-ensembl.sh ================="
 date
 
 CONFIG_DIR=`dirname "$0"`
@@ -25,4 +25,4 @@ mkdir -p ${OUTPUT_DIR}
 ${CURL_GET} ftp://ftp.ensembl.org/pub/release-${ENSEMBL_RELEASE}/json/homo_sapiens/homo_sapiens.json > ${ENSEMBL_JSON_FILE}
 
 date
-echo  "================= script finished ================="
+echo  "================= finished extract-ensembl.sh ================="

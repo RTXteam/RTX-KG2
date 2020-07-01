@@ -26,4 +26,4 @@ ${S3_CP_CMD} s3://${S3_BUCKET}/${XML_FILENAME} ${BUILD_DIR}
 gzip -cdf ${BUILD_DIR}/${XML_FILENAME} > ${OUTPUT_FILE}
 
 date
-echo "================= script finished =================="
+echo "================= finished extract-drugbank.sh =================="

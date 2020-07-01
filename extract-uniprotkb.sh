@@ -27,4 +27,4 @@ zcat ${UNIPROTKB_DIR}/uniprot_sprot.dat.gz > /tmp/uniprot_sprot.dat
 mv /tmp/uniprot_sprot.dat ${UNIPROTKB_DAT_FILE}
 
 date
-echo "================= script finished ================="
+echo "================= finished extract-uniprotkb.sh ================="

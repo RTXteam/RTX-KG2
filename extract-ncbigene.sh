@@ -9,7 +9,7 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     exit 2
 fi
 
-echo "================= starting build-ensembl.sh ================="
+echo "================= starting extract-ncbigene.sh ================="
 date
 
 CONFIG_DIR=`dirname "$0"`
@@ -25,4 +25,4 @@ ${CURL_GET} ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Homo_sapiens
 gunzip -f ${NCBI_GENE_TSV_FILE}.gz
 
 date
-echo  "================= script finished ================="
+echo  "================= finished extract-ncbigene.sh ================="

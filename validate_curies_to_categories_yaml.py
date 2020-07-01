@@ -16,12 +16,16 @@ __status__ = 'Prototype'
 
 import kg2_util
 import ontobio
+import os.path
+
+BIOLINK_MODEL_OWL = kg2_util.BIOLINK_MODEL_OWL
 
 curies_to_categories_data = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string('curies-to-categories.yaml'))
 curies_to_url_map_data = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string('curies-to-urls-map.yaml'))
 curies_to_url_map_data_bidir = {next(iter(listitem.keys())) for listitem in curies_to_url_map_data['use_for_bidirectional_mapping']}
 
-biolink_ont = ontobio.ontol_factory.OntologyFactory().create("biolink-model.owl")
+assert os.path.exists(BIOLINK_MODEL_OWL)
+biolink_ont = kg2_util.load_ontology_from_owl_or_json_file(BIOLINK_MODEL_OWL)
 biolink_categories_ontology_depths = kg2_util.get_biolink_categories_ontology_depths(biolink_ont)
 
 for prefix in curies_to_categories_data['prefix-mappings'].keys():
