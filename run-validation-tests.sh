@@ -21,7 +21,8 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_curies_to_categories_yaml.py
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_curies_to_urls_map_yaml.py
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_rtx_kg1_curie_mappings.py
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_kg2_util_curies_urls_categories.py
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_predicate_remap_yaml#.py
 
 date
-echo "================= script finished ================="
+echo "================= finished run-validation-tests.sh ================="
 
