@@ -35,5 +35,6 @@ snakemake==5.5.4
 SPARQLWrapper==1.8.4
 urllib3==1.24.3
 watchdog==0.9.0
+xmltodict==0.12.0
 yamldown==0.1.8
 validators==0.15.0
