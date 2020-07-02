@@ -12,8 +12,8 @@ if [[ $# != 0 || "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
 fi
 
 ## setup the shell variables for various directories
-CONFIG_DIR=`dirname "$0"`
-source ${CONFIG_DIR}/master-config.shinc
+config_dir=`dirname "$0"`
+source ${config_dir}/master-config.shinc
 
 read -p "Are you sure you are running this command in the KG2 build instance and not on your laptop? " -n 1 -r
 echo    # (optional) move to a new line
