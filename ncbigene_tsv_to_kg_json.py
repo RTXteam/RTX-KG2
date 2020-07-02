@@ -18,7 +18,7 @@ import kg2_util
 import os
 
 
-NCBI_BASE_IRI = kg2_util.BASE_URL_IDENTIFIERS_ORG + 'ncbigene:'
+NCBI_BASE_IRI = kg2_util.BASE_URL_NCBIGENE
 NCBI_KB_CURIE_ID = kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY + ':' + 'ncbigene'
 NCBI_KB_URL = kg2_util.BASE_URL_IDENTIFIERS_ORG_REGISTRY + 'ncbigene'
 

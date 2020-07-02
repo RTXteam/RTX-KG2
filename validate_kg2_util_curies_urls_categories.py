@@ -29,6 +29,9 @@ args = make_arg_parser().parse_args()
 curies_to_categories_file_name = args.curiesToCategoriesFile
 curies_to_urls_map_file_name = args.curiesToURLsMapFile
 
+iri_shortener = kg2_util.make_uri_to_curie_shortener(kg2_util.make_curies_to_uri_map(kg2_util.read_file_to_string(curies_to_urls_map_file_name),
+                                                                                     kg2_util.IDMapperType.CONTRACT))
+
 curies_to_url_map_data = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_urls_map_file_name))
 curies_to_url_map_data_bidir = {key: listitem[key] for listitem in curies_to_url_map_data['use_for_bidirectional_mapping'] for key in listitem.keys()}
 
@@ -44,17 +47,8 @@ for variable_name in dir(kg2_util):
         assert getattr(kg2_util, variable_name) in curies_to_url_map_data_bidir, variable_name
     elif variable_name.startswith('BASE_URL_'):
         url_str = getattr(kg2_util, variable_name)
-        found_match = False
-        for map_url in curies_to_url_map_data_bidir.values():
-            if map_url.startswith(map_url):
-                found_match = True
-                break
-        if not found_match:
-            for map_url in curies_to_url_map_data_cont.values():
-                if map_url.startswith(map_url):
-                    found_match = True
-                    break
-        assert found_match, "URL mismatch: " + variable_name
+        curie = iri_shortener(url_str)
+        assert curie is not None, url_str
     elif variable_name.startswith('BIOLINK_CATEGORY_'):
         category_label = getattr(kg2_util, variable_name)
         assert category_label in categories_to_check, category_label
@@ -64,9 +58,4 @@ for variable_name in dir(kg2_util):
         assert curie_id.split(':')[0] in curies_to_url_map_data_bidir, variable_name
     elif variable_name.startswith('IRI_'):
         url = getattr(kg2_util, variable_name)
-        found_match = False
-        for map_url in curies_to_url_map_data_bidir.values():
-            if url.startswith(map_url):
-                found_match = True
-                break
-        assert found_match, 'URL mismatch: ' + variable_name
+        assert iri_shortener(url) is not None, url

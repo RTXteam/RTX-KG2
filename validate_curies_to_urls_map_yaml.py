@@ -69,7 +69,7 @@ assert len(overlap_set) == 0, str(overlap_set)
 
 for curie_prefix in map_data_bidir.keys():
     if curie_prefix not in biolink_context_curie_prefixes:
-        print("KG2 CURIE prefix " + curie_prefix + " is not in the Biolink context.jsonld file", file=sys.stderr)
+        print("WARNING: KG2 CURIE prefix " + curie_prefix + " is not in the Biolink context.jsonld file", file=sys.stderr)
 # every URL in the expa map should be a value in the bidir map_data (or at least a partial match)
 bidir_map_urls = set(iter(map_data_bidir.values()))
 for expa_url in map_data_expa.values():

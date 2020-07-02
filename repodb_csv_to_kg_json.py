@@ -18,11 +18,11 @@ import os
 import pandas as pd
 
 DRUGBANK_CURIE = kg2_util.CURIE_PREFIX_DRUGBANK
-UMLS_CURIE = kg2_util.CURIE_PREFIX_CUI
+UMLS_CURIE = kg2_util.CURIE_PREFIX_UMLS
 REPODB_IRI = kg2_util.BASE_URL_REPODB
 REPODB_CURIE = kg2_util.CURIE_PREFIX_REPODB
 NCT_CURIE = kg2_util.CURIE_PREFIX_CLINICALTRIALS
-CLINICALTRIALS_IRI = kg2_util.BASE_URL_IDENTIFIERS_ORG + "clinicaltrials:"
+CLINICALTRIALS_IRI = kg2_util.BASE_URL_CLINICALTRIALS
 
 
 def get_args():
@@ -54,7 +54,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
             phase = "unknown_phase"
         relation = "clinically_tested_" + status + "_" + phase
         edge_dict = kg2_util.make_edge(subject_id=DRUGBANK_CURIE + df['drug_id'][idx],
-                                       object_id=UMLS_CURIE + df['ind_id'][idx],
+                                       object_id=UMLS_CURIE + ':' + df['ind_id'][idx],
                                        relation=REPODB_IRI + '#' + kg2_util.convert_snake_case_to_camel_case(relation),
                                        relation_curie=REPODB_CURIE + relation,
                                        predicate_label=relation,

@@ -22,7 +22,7 @@ use_for_bidirectional_mapping:
   -
     biolink: https://w3id.org/biolink/vocab/
   -
-    biolink_source: https://raw.githubusercontent.com/biolink/biolink-model/master/
+    biolink_download_source: https://raw.githubusercontent.com/biolink/biolink-model/master/
   -
     BRO: http://bioontology.org/ontologies/BiomedicalResourceOntology.owl#
   -
@@ -334,15 +334,15 @@ use_for_bidirectional_mapping:
   -
     ttd.target: "https://identifiers.org/ttd.target:"
   -
-    UMLSSC: http://purl.bioontology.org/ontology/STY/
-  -
     UBERON: http://purl.obolibrary.org/obo/UBERON_
   -
     UBPROP: http://purl.obolibrary.org/obo/UBPROP_
   -
-    umls: "https://identifiers.org/umls:"
+    UMLS: "https://identifiers.org/umls:"
   -
     umls_source: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/
+  -
+    UMLS_STY: http://purl.bioontology.org/ontology/STY/
   -
     UNICHEM_source: "https://www.ebi.ac.uk/unichem/"
   -
@@ -383,6 +383,8 @@ use_for_contraction_only:
     BFO: http://www.ifomis.org/bfo/1.1/span#
   -
     biolink: https://w3id.org/biolink/biolinkml/meta/
+  -
+    biolink: https://w3id.org/biolink/biolink-model
   -
     BTO: http://purl.obolibrary.org/obo/bto#
   -
@@ -514,19 +516,19 @@ use_for_contraction_only:
   -
     NCBITaxon: http://purl.obolibrary.org/obo/ncbitaxon#
   -
-    umls: http://purl.obolibrary.org/obo/UMLS_
+    UMLS: http://purl.obolibrary.org/obo/UMLS_
   -
-    umls: http://purl.bioontology.org/ontology/MTH/
+    UMLS: http://purl.bioontology.org/ontology/MTH/
   -
-    umls: http://linkedlifedata.com/resource/umls/id/
+    UMLS: http://linkedlifedata.com/resource/umls/id/
   -
-    umls: https://identifiers.org/umls/
+    UMLS: https://identifiers.org/umls/
   -
-    umls: http://purl.bioontology.org/ontology/HL7/
+    UMLS: http://purl.bioontology.org/ontology/HL7/
   -
-    umls: http://purl.bioontology.org/ontology/MED-RT/
+    UMLS: http://purl.bioontology.org/ontology/MED-RT/
   -
-    umls: http://purl.bioontology.org/ontology/MEDLINEPLUS/
+    UMLS: http://purl.bioontology.org/ontology/MEDLINEPLUS/
   -
     UBERON: http://purl.obolibrary.org/obo/uberon/insect-anatomy#
   -
@@ -551,5 +553,3 @@ use_for_expansion_only:
     Orphanet: http://purl.bioontology.org/ontology/ORDO/
   -
     oboInOwl: http://www.geneontology.org/formats/oboInOwl#
-  -
-    UMLS: "https://identifiers.org/umls:"

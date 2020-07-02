@@ -20,7 +20,7 @@ __maintainer__ = ''
 __email__ = ''
 __status__ = 'Prototype'
 
-DRUGBANK_BASE_IRI = kg2_util.BASE_URL_IDENTIFIERS_ORG + 'drugbank:'
+DRUGBANK_BASE_IRI = kg2_util.BASE_URL_DRUGBANK
 DRUGBANK_KB_CURIE_ID = kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY \
                                 + ":drugbank"
 DRUGBANK_RELATION_CURIE_PREFIX = kg2_util.CURIE_PREFIX_DRUGBANK

@@ -218,43 +218,43 @@ term-mappings:
     UBERON:0001062: anatomical entity
     UBERON:0000105: life stage
 #    UMLS:hasSTY: relationship type
-    UMLSSC:T017: gross anatomical structure
-    UMLSSC:T001: individual organism
-    UMLSSC:T028: genomic entity
-    UMLSSC:T032: physiological process
-    UMLSSC:T033: disease or phenotypic feature
-    UMLSSC:T038: phenomenon
-    UMLSSC:T047: disease
-    UMLSSC:T051: activity and behavior
-    UMLSSC:T052: activity and behavior
-    UMLSSC:T053: activity and behavior
-    UMLSSC:T067: occurrent
-    UMLSSC:T071: named thing
-    UMLSSC:T072: named thing
-    UMLSSC:T073: named thing
-    UMLSSC:T074: device
-    UMLSSC:T075: device
-    UMLSSC:T077: information content entity
-    UMLSSC:T078: information content entity
-    UMLSSC:T090: individual organism
-    UMLSSC:T092: provider
-    UMLSSC:T096: individual organism
-    UMLSSC:T102: information content entity
-    UMLSSC:T103: chemical substance
-    UMLSSC:T116: protein
-    UMLSSC:T120: chemical substance
-    UMLSSC:T121: chemical substance
-    UMLSSC:T123: chemical substance
-    UMLSSC:T125: chemical substance
-    UMLSSC:T126: chemical substance
-    UMLSSC:T129: chemical substance
-    UMLSSC:T131: chemical substance
-    UMLSSC:T167: chemical substance
-    UMLSSC:T170: publication
-    UMLSSC:T171: information content entity
-    UMLSSC:T184: disease
-    UMLSSC:T196: chemical substance
-    UMLSSC:T200: drug
+    UMLS_STY:T017: gross anatomical structure
+    UMLS_STY:T001: individual organism
+    UMLS_STY:T028: genomic entity
+    UMLS_STY:T032: physiological process
+    UMLS_STY:T033: disease or phenotypic feature
+    UMLS_STY:T038: phenomenon
+    UMLS_STY:T047: disease
+    UMLS_STY:T051: activity and behavior
+    UMLS_STY:T052: activity and behavior
+    UMLS_STY:T053: activity and behavior
+    UMLS_STY:T067: occurrent
+    UMLS_STY:T071: named thing
+    UMLS_STY:T072: named thing
+    UMLS_STY:T073: named thing
+    UMLS_STY:T074: device
+    UMLS_STY:T075: device
+    UMLS_STY:T077: information content entity
+    UMLS_STY:T078: information content entity
+    UMLS_STY:T090: individual organism
+    UMLS_STY:T092: provider
+    UMLS_STY:T096: individual organism
+    UMLS_STY:T102: information content entity
+    UMLS_STY:T103: chemical substance
+    UMLS_STY:T116: protein
+    UMLS_STY:T120: chemical substance
+    UMLS_STY:T121: chemical substance
+    UMLS_STY:T123: chemical substance
+    UMLS_STY:T125: chemical substance
+    UMLS_STY:T126: chemical substance
+    UMLS_STY:T129: chemical substance
+    UMLS_STY:T131: chemical substance
+    UMLS_STY:T167: chemical substance
+    UMLS_STY:T170: publication
+    UMLS_STY:T171: information content entity
+    UMLS_STY:T184: disease
+    UMLS_STY:T196: chemical substance
+    UMLS_STY:T200: drug
     UPHENO:0001001: phenotypic feature
     WD:Q28845870: biological entity
     WD:Q12136: disease

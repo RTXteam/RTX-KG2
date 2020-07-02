@@ -1,3 +1,4 @@
+if [ -z ${var+TEST_SUFFIX} ]; then TEST_SUFFIX=""; fi
 BUILD_DIR=~/kg2-build
 VENV_DIR=~/kg2-venv
 CODE_DIR=~/kg2-code
@@ -12,4 +13,4 @@ CURL_GET="curl -s -L"
 CURIES_TO_CATEGORIES_FILE=${CODE_DIR}/curies-to-categories.yaml
 CURIES_TO_URLS_FILE=${CODE_DIR}/curies-to-urls-map.yaml
 PREDICATE_MAPPING_FILE=${CODE_DIR}/predicate-remap.yaml
-
+OWL_LOAD_INVENTORY_FILE=${CODE_DIR}/owl-load-inventory${TEST_SUFFIX}.yaml

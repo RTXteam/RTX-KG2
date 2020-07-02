@@ -15,10 +15,6 @@ fi
 echo "================= starting build-multi-owl-kg.sh ================="
 date
 
-## load the master config file
-CONFIG_DIR=`dirname "$0"`
-source ${CONFIG_DIR}/master-config.shinc
-
 ## supply a default value for the BUILD_FLAG string
 BUILD_FLAG=${2:-""}
 
@@ -30,6 +26,10 @@ else
     TEST_SUFFIX=''
     TEST_ARG=''
 fi
+
+## load the master config file
+CONFIG_DIR=`dirname "$0"`
+source ${CONFIG_DIR}/master-config.shinc
 
 OUTPUT_FILE=${1:-"${BUILD_DIR}/kg2-owl${TEST_SUFFIX}.json"}
 OUTPUT_FILE_BASE=`basename ${OUTPUT_FILE}`
@@ -44,9 +44,6 @@ MEM_GB=`${CODE_DIR}/get-system-memory-gb.sh`
 
 export OWLTOOLS_MEMORY=${MEM_GB}G
 export DEBUG=1  ## for owltools
-
-
-OWL_LOAD_INVENTORY_FILE=${CODE_DIR}/owl-load-inventory${TEST_SUFFIX}.yaml
 
 ## run the multi_owl_to_json_kg.py script
 cd ${BUILD_DIR} && ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/multi_owl_to_json_kg.py \
