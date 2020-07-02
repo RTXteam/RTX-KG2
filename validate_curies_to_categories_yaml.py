@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-'''Checks the file "curies-to-categories.yaml" for correctness.  This script
+'''Checks the file `curies-to-categories.yaml` for correctness.  This script
    should be run each time `curies-to-categories.yaml` or
    `curies-to-urls-map.yaml` is changed.
 
@@ -14,14 +14,25 @@ __maintainer__ = ''
 __email__ = ''
 __status__ = 'Prototype'
 
+import argparse
 import kg2_util
-import ontobio
 import os.path
 
 BIOLINK_MODEL_OWL = kg2_util.BIOLINK_MODEL_OWL
 
-curies_to_categories_data = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string('curies-to-categories.yaml'))
-curies_to_url_map_data = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string('curies-to-urls-map.yaml'))
+
+def make_arg_parser():
+    arg_parser = argparse.ArgumentParser(description='validate_curies_to_categories.py: checks the file `curies-to-categories.yaml` for correctness.')
+    arg_parser.add_argument('curiesToCategoriesFile', type=str)
+    arg_parser.add_argument('curiesToURLsMapFile', type=str)
+    return arg_parser
+
+
+args = make_arg_parser().parse_args()
+curies_to_categories_file_name = args.curiesToCategoriesFile
+curies_to_urls_map_file_name = args.curiesToURLsMapFile
+curies_to_categories_data = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_categories_file_name))
+curies_to_url_map_data = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_urls_map_file_name))
 curies_to_url_map_data_bidir = {next(iter(listitem.keys())) for listitem in curies_to_url_map_data['use_for_bidirectional_mapping']}
 
 assert os.path.exists(BIOLINK_MODEL_OWL)

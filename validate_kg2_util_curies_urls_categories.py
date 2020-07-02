@@ -13,14 +13,28 @@ __maintainer__ = ''
 __email__ = ''
 __status__ = 'Prototype'
 
+import argparse
 import kg2_util
 
-curies_to_url_map_data = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string('curies-to-urls-map.yaml'))
+
+def make_arg_parser():
+    arg_parser = argparse.ArgumentParser(description='validate_kg2_util_curies_urls_categories.py: ' +
+                                         'checks the file `kg2_util.py` for correctness for its CURIE IDs, Base URLs, and biolink categories.')
+    arg_parser.add_argument('curiesToCategoriesFile', type=str)
+    arg_parser.add_argument('curiesToURLsMapFile', type=str)
+    return arg_parser
+
+
+args = make_arg_parser().parse_args()
+curies_to_categories_file_name = args.curiesToCategoriesFile
+curies_to_urls_map_file_name = args.curiesToURLsMapFile
+
+curies_to_url_map_data = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_urls_map_file_name))
 curies_to_url_map_data_bidir = {key: listitem[key] for listitem in curies_to_url_map_data['use_for_bidirectional_mapping'] for key in listitem.keys()}
 
 curies_to_url_map_data_cont = {key: listitem[key] for listitem in curies_to_url_map_data['use_for_contraction_only'] for key in listitem.keys()}
 
-curies_to_categories_data = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string('curies-to-categories.yaml'))
+curies_to_categories_data = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_categories_file_name))
 
 categories_to_check = set(list(curies_to_categories_data['prefix-mappings'].values()) +
                           list(curies_to_categories_data['term-mappings'].values()))

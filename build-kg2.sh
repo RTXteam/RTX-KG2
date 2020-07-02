@@ -117,8 +117,6 @@ RTX_CONFIG_FILE=RTXConfiguration-config.json
 KG2_TSV_DIR=${BUILD_DIR}/TSV
 KG2_TSV_TARBALL=${BUILD_DIR}/kg2-tsv${TEST_SUFFIX}.tar.gz
 
-PREDICATE_MAPPING_FILE=${CODE_DIR}/predicate-remap.yaml
-
 cd ${BUILD_DIR}
 
 MEM_GB=`${CODE_DIR}/get-system-memory-gb.sh`
