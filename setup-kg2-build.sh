@@ -22,7 +22,7 @@ MYSQL_PASSWORD=1337
 mkdir -p ${BUILD_DIR}
 SETUP_LOG_FILE=${BUILD_DIR}/setup-kg2-build.log
 
-#{
+{
 echo "================= starting setup-kg2.sh ================="
 date
 
@@ -38,7 +38,7 @@ sudo apt-get update
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
 
 # we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
-sudo apt-get install -y python3.7 python3.7-dev
+sudo apt-get install -y python3.7 python3.7-dev python3.7-venv
 
 # install various other packages used by the build system
 #  - curl is generally used for HTTP downloads
@@ -73,9 +73,6 @@ mv python3-distutils_3.6.9-1~18.04_all.deb /tmp
 sudo dpkg-deb -x /tmp/python3-distutils_3.6.9-1~18.04_all.deb /
 sudo python3.7 /tmp/get-pip.py
 
-## the only python package we need to install into the native python3 is virtualenv
-sudo -H pip3 install virtualenv
-
 ## create a virtualenv for building KG2
 virtualenv ${VENV_DIR}
 
@@ -95,7 +92,7 @@ chmod +x ${BUILD_DIR}/robot
 ## setup owltools
 ${CURL_GET} ${BUILD_DIR} https://github.com/RTXteam/owltools/releases/download/v0.3.0/owltools > ${BUILD_DIR}/owltools
 chmod +x ${BUILD_DIR}/owltools
-#} >${SETUP_LOG_FILE} 2>&1
+} >${SETUP_LOG_FILE} 2>&1
 
 ## setup AWS CLI
 if ! aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/test /tmp/; then
@@ -104,7 +101,7 @@ else
     rm /tmp/test
 fi
 
-#{
+{
 RAPTOR_NAME=raptor2-2.0.15
 # setup raptor (used by the "checkOutputSyntax.sh" script in the umls2rdf package)
 ${CURL_GET} -o ${BUILD_DIR}/${RAPTOR_NAME}.tar.gz http://download.librdf.org/source/${RAPTOR_NAME}.tar.gz
@@ -134,6 +131,6 @@ mysql --defaults-extra-file=${MYSQL_CONF} \
 date
 
 echo "================= script finished ================="
-#} > ${SETUP_LOG_FILE} 2>&1
+} >> ${SETUP_LOG_FILE} 2>&1
 
 ${S3_CP_CMD} ${SETUP_LOG_FILE} s3://${S3_BUCKET_PUBLIC}/
