@@ -99,7 +99,7 @@ def make_rel(preds_dict: dict,
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='semmeddb_mysql_to_json.py: extracts all the predicate triples from SemMedDB, in the RTX KG2 JSON format')
     arg_parser.add_argument('--test', dest='test', action='store_true', default=False)
-    arg_parser.add_argument('--mrcuiFile', dest='mrcui_file_name', type=str, default=None)
+    arg_parser.add_argument('--mrcuiFile', dest='mrcui_file_name', nargs=1, type=str, default=None)
     arg_parser.add_argument('inputFile', type=str)
     arg_parser.add_argument('outputFile', type=str)
     return arg_parser
@@ -183,7 +183,7 @@ def get_rels_to_make_for_row(subject_str: str, object_str: str, predicate: str, 
 
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
-    mrcui_file_name = args.mrcuiFile  # '/home/ubuntu/kg2-build/umls/META/MRCUI.RRF'
+    mrcui_file_name = args.mrcui_file_name  # '/home/ubuntu/kg2-build/umls/META/MRCUI.RRF'
     input_file_name = args.inputFile
     output_file_name = args.outputFile
     test_mode = args.test

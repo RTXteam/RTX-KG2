@@ -174,12 +174,13 @@ MRCUI_RRF_FILE=${UMLS_DEST_DIR}/MRCUI.RRF
 if [ -f "${MRCUI_RRF_FILE}" ]; then
     MRCUI_ARG=--mrcuiFile ${MRCUI_RRF_FILE}
 else
+    echo "WARNING: the MRCUI.RRF file is not found! proceeding withoutthe MRCUI.RRF-based CUI mapping"
     MRCUI_ARG=
 fi
 ## Build SemMedDB KG2 edges file as JSON:
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/semmeddb_tuple_list_json_to_kg_json.py \
            ${TEST_ARG} \
-           --mrcuiFile ${MRCUI_ARG} \
+           ${MRCUI_ARG} \
            ${SEMMED_TUPLELIST_FILE} \
            ${SEMMED_OUTPUT_FILE}
 
