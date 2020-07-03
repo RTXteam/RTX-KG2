@@ -14,3 +14,4 @@ RUN echo "ubuntu ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/ubuntu
 
 # copy setup scripts
 RUN git clone https://github.com/RTXteam/RTX.git
+CMD tail -f /dev/null
