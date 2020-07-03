@@ -11,7 +11,7 @@ fi
 
 ## load the master config file
 CONFIG_DIR=`dirname "$0"`
-source ${CONFIG_DIR}/master-config.shinc-local
+source ${CONFIG_DIR}/master-config.shinc
 
 
 echo "================= starting run-validation-tests.sh ================="
