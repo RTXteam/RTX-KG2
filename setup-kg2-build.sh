@@ -36,7 +36,7 @@ sudo apt-get update
 
 ## handle weird tzdata install (this makes UTC the timezone)
 DEBIAN_FRONTEND=noninteractive
-sudo apt-get install -y tzdata
+sudo -E apt-get install -y tzdata
 
 # we want python3.7
 sudo apt-get install -y python3.7
