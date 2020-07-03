@@ -203,7 +203,7 @@ exact python packages needed in the latest `requirements.txt` file in the KG2 co
 in an Ubuntu 18.04 instance created using the standard AWS AMI, they should already
 be installed):
 
-    sudo apt-get update -y && sudo apt-get install -y screen git
+    sudo apt-get update && sudo apt-get install -y screen git
 
 (2) change to the home directory for user `ubuntu`:
 
