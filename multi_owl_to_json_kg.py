@@ -1019,7 +1019,6 @@ if __name__ == '__main__':
     owl_load_inventory_file = args.owlLoadInventoryFile
     output_file = args.outputFile
     test_mode = args.test
-    test_mode = True
     curies_to_categories = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_categories_file_name))
     map_dict = kg2_util.make_uri_curie_mappers(curies_to_uri_file_name)
     [curie_to_uri_expander, uri_to_curie_shortener] = [map_dict['expand'], map_dict['contract']]
