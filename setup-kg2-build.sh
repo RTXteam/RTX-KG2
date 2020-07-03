@@ -38,7 +38,7 @@ sudo apt-get update
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
 
 # we want python3.7
-sudo apt-get install -y python3.7
+sudo apt-get install -y python3.7 python3.7-dev
 
 # install various other packages used by the build system
 #  - curl is generally used for HTTP downloads
