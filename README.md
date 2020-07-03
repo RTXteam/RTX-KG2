@@ -96,7 +96,8 @@ system. The KG2 build system's `bash` scripts create three subdirectories
 whatever Linux user account you use to run the KG2 build software (if you run on
 an EC2 Ubuntu instance, this directory would by default be `/home/ubuntu`). The
 various directories used by the KG2 build system are configured in the `bash`
-include file `master-config.shinc`.
+include file `master-config.shinc`. Most of the KG2 build system code is in
+python3, designed to run in python3.7 and tested specifically in python 3.7.5.
 
 Note about atomicity of file moving: The build software is designed to run with
 the `kg2-build` directory being in the same file system as the Python temporary
