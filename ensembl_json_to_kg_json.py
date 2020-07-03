@@ -18,7 +18,7 @@ import kg2_util
 
 
 ENSEMBL_BASE_IRI = kg2_util.BASE_URL_ENSEMBL
-ENSEMBL_RELATION_CURIE_PREFIX = 'ENSEMBL'
+ENSEMBL_RELATION_CURIE_PREFIX = kg2_util.CURIE_PREFIX_ENSEMBL
 ENSEMBL_KB_CURIE_ID = kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY + ':' + 'ensembl'
 ENSEMBL_KB_URI = kg2_util.BASE_URL_IDENTIFIERS_ORG_REGISTRY + "ensembl"
 
@@ -89,8 +89,8 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
         taxon_id_int = gene_dict.get('taxon_id', None)
         assert taxon_id_int == 9606, "unexpected taxon ID"
         edges.append(kg2_util.make_edge_biolink(ensembl_gene_curie_id,
-                                                'NCBITaxon:' + str(taxon_id_int),
-                                                'in_taxon',
+                                                kg2_util.CURIE_PREFIX_NCBI_TAXON + str(taxon_id_int),
+                                                kg2_util.EDGE_LABEL_BIOLINK_IN_TAXON,
                                                 ENSEMBL_KB_CURIE_ID,
                                                 update_date))
         hgnc_list = gene_dict.get('HGNC', None)
@@ -100,7 +100,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                                                 hgnc_curie,
                                                 kg2_util.IRI_OWL_SAME_AS,
                                                 kg2_util.CURIE_ID_OWL_SAME_AS,
-                                                'same_as',
+                                                kg2_util.EDGE_LABEL_OWL_SAME_AS,
                                                 ENSEMBL_KB_CURIE_ID,
                                                 update_date))
     return {'nodes': nodes,

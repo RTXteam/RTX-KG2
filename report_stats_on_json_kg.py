@@ -21,6 +21,7 @@ import collections
 import datetime
 import gzip
 import json
+import kg2_util
 import shutil
 import sys
 import tempfile
@@ -127,7 +128,7 @@ def count_types_of_pairs_of_curies_for_xrefs(edges: list):
 def count_types_of_pairs_of_curies_for_equivs(edges: list):
     prefix_pairs_list = list()
     for edge in edges:
-        if edge['edge label'] == 'same_as':
+        if edge['edge label'] == kg2_util.EDGE_LABEL_OWL_SAME_AS:
             subject_curie = edge['subject']
             subject_prefix = get_prefix_from_curie_id(subject_curie)
             object_curie = edge['object']

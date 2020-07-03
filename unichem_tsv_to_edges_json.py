@@ -18,7 +18,7 @@ import argparse
 import kg2_util
 
 
-UNICHEM_KB_CURIE = kg2_util.CURIE_PREFIX_UNICHEM_SOURCE + ':'
+UNICHEM_KB_CURIE = kg2_util.CURIE_ID_UNICHEM
 
 
 def make_xref(subject: str,
@@ -28,7 +28,7 @@ def make_xref(subject: str,
                                    object,
                                    kg2_util.IRI_OWL_SAME_AS,
                                    kg2_util.CURIE_ID_OWL_SAME_AS,
-                                   'same_as',
+                                   kg2_util.EDGE_LABEL_OWL_SAME_AS,
                                    UNICHEM_KB_CURIE,
                                    update_date)
     return edge_dict

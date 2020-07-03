@@ -18,6 +18,7 @@ __status__ = 'Prototype'
 
 import datetime
 import json
+import kg2_util
 import neo4j
 import pprint
 
@@ -142,7 +143,7 @@ def count_types_of_pairs_of_curies_for_xrefs(session):
 
 
 def count_types_of_pairs_of_curies_for_equivs(session):
-    res = session.run('MATCH (n)-[r:same_as]->(m) WITH\
+    res = session.run('MATCH (n)-[r:' + kg2_util.EDGE_LABEL_OWL_SAME_AS + ']->(m) WITH\
     split(n.id, ":")[0] AS Pair1, split(m.id, ":")[0] AS Pair2, count(n) AS \
     NumberofNodes RETURN DISTINCT Pair1, Pair2, NumberofNodes ORDER BY Pair1')
     return {(record[0] + "---" + record[1]): record[2] for record in

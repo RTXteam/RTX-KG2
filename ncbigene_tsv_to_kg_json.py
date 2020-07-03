@@ -139,16 +139,16 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                 xrefs_list = db_xrefs.split('|')
                 for xref_curie in xrefs_list:
                     if xref_curie.startswith('HGNC:HGNC:'):
-                        xref_curie = 'HGNC:' + xref_curie.replace('HGNC:', '')
+                        xref_curie = kg2_util.CURIE_PREFIX_HGNC + ':' + xref_curie.replace('HGNC:', '')
                     elif xref_curie.startswith('Ensembl:'):
                         xref_curie = xref_curie.upper()
                     elif xref_curie.startswith('MIM:'):
-                        xref_curie = 'OMIM:' + xref_curie.replace('MIM:', '')
+                        xref_curie = kg2_util.CURIE_PREFIX_OMIM + ':' + xref_curie.replace('MIM:', '')
                     edges.append(kg2_util.make_edge(node_curie_id,
                                                     xref_curie,
                                                     kg2_util.IRI_OWL_SAME_AS,
                                                     kg2_util.CURIE_ID_OWL_SAME_AS,
-                                                    'same_as',
+                                                    kg2_util.EDGE_LABEL_OWL_SAME_AS,
                                                     NCBI_KB_CURIE_ID,
                                                     modify_date))
     return {'nodes': nodes,
