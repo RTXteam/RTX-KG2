@@ -97,7 +97,7 @@ whatever Linux user account you use to run the KG2 build software (if you run on
 an EC2 Ubuntu instance, this directory would by default be `/home/ubuntu`). The
 various directories used by the KG2 build system are configured in the `bash`
 include file `master-config.shinc`. Most of the KG2 build system code is in
-python3, designed to run in python3.7 and tested specifically in python 3.7.5.
+python3, designed to run in python3.7 (and tested specifically in python 3.7.5).
 
 Note about atomicity of file moving: The build software is designed to run with
 the `kg2-build` directory being in the same file system as the Python temporary
@@ -306,12 +306,17 @@ for Option 1, starting at step (4).
 
 ### Option 4: in an Ubuntu container in Docker (UNTESTED, IN DEVELOPMENT)
 
-(1) If you are on Ubuntu and you need to install Docker, you can run this command in `bash` on the host OS:
+For the Docker option, you will need a *lot* of disk space in the root file system,
+unless you modify the Docker installation to store containers in some other (non-default) 
+file system location. Here are the instructions:
+
+(1) Install Docker. If you are on Ubuntu and you need to install Docker, you can
+run this command in `bash` on the host OS:
    
     source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/install-docker.sh)
     
 (otherwise, the subsequent commands in this section assume that Docker is installed
-on whatever host OS you are running). 
+on whatever host system you are running). 
 
 (2) Clone the RTX software into your home directory:
 
