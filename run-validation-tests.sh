@@ -35,7 +35,7 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_predicate_remap_yaml.py \
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_owl_load_inventory.py \
            ${OWL_LOAD_INVENTORY_FILE} \
            ${CURIES_TO_URLS_FILE} \
-           ${CODE_DIR}/umls2rdf-umls.conf
+           ${UMLS2RDF_CONFIG_MASTER}
 
 date
 echo "================= finished run-validation-tests.sh ================="

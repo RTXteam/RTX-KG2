@@ -103,7 +103,7 @@ cat ${UMLS2RDF_DIR}/conf_sample.py | sed 's/your-host/localhost/g' | \
     sed "s|output|${OUTPUT_DIR}|g" | \
     sed "s/2015ab/${UMLS_VER}/g" > ${UMLS2RDF_DIR}/conf.py
 
-cp ${CODE_DIR}/umls2rdf-umls.conf ${UMLS2RDF_DIR}/umls.conf
+cp ${UMLS2RDF_CONFIG_MASTER} ${UMLS2RDF_DIR}/umls.conf
 
 ## change to the UMLS2RDF_DIR directory
 cd ${UMLS2RDF_DIR}

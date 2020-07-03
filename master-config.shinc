@@ -14,3 +14,4 @@ CURIES_TO_CATEGORIES_FILE=${CODE_DIR}/curies-to-categories.yaml
 CURIES_TO_URLS_FILE=${CODE_DIR}/curies-to-urls-map.yaml
 PREDICATE_MAPPING_FILE=${CODE_DIR}/predicate-remap.yaml
 OWL_LOAD_INVENTORY_FILE=${CODE_DIR}/owl-load-inventory${TEST_SUFFIX}.yaml
+UMLS2RDF_CONFIG_MASTER=${CODE_DIR}/umls2rdf-umls.conf
