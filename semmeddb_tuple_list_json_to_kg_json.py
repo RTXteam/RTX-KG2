@@ -99,7 +99,7 @@ def make_rel(preds_dict: dict,
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='semmeddb_mysql_to_json.py: extracts all the predicate triples from SemMedDB, in the RTX KG2 JSON format')
     arg_parser.add_argument('--test', dest='test', action='store_true', default=False)
-    arg_parser.add_argument('--mrcuiFile', dest='mrcui_file_name', nargs=1, type=str, default=None)
+    arg_parser.add_argument('--mrcuiFile', dest='mrcui_file_name', type=str, default=None)
     arg_parser.add_argument('inputFile', type=str)
     arg_parser.add_argument('outputFile', type=str)
     return arg_parser
@@ -198,7 +198,7 @@ if __name__ == '__main__':
 
     row_ctr = 0
 
-    update_date_dt = datetime.datetime.fromisoformat('2018.01.01 00:00:00')  # picking an arbitrary time in the past
+    update_date_dt = datetime.datetime.fromisoformat('2018-01-01 00:00:00')  # picking an arbitrary time in the past
 
     for (pmid, subject_cui_str, predicate, object_cui_str, pub_date, sentence,
          subject_score, object_score, curr_timestamp) in input_data['rows']:
