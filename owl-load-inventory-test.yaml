@@ -3,282 +3,282 @@
   file: biolink-model.owl
   download: true
   title: Biolink meta-model
-- # maps to CURIE prefix: UMLSSC
-  url: http://purl.bioontology.org/ontology/STY
+- # maps to CURIE prefix: UMLSSC (the trailling slash here is important:)
+  url: http://purl.bioontology.org/ontology/STY/
   file: umls-semantictypes.ttl
   download: false
   title: UMLS Semantic Types
-- # maps to CURIE prefix: ATC
-  download: false
-  file: umls-atc.ttl
-  title: Anatomical Therapeutic Chemical Classification System
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ATC
-- # maps to CURIE prefix CPT
-  download: false
-  file: umls-cpt.ttl
-  title: Current Procedural Terminology
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/CPT
+# - # maps to CURIE prefix: ATC
+#   download: false
+#   file: umls-atc.ttl
+#   title: Anatomical Therapeutic Chemical Classification System
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ATC
+# - # maps to CURIE prefix CPT
+#   download: false
+#   file: umls-cpt.ttl
+#   title: Current Procedural Terminology
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/CPT
 - # maps to CURIE prefix DRUGBANK
   download: false
   file: umls-drugbank.ttl
   title: DrugBank
   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/DRUGBANK
-- # maps to CURIE prefix FMA
-  download: false
-  file: umls-fma.ttl
-  title: Foundational Model of Anatomy
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/FMA
+# - # maps to CURIE prefix FMA
+#   download: false
+#   file: umls-fma.ttl
+#   title: Foundational Model of Anatomy
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/FMA
 - # maps to CURIE prefix GO
   download: false
   file: umls-go.ttl
   title: Gene Ontology
   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/GO
-- # maps to CURIE prefix HCPCS
-  download: false
-  file: umls-hcpcs.ttl
-  title: Healthcare Common Procedure Coding System
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/HCPCS
-- # maps to CURIE prefix CPT
-  download: false
-  file: umls-hcpt.ttl
-  title: CPT in HCPCS
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/HCPT
+# - # maps to CURIE prefix HCPCS
+#   download: false
+#   file: umls-hcpcs.ttl
+#   title: Healthcare Common Procedure Coding System
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/HCPCS
+# - # maps to CURIE prefix CPT
+#   download: false
+#   file: umls-hcpt.ttl
+#   title: CPT in HCPCS
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/HCPT
 - # maps to CURIE prefix HGNC
   download: false
   file: umls-hgnc.ttl
   title: HUGO Gene Nomenclature Committee
   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/HGNC
-- # maps to CURIE prefix umls
-  download: false
-  file: umls-hl7.ttl
-  title: HL7 Version 3.0
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/HL7
-- # maps to CURIE prefix HP
-  download: false
-  file: umls-hpo.ttl
-  title: Human Phenotype Ontology
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/HPO
-- # maps to CURIE prefix ICD10
-  download: false
-  file: umls-icd10.ttl
-  title: International Classification of Diseases and Related Health Problems,
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD10
-- # maps to CURIE prefix ICD10
-  download: false
-  file: umls-icd10ae.ttl
-  title: ICD-10, American English Equivalents
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD10AE
-- # maps to CURIE prefix ICD10
-  download: false
-  file: umls-icd10cm.ttl
-  title: International Classification of Diseases, Tenth Revision, Clinical Modification
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD10CM
-- # maps to CURIE prefix ICD10PCS
-  download: false
-  file: umls-icd10pcs.ttl
-  title: ICD-10 Procedure Coding System
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD10PCS
-- # maps to CURIE prefix ICD9
-  download: false
-  file: umls-icd9cm.ttl
-  title: International Classification of Diseases, Ninth Revision, Clinical Modification
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD9CM
-- # maps to CURIE prefix LOINC
-  download: false
-  file: umls-lnc.ttl
-  title: Logical Observation Identifiers Names and Codes
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/LNC
+# - # maps to CURIE prefix umls
+#   download: false
+#   file: umls-hl7.ttl
+#   title: HL7 Version 3.0
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/HL7
+# - # maps to CURIE prefix HP
+#   download: false
+#   file: umls-hpo.ttl
+#   title: Human Phenotype Ontology
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/HPO
+# - # maps to CURIE prefix ICD10
+#   download: false
+#   file: umls-icd10.ttl
+#   title: International Classification of Diseases and Related Health Problems,
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD10
+# - # maps to CURIE prefix ICD10
+#   download: false
+#   file: umls-icd10ae.ttl
+#   title: ICD-10, American English Equivalents
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD10AE
+# - # maps to CURIE prefix ICD10
+#   download: false
+#   file: umls-icd10cm.ttl
+#   title: International Classification of Diseases, Tenth Revision, Clinical Modification
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD10CM
+# - # maps to CURIE prefix ICD10PCS
+#   download: false
+#   file: umls-icd10pcs.ttl
+#   title: ICD-10 Procedure Coding System
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD10PCS
+# - # maps to CURIE prefix ICD9
+#   download: false
+#   file: umls-icd9cm.ttl
+#   title: International Classification of Diseases, Ninth Revision, Clinical Modification
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD9CM
+# - # maps to CURIE prefix LOINC
+#   download: false
+#   file: umls-lnc.ttl
+#   title: Logical Observation Identifiers Names and Codes
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/LNC
 - # maps to CURIE prefix MEDDRA
-  download: false
-  file: umls-mdr.ttl
-  title: MedDRA
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MEDDRA
-- # maps to CURIE prefix umls
-  download: false
-  file: umls-med-rt.ttl
-  title: Medication Reference Terminology
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MED-RT
-- # maps to CURIE prefix umls
-  download: false
-  file: umls-medlineplus.ttl
-  title: MedlinePlus Health Topics
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MEDLINEPLUS
-- # maps to CURIE prefix MESH
-  download: false
-  file: umls-msh.ttl
-  title: Medical Subject Headings
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MSH
-- # maps to CURIE prefix umls
-  download: false
-  file: umls-mth.ttl
-  title: Metathesaurus Names
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MTH
-- # maps to CURIE prefix NCBITaxon
-  download: false
-  file: umls-ncbi.ttl
-  title: NCBI
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/NCBITAXON
-- # maps to CURIE prefix NCIT
-  download: false
-  file: umls-nci.ttl
-  title: NCI Thesaurus
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/NCI
-- # maps to CURIE prefix NDDF
-  download: false
-  file: umls-nddf.ttl
-  title: National Drug Data File
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/NDDF
-- # maps to CURIE prefix NDFRT
-  download: false
-  file: umls-ndfrt.ttl
-  title: National Drug File - Reference Terminology
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/NDFRT
-- # maps to CURIE prefix OMIM
-  download: false
-  file: umls-omim.ttl
-  title: Online Mendelian Inheritance in Man
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/OMIM
-- # maps to CURIE prefix PDQ
-  download: false
-  file: umls-pdq.ttl
-  title: Physician Data Query
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/PDQ
-- # maps to CURIE prefix RXNORM
-  download: false
-  file: umls-rxnorm.ttl
-  title: RXNORM
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/RXNORM
-- # maps to CURIE prefix SNOMED
-  download: false
-  file: umls-snomedct_us.ttl
-  title: SNOMED Clinical Terms US Edition
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/SNOMEDCT
-# ==> unable to find an online set of pages for SNOMEDCT_VET concepts but I want to find one so that
-# I can include SNOMEDCT_VET in the kg2 build, thus am keeping this section commented out [SAR]:
-# -
+   download: false
+   file: umls-mdr.ttl
+   title: MedDRA
+   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MEDDRA
+# - # maps to CURIE prefix umls
 #   download: false
-#   file: umls-snomedct_vet.ttl
-#   title: Veterinary Extension to SNOMED CT
-#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/SNOMEDCT_VET
-# ==> this section (UMLS Source Terminology Names) seems like it could be useful in the future, but
-# I can't find purls to its concepts anywhere:
-# -
+#   file: umls-med-rt.ttl
+#   title: Medication Reference Terminology
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MED-RT
+# - # maps to CURIE prefix umls
 #   download: false
-#   file: umls-src.ttl
-#   title: Source Terminology Names (UMLS)
-#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/SRC
-- # maps to CURIE prefix VANDF
-  download: false
-  file: umls-vandf.ttl
-  title: National Drug File
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/VANDF
-- # maps to CURIE prefix: BFO
-  url:  http://purl.obolibrary.org/obo/bfo.owl
-  file: bfo.owl
-  download: true
-  title: Basic Formal Ontology
+#   file: umls-medlineplus.ttl
+#   title: MedlinePlus Health Topics
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MEDLINEPLUS
+# - # maps to CURIE prefix MESH
+#   download: false
+#   file: umls-msh.ttl
+#   title: Medical Subject Headings
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MSH
+# - # maps to CURIE prefix umls
+#   download: false
+#   file: umls-mth.ttl
+#   title: Metathesaurus Names
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MTH
+# - # maps to CURIE prefix NCBITaxon
+#   download: false
+#   file: umls-ncbi.ttl
+#   title: NCBI
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/NCBITAXON
+# - # maps to CURIE prefix NCIT
+#   download: false
+#   file: umls-nci.ttl
+#   title: NCI Thesaurus
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/NCI
+# - # maps to CURIE prefix NDDF
+#   download: false
+#   file: umls-nddf.ttl
+#   title: National Drug Data File
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/NDDF
+#- # maps to CURIE prefix NDFRT
+#  download: false
+#  file: umls-ndfrt.ttl
+#  title: National Drug File - Reference Terminology
+#  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/NDFRT
+# - # maps to CURIE prefix OMIM
+#   download: false
+#   file: umls-omim.ttl
+#   title: Online Mendelian Inheritance in Man
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/OMIM
+# - # maps to CURIE prefix PDQ
+#   download: false
+#   file: umls-pdq.ttl
+#   title: Physician Data Query
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/PDQ
+# - # maps to CURIE prefix RXNORM
+#   download: false
+#   file: umls-rxnorm.ttl
+#   title: RXNORM
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/RXNORM
+# - # maps to CURIE prefix SNOMED
+#   download: false
+#   file: umls-snomedct_us.ttl
+#   title: SNOMED Clinical Terms US Edition
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/SNOMEDCT
+# # ==> unable to find an online set of pages for SNOMEDCT_VET concepts but I want to find one so that
+# # I can include SNOMEDCT_VET in the kg2 build, thus am keeping this section commented out [SAR]:
+# # -
+# #   download: false
+# #   file: umls-snomedct_vet.ttl
+# #   title: Veterinary Extension to SNOMED CT
+# #   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/SNOMEDCT_VET
+# # ==> this section (UMLS Source Terminology Names) seems like it could be useful in the future, but
+# # I can't find purls to its concepts anywhere:
+# # -
+# #   download: false
+# #   file: umls-src.ttl
+# #   title: Source Terminology Names (UMLS)
+# #   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/SRC
+# - # maps to CURIE prefix VANDF
+#   download: false
+#   file: umls-vandf.ttl
+#   title: National Drug File
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/VANDF
+# - # maps to CURIE prefix: BFO
+#   url:  http://purl.obolibrary.org/obo/bfo.owl
+#   file: bfo.owl
+#   download: true
+#   title: Basic Formal Ontology
 - # maps to CURIE prefix: GO
   url:  http://purl.obolibrary.org/obo/go/extensions/go-plus.owl
   file: go-plus.owl
   title: Gene Ontology
   download: true
-- # maps to CURIE prefix: RO
-  url:  http://purl.obolibrary.org/obo/ro.owl
-  file: ro.owl
-  download: true
-  title: Relation Ontology
--
-  url:  http://purl.obolibrary.org/obo/uberon/ext.owl
-  file: uberon-ext.owl
-  download: true
-  title: Uber-anatomy Ontology
--
-  url:  http://www.ebi.ac.uk/efo/efo.owl
-  file: efo.owl
-  download: true
-  title: Experimental Factor Ontology
--
-  url:  http://purl.obolibrary.org/obo/fma.owl
-  file: fma.owl
-  download: true
-  title: Foundational Model of Anatomy
--
-  url:  http://purl.obolibrary.org/obo/ddanat.owl
-  file: ddanat.owl
-  download: true
-  title: Dictyostelium discoideum anatomy 
+# - # maps to CURIE prefix: RO
+#   url:  http://purl.obolibrary.org/obo/ro.owl
+#   file: ro.owl
+#   download: true
+#   title: Relation Ontology
+# -
+#   url:  http://purl.obolibrary.org/obo/uberon/ext.owl
+#   file: uberon-ext.owl
+#   download: true
+#   title: Uber-anatomy Ontology
+# -
+#   url:  http://www.ebi.ac.uk/efo/efo.owl
+#   file: efo.owl
+#   download: true
+#   title: Experimental Factor Ontology
+# -
+#   url:  http://purl.obolibrary.org/obo/fma.owl
+#   file: fma.owl
+#   download: true
+#   title: Foundational Model of Anatomy
+# -
+#   url:  http://purl.obolibrary.org/obo/ddanat.owl
+#   file: ddanat.owl
+#   download: true
+#   title: Dictyostelium discoideum anatomy 
 -
   url:  http://purl.obolibrary.org/obo/cl.owl
   file: cl.owl
   download: true
   title: Cell Ontology
--
-  url:  http://purl.obolibrary.org/obo/chebi.owl
-  file: chebi.owl
-  download: true
-  title: Chemical Entities of Biological Interest
--
-  url: http://purl.obolibrary.org/obo/foodon.owl 
-  file: foodon.owl
-  download: true
-  title: FOODON (Food Ontology)
--
-  url:  http://data.bioontology.org/ontologies/ORDO/submissions/15/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
-  file: ordo.owl
-  download: true
-  title: ORPHANET Rare Disease Ontology
--
-  url:  http://purl.obolibrary.org/obo/ehdaa2.owl
-  file: ehdaa2.owl
-  download: true
-  title: Human developmental anatomy, abstract
--
-  url:  http://purl.obolibrary.org/obo/bspo.owl
-  file: bspo.owl
-  download: true
-  title: Biological Spatial Ontology
+# -
+#   url:  http://purl.obolibrary.org/obo/chebi.owl
+#   file: chebi.owl
+#   download: true
+#   title: Chemical Entities of Biological Interest
+# -
+#   url: http://purl.obolibrary.org/obo/foodon.owl 
+#   file: foodon.owl
+#   download: true
+#   title: FOODON (Food Ontology)
+# -
+#   url:  http://data.bioontology.org/ontologies/ORDO/submissions/15/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
+#   file: ordo.owl
+#   download: true
+#   title: ORPHANET Rare Disease Ontology
+# -
+#   url:  http://purl.obolibrary.org/obo/ehdaa2.owl
+#   file: ehdaa2.owl
+#   download: true
+#   title: Human developmental anatomy, abstract
+# -
+#   url:  http://purl.obolibrary.org/obo/bspo.owl
+#   file: bspo.owl
+#   download: true
+#   title: Biological Spatial Ontology
 -
   url:  http://purl.obolibrary.org/obo/hp.owl
   file: hp.owl
   download: true
   title: Human Phenotype Ontology
--
-  url:  http://purl.obolibrary.org/obo/nbo.owl
-  file: nbo.owl
-  download: true
-  title: Neuro Behavior Ontology
--
-  url:  http://purl.obolibrary.org/obo/ncbitaxon/subsets/taxslim.owl
-  file: taxslim.owl
-  download: true
-  title: NCBITaxon
--
-  url:  http://purl.obolibrary.org/obo/pato.owl
-  file: pato.owl
-  download: true
-  title: Phenotypic Quality Ontology
-- # maps to CURIE prefix MONDO
-  url:  http://purl.obolibrary.org/obo/mondo.owl
-  file: mondo.owl
-  download: true
-  title: MONDO Disease Ontology
--
-  url:  http://purl.obolibrary.org/obo/doid.owl
-  file: doid.owl
-  download: true
-  title: Disease Ontology
--
-  url:  http://purl.obolibrary.org/obo/pr.owl
-  file: pr.owl
-  download: true
-  title: Protein Ontology
--
-  url: http://purl.obolibrary.org/obo/ino.owl
-  file: ino.owl
-  download: true
-  title: Interaction Network Ontology
-- # maps to CURIE prefix GENEPIO
-  url: http://purl.obolibrary.org/obo/genepio.owl
-  file: genepio.owl
-  download: true
-  title: Genomic Epidemiology Ontology
+# -
+#   url:  http://purl.obolibrary.org/obo/nbo.owl
+#   file: nbo.owl
+#   download: true
+#   title: Neuro Behavior Ontology
+# -
+#   url:  http://purl.obolibrary.org/obo/ncbitaxon/subsets/taxslim.owl
+#   file: taxslim.owl
+#   download: true
+#   title: NCBITaxon
+# -
+#   url:  http://purl.obolibrary.org/obo/pato.owl
+#   file: pato.owl
+#   download: true
+#   title: Phenotypic Quality Ontology
+# - # maps to CURIE prefix MONDO
+#   url:  http://purl.obolibrary.org/obo/mondo.owl
+#   file: mondo.owl
+#   download: true
+#   title: MONDO Disease Ontology
+# -
+#   url:  http://purl.obolibrary.org/obo/doid.owl
+#   file: doid.owl
+#   download: true
+#   title: Disease Ontology
+# -
+#   url:  http://purl.obolibrary.org/obo/pr.owl
+#   file: pr.owl
+#   download: true
+#   title: Protein Ontology
+# -
+#   url: http://purl.obolibrary.org/obo/ino.owl
+#   file: ino.owl
+#   download: true
+#   title: Interaction Network Ontology
+# - # maps to CURIE prefix GENEPIO
+#   url: http://purl.obolibrary.org/obo/genepio.owl
+#   file: genepio.owl
+#   download: true
+#   title: Genomic Epidemiology Ontology
