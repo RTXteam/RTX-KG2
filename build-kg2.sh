@@ -179,7 +179,7 @@ fi
 ## Build SemMedDB KG2 edges file as JSON:
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/semmeddb_tuple_list_json_to_kg_json.py \
            ${TEST_ARG} \
-           ${MRCUI_ARG} \
+           --mrcuiFile ${MRCUI_ARG} \
            ${SEMMED_TUPLELIST_FILE} \
            ${SEMMED_OUTPUT_FILE}
 
