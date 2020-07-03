@@ -22,7 +22,7 @@ import prefixcommons
 import re
 import sys
 
-SEMMEDDB_CURIE_PREFIX = kg2_util.CURIE_PREFIX_SEMMEDDBo
+SEMMEDDB_CURIE_PREFIX = kg2_util.CURIE_PREFIX_SEMMEDDB
 SEMMEDDB_IRI = kg2_util.BASE_URL_SEMMEDDB
 
 NEG_REGEX = re.compile('^NEG_', re.M)
