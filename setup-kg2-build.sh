@@ -33,9 +33,18 @@ fi
 
 ## install the Linux distro packages that we need (python3-minimal is for docker installations)
 sudo apt-get update
-sudo apt-get install -y python3-minimal \
-     python3-pip \
-     python-dev \
+
+## handle weird tzdata install (this makes UTC the timezone)
+DEBIAN_FRONTEND=noninteractive
+sudo apt-get install -y tzdata
+
+# we want python3.7
+sudo apt-get install -y python3.7
+
+# install various other packages used by the build system
+#  - curl is generally used for HTTP downloads
+#  - wget is used by the neo4j installation script (some special "--no-check-certificate" mode)
+sudo apt-get install -y \
      default-jre \
      awscli \
      zip \
@@ -49,7 +58,6 @@ sudo apt-get install -y python3-minimal \
      automake \
      git \
      libssl-dev
-
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password ${MYSQL_PASSWORD}"
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password ${MYSQL_PASSWORD}"
 sudo apt-get install -y mysql-server \
@@ -58,6 +66,13 @@ sudo apt-get install -y mysql-server \
 
 ## this is for convenience when I am remote working
 sudo apt-get install -y emacs
+
+# install pip
+curl -s https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py
+apt-get download python3-distutils
+mv python3-distutils_3.6.9-1~18.04_all.deb /tmp
+sudo dpkg-deb -x /tmp/python3-distutils_3.6.9-1~18.04_all.deb /
+sudo python3.7 /tmp/get-pip.py
 
 ## the only python package we need to install into the native python3 is virtualenv
 sudo -H pip3 install virtualenv
@@ -91,11 +106,12 @@ else
 fi
 
 {
+RAPTOR_NAME=raptor2-2.0.15
 # setup raptor (used by the "checkOutputSyntax.sh" script in the umls2rdf package)
-wget -nv -P ${BUILD_DIR} http://download.librdf.org/source/raptor2-2.0.15.tar.gz
-rm -r -f ${BUILD_DIR}/raptor2-2.0.15
-tar xzf ${BUILD_DIR}/raptor2-2.0.15.tar.gz -C ${BUILD_DIR} 
-cd ${BUILD_DIR}/raptor2-2.0.15
+${CURL_GET} -o ${BUILD_DIR}/${RAPTOR_NAME}.tar.gz http://download.librdf.org/source/${RAPTOR_NAME}.tar.gz
+rm -r -f ${BUILD_DIR}/${RAPTOR_NAME}
+tar xzf ${BUILD_DIR}/${RAPTOR_NAME}.tar.gz -C ${BUILD_DIR} 
+cd ${BUILD_DIR}/${RAPTOR_NAME}
 ./autogen.sh --prefix=/usr/local
 make
 make check
