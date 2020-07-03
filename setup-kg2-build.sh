@@ -37,7 +37,7 @@ sudo apt-get update
 ## handle weird tzdata install (this makes UTC the timezone)
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
 
-# we want python3.7
+# we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
 sudo apt-get install -y python3.7 python3.7-dev
 
 # install various other packages used by the build system
@@ -66,7 +66,7 @@ sudo apt-get install -y mysql-server \
 ## this is for convenience when I am remote working
 sudo apt-get install -y emacs
 
-# install pip
+# some shenanigans required in order to install pip into python3.7 (not into python3.6!)
 curl -s https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py
 apt-get download python3-distutils
 mv python3-distutils_3.6.9-1~18.04_all.deb /tmp
