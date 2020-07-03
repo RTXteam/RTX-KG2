@@ -232,7 +232,7 @@ def make_nodes(records: list):
                 name = gene_symbol
             else:
                 name = full_name
-        node_curie = kg2_util.CURIE_PREFIX_UNIPROTKB + ':' + accession
+        node_curie = kg2_util.CURIE_PREFIX_UNIPROT + ':' + accession
         iri = UNIPROTKB_IDENTIFIER_BASE_IRI + accession
         category_label = kg2_util.BIOLINK_CATEGORY_PROTEIN
         node_dict = kg2_util.make_node(node_curie,
