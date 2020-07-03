@@ -350,22 +350,22 @@ Now follow the instructions for Option 1 above.
 ## The output KG
 
 The `build-kg2.sh` script (run via one of the three methods shown above) creates
-a JSON file `kg2.json.gz` and copies it to a publicly accessible S3 bucket
-`rtx-kg2-public`. You can access the gzipped JSON file via HTTP, as shown here:
+a JSON file `kg2-simplified.json.gz` and copies it to an S3 bucket
+`rtx-kg2`. You can access the gzipped JSON file <!-- via HTTP, as shown here:
 
     curl https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2.json.gz > kg2.json.gz
 
-Or using the AWS command-line interface (CLI) tool `aws` with the command
+Or --> using the AWS command-line interface (CLI) tool `aws` with the command
 
-    aws s3 cp s3://rtx-kg2-public/kg2.json.gz .
+    aws s3 cp s3://rtx-kg2/kg2-simplified.json.gz .
 
-The TSV files for the knowledge graph can be accessed via HTTP as well, shown here:
+The TSV files for the knowledge graph can be accessed via HTTP as well, <!-- shown here:
 
     curl https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2-tsv.tar.gz > kg2-tsv.tar.gz
 
-Or using the AWS command-line interface (CLI) tool `aws` with the command
+Or using the AWS command-line interface (CLI) tool `aws` with the command -->
 
-    aws s3 cp s3://rtx-kg2-public/kg2-tsv.tar.gz .
+    aws s3 cp s3://rtx-kg2/kg2-tsv.tar.gz .
 
 You can access the various artifacts from the KG2 build (config file, log file,
 etc.) at the AWS static website endpoint for the 
