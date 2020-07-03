@@ -316,7 +316,8 @@ run this command in `bash` on the host OS:
     source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/install-docker.sh)
     
 (otherwise, the subsequent commands in this section assume that Docker is installed
-on whatever host system you are running). 
+on whatever host system you are running). NOTE: if your docker installation (like on 
+macOS Homebrew) doesn't require `sudo`, just omit the `sudo` commands in the host OS below.
 
 (2) Clone the RTX software into your home directory:
 
@@ -324,31 +325,27 @@ on whatever host system you are running).
     
     git clone https://github.com/RTXteam/RTX.git
 
-(3) Build a Docker image for KG2:
+(3) Build a Docker image `kg2:latest`:
     
     sudo docker build -t kg2 RTX/code/kg2/
     
-(4) Setup a container and setup KG2 in it:
+(4) Create a container called `kg2` from the `kg2:latest` image 
 
-    sudo docker run -it --name kg2 kg2:latest su - ubuntu -c "RTX/code/kg2/setup-kg2-build.sh"
+    sudo docker create --name kg2 kg2:latest
+
+(5) Start the `kg2` container:
+
+    sudo docker start kg2
     
-(If anything goes wrong, look for an error message using `sudo docker exec kg2 "cat setup-kg2.log"`)
+(6) Open a bash shell as user `root` inside the container:
 
-(5) Set up a persistent pseudo-tty using `screen`:
-
-    screen
+    docker exec -it kg2 /bin/bash
     
-(6) Inside the `screen` session, run:
+(7) Become user `ubuntu`:
+
+    su - ubuntu
     
-    sudo docker exec kg2 "bash -x kg2-code/build-kg2.sh all"
-
-Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 setup using the
-following command:
-
-    sudo docker exec -it kg2 "tail -f kg2-build/build-kg2.log"
-
-Note that the `build-multi-owl-kg.sh` script also saves `stderr` from running `multi_owl_to_json_kg.py`
-to a file `~/kg2-build/build-kg2-owl-stderr.log` inside the container.
+Now follow the instructions for Option 1 above.
 
 ## The output KG
 
