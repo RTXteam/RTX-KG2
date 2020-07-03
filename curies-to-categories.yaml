@@ -95,7 +95,6 @@ term-mappings:
     GO:0005575: cellular component
     GO:0008150: biological process
     GO:0003674: molecular activity
-#    GOCHEREL:0000001: relationship type
     HP:0031797: phenotypic feature
     HP:0012823: phenotypic feature
     HP:0032223: phenotypic feature
@@ -103,7 +102,6 @@ term-mappings:
     HP:0000005: phenotypic feature
     HP:0000118: phenotypic feature
     HP:0032443: information content entity
-#    HsapDv:0000000: life stage
     MEDDRA:10005329: disease
     MEDDRA:10007541: disease
     MEDDRA:10010331: disease
@@ -132,9 +130,7 @@ term-mappings:
     MEDDRA:10042613: procedure
     MEDDRA:10047065: disease
     MONDO:0000001: disease
-    # MONDO:0001227 was causing a warning about "Node does not have a category"; not sure why
     MONDO:0001227: disease
-    # MONDO:0020420 was causing a warning about "Node does not have a category"; not sure why
     MONDO:0020420: disease
     MONDO:0021125: phenotypic feature
     MONDO:0042489: phenotypic feature
@@ -217,7 +213,6 @@ term-mappings:
     TRANS:0000000: exposure event
     UBERON:0001062: anatomical entity
     UBERON:0000105: life stage
-#    UMLS:hasSTY: relationship type
     UMLS_STY:T017: gross anatomical structure
     UMLS_STY:T001: individual organism
     UMLS_STY:T028: genomic entity

@@ -144,7 +144,8 @@ def load_owl_file_return_ontology_and_metadata(file_name: str,
     title = ontology_title
     description = None
     umls_sver = None
-    updated_date = None
+    umls_release = None
+    source_file_date = None
     if bpv is not None:
         for bpv_dict in bpv:
             pred = bpv_dict['pred']
@@ -157,8 +158,10 @@ def load_owl_file_return_ontology_and_metadata(file_name: str,
             elif pred == kg2_util.BASE_URL_UMLS + 'sver':
                 ont_version = value
                 umls_sver = value
+            elif pred == kg2_util.BASE_URL_OWL + 'versionInfo':
+                umls_release = value
             elif pred.endswith('source_file_date'):
-                updated_date = value
+                source_file_date = value
     if ont_version is None:
         ont_version = 'downloaded:' + file_last_modified_timestamp
     ontology_id = None
@@ -177,7 +180,8 @@ def load_owl_file_return_ontology_and_metadata(file_name: str,
                      'title': title,
                      'description': description,
                      'umls-sver': umls_sver,
-                     'updated-date': updated_date}
+                     'umls-release': umls_release,
+                     'source-file-date': source_file_date}
 #    print(metadata_dict)
     return [ontology, metadata_dict]
 
@@ -278,8 +282,8 @@ def get_biolink_category_for_node(ontology_node_id: str,
         # Inelegant hack to ensure that TUI: nodes get mapped to "semantic type" while still enabling us
         # to use get_biolink_category_for_node to determine the specific semantic type of a CUI based on its
         # TUI record. Need to think about a more elegant way to do this. [SAR]
-    if curie_prefix == kg2_util.CURIE_PREFIX_UMLS_TUI and ontology.id == kg2_util.BASE_URL_UMLS_STY:
-        return ['ontology class', None]
+    if curie_prefix == kg2_util.CURIE_PREFIX_UMLS_STY and node_curie_id.split(':')[1].startswith('T') and ontology.id == kg2_util.BASE_URL_UMLS_STY:
+        return [kg2_util.BIOLINK_CATEGORY_ONTOLOGY_CLASS, None]
 
     if get_node_id_of_node_with_category:
         ret_ontology_node_id_of_node_with_category = ontology_node_id
@@ -420,7 +424,12 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             updated_date = parse_umls_sver_date(umls_sver, ontology_curie_id.split(':')[1])
 
         if updated_date is None:
-            updated_date = ontology_info_dict.get('updated-date', None)
+            updated_date = ontology_info_dict.get('source-file-date', None)
+
+        if updated_date is None:
+            umls_release = ontology_info_dict.get('umls-release', None)
+            if umls_release is not None:
+                updated_date = re.sub(r'\D', '', umls_release)
 
         if updated_date is None:
             updated_date = ontology_info_dict['file last modified timestamp']
@@ -480,6 +489,11 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             node_full_name = None
 
             assert node_curie_id is not None
+
+            curie_prefix = get_prefix_from_curie_id(node_curie_id)
+            if curie_prefix == kg2_util.CURIE_PREFIX_UMLS_STY and node_curie_id.split(':')[1].startswith('T') and ontology.id != kg2_util.BASE_URL_UMLS_STY:
+                # this is a UMLS semantic type TUI node from a non-STY UMLS source, ignore it
+                continue
 
             [node_category_label, node_with_category] = get_biolink_category_for_node(ontology_node_id,
                                                                                       node_curie_id,
@@ -549,38 +563,38 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         if bpv_pred_curie is None:
                             bpv_pred_curie = bpv_pred
                         bpv_val = basic_property_value_dict['val']
-                        if bpv_pred_curie in ['OIO:creation_date', 'dcterms:issued', 'HGNC:DATE_CREATED']:
+                        if bpv_pred_curie in {kg2_util.CURIE_ID_OIO_CREATION_DATE,
+                                              kg2_util.CURIE_ID_DCTERMS_ISSUED,
+                                              kg2_util.CURIE_ID_HGNC_DATE_CREATED}:
                             node_creation_date = bpv_val
-                        elif bpv_pred_curie == 'HGNC:DATE_LAST_MODIFIED':
+                        elif bpv_pred_curie == kg2_util.CURIE_ID_HGNC_DATE_LAST_MODIFIED:
                             node_update_date = bpv_val
-                        elif bpv_pred_curie == 'IAL:0100001':
+                        elif bpv_pred_curie == kg2_util.CURIE_ID_IAO_TERM_REPLACED_BY:
                             assert node_deprecated
                             node_replaced_by_uri = bpv_val
                             node_replaced_by_curie = uri_to_curie_shortener(node_replaced_by_uri)
                         elif bpv_pred_curie == kg2_util.CURIE_ID_UMLS_HAS_TUI:  # STY_BASE_IRI:
                             node_tui_list.append(bpv_val)
-                        elif bpv_pred_curie == 'skos:prefLabel':
+                        elif bpv_pred_curie == kg2_util.CURIE_ID_SKOS_PREF_LABEL:
                             if not node_curie_id.startswith(kg2_util.CURIE_PREFIX_HGNC + ':'):
                                 node_name = bpv_val
                             else:
                                 node_full_name = bpv_val
                                 if node_name is None:
                                     node_name = node_full_name
-                        elif bpv_pred_curie == 'skos:altLabel':
+                        elif bpv_pred_curie == kg2_util.CURIE_SKOS_ALT_LABEL:
                             node_synonyms.add(bpv_val)
-                        elif bpv_pred_curie == 'skos:definition':
+                        elif bpv_pred_curie == kg2_util.CURIE_ID_SKOS_DEFINITION:
                             node_description = kg2_util.strip_html(bpv_val)
-                        elif bpv_pred_curie == 'HGNC:GENESYMBOL':
+                        elif bpv_pred_curie == kg2_util.CURIE_ID_HGNC_GENE_SYMBOL:
                             node_name = bpv_val
                             node_synonyms.add(bpv_val)
                         elif bpv_pred_curie == kg2_util.CURIE_ID_UMLS_HAS_CUI:
                             node_has_cui = True
                     if len(node_tui_list) == 1:
                         node_tui = node_tui_list[0]
-                        node_tui_curie = kg2_util.CURIE_PREFIX_UMLS_TUI + ':' + node_tui
+                        node_tui_curie = kg2_util.CURIE_PREFIX_UMLS_STY + ':' + node_tui
                         node_tui_uri = curie_to_uri_expander(node_tui_curie)
-#                        node_tui_uri = posixpath.join('https://identifiers.org/umls/STY', node_tui)
-#                        node_tui_curie = uri_to_curie_shortener(node_tui_uri)
                         assert node_tui_curie is not None
                         [node_tui_category_label,
                          _] = get_biolink_category_for_node(node_tui_uri,
@@ -603,7 +617,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             if node_category_label is None:
                 node_type = onto_node_dict.get('type', None)
                 if node_type is not None and node_type == 'PROPERTY':
-                    node_category_label = 'property'
+                    node_category_label = kg2_util.BIOLINK_CATEGORY_ATTRIBUTE
 
             if node_category_label is None:
                 node_category_label = 'named thing'
@@ -657,12 +671,16 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             if node_name is not None and node_name.isupper():
                 node_name = kg2_util.allcaps_to_only_first_letter_capitalized(node_name)
 
+            provided_by = ontology_curie_id
+            if node_category_label == kg2_util.BIOLINK_CATEGORY_ATTRIBUTE:
+                provided_by = kg2_util.CURIE_ID_UMLS_STY
+
             node_dict = kg2_util.make_node(node_curie_id,
                                            iri,
                                            node_name,
                                            node_category_label,
                                            node_update_date,
-                                           ontology_curie_id)
+                                           provided_by)
 
             node_dict['full name'] = node_full_name
             node_dict['description'] = node_description
@@ -706,10 +724,10 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         node_dict_xrefs = node_dict['xrefs']
                         node_dict_xrefs.append(cui_curie)
                         node_dict['xrefs'] = list(set(node_dict_xrefs))
-                    elif bpv_pred_curie == 'HGNC:ENTREZGENE_ID':
+                    elif bpv_pred_curie == kg2_util.CURIE_ID_HGNC_ENTREZ_GENE_ID:
                         entrez_gene_id = bpv_val
                         entrez_node_dict = dict(node_dict)
-                        entrez_curie = 'NCBIGene:' + entrez_gene_id
+                        entrez_curie = kg2_util.CURIE_PREFIX_NCBI_GENE + ':' + entrez_gene_id
                         entrez_node_dict['id'] = entrez_curie
                         entrez_node_dict['iri'] = curie_to_uri_expander(entrez_curie)
                         ret_dict[entrez_curie] = entrez_node_dict
@@ -773,8 +791,8 @@ def get_rels_dict(nodes: dict,
             predicate_label = None
             edge_pred_string = predicate_dict['pred']
 
-            if subject_curie_id.startswith(kg2_util.CURIE_PREFIX_UMLS_TUI) and \
-               object_curie_id.startswith(kg2_util.CURIE_PREFIX_UMLS_TUI) and edge_pred_string == 'subClassOf':
+            if subject_curie_id.startswith(kg2_util.CURIE_PREFIX_UMLS_STY) and \
+               object_curie_id.startswith(kg2_util.CURIE_PREFIX_UMLS_STY) and edge_pred_string == 'subClassOf':
                 continue
 
             if edge_pred_string == "type" and ontology_curie_id.startswith(kg2_util.CURIE_PREFIX_BIOLINK_SOURCE + ':'):
@@ -799,8 +817,8 @@ def get_rels_dict(nodes: dict,
                         predicate_label = predicate_node['name']
                     else:
                         # predicate has no node object defined; just pull the label out of the CURIE
-                        if edge_pred_string.startswith('OBO:'):
-                            test_curie = edge_pred_string.replace('OBO:', '').replace('_', ':')
+                        if edge_pred_string.startswith(kg2_util.CURIE_PREFIX_OBO + ':'):
+                            test_curie = edge_pred_string.replace(kg2_util.CURIE_PREFIX_OBO + ':', '').replace('_', ':')
                             predicate_node = nodes.get(test_curie, None)
                             if predicate_node is None:
                                 predicate_label = edge_pred_string.split(':')[1].split('#')[-1]
@@ -841,9 +859,7 @@ def get_rels_dict(nodes: dict,
                 pred_node = nodes.get(predicate_curie, None)
                 if pred_node is not None:
                     predicate_label = pred_node['name']
-                    if predicate_label is None:
-                        print(predicate_curie)
-                        pprint.pprint(pred_node)
+                    assert predicate_label is not None
                     if predicate_label[0].isupper():
                         predicate_label = predicate_label[0].lower() + predicate_label[1:]
 
