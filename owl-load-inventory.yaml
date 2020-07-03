@@ -4,7 +4,7 @@
   download: true
   title: Biolink meta-model
 - # maps to CURIE prefix: UMLSSC
-  url: http://purl.bioontology.org/ontology/STY
+  url: http://purl.bioontology.org/ontology/STY/
   file: umls-semantictypes.ttl
   download: false
   title: UMLS Semantic Types

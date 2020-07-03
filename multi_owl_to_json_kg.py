@@ -582,7 +582,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                 node_full_name = bpv_val
                                 if node_name is None:
                                     node_name = node_full_name
-                        elif bpv_pred_curie == kg2_util.CURIE_SKOS_ALT_LABEL:
+                        elif bpv_pred_curie == kg2_util.CURIE_ID_SKOS_ALT_LABEL:
                             node_synonyms.add(bpv_val)
                         elif bpv_pred_curie == kg2_util.CURIE_ID_SKOS_DEFINITION:
                             node_description = kg2_util.strip_html(bpv_val)
