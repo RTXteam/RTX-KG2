@@ -402,8 +402,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
 
     biolink_categories_ontology_depths = None
     first_ontology = ontology_info_list[0]['ontology']
-    print(first_ontology.id)
-    assert first_ontology.id.startswith(kg2_util.BASE_URL_BIOLINK_ONTOLOGY), "biolink needs to be first in owl-load-inventory.yaml"
+    assert first_ontology.id == kg2_util.BASE_URL_BIOLINK_ONTOLOGY, "biolink needs to be first in owl-load-inventory.yaml"
     biolink_categories_ontology_depths = kg2_util.get_biolink_categories_ontology_depths(first_ontology)
 
     def biolink_depth_getter(category: str):
