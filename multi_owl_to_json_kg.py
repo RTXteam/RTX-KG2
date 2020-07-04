@@ -620,7 +620,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             if node_category_label is None:
                 node_category_label = 'named thing'
                 if not node_deprecated:
-                    kg2_util.log_message("Node does not have a category",
+                    kg2_util.log_message("Node with ontology_node_id " + ontology_node_id + " does not have a category",
                                          ontology.id,
                                          node_curie_id,
                                          output_stream=sys.stderr)
@@ -804,8 +804,10 @@ def get_rels_dict(nodes: dict,
                         predicate_curie = kg2_util.CURIE_PREFIX_RDFS + ':' + edge_pred_string
                     elif edge_pred_string in kg2_util.OWL_EDGE_NAMES_SET:
                         predicate_curie = kg2_util.CURIE_PREFIX_OWL + ':' + edge_pred_string
+                    elif edge_pred_string in kg2_util.MONDO_EDGE_NAMES_SET:
+                        predicate_curie = kg2_util.CURIE_PREFIX_MONDO + ':' + edge_pred_string
                     else:
-                        assert False, "Cannot map predicate name: " + edge_pred_string + " to a predicate CURIE, in ontology: " + ontology.id
+                        assert "Cannot map predicate name: " + edge_pred_string + " to a predicate CURIE, in ontology: " + ontology.id
                     predicate_label = kg2_util.convert_camel_case_to_snake_case(edge_pred_string)
                 else:
                     # edge_pred_string is a CURIE
