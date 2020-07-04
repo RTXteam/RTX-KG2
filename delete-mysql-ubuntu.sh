@@ -11,7 +11,7 @@ if [[ $# != 0 || "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     exit 2
 fi
 
-sudo apt-get remove --purge -y mysql*
+sudo DEBIAN_FRONTEND=noninteractive apt-get remove --purge -y mysql*
 sudo apt-get -y autoremove
 sudo apt-get -y autoclean
 sudo apt-get remove dbconfig-mysql
