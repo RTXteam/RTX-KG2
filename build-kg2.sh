@@ -18,15 +18,8 @@ fi
 # * The 'test' argument means that the OWL inventory is read from "owl-load-inventory-test.yaml"
 #   and all KG JSON files generated will have the string "-test" appended before their JSON suffixes.
 
-## load the master config file
-CONFIG_DIR=`dirname "$0"`
-source ${CONFIG_DIR}/master-config.shinc
-
 BUILD_FLAG=${1:-""}
 echo "${BUILD_FLAG}"
-
-## set the path to include ${BUILD_DIR}
-export PATH=$PATH:${BUILD_DIR}
 
 if [ "${BUILD_FLAG}" == 'test' ]
 then
@@ -37,6 +30,13 @@ else
     TEST_SUFFIX=''
     TEST_ARG=''
 fi
+
+## load the master config file
+CONFIG_DIR=`dirname "$0"`
+source ${CONFIG_DIR}/master-config.shinc
+
+## set the path to include ${BUILD_DIR}
+export PATH=$PATH:${BUILD_DIR}
 
 BUILD_KG2_LOG_FILE=${BUILD_DIR}/build-kg2${TEST_SUFFIX}.log
 
@@ -86,9 +86,6 @@ ENSEMBL_SOURCE_JSON_FILE=${BUILD_DIR}/ensembl/ensembl_genes_homo_sapiens.json
 ENSEMBL_OUTPUT_FILE=${BUILD_DIR}/kg2-ensembl${TEST_SUFFIX}.json
 
 CHEMBL_OUTPUT_FILE=${BUILD_DIR}/kg2-chembl${TEST_SUFFIX}.json
-
-OWL_LOAD_INVENTORY_FILE=${CODE_DIR}/owl-load-inventory${TEST_SUFFIX}.yaml
-
 CHEMBL_MYSQL_DBNAME=chembl
 
 UNICHEM_OUTPUT_TSV_FILE=${BUILD_DIR}/unichem/chembl-to-curies.tsv
