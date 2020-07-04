@@ -1,4 +1,4 @@
-if [ -z ${var+TEST_SUFFIX} ]; then TEST_SUFFIX=""; fi
+if [ -z ${TEST_SUFFIX+x} ]; then TEST_SUFFIX=""; fi
 BUILD_DIR=~/kg2-build
 VENV_DIR=~/kg2-venv
 CODE_DIR=~/kg2-code
