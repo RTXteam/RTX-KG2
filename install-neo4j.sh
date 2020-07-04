@@ -9,20 +9,20 @@ if [[ $# != 0 || "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     exit 2
 fi
 
-sudo apt-get update -y
+sudo apt-get update
 sudo apt-get install -y emacs
 
 # install Zulu OpenJDK Java
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0xB1998361219BD9C9
 sudo apt-add-repository 'deb http://repos.azulsystems.com/ubuntu stable main'
-sudo apt-get update -y
+sudo apt-get update
 sudo apt-get install -y zulu-8
 
 # install Neo4j
 wget --no-check-certificate -O - https://debian.neo4j.org/neotechnology.gpg.key | sudo apt-key add -
 echo 'deb http://debian.neo4j.org/repo stable/' > /tmp/neo4j.list
 sudo mv /tmp/neo4j.list /etc/apt/sources.list.d/neo4j.list
-sudo apt-get update -y
+sudo apt-get update
 sudo apt-get install -y neo4j=1:3.5.13
 sudo cp /etc/neo4j/neo4j.conf /etc/neo4j/neo4j.conf.ori
 

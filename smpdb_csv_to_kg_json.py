@@ -25,7 +25,7 @@ __status__ = 'Prototype'
 
 SMPDB_BASE_IRI = 'https://identifiers.org/smpdb:'
 SMPDB_RELATION_CURIE_PREFIX = 'SMPDB'
-SMPDB_KB_IRI = 'https://registry.identifiers.org/registry/smpdb'
+SMPDB_KB_IRI = kg2_util.BASE_URL_IDENTIFIERS_ORG_REGISTRY + 'smpdb'
 SMPDB_PROVIDED_BY_CURIE_ID = kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY \
                                 + ":smpdb"
 
