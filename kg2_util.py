@@ -65,6 +65,7 @@ CURIE_PREFIX_ISBN = 'ISBN'
 CURIE_PREFIX_KEGG = 'KEGG'
 CURIE_PREFIX_KEGG_SOURCE = 'KEGG_source'
 CURIE_PREFIX_MESH = 'MESH'
+CURIE_PREFIX_MONDO = 'MONDO'
 CURIE_PREFIX_NCBI_GENE = 'NCBIGene'
 CURIE_PREFIX_NCBI_TAXON = 'NCBITaxon'
 CURIE_PREFIX_OBO = 'OBO'
@@ -153,6 +154,7 @@ EDGE_LABEL_BIOLINK_IN_TAXON = 'in_taxon'
 
 RDFS_EDGE_NAMES_SET = {'subClassOf', 'subPropertyOf'}
 OWL_EDGE_NAMES_SET = {'equivalentClass', 'equivalentProperty', 'sameAs', 'differentFrom'}
+MONDO_EDGE_NAMES_SET = {'equivalentTo'}
 
 OBO_REL_CURIE_RE = re.compile(r'OBO:([^#]+)#([^#]+)')
 OBO_ONT_CURIE_RE = re.compile(r'OBO:([^\.]+)\.owl')
