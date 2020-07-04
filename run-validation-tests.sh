@@ -17,13 +17,13 @@ source ${CONFIG_DIR}/master-config.shinc
 echo "================= starting run-validation-tests.sh ================="
 date
 
-${CURL_GET} https://raw.githubusercontent.com/biolink/biolink-model/master/context.jsonld > ${CODE_DIR}/context.jsonld
+${CURL_GET} https://raw.githubusercontent.com/biolink/biolink-model/master/context.jsonld > ${BUILD_DIR}/context.jsonld
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_curies_to_categories_yaml.py \
            ${CURIES_TO_CATEGORIES_FILE} \
            ${CURIES_TO_URLS_FILE}
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_curies_to_urls_map_yaml.py \
            ${CURIES_TO_URLS_FILE} \
-           ${CODE_DIR}/context.jsonld
+           ${BUILD_DIR}/context.jsonld
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_rtx_kg1_curie_mappings.py \
            ${CURIES_TO_URLS_FILE}
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_kg2_util_curies_urls_categories.py \
