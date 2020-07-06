@@ -264,6 +264,8 @@ use_for_bidirectional_mapping:
   -
     owl: http://www.w3.org/2002/07/owl#
   -
+    PathWhiz: https://smpdb.ca/pathwhiz/pathways/
+  -
     PATO: http://purl.obolibrary.org/obo/PATO_
   -
     PC2: http://pathwaycommons.org/pc11
