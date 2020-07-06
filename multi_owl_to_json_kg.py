@@ -26,7 +26,6 @@ import kg2_util
 import ontobio
 import os.path
 import pickle
-import prefixcommons
 import re
 import shutil
 import subprocess
@@ -64,12 +63,22 @@ def delete_ontobio_cachier_caches():
     kg2_util.purge("~/.cachier", ".prefixcommons*")
 
 
-def convert_bpv_predicate_to_curie(bpv_pred: str) -> str:
+def convert_bpv_predicate_to_curie(bpv_pred: str,
+                                   uri_shortener: callable,
+                                   curie_expander: callable) -> str:
     if kg2_util.is_a_valid_http_url(bpv_pred):
-        bpv_pred_curie = uri_to_curie_shortener(bpv_pred)
+        bpv_pred_curie = uri_shortener(bpv_pred)
     else:
-        bpv_pred_curie = uri_to_curie_shortener(prefixcommons.expand_uri(bpv_pred))
+        assert ':' in bpv_pred, bpv_pred
+        bpv_pred_curie = uri_shortener(curie_expander(bpv_pred))
     return bpv_pred_curie
+
+
+def make_convert_bpv_predicate_to_curie(uri_shortener: callable,
+                                        curie_expander: callable) -> callable:
+    return lambda bpv_pred: convert_bpv_predicate_to_curie(bpv_pred,
+                                                           uri_shortener,
+                                                           curie_expander)
 
 
 # this function is needed due to an issue with caching in Ontobio; see this GitHub issue:
@@ -404,6 +413,9 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
     assert first_ontology.id == kg2_util.BASE_URL_BIOLINK_ONTOLOGY, "biolink needs to be first in owl-load-inventory.yaml"
     biolink_categories_ontology_depths = kg2_util.get_biolink_categories_ontology_depths(first_ontology)
 
+    convert_bpv_pred_to_curie_func = make_convert_bpv_predicate_to_curie(uri_to_curie_shortener,
+                                                                         curie_to_uri_expander)
+
     def biolink_depth_getter(category: str):
         return biolink_categories_ontology_depths.get(category, None)
 
@@ -557,7 +569,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                     node_tui_list = []
                     for basic_property_value_dict in basic_property_values:
                         bpv_pred = basic_property_value_dict['pred']
-                        bpv_pred_curie = convert_bpv_predicate_to_curie(bpv_pred)
+                        bpv_pred_curie = convert_bpv_pred_to_curie_func(bpv_pred)
                         if bpv_pred_curie is None:
                             bpv_pred_curie = bpv_pred
                         bpv_val = basic_property_value_dict['val']
@@ -568,7 +580,12 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         elif bpv_pred_curie == kg2_util.CURIE_ID_HGNC_DATE_LAST_MODIFIED:
                             node_update_date = bpv_val
                         elif bpv_pred_curie == kg2_util.CURIE_ID_IAO_TERM_REPLACED_BY:
-                            assert node_deprecated
+                            if not node_deprecated:
+                                node_deprecated = True
+                                kg2_util.log_message(message="Node has IAO:0100001 attribute but not owl:deprecated",
+                                                     ontology_name=iri_of_ontology,
+                                                     node_curie_id=node_curie_id,
+                                                     output_stream=sys.stderr)
                             node_replaced_by_uri = bpv_val
                             node_replaced_by_curie = uri_to_curie_shortener(node_replaced_by_uri)
                         elif bpv_pred_curie == kg2_util.CURIE_ID_UMLS_HAS_TUI:  # STY_BASE_IRI:
@@ -694,7 +711,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             if node_meta is not None and basic_property_values is not None:
                 for basic_property_value_dict in basic_property_values:
                     bpv_pred = basic_property_value_dict['pred']
-                    bpv_pred_curie = convert_bpv_predicate_to_curie(bpv_pred)
+                    bpv_pred_curie = convert_bpv_pred_to_curie_func(bpv_pred)
                     bpv_val = basic_property_value_dict['val']
                     if bpv_pred_curie == kg2_util.CURIE_ID_UMLS_HAS_CUI:
                         cui_node_dict = dict(node_dict)
