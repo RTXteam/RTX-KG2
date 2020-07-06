@@ -264,6 +264,8 @@ use_for_bidirectional_mapping:
   -
     owl: http://www.w3.org/2002/07/owl#
   -
+    PathBank.reaction: https://pathbank.org/lims#/reactions/
+  -
     PathWhiz: https://smpdb.ca/pathwhiz/pathways/
   -
     PATO: http://purl.obolibrary.org/obo/PATO_
