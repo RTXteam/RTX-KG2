@@ -19,9 +19,7 @@ __status__ = 'Prototype'
 
 
 import argparse
-import errno
 import functools
-import hashlib
 import kg2_util
 import ontobio
 import os.path
