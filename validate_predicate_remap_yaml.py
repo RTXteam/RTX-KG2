@@ -38,9 +38,11 @@ for relation_curie, instructions_dict in map_data.items():
     for instruction, instructions_list in instructions_dict.items():
         if instruction == 'keep':
             relation_curie_to_check = relation_curie
+            assert instructions_list is None, relation_curie
         elif instruction == 'delete':
             continue
         else:
             relation_curie_to_check = instructions_list[1]
+            assert relation_curie_to_check != relation_curie, relation_curie
         curie_prefix = relation_curie_to_check.split(':')[0]
         assert curie_prefix in curies_to_url_map_data_bidir, relation_curie_to_check
