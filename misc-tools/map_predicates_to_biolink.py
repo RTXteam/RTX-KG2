@@ -2,7 +2,6 @@
 
 import inspect
 import os
-import pprint
 import requests
 import sys
 import yaml
