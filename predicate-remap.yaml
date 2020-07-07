@@ -140,11 +140,11 @@ BTO:related_to:
   rename:
   - close_match
   - biolink:related_to
-Biolink:encodes:
+biolink:encodes:
   rename:
   - has_gene_product
   - biolink:has_gene_product
-Biolink:gene_product_has_organism_source:
+biolink:gene_product_has_organism_source:
   rename:
   - in_taxon
   - biolink:in_taxon
