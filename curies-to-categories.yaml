@@ -9,6 +9,7 @@ prefix-mappings:
     DRUGBANK: drug
     EHDAA2: anatomical entity
     FAO: anatomical entity
+    GAZ: geographic location
     GOREL: relationship type
     HCPCS: procedure
     HGNC: gene
