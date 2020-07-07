@@ -969,7 +969,9 @@ HL7:supported_concept_relationship_in:
 HPO:SIB:
   delete: null
 IAO:0000136:
-  keep: null
+  rename:
+  - related_to
+  - biolink:related_to
 ICD10CM:SIB:
   delete: null
 ICD10PCS:SIB:
@@ -1554,8 +1556,8 @@ NBO:in_response_to:
   - biolink:causes
 NBO:is_about:
   rename:
-  - is_about
-  - IAO:0000136
+  - related_to
+  - biolink:related_to
 NCBIGene:gene_found_in_organism:
   rename:
   - in_taxon
