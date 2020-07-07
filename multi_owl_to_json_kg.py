@@ -81,22 +81,6 @@ def make_convert_bpv_predicate_to_curie(uri_shortener: callable,
                                                            curie_expander)
 
 
-# this function is needed due to an issue with caching in Ontobio; see this GitHub issue:
-#     https://github.com/biolink/ontobio/issues/301
-def delete_ontobio_cache_json(file_name: str):
-    file_name_hash = hashlib.sha256(file_name.encode()).hexdigest()
-    temp_file_path = os.path.join("/tmp", file_name_hash)
-    if os.path.exists(temp_file_path):
-        try:
-            kg2_util.log_message(message="Deleting ontobio JSON cache file: " + temp_file_path)
-            os.remove(temp_file_path)
-        except OSError as e:
-            if e.errno == errno.ENOENT:
-                kg2_util.log_message(message="Error deleting ontobio JSON cache file: " + temp_file_path)
-            else:
-                raise e
-
-
 # This function will load the ontology object from a pickle file (if it exists)
 # or it will create the ontology object by parsing the OWL-XML ontology file
 # NOTE: it seems that ontobio can't directly read a TTL file (at least, it is
