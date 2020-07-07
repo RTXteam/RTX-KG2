@@ -4,6 +4,8 @@
 # 3. w3id.org
 use_for_bidirectional_mapping:
   -
+    AEO: http://purl.obolibrary.org/obo/AEO_
+  -
     AIR: https://identifiers.org/umls/AIR/
   -
     AraPort: http://purl.uniprot.org/araport/
@@ -78,6 +80,8 @@ use_for_bidirectional_mapping:
   -
     DRUGBANK: "https://identifiers.org/drugbank:"
   -
+    ECO: http://purl.obolibrary.org/obo/ECO_
+  -
     ECOCORE: http://purl.obolibrary.org/obo/ECOCORE_
   -
     ecogene: "https://identifiers.org/ecogene:"
@@ -129,6 +133,8 @@ use_for_bidirectional_mapping:
     GAZ: http://purl.obolibrary.org/obo/GAZ_
   -
     GENEPIO: http://purl.obolibrary.org/obo/GENEPIO_
+  -
+    GENO: http://purl.obolibrary.org/obo/GENO_
   -
     GEO: http://purl.obolibrary.org/obo/GEO_
   -
@@ -236,6 +242,8 @@ use_for_bidirectional_mapping:
   -
     OCRe: http://purl.org/net/OCRe/
   -
+    OGG: http://purl.obolibrary.org/obo/OGG_
+  -
     OGMS: http://purl.obolibrary.org/obo/OGMS_
   -
     OIO: http://www.geneontology.org/formats/oboInOwl#
@@ -337,6 +345,8 @@ use_for_bidirectional_mapping:
     ttd.drug: "https://identifiers.org/ttd.drug:"
   -
     ttd.target: "https://identifiers.org/ttd.target:"
+  -
+    TypOn: http://purl.phyloviz.net/ontology/typon#
   -
     UBERON: http://purl.obolibrary.org/obo/UBERON_
   -
@@ -557,3 +567,6 @@ use_for_expansion_only:
     Orphanet: http://purl.bioontology.org/ontology/ORDO/
   -
     oboInOwl: http://www.geneontology.org/formats/oboInOwl#
+  -
+    RXCUI: http://purl.bioontology.org/ontology/RXNORM/
+
