@@ -61,24 +61,6 @@ def delete_ontobio_cachier_caches():
     kg2_util.purge("~/.cachier", ".prefixcommons*")
 
 
-def convert_bpv_predicate_to_curie(bpv_pred: str,
-                                   uri_shortener: callable,
-                                   curie_expander: callable) -> str:
-    if kg2_util.is_a_valid_http_url(bpv_pred):
-        bpv_pred_curie = uri_shortener(bpv_pred)
-    else:
-        assert ':' in bpv_pred, bpv_pred
-        bpv_pred_curie = uri_shortener(curie_expander(bpv_pred))
-    return bpv_pred_curie
-
-
-def make_convert_bpv_predicate_to_curie(uri_shortener: callable,
-                                        curie_expander: callable) -> callable:
-    return lambda bpv_pred: convert_bpv_predicate_to_curie(bpv_pred,
-                                                           uri_shortener,
-                                                           curie_expander)
-
-
 # This function will load the ontology object from a pickle file (if it exists)
 # or it will create the ontology object by parsing the OWL-XML ontology file
 # NOTE: it seems that ontobio can't directly read a TTL file (at least, it is
@@ -996,6 +978,24 @@ def xref_as_a_publication(xref: str):
     elif kg2_util.is_a_valid_http_url(xref):
         ret_xref = xref
     return ret_xref
+
+
+def convert_bpv_predicate_to_curie(bpv_pred: str,
+                                   uri_shortener: callable,
+                                   curie_expander: callable) -> str:
+    if kg2_util.is_a_valid_http_url(bpv_pred):
+        bpv_pred_curie = uri_shortener(bpv_pred)
+    else:
+        assert ':' in bpv_pred, bpv_pred
+        bpv_pred_curie = uri_shortener(curie_expander(bpv_pred))
+    return bpv_pred_curie
+
+
+def make_convert_bpv_predicate_to_curie(uri_shortener: callable,
+                                        curie_expander: callable) -> callable:
+    return lambda bpv_pred: convert_bpv_predicate_to_curie(bpv_pred,
+                                                           uri_shortener,
+                                                           curie_expander)
 
 
 def make_arg_parser():
