@@ -24,6 +24,7 @@ prefix-mappings:
     PW: pathway
     RGD: gene
     RO: relationship type
+    RXNORM: drug
     sgd: gene
     SIO: relationship type
     skos: ontology class
