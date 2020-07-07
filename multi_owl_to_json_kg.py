@@ -178,7 +178,7 @@ def load_owl_file_return_ontology_and_metadata(file_name: str,
     else:
         ontology_id = ontology.id
         #    print(ontology_id)
-        if not ontology_id.startswith('http:') and not ontology_id.startswith('https:'):
+        if not kg2_util.is_a_valid_http_url(ontology_id):
             ontology_id = os.path.basename(file_name)
     metadata_dict = {'id': ontology_id,
                      'handle': ontology.handle,
@@ -482,7 +482,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             if iri is None:
                 iri = ontology_node_id
 
-            if not iri.startswith('http:') and not iri.startswith('https:'):
+            if not kg2_util.is_a_valid_http_url(iri):
                 iri = curie_to_uri_expander(iri)
 
             iri = curie_to_uri_expander(node_curie_id)
@@ -493,7 +493,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                      output_stream=sys.stderr)
                 continue
 
-            assert iri.startswith('http:') or iri.startswith('https:'), iri
+            assert kg2_util.is_a_valid_http_url(iri), iri
 
             node_name = onto_node_dict.get('label', None)
             node_full_name = None
@@ -582,7 +582,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         elif bpv_pred_curie == kg2_util.CURIE_ID_IAO_TERM_REPLACED_BY:
                             if not node_deprecated:
                                 node_deprecated = True
-                                kg2_util.log_message(message="Node has IAO:0100001 attribute but not owl:deprecated",
+                                kg2_util.log_message(message="Node has IAO:0100001 attribute but not owl:deprecated; setting deprecated=True",
                                                      ontology_name=iri_of_ontology,
                                                      node_curie_id=node_curie_id,
                                                      output_stream=sys.stderr)
@@ -813,7 +813,7 @@ def get_rels_dict(nodes: dict,
             if edge_pred_string == "type" and ontology_curie_id.startswith(kg2_util.CURIE_PREFIX_BIOLINK_SOURCE + ':'):
                 continue
 
-            if not edge_pred_string.startswith('http:') and not edge_pred_string.startswith('https'):
+            if not kg2_util.is_a_valid_http_url(edge_pred_string):
                 # edge_pred_string is not a URI; this is the most common case
                 if ':' not in edge_pred_string:
                     # edge_pred_string is not a CURIE; this is the most common subcase
@@ -918,7 +918,7 @@ def get_node_curie_id_from_ontology_node_id(ontology_node_id: str,
                                             uri_to_curie_shortener: callable,
                                             curie_to_uri_expander: callable):
     node_curie_id = None
-    if not ontology_node_id.startswith('http:') and not ontology_node_id.startswith('https:'):
+    if not kg2_util.is_a_valid_http_url(ontology_node_id):
         # this ontology_node_id is probably a CURIE ID; proceed accordingly
         iri = curie_to_uri_expander(ontology_node_id)
         if iri is not None:
@@ -1011,7 +1011,7 @@ def xref_as_a_publication(xref: str):
     ret_xref = None
     if xref.upper().startswith(kg2_util.CURIE_PREFIX_PMID + ':') or xref.upper().startswith(kg2_util.CURIE_PREFIX_ISBN + ':'):
         ret_xref = xref.upper()
-    elif xref.startswith('https://') or xref.startswith('http://'):
+    elif kg2_util.is_a_valid_http_url(xref):
         ret_xref = xref
     return ret_xref
 
