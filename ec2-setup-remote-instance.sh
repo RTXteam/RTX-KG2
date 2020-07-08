@@ -21,9 +21,11 @@ echo "Enter hostname of your instance: "
 read INSTANCE_HOSTNAME
 #INSTANCE_HOSTNAME=kg2dev.rtx.ai
 
-if ! ssh -q -o StrictHostKeyChecking=no ubuntu@${INSTANCE_HOSTNAME} exit; then
+ssh-keygen -R ${INSTANCE_HOSTNAME}
+
+if ! ssh -q -o StrictHostKeyChecking=no ubuntu@${INSTANCE_HOSTNAME} exit
+then
     ## remove kg2.saramsey.org from the ~/.ssh/known_hosts file
-    ssh-keygen -R ${INSTANCE_HOSTNAME}
     ## copy the id_rsa.pub file to the instance
     scp -i ${AWS_PEM_FILE} \
         -o StrictHostKeyChecking=no \
