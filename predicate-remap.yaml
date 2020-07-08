@@ -473,7 +473,7 @@ DRUGBANK:category:
 DRUGBANK:drug-interaction:
   rename:
   - physically_interacts_with
-  - biolink: physically_interacts_with
+  - biolink:physically_interacts_with
 DRUGBANK:external-identifier:
   rename:
   - same_as
