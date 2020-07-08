@@ -37,8 +37,3 @@ then
         'cat ${PUBLIC_KEY_FILE} >> ~/.ssh/authorized_keys && rm ${PUBLIC_KEY_FILE}'
 fi
     
-## clone the RTX repo into the instance
-ssh ubuntu@${INSTANCE_HOSTNAME} git clone https://github.com/RTXteam/RTX.git
-
-ssh -t ubuntu@${INSTANCE_HOSTNAME}
-
