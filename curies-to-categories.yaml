@@ -76,7 +76,7 @@ term-mappings:
     CHEBI:78295: biological entity
     CHEBI:50906: biological process
     CL:0000000: anatomical entity
-    EFO:0000324: cell line
+    EFO:0000324: cell
     EFO:0005066: material sample
     EFO:0001434: material sample
     EFO:0000635: anatomical entity
@@ -148,7 +148,7 @@ term-mappings:
     NCIT:C20189: attribute
     NCIT:C2991: disease
     NCIT:C20130: gene family
-    NCIT:C12913: cell line
+    NCIT:C12913: cell
     NCIT:C25218: clinical intervention
     NCIT:C42645: abstract entity
     NCIT:C16203: activity and behavior
