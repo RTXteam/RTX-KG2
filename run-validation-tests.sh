@@ -17,8 +17,8 @@ source ${CONFIG_DIR}/master-config.shinc
 echo "================= starting run-validation-tests.sh ================="
 date
 
-BIOLINK_MODEL_OWL_FILE=${BUILD_DIR}/biolink-model.owl
-BIOLINK_CONTEXT_JSONLD_FILE=${BUILD_DIR}/context.jsonld
+BIOLINK_MODEL_OWL_FILE=/tmp/biolink-model.owl
+BIOLINK_CONTEXT_JSONLD_FILE=/tmp/context.jsonld
 
 ${CURL_GET} https://raw.githubusercontent.com/biolink/biolink-model/master/biolink-model.owl > ${BIOLINK_MODEL_OWL_FILE}
 ${CURL_GET} https://raw.githubusercontent.com/biolink/biolink-model/master/context.jsonld > ${BIOLINK_CONTEXT_JSONLD_FILE}
