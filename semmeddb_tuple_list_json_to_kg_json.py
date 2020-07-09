@@ -27,7 +27,7 @@ SEMMEDDB_IRI = kg2_util.BASE_URL_SEMMEDDB
 
 NEG_REGEX = re.compile('^NEG_', re.M)
 EDGE_LABELS_EXCLUDE_FOR_LOOPS = {'same_as', 'higher_than', 'lower_than', 'different_from', 'compared_with'}
-CUI_PREFIX = 'CUI:'
+CUI_PREFIX = kg2_util.CURIE_PREFIX_UMLS
 NCBIGENE_PREFIX = kg2_util.CURIE_PREFIX_NCBI_GENE
 XREF_EDGE_LABEL = 'xref'
 
@@ -125,7 +125,7 @@ def get_xref_rels(cui: str, ncbigene_ids: list):
     """
     xref_rels = []
     for gene_id in ncbigene_ids:
-        xref_rels.append([CUI_PREFIX + cui, NCBIGENE_PREFIX + ':' + gene_id, XREF_EDGE_LABEL])
+        xref_rels.append([CUI_PREFIX + ':' + cui, NCBIGENE_PREFIX + ':' + gene_id, XREF_EDGE_LABEL])
     return xref_rels
 
 
@@ -146,7 +146,7 @@ def get_rels_to_make_for_row(subject_str: str, object_str: str, predicate: str, 
     rels_to_make = []
     if subject_cui and object_cui:
         # Connect the two CUIs
-        rels_to_make.append((CUI_PREFIX + subject_cui, CUI_PREFIX + object_cui, predicate))
+        rels_to_make.append((CUI_PREFIX + ':' + subject_cui, CUI_PREFIX + ':' + object_cui, predicate))
         # Create xrefs within each side as needed (from the CUI to any NCBIGenes on the same side)
         if num_subject_ids > 1:
             rels_to_make += get_xref_rels(subject_cui, subject_split[1:])
@@ -155,14 +155,14 @@ def get_rels_to_make_for_row(subject_str: str, object_str: str, predicate: str, 
     elif subject_cui:
         # Connect the subject CUI to each NCBIGene on the object side
         for gene_id in object_split:
-            rels_to_make.append((CUI_PREFIX + subject_cui, NCBIGENE_PREFIX + ':' + gene_id, predicate))
+            rels_to_make.append((CUI_PREFIX + ':' + subject_cui, NCBIGENE_PREFIX + ':' + gene_id, predicate))
         # Create xrefs within subject side as needed (from CUI to NCBIGenes)
         if num_subject_ids > 1:
             rels_to_make += get_xref_rels(subject_cui, subject_split[1:])
     elif object_cui:
         # Connect each NCBIGene in the subject to the object CUI
         for gene_id in subject_split:
-            rels_to_make.append((NCBIGENE_PREFIX + ':' + gene_id, CUI_PREFIX + object_cui, predicate))
+            rels_to_make.append((NCBIGENE_PREFIX + ':' + gene_id, CUI_PREFIX + ':' + object_cui, predicate))
         # Create xrefs within object side as needed (from CUI to NCBIGenes)
         if num_object_ids > 1:
             rels_to_make += get_xref_rels(object_cui, object_split[1:])
