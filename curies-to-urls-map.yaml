@@ -134,6 +134,8 @@ use_for_bidirectional_mapping:
   -
     GENEPIO: http://purl.obolibrary.org/obo/GENEPIO_
   -
+    GeneProf: http://geneprof.org/
+  -
     GENO: http://purl.obolibrary.org/obo/GENO_
   -
     GEO: http://purl.obolibrary.org/obo/GEO_
