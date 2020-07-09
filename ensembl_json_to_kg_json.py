@@ -89,7 +89,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
         taxon_id_int = gene_dict.get('taxon_id', None)
         assert taxon_id_int == 9606, "unexpected taxon ID"
         edges.append(kg2_util.make_edge_biolink(ensembl_gene_curie_id,
-                                                kg2_util.CURIE_PREFIX_NCBI_TAXON + str(taxon_id_int),
+                                                kg2_util.CURIE_PREFIX_NCBI_TAXON + ':' + str(taxon_id_int),
                                                 kg2_util.EDGE_LABEL_BIOLINK_IN_TAXON,
                                                 ENSEMBL_KB_CURIE_ID,
                                                 update_date))
