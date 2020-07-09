@@ -385,7 +385,7 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                                         ret_dict[key] = value
                             else:
                                 log_message(message="inconsistent category information",
-                                            ontology=str(x.get('provided by', 'provided_by=UNKNOWN')),
+                                            ontology_name=str(x.get('provided by', 'provided_by=UNKNOWN')),
                                             node_curie_id=x.get('id', 'id=UNKNOWN'),
                                             output_stream=sys.stderr)
                                 continue
@@ -403,7 +403,7 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                                         ret_dict[key] = value
                             else:
                                 log_message(message="inconsistent category information",
-                                            ontology=str(x.get('provided by', 'provided_by=UNKNOWN')),
+                                            ontology_name=str(x.get('provided by', 'provided_by=UNKNOWN')),
                                             node_curie_id=x.get('id', 'id=UNKNOWN'),
                                             output_stream=sys.stderr)
                                 continue
