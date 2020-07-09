@@ -18,7 +18,7 @@ echo "================= starting run-validation-tests.sh ================="
 date
 
 BIOLINK_MODEL_OWL_FILE=${BUILD_DIR}/biolink-model.owl
-${CURL_GET} https://raw.githubusercontent.com/biolink/biolink-model/master/biolink-model.owl > ${BIOLINK_MODEL_OWL}
+${CURL_GET} https://raw.githubusercontent.com/biolink/biolink-model/master/biolink-model.owl > ${BIOLINK_MODEL_OWL_FILE}
 ${CURL_GET} https://raw.githubusercontent.com/biolink/biolink-model/master/context.jsonld > ${BUILD_DIR}/context.jsonld
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_curies_to_categories_yaml.py \
            ${CURIES_TO_CATEGORIES_FILE} \
