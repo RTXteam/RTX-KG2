@@ -248,7 +248,7 @@ echo "running drugbank_xml_to_kg_json.py"
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/drugbank_xml_to_kg_json.py \
            ${TEST_ARG} \
            ${DRUGBANK_INPUT_FILE} \
-           ${DRUGBANK_OUTPUT_FILE} 2> ${BUILD_DIR}/drubank-xml-to-kg-json.log
+           ${DRUGBANK_OUTPUT_FILE} 2> ${BUILD_DIR}/drugbank-xml-to-kg-json.log
 
 ## Make JSON file for DrugBank
 
