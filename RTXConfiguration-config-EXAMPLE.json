@@ -1,8 +1,8 @@
 {
      "KG1": {
         "neo4j": {
-            "bolt": "bolt://kg1endpoint.rtx.ai:7687",
-            "database": "kg1endpoint.rtx.ai:7474/db/data",
+            "bolt": "bolt://arax.rtx.ai:7687",
+            "database": "arax.rtx.ai:7474/db/data",
             "username": "neo4j",
             "password": "THIS_IS_NOT_A_VALID_PASSWORD"
         }
