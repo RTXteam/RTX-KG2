@@ -17,12 +17,9 @@ source ${CONFIG_DIR}/master-config.shinc
 echo "================= starting run-validation-tests.sh ================="
 date
 
-BIOLINK_MODEL_OWL_FILE=/tmp/biolink-model.owl
 BIOLINK_RAW_BASE_URL=https://raw.githubusercontent.com/biolink/biolink-model/master/
 BIOLINK_URL_CONTEXT_JSONLD=${BIOLINK_RAW_BASE_URL}biolink-model.owl
 BIOLINK_URL_MODEL_OWL=${BIOLINK_RAW_BASE_URL}biolink-model.owl
-
-${CURL_GET} ${BIOLINK_RAW_BASE_URL}biolink-model.owl > ${BIOLINK_MODEL_OWL_FILE}
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_curies_to_categories_yaml.py \
            ${CURIES_TO_CATEGORIES_FILE} \
@@ -38,7 +35,7 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_rtx_kg1_curie_mappings.py \
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_kg2_util_curies_urls_categories.py \
            ${CURIES_TO_URLS_FILE} \
-           ${BIOLINK_MODEL_OWL_FILE}
+           ${BIOLINK_URL_MODEL_OWL}
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_predicate_remap_yaml.py \
            ${CURIES_TO_URLS_FILE} \
