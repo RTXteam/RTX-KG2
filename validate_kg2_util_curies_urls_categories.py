@@ -16,18 +16,19 @@ __status__ = 'Prototype'
 import argparse
 import kg2_util
 import os
+import tempfile
 
 
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='validate_kg2_util_curies_urls_categories.py: ' +
                                          'checks the file `kg2_util.py` for correctness for its CURIE IDs, Base URLs, and biolink categories.')
-    arg_parser.add_argument('biolinkModelFile', type=str)
     arg_parser.add_argument('curiesToURLsMapFile', type=str)
+    arg_parser.add_argument('biolinkModelURL', type=str)
     return arg_parser
 
 
 args = make_arg_parser().parse_args()
-biolink_model_file_name = args.biolinkModelFile
+biolink_model_url = args.biolinkModelURL
 curies_to_urls_map_file_name = args.curiesToURLsMapFile
 
 iri_shortener = kg2_util.make_uri_to_curie_shortener(kg2_util.make_curies_to_uri_map(kg2_util.read_file_to_string(curies_to_urls_map_file_name),
@@ -38,6 +39,9 @@ curies_to_url_map_data_bidir = {key: listitem[key] for listitem in curies_to_url
 
 curies_to_url_map_data_cont = {key: listitem[key] for listitem in curies_to_url_map_data['use_for_contraction_only'] for key in listitem.keys()}
 
+
+biolink_model_file_name = tempfile.mkstemp()[1] + '.owl'
+kg2_util.download_file_if_not_exist_locally(biolink_model_url, biolink_model_file_name)
 assert os.path.exists(biolink_model_file_name)
 biolink_ont = kg2_util.load_ontology_from_owl_or_json_file(biolink_model_file_name)
 biolink_categories_ontology_depths = kg2_util.get_biolink_categories_ontology_depths(biolink_ont)

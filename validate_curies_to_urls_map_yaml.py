@@ -14,6 +14,7 @@ __status__ = 'Prototype'
 import argparse
 import json
 import sys
+import urllib.request
 import yaml
 
 BIDIR = 'use_for_bidirectional_mapping'
@@ -26,7 +27,7 @@ TOP_KEYS = {BIDIR, CONT, EXPA}
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='validate_curies_to_urls_map.py: checks the file `curies-to-urls-map.yaml` for correctness.')
     arg_parser.add_argument('curiesToURLsMapFile', type=str)
-    arg_parser.add_argument('biolinkContextJsonLDFile', type=str)
+    arg_parser.add_argument('biolinkContextJsonLDURL', type=str)
     return arg_parser
 
 
@@ -47,12 +48,13 @@ def make_map_from_list(thelist: list, reverse: bool) -> dict:
 
 args = make_arg_parser().parse_args()
 curies_to_urls_map_file_name = args.curiesToURLsMapFile
-biolink_context_json_ld_file_name = args.biolinkContextJsonLDFile
+biolink_context_json_ld_url = args.biolinkContextJsonLDURL
 
 map_data = yaml.safe_load(open(curies_to_urls_map_file_name, 'r'))
 assert set(map_data.keys()) == TOP_KEYS
 
-biolink_context_curie_prefixes = set(json.load(open(biolink_context_json_ld_file_name, 'r'))['@context'].keys())
+with urllib.request.urlopen(biolink_context_json_ld_url) as response:
+    biolink_context_curie_prefixes = set(json.load(response)['@context'].keys())
 
 map_data_bidir_list = map_data[BIDIR]
 map_data_expa_list = map_data[EXPA]
