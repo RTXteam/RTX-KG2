@@ -374,25 +374,39 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                             if value.endswith('/STY'):
                                 ret_dict[key] = value
                         elif key == 'category label':
-                            depth_x = biolink_depth_getter(convert_snake_case_to_camel_case(stored_value, uppercase_first_letter=True))
-                            depth_y = biolink_depth_getter(convert_snake_case_to_camel_case(value, uppercase_first_letter=True))
-                            if depth_y is not None:
-                                if depth_x is not None:
-                                    if depth_y > depth_x:
+                            if biolink_depth_getter is not None:
+                                depth_x = biolink_depth_getter(convert_snake_case_to_camel_case(stored_value, uppercase_first_letter=True))
+                                depth_y = biolink_depth_getter(convert_snake_case_to_camel_case(value, uppercase_first_letter=True))
+                                if depth_y is not None:
+                                    if depth_x is not None:
+                                        if depth_y > depth_x:
+                                            ret_dict[key] = value
+                                    else:
                                         ret_dict[key] = value
-                                else:
-                                    ret_dict[key] = value
+                            else:
+                                log_message(message="inconsistent category information",
+                                            ontology=str(x.get('provided by', 'provided_by=UNKNOWN')),
+                                            node_curie_id=x.get('id', 'id=UNKNOWN'),
+                                            output_stream=sys.stderr)
+                                continue
                         elif key == 'category':
-                            value_category = urllib.parse.urlparse(value).path.rsplit('/', 1)[-1]
-                            stored_value_category = urllib.parse.urlparse(stored_value).path.rsplit('/', 1)[-1]
-                            depth_x = biolink_depth_getter(stored_value_category)
-                            depth_y = biolink_depth_getter(value_category)
-                            if depth_y is not None:
-                                if depth_x is not None:
-                                    if depth_y > depth_x:
+                            if biolink_depth_getter is not None:
+                                value_category = urllib.parse.urlparse(value).path.rsplit('/', 1)[-1]
+                                stored_value_category = urllib.parse.urlparse(stored_value).path.rsplit('/', 1)[-1]
+                                depth_x = biolink_depth_getter(stored_value_category)
+                                depth_y = biolink_depth_getter(value_category)
+                                if depth_y is not None:
+                                    if depth_x is not None:
+                                        if depth_y > depth_x:
+                                            ret_dict[key] = value
+                                    else:
                                         ret_dict[key] = value
-                                else:
-                                    ret_dict[key] = value
+                            else:
+                                log_message(message="inconsistent category information",
+                                            ontology=str(x.get('provided by', 'provided_by=UNKNOWN')),
+                                            node_curie_id=x.get('id', 'id=UNKNOWN'),
+                                            output_stream=sys.stderr)
+                                continue
                         elif key == 'name' or key == 'full name':
                             if value.replace(' ', '_') != stored_value.replace(' ', '_'):
                                 stored_desc = ret_dict.get('description', None)
