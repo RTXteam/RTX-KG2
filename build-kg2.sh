@@ -230,7 +230,7 @@ echo "running dgidb_tsv_to_kg_json.py"
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/dgidb_tsv_to_kg_json.py \
            ${TEST_ARG} \
            ${DGIDB_DIR}/interactions.tsv \
-           ${DGIDB_OUTPUT_FILE} 2> ${DGIDB_DIR}/dgidb-tsv-to-kg-json.log
+           ${DGIDB_OUTPUT_FILE} 2> ${DGIDB_DIR}/dgidb-tsv-to-kg-json-stderr.log
 
 echo "running repodb_csv_to_kg_json.py"
 
@@ -239,7 +239,7 @@ echo "running repodb_csv_to_kg_json.py"
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/repodb_csv_to_kg_json.py \
            ${TEST_ARG} \
            ${REPODB_INPUT_FILE} \
-           ${REPODB_OUTPUT_FILE} 2> ${REPODB_DIR}/repodb-csv-to-kg-json.log
+           ${REPODB_OUTPUT_FILE} 2> ${REPODB_DIR}/repodb-csv-to-kg-json-stderr.log
 
 echo "running drugbank_xml_to_kg_json.py"
 
@@ -248,7 +248,7 @@ echo "running drugbank_xml_to_kg_json.py"
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/drugbank_xml_to_kg_json.py \
            ${TEST_ARG} \
            ${DRUGBANK_INPUT_FILE} \
-           ${DRUGBANK_OUTPUT_FILE} 2> ${BUILD_DIR}/drugbank-xml-to-kg-json.log
+           ${DRUGBANK_OUTPUT_FILE} 2> ${BUILD_DIR}/drugbank-xml-to-kg-json-stderr.log
 
 ## Make JSON file for DrugBank
 
