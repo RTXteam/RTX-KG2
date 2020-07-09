@@ -19,9 +19,10 @@ date
 
 BIOLINK_MODEL_OWL_FILE=/tmp/biolink-model.owl
 BIOLINK_CONTEXT_JSONLD_FILE=/tmp/context.jsonld
+BIOLINK_RAW_BASE_URL=https://raw.githubusercontent.com/biolink/biolink-model/master/
 
-${CURL_GET} https://raw.githubusercontent.com/biolink/biolink-model/master/biolink-model.owl > ${BIOLINK_MODEL_OWL_FILE}
-${CURL_GET} https://raw.githubusercontent.com/biolink/biolink-model/master/context.jsonld > ${BIOLINK_CONTEXT_JSONLD_FILE}
+${CURL_GET} ${BIOLINK_RAW_BASE_URL}biolink-model.owl > ${BIOLINK_MODEL_OWL_FILE}
+${CURL_GET} ${BIOLINK_RAW_BASE_URL}context.jsonld > ${BIOLINK_CONTEXT_JSONLD_FILE}
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_curies_to_categories_yaml.py \
            ${CURIES_TO_CATEGORIES_FILE} \
