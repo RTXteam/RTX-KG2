@@ -18,7 +18,7 @@ echo "================= starting run-validation-tests.sh ================="
 date
 
 BIOLINK_RAW_BASE_URL=https://raw.githubusercontent.com/biolink/biolink-model/master/
-BIOLINK_URL_CONTEXT_JSONLD=${BIOLINK_RAW_BASE_URL}biolink-model.owl
+BIOLINK_URL_CONTEXT_JSONLD=${BIOLINK_RAW_BASE_URL}context.jsonld
 BIOLINK_URL_MODEL_OWL=${BIOLINK_RAW_BASE_URL}biolink-model.owl
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_curies_to_categories_yaml.py \
