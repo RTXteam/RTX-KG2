@@ -199,10 +199,11 @@ to be using the `bash` shell on your local computer.
 ### Option 1: build KG2 serially (about 67 hours) directly on an Ubuntu system:
 
 These instructions assume that you are logged into the target Ubuntu system, and
-that the Ubuntu system has *not* previously had `setup-kg2-build.sh` run (if it has
-previously had `setup-kg2-build.sh` run, you may wish to clear out the instance by running
-`clear-instance.sh` before proceeding, in order to ensure that you are getting the
-exact python packages needed in the latest `requirements.txt` file in the KG2 codebase):
+that the Ubuntu system has *not* previously had `setup-kg2-build.sh` run (if it
+has previously had `setup-kg2-build.sh` run, you may wish to clear out the
+instance by running `clear-instance.sh` before proceeding, in order to ensure
+that you are getting the exact python packages needed in the latest
+`requirements-kg2-build.txt` file in the KG2 codebase):
 
 (1) Install the `git` and `screen` packages if they are not already installed (though
 in an Ubuntu 18.04 instance created using the standard AWS AMI, they should already
