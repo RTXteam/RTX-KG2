@@ -3662,669 +3662,669 @@ SIO:000658:
   rename:
   - related_to
   - biolink:related_to
-SNOMEDCT:access_device_used_by:
+SNOMED:access_device_used_by:
   delete: null
-SNOMEDCT:access_of:
+SNOMED:access_of:
   delete: null
-SNOMEDCT:active_ingredient_of:
+SNOMED:active_ingredient_of:
   rename:
   - part_of
   - biolink:part_of
-SNOMEDCT:associated_finding_of:
+SNOMED:associated_finding_of:
   delete: null
-SNOMEDCT:associated_morphology_of:
+SNOMED:associated_morphology_of:
   delete: null
-SNOMEDCT:associated_procedure_of:
+SNOMED:associated_procedure_of:
   delete: null
-SNOMEDCT:associated_with:
+SNOMED:associated_with:
   rename:
   - correlated_with
   - biolink:correlated_with
-SNOMEDCT:basic_dose_form_of:
+SNOMED:basic_dose_form_of:
   delete: null
-SNOMEDCT:basis_of_strength_substance_of:
+SNOMED:basis_of_strength_substance_of:
   rename:
   - part_of
   - biolink:part_of
-SNOMEDCT:causative_agent_of:
+SNOMED:causative_agent_of:
   rename:
   - causes
   - biolink:causes
-SNOMEDCT:cause_of:
+SNOMED:cause_of:
   rename:
   - causes
   - biolink:causes
-SNOMEDCT:characterized_by:
+SNOMED:characterized_by:
   rename:
   - has_phenotype
   - biolink:has_phenotype
-SNOMEDCT:characterizes:
+SNOMED:characterizes:
   delete: null
-SNOMEDCT:clinical_course_of:
+SNOMED:clinical_course_of:
   delete: null
-SNOMEDCT:component_of:
+SNOMED:component_of:
   rename:
   - part_of
   - biolink:part_of
-SNOMEDCT:concentration_strength_denominator_unit_of:
+SNOMED:concentration_strength_denominator_unit_of:
   delete: null
-SNOMEDCT:concentration_strength_denominator_value_of:
+SNOMED:concentration_strength_denominator_value_of:
   delete: null
-SNOMEDCT:concentration_strength_numerator_unit_of:
+SNOMED:concentration_strength_numerator_unit_of:
   delete: null
-SNOMEDCT:concentration_strength_numerator_value_of:
+SNOMED:concentration_strength_numerator_value_of:
   delete: null
-SNOMEDCT:count_of_base_of_active_ingredient_of:
+SNOMED:count_of_base_of_active_ingredient_of:
   delete: null
-SNOMEDCT:definitional_manifestation_of:
+SNOMED:definitional_manifestation_of:
   delete: null
-SNOMEDCT:dependent_of:
+SNOMED:dependent_of:
   delete: null
-SNOMEDCT:device_used_by:
+SNOMED:device_used_by:
   delete: null
-SNOMEDCT:direct_device_of:
+SNOMED:direct_device_of:
   delete: null
-SNOMEDCT:direct_morphology_of:
+SNOMED:direct_morphology_of:
   delete: null
-SNOMEDCT:direct_procedure_site_of:
+SNOMED:direct_procedure_site_of:
   delete: null
-SNOMEDCT:direct_site_of:
+SNOMED:direct_site_of:
   delete: null
-SNOMEDCT:direct_substance_of:
+SNOMED:direct_substance_of:
   rename:
   - part_of
   - biolink:part_of
-SNOMEDCT:disposition_of:
+SNOMED:disposition_of:
   delete: null
-SNOMEDCT:dose_form_administration_method_of:
+SNOMED:dose_form_administration_method_of:
   delete: null
-SNOMEDCT:dose_form_intended_site_of:
+SNOMED:dose_form_intended_site_of:
   delete: null
-SNOMEDCT:dose_form_of:
+SNOMED:dose_form_of:
   delete: null
-SNOMEDCT:dose_form_release_characteristic_of:
+SNOMED:dose_form_release_characteristic_of:
   delete: null
-SNOMEDCT:dose_form_transformation_of:
+SNOMED:dose_form_transformation_of:
   delete: null
-SNOMEDCT:due_to:
+SNOMED:due_to:
   delete: null
-SNOMEDCT:during:
+SNOMED:during:
   rename:
   - part_of
   - biolink:part_of
-SNOMEDCT:energy_used_by:
+SNOMED:energy_used_by:
   delete: null
-SNOMEDCT:entire_anatomy_structure_of:
+SNOMED:entire_anatomy_structure_of:
   rename:
   - subclass_of
   - biolink:subclass_of
-SNOMEDCT:finding_context_of:
+SNOMED:finding_context_of:
   delete: null
-SNOMEDCT:finding_informer_of:
+SNOMED:finding_informer_of:
   delete: null
-SNOMEDCT:finding_method_of:
+SNOMED:finding_method_of:
   delete: null
-SNOMEDCT:finding_site_of:
+SNOMED:finding_site_of:
   delete: null
-SNOMEDCT:focus_of:
+SNOMED:focus_of:
   rename:
   - part_of
   - biolink:part_of
-SNOMEDCT:has_access:
+SNOMED:has_access:
   rename:
   - has_attribute
   - biolink:has_attribute
-SNOMEDCT:has_active_ingredient:
+SNOMED:has_active_ingredient:
   delete: null
-SNOMEDCT:has_associated_finding:
+SNOMED:has_associated_finding:
   rename:
   - correlated_with
   - biolink:correlated_with
-SNOMEDCT:has_associated_morphology:
+SNOMED:has_associated_morphology:
   rename:
   - related_to
   - biolink:related_to
-SNOMEDCT:has_associated_procedure:
+SNOMED:has_associated_procedure:
   rename:
   - related_to
   - biolink:related_to
-SNOMEDCT:has_basic_dose_form:
+SNOMED:has_basic_dose_form:
   rename:
   - has_pharmaceutical_basic_dose_form
   - NCIT:A18
-SNOMEDCT:has_basis_of_strength_substance:
+SNOMED:has_basis_of_strength_substance:
   delete: null
-SNOMEDCT:has_causative_agent:
+SNOMED:has_causative_agent:
   delete: null
-SNOMEDCT:has_clinical_course:
+SNOMED:has_clinical_course:
   rename:
   - disease_to_thing_association
   - biolink:disease_to_thing_association
-SNOMEDCT:has_component:
+SNOMED:has_component:
   invert:
   - part_of
   - biolink:part_of
-SNOMEDCT:has_concentration_strength_denominator_unit:
+SNOMED:has_concentration_strength_denominator_unit:
   rename:
   - has_unit
   - biolink:has_unit
-SNOMEDCT:has_concentration_strength_denominator_value:
+SNOMED:has_concentration_strength_denominator_value:
   delete: null
-SNOMEDCT:has_concentration_strength_numerator_unit:
+SNOMED:has_concentration_strength_numerator_unit:
   rename:
   - has_unit
   - biolink:has_unit
-SNOMEDCT:has_concentration_strength_numerator_value:
+SNOMED:has_concentration_strength_numerator_value:
   rename:
   - has_quantitative_value
   - biolink:has_quantitative_value
-SNOMEDCT:has_count_of_base_of_active_ingredient:
+SNOMED:has_count_of_base_of_active_ingredient:
   rename:
   - has_attribute
   - biolink:has_attribute
-SNOMEDCT:has_definitional_manifestation:
+SNOMED:has_definitional_manifestation:
   invert:
   - actively_involved_in
   - biolink:actively_involved_in
-SNOMEDCT:has_dependent:
+SNOMED:has_dependent:
   rename:
   - part_of
   - biolink:part_of
-SNOMEDCT:has_direct_device:
+SNOMED:has_direct_device:
   rename:
   - has_participant
   - biolink:has_participant
-SNOMEDCT:has_direct_morphology:
+SNOMED:has_direct_morphology:
   rename:
   - related_to
   - biolink:related_to
-SNOMEDCT:has_direct_procedure_site:
+SNOMED:has_direct_procedure_site:
   rename:
   - occurs_in
   - biolink:occurs_in
-SNOMEDCT:has_direct_site:
+SNOMED:has_direct_site:
   rename:
   - occurs_in
   - biolink:occurs_in
-SNOMEDCT:has_direct_substance:
+SNOMED:has_direct_substance:
   delete: null
-SNOMEDCT:has_disposition:
+SNOMED:has_disposition:
   rename:
   - related_to
   - biolink:related_to
-SNOMEDCT:has_dose_form:
+SNOMED:has_dose_form:
   rename:
   - has_dose_form
   - RXNORM:has_dose_form
-SNOMEDCT:has_dose_form_administration_method:
+SNOMED:has_dose_form_administration_method:
   rename:
   - has_attribute
   - biolink:has_attribute
-SNOMEDCT:has_dose_form_intended_site:
+SNOMED:has_dose_form_intended_site:
   rename:
   - has_route
   - biolink:has_route
-SNOMEDCT:has_dose_form_release_characteristic:
+SNOMED:has_dose_form_release_characteristic:
   rename:
   - has_attribute
   - biolink:has_attribute
-SNOMEDCT:has_dose_form_transformation:
+SNOMED:has_dose_form_transformation:
   rename:
   - has_attribute
   - biolink:has_attribute
-SNOMEDCT:has_entire_anatomy_structure:
+SNOMED:has_entire_anatomy_structure:
   delete: null
-SNOMEDCT:has_finding_context:
+SNOMED:has_finding_context:
   rename:
   - has_attribute
   - biolink:has_attribute
-SNOMEDCT:has_finding_informer:
+SNOMED:has_finding_informer:
   rename:
   - has_attribute
   - biolink:has_attribute
-SNOMEDCT:has_finding_method:
+SNOMED:has_finding_method:
   rename:
   - has_input
   - biolink:has_input
-SNOMEDCT:has_finding_site:
+SNOMED:has_finding_site:
   rename:
   - located_in
   - biolink:located_in
-SNOMEDCT:has_focus:
+SNOMED:has_focus:
   delete: null
-SNOMEDCT:has_indirect_device:
+SNOMED:has_indirect_device:
   rename:
   - has_participant
   - biolink:has_participant
-SNOMEDCT:has_indirect_morphology:
+SNOMED:has_indirect_morphology:
   rename:
   - related_to
   - biolink:related_to
-SNOMEDCT:has_indirect_procedure_site:
+SNOMED:has_indirect_procedure_site:
   rename:
   - procedure_has_target_anatomy
   - NCIT:R163
-SNOMEDCT:has_inherent_attribute:
+SNOMED:has_inherent_attribute:
   rename:
   - has_attribute
   - biolink:has_attribute
-SNOMEDCT:has_inherent_location:
+SNOMED:has_inherent_location:
   rename:
   - located_in
   - biolink:located_in
-SNOMEDCT:has_intent:
+SNOMED:has_intent:
   rename:
   - has_attribute
   - biolink:has_attribute
-SNOMEDCT:has_interpretation:
+SNOMED:has_interpretation:
   rename:
   - has_attribute
   - biolink:has_attribute
-SNOMEDCT:has_laterality:
+SNOMED:has_laterality:
   rename:
   - has_attribute
   - biolink:has_attribute
-SNOMEDCT:has_measurement_method:
+SNOMED:has_measurement_method:
   rename:
   - has_attribute
   - biolink:has_attribute
-SNOMEDCT:has_method:
+SNOMED:has_method:
   rename:
   - has_attribute
   - biolink:has_attribute
-SNOMEDCT:has_modification:
+SNOMED:has_modification:
   rename:
   - related_to
   - biolink:related_to
-SNOMEDCT:has_occurrence:
+SNOMED:has_occurrence:
   rename:
   - has_occurrence
   - GO:has_occurrence
-SNOMEDCT:has_part:
+SNOMED:has_part:
   invert:
   - part_of
   - biolink:part_of
-SNOMEDCT:has_part_anatomy_structure:
+SNOMED:has_part_anatomy_structure:
   delete: null
-SNOMEDCT:has_pathological_process:
+SNOMED:has_pathological_process:
   rename:
   - affects
   - biolink:affects
-SNOMEDCT:has_precise_active_ingredient:
+SNOMED:has_precise_active_ingredient:
   delete: null
-SNOMEDCT:has_precondition:
+SNOMED:has_precondition:
   rename:
   - has_input
   - biolink:has_input
-SNOMEDCT:has_presentation_strength_denominator_unit:
+SNOMED:has_presentation_strength_denominator_unit:
   rename:
   - has_unit
   - biolink:has_unit
-SNOMEDCT:has_presentation_strength_denominator_value:
+SNOMED:has_presentation_strength_denominator_value:
   rename:
   - has_quantitative_value
   - biolink:has_quantitative_value
-SNOMEDCT:has_presentation_strength_numerator_unit:
+SNOMED:has_presentation_strength_numerator_unit:
   rename:
   - has_unit
   - biolink:has_unit
-SNOMEDCT:has_presentation_strength_numerator_value:
+SNOMED:has_presentation_strength_numerator_value:
   rename:
   - has_quantitative_value
   - biolink:has_quantitative_value
-SNOMEDCT:has_priority:
+SNOMED:has_priority:
   rename:
   - has_attribute
   - biolink:has_attribute
-SNOMEDCT:has_procedure_context:
+SNOMED:has_procedure_context:
   rename:
   - has_attribute
   - biolink:has_attribute
-SNOMEDCT:has_procedure_device:
+SNOMED:has_procedure_device:
   rename:
   - has_participant
   - biolink:has_participant
-SNOMEDCT:has_procedure_morphology:
+SNOMED:has_procedure_morphology:
   rename:
   - related_to
   - biolink:related_to
-SNOMEDCT:has_procedure_site:
+SNOMED:has_procedure_site:
   rename:
   - occurs_in
   - biolink:occurs_in
-SNOMEDCT:has_process_output:
+SNOMED:has_process_output:
   rename:
   - produces
   - biolink:produces
-SNOMEDCT:has_property:
+SNOMED:has_property:
   rename:
   - has_attribute
   - biolink:has_attribute
-SNOMEDCT:has_recipient_category:
+SNOMED:has_recipient_category:
   rename:
   - has_participant
   - biolink:has_participant
-SNOMEDCT:has_revision_status:
+SNOMED:has_revision_status:
   rename:
   - has_attribute
   - biolink:has_attribute
-SNOMEDCT:has_route_of_administration:
+SNOMED:has_route_of_administration:
   rename:
   - has_route
   - biolink:has_route
-SNOMEDCT:has_scale_type:
+SNOMED:has_scale_type:
   rename:
   - has_attribute
   - biolink:has_attribute
-SNOMEDCT:has_severity:
+SNOMED:has_severity:
   rename:
   - has_attribute
   - biolink:has_attribute
-SNOMEDCT:has_specimen:
+SNOMED:has_specimen:
   rename:
   - has_attribute
   - biolink:has_attribute
-SNOMEDCT:has_specimen_procedure:
+SNOMED:has_specimen_procedure:
   delete: null
-SNOMEDCT:has_specimen_source_identity:
+SNOMED:has_specimen_source_identity:
   rename:
   - has_input
   - biolink:has_input
-SNOMEDCT:has_specimen_source_morphology:
+SNOMED:has_specimen_source_morphology:
   rename:
   - related_to
   - biolink:related_to
-SNOMEDCT:has_specimen_source_topography:
+SNOMED:has_specimen_source_topography:
   rename:
   - derives_from
   - biolink:derives_from
-SNOMEDCT:has_specimen_substance:
+SNOMED:has_specimen_substance:
   rename:
   - has_input
   - biolink:has_input
-SNOMEDCT:has_state_of_matter:
+SNOMED:has_state_of_matter:
   rename:
   - has_pharmaceutical_state_of_matter
   - NCIT:A17
-SNOMEDCT:has_subject_relationship_context:
+SNOMED:has_subject_relationship_context:
   rename:
   - has_attribute
   - biolink:has_attribute
-SNOMEDCT:has_surgical_approach:
+SNOMED:has_surgical_approach:
   rename:
   - has_attribute
   - biolink:has_attribute
-SNOMEDCT:has_technique:
+SNOMED:has_technique:
   rename:
   - has_attribute
   - biolink:has_attribute
-SNOMEDCT:has_temporal_context:
+SNOMED:has_temporal_context:
   rename:
   - has_attribute
   - biolink:has_attribute
-SNOMEDCT:has_time_aspect:
+SNOMED:has_time_aspect:
   rename:
   - has_attribute
   - biolink:has_attribute
-SNOMEDCT:has_unit_of_presentation:
+SNOMED:has_unit_of_presentation:
   rename:
   - has_unit
   - biolink:has_unit
-SNOMEDCT:indirect_device_of:
+SNOMED:indirect_device_of:
   delete: null
-SNOMEDCT:indirect_morphology_of:
+SNOMED:indirect_morphology_of:
   delete: null
-SNOMEDCT:indirect_procedure_site_of:
+SNOMED:indirect_procedure_site_of:
   delete: null
-SNOMEDCT:inherent_location_of:
+SNOMED:inherent_location_of:
   rename:
   - location_of
   - biolink:location_of
-SNOMEDCT:inheres_in:
+SNOMED:inheres_in:
   rename:
   - related_to
   - biolink:related_to
-SNOMEDCT:intent_of:
+SNOMED:intent_of:
   delete: null
-SNOMEDCT:interpretation_of:
+SNOMED:interpretation_of:
   delete: null
-SNOMEDCT:interprets:
+SNOMED:interprets:
   delete: null
-SNOMEDCT:inverse_during:
+SNOMED:inverse_during:
   delete: null
-SNOMEDCT:is_interpreted_by:
+SNOMED:is_interpreted_by:
   rename:
   - related_to
   - biolink:related_to
-SNOMEDCT:is_modification_of:
+SNOMED:is_modification_of:
   delete: null
-SNOMEDCT:laterality_of:
+SNOMED:laterality_of:
   delete: null
-SNOMEDCT:measurement_method_of:
+SNOMED:measurement_method_of:
   delete: null
-SNOMEDCT:method_of:
+SNOMED:method_of:
   delete: null
-SNOMEDCT:occurs_after:
+SNOMED:occurs_after:
   delete: null
-SNOMEDCT:occurs_before:
+SNOMED:occurs_before:
   rename:
   - precedes
   - biolink:precedes
-SNOMEDCT:occurs_in:
+SNOMED:occurs_in:
   rename:
   - occurs_in
   - biolink:occurs_in
-SNOMEDCT:part_anatomy_structure_of:
+SNOMED:part_anatomy_structure_of:
   rename:
   - part_of
   - biolink:part_of
-SNOMEDCT:part_of:
+SNOMED:part_of:
   rename:
   - part_of
   - biolink:part_of
-SNOMEDCT:part_referred_to_by:
+SNOMED:part_referred_to_by:
   delete: null
-SNOMEDCT:pathological_process_of:
+SNOMED:pathological_process_of:
   delete: null
-SNOMEDCT:precise_active_ingredient_of:
+SNOMED:precise_active_ingredient_of:
   rename:
   - part_of
   - biolink:part_of
-SNOMEDCT:precondition_of:
+SNOMED:precondition_of:
   delete: null
-SNOMEDCT:presentation_strength_denominator_unit_of:
+SNOMED:presentation_strength_denominator_unit_of:
   delete: null
-SNOMEDCT:presentation_strength_denominator_value_of:
+SNOMED:presentation_strength_denominator_value_of:
   delete: null
-SNOMEDCT:presentation_strength_numerator_unit_of:
+SNOMED:presentation_strength_numerator_unit_of:
   delete: null
-SNOMEDCT:presentation_strength_numerator_value_of:
+SNOMED:presentation_strength_numerator_value_of:
   delete: null
-SNOMEDCT:priority_of:
+SNOMED:priority_of:
   delete: null
-SNOMEDCT:procedure_context_of:
+SNOMED:procedure_context_of:
   delete: null
-SNOMEDCT:procedure_device_of:
+SNOMED:procedure_device_of:
   delete: null
-SNOMEDCT:procedure_morphology_of:
+SNOMED:procedure_morphology_of:
   delete: null
-SNOMEDCT:procedure_site_of:
+SNOMED:procedure_site_of:
   delete: null
-SNOMEDCT:process_output_of:
+SNOMED:process_output_of:
   delete: null
-SNOMEDCT:property_of:
+SNOMED:property_of:
   delete: null
-SNOMEDCT:recipient_category_of:
+SNOMED:recipient_category_of:
   delete: null
-SNOMEDCT:relative_to_part_of:
+SNOMED:relative_to_part_of:
   rename:
   - related_to
   - biolink:related_to
-SNOMEDCT:revision_status_of:
+SNOMED:revision_status_of:
   delete: null
-SNOMEDCT:route_of_administration_of:
+SNOMED:route_of_administration_of:
   delete: null
-SNOMEDCT:scale_type_of:
+SNOMED:scale_type_of:
   delete: null
-SNOMEDCT:severity_of:
+SNOMED:severity_of:
   delete: null
-SNOMEDCT:specimen_of:
+SNOMED:specimen_of:
   delete: null
-SNOMEDCT:specimen_procedure_of:
+SNOMED:specimen_procedure_of:
   rename:
   - produces
   - biolink:produces
-SNOMEDCT:specimen_source_identity_of:
+SNOMED:specimen_source_identity_of:
   delete: null
-SNOMEDCT:specimen_source_morphology_of:
+SNOMED:specimen_source_morphology_of:
   delete: null
-SNOMEDCT:specimen_source_topography_of:
+SNOMED:specimen_source_topography_of:
   delete: null
-SNOMEDCT:specimen_substance_of:
+SNOMED:specimen_substance_of:
   delete: null
-SNOMEDCT:state_of_matter_of:
+SNOMED:state_of_matter_of:
   delete: null
-SNOMEDCT:subject_relationship_context_of:
+SNOMED:subject_relationship_context_of:
   delete: null
-SNOMEDCT:substance_used_by:
+SNOMED:substance_used_by:
   delete: null
-SNOMEDCT:surgical_approach_of:
+SNOMED:surgical_approach_of:
   delete: null
-SNOMEDCT:technique_of:
+SNOMED:technique_of:
   delete: null
-SNOMEDCT:temporal_context_of:
+SNOMED:temporal_context_of:
   delete: null
-SNOMEDCT:temporally_related_to:
+SNOMED:temporally_related_to:
   rename:
   - related_to
   - biolink:related_to
-SNOMEDCT:time_aspect_of:
+SNOMED:time_aspect_of:
   delete: null
-SNOMEDCT:unit_of_presentation_of:
+SNOMED:unit_of_presentation_of:
   delete: null
-SNOMEDCT:uses_access_device:
+SNOMED:uses_access_device:
   rename:
   - has_input
   - biolink:has_input
-SNOMEDCT:uses_device:
+SNOMED:uses_device:
   rename:
   - has_input
   - biolink:has_input
-SNOMEDCT:uses_energy:
+SNOMED:uses_energy:
   rename:
   - has_input
   - biolink:has_input
-SNOMEDCT:uses_substance:
+SNOMED:uses_substance:
   rename:
   - has_input
   - biolink:has_input
-SNOMEDCT_VET:active_ingredient_of:
+SNOMED_VET:active_ingredient_of:
   rename:
   - part_of
   - biolink:part_of
-SNOMEDCT_VET:associated_morphology_of:
+SNOMED_VET:associated_morphology_of:
   delete: null
-SNOMEDCT_VET:associated_with:
+SNOMED_VET:associated_with:
   rename:
   - correlated_with
   - biolink:correlated_with
-SNOMEDCT_VET:causative_agent_of:
+SNOMED_VET:causative_agent_of:
   rename:
   - causes
   - biolink:causes
-SNOMEDCT_VET:cause_of:
+SNOMED_VET:cause_of:
   rename:
   - causes
   - biolink:causes
-SNOMEDCT_VET:component_of:
+SNOMED_VET:component_of:
   rename:
   - part_of
   - biolink:part_of
-SNOMEDCT_VET:direct_procedure_site_of:
+SNOMED_VET:direct_procedure_site_of:
   delete: null
-SNOMEDCT_VET:due_to:
+SNOMED_VET:due_to:
   delete: null
-SNOMEDCT_VET:finding_site_of:
+SNOMED_VET:finding_site_of:
   delete: null
-SNOMEDCT_VET:has_active_ingredient:
+SNOMED_VET:has_active_ingredient:
   delete: null
-SNOMEDCT_VET:has_associated_morphology:
+SNOMED_VET:has_associated_morphology:
   rename:
   - related_to
   - biolink:related_to
-SNOMEDCT_VET:has_causative_agent:
+SNOMED_VET:has_causative_agent:
   delete: null
-SNOMEDCT_VET:has_component:
+SNOMED_VET:has_component:
   invert:
   - part_of
   - biolink:part_of
-SNOMEDCT_VET:has_direct_procedure_site:
+SNOMED_VET:has_direct_procedure_site:
   rename:
   - occurs_in
   - biolink:occurs_in
-SNOMEDCT_VET:has_finding_site:
+SNOMED_VET:has_finding_site:
   rename:
   - located_in
   - biolink:located_in
-SNOMEDCT_VET:has_indirect_procedure_site:
+SNOMED_VET:has_indirect_procedure_site:
   rename:
   - procedure_has_target_anatomy
   - NCIT:R163
-SNOMEDCT_VET:has_life_circumstance:
+SNOMED_VET:has_life_circumstance:
   rename:
   - has_attribute
   - biolink:has_attribute
-SNOMEDCT_VET:has_part:
+SNOMED_VET:has_part:
   invert:
   - part_of
   - biolink:part_of
-SNOMEDCT_VET:has_physiologic_state:
+SNOMED_VET:has_physiologic_state:
   rename:
   - has_attribute
   - biolink:has_attribute
-SNOMEDCT_VET:has_procedure_site:
+SNOMED_VET:has_procedure_site:
   rename:
   - occurs_in
   - biolink:occurs_in
-SNOMEDCT_VET:has_specimen_source_topography:
+SNOMED_VET:has_specimen_source_topography:
   rename:
   - derives_from
   - biolink:derives_from
-SNOMEDCT_VET:has_specimen_substance:
+SNOMED_VET:has_specimen_substance:
   rename:
   - has_input
   - biolink:has_input
-SNOMEDCT_VET:includes_sub_specimen:
+SNOMED_VET:includes_sub_specimen:
   delete: null
-SNOMEDCT_VET:indirect_procedure_site_of:
+SNOMED_VET:indirect_procedure_site_of:
   delete: null
-SNOMEDCT_VET:interprets:
+SNOMED_VET:interprets:
   delete: null
-SNOMEDCT_VET:is_interpreted_by:
+SNOMED_VET:is_interpreted_by:
   rename:
   - related_to
   - biolink:related_to
-SNOMEDCT_VET:life_circumstance_of:
+SNOMED_VET:life_circumstance_of:
   delete: null
-SNOMEDCT_VET:occurs_after:
+SNOMED_VET:occurs_after:
   delete: null
-SNOMEDCT_VET:occurs_before:
+SNOMED_VET:occurs_before:
   rename:
   - precedes
   - biolink:precedes
-SNOMEDCT_VET:part_of:
+SNOMED_VET:part_of:
   rename:
   - part_of
   - biolink:part_of
-SNOMEDCT_VET:physiologic_state_of:
+SNOMED_VET:physiologic_state_of:
   delete: null
-SNOMEDCT_VET:procedure_site_of:
+SNOMED_VET:procedure_site_of:
   delete: null
-SNOMEDCT_VET:specimen_source_topography_of:
+SNOMED_VET:specimen_source_topography_of:
   delete: null
-SNOMEDCT_VET:specimen_substance_of:
+SNOMED_VET:specimen_substance_of:
   delete: null
-SNOMEDCT_VET:sub_specimen_included_by:
+SNOMED_VET:sub_specimen_included_by:
   rename:
   - part_of
   - biolink:part_of
