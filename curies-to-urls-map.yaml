@@ -470,9 +470,15 @@ use_for_contraction_only:
   -
     MEDDRA: http://purl.obolibrary.org/obo/MedDRA_
   -
+    MEDDRA: http://identifiers.org/meddra/
+  -
     medgen: http://purl.obolibrary.org/obo/MEDGEN_
   -
+    medgen: http://identifiers.org/medgen/
+  -
     MESH: http://purl.bioontology.org/ontology/MSH/
+  -
+    MESH: http://identifiers.org/mesh/
   -
     MGI: "http://www.informatics.jax.org/marker/MGI:"
   -
@@ -504,6 +510,8 @@ use_for_contraction_only:
   -
     OMIM: http://purl.bioontology.org/ontology/OMIM/
   -
+    OMIM: http://identifiers.org/omim/
+  -
     OMOP: http://purl.obolibrary.org/obo/COHD_
   -
     ORPHANET: http://www.orpha.net/ORDO/Orphanet_
@@ -527,6 +535,8 @@ use_for_contraction_only:
     SNOMED: http://snomed.info/sct/
   -
     SNOMED: http://purl.obolibrary.org/obo/SCTID_
+  -
+    SNOMED: http://identifiers.org/snomedct/
   -
     SO: http://purl.obolibrary.org/obo/so#
   -
