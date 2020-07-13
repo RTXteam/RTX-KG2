@@ -202,7 +202,7 @@ if __name__ == '__main__':
         if max_phase_int is not None:
             description += '; MAX_FDA_APPROVAL_PHASE: ' + str(max_phase_int)
         id = CHEMBL_CURIE_BASE_COMPOUND + ':' + chembl_id
-        iri = CHEMBL_BASE_IRI_COMPOUND + '/' + chembl_id
+        iri = CHEMBL_BASE_IRI_COMPOUND + chembl_id
         node_dict = make_node(id,
                               iri,
                               pref_name,
