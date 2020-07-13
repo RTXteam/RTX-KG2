@@ -274,7 +274,17 @@ use_for_bidirectional_mapping:
   -
     owl: http://www.w3.org/2002/07/owl#
   -
-    PathBank.reaction: https://pathbank.org/lims#/reactions/
+    PathWhiz.Bound: https://pathbank.org/lims#/bounds/
+  -
+    PathWhiz.Compound: https://pathbank.org/lims#/compounds/
+  -
+    PathWhiz.ElementCollection: https://pathbank.org/lims#/element_collections/
+  -
+    PathWhiz.NucleicAcid: https://pathbank.org/lims#/nucleic_acids/
+  -
+    PathWhiz.ProteinComplex: https://pathbank.org/lims#/protein_complexes/
+  -
+    PathWhiz.Reaction: https://pathbank.org/lims#/reactions/
   -
     PathWhiz: https://smpdb.ca/pathwhiz/pathways/
   -
