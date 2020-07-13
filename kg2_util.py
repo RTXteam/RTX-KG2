@@ -403,10 +403,11 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                                     else:
                                         ret_dict[key] = value
                             else:
-                                log_message(message="inconsistent category information; keeping original category " + stored_value,
-                                            ontology_name=str(x.get('provided by', 'provided_by=UNKNOWN')),
-                                            node_curie_id=x.get('id', 'id=UNKNOWN'),
-                                            output_stream=sys.stderr)
+                                if 'named_thing' != value and 'unknown_category' != value:
+                                    log_message(message="inconsistent category information; keeping original category " + stored_value,
+                                                ontology_name=str(x.get('provided by', 'provided_by=UNKNOWN')),
+                                                node_curie_id=x.get('id', 'id=UNKNOWN'),
+                                                output_stream=sys.stderr)
                                 continue
                         elif key == 'category':
                             if biolink_depth_getter is not None:
@@ -421,10 +422,11 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                                     else:
                                         ret_dict[key] = value
                             else:
-                                log_message(message="inconsistent category information; keeping original category " + stored_value,
-                                            ontology_name=str(x.get('provided by', 'provided_by=UNKNOWN')),
-                                            node_curie_id=x.get('id', 'id=UNKNOWN'),
-                                            output_stream=sys.stderr)
+                                if not value.endswith('NamedThing') and not value.endswith('UnknownCategory'):
+                                    log_message(message="inconsistent category information; keeping original category " + stored_value,
+                                                ontology_name=str(x.get('provided by', 'provided_by=UNKNOWN')),
+                                                node_curie_id=x.get('id', 'id=UNKNOWN'),
+                                                output_stream=sys.stderr)
                                 continue
                         elif key == 'name' or key == 'full name':
                             if value.replace(' ', '_') != stored_value.replace(' ', '_'):
