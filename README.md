@@ -87,33 +87,38 @@ http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/
 
 The KG2 build system is designed only to run in an Ubuntu 18.04 environment
 (i.e., either (i) an Ubuntu 18.04 host OS or (ii) Ubuntu 18.04 running in a
-Docker container with a host OS that has `bash` and `sudo`). Currently, KG2 is
-built using a set of `bash` scripts that are designed to run in Amazon's Elastic
-Compute Cloud (EC2), and thus, configurability and/or coexisting with other
-installed software pipelines was not a design consideration for the build
-system. The KG2 build system's `bash` scripts create three subdirectories
-`~/kg2-build`, `~/kg2-code`, and `~/kg2-venv` under the `${HOME}` directory of
-whatever Linux user account you use to run the KG2 build software (if you run on
-an EC2 Ubuntu instance, this directory would by default be `/home/ubuntu`). The
-various directories used by the KG2 build system are configured in the `bash`
-include file `master-config.shinc`. Most of the KG2 build system code is in
-python3, designed to run in python3.7 (and tested specifically in python 3.7.5).
+Docker container). Currently, KG2 is built using a set of `bash` scripts that
+are designed to run in Amazon's Elastic Compute Cloud (EC2), and thus,
+configurability and/or coexisting with other installed software pipelines was
+not a design consideration for the build system. The KG2 build system's `bash`
+scripts create three subdirectories under the `${HOME}` directory of whatever Linux user account you
+use to run the KG2 build software (if you run on an EC2 Ubuntu instance, this
+directory would by default be `/home/ubuntu`):
+
+1. `~/kg2-build`
+2. `~/kg2-code`
+3. `~/kg2-venv`
+
+The various directories used by the KG2 build system are configured in the
+`bash` include file `master-config.shinc`. Most of the KG2 build system code is
+written in the Python3 programming language, and designed to run in python3.7
+(and tested specifically in python 3.7.5).
 
 Note about atomicity of file moving: The build software is designed to run with
 the `kg2-build` directory being in the same file system as the Python temporary
 file directory (i.e., the directory name that is returned by the variable
-`tempfile.tempdir` in Python). If you modify the KG2 software or runtime
-environment so that `kg2-build` is in a different file system from the file
-system in which the directory `tempfile.tempdir` resides, then the file moving
-operations that are performed by the KG2 build software will not be atomic and
-interruption of `build-kg2.py` could then leave a source data file in a
-half-downloaded (i.e., broken) state.
+`tempfile.tempdir` in Python). If the KG2 software or installation is modified
+so that `kg2-build` is in a different file system from the file system in which
+the directory `tempfile.tempdir` (as referenced in the `tempfile` python module)
+resides, then the file moving operations that are performed by the KG2 build
+software will not be atomic and interruption of `build-kg2.py` could then leave
+a source data file in a half-downloaded (i.e., broken) state.
 
 ## Setup your computing environment
 
 The computing environment where you will be running the KG2 build should be
-running Ubuntu 18.04.  Your build environment should have the following *minimum*
-specifications:
+running **Ubuntu 18.04**.  Your build environment should have the following
+*minimum* specifications:
 
 - 256 GiB of system memory
 - 1,023 GiB of disk space in the root file system 
@@ -135,13 +140,13 @@ best bet would be to use Docker (see Option 3 below).
 
 ## AWS authentication key and AWS buckets
 
-Aside from your host OS, you'll need to have an Amazon Web Services (AWS)
-authentication key that is configured to be able to read from the `s3://rtx-kg2`
-Amazon Simple Cloud Storage Service (S3) bucket (ask the KG2 maintainer to set
-this up), so that the build script can download a copy of the full Unified
-Medical Language System (UMLS) distribution.  You will be asked (by the AWS
-Command-line Interface, CLI) to provide this authentication key when you run the
-KG2 setup script. Your configured AWS CLI will also need to be able to
+Aside from a suitable system as described above, you'll need to have an Amazon
+Web Services (AWS) authentication key that is configured to be able to read from
+the `s3://rtx-kg2` Amazon Simple Cloud Storage Service (S3) bucket (ask the KG2
+maintainer to set this up), so that the build script can download a copy of the
+full Unified Medical Language System (UMLS) distribution.  You will be asked (by
+the AWS Command-line Interface, CLI) to provide this authentication key when you
+run the KG2 setup script. Your configured AWS CLI will also need to be able to
 programmatically write to the (publicly readable) S3 bucket
 `s3://rtx-kg2-public` (both buckets are in the `us-west-2` AWS zone). The KG2
 build script downloads the UMLS distribution (including SNOMED CT) from the
@@ -154,18 +159,18 @@ S3 bucket `rtx-kg2-public`. Alternatively, you can set up your own S3 bucket to
 which to copy the gzipped KG2 JSON file (which you would specify in the
 configuration file `master-config.shinc`), or in the file `build-kg2.sh`, you
 can comment out the line that copies the final gzipped JSON file to the S3
-bucket. You will also need to edit and place a file `RTXConfiguration-config.json` in the
-S3 bucket `s3://rtx-kg2/`; this file provides credentials (username, password, and
-HTTP URI for Neo4j REST API server) for accessing a RTX KG1 Neo4j endpoint; the
-KG2 build system will dump the KG1 graph from that endpoint and will merge that
-graph into KG2. As a minimal example of the data format for
-`RTXConfiguration-config.json`, see the file
-`RTXConfiguration-config-EXAMPLE.json` in this repository code directory (note:
-that config file can contain authentication information for additional server
-types in the RTX system; those are not shown in the example file in this code
-directory). The KG1 Neo4j endpoint need not (and in general, won't be) hosted in
-the same EC2 instance that hosts the KG2 build system. Currently, the KG1 Neo4j
-endpoint is hosted in the instance `arax.rtx.ai`; the URI of its Neo4j
+bucket. You will also need to edit and place a file
+`RTXConfiguration-config.json` in the S3 bucket `s3://rtx-kg2/`; this file
+provides credentials (username, password, and HTTP URI for Neo4j REST API
+server) for accessing a RTX KG1 Neo4j endpoint; the KG2 build system will dump
+the KG1 graph from that endpoint and will merge that graph into KG2. As a
+minimal example of the data format for `RTXConfiguration-config.json`, see the
+file `RTXConfiguration-config-EXAMPLE.json` in this repository code directory
+(note: that config file can contain authentication information for additional
+server types in the RTX system; those are not shown in the example file in this
+code directory). The KG1 Neo4j endpoint need not (and in general, won't be)
+hosted in the same EC2 instance that hosts the KG2 build system. Currently, the
+KG1 Neo4j endpoint is hosted in the instance `arax.rtx.ai`; the URI of its Neo4j
 REST HTTP interface is: `http://arax.rtx.ai:7474`.
 
 ## My normal EC2 instance
@@ -175,7 +180,7 @@ The KG2 build software has been tested with the following instance type:
 - AMI: Ubuntu Server 18.04 LTS (HVM), SSD Volume Type - `ami-005bdb005fb00e791` (64-bit x86)
 - Instance type: `r5a.8xlarge` (256 GiB of memory)
 - Storage: 1,023 GiB, Elastic Block Storage
-- Security Group: ingress TCP packets on port 22 (ssh) permitted
+- Security Group: ingress TCP packets on port 22 (`ssh`) permitted
 
 As of summer 2019, an on-demand `r5a.8xlarge` instance in the `us-west-2` AWS
 zone costs $1.81 per hour, so the cost to build KG2 (estimated to take 67 hours)
@@ -194,10 +199,11 @@ to be using the `bash` shell on your local computer.
 ### Option 1: build KG2 serially (about 67 hours) directly on an Ubuntu system:
 
 These instructions assume that you are logged into the target Ubuntu system, and
-that the Ubuntu system has *not* previously had `setup-kg2-build.sh` run (if it has
-previously had `setup-kg2-build.sh` run, you may wish to clear out the instance by running
-`clear-instance.sh` before proceeding, in order to ensure that you are getting the
-exact python packages needed in the latest `requirements.txt` file in the KG2 codebase):
+that the Ubuntu system has *not* previously had `setup-kg2-build.sh` run (if it
+has previously had `setup-kg2-build.sh` run, you may wish to clear out the
+instance by running `clear-instance.sh` before proceeding, in order to ensure
+that you are getting the exact python packages needed in the latest
+`requirements-kg2-build.txt` file in the KG2 codebase):
 
 (1) Install the `git` and `screen` packages if they are not already installed (though
 in an Ubuntu 18.04 instance created using the standard AWS AMI, they should already
