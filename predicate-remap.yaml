@@ -4320,24 +4320,6 @@ SO:has_origin:
   rename:
   - has_origin
   - FMA:has_origin
-SOP:SIB:
-  delete: null
-SRC:RO:
-  invert:
-  - related_to
-  - biolink:related_to
-SRC:has_translation:
-  rename:
-  - related_to
-  - biolink:related_to
-SRC:has_version:
-  rename:
-  - has_attribute
-  - biolink:has_attribute
-SRC:translation_of:
-  delete: null
-SRC:version_of:
-  delete: null
 UBERON:anastomoses_with:
   keep: null
 UBERON:anteriorly_connected_to:
@@ -4386,8 +4368,6 @@ UBERON:synapsed_by:
   rename:
   - related_to
   - biolink:related_to
-USPMG:SIB:
-  delete: null
 UMLS:class_code_classified_by:
   rename:
   - related_to
@@ -4462,10 +4442,6 @@ UMLS:owning_subsection_of:
   rename:
   - part_of
   - biolink:part_of
-MTH:RB:
-  invert:
-  - subclass_of
-  - biolink:subclass_of
 UMLS:RO:
   invert:
   - related_to
@@ -4474,10 +4450,6 @@ UMLS:RQ:
   rename:
   - related_to
   - biolink:related_to
-UMLS:smaller_than:
-  rename:
-  - decreased_in_magnitude_relative_to
-  - PATO:decreased_in_magnitude_relative_to
 UMLS:supported_concept_property_in:
   delete: null
 UMLS:supported_concept_relationship_in:
@@ -4506,17 +4478,11 @@ oboFormat:xref:
   rename:
   - close_match
   - skos:closeMatch
-owl:inverseOf:
-  keep: null
 owl:sameAs:
   rename:
   - same_as
   - biolink:same_as
 rdfs:subPropertyOf:
-  rename:
-  - subclass_of
-  - biolink:subclass_of
-owl:type:
   rename:
   - subclass_of
   - biolink:subclass_of
