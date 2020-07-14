@@ -572,7 +572,7 @@ use_for_contraction_only:
   -
     UMLS: http://purl.bioontology.org/ontology/MEDLINEPLUS/
   -
-    UniProtKB: "http://identifiers.org/uniprot:"
+    UniProtKB: "http://identifiers.org/uniprot/"
   -
     wb: http://www.wormbase.org/species/c_elegans/gene/
   -
