@@ -400,12 +400,12 @@ DGIdb:antibody:
   - biolink:molecularly_interacts_with
 DGIdb:antisense:
   rename:
-  - antisense
-  - RTX:antisense
+  - decreases_expression_of
+  - biolink:decreases_expression_of
 DGIdb:antisense_oligonucleotide:
   rename:
-  - antisense
-  - RTX:antisense
+  - decreases_expression_of
+  - biolink:decreases_expression_of
 DGIdb:binder:
   rename:
   - directly_interacts_with
@@ -925,7 +925,9 @@ ICD10:SIB:
 ICD10PCS:SIB:
   delete: null
 IDO:0000664:
-  keep: null
+  invert:
+  - contributes_to
+  - biolink:contributes_to
 LOINC:adjustment_of:
   delete: null
 LOINC:analyzed_by:
@@ -1318,30 +1320,6 @@ MONDO:equivalentTo:
   rename:
   - same_as
   - biolink:same_as
-MTH:RB:
-  invert:
-  - subclass_of
-  - biolink:subclass_of
-MTH:RO:
-  invert:
-  - related_to
-  - biolink:related_to
-MTH:SY:
-  rename:
-  - close_match
-  - skos:closeMatch
-MTH:exhibited_by:
-  rename:
-  - related_to
-  - biolink:related_to
-MTH:exhibits:
-  delete: null
-MTH:form_of:
-  delete: null
-MTH:has_form:
-  rename:
-  - related_to
-  - biolink:related_to
 MTH:measured_by:
   rename:
   - quantifier_qualifier
@@ -1916,8 +1894,8 @@ NCIT:has_target:
   - biolink:physically_interacts_with
 NCIT:has_tradename:
   rename:
-  - has_related_synonym
-  - OIO:hasRelatedSynonym
+  - synonym
+  - biolink:synonym
 NCIT:human_disease_maps_to_eo_disease:
   rename:
   - analogous_to
@@ -1926,8 +1904,8 @@ NCIT:imaged_anatomy_has_procedure:
   delete: null
 NCIT:is_abnormal_cell_of_disease:
   rename:
-  - abnormal_in
-  - RTX:is_abnormal_in
+  - cell_line_to_disease_or_phenotypic_feature_association_subject
+  - biolink:cell_line_to_disease_or_phenotypic_feature_association_subject
 NCIT:is_abnormality_of_gene:
   delete: null
 NCIT:is_abnormality_of_gene_product:
@@ -2146,8 +2124,8 @@ NDDF:dose_form_of:
   delete: null
 NDDF:has_dose_form:
   rename:
-  - has_dose_form
-  - RXNORM:has_dose_form
+  - subclass_of
+  - biolink:subclass_of
 NDDF:has_ingredient:
   invert:
   - part_of
@@ -2194,8 +2172,8 @@ NDFRT:has_contraindicating_physiologic_effect:
   - NCIT:R125
 NDFRT:has_dose_form:
   rename:
-  - has_dose_form
-  - RXNORM:has_dose_form
+  - subclass_of
+  - biolink:subclass_of
 NDFRT:has_ingredient:
   invert:
   - part_of
@@ -3233,7 +3211,9 @@ RTXKG1:activator:
   - positively_regulates__entity_to_entity
   - biolink:positively_regulates_entity_to_entity
 RTXKG1:affects:
-  keep: null
+  rename:
+  - affects
+  - biolink:affects
 RTXKG1:agonist:
   rename:
   - agonist
@@ -3250,14 +3230,6 @@ RTXKG1:antibody:
   rename:
   - molecularly_interacts_with
   - biolink:molecularly_interacts_with
-RTXKG1:antisense:
-  rename:
-  - antisense
-  - RTX:antisense
-RTXKG1:antisense_oligonucleotide:
-  rename:
-  - antisense
-  - RTX:antisense
 RTXKG1:associated_with_disease:
   rename:
   - correlated_with
@@ -3323,7 +3295,9 @@ RTXKG1:equivalentClass:
   - same_as
   - biolink:same_as
 RTXKG1:expressed_in:
-  keep: null
+  rename:
+  - expressed_in
+  - biolink:expressed_in
 RTXKG1:functionally_related_to:
   rename:
   - related_to
@@ -3349,7 +3323,9 @@ RTXKG1:has_part:
   - part_of
   - biolink:part_of
 RTXKG1:has_phenotype:
-  keep: null
+  rename:
+  - has_phenotype
+  - biolink:has_phenotype
 RTXKG1:has_plasma_membrane_part:
   rename:
   - has_part
@@ -3469,11 +3445,13 @@ RXNORM:doseformgroup_of:
 RXNORM:form_of:
   delete: null
 RXNORM:has_dose_form:
-  keep: null
+  rename:
+  - subclass_of
+  - biolink:subclass_of
 RXNORM:has_doseformgroup:
   rename:
-  - has_dose_form
-  - RXNORM:has_dose_form
+  - subclass_of
+  - biolink:subclass_of
 RXNORM:has_form:
   rename:
   - related_to
@@ -3496,8 +3474,8 @@ RXNORM:has_quantified_form:
   - skos:closeMatch
 RXNORM:has_tradename:
   rename:
-  - has_related_synonym
-  - OIO:hasRelatedSynonym
+  - synonym
+  - biolink:synonym
 RXNORM:ingredient_of:
   rename:
   - part_of
@@ -3563,7 +3541,9 @@ SEMMEDDB:compared_with:
   - related_to
   - biolink:related_to
 SEMMEDDB:complicates:
-  keep: null
+  rename:
+  - interacts_with
+  - biolink:interacts_with
 SEMMEDDB:converts_to:
   rename:
   - derives_into
@@ -3862,8 +3842,8 @@ SNOMED:has_disposition:
   - biolink:related_to
 SNOMED:has_dose_form:
   rename:
-  - has_dose_form
-  - RXNORM:has_dose_form
+  - subclass_of
+  - biolink:subclass_of
 SNOMED:has_dose_form_administration_method:
   rename:
   - has_attribute
@@ -4420,11 +4400,27 @@ UMLS:component_of:
   - biolink:part_of
 UMLS:context_binding_of:
   delete: null
+UMLS:exhibited_by:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:exhibits:
+  delete: null
+UMLS:form_of:
+  delete: null
 UMLS:has_component:
   invert:
   - part_of
   - biolink:part_of
 UMLS:has_context_binding:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:has_form:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:has_mapping_qualifier:
   rename:
   - related_to
   - biolink:related_to
@@ -4448,6 +4444,8 @@ UMLS:larger_than:
   rename:
   - related_to
   - biolink:related_to
+UMLS:mapped_from:
+  delete: null
 UMLS:may_be_qualified_by:
   rename:
   - has_attribute
@@ -4464,6 +4462,18 @@ UMLS:owning_subsection_of:
   rename:
   - part_of
   - biolink:part_of
+MTH:RB:
+  invert:
+  - subclass_of
+  - biolink:subclass_of
+UMLS:RO:
+  invert:
+  - related_to
+  - biolink:related_to
+UMLS:RQ:
+  rename:
+  - related_to
+  - biolink:related_to
 UMLS:smaller_than:
   rename:
   - decreased_in_magnitude_relative_to
@@ -4472,6 +4482,10 @@ UMLS:supported_concept_property_in:
   delete: null
 UMLS:supported_concept_relationship_in:
   delete: null
+UMLS:SY:
+  rename:
+  - close_match
+  - skos:closeMatch
 VANDF:has_ingredient:
   invert:
   - part_of
