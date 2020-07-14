@@ -552,6 +552,12 @@ use_for_contraction_only:
   -
     NCBITaxon: http://purl.obolibrary.org/obo/ncbitaxon#
   -
+    UBERON: http://purl.obolibrary.org/obo/uberon/insect-anatomy#
+  -
+    UBERON: http://purl.obolibrary.org/obo/uberon/core#
+  -
+    UBERON: http://purl.obolibrary.org/obo/uberon#
+  -
     UMLS: http://purl.obolibrary.org/obo/UMLS_
   -
     UMLS: http://purl.bioontology.org/ontology/MTH/
@@ -566,11 +572,7 @@ use_for_contraction_only:
   -
     UMLS: http://purl.bioontology.org/ontology/MEDLINEPLUS/
   -
-    UBERON: http://purl.obolibrary.org/obo/uberon/insect-anatomy#
-  -
-    UBERON: http://purl.obolibrary.org/obo/uberon/core#
-  -
-    UBERON: http://purl.obolibrary.org/obo/uberon#
+    UniProtKB: "http://identifiers.org/uniprot:"
   -
     wb: http://www.wormbase.org/species/c_elegans/gene/
   -
