@@ -39,7 +39,8 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_kg2_util_curies_urls_categories.
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_predicate_remap_yaml.py \
            ${CURIES_TO_URLS_FILE} \
-           ${PREDICATE_MAPPING_FILE}
+           ${PREDICATE_MAPPING_FILE} \
+           ${BIOLINK_URL_MODEL_OWL}
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_owl_load_inventory.py \
            ${OWL_LOAD_INVENTORY_FILE} \
