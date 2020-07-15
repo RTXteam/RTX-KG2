@@ -281,23 +281,24 @@ if __name__ == '__main__':
     for (action_type, description, parent_type) in results:
         name = action_type.lower()
         predicate_label = name.replace(' ', '_')
-        curie_id = 'CHEMBL:' + predicate_label
-        category_label = 'semantic_type'
+        curie_id = kg2_util.CURIE_PREFIX_CHEMBL_MECHANISM + ':' + predicate_label
         node_dict = make_node(curie_id,
                               CHEMBL_BASE_IRI_PREDICATE + chembl_id,
                               name,
-                              category_label,
+                              kg2_util.EDGE_LABEL_BIOLINK_RELATION,
                               description,
                               [],
                               [],
                               update_date)
         nodes.append(node_dict)
         parent_label = parent_type.lower().replace(' ', '_')
-        parent_curie_id = 'CHEMBL:' + parent_label
-        edges.append(make_edge(curie_id,
-                               parent_curie_id,
-                               'subclass_of',
-                               update_date))
+        parent_curie_id = kg2_util.CURIE_PREFIX_CHEMBL_MECHANISM + ':' + parent_label
+        new_edge = kg2_util.make_edge_biolink(curie_id,
+                                              parent_curie_id,
+                                              kg2_util.EDGE_LABEL_BIOLINK_SUBCLASS_OF,
+                                              CHEMBL_KB_CURIE_ID,
+                                              update_date)
+        edges.append(new_edge)
 
 # get target-to-target subset_of relationships
 
