@@ -185,7 +185,7 @@ if __name__ == '__main__':
                                                                                KG1_RELATION_CURIE_PREFIX,
                                                                                KG1_RELATION_IRI_PREFIX)
         if relation_curie == 'bioLink:subclass_of':
-            relation_curie = 'rdfs:subClassOf'
+            relation_curie = kg2_util.CURIE_ID_RDFS_SUBCLASS_OF
             relation = prefixcommons.expand_uri(relation_curie)
         edge_dict['relation'] = relation
         edge_dict['relation curie'] = relation_curie
