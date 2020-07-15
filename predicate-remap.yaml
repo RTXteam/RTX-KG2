@@ -144,42 +144,8 @@ biolink:encodes:
   rename:
   - has_gene_product
   - biolink:has_gene_product
-biolink:gene_product_has_organism_source:
-  rename:
-  - in_taxon
-  - biolink:in_taxon
 biolink:in_taxon:
   keep: null
-CCC:actual_outcome_of:
-  delete: null
-CCC:expected_outcome_of:
-  delete: null
-CCC:has_actual_outcome:
-  rename:
-  - has_attribute
-  - biolink:has_attribute
-CCC:has_expected_outcome:
-  rename:
-  - has_attribute
-  - biolink:has_attribute
-CCC:modified_by:
-  delete: null
-CCC:modifies:
-  rename:
-  - causes
-  - biolink:causes
-CCS:SIB:
-  delete: null
-CCS:has_multi_level_category:
-  rename:
-  - has_attribute
-  - biolink:has_attribute
-CCS:has_single_level_category:
-  rename:
-  - has_attribute
-  - biolink:has_attribute
-CDT:SIB:
-  delete: null
 CHEBI:has_functional_parent:
   rename:
   - derives_from
@@ -466,10 +432,6 @@ DGIdb:vaccine:
   rename:
   - negatively_regulates__process_to_process
   - biolink:negatively_regulates_process_to_process
-DRUGBANK:category:
-  rename:
-  - has_attribute
-  - biolink:has_attribute
 DRUGBANK:drug-interaction:
   rename:
   - physically_interacts_with
@@ -502,10 +464,6 @@ EFO:is_executed_in:
   rename:
   - has_attribute
   - biolink:has_attribute
-ENSEMBL:gene_found_in_organism:
-  rename:
-  - in_taxon
-  - biolink:in_taxon
 FMA:SIB:
   delete: null
 FMA:adheres_to:
@@ -878,19 +836,15 @@ GOREL:0000040:
   keep: null
 GOREL:0001006:
   keep: null
-GOREL:0001007:
-  keep: null
 GOREL:0002003:
   keep: null
 GOREL:0002004:
   keep: null
 GOREL:0002005:
   keep: null
-GOREL:0002008:
-  keep: null
 GOREL:0012006:
   keep: null
-HANCESTRO:0303:
+HANCESTRO:0301:
   rename:
   - has_attribute
   - biolink:has_attribute
@@ -1190,32 +1144,6 @@ LOINC:time_aspect_of:
   delete: null
 LOINC:time_modifier_of:
   delete: null
-MED-RT:SIB:
-  delete: null
-MED-RT:has_mechanism_of_action:
-  rename:
-  - chemical_or_drug_has_mechanism_of_action
-  - NCIT:R124
-MED-RT:has_physiologic_effect:
-  rename:
-  - causes
-  - biolink:causes
-MED-RT:has_structural_class:
-  delete: null
-MED-RT:has_therapeutic_class:
-  delete: null
-MED-RT:mechanism_of_action_of:
-  delete: null
-MED-RT:physiologic_effect_of:
-  delete: null
-MED-RT:structural_class_of:
-  rename:
-  - subclass_of
-  - biolink:subclass_of
-MED-RT:therapeutic_class_of:
-  rename:
-  - subclass_of
-  - biolink:subclass_of
 MEDDRA:SIB:
   delete: null
 MEDDRA:classified_as:
@@ -1238,12 +1166,6 @@ MEDDRA:mth_has_british_form:
   rename:
   - close_match
   - skos:closeMatch
-MEDLINEPLUS:SIB:
-  delete: null
-MEDLINEPLUS:related_to:
-  rename:
-  - close_match
-  - biolink:related_to
 MESH:AQ:
   delete: null
 MESH:QB:
@@ -1274,30 +1196,6 @@ MESH:mapped_to:
   - biolink:related_to
 MESH:mapping_qualifier_of:
   delete: null
-MMSL:contained_in:
-  rename:
-  - part_of
-  - biolink:part_of
-MMSL:contains:
-  invert:
-  - part_of
-  - biolink:part_of
-MMSL:has_ingredient:
-  invert:
-  - part_of
-  - biolink:part_of
-MMSL:ingredient_of:
-  rename:
-  - part_of
-  - biolink:part_of
-MMSL:inverse_isa:
-  invert:
-  - subclass_of
-  - biolink:subclass_of
-MMSL:isa:
-  rename:
-  - subclass_of
-  - biolink:subclass_of
 MONDO:disease_causes_feature:
   keep: null
 MONDO:disease_has_basis_in_accumulation_of:
@@ -1320,160 +1218,6 @@ MONDO:equivalentTo:
   rename:
   - same_as
   - biolink:same_as
-MTH:measured_by:
-  rename:
-  - quantifier_qualifier
-  - biolink:quantifier_qualifier
-MTH:measures:
-  delete: null
-MTHMST:RB:
-  invert:
-  - subclass_of
-  - biolink:subclass_of
-MTHMST:RO:
-  invert:
-  - related_to
-  - biolink:related_to
-MTHMST:associated_with:
-  rename:
-  - correlated_with
-  - biolink:correlated_with
-MTHMST:conceptual_part_of:
-  rename:
-  - part_of
-  - biolink:part_of
-MTHMST:degree_of:
-  rename:
-  - subclass_of
-  - biolink:subclass_of
-MTHMST:diagnosed_by:
-  delete: null
-MTHMST:diagnoses:
-  rename:
-  - diagnoses
-  - NCIT:C15220
-MTHMST:evaluation_of:
-  delete: null
-MTHMST:has_conceptual_part:
-  delete: null
-MTHMST:has_degree:
-  delete: null
-MTHMST:has_evaluation:
-  rename:
-  - related_to
-  - biolink:related_to
-MTHMST:has_location:
-  rename:
-  - located_in
-  - biolink:located_in
-MTHMST:has_manifestation:
-  invert:
-  - subclass_of
-  - biolink:subclass_of
-MTHMST:has_method:
-  rename:
-  - has_attribute
-  - biolink:has_attribute
-MTHMST:has_part:
-  invert:
-  - part_of
-  - biolink:part_of
-MTHMST:has_result:
-  rename:
-  - causes
-  - biolink:causes
-MTHMST:inverse_isa:
-  invert:
-  - subclass_of
-  - biolink:subclass_of
-MTHMST:isa:
-  rename:
-  - subclass_of
-  - biolink:subclass_of
-MTHMST:location_of:
-  invert:
-  - located_in
-  - biolink:located_in
-MTHMST:manifestation_of:
-  rename:
-  - subclass_of
-  - biolink:subclass_of
-MTHMST:method_of:
-  delete: null
-MTHMST:part_of:
-  rename:
-  - part_of
-  - biolink:part_of
-MTHMST:result_of:
-  delete: null
-MTHMST:treated_by:
-  delete: null
-MTHMST:treats:
-  rename:
-  - treats
-  - biolink:treats
-MTHMST:used_by:
-  invert:
-  - has_input
-  - biolink:has_input
-MTHMST:uses:
-  rename:
-  - has_input
-  - biolink:has_input
-MTHSPL:active_ingredient_of:
-  rename:
-  - part_of
-  - biolink:part_of
-MTHSPL:active_moiety_of:
-  delete: null
-MTHSPL:has_active_ingredient:
-  delete: null
-MTHSPL:has_active_moiety:
-  delete: null
-MTHSPL:has_inactive_ingredient:
-  delete: null
-MTHSPL:inactive_ingredient_of:
-  rename:
-  - part_of
-  - biolink:part_of
-NANDA-I:SIB:
-  delete: null
-NANDA-I:associated_condition_of:
-  invert:
-  - correlated_with
-  - biolink:correlated_with
-NANDA-I:defining_characteristic_of:
-  delete: null
-NANDA-I:has_associated_condition:
-  rename:
-  - affects_risk_for
-  - biolink:affects_risk_for
-NANDA-I:has_at_risk_population:
-  delete: null
-NANDA-I:has_defining_characteristic:
-  rename:
-  - has_phenotype
-  - biolink:has_phenotype
-NANDA-I:has_related_factor:
-  rename:
-  - close_match
-  - biolink:related_to
-NANDA-I:has_risk_factor:
-  delete: null
-NANDA-I:population_at_risk_for:
-  rename:
-  - affects_risk_for
-  - biolink:affects_risk_for
-NANDA-I:related_factor_of:
-  delete: null
-NANDA-I:risk_factor_of:
-  rename:
-  - affects_risk_for
-  - biolink:affects_risk_for
-NCBIGene:gene_found_in_organism:
-  rename:
-  - in_taxon
-  - biolink:in_taxon
 NCIT:abnormal_cell_affected_by_chemical_or_drug:
   delete: null
 NCIT:abnormality_associated_with_allele:
@@ -2262,14 +2006,6 @@ OBI:0000299:
   rename:
   - has_output
   - biolink:has_output
-OBO:HANCESTRO_0301:
-  rename:
-  - has_attribute
-  - biolink:has_attribute
-OBO:HANCESTRO_0330:
-  invert:
-  - has_attribute
-  - biolink:has_attribute
 OBOREL:bearer_of:
   rename:
   - related_to
@@ -2277,10 +2013,6 @@ OBOREL:bearer_of:
 OBO:core#connected_to:
   rename:
   - related_to
-  - biolink:related_to
-OBO:disease_shares_features_of_:
-  rename:
-  - close_match
   - biolink:related_to
 OBO:core#distally_connected_to:
   rename:
@@ -2298,16 +2030,8 @@ OBO:envo#has_increased_levels_of:
   rename:
   - related_to
   - biolink:related_to
-OBO:hancestro_0285:
-  rename:
-  - has_attribute
-  - biolink:has_attribute
 OBO:hancestro_0308:
   rename:
-  - has_attribute
-  - biolink:has_attribute
-OBO:hancestro_0330:
-  invert:
   - has_attribute
   - biolink:has_attribute
 OBO:has_role:
@@ -2464,8 +2188,6 @@ PDQ:has_component:
   invert:
   - part_of
   - biolink:part_of
-PNDS:SIB:
-  delete: null
 PR:has_gene_template:
   invert:
   - has_gene_product
@@ -2618,18 +2340,6 @@ RO:0002008:
   rename:
   - related_to
   - biolink:related_to
-RO:0002013:
-  rename:
-  - has_part
-  - biolink:has_part
-RO:0002015:
-  rename:
-  - has_part
-  - biolink:has_part
-RO:0002016:
-  rename:
-  - has_part
-  - biolink:has_part
 RO:0002082:
   rename:
   - part_of
@@ -3552,10 +3262,6 @@ SEMMEDDB:diagnoses:
   rename:
   - diagnoses
   - NCIT:C15220
-SEMMEDDB:different_from:
-  delete: null
-SEMMEDDB:different_than:
-  delete: null
 SEMMEDDB:disrupts:
   rename:
   - disrupts
@@ -3646,10 +3352,6 @@ SEMMEDDB:uses:
   - biolink:has_input
 SEMMEDDB:verb:
   delete: null
-SIO:000658:
-  rename:
-  - related_to
-  - biolink:related_to
 SNOMED:access_device_used_by:
   delete: null
 SNOMED:access_of:
@@ -4206,116 +3908,6 @@ SNOMED:uses_substance:
   rename:
   - has_input
   - biolink:has_input
-SNOMED_VET:active_ingredient_of:
-  rename:
-  - part_of
-  - biolink:part_of
-SNOMED_VET:associated_morphology_of:
-  delete: null
-SNOMED_VET:associated_with:
-  rename:
-  - correlated_with
-  - biolink:correlated_with
-SNOMED_VET:causative_agent_of:
-  rename:
-  - causes
-  - biolink:causes
-SNOMED_VET:cause_of:
-  rename:
-  - causes
-  - biolink:causes
-SNOMED_VET:component_of:
-  rename:
-  - part_of
-  - biolink:part_of
-SNOMED_VET:direct_procedure_site_of:
-  delete: null
-SNOMED_VET:due_to:
-  delete: null
-SNOMED_VET:finding_site_of:
-  delete: null
-SNOMED_VET:has_active_ingredient:
-  delete: null
-SNOMED_VET:has_associated_morphology:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED_VET:has_causative_agent:
-  delete: null
-SNOMED_VET:has_component:
-  invert:
-  - part_of
-  - biolink:part_of
-SNOMED_VET:has_direct_procedure_site:
-  rename:
-  - occurs_in
-  - biolink:occurs_in
-SNOMED_VET:has_finding_site:
-  rename:
-  - located_in
-  - biolink:located_in
-SNOMED_VET:has_indirect_procedure_site:
-  rename:
-  - procedure_has_target_anatomy
-  - NCIT:R163
-SNOMED_VET:has_life_circumstance:
-  rename:
-  - has_attribute
-  - biolink:has_attribute
-SNOMED_VET:has_part:
-  invert:
-  - part_of
-  - biolink:part_of
-SNOMED_VET:has_physiologic_state:
-  rename:
-  - has_attribute
-  - biolink:has_attribute
-SNOMED_VET:has_procedure_site:
-  rename:
-  - occurs_in
-  - biolink:occurs_in
-SNOMED_VET:has_specimen_source_topography:
-  rename:
-  - derives_from
-  - biolink:derives_from
-SNOMED_VET:has_specimen_substance:
-  rename:
-  - has_input
-  - biolink:has_input
-SNOMED_VET:includes_sub_specimen:
-  delete: null
-SNOMED_VET:indirect_procedure_site_of:
-  delete: null
-SNOMED_VET:interprets:
-  delete: null
-SNOMED_VET:is_interpreted_by:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED_VET:life_circumstance_of:
-  delete: null
-SNOMED_VET:occurs_after:
-  delete: null
-SNOMED_VET:occurs_before:
-  rename:
-  - precedes
-  - biolink:precedes
-SNOMED_VET:part_of:
-  rename:
-  - part_of
-  - biolink:part_of
-SNOMED_VET:physiologic_state_of:
-  delete: null
-SNOMED_VET:procedure_site_of:
-  delete: null
-SNOMED_VET:specimen_source_topography_of:
-  delete: null
-SNOMED_VET:specimen_substance_of:
-  delete: null
-SNOMED_VET:sub_specimen_included_by:
-  rename:
-  - part_of
-  - biolink:part_of
 SO:has_origin:
   rename:
   - has_origin
@@ -4426,12 +4018,20 @@ UMLS:larger_than:
   - biolink:related_to
 UMLS:mapped_from:
   delete: null
+UMLS:mapped_to:
+  rename:
+  - related_to
+  - biolink:related_to
 UMLS:may_be_qualified_by:
   rename:
   - has_attribute
   - biolink:has_attribute
 UMLS:may_qualify:
   delete: null
+UMLS:measures:
+  rename:
+  - quantifier_qualifier
+  - biolink:quantifier_qualifier
 UMLS:owning_affiliate_of:
   delete: null
 UMLS:owning_section_of:
@@ -4442,6 +4042,14 @@ UMLS:owning_subsection_of:
   rename:
   - part_of
   - biolink:part_of
+UMLS:RB:
+  invert:
+  - subclass_of
+  - biolink:subclass_of
+UMLS:related_to:
+  rename:
+  - related_to
+  - biolink:related_to    
 UMLS:RO:
   invert:
   - related_to
@@ -4450,6 +4058,8 @@ UMLS:RQ:
   rename:
   - related_to
   - biolink:related_to
+UMLS:SIB:
+  delete: null
 UMLS:supported_concept_property_in:
   delete: null
 UMLS:supported_concept_relationship_in:
