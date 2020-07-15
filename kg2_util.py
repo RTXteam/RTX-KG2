@@ -179,6 +179,8 @@ IRI_OWL_SAME_AS = BASE_URL_OWL + 'sameAs'
 EDGE_LABEL_OWL_SAME_AS = 'same_as'
 EDGE_LABEL_BIOLINK_SAME_AS = 'same_as'
 EDGE_LABEL_BIOLINK_IN_TAXON = 'in_taxon'
+EDGE_LABEL_BIOLINK_RELATION = 'relation'
+EDGE_LABEL_BIOLINK_SUBCLASS_OF = 'subclass_of'
 
 RDFS_EDGE_NAMES_SET = {'subClassOf', 'subPropertyOf'}
 OWL_EDGE_NAMES_SET = {'equivalentClass', 'equivalentProperty', 'sameAs', 'differentFrom'}
