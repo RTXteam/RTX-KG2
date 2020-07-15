@@ -1934,10 +1934,6 @@ NDFRT:has_physiologic_effect:
   rename:
   - causes
   - biolink:causes
-NDFRT:has_print_name:
-  rename:
-  - close_match
-  - skos:closeMatch
 NDFRT:has_product_component:
   delete: null
 NDFRT:induced_by:
@@ -1979,8 +1975,6 @@ NDFRT:metabolic_site_of:
 NDFRT:pharmacokinetics_of:
   delete: null
 NDFRT:physiologic_effect_of:
-  delete: null
-NDFRT:print_name_of:
   delete: null
 NDFRT:product_component_of:
   rename:
@@ -4027,6 +4021,8 @@ UMLS:may_be_qualified_by:
   - has_attribute
   - biolink:has_attribute
 UMLS:may_qualify:
+  delete: null
+UMLS:measured_by:
   delete: null
 UMLS:measures:
   rename:
