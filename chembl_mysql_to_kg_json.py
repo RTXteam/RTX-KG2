@@ -283,7 +283,7 @@ if __name__ == '__main__':
         predicate_label = name.replace(' ', '_')
         curie_id = kg2_util.CURIE_PREFIX_CHEMBL_MECHANISM + ':' + predicate_label
         node_dict = make_node(curie_id,
-                              CHEMBL_BASE_IRI_PREDICATE + chembl_id,
+                              CHEMBL_BASE_IRI_PREDICATE + predicate_label,
                               name,
                               kg2_util.EDGE_LABEL_BIOLINK_RELATION,
                               description,
