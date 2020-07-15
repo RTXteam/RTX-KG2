@@ -138,7 +138,7 @@ BTO:develops_from:
   - biolink:related_to
 BTO:related_to:
   rename:
-  - close_match
+  - related_to
   - biolink:related_to
 biolink:encodes:
   rename:
@@ -170,13 +170,13 @@ CHEBI:is_tautomer_of:
   - skos:closeMatch
 CHEMBL.MECHANISM:activator:
   rename:
-  - positively_regulates__entity_to_entity
+  - positively_regulates_entity_to_entity
   - biolink:positively_regulates_entity_to_entity
 CHEMBL.MECHANISM:agonist:
   keep: null
 CHEMBL.MECHANISM:allosteric_antagonist:
   rename:
-  - negatively_regulates__process_to_process
+  - negatively_regulates_process_to_process
   - biolink:negatively_regulates_process_to_process
 CHEMBL.MECHANISM:antagonist:
   keep: null
@@ -186,7 +186,7 @@ CHEMBL.MECHANISM:binding_agent:
   keep: null
 CHEMBL.MECHANISM:blocker:
   rename:
-  - negatively_regulates__process_to_process
+  - negatively_regulates_process_to_process
   - biolink:negatively_regulates_process_to_process
 CHEMBL.MECHANISM:chelating_agent:
   keep: null
@@ -198,7 +198,7 @@ CHEMBL.MECHANISM:degrader:
   - biolink:increases_degradation_of
 CHEMBL.MECHANISM:directly_interacts_with:
   rename:
-  - directly_interacts_with
+  - physically_interacts_with
   - biolink:physically_interacts_with
 CHEMBL.MECHANISM:disrupting_agent:
   rename:
@@ -224,13 +224,13 @@ CHEMBL.MECHANISM:hydrolytic_enzyme:
   keep: null
 CHEMBL.MECHANISM:inhibitor:
   rename:
-  - negatively_regulates__entity_to_entity
+  - negatively_regulates_entity_to_entity
   - biolink:negatively_regulates_entity_to_entity
 CHEMBL.MECHANISM:inverse_agonist:
   keep: null
 CHEMBL.MECHANISM:modulator:
   rename:
-  - regulates__process_to_process
+  - regulates_process_to_process
   - biolink:regulates_process_to_process
 CHEMBL.MECHANISM:negative_allosteric_modulator:
   rename:
@@ -252,7 +252,7 @@ CHEMBL.MECHANISM:oxidative_enzyme:
   keep: null
 CHEMBL.MECHANISM:partial_agonist:
   rename:
-  - positively_regulates__entity_to_entity
+  - positively_regulates_entity_to_entity
   - biolink:positively_regulates_entity_to_entity
 CHEMBL.MECHANISM:positive_allosteric_modulator:
   rename:
@@ -334,7 +334,7 @@ CPT:mapped_from:
   delete: null
 CPT:mapped_to:
   rename:
-  - mapped_to
+  - related_to
   - biolink:related_to
 DDANAT:develops_from:
   invert:
@@ -342,7 +342,7 @@ DDANAT:develops_from:
   - biolink:related_to
 DGIdb:activator:
   rename:
-  - positively_regulates__entity_to_entity
+  - positively_regulates_entity_to_entity
   - biolink:positively_regulates_entity_to_entity
 DGIdb:affects:
   rename:
@@ -354,7 +354,7 @@ DGIdb:agonist:
   - CHEMBL.MECHANISM:agonist
 DGIdb:allosteric_modulator:
   rename:
-  - regulates__process_to_process
+  - regulates_process_to_process
   - biolink:regulates_process_to_process
 DGIdb:antagonist:
   rename:
@@ -374,23 +374,23 @@ DGIdb:antisense_oligonucleotide:
   - biolink:decreases_expression_of
 DGIdb:binder:
   rename:
-  - directly_interacts_with
+  - physically_interacts_with
   - biolink:physically_interacts_with
 DGIdb:blocker:
   rename:
-  - negatively_regulates__process_to_process
+  - negatively_regulates_process_to_process
   - biolink:negatively_regulates_process_to_process
 DGIdb:channel_blocker:
   rename:
-  - negatively_regulates__process_to_process
+  - negatively_regulates_process_to_process
   - biolink:negatively_regulates_process_to_process
 DGIdb:cofactor:
   rename:
-  - positively_regulates__entity_to_entity
+  - positively_regulates_entity_to_entity
   - biolink:positively_regulates_entity_to_entity
 DGIdb:gating_inhibitor:
   rename:
-  - negatively_regulates__process_to_process
+  - negatively_regulates_process_to_process
   - biolink:negatively_regulates_process_to_process
 DGIdb:inducer:
   rename:
@@ -398,11 +398,11 @@ DGIdb:inducer:
   - biolink:positively_regulates
 DGIdb:inhibitor:
   rename:
-  - negatively_regulates__entity_to_entity
+  - negatively_regulates_entity_to_entity
   - biolink:negatively_regulates_entity_to_entity
 DGIdb:inhibitory_allosteric_modulator:
   rename:
-  - negatively_regulates__process_to_process
+  - negatively_regulates_process_to_process
   - biolink:negatively_regulates_process_to_process
 DGIdb:inverse_agonist:
   rename:
@@ -410,7 +410,7 @@ DGIdb:inverse_agonist:
   - CHEMBL.MECHANISM:inverse_agonist
 DGIdb:modulator:
   rename:
-  - regulates__process_to_process
+  - regulates_process_to_process
   - biolink:regulates_process_to_process
 DGIdb:negative_modulator:
   rename:
@@ -418,7 +418,7 @@ DGIdb:negative_modulator:
   - biolink:negatively_regulates
 DGIdb:partial_agonist:
   rename:
-  - positively_regulates__entity_to_entity
+  - positively_regulates_entity_to_entity
   - biolink:positively_regulates_entity_to_entity
 DGIdb:positive_allosteric_modulator:
   rename:
@@ -426,11 +426,11 @@ DGIdb:positive_allosteric_modulator:
   - biolink:positively_regulates
 DGIdb:stimulator:
   rename:
-  - positively_regulates__entity_to_entity
+  - positively_regulates_entity_to_entity
   - biolink:positively_regulates_entity_to_entity
 DGIdb:vaccine:
   rename:
-  - negatively_regulates__process_to_process
+  - negatively_regulates_process_to_process
   - biolink:negatively_regulates_process_to_process
 DRUGBANK:drug-interaction:
   rename:
@@ -442,8 +442,8 @@ DRUGBANK:external-identifier:
   - biolink:same_as
 DRUGBANK:pathway:
   rename:
-  - chemical_to_pathway_association
-  - biolink:chemical_to_pathway_association
+  - chemical_to_pathway_association_object
+  - biolink:chemical_to_pathway_association_object
 DRUGBANK:target:
   rename:
   - physically_interacts_with
@@ -826,11 +826,11 @@ GO:positively_regulates:
   - biolink:positively_regulates
 GO:regulated_by:
   invert:
-  - regulates__process_to_process
+  - regulates_process_to_process
   - biolink:regulates_process_to_process
 GO:regulates:
   rename:
-  - regulates__process_to_process
+  - regulates_process_to_process
   - biolink:regulates_process_to_process
 GOREL:0000040:
   keep: null
@@ -856,7 +856,7 @@ HCPCS:mapped_from:
   delete: null
 HCPCS:mapped_to:
   rename:
-  - mapped_to
+  - related_to
   - biolink:related_to
 HP:SIB:
   delete: null
@@ -888,7 +888,7 @@ LOINC:analyzed_by:
   delete: null
 LOINC:analyzes:
   rename:
-  - analyzes
+  - quantifier_qualifier
   - biolink:quantifier_qualifier
 LOINC:answer_to:
   delete: null
@@ -1102,7 +1102,7 @@ LOINC:mapped_from:
   delete: null
 LOINC:mapped_to:
   rename:
-  - mapped_to
+  - related_to
   - biolink:related_to
 LOINC:measured_by:
   rename:
@@ -1192,7 +1192,7 @@ MESH:mapped_from:
   delete: null
 MESH:mapped_to:
   rename:
-  - mapped_to
+  - related_to
   - biolink:related_to
 MESH:mapping_qualifier_of:
   delete: null
@@ -1230,8 +1230,8 @@ NCIT:allele_absent_from_wild-type_chromosomal_location:
   - biolink:located_in
 NCIT:allele_has_abnormality:
   rename:
-  - variant_to_thing_association
-  - biolink:variant_to_thing_association
+  - variant_to_thing_association_subject
+  - biolink:variant_to_thing_association_subject
 NCIT:allele_has_activity:
   rename:
   - has_molecular_consequence
@@ -1242,11 +1242,11 @@ NCIT:allele_in_chromosomal_location:
   - biolink:located_in
 NCIT:allele_plays_altered_role_in_process:
   rename:
-  - allele_affects
+  - affects
   - biolink:affects
 NCIT:allele_plays_role_in_metabolism_of_chemical_or_drug:
   rename:
-  - allele_affects
+  - affects
   - biolink:affects
 NCIT:anatomic_structure_has_location:
   delete: null
@@ -1392,8 +1392,8 @@ NCIT:disease_has_accepted_treatment_with_regimen:
   delete: null
 NCIT:disease_has_associated_anatomic_site:
   rename:
-  - disease_or_phenotypic_feature_association_to_location_association
-  - biolink:disease_or_phenotypic_feature_association_to_location_association
+  - disease_or_phenotypic_feature_association_to_location_association_object
+  - biolink:disease_or_phenotypic_feature_association_to_location_association_object
 NCIT:disease_has_associated_disease:
   delete: null
 NCIT:disease_has_associated_gene:
@@ -1420,15 +1420,15 @@ NCIT:disease_has_normal_tissue_origin:
   - biolink:causes
 NCIT:disease_has_primary_anatomic_site:
   rename:
-  - disease_or_phenotypic_feature_association_to_location_association
-  - biolink:disease_or_phenotypic_feature_association_to_location_association
+  - disease_or_phenotypic_feature_association_to_location_association_object
+  - biolink:disease_or_phenotypic_feature_association_to_location_association_object
 NCIT:disease_is_grade:
   rename:
   - disease_is_grade
   - NCIT:R110
 NCIT:disease_is_marked_by_gene:
   invert:
-  - biomarker_of
+  - biomarker_for
   - biolink:biomarker_for
 NCIT:disease_is_stage:
   rename:
@@ -1476,8 +1476,8 @@ NCIT:eo_disease_has_associated_eo_anatomy:
   - biolink:affects
 NCIT:eo_disease_has_property_or_attribute:
   rename:
-  - disease_to_thing_association
-  - biolink:disease_to_thing_association
+  - disease_to_thing_association_subject
+  - biolink:disease_to_thing_association_subject
 NCIT:eo_disease_maps_to_human_disease:
   delete: null
 NCIT:excised_anatomy_has_procedure:
@@ -1486,7 +1486,7 @@ NCIT:excised_anatomy_may_have_procedure:
   delete: null
 NCIT:gene_associated_with_disease:
   rename:
-  - associated_with
+  - gene_associated_with_condition
   - biolink:gene_associated_with_condition
 NCIT:gene_encodes_gene_product:
   rename:
@@ -1512,16 +1512,16 @@ NCIT:gene_involved_in_molecular_abnormality:
   - biolink:actively_involved_in
 NCIT:gene_involved_in_pathogenesis_of_disease:
   rename:
-  - associated_with
+  - gene_associated_with_condition
   - biolink:gene_associated_with_condition
 NCIT:gene_is_biomarker_of:
   rename:
-  - biomarker_of
+  - biomarker_for
   - biolink:biomarker_for
 NCIT:gene_is_biomarker_type:
   rename:
-  - gene_to_thing_association
-  - biolink:gene_to_thing_association
+  - gene_to_thing_association_subject
+  - biolink:gene_to_thing_association_subject
 NCIT:gene_is_element_in_pathway:
   rename:
   - participates_in
@@ -1574,7 +1574,7 @@ NCIT:gene_product_has_structural_domain_or_motif:
   - NCIT:R50
 NCIT:gene_product_is_biomarker_of:
   rename:
-  - biomarker_of
+  - biomarker_for
   - biolink:biomarker_for
 NCIT:gene_product_is_biomarker_type:
   rename:
@@ -1590,7 +1590,7 @@ NCIT:gene_product_is_physical_part_of:
   - biolink:participates_in
 NCIT:gene_product_malfunction_associated_with_disease:
   rename:
-  - associated_with
+  - gene_associated_with_condition
   - biolink:gene_associated_with_condition
 NCIT:gene_product_plays_role_in_biological_process:
   rename:
@@ -1602,8 +1602,8 @@ NCIT:gene_product_sequence_variation_encoded_by_gene_mutant:
   - biolink:has_gene_product
 NCIT:gene_product_variant_of_gene_product:
   rename:
-  - variant_of
-  - biolink:variant_to_thing_association
+  - variant_to_thing_association_subject
+  - biolink:variant_to_thing_association_subject
 NCIT:genetic_biomarker_related_to:
   rename:
   - actively_involved_in
@@ -1634,7 +1634,7 @@ NCIT:has_salt_form:
   - NCIT:A5
 NCIT:has_target:
   rename:
-  - directly_interacts_with
+  - physically_interacts_with
   - biolink:physically_interacts_with
 NCIT:has_tradename:
   rename:
@@ -1642,7 +1642,7 @@ NCIT:has_tradename:
   - biolink:synonym
 NCIT:human_disease_maps_to_eo_disease:
   rename:
-  - analogous_to
+  - related_to
   - biolink:related_to
 NCIT:imaged_anatomy_has_procedure:
   delete: null
@@ -1954,11 +1954,11 @@ NDFRT:may_be_treated_by:
   delete: null
 NDFRT:may_diagnose:
   rename:
-  - biomarker_of
+  - biomarker_for
   - biolink:biomarker_for
 NDFRT:may_inhibit_effect_of:
   rename:
-  - negatively_regulates__process_to_process
+  - negatively_regulates_process_to_process
   - biolink:negatively_regulates_process_to_process
 NDFRT:may_prevent:
   rename:
@@ -2074,14 +2074,14 @@ OBO:xref:
   - skos:closeMatch
 OMIM:allelic_variant_of:
   rename:
-  - variant_of
-  - biolink:variant_to_thing_association
+  - variant_to_thing_association_subject
+  - biolink:variant_to_thing_association_subject
 OMIM:has_allelic_variant:
   delete: null
 OMIM:has_inheritance_type:
   rename:
-  - disease_to_thing_association
-  - biolink:disease_to_thing_association
+  - disease_to_thing_association_subject
+  - biolink:disease_to_thing_association_subject
 OMIM:has_manifestation:
   invert:
   - subclass_of
@@ -2138,12 +2138,12 @@ ORPHANET:410296:
   - biolink:causes
 ORPHANET:465410:
   rename:
-  - biomarker_of
+  - biomarker_for
   - biolink:biomarker_for
 ORPHANET:C016:
   rename:
-  - disease_to_thing_association
-  - biolink:disease_to_thing_association
+  - disease_to_thing_association_subject
+  - biolink:disease_to_thing_association_subject
 ORPHANET:C017:
   rename:
   - has_attribute
@@ -2160,7 +2160,7 @@ PATO:has_relative_magnitude:
   keep: null
 PATO:increased_in_magnitude_relative_to:
   rename:
-  - greater_than
+  - related_to
   - biolink:related_to
 PATO:reciprocal_of:
   keep: null
@@ -2192,7 +2192,7 @@ PR:lacks_part:
   - CL:lacks_part
 PR:non-covalently_bound_to:
   rename:
-  - directly_interacts_with
+  - physically_interacts_with
   - biolink:physically_interacts_with
 REPODB:clinically_tested_approved_unknown_phase:
   rename:
@@ -2448,7 +2448,7 @@ RO:0002207:
   - biolink:related_to
 RO:0002211:
   rename:
-  - regulates__process_to_process
+  - regulates_process_to_process
   - biolink:regulates_process_to_process
 RO:0002212:
   rename:
@@ -2588,7 +2588,7 @@ RO:0002332:
   - biolink:related_to
 RO:0002334:
   invert:
-  - regulates__process_to_process
+  - regulates_process_to_process
   - biolink:regulates_process_to_process
 RO:0002338:
   rename:
@@ -2784,7 +2784,7 @@ RO:0002576:
   - biolink:part_of
 RO:0002578:
   rename:
-  - regulates__process_to_process
+  - regulates_process_to_process
   - biolink:regulates_process_to_process
 RO:0002588:
   rename:
@@ -2808,11 +2808,11 @@ RO:0002608:
   - biolink:causes
 RO:0002629:
   rename:
-  - positively_regulates__process_to_process
+  - positively_regulates_process_to_process
   - biolink:positively_regulates_process_to_process
 RO:0002630:
   rename:
-  - negatively_regulates__process_to_process
+  - negatively_regulates_process_to_process
   - biolink:negatively_regulates_process_to_process
 RO:0003000:
   rename:
@@ -2912,7 +2912,7 @@ RO:participates_in:
   - biolink:participates_in
 RTXKG1:activator:
   rename:
-  - positively_regulates__entity_to_entity
+  - positively_regulates_entity_to_entity
   - biolink:positively_regulates_entity_to_entity
 RTXKG1:affects:
   rename:
@@ -2924,7 +2924,7 @@ RTXKG1:agonist:
   - CHEMBL.MECHANISM:agonist
 RTXKG1:allosteric_modulator:
   rename:
-  - regulates__process_to_process
+  - regulates_process_to_process
   - biolink:regulates_process_to_process
 RTXKG1:antagonist:
   rename:
@@ -2940,11 +2940,11 @@ RTXKG1:associated_with_disease:
   - biolink:correlated_with
 RTXKG1:binder:
   rename:
-  - directly_interacts_with
+  - physically_interacts_with
   - biolink:physically_interacts_with
 RTXKG1:blocker:
   rename:
-  - negatively_regulates__process_to_process
+  - negatively_regulates_process_to_process
   - biolink:negatively_regulates_process_to_process
 RTXKG1:capable_of:
   rename:
@@ -2960,11 +2960,11 @@ RTXKG1:causes_or_contributes_to:
   - biolink:causes
 RTXKG1:channel_blocker:
   rename:
-  - negatively_regulates__process_to_process
+  - negatively_regulates_process_to_process
   - biolink:negatively_regulates_process_to_process
 RTXKG1:cofactor:
   rename:
-  - positively_regulates__entity_to_entity
+  - positively_regulates_entity_to_entity
   - biolink:positively_regulates_entity_to_entity
 RTXKG1:composed_primarily_of:
   rename:
@@ -3008,11 +3008,11 @@ RTXKG1:functionally_related_to:
   - biolink:related_to
 RTXKG1:gating_inhibitor:
   rename:
-  - negatively_regulates__process_to_process
+  - negatively_regulates_process_to_process
   - biolink:negatively_regulates_process_to_process
 RTXKG1:gene_associated_with_condition:
   rename:
-  - associated_with
+  - gene_associated_with_condition
   - biolink:gene_associated_with_condition
 RTXKG1:gene_mutations_contribute_to:
   rename:
@@ -3044,7 +3044,7 @@ RTXKG1:inducer:
   - biolink:positively_regulates
 RTXKG1:inhibitor:
   rename:
-  - negatively_regulates__entity_to_entity
+  - negatively_regulates_entity_to_entity
   - biolink:negatively_regulates_entity_to_entity
 RTXKG1:inverse_agonist:
   rename:
@@ -3060,7 +3060,7 @@ RTXKG1:lacks_part:
   - CL:lacks_part
 RTXKG1:modulator:
   rename:
-  - regulates__process_to_process
+  - regulates_process_to_process
   - biolink:regulates_process_to_process
 RTXKG1:negative_modulator:
   rename:
@@ -3072,7 +3072,7 @@ RTXKG1:output_of:
   - biolink:has_output
 RTXKG1:partial_agonist:
   rename:
-  - positively_regulates__entity_to_entity
+  - positively_regulates_entity_to_entity
   - biolink:positively_regulates_entity_to_entity
 RTXKG1:participates_in:
   rename:
@@ -3080,7 +3080,7 @@ RTXKG1:participates_in:
   - biolink:participates_in
 RTXKG1:physically_interacts_with:
   rename:
-  - directly_interacts_with
+  - physically_interacts_with
   - biolink:physically_interacts_with
 RTXKG1:positive_allosteric_modulator:
   rename:
@@ -3096,7 +3096,7 @@ RTXKG1:realized_in_response_to_stimulus:
   - biolink:causes
 RTXKG1:regulates_activity_of:
   rename:
-  - regulates__process_to_process
+  - regulates_process_to_process
   - biolink:regulates_process_to_process
 RTXKG1:regulates_expression_of:
   rename:
@@ -3108,7 +3108,7 @@ RTXKG1:site_of:
   - UBERON:site_of
 RTXKG1:stimulator:
   rename:
-  - positively_regulates__entity_to_entity
+  - positively_regulates_entity_to_entity
   - biolink:positively_regulates_entity_to_entity
 RTXKG1:subClassOf:
   rename:
@@ -3124,7 +3124,7 @@ RTXKG1:targets:
   - biolink:molecularly_interacts_with
 RTXKG1:vaccine:
   rename:
-  - negatively_regulates__process_to_process
+  - negatively_regulates_process_to_process
   - biolink:negatively_regulates_process_to_process
 RXNORM:consists_of:
   invert:
@@ -3208,7 +3208,7 @@ RXNORM:quantified_form_of:
   delete: null
 RXNORM:reformulated_to:
   rename:
-  - reformulated_to
+  - related_to
   - biolink:related_to
 RXNORM:reformulation_of:
   delete: null
@@ -3218,7 +3218,7 @@ SEMMEDDB:1532:
   delete: null
 SEMMEDDB:administered_to:
   rename:
-  - administered_to
+  - affects
   - biolink:affects
 SEMMEDDB:affects:
   rename:
@@ -3266,7 +3266,7 @@ SEMMEDDB:higher_than:
   - biolink:related_to
 SEMMEDDB:inhibits:
   rename:
-  - negatively_regulates__process_to_process
+  - negatively_regulates_process_to_process
   - biolink:negatively_regulates_process_to_process
 SEMMEDDB:interacts_with:
   rename:
@@ -3482,8 +3482,8 @@ SNOMED:has_causative_agent:
   delete: null
 SNOMED:has_clinical_course:
   rename:
-  - disease_to_thing_association
-  - biolink:disease_to_thing_association
+  - disease_to_thing_association_subject
+  - biolink:disease_to_thing_association_subject
 SNOMED:has_component:
   invert:
   - part_of
