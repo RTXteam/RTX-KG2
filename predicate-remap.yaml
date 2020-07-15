@@ -2307,7 +2307,7 @@ RO:0001019:
   - part_of
   - biolink:part_of
 RO:0001022:
-  rename:
+  invert:
   - causes
   - biolink:causes
 RO:0001025:
