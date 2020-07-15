@@ -134,9 +134,11 @@ if __name__ == '__main__':
         del node_dict['uri']
         assert node_dict.get('id', None) is not None
         id = node_dict['id']
-        category_label = node_dict['category']
+        category_label = node_dict['category'].replace('_', ' ')
+        if category_label == 'molecular function':
+            category_label = kg2_util.BIOLINK_CATEGORY_MOLECULAR_ACTIVITY
         node_dict['category'] = kg2_util.convert_biolink_category_to_iri(category_label)
-        node_dict['category label'] = category_label
+        node_dict['category label'] = category_label.replace(' ', '_')
         node_dict['iri'] = iri
         symbol = node_dict.get('symbol', None)
         synonym_list = []
