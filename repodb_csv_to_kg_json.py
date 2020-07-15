@@ -56,7 +56,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
         edge_dict = kg2_util.make_edge(subject_id=DRUGBANK_CURIE + df['drug_id'][idx],
                                        object_id=UMLS_CURIE + ':' + df['ind_id'][idx],
                                        relation=REPODB_IRI + '#' + kg2_util.convert_snake_case_to_camel_case(relation),
-                                       relation_curie=REPODB_CURIE + relation,
+                                       relation_curie=REPODB_CURIE + ':' + relation,
                                        predicate_label=relation,
                                        provided_by=REPODB_CURIE + ':',
                                        update_date=None)
