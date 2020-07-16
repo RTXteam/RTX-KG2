@@ -190,8 +190,6 @@ MONDO_EDGE_NAMES_SET = {'equivalentTo'}
 OBO_REL_CURIE_RE = re.compile(r'OBO:([^#]+)#([^#]+)')
 OBO_ONT_CURIE_RE = re.compile(r'OBO:([^\.]+)\.owl')
 
-BIOLINK_MODEL_OWL = 'biolink-model.owl'
-
 
 class MLStripper(html.parser.HTMLParser):
     def __init__(self):
