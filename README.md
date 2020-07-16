@@ -251,7 +251,7 @@ watch the progress of your KG2 build by using this command:
 
     tail -f ~/kg2-build/build-kg2.log
     
-Note that the `build-multi-owl-kg.sh` script also saves `stderr` from running `multi_ont_to_json_kg.py`
+Note that the `build-multi-ont-kg.sh` script also saves `stderr` from running `multi_ont_to_json_kg.py`
 to a file `~/kg2-build/build-kg2-ont-stderr.log`.
 
 ### Option 2: build KG2 in parallel (about 54 hours) directly on an Ubuntu system: (NOT CURRENTLY WORKING)
