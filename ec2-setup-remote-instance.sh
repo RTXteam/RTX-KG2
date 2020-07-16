@@ -21,7 +21,11 @@ echo "Enter hostname of your instance: "
 read INSTANCE_HOSTNAME
 #INSTANCE_HOSTNAME=kg2dev.rtx.ai
 
-ssh-keygen -R ${INSTANCE_HOSTNAME}
+ssh-keygen -F ${INSTANCE_HOSTNAME} >/dev/null 2>&1
+if [ $? == 0 ]
+then
+    ssh-keygen -R ${INSTANCE_HOSTNAME}
+fi
 
 if ! ssh -q -o StrictHostKeyChecking=no ubuntu@${INSTANCE_HOSTNAME} exit
 then
