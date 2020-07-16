@@ -46,6 +46,8 @@ BFO:0000167:
   invert:
   - participates_in
   - biolink:participates_in
+biolink:subclass_of:
+  keep: null
 BSPO:0000096:
   rename:
   - anterior_to
