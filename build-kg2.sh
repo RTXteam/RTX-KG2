@@ -393,3 +393,8 @@ echo "================= finished build-kg2.sh ================="
 # copy the KG2 build log file to the S3 bucket
 ${S3_CP_CMD} ${BUILD_KG2_LOG_FILE} s3://${S3_BUCKET_PUBLIC}/
 
+# copy the log files and reports to the versinoed S3 bucket
+${S3_CP_CMD} ${BUILD_KG2_LOG_FILE} s3://${S3_BUCKET_VERSIONED}/
+${S3_CP_CMD} ${REPORT_FILE_FULL} s3://${S3_BUCKET_VERSIONED}/
+${S3_CP_CMD} ${SIMPLIFIED_REPORT_FILE_FULL} s3://${S3_BUCKET_VERSIONED}/
+
