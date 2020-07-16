@@ -15,7 +15,7 @@ fi
 # 
 # * The 'all' argument means that the script will build the UMLS and SemMedDB files. Complete KG2 build.
 #
-# * The 'test' argument means that the OWL inventory is read from "owl-load-inventory-test.yaml"
+# * The 'test' argument means that the OWL inventory is read from "ont-load-inventory-test.yaml"
 #   and all KG JSON files generated will have the string "-test" appended before their JSON suffixes.
 
 BUILD_FLAG=${1:-""}
@@ -57,7 +57,7 @@ SEMMED_OUTPUT_FILE=${BUILD_DIR}/kg2-semmeddb${TEST_SUFFIX}-edges.json
 UNIPROTKB_DAT_FILE=${BUILD_DIR}/uniprotkb/uniprot_sprot.dat
 UNIPROTKB_OUTPUT_FILE=${BUILD_DIR}/kg2-uniprotkb${TEST_SUFFIX}.json
 
-OUTPUT_FILE_BASE=kg2-owl${TEST_SUFFIX}.json
+OUTPUT_FILE_BASE=kg2-ont${TEST_SUFFIX}.json
 OUTPUT_FILE_FULL=${BUILD_DIR}/${OUTPUT_FILE_BASE}
 
 OUTPUT_FILE_ORPHAN_EDGES=${BUILD_DIR}/kg2-orphans${TEST_SUFFIX}-edges.json

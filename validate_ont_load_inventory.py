@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-'''Checks the file `owl-load-inventory.yaml` for correctness.  This script
-   should be run each time `owl-load-inventory.yaml` or
+'''Checks the file `ont-load-inventory.yaml` for correctness.  This script
+   should be run each time `ont-load-inventory.yaml` or
    `curies-to-urls-map.yaml` is changed.
 
 '''

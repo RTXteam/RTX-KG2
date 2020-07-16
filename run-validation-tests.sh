@@ -42,7 +42,7 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_predicate_remap_yaml.py \
            ${PREDICATE_MAPPING_FILE} \
            ${BIOLINK_URL_MODEL_OWL}
 
-${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_owl_load_inventory.py \
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_ont_load_inventory.py \
            ${OWL_LOAD_INVENTORY_FILE} \
            ${CURIES_TO_URLS_FILE} \
            ${UMLS2RDF_CONFIG_MASTER}

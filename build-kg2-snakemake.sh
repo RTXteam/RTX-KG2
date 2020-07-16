@@ -25,7 +25,7 @@ if [[ "${BUILD_FLAG}" == "test" ]]
 then
     # The test argument for bash scripts (ex. extract-semmeddb.sh test)
     TEST_ARG="test"
-    # The test argument for file names (ex. kg2-owl-test.json)
+    # The test argument for file names (ex. kg2-ont-test.json)
     TEST_ARG_D="-test"
     # The test argument for python scripts (ex. python3 uniprotkb_dat_to_json.py --test)
     TEST_ARG_DD="--test"
