@@ -134,4 +134,4 @@ date
 echo "================= script finished ================="
 } >> ${SETUP_LOG_FILE} 2>&1
 
-${S3_CP_CMD} ${SETUP_LOG_FILE} s3://${S3_BUCKET_PUBLIC}/
+${S3_CP_CMD} ${SETUP_LOG_FILE} s3://${S3_BUCKET_VERSIONED}/
