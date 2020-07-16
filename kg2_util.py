@@ -505,6 +505,8 @@ def convert_camel_case_to_snake_case(name: str):
 
 def convert_biolink_category_to_iri(biolink_category_label: str,
                                     biolink_category_base_iri: str = BASE_URL_BIOLINK_CONCEPTS):
+    if '_' in biolink_category_label:
+        raise ValueError("invalid category label: " + biolink_category_label)
     return urllib.parse.urljoin(biolink_category_base_iri,
                                 convert_space_case_to_camel_case(biolink_category_label))
 
