@@ -28,6 +28,7 @@ then
     rm -r -f ~/.cachier
     rm -r -f ~/.cache
     rm -r -f ~/*.log
+    rm -r -f ~/.aws
 fi
 
 echo "================= script finished ================="
