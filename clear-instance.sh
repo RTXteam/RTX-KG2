@@ -26,6 +26,7 @@ then
     rm -r -f ${VENV_DIR}
     rm -r -f ~/RTX
     rm -r -f ~/.cachier
+    rm -r -f ~/.cache
     rm -r -f ~/*.log
 fi
 
