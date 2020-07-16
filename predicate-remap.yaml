@@ -278,10 +278,6 @@ CHEMBL.MECHANISM:stabiliser:
   rename:
   - increases_stability_of
   - biolink:increases_stability_of
-CHEMBL.MECHANISM:subclass_of:
-  rename:
-  - subclass_of
-  - biolink:subclass_of
 CHEMBL.MECHANISM:subset_of:
   rename:
   - subclass_of
