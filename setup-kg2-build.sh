@@ -26,6 +26,8 @@ SETUP_LOG_FILE=${BUILD_DIR}/setup-kg2-build.log
 echo "================= starting setup-kg2.sh ================="
 date
 
+echo `hostname`
+
 ## sym-link into RTX/code/kg2
 if [ ! -L ${CODE_DIR} ]; then
     ln -sf ~/RTX/code/kg2 ${CODE_DIR}
