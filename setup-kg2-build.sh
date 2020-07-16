@@ -79,6 +79,7 @@ python3.7 -m venv ${VENV_DIR}
 ## Install python3 packages that we will need (Note: we are not using pymongo
 ## directly, but installing it silences a runtime warning from ontobio):
 ## (maybe we should eventually move this to a requirements.txt file?)
+${VENV_DIR}/bin/pip3 install wheel
 ${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
 
 ## install ROBOT (software: ROBOT is an OBO Tool) by downloading the jar file
