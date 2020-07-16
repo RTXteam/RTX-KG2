@@ -2336,8 +2336,8 @@ RO:0002008:
   - biolink:related_to
 RO:0002082:
   rename:
-  - part_of
-  - biolink:part_of
+  - related_to
+  - biolink:related_to
 RO:0002083:
   rename:
   - related_to
@@ -2464,8 +2464,8 @@ RO:0002215:
   - biolink:capable_of
 RO:0002216:
   rename:
-  - causes
-  - biolink:causes
+  - participates_in
+  - biolink:participates_in
 RO:0002218:
   rename:
   - has_participant
@@ -2487,9 +2487,9 @@ RO:0002223:
   - part_of
   - biolink:part_of
 RO:0002224:
-  rename:
-  - has_part
-  - biolink:has_part
+  invert:
+  - part_of
+  - biolink:part_of
 RO:0002225:
   rename:
   - related_to
@@ -2503,9 +2503,9 @@ RO:0002229:
   - part_of
   - biolink:part_of
 RO:0002230:
-  rename:
-  - has_part
-  - biolink:has_part
+  invert:
+  - part_of
+  - biolink:part_of
 RO:0002231:
   rename:
   - related_to
@@ -2519,9 +2519,9 @@ RO:0002233:
   - participates_in
   - biolink:participates_in
 RO:0002234:
-  rename:
-  - has_output
-  - biolink:has_output
+  invert:
+  - participates_in
+  - biolink:participates_in
 RO:0002254:
   rename:
   - related_to
@@ -2544,16 +2544,16 @@ RO:0002295:
   - biolink:related_to
 RO:0002296:
   rename:
-  - has_participant
-  - biolink:has_participant
+  - has_output
+  - biolink:has_output
 RO:0002297:
   rename:
   - has_output
   - biolink:has_output
 RO:0002298:
   rename:
-  - has_participant
-  - biolink:has_participant
+  - has_output
+  - biolink:has_output
 RO:0002299:
   rename:
   - has_participant
