@@ -219,6 +219,9 @@ be installed):
 
     git clone https://github.com/RTXteam/RTX.git
 
+[An advantage to having the `git clone` command separated out from the install script is
+that it provides control over which branch you want to use for the KG2 build code.]
+
 (4) Setup the KG2 build system: 
 
     bash -x RTX/code/kg2/setup-kg2-build.sh
@@ -330,9 +333,6 @@ macOS Homebrew) doesn't require `sudo`, just omit the `sudo` commands in the hos
     cd 
     
     git clone https://github.com/RTXteam/RTX.git
-
-[An advantage to having the `git clone` command separated out from the install script is
-that it provides control over which branch you want to use for the KG2 build code.]
 
 (3) Build a Docker image `kg2:latest`:
     
