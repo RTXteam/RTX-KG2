@@ -281,8 +281,8 @@ to a file `~/kg2-build/build-kg2-ont-stderr.log`.
 
 <!--     tail -f ~/kg2-build/build-kg2-snakemake.log -->
     
-<!-- Note that the `build-multi-owl-kg.sh` script also saves `stderr` from running `multi_owl_to_json_kg.py` -->
-<!-- to a file `~/kg2-build/build-kg2-owl-stderr.log`. -->
+<!-- Note that the `build-multi-ont-kg.sh` script also saves `stderr` from running `multi_ont_to_json_kg.py` -->
+<!-- to a file `~/kg2-build/build-kg2-ont-stderr.log`. -->
 
 <!-- (8) When the build is complete, look for the following line (the 2nd line from -->
 <!--     the bottom) in `build-kg2-snakemake.log` and `.snakemake/log/` file (you only need -->
