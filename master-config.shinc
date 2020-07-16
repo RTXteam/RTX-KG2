@@ -7,6 +7,7 @@ UMLS_DEST_DIR=${UMLS_DIR}/META
 S3_REGION=us-west-2
 S3_BUCKET=rtx-kg2
 S3_BUCKET_PUBLIC=rtx-kg2-public
+S3_BUCKET_VERSIONED=rtx-kg2-versioned
 S3_CP_CMD="aws s3 cp --no-progress --region ${S3_REGION}"
 MYSQL_CONF=${BUILD_DIR}/mysql-config.conf
 CURL_GET="curl -s -L"
