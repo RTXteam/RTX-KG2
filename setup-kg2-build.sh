@@ -74,7 +74,7 @@ sudo dpkg-deb -x /tmp/python3-distutils_3.6.9-1~18.04_all.deb /
 sudo python3.7 /tmp/get-pip.py
 
 ## create a virtualenv for building KG2
-virtualenv ${VENV_DIR}
+python3.7 -m venv ${VENV_DIR}
 
 ## Install python3 packages that we will need (Note: we are not using pymongo
 ## directly, but installing it silences a runtime warning from ontobio):
