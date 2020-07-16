@@ -199,10 +199,10 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/chembl_mysql_to_kg_json.py \
            ${CHEMBL_MYSQL_DBNAME} \
            ${CHEMBL_OUTPUT_FILE}
 
-echo "running build-multi-owl-kg.sh"
+echo "running build-multi-ont-kg.sh"
 
 ## Combine all the TTL files and OBO Foundry OWL files into KG and save as JSON:
-bash -x ${CODE_DIR}/build-multi-owl-kg.sh \
+bash -x ${CODE_DIR}/build-multi-ont-kg.sh \
            ${OUTPUT_FILE_FULL} ${BUILD_FLAG}
 
 echo "running unichem_tsv_to_edges_json.py"

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 '''Builds the RTX "KG2" second-generation knowledge graph, from various OWL input files.
 
-   Usage: multi_owl_to_json_kg.py <categoriesFile.yaml> <curiesToURILALFile>
+   Usage: multi_ont_to_json_kg.py <categoriesFile.yaml> <curiesToURILALFile>
                                   <owlLoadInventoryFile.yaml> <outputFile>
    (note: outputFile can end in .json or in .gz; if the latter, it will be written as a gzipped file;
    but using the gzip options for input or output seems to significantly increase transient memory
@@ -999,7 +999,7 @@ def make_convert_bpv_predicate_to_curie(uri_shortener: callable,
 
 
 def make_arg_parser():
-    arg_parser = argparse.ArgumentParser(description='multi_owl_to_json_kg.py: builds the KG2 knowledge graph for the RTX system')
+    arg_parser = argparse.ArgumentParser(description='multi_ont_to_json_kg.py: builds the KG2 knowledge graph for the RTX system')
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
     arg_parser.add_argument('categoriesFile', type=str)
     arg_parser.add_argument('curiesToURIFile', type=str)
