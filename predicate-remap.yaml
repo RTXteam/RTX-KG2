@@ -2975,7 +2975,7 @@ RTXKG1:contains_process:
 RTXKG1:contraindicated_for:
   rename:
   - contraindicated_for
-  - RTX:contraindicated_for
+  - biolink:contraindicated_for
 RTXKG1:disease_caused_by_disruption_of:
   invert:
   - causes
