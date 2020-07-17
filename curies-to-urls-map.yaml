@@ -314,7 +314,7 @@ use_for_bidirectional_mapping:
   -
     rdfs: http://www.w3.org/2000/01/rdf-schema#
   -
-    Reactome: "https://identifiers.org/reactome:"
+    REACT: "https://identifiers.org/reactome:"
   -
     REPODB: http://apps.chiragjpgroup.org/repoDB
   -
