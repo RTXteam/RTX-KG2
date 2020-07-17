@@ -320,6 +320,10 @@ use_for_bidirectional_mapping:
   -
     RGD: "https://identifiers.org/rgd:"
   -
+    RHEA: "https://www.rhea-db.org/reaction?id="
+  -
+    RHEA.COMP: "https://www.rhea-db.org/searchresults?q=RHEA-COMP%"
+  -
     RO: http://purl.obolibrary.org/obo/RO_
   -
     RTX: http://rtx.ai/identifiers#
