@@ -16,10 +16,18 @@ __status__ = 'Prototype'
 import getpass
 import os
 import tempfile
-
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/../")
+from RTXConfiguration import RTXConfiguration
 
 if __name__ == '__main__':
-    password = getpass.getpass("Please enter the password: ")
+    try:
+        rtxc = RTXConfiguration()
+        rtxc.live = "KG2"
+        password = rtxc.neo4j_password
+    except Exception as e:
+        print(e)
+        password = getpass.getpass("Please enter the password manually: ")
     tempfile = tempfile.mkstemp()[1]
     with open(os.open(tempfile, os.O_CREAT | os.O_WRONLY, 0o600), 'w') as output_file:
         print(password, file=output_file)

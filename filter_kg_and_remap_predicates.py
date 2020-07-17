@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 '''Filters the RTX "KG2" second-generation knowledge graph, simplifying predicates and removing redundant edges.
 
-   Usage: filter_kg.py <predicate-remap.yaml> <kg-input.json> <kg-output.json>
+   Usage: filter_kg_and_remap_predicates.py <predicate-remap.yaml> <kg-input.json> <kg-output.json>
 '''
 
 __author__ = 'Stephen Ramsey'
@@ -17,6 +17,7 @@ import argparse
 import kg2_util
 import sys
 import prefixcommons
+from datetime import datetime
 
 # - check for any input edge labels that occur twice in the predicate-remap.yaml file
 # - rename script something like "filter_kg_and_remap_edge_labels.py"
@@ -153,4 +154,11 @@ if __name__ == '__main__':
             print('relation curie is in the config file but was not detected in the graph: ' + relation_curie, file=sys.stderr)
     for relation_curie in relation_curies_not_in_nodes:
         print('could not get IRI for relation curie: ' + relation_curie)
+    build_info = {
+        "name" : "KG2:Build",
+        "creation date" : datetime.now().strftime("%Y-%m-%d %H:%M"),
+        "category label" : "information content entity",
+    }
+    graph["build"] = build_info
+    graph["nodes"].append(build_info)
     kg2_util.save_json(graph, output_file_name, test_mode)
