@@ -20,6 +20,7 @@ __status__ = 'Prototype'
 import argparse
 import json
 import kg2_util
+import operator
 import prefixcommons
 import requests
 import sys
@@ -30,7 +31,7 @@ TIMEOUT_SEC = 600
 KG1_RELATION_CURIE_PREFIX = kg2_util.CURIE_PREFIX_RTX_KG1
 KG1_RELATION_IRI_PREFIX = kg2_util.BASE_URL_RTX_KG1
 
-KG1_PROVIDED_BY_TO_KG2_IRIS = {
+KG1_PROVIDED_BY_TO_KG2_PROVIDED_BY_CURIE_IDS = {
     'gene_ontology': "GO:go-plus.owl",
     'PC2': 'PC2:',
     'BioLink': 'monarch.biolink:',
@@ -86,6 +87,7 @@ def query_neo4j(neo4j_auth: dict, http_uri: str, cypher_query: str, test_mode=Fa
 
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='rtx_kg1_neo4j_to_kg_json.py: downloads the RTX KG1 from a Neo4j endpoint, as a JSON file')
+    arg_parser.add_argument('curiesToURLsMapFile', type=str)
     arg_parser.add_argument("-c", "--configFile", type=str, help="The RTXConfiguration config.json file", default=None)
     arg_parser.add_argument("-u", "--user", type=str, help="The neo4j username", default=None)
     arg_parser.add_argument("-p", "--password", type=str, help="The neo4j passworl", default=None)
@@ -98,11 +100,15 @@ def make_arg_parser():
 
 if __name__ == '__main__':
     args = make_arg_parser()
+    curies_to_urls_map_file_name = args.curiesToURLsMapFile
     test_mode = args.test
     output_file_name = args.outputFileName
-    config_file = args.configFile
-    if config_file is not None:
-        config_data = json.load(open(config_file, 'r'))
+    rtx_login_config_file = args.configFile
+
+    (expand, contract) = operator.itemgetter('expand', 'contract')(kg2_util.make_uri_curie_mappers(curies_to_urls_map_file_name))
+
+    if rtx_login_config_file is not None:
+        config_data = json.load(open(rtx_login_config_file, 'r'))
         neo4j_user = config_data['KG1']['neo4j']['username']
         neo4j_password = config_data['KG1']['neo4j']['password']
         if args.endpoint_uri is not None:
@@ -129,11 +135,21 @@ if __name__ == '__main__':
         del node_dict['UUID']
         del node_dict['seed_node_uuid']
         del node_dict['rtx_name']
-        assert node_dict.get('uri', None) is not None
+        assert 'uri' in node_dict
         iri = node_dict['uri']
         del node_dict['uri']
-        assert node_dict.get('id', None) is not None
+        assert 'id' in node_dict
         id = node_dict['id']
+        curie_prefix = id.split(':')[0]
+        provided_by = KG1_PROVIDED_BY_TO_KG2_PROVIDED_BY_CURIE_IDS.get(curie_prefix, None)
+        if provided_by is None:
+            raise Exception("unable to get provider for CURIE prefix: " + curie_prefix)
+        iri = expand(id)
+        if iri is None:
+            kg2_util.log_message(message='Invalid CURIE ID that cannot be expanded to an IRI',
+                                 ontology_name=provided_by,
+                                 node_curie_id=id,
+                                 output_stream=sys.stderr)
         category_label = node_dict['category'].replace('_', ' ')
         if category_label == 'molecular function':
             category_label = kg2_util.BIOLINK_CATEGORY_MOLECULAR_ACTIVITY
@@ -157,10 +173,6 @@ if __name__ == '__main__':
         node_dict['update date'] = None
         node_dict['creation date'] = None
         node_dict['deprecated'] = False
-        curie_prefix = id.split(':')[0]
-        provided_by = KG1_PROVIDED_BY_TO_KG2_IRIS.get(curie_prefix, None)
-        if provided_by is None:
-            raise Exception("unable to get provider for CURIE prefix: " + curie_prefix)
         node_dict['replaced by'] = None
         node_dict['provided by'] = provided_by
 #    pprint.pprint(nodes_list)
@@ -202,7 +214,7 @@ if __name__ == '__main__':
         provided_by = edge_dict['provided_by']
         if provided_by.startswith('DGIdb;'):
             provided_by = 'DGIdb'
-        provided_by_kg2 = KG1_PROVIDED_BY_TO_KG2_IRIS.get(provided_by, None)
+        provided_by_kg2 = KG1_PROVIDED_BY_TO_KG2_PROVIDED_BY_CURIE_IDS.get(provided_by, None)
         edge_dict['provided by'] = provided_by_kg2
         if provided_by_kg2 is None:
             print("Unable to find a KG2 provided IRI for this KG1 source: " + provided_by,

@@ -268,6 +268,7 @@ echo "extracting KG JSON representation of RTX KG1, from the Neo4j endpoint"
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/rtx_kg1_neo4j_to_kg_json.py \
            ${TEST_ARG} \
            --configFile ${BUILD_DIR}/${RTX_CONFIG_FILE} \
+           ${CURIES_TO_URLS_FILE} \
            ${KG1_OUTPUT_FILE}
 
 echo "running merge_graphs.py"
