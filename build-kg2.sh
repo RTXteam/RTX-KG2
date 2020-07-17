@@ -256,7 +256,7 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/drugbank_xml_to_kg_json.py \
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/smpdb_csv_to_kg_json.py \
            ${TEST_ARG} \
-           ${SMPDB_INPUT_FILE} \
+           ${SMPDB_DIR} \
            ${SMPDB_OUTPUT_FILE}
 
 echo "copying RTX Configuration JSON file from S3"
