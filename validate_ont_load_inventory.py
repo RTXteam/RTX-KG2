@@ -17,8 +17,7 @@ __status__ = 'Prototype'
 import argparse
 import kg2_util
 import os.path
-
-BIOLINK_MODEL_OWL = kg2_util.BIOLINK_MODEL_OWL
+import tempfile
 
 
 def make_arg_parser():
@@ -26,6 +25,7 @@ def make_arg_parser():
     arg_parser.add_argument('owlLoadInventoryFile', type=str)
     arg_parser.add_argument('curiesToURLsMapFile', type=str)
     arg_parser.add_argument('umls2rdfConfFile', type=str)
+    arg_parser.add_argument('biolinkModelURL', type=str)
     return arg_parser
 
 
@@ -33,6 +33,8 @@ args = make_arg_parser().parse_args()
 owl_load_inventory_file_name = args.owlLoadInventoryFile
 curies_to_urls_map_file_name = args.curiesToURLsMapFile
 umls2rdf_conf_file_name = args.umls2rdfConfFile
+biolink_model_url = args.biolinkModelURL
+
 owl_load_inventory_data = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(owl_load_inventory_file_name))
 
 umls_ttl_files = None
@@ -41,8 +43,10 @@ with open(umls2rdf_conf_file_name, 'r') as umls2rdf_conf_file:
     umls2rdf_conf_file.close()
 umls_ttl_files.add('umls-semantictypes.ttl')
 
-assert os.path.exists(BIOLINK_MODEL_OWL)
-biolink_ont = kg2_util.load_ontology_from_owl_or_json_file(BIOLINK_MODEL_OWL)
+biolink_model_file_name = tempfile.mkstemp()[1] + '.owl'
+kg2_util.download_file_if_not_exist_locally(biolink_model_url, biolink_model_file_name)
+assert os.path.exists(biolink_model_file_name)
+biolink_ont = kg2_util.load_ontology_from_owl_or_json_file(biolink_model_file_name)
 biolink_categories_ontology_depths = kg2_util.get_biolink_categories_ontology_depths(biolink_ont)
 
 iri_shortener = kg2_util.make_uri_to_curie_shortener(kg2_util.make_curies_to_uri_map(kg2_util.read_file_to_string(curies_to_urls_map_file_name),

@@ -17,7 +17,10 @@ __status__ = 'Prototype'
 import argparse
 import kg2_util
 import os
+import pprint
 import re
+import sys
+
 
 UNIPROTKB_PROVIDED_BY_CURIE_ID = kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY + ':' + 'uniprot'
 UNIPROTKB_IDENTIFIER_BASE_IRI = kg2_util.BASE_URL_UNIPROTKB
@@ -26,12 +29,15 @@ UNIPROT_KB_URL = kg2_util.BASE_URL_IDENTIFIERS_ORG_REGISTRY + 'uniprot'
 RE_ORGANISM_TAXID = re.compile(r'NCBI_TaxID=(\d+)')
 FIELD_CODES_USE_STRING = ['ID', 'SQ', 'RA', 'RX', 'RT', 'KW', 'CC', 'GN']
 FIELD_CODES_DO_NOT_STRIP_NEWLINE = ['SQ']
-FIELD_CODES_DO_NOT_STRIP_RIGHT_SEMICOLON = {'RX'}
+FIELD_CODES_DO_NOT_STRIP_RIGHT_SEMICOLON = {'RX', 'CC'}
 REGEX_PUBLICATIONS = re.compile(r'((?:(?:PMID)|(?:PubMed)):\d+)')
 REGEX_GENE_NAME = re.compile(r'^Name=([^ \;]+)')
 REGEX_GENE_SYNONYMS = re.compile(r'Synonyms=([^\;]+)')
 REGEX_HGNC = re.compile(r'^HGNC; (HGNC:\d+)')
 REGEX_NCBIGeneID = re.compile(r'^GeneID; (\d+)')
+REGEX_XREF = re.compile(r'Xref=([^\;]+)\;')
+REGEX_EC_XREF = re.compile(r'EC=([\d\.]+)')
+
 DESIRED_SPECIES_INTS = set([kg2_util.NCBI_TAXON_ID_HUMAN])
 
 
@@ -112,22 +118,6 @@ def make_arg_parser():
     return arg_parser
 
 
-def make_edge(subject_curie_id: str,
-              object_curie_id: str,
-              predicate_label: str,
-              update_date: str):
-    relation = kg2_util.BASE_URL_BIOLINK_CONCEPTS + kg2_util.convert_snake_case_to_camel_case(predicate_label)
-    relation_curie = kg2_util.CURIE_PREFIX_BIOLINK + ':' + predicate_label.replace(' ', '_')
-    rel = kg2_util.make_edge(subject_curie_id,
-                             object_curie_id,
-                             relation,
-                             relation_curie,
-                             predicate_label,
-                             UNIPROTKB_PROVIDED_BY_CURIE_ID,
-                             update_date)
-    return rel
-
-
 def make_edges(records: list, nodes_dict: dict):
     ret_list = []
     for record_dict in records:
@@ -135,33 +125,71 @@ def make_edges(records: list, nodes_dict: dict):
         curie_id = kg2_util.CURIE_PREFIX_UNIPROT + ':' + accession
         organism_int = record_dict['organism']
         update_date = nodes_dict[curie_id]['update date']
-        ret_list.append(make_edge(curie_id,
-                                  'NCBITaxon:' + str(organism_int),
-                                  'in_taxon',
-                                  update_date))
+        ret_list.append(kg2_util.make_edge_biolink(curie_id,
+                                                   kg2_util.CURIE_PREFIX_NCBI_TAXON + ':' + str(organism_int),
+                                                   kg2_util.EDGE_LABEL_BIOLINK_IN_TAXON,
+                                                   UNIPROTKB_PROVIDED_BY_CURIE_ID,
+                                                   update_date))
         record_xrefs = record_dict.get('DR', None)
         if record_xrefs is not None:
             for xref_str in record_xrefs:
                 hgnc_match = REGEX_HGNC.match(xref_str)
                 if hgnc_match is not None:
                     hgnc_curie = hgnc_match[1]
-                    ret_list.append(make_edge(hgnc_curie,
-                                              curie_id,
-                                              'encodes',
-                                              update_date))
+                    ret_list.append(kg2_util.make_edge_biolink(hgnc_curie,
+                                                               curie_id,
+                                                               kg2_util.EDGE_LABEL_BIOLINK_HAS_GENE_PRODUCT,
+                                                               UNIPROTKB_PROVIDED_BY_CURIE_ID,
+                                                               update_date))
                 gene_id_match = REGEX_NCBIGeneID.match(xref_str)
                 if gene_id_match is not None:
-                    ncbi_curie = 'NCBIGene:' + gene_id_match[1]
-                    ret_list.append(make_edge(ncbi_curie,
-                                              curie_id,
-                                              'encodes',
-                                              update_date))
+                    ncbi_curie = kg2_util.CURIE_PREFIX_NCBI_GENE + ':' + gene_id_match[1]
+                    ret_list.append(kg2_util.make_edge_biolink(ncbi_curie,
+                                                               curie_id,
+                                                               kg2_util.EDGE_LABEL_BIOLINK_HAS_GENE_PRODUCT,
+                                                               UNIPROTKB_PROVIDED_BY_CURIE_ID,
+                                                               update_date))
+
+    for node_id, node_dict in nodes_dict.items():
+        xrefs = node_dict['xrefs']
+        if xrefs is not None and len(xrefs) > 0:
+            for xref_curie in xrefs:
+                ret_list.append(kg2_util.make_edge_biolink(curie_id,
+                                                           xref_curie,
+                                                           kg2_util.EDGE_LABEL_BIOLINK_PHYSICALLY_INTERACTS_WITH,
+                                                           UNIPROTKB_PROVIDED_BY_CURIE_ID,
+                                                           update_date))
+        del node_dict['xrefs']
     return ret_list
+
+
+def fix_xref(raw_xref: str):
+    raw_xref = raw_xref.strip()
+    if raw_xref.startswith('ChEBI:CHEBI:'):
+        xref = kg2_util.CURIE_PREFIX_CHEBI + ':' + raw_xref.replace('ChEBI:CHEBI:', '')
+    elif raw_xref.startswith('Rhea:RHEA:'):
+        xref = kg2_util.CURIE_PREFIX_RHEA + ':' + raw_xref.replace('Rhea:RHEA:', '')
+    elif raw_xref.startswith('Rhea:RHEA-COMP:'):
+        xref = kg2_util.CURIE_PREFIX_RHEA_COMP + ':' + raw_xref.replace('Rhea:RHEA-COMP:', '')
+    elif raw_xref.startswith('EC='):
+        xref = kg2_util.CURIE_PREFIX_KEGG + ':EC:' + raw_xref.replace('EC=', '')
+    else:
+        print("Unknown xref: " + raw_xref, file=sys.stderr)
+    return xref
 
 
 def make_nodes(records: list):
     ret_dict = {}
     for record_dict in records:
+        xrefs = set()
+        if 'CC' in record_dict:
+            freetext_comments_str = record_dict['CC']
+            freetext_comments_list = list(map(lambda thestr: thestr.strip(), freetext_comments_str.split('-!-')))
+            for comment_str in freetext_comments_list:
+                if comment_str.startswith('CATALYTIC ACTIVITY:') or comment_str.startswith('COFACTOR:'):
+                    xref_match_res = REGEX_XREF.search(comment_str)
+                    if xref_match_res is not None:
+                        xrefs |= set(filter(None, map(fix_xref, xref_match_res[1].split(','))))
         synonyms = [record_dict['SQ']]
         accession_list = record_dict['AC']
         accession = accession_list[0]
@@ -181,14 +209,16 @@ def make_nodes(records: list):
                     if next_desc.startswith('Short='):
                         name = next_desc.replace('Short=', '')
                         continue
-            else:
-                if description_str.startswith('AltName: Full='):
-                    synonyms.append(description_str.replace('AltName: Full=', ''))
-                else:
-                    if description_str.startswith('AltName: CD_antigen='):
-                        synonyms.append(description_str.replace('AltName: CD_antigen=', ''))
-                    if not description_str.startswith('Flags:') and not description_str.startswith('Contains:'):
-                        description += '; ' + description_str
+            elif description_str.startswith('AltName: Full='):
+                synonyms.append(description_str.replace('AltName: Full=', ''))
+            elif description_str.startswith('AltName: CD_antigen='):
+                synonyms.append(description_str.replace('AltName: CD_antigen=', ''))
+            elif description_str.startswith('EC='):
+                ec_match = REGEX_EC_XREF.search(description_str)
+                if ec_match is not None:
+                    xrefs.add(kg2_util.CURIE_PREFIX_KEGG + ':' + 'EC:' + ec_match[1])
+            elif not description_str.startswith('Flags:') and not description_str.startswith('Contains:'):
+                description += '; ' + description_str
             desc_ctr += 1
         date_fields = record_dict['DT']
         date_ctr = 0
@@ -246,6 +276,9 @@ def make_nodes(records: list):
         node_dict['synonym'] = synonyms
         node_dict['publications'] = publications
         node_dict['creation date'] = creation_date
+        if len(xrefs) == 0:
+            xrefs = None
+        node_dict['xrefs'] = xrefs
         ret_dict[node_curie] = node_dict
     return ret_dict
 

@@ -45,7 +45,8 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_predicate_remap_yaml.py \
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_ont_load_inventory.py \
            ${OWL_LOAD_INVENTORY_FILE} \
            ${CURIES_TO_URLS_FILE} \
-           ${UMLS2RDF_CONFIG_MASTER}
+           ${UMLS2RDF_CONFIG_MASTER} \
+           ${BIOLINK_URL_MODEL_OWL}
 
 date
 echo "================= finished run-validation-tests.sh ================="

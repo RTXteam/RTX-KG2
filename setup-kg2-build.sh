@@ -26,6 +26,8 @@ SETUP_LOG_FILE=${BUILD_DIR}/setup-kg2-build.log
 echo "================= starting setup-kg2.sh ================="
 date
 
+echo `hostname`
+
 ## sym-link into RTX/code/kg2
 if [ ! -L ${CODE_DIR} ]; then
     ln -sf ~/RTX/code/kg2 ${CODE_DIR}
@@ -134,4 +136,4 @@ date
 echo "================= script finished ================="
 } >> ${SETUP_LOG_FILE} 2>&1
 
-${S3_CP_CMD} ${SETUP_LOG_FILE} s3://${S3_BUCKET_PUBLIC}/
+${S3_CP_CMD} ${SETUP_LOG_FILE} s3://${S3_BUCKET_VERSIONED}/

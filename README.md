@@ -219,6 +219,9 @@ be installed):
 
     git clone https://github.com/RTXteam/RTX.git
 
+[An advantage to having the `git clone` command separated out from the install script is
+that it provides control over which branch you want to use for the KG2 build code.]
+
 (4) Setup the KG2 build system: 
 
     bash -x RTX/code/kg2/setup-kg2-build.sh
@@ -231,7 +234,8 @@ and AWS Secret Access Key, for an AWS account with access to the private S3
 bucket that is configured in `master-config.shinc`. It will also ask you to
 enter your default AWS zone, which in our case is normally `us-west-2` (you
 should enter the AWS zone that hosts the private S3 bucket that you intend to
-use with the KG2 build system).
+use with the KG2 build system). When prompted "Default output format [None]",
+just hit enter/return.
 
 (5) Look in the log file `/home/ubuntu/setup-kg2-build.sh` to see if the script
 completed successfully; it should end with `======= script finished ======`.

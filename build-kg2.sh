@@ -45,6 +45,8 @@ BUILD_KG2_LOG_FILE=${BUILD_DIR}/build-kg2${TEST_SUFFIX}.log
 echo "================= starting build-kg2.sh ================="
 date
 
+echo `hostname`
+
 echo "running validation tests on KG2 config files"
 
 bash -x ${CODE_DIR}/run-validation-tests.sh
@@ -283,9 +285,9 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/merge_graphs.py \
                      ${NCBI_GENE_OUTPUT_FILE} \
                      ${DGIDB_OUTPUT_FILE} \
                      ${REPODB_OUTPUT_FILE} \
-                     ${KG1_OUTPUT_FILE} \
 		     ${SMPDB_OUTPUT_FILE} \
 		     ${DRUGBANK_OUTPUT_FILE} \
+                     ${KG1_OUTPUT_FILE} \
            --kgFileOrphanEdges ${OUTPUT_FILE_ORPHAN_EDGES} \
            ${FINAL_OUTPUT_FILE_FULL}
 

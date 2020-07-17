@@ -151,6 +151,11 @@ if __name__ == '__main__':
     if 'nodes' not in graph:
         print("WARNING: 'nodes' property is missing from the input JSON.", file=sys.stderr)
     nodes = graph.get('nodes', [])
+    nodes = graph.get('nodes', [])
+    for n in nodes[::-1]:  # search for build info node starting at end
+        if n["name"] == "KG2:Build":  # should be the first node accessed
+            nodes.remove(n) # remove it so stats aren't reported
+            break
     if 'edges' not in graph:
         print("WARNING: 'edges' property is missing from the input JSON.", file=sys.stderr)
     edges = graph.get('edges', [])

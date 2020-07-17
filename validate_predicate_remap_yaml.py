@@ -21,13 +21,6 @@ import tempfile
 import yaml
 
 
-# BIOLINK_MODEL_OWL = kg2_util.BIOLINK_MODEL_OWL
-
-# assert os.path.exists(BIOLINK_MODEL_OWL)
-# biolink_ont = kg2_util.load_ontology_from_owl_or_json_file(BIOLINK_MODEL_OWL)
-# biolink_categories_ontology_depths = kg2_util.get_biolink_categories_ontology_depths(biolink_ont)
-
-
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='validate_predicate_remap_yaml.py: checks the file `predicate-remap.yaml` for correctness.')
     arg_parser.add_argument('curiesToURLsMapFile', type=str)

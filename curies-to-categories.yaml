@@ -187,6 +187,7 @@ term-mappings:
     ORPHANET:C005: phenotypic feature
     owl:Thing: named thing
     PR:000000001: protein
+    SO:0001217: gene
     SNOMED:48176007: activity and behavior
     SNOMED:64572001: disease
     SNOMED:71388002: clinical intervention
