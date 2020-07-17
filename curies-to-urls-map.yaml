@@ -418,6 +418,8 @@ use_for_contraction_only:
   -
     CHEBI: http://purl.obolibrary.org/obo/chebi#
   -
+    CHEMBL.COMPOUND: https://www.ebi.ac.uk/chembl/compound/inspect/
+  -
     CL: http://purl.obolibrary.org/obo/cl#
   -
     CPT: http://purl.bioontology.org/ontology/HCPT/
