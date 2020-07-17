@@ -34,6 +34,7 @@ if __name__ == "__main__":
     reduced = {"nodes": [], "edges": []}
     with open(args.inputFilepath, "r") as fp:
         all_data = json.load(fp)
+        reduced["build"] = all_data["build"]
         for node in all_data["nodes"]:
             temp_node = {}
             for key, val in node.items():
