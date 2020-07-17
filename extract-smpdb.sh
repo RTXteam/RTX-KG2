@@ -18,16 +18,27 @@ date
 CONFIG_DIR=`dirname "$0"`
 source ${CONFIG_DIR}/master-config.shinc
 
-OUTPUT_DIR=${1:-"${BUILD_DIR}/smpdb/"}
-OUTPUT_FILE=smpdb_pathways.csv
+OUTPUT_DIR=${1:-"${BUILD_DIR}/smpdb"}
+SMPDB_OUTPUT_FILE="pathbank_pathways.csv"
+PW_OUTPUT_FILE="pathbank_all_pwml.zip"
 
 mkdir -p ${OUTPUT_DIR}
-SMPDB_LINK="https://smpdb.ca/downloads/smpdb_pathways.csv.zip"
+SMPDB_LINK="https://pathbank.org/downloads/pathbank_all_pathways.csv.zip"
+PWML_LINK="https://pathbank.org/downloads/pathbank_all_pwml.zip"
+SMPDB_PMIDS_FILE="SMPDB_pubmed_IDs.csv"
 
-${CURL_GET} ${SMPDB_LINK} > ${OUTPUT_DIR}${OUTPUT_FILE}.zip
+${CURL_GET} ${OUTPUT_DIR}/ ${SMPDB_LINK} > ${OUTPUT_DIR}/${SMPDB_OUTPUT_FILE}.zip
+${CURL_GET} ${OUTPUT_DIR}/ ${PWML_LINK} > ${OUTPUT_DIR}/${PW_OUTPUT_FILE}
 
-unzip ${OUTPUT_DIR}${OUTPUT_FILE}.zip
-mv ${OUTPUT_FILE} ${OUTPUT_DIR}
+unzip -o ${OUTPUT_DIR}/${SMPDB_OUTPUT_FILE}.zip -d ${OUTPUT_DIR}/
+unzip -o -q ${OUTPUT_DIR}/${PW_OUTPUT_FILE} -d ${OUTPUT_DIR}/
+
+for FILE in $(ls ${OUTPUT_DIR}/pathbank_all_pwml)
+do
+	mv ${OUTPUT_DIR}/pathbank_all_pwml/$FILE ${OUTPUT_DIR}
+done
+
+${S3_CP_CMD} s3://${S3_BUCKET}/${SMPDB_PMIDS_FILE} ${OUTPUT_DIR}
 
 date
 echo "================= finishing extract-smpdb.sh =================="
