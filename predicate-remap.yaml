@@ -2146,6 +2146,62 @@ ORPHANET:C017:
   rename:
   - has_attribute
   - biolink:has_attribute
+PathWhiz:has_bound:
+  rename:
+  - has_participant
+  - biolink:has_participant
+PathWhiz:has_compound:
+  rename:
+  - has_participant
+  - biolink:has_participant
+PathWhiz:has_element_collection:
+  rename:
+  - has_participant
+  - biolink:has_participant
+PathWhiz:has_enzyme:
+  rename:
+  - has_participant
+  - biolink:has_participant
+PathWhiz:has_element_in_bound:
+  rename:
+  - has_part
+  - biolink:has_part
+PathWhiz:has_left_element:
+  rename:
+  - has_input
+  - biolink:has_input
+PathWhiz:has_location:
+  rename:
+  - occurs_in
+  - biolink:occurs_in
+PathWhiz:has_nucleic_acid:
+  rename:
+  - has_participant
+  - biolink:has_participant
+PathWhiz:has_protein:
+  rename:
+  - has_participant
+  - biolink:has_participant
+PathWhiz:has_protein_in_complex:
+  rename:
+  - has_part
+  - biolink:has_part
+PathWhiz:has_reaction:
+  rename:
+  - has_participant
+  - biolink:has_participant
+PathWhiz:has_right_element:
+  rename:
+  - has_output
+  - biolink:has_output
+PathWhiz:in_species:
+  rename:
+  - occurs_in
+  - biolink:occurs_in
+PathWhiz:uses_tissue:
+  rename:
+  - occurs_in
+  - biolink:occurs_in
 PATO:correlates_with:
   rename:
   - correlated_with
