@@ -2974,8 +2974,8 @@ RTXKG1:contains_process:
   - biolink:part_of
 RTXKG1:contraindicated_for:
   rename:
-  - contraindicated_with
-  - NCIT:C37933
+  - contraindicated_for
+  - RTX:contraindicated_for
 RTXKG1:disease_caused_by_disruption_of:
   invert:
   - causes
