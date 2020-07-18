@@ -63,4 +63,5 @@ sudo cp /etc/neo4j/neo4j.conf /etc/neo4j/neo4j.conf.ori
 # fi
 
 echo "Now you need to go to http://<hostname>:7474 in your browser and set a default password for the database"
+ecoh "Or you can do it on the command-line: sudo su - neo4j -c neo4j-admin set-initial-password <thepassword>"
 
