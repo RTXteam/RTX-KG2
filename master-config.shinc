@@ -16,3 +16,4 @@ CURIES_TO_URLS_FILE=${CODE_DIR}/curies-to-urls-map.yaml
 PREDICATE_MAPPING_FILE=${CODE_DIR}/predicate-remap.yaml
 OWL_LOAD_INVENTORY_FILE=${CODE_DIR}/ont-load-inventory${TEST_SUFFIX}.yaml
 UMLS2RDF_CONFIG_MASTER=${CODE_DIR}/umls2rdf-umls.conf
+RTX_CONFIG_FILE=RTXConfiguration-config.json
