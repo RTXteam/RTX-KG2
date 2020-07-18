@@ -28,6 +28,10 @@ fi
 
 ## install the Linux distro packages that we need (python3-minimal is for docker installations)
 sudo apt-get update
+
+## handle weird tzdata install (this makes UTC the timezone)
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
+
 sudo apt-get install -y python3-minimal \
      python3-pip \
      python-dev \
