@@ -37,7 +37,8 @@ sudo apt-get install -y python3-minimal \
      python-dev \
      awscli \
      zip \
-     curl
+     curl \
+     software-properties-common
 
 ## this is for convenience when I am remote working
 sudo apt-get install -y emacs
