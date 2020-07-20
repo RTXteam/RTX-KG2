@@ -256,7 +256,7 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/drugbank_xml_to_kg_json.py \
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/smpdb_csv_to_kg_json.py \
            ${TEST_ARG} \
-           ${SMPDB_INPUT_FILE} \
+           ${SMPDB_DIR} \
            ${SMPDB_OUTPUT_FILE}
 
 echo "copying RTX Configuration JSON file from S3"
@@ -268,6 +268,7 @@ echo "extracting KG JSON representation of RTX KG1, from the Neo4j endpoint"
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/rtx_kg1_neo4j_to_kg_json.py \
            ${TEST_ARG} \
            --configFile ${BUILD_DIR}/${RTX_CONFIG_FILE} \
+           ${CURIES_TO_URLS_FILE} \
            ${KG1_OUTPUT_FILE}
 
 echo "running merge_graphs.py"

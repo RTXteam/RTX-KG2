@@ -238,7 +238,6 @@ if __name__ == '__main__':
         category_label = TARGET_TYPE_TO_CATEGORY.get(target_type, None)
         if category_label is None:
             continue
-        category_label = category_label.replace(' ', '_')
         node_dict = make_node(curie_id,
                               CHEMBL_BASE_IRI_TARGET + chembl_id,
                               pref_name,

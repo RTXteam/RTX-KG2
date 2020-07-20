@@ -32,6 +32,6 @@ curies_to_urls_map_file_name = args.curiesToURLsMapFile
 curies_to_url_map_data = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_urls_map_file_name))
 curies_to_url_map_data_bidir = {next(iter(listitem.keys())) for listitem in curies_to_url_map_data['use_for_bidirectional_mapping']}
 
-curie_prefixes = set(curie_id.split(':')[0] for curie_id in rtx_kg1_neo4j_to_kg_json.KG1_PROVIDED_BY_TO_KG2_IRIS.values())
+curie_prefixes = set(curie_id.split(':')[0] for curie_id in rtx_kg1_neo4j_to_kg_json.KG1_PROVIDED_BY_TO_KG2_PROVIDED_BY_CURIE_IDS.values())
 for curie_prefix in curie_prefixes:
     assert curie_prefix in curies_to_url_map_data_bidir, curie_prefix
