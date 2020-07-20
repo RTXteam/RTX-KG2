@@ -856,6 +856,30 @@ HCPCS:mapped_to:
   rename:
   - related_to
   - biolink:related_to
+HMDB:at_cellular_location:
+  rename:
+  - located_in
+  - biolink:located_in
+HMDB:at_tissue:
+  rename:
+  - located_in
+  - biolink:located_in
+HMDB:disease:
+  rename:
+  - entity_to_disease_association_object
+  - biolink:entity_to_disease_association_object
+HMDB:has_protein_association:
+  rename:
+  - related_to
+  - biolink:related_to
+HMDB:in_biospecimen:
+  rename:
+  - located_in
+  - biolink:located_in
+HMDB:in_pathway:
+  rename:
+  - part_of
+  - biolink:part_of
 HP:SIB:
   delete: null
 IAO:0000039:
