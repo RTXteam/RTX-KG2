@@ -1,6 +1,7 @@
-# Install Docker via Homebrew
+# Install Docker on MacOS via Homebrew
 
-(Adapted from a blog post by Yuta Fujii, https://medium.com/@yutafujii_59175/a-complete-one-by-one-guide-to-install-docker-on-your-mac-os-using-homebrew-e818eb4cfc3)
+(Adapted from a blog post by Yuta Fujii, https://medium.com/@yutafujii_59175/a-complete-one-by-one-guide-to-install-docker-on-your-mac-os-using-homebrew-e818eb4cfc3). These instructions have been tested
+on MacOS version 10.14.6 with Homebrew version 2.4.3. YMMV.
 
 - Install homebrew
 
