@@ -55,7 +55,7 @@ mkdir -p ${BUILD_DIR}
 } >~/setup-kg2-neo4j.log 2>&1
 
 ## setup AWS CLI; this requires manual intervention so auto-logging is turned off here
-if ! aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/test /tmp/; then
+if ! aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/test-file-do-not-delete /tmp/; then
     aws configure
 else
     rm /tmp/test
