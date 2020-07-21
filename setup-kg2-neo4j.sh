@@ -71,7 +71,7 @@ fi
 
 # turn off auto-logging since the password is passed to this script on the command-line
 kg2_neo4j_password=`${VENV_DIR}/bin/python3 ${CODE_DIR}/read_kg2_password_from_rtxconfig.py -c ${BUILD_DIR}/${RTX_CONFIG_FILE}`
-sudo su - neo4j -c neo4j-admin set-initial-password ${kg2_neo4j_password}
+sudo su - neo4j -c "neo4j-admin set-initial-password ${kg2_neo4j_password}"
 
 {
     date
