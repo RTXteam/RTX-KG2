@@ -306,6 +306,7 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/merge_graphs.py \
                      ${REPODB_OUTPUT_FILE} \
 		     ${SMPDB_OUTPUT_FILE} \
 		     ${DRUGBANK_OUTPUT_FILE} \
+		     ${HMDB_OUTPUT_FILE} \
                      ${KG1_OUTPUT_FILE} \
            --kgFileOrphanEdges ${OUTPUT_FILE_ORPHAN_EDGES} \
            ${FINAL_OUTPUT_FILE_FULL}
