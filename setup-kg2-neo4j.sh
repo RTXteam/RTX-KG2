@@ -32,9 +32,6 @@ sudo apt-get update
 ## handle weird tzdata install (this makes UTC the timezone)
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
 
-# we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
-source ${CODE_DIR}/setup-python37-in-ubuntu18.shinc
-
 sudo apt-get install -y \
      awscli \
      zip \
@@ -44,6 +41,9 @@ sudo apt-get install -y \
 
 ## this is for convenience when I am remote working
 sudo apt-get install -y emacs
+
+# we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
+source ${CODE_DIR}/setup-python37-in-ubuntu18.shinc
 
 ## Install python3 packages that we will need (Note: we are not using pymongo
 ## directly, but installing it silences a runtime warning from ontobio):
