@@ -309,8 +309,6 @@ This option requires that you have `curl` installed on your local computer. In a
 
     source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/ec2-setup-remote-instance.sh)
 
-For instructions for installing Docker on MacOS, see [macos-docker-notes.md](macos-docker-notes.md).
-
 You will be prompted to enter the path to your AWS PEM file and the hostname of
 your AWS instance.  The script should then initiate a `bash` session on the
 remote instance. Within that `bash` session, continue to follow the instructions
@@ -322,14 +320,16 @@ For the Docker option, you will need a *lot* of disk space in the root file syst
 unless you modify the Docker installation to store containers in some other (non-default) 
 file system location. Here are the instructions:
 
-(1) Install Docker. If you are on Ubuntu and you need to install Docker, you can
+(1) Install Docker. If you are on Ubuntu 18.04 and you need to install Docker, you can
 run this command in `bash` on the host OS:
    
     source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/install-docker.sh)
     
-(otherwise, the subsequent commands in this section assume that Docker is installed
-on whatever host system you are running). NOTE: if your docker installation (like on 
-macOS Homebrew) doesn't require `sudo`, just omit the `sudo` commands in the host OS below.
+(otherwise, the subsequent commands in this section assume that Docker is
+installed on whatever host system you are running). N For instructions for
+installing Docker on MacOS, see [macos-docker-notes.md](macos-docker-notes.md).
+NOTE: if your docker installation (like on macOS Homebrew) doesn't require
+`sudo`, just omit the `sudo` commands in the host OS below.
 
 (2) Clone the RTX software into your home directory:
 
