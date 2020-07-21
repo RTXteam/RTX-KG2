@@ -84,7 +84,7 @@ chmod +x ${BUILD_DIR}/owltools
 } >${SETUP_LOG_FILE} 2>&1
 
 ## setup AWS CLI
-if ! aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/test /tmp/; then
+if ! aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/test-file-do-note-delete /tmp/; then
     aws configure
 else
     rm /tmp/test
