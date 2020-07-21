@@ -39,9 +39,6 @@ sudo apt-get update
 ## handle weird tzdata install (this makes UTC the timezone)
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
 
-# we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
-source ${CODE_DIR}/setup-python37-in-ubuntu18.shinc
-
 # install various other packages used by the build system
 #  - curl is generally used for HTTP downloads
 #  - wget is used by the neo4j installation script (some special "--no-check-certificate" mode)
@@ -67,6 +64,9 @@ sudo apt-get install -y mysql-server \
 
 ## this is for convenience when I am remote working
 sudo apt-get install -y emacs
+
+# we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
+source ${CODE_DIR}/setup-python37-in-ubuntu18.shinc
 
 ${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
 
