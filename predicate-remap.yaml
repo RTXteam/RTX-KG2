@@ -210,10 +210,6 @@ CHEMBL.MECHANISM:equivalent_to:
   rename:
   - same_as
   - biolink:same_as
-CHEMBL.MECHANISM:has_indication:
-  rename:
-  - treats
-  - biolink:treats
 CHEMBL.MECHANISM:has_role:
   rename:
   - related_to

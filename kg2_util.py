@@ -186,9 +186,11 @@ EDGE_LABEL_BIOLINK_HAS_GENE_PRODUCT = 'has_gene_product'
 EDGE_LABEL_BIOLINK_IN_TAXON = 'in_taxon'
 EDGE_LABEL_BIOLINK_PART_OF = 'part_of'
 EDGE_LABEL_BIOLINK_PHYSICALLY_INTERACTS_WITH = 'physically_interacts_with'
+EDGE_LABEL_BIOLINK_RELATED_TO = 'related_to'
 EDGE_LABEL_BIOLINK_RELATION = 'relation'
 EDGE_LABEL_BIOLINK_SAME_AS = 'same_as'
 EDGE_LABEL_BIOLINK_SUBCLASS_OF = 'subclass_of'
+EDGE_LABEL_BIOLINK_TREATS = 'treats'
 
 RDFS_EDGE_NAMES_SET = {'subClassOf', 'subPropertyOf'}
 OWL_EDGE_NAMES_SET = {'equivalentClass', 'equivalentProperty', 'sameAs', 'differentFrom'}
