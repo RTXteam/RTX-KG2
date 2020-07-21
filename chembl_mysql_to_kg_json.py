@@ -350,16 +350,17 @@ if __name__ == '__main__':
          accession,
          db_source,
          db_version) in results:
-        subject_curie_id = 'CHEMBL.TARGET:' + chembl_id
+        subject_curie_id = kg2_util.CURIE_PREFIX_CHEMBL_TARGET + ':' + chembl_id
         if component_type == 'PROTEIN':
-            object_curie_id = 'UniProtKB:' + accession
+            object_curie_id = kg2_util.CURIE_PREFIX_UNIPROT + ':' + accession
         elif component_type == 'RNA':
             object_curie_id = kg2_util.CURIE_PREFIX_ENSEMBL + ':' + accession
-        predicate_label = 'has_sequence'
-        edges.append(make_edge(subject_curie_id,
-                               object_curie_id,
-                               predicate_label,
-                               update_date))
+        edges.append(make_edge_biolink(subject_curie_id,
+                                       object_curie_id,
+                                       kg2_util.EDGE_LABEL_BIOLINK_PART_OF,
+                                       CHEMBL_KB_CURIE_ID,
+                                       update_date)
+
 
 # get drug-to-target edges and additional information about drugs (direct_interaction, has_role, etc.)
 
