@@ -157,8 +157,8 @@ then
     bash -x ${CODE_DIR}/extract-smpdb.sh ${SMPDB_DIR}
 
 ## Download DrugBank
-    echo "running extract-drubank.sh"
-    bash -x ${CODE_DIR}/extract-smpdb.sh ${DRUGBANK_INPUT_FILE}
+    echo "running extract-drugbank.sh"
+    bash -x ${CODE_DIR}/extract-drugbank.sh ${DRUGBANK_INPUT_FILE}
 
 ## Download HMDB
   echo "running extract-hmdb.sh"
