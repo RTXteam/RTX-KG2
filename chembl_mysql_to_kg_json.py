@@ -355,11 +355,11 @@ if __name__ == '__main__':
             object_curie_id = kg2_util.CURIE_PREFIX_UNIPROT + ':' + accession
         elif component_type == 'RNA':
             object_curie_id = kg2_util.CURIE_PREFIX_ENSEMBL + ':' + accession
-        edges.append(make_edge_biolink(subject_curie_id,
-                                       object_curie_id,
-                                       kg2_util.EDGE_LABEL_BIOLINK_PART_OF,
-                                       CHEMBL_KB_CURIE_ID,
-                                       update_date))
+        edges.append(kg2_util.make_edge_biolink(subject_curie_id,
+                                                object_curie_id,
+                                                kg2_util.EDGE_LABEL_BIOLINK_PART_OF,
+                                                CHEMBL_KB_CURIE_ID,
+                                                update_date))
 
 
 # get drug-to-target edges and additional information about drugs (direct_interaction, has_role, etc.)
