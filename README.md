@@ -229,7 +229,11 @@ that it provides control over which branch you want to use for the KG2 build cod
 Note that there is no need to redirect `stdout` or `stderr` to a log file, when
 executing `setup-kg2-build.sh`; this is because the script saves its own `stdout` and
 `stderr` to a log file `/home/ubuntu/setup-kg2.log`. This script takes just a
-few minutes to complete. The script will ask you to enter your AWS Access Key ID
+few minutes to complete. At some point, the script will print
+
+    fatal error: Unable to locate credentials
+    
+This is normal. The script will then prompt you to enter your AWS Access Key ID
 and AWS Secret Access Key, for an AWS account with access to the private S3
 bucket that is configured in `master-config.shinc`. It will also ask you to
 enter your default AWS zone, which in our case is normally `us-west-2` (you
@@ -258,7 +262,7 @@ watch the progress of your KG2 build by using this command:
 Note that the `build-multi-ont-kg.sh` script also saves `stderr` from running `multi_ont_to_json_kg.py`
 to a file `~/kg2-build/build-kg2-ont-stderr.log`.
 
-### Option 2: build KG2 in parallel (about 54 hours) directly on an Ubuntu system: (NOT CURRENTLY WORKING)
+### Option 2: build KG2 in parallel (about 54 hours) directly on an Ubuntu system: (NOT CURRENTLY WORKING, see Issue 694)
 
 <!-- (1)-(5) Follow steps (1) through (5) from Option 1 -->
 
@@ -357,19 +361,12 @@ Now follow the instructions for Option 1 above.
 
 The `build-kg2.sh` script (run via one of the three methods shown above) creates
 a JSON file `kg2-simplified.json.gz` and copies it to an S3 bucket
-`rtx-kg2`. You can access the gzipped JSON file <!-- via HTTP, as shown here:
-
-    curl https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2.json.gz > kg2.json.gz
-
-Or --> using the AWS command-line interface (CLI) tool `aws` with the command
+`rtx-kg2`. You can access the gzipped JSON file using the AWS command-line
+interface (CLI) tool `aws` with the command
 
     aws s3 cp s3://rtx-kg2/kg2-simplified.json.gz .
 
-The TSV files for the knowledge graph can be accessed via HTTP as well, <!-- shown here:
-
-    curl https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2-tsv.tar.gz > kg2-tsv.tar.gz
-
-Or using the AWS command-line interface (CLI) tool `aws` with the command -->
+The TSV files for the knowledge graph can be accessed via HTTP as well, 
 
     aws s3 cp s3://rtx-kg2/kg2-tsv.tar.gz .
 
