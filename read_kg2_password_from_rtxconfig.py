@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-''' Prompts the user to enter a password on standard input and saves the password to a temporary file. Prints the temp file name.
+''' Reads the KG2 Neo4j database password from the RTXConfiguration-config.json file and prints
+    it to standard output.
 
-    Usage: prompt_for_password_and_save_to_temp_file.py
+    Usage: read_kg2_password_from_rtxconfig.py -c <config_file>
 '''
 
 __author__ = 'Stephen Ramsey'
