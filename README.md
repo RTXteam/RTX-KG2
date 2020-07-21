@@ -331,29 +331,23 @@ installing Docker on MacOS, see [macos-docker-notes.md](macos-docker-notes.md).
 NOTE: if your docker installation (like on macOS Homebrew) doesn't require
 `sudo`, just omit the `sudo` commands in the host OS below.
 
-(2) Clone the RTX software into your home directory:
+(2) Build a Docker image `kg2:latest`:
 
-    cd 
+    sudo docker image build -t kg2 https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/Dockerfile 
     
-    git clone https://github.com/RTXteam/RTX.git
-
-(3) Build a Docker image `kg2:latest`:
-    
-    sudo docker build -t kg2 RTX/code/kg2/
-    
-(4) Create a container called `kg2` from the `kg2:latest` image 
+(3) Create a container called `kg2` from the `kg2:latest` image 
 
     sudo docker create --name kg2 kg2:latest
 
-(5) Start the `kg2` container:
+(4) Start the `kg2` container:
 
     sudo docker start kg2
     
-(6) Open a bash shell as user `root` inside the container:
+(5) Open a bash shell as user `root` inside the container:
 
     sudo docker exec -it kg2 /bin/bash
     
-(7) Become user `ubuntu`:
+(6) Become user `ubuntu`:
 
     su - ubuntu
     
