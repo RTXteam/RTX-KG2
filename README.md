@@ -399,7 +399,8 @@ should enter the AWS zone that hosts the private S3 bucket that you intend to
 use with the KG2 build system). When prompted `Default output format [None]`,
 just hit enter/return.
 
-(3) Set up the Neo4j password, by navigating your HTTP browser to Neo4j on the server (port 7474)
+(3) Look in the log file `/home/ubuntu/setup-kg2-neo4j.sh` to see if the script
+completed successfully; it should end with `======= script finished ======`.
 
 (4) Load KG2 into Neo4j:
 
