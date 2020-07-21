@@ -1,181 +1,324 @@
+rule Finish:
+    input:
+        stats_original = config['REPORT_FILE_FULL'],
+        nodes_original = config['OUTPUT_NODES_FILE_FULL'],
+        stats_simplify = config['SIMPLIFIED_REPORT_FILE_FULL'],
+        nodes_simplify = config['SIMPLIFIED_OUTPUT_NODES_FILE_FULL'],
+        kg_original = config['FINAL_OUTPUT_FILE_FULL'],
+        kg_simplify = config['SIMPLIFIED_OUTPUT_NODES_FILE_FULL'],
+        orphan = config['OUTPUT_FILE_ORPHAN_EDGES'],
+        slim = config['SLIM_OUTPUT_FILE_FULL'],
+        placeholder = config['BUILD_DIR'] + "/tsv_placeholder.empty"
+    run:
+        shell("gzip -f {input.nodes_original}")
+        shell("gzip -f {input.nodes_simplify}")
+        shell("gzip -f {input.kg_original}")
+        shell("gzip -f {input.kg_simplify}")
+        shell("gzip -f {input.slim}")
+        shell("gzip -f {input.orphan}")
+        shell("tar -czvf " + config['KG2_TSV_TARBALL'] + " " + config['KG2_TSV_DIR'])
+
+#        shell(config['S3_CP_CMD'] + " {input.nodes_original}.gz s3://rtx-kg2-public")
+#        shell(config['S3_CP_CMD'] + " {input.nodes_simplify}.gz s3://rtx-kg2-public")
+#        shell(config['S3_CP_CMD'] + " {input.stats_original} s3://rtx-kg2-public")
+#        shell(config['S3_CP_CMD'] + " {input.kg_original}.gz s3://rtx-kg2")
+#        shell(config['S3_CP_CMD'] + " {input.kg_simplify}.gz s3://rtx-kg2")
+#        shell(config['S3_CP_CMD'] + " {input.slim}.gz s3://rtx-kg2-public")
+#        shell(config['S3_CP_CMD'] + " {input.stats_simplify} s3://rtx-kg2-public")
+#        shell(config['S3_CP_CMD'] + " {input.orphan}.gz s3://rtx-kg2-public")
+#        shell(config['S3_CP_CMD'] + " " + config['KG2_TSV_TARBALL'] + " s3://rtx-kg2-public")
+
 rule UMLS:
     output:
-        "kg2-build/umls-placeholder.empty"
+        config['BUILD_DIR'] + "/umls-placeholder.empty"
+    log:
+        config['BUILD_DIR'] + "/extract-umls.log"
     shell:
-        "kg2-code/extract-umls.sh && touch {output}" 
+        "bash -x " + config['CODE_DIR'] + "/extract-umls.sh " + config['BUILD_DIR'] + " > {log} 2>&1 && touch {output}" 
 
 rule SemMedDB:
     output:
-        "kg2-build/semmeddb/kg2-semmeddb-tuplelist.json"
+        config['SEMMED_TUPLELIST_FILE']
+    log:
+        config['BUILD_DIR'] + "/extract-semmeddb.log"
     shell:
-        "kg2-code/extract-semmeddb.sh {output} " + config['test'] + ""
+        "bash -x " + config['CODE_DIR'] + "/extract-semmeddb.sh {output} " + config['test'] + " > {log} 2>&1"
 
 rule UniprotKB:
     output:
-        "kg2-build/uniprotkb/uniprot_sprot.dat"
+        config['UNIPROTKB_DAT_FILE']
+    log:
+        config['BUILD_DIR'] + "/extract-uniprotkb.log"
     shell:
-        "kg2-code/extract-uniprotkb.sh {output}"
+        "bash -x " + config['CODE_DIR'] + "/extract-uniprotkb.sh {output} > {log} 2>&1"
 
 rule Ensembl:
     output:
-        "kg2-build/ensembl/ensembl_genes_homo_sapiens.json"
+        config['ENSEMBL_SOURCE_JSON_FILE']
+    log:
+        config['BUILD_DIR'] + "/extract-ensembl.log"
     shell:
-        "kg2-code/extract-ensembl.sh"
+        "bash -x " + config['CODE_DIR'] + "/extract-ensembl.sh > {log} 2>&1"
 
 rule UniChem:
     output:
-        "kg2-build/unichem/chembl-to-curies.tsv"
+        config['UNICHEM_OUTPUT_TSV_FILE']
+    log:
+        config['BUILD_DIR'] + "/extract-unichem.log"
     shell:
-        "kg2-code/extract-unichem.sh"
+        "bash -x " + config['CODE_DIR'] + "/extract-unichem.sh {output} > {log} 2>&1"
 
 rule ChemBL:
     output:
-        placeholder = "kg2-build/chembl-placeholder.empty"
+        placeholder = config['BUILD_DIR'] + "/chembl-placeholder.empty"
+    log:
+        config['BUILD_DIR'] + "/extract-chembl.log"
     shell:
-        "kg2-code/extract-chembl.sh chembl && touch {output.placeholder}"
+        "bash -x " + config['CODE_DIR'] + "/extract-chembl.sh " + config['CHEMBL_MYSQL_DBNAME'] +" > {log} 2>&1 && touch {output.placeholder}"
 
 rule NCBIGene:
     output:
-        "kg2-build/ncbigene/Homo_sapiens_gene_info.tsv"
+        config['NCBI_GENE_TSV_FILE']
+    log:
+        config['BUILD_DIR'] + "/extract-ncbigene.log"
     shell:
-        "kg2-code/extract-ncbigene.sh"
+        "bash -x " + config['CODE_DIR'] + "/extract-ncbigene.sh {output} > {log} 2>&1"
 
 rule DGIDB:
     output:
-        "kg2-build/dgidb/interactions.tsv"
+        config['DGIDB_DIR'] + "/interactions.tsv"
+    log:
+        config['BUILD_DIR'] + "/extract-dgidb.log"
     shell:
-        "kg2-code/extract-dgidb.sh"
+        "bash -x " + config['CODE_DIR'] + "/extract-dgidb.sh " + config['DGIDB_DIR'] + " > {log} 2>&1"
+
+rule RepoDB:
+    output:
+        config['REPODB_INPUT_FILE']
+    log:
+        config['BUILD_DIR'] + "/download-repodb-csv.log"
+    shell:
+        "bash -x " + config['CODE_DIR'] + "/download-repodb-csv.sh " + config['REPODB_DIR'] + " > {log} 2>&1"
+
+rule SMPDB:
+    output:
+        config['SMPDB_INPUT_FILE']
+    log:
+        config['BUILD_DIR'] + "/extract-smpdb.log"
+    shell:
+        "bash -x " + config['CODE_DIR'] + "/extract-smpdb.sh " + config['SMPDB_DIR'] + " > {log} 2>&1"
+
+rule DrugBank:
+    output:
+        config['DRUGBANK_INPUT_FILE']
+    log:
+        config['BUILD_DIR'] + "/extract-drugbank.log"
+    shell:
+        "bash -x " + config['CODE_DIR'] + "/extract-drugbank.sh {output} > {log} 2>&1"
+
+rule HMDB:
+    output:
+        config['HMDB_INPUT_FILE']
+    log:
+        config['BUILD_DIR'] + "/extract-hmdb.log"
+    shell:
+        "bash -x " + config['CODE_DIR'] + "/extract-hmdb.sh > {log} 2>&1"
 
 rule KG_One:
     output:
-        "kg2-build/kg2-rtx-kg1.json"
+        config['KG1_OUTPUT_FILE']
     run:
-        shell("aws s3 cp --no-progress --region us-west-2 s3://rtx-kg2/RTXConfiguration-config.json kg2-build/RTXConfiguration-config.json")
-        shell("kg2-venv/bin/python3 -u kg2-code/rtx_kg1_neo4j_to_kg_json.py " + config['testdd'] + " --configFile kg2-build/RTXConfiguration-config.json {output}")
+        shell(config['S3_CP_CMD'] + " s3://rtx-kg2/" + config['RTX_CONFIG_FILE'] + " " + config['BUILD_DIR'] + "/" + config['RTX_CONFIG_FILE'])
+        shell(config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/rtx_kg1_neo4j_to_kg_json.py " + config['testdd'] + " --configFile " + config['BUILD_DIR'] + "/" + config['RTX_CONFIG_FILE'] + " " + config['CURIES_TO_URLS_FILE'] + " {output}")
 
 rule Ontologies_and_TTL:
     input:
-        "kg2-build/umls-placeholder.empty"
+        config['BUILD_DIR'] + "/umls-placeholder.empty"
     output:
-        "kg2-build/kg2-owl" + config['testd'] + ".json"
+        config['OUTPUT_FILE_FULL']
+    log:
+        config['BUILD_DIR'] + "/build-multi-owl-kg.log"
     shell:
-        "kg2-code/build-multi-owl-kg.sh ~/{output} " + config['test'] + "" 
+        "bash -x " + config['VENV_DIR'] + "/build-multi-owl-kg.sh {output} " + config['test'] + " > {log} 2>&1" 
 
 rule NCBIGene_Conversion:
     input:
-        "kg2-build/ncbigene/Homo_sapiens_gene_info.tsv"
+        config['NCBI_GENE_TSV_FILE']
     output:
-        "kg2-build/kg2-ncbi.json"
+        config['NCBI_GENE_OUTPUT_FILE']
     shell:
-        "kg2-venv/bin/python3 kg2-code/ncbigene_tsv_to_kg_json.py " + config['testdd'] + " --inputFile {input} --outputFile {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/ncbigene_tsv_to_kg_json.py " + config['testdd'] + " {input} {output}"
 
 rule DGIDB_Conversion:
     input:
-        "kg2-build/dgidb/interactions.tsv"
+        config['DGIDB_DIR'] + "/interactions.tsv"
     output:
-        "kg2-build/kg2-dgidb.json"
+        config['DGIDB_OUTPUT_FILE']
+    log:
+        config['DGIDB_DIR'] + "/dgidb-tsv-to-kg-json-stderr.log"
     shell:
-        "kg2-venv/bin/python3 kg2-code/dgidb_tsv_to_kg_json.py " + config['testdd'] + " --inputFile {input} --outputFile {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/dgidb_tsv_to_kg_json.py " + config['testdd'] + " {input} {output}" + " > {log} 2>&1"
 
 rule ChemBL_Conversion:
     input:
-        placeholder = "kg2-build/chembl-placeholder.empty"
+        placeholder = config['BUILD_DIR'] + "/chembl-placeholder.empty"
     output:
-        "kg2-build/kg2-chembl.json"
+        config['CHEMBL_OUTPUT_FILE']
     shell:
-        "kg2-venv/bin/python3 kg2-code/chembl_mysql_to_kg_json.py " + config['testdd'] + " --mysqlConfigFile ~/kg2-build/mysql-config.conf --mysqlDBName chembl --outputFile {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/chembl_mysql_to_kg_json.py " + config['testdd'] + " " + config['MYSQL_CONF'] + " " + config['CHEMBL_MYSQL_DBNAME'] + " {output}"
 
 rule UniChem_Conversion:
     input:
-        "kg2-build/unichem/chembl-to-curies.tsv"
+        config['UNICHEM_OUTPUT_TSV_FILE']
     output:
-        "kg2-build/kg2-unichem.json"
+        config['UNICHEM_OUTPUT_FILE']
     shell:
-        "kg2-venv/bin/python3 kg2-code/unichem_tsv_to_edges_json.py " + config['testdd'] + " --inputFile {input} --outputFile {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/unichem_tsv_to_edges_json.py " + config['testdd'] + " {input} {output}"
 
 rule Ensembl_Conversion:
     input:
-        "kg2-build/ensembl/ensembl_genes_homo_sapiens.json"
+        config['ENSEMBL_SOURCE_JSON_FILE']
     output:
-        "kg2-build/kg-ensembl.json"
+        config['ENSEMBL_OUTPUT_FILE']
     shell:
-        "kg2-venv/bin/python3 kg2-code/ensembl_json_to_kg_json.py --inputFile {input} --outputFile {output} " + config['testdd'] + ""
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/ensembl_json_to_kg_json.py " + config['testdd'] + " {input} {output}"
 
 rule SemMed_Conversion:
     input:
-        "kg2-build/semmeddb/kg2-semmeddb-tuplelist.json"
+        config['SEMMED_TUPLELIST_FILE']
     output:
-        "kg2-build/kg2-semmeddb-edges.json"
+        config['SEMMED_OUTPUT_FILE']
     shell:
-        "kg2-venv/bin/python3 kg2-code/semmeddb_tuple_list_json_to_kg_json.py " + config['testdd'] + " --inputFile {input} --outputFile {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/semmeddb_tuple_list_json_to_kg_json.py " + config['testdd'] + " {input} {output}"
 
 rule Uniprot_Conversion:
     input:
-        "kg2-build/uniprotkb/uniprot_sprot.dat"
+        config['UNIPROTKB_DAT_FILE']
     output:
-        "kg2-build/kg2-uniprotkb.json"
+        config['UNIPROTKB_OUTPUT_FILE']
     shell:
-        "kg2-venv/bin/python3 kg2-code/uniprotkb_dat_to_json.py " + config['testdd'] + " --inputFile {input} --outputFile {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/uniprotkb_dat_to_json.py " + config['testdd'] + " {input} {output}"
+
+rule RepodDB_Conversion:
+    input:
+        config['REPODB_INPUT_FILE']
+    output:
+        config['REPODB_OUTPUT_FILE']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/repodb_csv_to_kg_json.py " + config['testdd'] + " {input} {output}"
+
+rule SMPDB_Conversion:
+    input:
+        config['SMPDB_INPUT_FILE']
+    output:
+        config['SMPDB_OUTPUT_FILE']
+    log:
+        config['SMPDB_DIR'] + "/smpdb-csv-to-kg-json.log"
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/smpdb_csv_to_kg_json.py " + config['testdd'] + " " + config['SMPDB_DIR'] + " {output} > {log} 2>&1"
+
+rule DrugBank_Conversion:
+    input:
+        config['DRUGBANK_INPUT_FILE']
+    output:
+        config['DRUGBANK_OUTPUT_FILE']
+    log:
+        config['BUILD_DIR'] + "/drugbank-xml-to-kg-json.log"
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/drugbank_xml_to_kg_json.py " + config['testdd'] + " {input} {output} > {log} 2>&1"
+
+rule HMDB_Conversion:
+    input:
+        config['HMDB_INPUT_FILE']
+    output:
+        config['HMDB_OUTPUT_FILE']
+    log:
+        config['BUILD_DIR'] + "/hmdb-xml-to-kg-json.log"
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/hmdb_xml_to_kg_json.py " + config['testdd'] + " {input} {output} > {log} 2>&1"
         
 rule Merge:
     input:
-        owl = "kg2-build/kg2-owl" + config['testd'] + ".json",
-        uniprot = "kg2-build/kg2-uniprotkb.json",
-        semmeddb = "kg2-build/kg2-semmeddb-edges.json",
-        chembl = "kg2-build/kg2-chembl.json",
-        ensembl = "kg2-build/kg2-ensembl.json",
-        unichem = "kg2-build/kg2-unichem.json",
-        ncbigene = "kg2-build/kg2-ncbi.json",
-        dgidb = "kg2-build/kg2-dgidb.json",
-        kg_one = "kg2-build/kg2-rtx-kg1.json"
-
+        owl = config['OUTPUT_FILE_FULL'],
+        uniprot = config['UNIPROTKB_OUTPUT_FILE'],
+        semmeddb = config['SEMMED_OUTPUT_FILE'],
+        chembl = config['CHEMBL_OUTPUT_FILE'],
+        ensembl = config['ENSEMBL_OUTPUT_FILE'],
+        unichem = config['UNICHEM_OUTPUT_FILE'],
+        ncbigene = config['NCBI_GENE_OUTPUT_FILE'],
+        dgidb = config['DGIDB_OUTPUT_FILE'],
+        kg_one = config['KG1_OUTPUT_FILE'],
+        repoddb = config['REPODB_OUTPUT_FILE'],
+        drugbank = config['DRUGBANK_OUTPUT_FILE'],
+        smpdb = config['SMPDB_OUTPUT_FILE'],
+        hmdb = config['HMDB_OUTPUT_FILE']
     output:
-        full = "kg2-build/kg2" + config['testd'] + ".json",
-        orph = "kg2-build/kg2-orphans-edges" + config['testd'] + ".json"
+        full = config['FINAL_OUTPUT_FILE_FULL'],
+        orph = config['OUTPUT_FILE_ORPHAN_EDGES']
     shell:
-        "kg2-venv/bin/python3 kg2-code/merge_graphs.py --kgFiles {input.owl} {input.uniprot} {input.semmeddb} {input.chembl} {input.ensembl} {input.unichem} {input.ncbigene} {input.dgidb} {input.kg_one} --outputFile {output.full} --kgFileOrphanEdges {output.orph}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/merge_graphs.py " + config['testdd'] + " --kgFiles {input.owl} {input.uniprot} {input.semmeddb} {input.chembl} {input.ensembl} {input.unichem} {input.ncbigene} {input.dgidb} {input.kg_one} {input.repoddb} {input.drugbank} {input.smpdb} {input.hmdb} --kgFileOrphanEdges {output.orph} {output.full}"
 
 rule Nodes:
     input:
-        real = "kg2-build/kg2" + config['testd'] + ".json",
-        placeholder = "kg2-build/kg2-report" + config['testd'] + ".json"
+        real = config['FINAL_OUTPUT_FILE_FULL'],
+        placeholder = config['BUILD_DIR'] + "/kg2-report" + config['testd'] + ".json"
     output:
-        "kg2-build/kg2-nodes" + config['testd'] + ".json"
+        config['OUTPUT_NODES_FILE_FULL']
     shell:
-        "kg2-venv/bin/python3 kg2-code/get_nodes_json_from_kg_json.py --inputFile {input.real} --outputFile {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/get_nodes_json_from_kg_json.py " + config['testdd'] + " {input.real} {output}"
 
 rule Stats:
     input:
-        "kg2-build/kg2" + config['testd'] + ".json"
+        config['FINAL_OUTPUT_FILE_FULL']
     output:
-        "kg2-build/kg2-report" + config['testd'] + ".json"
+        config['REPORT_FILE_FULL']
     shell:
-        "kg2-venv/bin/python3 kg2-code/report_stats_on_json_kg.py --inputFile {input} --outputFile {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/report_stats_on_json_kg.py {input} {output}"
+
+rule Simplify:
+    input:
+        real = config['FINAL_OUTPUT_FILE_FULL'],
+        placeholder = config['OUTPUT_NODES_FILE_FULL']
+    output:
+        config['SIMPLIFIED_OUTPUT_FILE_FULL']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/filter_kg_and_remap_predicates.py " + config['testdd'] + " --dropNegated --dropSelfEdgesExcept interacts_with,positively_regulates,inhibits,increase " + config['PREDICATE_MAPPING_FILE'] + " " + config['CURIES_TO_URLS_FILE'] + " {input.real} {output}"
+
+rule Simplify_Nodes:
+    input:
+        config['SIMPLIFIED_OUTPUT_FILE_FULL']
+    output:
+        config['SIMPLIFIED_OUTPUT_NODES_FILE_FULL']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/get_nodes_json_from_kg_json.py " + config['testdd'] + " {input} {output}"
+
+rule Slim:
+    input:
+        real = config['SIMPLIFIED_OUTPUT_FILE_FULL'],
+        placeholder = config['SIMPLIFIED_OUTPUT_NODES_FILE_FULL']
+    output:
+        config['SLIM_OUTPUT_FILE_FULL']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/slim_kg2.py " + config['testdd'] + " {input.real} {output}"
+
+rule Simplify_Stats:
+    input:
+        real = config['SIMPLIFIED_OUTPUT_FILE_FULL'],
+        placeholder = config['SLIM_OUTPUT_FILE_FULL']
+    output:
+        config['SIMPLIFIED_REPORT_FILE_FULL']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/report_stats_on_json_kg.py --useSimplifiedPredicates {input.real} {output}"
 
 rule TSV:
     input:
-        real = "kg2-build/kg2" + config['testd'] + ".json",
-        placeholder = "kg2-build/kg2-nodes" + config['testd'] + ".json"
+        real = config['SIMPLIFIED_OUTPUT_FILE_FULL'],
+        placeholder = config['SIMPLIFIED_REPORT_FILE_FULL']
     output:
-        placeholder = "kg2-build/tsv_placeholder.empty"
-    shell:
-        "mkdir -p kg2-build/TSV/ && kg2-venv/bin/python3 kg_json_to_tsv.py --inputFile {input.real} --outputFileLocation kg2-build/TSV/ && touch {output.placeholder}"
-
-rule Finish:
-    input:
-        stats = "kg2-build/kg2-report" + config['testd'] + ".json",
-        nodes ="kg2-build/kg2-nodes" + config['testd'] + ".json",
-        full = "kg2-build/kg2" + config['testd'] + ".json",
-        orphan = "kg2-build/kg2-orphans-edges" + config['testd'] + ".json",
-        placeholder = "kg2-build/tsv_placeholder.empty"
+        placeholder = config['BUILD_DIR'] + "/tsv_placeholder.empty"
     run:
-        shell("gzip -f {input.nodes}")
-        shell("gzip -f {input.full}")
-        shell("gzip -f {input.orphan}")
-        shell("tar -czvf kg2-build/kg2_tsv" + config['testd'] + ".tar.gz kg2-build/TSV")
+        shell("rm -rf " + config['KG2_TSV_DIR'])
+        shell("mkdir -p " + config['KG2_TSV_DIR'])
+        shell(config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/kg_json_to_tsv.py {input.real} " + config['KG2_TSV_DIR'])
+        shell("touch {output.placeholder}")
 
-        shell("aws s3 cp --no-progress --region us-west-2 {input.nodes}.gz s3://rtx-kg2-public")
-        shell("aws s3 cp --no-progress --region us-west-2 {input.full}.gz s3://rtx-kg2-public")
-        shell("aws s3 cp --no-progress --region us-west-2 {input.stats} s3://rtx-kg2-public")
-        shell("aws s3 cp --no-progress --region us-west-2 {input.orphan}.gz s3://rtx-kg2-public")
-        shell("aws s3 cp --no-progress --region us-west-2 kg2-build/kg2_tsv" + config['testd'] + ".tar.gz s3://rtx-kg2-public")
