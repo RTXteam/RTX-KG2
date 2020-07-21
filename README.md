@@ -351,7 +351,7 @@ NOTE: if your docker installation (like on macOS Homebrew) doesn't require
     
 (6) Open a bash shell as user `root` inside the container:
 
-    docker exec -it kg2 /bin/bash
+    sudo docker exec -it kg2 /bin/bash
     
 (7) Become user `ubuntu`:
 
