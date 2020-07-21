@@ -308,7 +308,9 @@ This option requires that you have `curl` installed on your local computer. In a
 (requires `ssh` installed and in your path):
 
     source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/ec2-setup-remote-instance.sh)
-    
+
+For instructions for installing Docker on MacOS, see [macos-docker-notes.md](macos-docker-notes.md).
+
 You will be prompted to enter the path to your AWS PEM file and the hostname of
 your AWS instance.  The script should then initiate a `bash` session on the
 remote instance. Within that `bash` session, continue to follow the instructions
