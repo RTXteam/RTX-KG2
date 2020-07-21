@@ -32,9 +32,10 @@ sudo apt-get update
 ## handle weird tzdata install (this makes UTC the timezone)
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
 
-sudo apt-get install -y python3-minimal \
-     python3-pip \
-     python-dev \
+# we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
+source ${CODE_DIR}/setup-python37-in-ubuntu18.shinc
+
+sudo apt-get install -y \
      awscli \
      zip \
      curl \
@@ -43,12 +44,6 @@ sudo apt-get install -y python3-minimal \
 
 ## this is for convenience when I am remote working
 sudo apt-get install -y emacs
-
-## the only python package we need to install into the native python3 is virtualenv
-sudo -H pip3 install virtualenv
-
-## create a virtualenv for building KG2
-virtualenv ${VENV_DIR}
 
 ## Install python3 packages that we will need (Note: we are not using pymongo
 ## directly, but installing it silences a runtime warning from ontobio):
@@ -59,17 +54,27 @@ mkdir -p ${BUILD_DIR}
 
 } >~/setup-kg2-neo4j.log 2>&1
 
-## setup AWS CLI
+## setup AWS CLI; this requires manual intervention so auto-logging is turned off here
 if ! aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/test /tmp/; then
     aws configure
 else
     rm /tmp/test
 fi
 
-
 {
     bash -x ${CODE_DIR}/install-neo4j.sh
-    
+
+    # copy the RTX configuration file from S3 to ${BUILD_DIR}
+    ${S3_CP_CMD} s3://${S3_BUCKET}/${RTX_CONFIG_FILE} ${BUILD_DIR}/${RTX_CONFIG_FILE}
+} >>~/setup-kg2-neo4j.log 2>&1
+
+
+# turn off auto-logging since the password is passed to this script on the command-line
+kg2_neo4j_password=`${VENV_DIR}/bin/python3 ${CODE_DIR}/read_kg2_password_from_rtxconfig.py -c ${BUILD_DIR}/${RTX_CONFIG_FILE}`
+sudo su - neo4j -c neo4j-admin set-initial-password ${kg2_neo4j_password}
+
+{
     date
     echo "================= script finished ================="
 } >>~/setup-kg2-neo4j.log 2>&1
+

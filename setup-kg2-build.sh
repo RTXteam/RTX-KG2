@@ -40,7 +40,7 @@ sudo apt-get update
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
 
 # we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
-sudo apt-get install -y python3.7 python3.7-dev python3.7-venv
+source ${CODE_DIR}/setup-python37-in-ubuntu18.shinc
 
 # install various other packages used by the build system
 #  - curl is generally used for HTTP downloads
@@ -68,20 +68,6 @@ sudo apt-get install -y mysql-server \
 ## this is for convenience when I am remote working
 sudo apt-get install -y emacs
 
-# some shenanigans required in order to install pip into python3.7 (not into python3.6!)
-curl -s https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py
-apt-get download python3-distutils
-mv python3-distutils_3.6.9-1~18.04_all.deb /tmp
-sudo dpkg-deb -x /tmp/python3-distutils_3.6.9-1~18.04_all.deb /
-sudo python3.7 /tmp/get-pip.py
-
-## create a virtualenv for building KG2
-python3.7 -m venv ${VENV_DIR}
-
-## Install python3 packages that we will need (Note: we are not using pymongo
-## directly, but installing it silences a runtime warning from ontobio):
-## (maybe we should eventually move this to a requirements.txt file?)
-${VENV_DIR}/bin/pip3 install wheel
 ${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
 
 ## install ROBOT (software: ROBOT is an OBO Tool) by downloading the jar file
