@@ -110,6 +110,9 @@ SMPDB_OUTPUT_FILE=${BUILD_DIR}/kg2-smpdb.json
 DRUGBANK_INPUT_FILE=${BUILD_DIR}/drugbank.xml
 DRUGBANK_OUTPUT_FILE=${BUILD_DIR}/kg2-drugbank${TEST_SUFFIX}.json
 
+HMDB_INPUT_FILE=${BUILD_DIR}/hmdb_metabolites.xml
+HMDB_OUTPUT_FILE=${BUILD_DIR}/kg2-hmdb${TEST_SUFFIX}.json
+
 KG1_OUTPUT_FILE=${BUILD_DIR}/kg2-rtx-kg1${TEST_SUFFIX}.json
 
 KG2_TSV_DIR=${BUILD_DIR}/TSV
@@ -156,6 +159,10 @@ then
 ## Download DrugBank
     echo "running extract-drubank.sh"
     bash -x ${CODE_DIR}/extract-smpdb.sh ${DRUGBANK_INPUT_FILE}
+
+## Download HMDB
+  echo "running extract-hmdb.sh"
+  bash -x ${CODE_DIR}/extract-hmdb.sh
 fi
 
 echo "running uniprotkb_dat_to_json.py"
@@ -251,12 +258,24 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/drugbank_xml_to_kg_json.py \
            ${DRUGBANK_INPUT_FILE} \
            ${DRUGBANK_OUTPUT_FILE} 2> ${BUILD_DIR}/drugbank-xml-to-kg-json-stderr.log
 
-## Make JSON file for DrugBank
+echo "running smpdb_csv_to_kg_json.py"
+
+## Make JSON file for SMPDB
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/smpdb_csv_to_kg_json.py \
            ${TEST_ARG} \
            ${SMPDB_DIR} \
            ${SMPDB_OUTPUT_FILE}
+
+echo "running hmdb_xml_to_kg_json.py"
+
+## Make JSON file for HMDB
+
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/hmdb_xml_to_kg_json.py \
+           ${TEST_ARG} \
+           ${HMDB_INPUT_FILE} \
+           ${HMDB_OUTPUT_FILE}
+
 
 echo "copying RTX Configuration JSON file from S3"
 

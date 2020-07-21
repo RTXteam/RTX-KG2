@@ -154,6 +154,8 @@ use_for_bidirectional_mapping:
   -
     HGNC: "https://identifiers.org/hgnc:"
   -
+    HMDB: "https://identifiers.org/hmdb:"
+  -
     HP: http://purl.obolibrary.org/obo/HP_
   -
     IAO: http://purl.obolibrary.org/obo/IAO_
