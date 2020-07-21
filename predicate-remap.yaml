@@ -198,10 +198,6 @@ CHEMBL.MECHANISM:degrader:
   rename:
   - increases_degradation_of
   - biolink:increases_degradation_of
-CHEMBL.MECHANISM:directly_interacts_with:
-  rename:
-  - physically_interacts_with
-  - biolink:physically_interacts_with
 CHEMBL.MECHANISM:disrupting_agent:
   rename:
   - disrupts
@@ -210,14 +206,6 @@ CHEMBL.MECHANISM:equivalent_to:
   rename:
   - same_as
   - biolink:same_as
-CHEMBL.MECHANISM:has_role:
-  rename:
-  - related_to
-  - biolink:related_to
-CHEMBL.MECHANISM:has_sequence:
-  rename:
-  - has_biological_sequence
-  - biolink:has_biological_sequence
 CHEMBL.MECHANISM:hydrolytic_enzyme:
   keep: null
 CHEMBL.MECHANISM:inhibitor:
