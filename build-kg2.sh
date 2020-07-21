@@ -103,8 +103,8 @@ REPODB_DIR=${BUILD_DIR}/repodb
 REPODB_INPUT_FILE=${BUILD_DIR}/repodb/repodb.csv
 REPODB_OUTPUT_FILE=${BUILD_DIR}/kg2-repodb${TEST_SUFFIX}.json
 
-SMPDB_DIR=${BUILD_DIR}/smpdb/
-SMPDB_INPUT_FILE=${SMPDB_DIR}/smpdb_pathways.csv
+SMPDB_DIR=${BUILD_DIR}/smpdb
+SMPDB_INPUT_FILE=${SMPDB_DIR}/pathbank_pathways.csv
 SMPDB_OUTPUT_FILE=${BUILD_DIR}/kg2-smpdb.json
 
 DRUGBANK_INPUT_FILE=${BUILD_DIR}/drugbank.xml
@@ -157,8 +157,8 @@ then
     bash -x ${CODE_DIR}/extract-smpdb.sh ${SMPDB_DIR}
 
 ## Download DrugBank
-    echo "running extract-drubank.sh"
-    bash -x ${CODE_DIR}/extract-smpdb.sh ${DRUGBANK_INPUT_FILE}
+    echo "running extract-drugbank.sh"
+    bash -x ${CODE_DIR}/extract-drugbank.sh ${DRUGBANK_INPUT_FILE}
 
 ## Download HMDB
   echo "running extract-hmdb.sh"
@@ -304,8 +304,9 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/merge_graphs.py \
                      ${NCBI_GENE_OUTPUT_FILE} \
                      ${DGIDB_OUTPUT_FILE} \
                      ${REPODB_OUTPUT_FILE} \
-		     ${SMPDB_OUTPUT_FILE} \
-		     ${DRUGBANK_OUTPUT_FILE} \
+                     ${SMPDB_OUTPUT_FILE} \
+                     ${DRUGBANK_OUTPUT_FILE} \
+                     ${HMDB_OUTPUT_FILE} \
                      ${KG1_OUTPUT_FILE} \
            --kgFileOrphanEdges ${OUTPUT_FILE_ORPHAN_EDGES} \
            ${FINAL_OUTPUT_FILE_FULL}
