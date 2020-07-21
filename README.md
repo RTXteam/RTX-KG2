@@ -301,7 +301,7 @@ to a file `~/kg2-build/build-kg2-ont-stderr.log`.
 
 <!-- the code failed. -->
 
-### Option 3: remotely build KG2 in an EC2 instance via ssh, orchestrated from your local computer
+### Option 3: setup ssh key exchange so you can build KG2 in a remote EC2 instance
 
 This option requires that you have `curl` installed on your local computer. In a
 `bash` terminal session, set up the remote EC2 instance by running this command
