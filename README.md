@@ -397,7 +397,14 @@ bucket that is configured in `master-config.shinc`. It will also ask you to
 enter your default AWS zone, which in our case is normally `us-west-2` (you
 should enter the AWS zone that hosts the private S3 bucket that you intend to
 use with the KG2 build system). When prompted `Default output format [None]`,
-just hit enter/return.
+just hit enter/return. Also, the setup script will print a warning
+
+    WARNING: Max 1024 open files allowed, minimum of 40000 recommended. See the Neo4j manual.
+    
+but this, too, can be ignored [The `/lib/systemd/service/neo4j.service` file 
+that is installed (indirectly) by the setup script actually sets the limit to 60000,
+for when the Neo4j database system is run via systemd (but when running `neo4j-admin`
+at the CLI to set the password, Neo4j doesn't know this and it reports a limit warning).]
 
 (3) Look in the log file `/home/ubuntu/setup-kg2-neo4j.sh` to see if the script
 completed successfully; it should end with `======= script finished ======`.
