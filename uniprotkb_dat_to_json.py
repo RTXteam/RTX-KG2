@@ -154,7 +154,7 @@ def make_edges(records: list, nodes_dict: dict):
         xrefs = node_dict['xrefs']
         if xrefs is not None and len(xrefs) > 0:
             for xref_curie in xrefs:
-                ret_list.append(kg2_util.make_edge_biolink(curie_id,
+                ret_list.append(kg2_util.make_edge_biolink(node_id,
                                                            xref_curie,
                                                            kg2_util.EDGE_LABEL_BIOLINK_PHYSICALLY_INTERACTS_WITH,
                                                            UNIPROTKB_PROVIDED_BY_CURIE_ID,
