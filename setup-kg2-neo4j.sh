@@ -58,7 +58,7 @@ mkdir -p ${BUILD_DIR}
 if ! aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/test-file-do-not-delete /tmp/; then
     aws configure
 else
-    rm /tmp/test
+    rm -f /tmp/test-file-do-not-delete
 fi
 
 {
