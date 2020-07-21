@@ -103,8 +103,8 @@ REPODB_DIR=${BUILD_DIR}/repodb
 REPODB_INPUT_FILE=${BUILD_DIR}/repodb/repodb.csv
 REPODB_OUTPUT_FILE=${BUILD_DIR}/kg2-repodb${TEST_SUFFIX}.json
 
-SMPDB_DIR=${BUILD_DIR}/smpdb/
-SMPDB_INPUT_FILE=${SMPDB_DIR}/smpdb_pathways.csv
+SMPDB_DIR=${BUILD_DIR}/smpdb
+SMPDB_INPUT_FILE=${SMPDB_DIR}/pathbank_pathways.csv
 SMPDB_OUTPUT_FILE=${BUILD_DIR}/kg2-smpdb.json
 
 DRUGBANK_INPUT_FILE=${BUILD_DIR}/drugbank.xml

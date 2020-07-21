@@ -12,6 +12,5 @@ RUN apt-get install -y git sudo
 RUN usermod -aG sudo ubuntu
 RUN echo "ubuntu ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/ubuntu
 
-# copy setup scripts
-RUN git clone https://github.com/RTXteam/RTX.git
+# make this container persistent
 CMD tail -f /dev/null
