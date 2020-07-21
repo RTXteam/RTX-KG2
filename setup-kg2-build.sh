@@ -89,7 +89,7 @@ chmod +x ${BUILD_DIR}/owltools
 if ! aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/test-file-do-note-delete /tmp/; then
     aws configure
 else
-    rm /tmp/test
+    rm -f /tmp/test-file-do-not-delete
 fi
 
 {
