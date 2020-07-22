@@ -280,7 +280,8 @@ def per_compound_nodes_and_edges(compound: dict, pw_id: str, date):
                               category_label,
                               date,
                               PW_PROVIDED_BY_CURIE_ID)
-    node["description"] = description
+    if isinstance(description, str):
+        node["description"] = description
     node["publications"] = publications
     if isinstance(compound["synonyms"], str):
         node["synonym"] = compound["synonyms"].split(";")
