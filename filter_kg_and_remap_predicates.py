@@ -16,7 +16,6 @@ __status__ = 'Prototype'
 import argparse
 import kg2_util
 import sys
-import prefixcommons
 from datetime import datetime
 
 # - check for any input edge labels that occur twice in the predicate-remap.yaml file
