@@ -87,10 +87,10 @@ http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/
 
 The KG2 build system is designed only to run in an Ubuntu 18.04 environment
 (i.e., either (i) an Ubuntu 18.04 host OS or (ii) Ubuntu 18.04 running in a
-Docker container), as user `ubuntu` which must have passwordless `sudo` enabled
+Docker container) as a non-root user which must have passwordless `sudo` enabled
 and should have `bash` as the default shell (the build commands in the
-instructions in this README page assume a `bash` shell).  Currently, KG2 is
-built using a set of `bash` scripts that are designed to run in Amazon's Elastic
+instructions in this README page assume a `bash` shell). Currently, KG2 is built
+using a set of `bash` scripts that are designed to run in Amazon's Elastic
 Compute Cloud (EC2), and thus, configurability and/or coexisting with other
 installed software pipelines was not a design consideration for the build
 system. The KG2 build system's `bash` scripts create three subdirectories under
@@ -232,7 +232,7 @@ that it provides control over which branch you want to use for the KG2 build cod
 
 Note that there is no need to redirect `stdout` or `stderr` to a log file, when
 executing `setup-kg2-build.sh`; this is because the script saves its own `stdout` and
-`stderr` to a log file `/home/ubuntu/setup-kg2.log`. This script takes just a
+`stderr` to a log file `${HOME}/setup-kg2.log`. This script takes just a
 few minutes to complete. At some point, the script will print
 
     fatal error: Unable to locate credentials
@@ -245,7 +245,7 @@ should enter the AWS zone that hosts the private S3 bucket that you intend to
 use with the KG2 build system). When prompted `Default output format [None]`,
 just hit enter/return.
 
-(5) Look in the log file `/home/ubuntu/setup-kg2-build.sh` to see if the script
+(5) Look in the log file `${HOME}/setup-kg2-build.log` to see if the script
 completed successfully; it should end with `======= script finished ======`.
 
 (6) Initiate a `screen` session to provide a stable pseudo-tty:
@@ -380,9 +380,15 @@ etc.) at the AWS static website endpoint for the
 
 ## Hosting KG2 in a Neo4j server on a new AWS instance
 
-In a fresh Ubuntu 18.04 AWS instance, as user `ubuntu`, run the following commands:
+We host our production KG2 graph database in Neo4j version 3.5.13 with APOC
+3.5.0.4, on an Ubuntu 18.04 EC2 instance with 64 GiB of RAM and 8 vCPUs
+(`r5a.2xlarge`), although it is possible to host KG2 on an `r5a.xlarge` instance
+and this is what we do for our test/dev KG2 host. 
 
-(1) Make sure you are in the `/home/ubuntu` directory:
+**Installation:** in a fresh Ubuntu 18.04 AWS
+instance, as user `ubuntu`, run the following commands:
+
+(1) Make sure you are in your home directory:
 
     cd
     
