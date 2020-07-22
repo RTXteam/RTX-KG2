@@ -469,6 +469,10 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                 elif key == 'deprecated' and type(value) == bool:
                     ret_dict[key] = True  # special case for deprecation; True always trumps False for this property
                 else:
+                    log_message(message="invalid type for key: " + key,
+                                ontology_name=str(x.get('provided by', 'provided_by=UNKNOWN')),
+                                node_curie_id=x.get('id', 'id=UNKNOWN'),
+                                output_stream=sys.stderr)
                     assert False
     return ret_dict
 
