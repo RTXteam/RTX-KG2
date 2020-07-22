@@ -448,7 +448,7 @@ hosting on separate AWS instances.
 
 # For Developers
 
-This section has some guidelines for developers
+This section has some guidelines for KG2 developers
 
 ## KG2 coding standards
 
