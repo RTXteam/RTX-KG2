@@ -157,7 +157,7 @@ if __name__ == '__main__':
     build_info = {
         "name": "KG2:Build",
         "creation date": datetime.now().strftime("%Y-%m-%d %H:%M"),
-        "category label": "information content entity",
+        "category label": kg2_util.BIOLINK_CATEGORY_DATA_FILE.replace(' ', '_')
     }
     graph["build"] = build_info
     graph["nodes"].append(build_info)
