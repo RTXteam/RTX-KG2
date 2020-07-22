@@ -420,19 +420,22 @@ that is installed (indirectly) by the setup script actually sets the limit to 60
 for when the Neo4j database system is run via systemd (but when running `neo4j-admin`
 at the CLI to set the password, Neo4j doesn't know this and it reports a limit warning).]
 
-(4) Look in the log file `/home/ubuntu/setup-kg2-neo4j.sh` to see if the script
+(4) Look in the log file `${HOME}/setup-kg2-neo4j.log` to see if the script
 completed successfully; it should end with `======= script finished ======`.
 
 (5) Load KG2 into Neo4j:
 
-    RTX/code/kg2/tsv-to-neo4j.sh
+    RTX/code/kg2/tsv-to-neo4j.sh > ~/kg2-build/tsv-to-neo4j.log 2>&1
+
+(6) Look in the log file `~/kg2-build/tsv-to-neo4j.log` to see if the script
+completed successfully; it should end with `======= script finished ======`.
 
 ## Reloading KG2 into an existing Neo4j server
 
 Once you have loaded KG2 into Neo4j as described above, if you want to reload
 KG2, just run (as user `ubuntu`):
 
-    /home/ubuntu/RTX/code/kg2/tsv-to-neo4j.sh
+    ~/RTX/code/kg2/tsv-to-neo4j.sh > ~/kg2-build/tsv-to-neo4j.log 2>&1
 
 ## Co-hosting the KG2 build system and Neo4j server?
 
