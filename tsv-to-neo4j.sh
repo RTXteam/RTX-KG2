@@ -31,6 +31,8 @@ else
     TEST_ARG=""
 fi
 
+TSV_TARBALL=${TSV_DIR}/kg2-tsv${TEST_ARG}.tar.gz
+
 echo "copying RTX Configuration JSON file from S3"
 
 RTX_CONFIG_FILE_FULL=${BUILD_DIR}/${RTX_CONFIG_FILE}
@@ -42,17 +44,21 @@ sudo sed -i '/dbms.active_database/c\dbms.active_database='${DATABASE}'' ${NEO4J
 # restart neo4j 
 sudo service neo4j restart
 
-# delete the old TSV files if it exists
-rm -f kg2-tsv${TEST_ARG}.tar.gz
+# delete the old TSV tarball if it exists
+rm -f ${TSV_TARBALL}
 
 # create a folder for the TSV files and move the TSV files into them
 rm -r -f ${TSV_DIR}
 mkdir -p ${TSV_DIR}
 
 # download the latest TSV files from the S3 Bucket
-${S3_CP_CMD} s3://${S3_BUCKET}/kg2-tsv${TEST_ARG}.tar.gz ${TSV_DIR}/kg2-tsv${TEST_ARG}.tar.gz
+${S3_CP_CMD} s3://${S3_BUCKET}/kg2-tsv${TEST_ARG}.tar.gz ${TSV_TARBALL}
 
-tar -xvzf ${TSV_DIR}/kg2-tsv${TEST_ARG}.tar.gz -C ${TSV_DIR}
+# unpack the TSV tarball
+tar -xvzf ${TSV_TARBALL} -C ${TSV_DIR}
+
+# delete the TSV tarball since we successfully unpacked it
+rm -f ${TSV_TARBALL}
 
 # delete the old log file and create a new one
 rm -rf ${TSV_DIR}/import.report
