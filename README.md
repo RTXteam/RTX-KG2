@@ -364,7 +364,7 @@ Now follow the instructions for Option 1 above.
 ## The output KG
 
 The `build-kg2.sh` script (run via one of the three methods shown above) creates
-a JSON file `kg2-simplified.json.gz` and copies it to an S3 bucket
+a gzipped JSON file `kg2-simplified.json.gz` and copies it to an S3 bucket
 `rtx-kg2`. You can access the gzipped JSON file using the AWS command-line
 interface (CLI) tool `aws` with the command
 
