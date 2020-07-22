@@ -446,6 +446,16 @@ same Ubuntu instance where KG2 was built; but this workflow is usually not
 tested since in our setup, we nearly always perform the KG2 build and Neo4j
 hosting on separate AWS instances.
 
+# For Developers
+
+This section has some guidelines for developers
+
+## Coding standards
+
+- For python, only python3 is allowed and please follow PEP8 formatting standards.
+- Hard tabs are not permitted in source files such as python or bash (use spaces
+instead).
+
 # Credits
 
 Thank you to the many people who have contributed to the development of RTX KG2:
