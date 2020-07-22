@@ -87,13 +87,16 @@ http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/
 
 The KG2 build system is designed only to run in an Ubuntu 18.04 environment
 (i.e., either (i) an Ubuntu 18.04 host OS or (ii) Ubuntu 18.04 running in a
-Docker container). Currently, KG2 is built using a set of `bash` scripts that
-are designed to run in Amazon's Elastic Compute Cloud (EC2), and thus,
-configurability and/or coexisting with other installed software pipelines was
-not a design consideration for the build system. The KG2 build system's `bash`
-scripts create three subdirectories under the `${HOME}` directory of whatever Linux user account you
-use to run the KG2 build software (if you run on an EC2 Ubuntu instance, this
-directory would by default be `/home/ubuntu`):
+Docker container), as user `ubuntu` which must have passwordless `sudo` enabled
+and should have `bash` as the default shell (the build commands in the
+instructions in this README page assume a `bash` shell).  Currently, KG2 is
+built using a set of `bash` scripts that are designed to run in Amazon's Elastic
+Compute Cloud (EC2), and thus, configurability and/or coexisting with other
+installed software pipelines was not a design consideration for the build
+system. The KG2 build system's `bash` scripts create three subdirectories under
+the `${HOME}` directory of whatever Linux user account you use to run the KG2
+build software (if you run on an EC2 Ubuntu instance, this directory would by
+default be `/home/ubuntu`):
 
 1. `~/kg2-build`
 2. `~/kg2-code`
