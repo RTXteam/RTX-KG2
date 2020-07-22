@@ -87,13 +87,16 @@ http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/
 
 The KG2 build system is designed only to run in an Ubuntu 18.04 environment
 (i.e., either (i) an Ubuntu 18.04 host OS or (ii) Ubuntu 18.04 running in a
-Docker container). Currently, KG2 is built using a set of `bash` scripts that
-are designed to run in Amazon's Elastic Compute Cloud (EC2), and thus,
-configurability and/or coexisting with other installed software pipelines was
-not a design consideration for the build system. The KG2 build system's `bash`
-scripts create three subdirectories under the `${HOME}` directory of whatever Linux user account you
-use to run the KG2 build software (if you run on an EC2 Ubuntu instance, this
-directory would by default be `/home/ubuntu`):
+Docker container) as a non-root user which must have passwordless `sudo` enabled
+and should have `bash` as the default shell (the build commands in the
+instructions in this README page assume a `bash` shell). Currently, KG2 is built
+using a set of `bash` scripts that are designed to run in Amazon's Elastic
+Compute Cloud (EC2), and thus, configurability and/or coexisting with other
+installed software pipelines was not a design consideration for the build
+system. The KG2 build system's `bash` scripts create three subdirectories under
+the `${HOME}` directory of whatever Linux user account you use to run the KG2
+build software (if you run on an EC2 Ubuntu instance, this directory would by
+default be `/home/ubuntu`):
 
 1. `~/kg2-build`
 2. `~/kg2-code`
@@ -111,8 +114,9 @@ file directory (i.e., the directory name that is returned by the variable
 so that `kg2-build` is in a different file system from the file system in which
 the directory `tempfile.tempdir` (as referenced in the `tempfile` python module)
 resides, then the file moving operations that are performed by the KG2 build
-software will not be atomic and interruption of `build-kg2.py` could then leave
-a source data file in a half-downloaded (i.e., broken) state.
+software will not be atomic and interruption of `build-kg2.sh` or its
+subprocesses could then leave a source data file in a half-downloaded (i.e.,
+broken) state.
 
 ## Setup your computing environment
 
@@ -123,7 +127,7 @@ running **Ubuntu 18.04**.  Your build environment should have the following
 - 256 GiB of system memory
 - 1,023 GiB of disk space in the root file system 
 - high-speed networking (20 Gb/s networking) and storage
-- ideally, AWS zone `us-west-2` since that is where the RTX KG2 S3 buckets are located
+- ideally, AWS region `us-west-2` since that is where the RTX KG2 S3 buckets are located
 
 ## The KG2 build system assumes there is no MySQL database already present
 
@@ -148,7 +152,7 @@ full Unified Medical Language System (UMLS) distribution.  You will be asked (by
 the AWS Command-line Interface, CLI) to provide this authentication key when you
 run the KG2 setup script. Your configured AWS CLI will also need to be able to
 programmatically write to the (publicly readable) S3 bucket
-`s3://rtx-kg2-public` (both buckets are in the `us-west-2` AWS zone). The KG2
+`s3://rtx-kg2-public` (both buckets are in the `us-west-2` AWS region). The KG2
 build script downloads the UMLS distribution (including SNOMED CT) from the
 private S3 bucket `rtx-kg2` (IANAL, but it appears that the UMLS is encumbered
 by a license preventing redistribution so I have not hosted them on a public
@@ -183,7 +187,7 @@ The KG2 build software has been tested with the following instance type:
 - Security Group: ingress TCP packets on port 22 (`ssh`) permitted
 
 As of summer 2019, an on-demand `r5a.8xlarge` instance in the `us-west-2` AWS
-zone costs $1.81 per hour, so the cost to build KG2 (estimated to take 67 hours)
+region costs $1.81 per hour, so the cost to build KG2 (estimated to take 67 hours)
 would be approximately $121 (this is currently just a rough estimate, plus or
 minus 20%). [Unfortunately, AWS doesn't seem to allow the provisioning of spot
 instances while specifying minimum memory greater than 240 GiB; but perhaps soon
@@ -228,7 +232,7 @@ that it provides control over which branch you want to use for the KG2 build cod
 
 Note that there is no need to redirect `stdout` or `stderr` to a log file, when
 executing `setup-kg2-build.sh`; this is because the script saves its own `stdout` and
-`stderr` to a log file `/home/ubuntu/setup-kg2.log`. This script takes just a
+`stderr` to a log file `${HOME}/setup-kg2.log`. This script takes just a
 few minutes to complete. At some point, the script will print
 
     fatal error: Unable to locate credentials
@@ -236,12 +240,12 @@ few minutes to complete. At some point, the script will print
 This is normal. The script will then prompt you to enter your AWS Access Key ID
 and AWS Secret Access Key, for an AWS account with access to the private S3
 bucket that is configured in `master-config.shinc`. It will also ask you to
-enter your default AWS zone, which in our case is normally `us-west-2` (you
-should enter the AWS zone that hosts the private S3 bucket that you intend to
+enter your default AWS region, which in our case is normally `us-west-2` (you
+should enter the AWS region that hosts the private S3 bucket that you intend to
 use with the KG2 build system). When prompted `Default output format [None]`,
 just hit enter/return.
 
-(5) Look in the log file `/home/ubuntu/setup-kg2-build.sh` to see if the script
+(5) Look in the log file `${HOME}/setup-kg2-build.log` to see if the script
 completed successfully; it should end with `======= script finished ======`.
 
 (6) Initiate a `screen` session to provide a stable pseudo-tty:
@@ -360,7 +364,7 @@ Now follow the instructions for Option 1 above.
 ## The output KG
 
 The `build-kg2.sh` script (run via one of the three methods shown above) creates
-a JSON file `kg2-simplified.json.gz` and copies it to an S3 bucket
+a gzipped JSON file `kg2-simplified.json.gz` and copies it to an S3 bucket
 `rtx-kg2`. You can access the gzipped JSON file using the AWS command-line
 interface (CLI) tool `aws` with the command
 
@@ -374,15 +378,25 @@ You can access the various artifacts from the KG2 build (config file, log file,
 etc.) at the AWS static website endpoint for the 
 `rtx-kg2-public` S3 bucket: <http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/>
 
-## Hosting the KG on a Neo4j instance
+## Hosting KG2 in a Neo4j server on a new AWS instance
 
-In a clean Ubuntu 18.04 AWS instance, run the following commands:
+We host our production KG2 graph database in Neo4j version 3.5.13 with APOC
+3.5.0.4, on an Ubuntu 18.04 EC2 instance with 64 GiB of RAM and 8 vCPUs
+(`r5a.2xlarge`) in the `us-east-2` AWS region, although it is possible to host KG2
+on an `r5a.xlarge` instance and this is what we do for our test/dev KG2 host.
 
-(1) Clone the RTX software from GitHub:
+**Installation:** in a fresh Ubuntu 18.04 AWS
+instance, as user `ubuntu`, run the following commands:
+
+(1) Make sure you are in your home directory:
+
+    cd
+    
+(2) Clone the RTX software from GitHub:
 
     git clone https://github.com/RTXteam/RTX.git
 
-(2) Install and configure Neo4j, with APOC:
+(3) Install and configure Neo4j, with APOC:
 
     RTX/code/kg2/setup-kg2-neo4j.sh
 
@@ -394,19 +408,43 @@ print
 This is normal. The script will then prompt you to enter your AWS Access Key ID
 and AWS Secret Access Key, for an AWS account with access to the private S3
 bucket that is configured in `master-config.shinc`. It will also ask you to
-enter your default AWS zone, which in our case is normally `us-west-2` (you
-should enter the AWS zone that hosts the private S3 bucket that you intend to
-use with the KG2 build system). When prompted `Default output format [None]`,
-just hit enter/return.
+enter your default AWS region; you should enter the AWS region that hosts the
+private S3 bucket that you intend to use with the KG2 build system, which in our
+case would be `us-west-2`. When prompted `Default output format [None]`, just
+hit enter/return. Also, the setup script will print a warning
 
-(3) Look in the log file `/home/ubuntu/setup-kg2-neo4j.sh` to see if the script
+    WARNING: Max 1024 open files allowed, minimum of 40000 recommended. See the Neo4j manual.
+    
+but this, too, can be ignored [The `/lib/systemd/service/neo4j.service` file 
+that is installed (indirectly) by the setup script actually sets the limit to 60000,
+for when the Neo4j database system is run via systemd (but when running `neo4j-admin`
+at the CLI to set the password, Neo4j doesn't know this and it reports a limit warning).]
+
+(4) Look in the log file `${HOME}/setup-kg2-neo4j.log` to see if the script
 completed successfully; it should end with `======= script finished ======`.
 
-(4) Load KG2 into Neo4j:
+(5) Load KG2 into Neo4j:
 
-    RTX/code/kg2/tsv-to-neo4j.sh
-    
-In Step 4, you will be prompted to enter the Neo4j database password that you chose in step (3).
+    RTX/code/kg2/tsv-to-neo4j.sh > ~/kg2-build/tsv-to-neo4j.log 2>&1
+
+This script takes about an hour. You may wish to run it in a `screen` session.
+
+(6) Look in the log file `~/kg2-build/tsv-to-neo4j.log` to see if the script
+completed successfully; it should end with `======= script finished ======`.
+
+## Reloading KG2 into an existing Neo4j server
+
+Once you have loaded KG2 into Neo4j as described above, if you want to reload
+KG2, just run (as user `ubuntu`):
+
+    ~/RTX/code/kg2/tsv-to-neo4j.sh > ~/kg2-build/tsv-to-neo4j.log 2>&1
+
+## Co-hosting the KG2 build system and Neo4j server?
+
+In theory, it should be possible to install Neo4j and load KG2 into it on the
+same Ubuntu instance where KG2 was built; but this workflow is usually not
+tested since in our setup, we nearly always perform the KG2 build and Neo4j
+hosting on separate AWS instances.
 
 # Credits
 
@@ -417,7 +455,7 @@ Stephen Ramsey, Amy Glen, Finn Womack, Erica Wood, Veronica Flores, Deqing Qu, a
 
 ## Advice and feedback
 David Koslicki, Eric Deutsch, Yao Yao, Jared Roach, Chris Mungall, Tom Conlin, Matt Brush,
-Chunlei Wu, Harold Solbrig, Will Byrd, Michael Patton, Jim Balhoff, and Chunyu Ma.
+Chunlei Wu, Harold Solbrig, Will Byrd, Michael Patton, Jim Balhoff, Chunyu Ma, and Chris Bizon.
 
 ## Funding
 National Center for Advancing Translational Sciences (award number OT2TR002520).
