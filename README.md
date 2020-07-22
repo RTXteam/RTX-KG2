@@ -127,7 +127,7 @@ running **Ubuntu 18.04**.  Your build environment should have the following
 - 256 GiB of system memory
 - 1,023 GiB of disk space in the root file system 
 - high-speed networking (20 Gb/s networking) and storage
-- ideally, AWS zone `us-west-2` since that is where the RTX KG2 S3 buckets are located
+- ideally, AWS region `us-west-2` since that is where the RTX KG2 S3 buckets are located
 
 ## The KG2 build system assumes there is no MySQL database already present
 
@@ -152,7 +152,7 @@ full Unified Medical Language System (UMLS) distribution.  You will be asked (by
 the AWS Command-line Interface, CLI) to provide this authentication key when you
 run the KG2 setup script. Your configured AWS CLI will also need to be able to
 programmatically write to the (publicly readable) S3 bucket
-`s3://rtx-kg2-public` (both buckets are in the `us-west-2` AWS zone). The KG2
+`s3://rtx-kg2-public` (both buckets are in the `us-west-2` AWS region). The KG2
 build script downloads the UMLS distribution (including SNOMED CT) from the
 private S3 bucket `rtx-kg2` (IANAL, but it appears that the UMLS is encumbered
 by a license preventing redistribution so I have not hosted them on a public
@@ -187,7 +187,7 @@ The KG2 build software has been tested with the following instance type:
 - Security Group: ingress TCP packets on port 22 (`ssh`) permitted
 
 As of summer 2019, an on-demand `r5a.8xlarge` instance in the `us-west-2` AWS
-zone costs $1.81 per hour, so the cost to build KG2 (estimated to take 67 hours)
+region costs $1.81 per hour, so the cost to build KG2 (estimated to take 67 hours)
 would be approximately $121 (this is currently just a rough estimate, plus or
 minus 20%). [Unfortunately, AWS doesn't seem to allow the provisioning of spot
 instances while specifying minimum memory greater than 240 GiB; but perhaps soon
@@ -240,8 +240,8 @@ few minutes to complete. At some point, the script will print
 This is normal. The script will then prompt you to enter your AWS Access Key ID
 and AWS Secret Access Key, for an AWS account with access to the private S3
 bucket that is configured in `master-config.shinc`. It will also ask you to
-enter your default AWS zone, which in our case is normally `us-west-2` (you
-should enter the AWS zone that hosts the private S3 bucket that you intend to
+enter your default AWS region, which in our case is normally `us-west-2` (you
+should enter the AWS region that hosts the private S3 bucket that you intend to
 use with the KG2 build system). When prompted `Default output format [None]`,
 just hit enter/return.
 
@@ -382,8 +382,8 @@ etc.) at the AWS static website endpoint for the
 
 We host our production KG2 graph database in Neo4j version 3.5.13 with APOC
 3.5.0.4, on an Ubuntu 18.04 EC2 instance with 64 GiB of RAM and 8 vCPUs
-(`r5a.2xlarge`), although it is possible to host KG2 on an `r5a.xlarge` instance
-and this is what we do for our test/dev KG2 host. 
+(`r5a.2xlarge`) in the `us-east-2` AWS region, although it is possible to host KG2
+on an `r5a.xlarge` instance and this is what we do for our test/dev KG2 host.
 
 **Installation:** in a fresh Ubuntu 18.04 AWS
 instance, as user `ubuntu`, run the following commands:
@@ -408,10 +408,10 @@ print
 This is normal. The script will then prompt you to enter your AWS Access Key ID
 and AWS Secret Access Key, for an AWS account with access to the private S3
 bucket that is configured in `master-config.shinc`. It will also ask you to
-enter your default AWS zone, which in our case is normally `us-west-2` (you
-should enter the AWS zone that hosts the private S3 bucket that you intend to
-use with the KG2 build system). When prompted `Default output format [None]`,
-just hit enter/return. Also, the setup script will print a warning
+enter your default AWS region; you should enter the AWS region that hosts the
+private S3 bucket that you intend to use with the KG2 build system, which in our
+case would be `us-west-2`. When prompted `Default output format [None]`, just
+hit enter/return. Also, the setup script will print a warning
 
     WARNING: Max 1024 open files allowed, minimum of 40000 recommended. See the Neo4j manual.
     
