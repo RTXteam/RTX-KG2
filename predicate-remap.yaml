@@ -2960,6 +2960,10 @@ RO:0009501:
   invert:
   - causes
   - biolink:causes
+RO:0012003:
+  rename:
+  - affects
+  - biolink:affects
 RO:derives_from:
   rename:
   - related_to
