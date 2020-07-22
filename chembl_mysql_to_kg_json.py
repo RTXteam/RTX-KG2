@@ -284,7 +284,7 @@ if __name__ == '__main__':
         node_dict = make_node(curie_id,
                               CHEMBL_BASE_IRI_PREDICATE + predicate_label,
                               name,
-                              kg2_util.EDGE_LABEL_BIOLINK_RELATION,
+                              kg2_util.BIOLINK_CATEGORY_RELATIONSHIP_TYPE,
                               description,
                               [],
                               [],
