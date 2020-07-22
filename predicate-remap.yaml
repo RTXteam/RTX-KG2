@@ -3392,8 +3392,8 @@ SEMMEDDB:produces:
   - biolink:produces
 SEMMEDDB:same_as:
   rename:
-  - equivalent_to
-  - skos:closeMatch
+  - close_match
+  - skos:close_match
 SEMMEDDB:stimulates:
   rename:
   - positively_regulates
