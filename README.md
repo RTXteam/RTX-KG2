@@ -450,7 +450,7 @@ hosting on separate AWS instances.
 
 This section has some guidelines for developers
 
-## Coding standards
+## KG2 coding standards
 
 - For python, only python3 is allowed and please follow PEP8 formatting standards.
 - Hard tabs are not permitted in source files such as python or bash (use spaces
