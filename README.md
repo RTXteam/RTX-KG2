@@ -427,6 +427,8 @@ completed successfully; it should end with `======= script finished ======`.
 
     RTX/code/kg2/tsv-to-neo4j.sh > ~/kg2-build/tsv-to-neo4j.log 2>&1
 
+This script takes about an hour. You may wish to run it in a `screen` session.
+
 (6) Look in the log file `~/kg2-build/tsv-to-neo4j.log` to see if the script
 completed successfully; it should end with `======= script finished ======`.
 
