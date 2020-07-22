@@ -111,8 +111,9 @@ file directory (i.e., the directory name that is returned by the variable
 so that `kg2-build` is in a different file system from the file system in which
 the directory `tempfile.tempdir` (as referenced in the `tempfile` python module)
 resides, then the file moving operations that are performed by the KG2 build
-software will not be atomic and interruption of `build-kg2.py` could then leave
-a source data file in a half-downloaded (i.e., broken) state.
+software will not be atomic and interruption of `build-kg2.sh` or its
+subprocesses could then leave a source data file in a half-downloaded (i.e.,
+broken) state.
 
 ## Setup your computing environment
 
