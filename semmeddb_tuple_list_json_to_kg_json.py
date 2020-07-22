@@ -232,7 +232,7 @@ if __name__ == '__main__':
             nodes_dict[predicate] = kg2_util.make_node(id=SEMMEDDB_CURIE_PREFIX + ':' + predicate.lower(),
                                                        iri=relation_iri,
                                                        name=predicate.lower(),
-                                                       category_label="relationship type",
+                                                       category_label=kg2_util.BIOLINK_CATEGORY_RELATIONSHIP_TYPE,
                                                        update_date=curr_timestamp,
                                                        provided_by=SEMMEDDB_CURIE_PREFIX + ':')
     semmeddb_kb_curie_id = SEMMEDDB_CURIE_PREFIX + ':'
