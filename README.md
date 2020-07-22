@@ -374,15 +374,19 @@ You can access the various artifacts from the KG2 build (config file, log file,
 etc.) at the AWS static website endpoint for the 
 `rtx-kg2-public` S3 bucket: <http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/>
 
-## Hosting the KG on a Neo4j instance
+## Hosting KG2 in a Neo4j server on a new AWS instance
 
-In a clean Ubuntu 18.04 AWS instance, run the following commands:
+In a fresh Ubuntu 18.04 AWS instance, as user `ubuntu`, run the following commands:
 
-(1) Clone the RTX software from GitHub:
+(1) Make sure you are in the `/home/ubuntu` directory:
+
+    cd
+    
+(2) Clone the RTX software from GitHub:
 
     git clone https://github.com/RTXteam/RTX.git
 
-(2) Install and configure Neo4j, with APOC:
+(3) Install and configure Neo4j, with APOC:
 
     RTX/code/kg2/setup-kg2-neo4j.sh
 
@@ -406,14 +410,26 @@ that is installed (indirectly) by the setup script actually sets the limit to 60
 for when the Neo4j database system is run via systemd (but when running `neo4j-admin`
 at the CLI to set the password, Neo4j doesn't know this and it reports a limit warning).]
 
-(3) Look in the log file `/home/ubuntu/setup-kg2-neo4j.sh` to see if the script
+(4) Look in the log file `/home/ubuntu/setup-kg2-neo4j.sh` to see if the script
 completed successfully; it should end with `======= script finished ======`.
 
-(4) Load KG2 into Neo4j:
+(5) Load KG2 into Neo4j:
 
     RTX/code/kg2/tsv-to-neo4j.sh
-    
-In Step 4, you will be prompted to enter the Neo4j database password that you chose in step (3).
+
+## Reloading KG2 into an existing Neo4j server
+
+Once you have loaded KG2 into Neo4j as described above, if you want to reload
+KG2, just run (as user `ubuntu`):
+
+    /home/ubuntu/RTX/code/kg2/tsv-to-neo4j.sh
+
+## Co-hosting the KG2 build system and Neo4j server?
+
+In theory, it should be possible to install Neo4j and load KG2 into it on the
+same Ubuntu instance where KG2 was built; but this workflow is usually not
+tested since in our setup, we nearly always perform the KG2 build and Neo4j
+hosting on separate AWS instances.
 
 # Credits
 
