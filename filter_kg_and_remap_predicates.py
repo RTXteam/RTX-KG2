@@ -146,7 +146,7 @@ if __name__ == '__main__':
     del graph['edges']
     graph['edges'] = [edge_dict for edge_dict in new_edges.values()]
     for relation_curie_not_in_config in relation_curies_not_in_config:
-        if not relation_curie.startswith(kg2_util.CURIE_PREFIX_BIOLINK + ':'):
+        if not relation_curie_not_in_config.startswith(kg2_util.CURIE_PREFIX_BIOLINK + ':'):
             print('relation curie is missing from the YAML config file: ' + relation_curie_not_in_config,
                   file=sys.stderr)
     for relation_curie in record_of_relation_curie_occurrences:
