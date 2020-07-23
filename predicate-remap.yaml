@@ -3374,7 +3374,7 @@ SEMMEDDB:precedes:
   - biolink:precedes
 SEMMEDDB:predisposes:
   rename:
-  - predisposes
+  - predisposes_towards
   - MONDO:predisposes_towards
 SEMMEDDB:prep:
   delete: null

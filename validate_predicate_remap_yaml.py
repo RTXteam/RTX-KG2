@@ -29,6 +29,10 @@ def make_arg_parser():
     return arg_parser
 
 
+CURIE_PREFIXES_FOR_NUMBERED_RELATION_TYPES = {kg2_util.CURIE_PREFIX_RO,
+                                              kg2_util.CURIE_PREFIX_NCIT}
+CURIE_PREFIXES_FOR_CAMELCASE_RELATION_TYPES = {kg2_util.CURIE_PREFIX_SKOS}
+
 args = make_arg_parser().parse_args()
 curies_to_urls_map_file_name = args.curiesToURLsMapFile
 predicate_remap_file_name = args.predicateRemapFile
@@ -49,16 +53,22 @@ biolink_edge_labels = {url.replace(kg2_util.BASE_URL_BIOLINK_META, '') for url i
 map_data = yaml.safe_load(open(predicate_remap_file_name, 'r'))
 for relation_curie, instructions_dict in map_data.items():
     for instruction, instructions_list in instructions_dict.items():
+        new_edge_label = None
         if instruction == 'keep':
             relation_curie_to_check = relation_curie
             assert instructions_list is None, relation_curie
         elif instruction == 'delete':
             continue
         else:
-            relation_curie_to_check = instructions_list[1]
+            new_edge_label, relation_curie_to_check = instructions_list
             assert relation_curie_to_check != relation_curie, relation_curie
-        curie_prefix = relation_curie_to_check.split(':')[0]
+        curie_prefix, curie_suffix = relation_curie_to_check.split(':')
         assert curie_prefix in curies_to_url_map_data_bidir, relation_curie_to_check
+        if new_edge_label is not None and new_edge_label != curie_suffix and \
+           (curie_prefix not in CURIE_PREFIXES_FOR_NUMBERED_RELATION_TYPES and
+            (curie_prefix not in CURIE_PREFIXES_FOR_CAMELCASE_RELATION_TYPES or
+             kg2_util.convert_snake_case_to_camel_case(new_edge_label) != curie_suffix)):
+            print("CURIE suffix mismatch with edge label: " + str(instructions_dict))
         if relation_curie_to_check.startswith(kg2_util.CURIE_PREFIX_BIOLINK + ':'):
             edge_label = relation_curie_to_check.replace(kg2_util.CURIE_PREFIX_BIOLINK + ':', '')
             assert edge_label in biolink_edge_labels, relation_curie
@@ -66,3 +76,5 @@ for relation_curie, instructions_dict in map_data.items():
                 assert edge_label == instructions_list[0], relation_curie
             else:
                 assert instruction == 'keep', relation_curie
+
+                
