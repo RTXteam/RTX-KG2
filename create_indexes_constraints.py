@@ -105,7 +105,8 @@ if __name__ == '__main__':
     driver = neo4j.GraphDatabase.driver(bolt, auth=(neo4j_user, neo4j_password))
     node_label_list = node_labels() + ['Base']
 
-    print("NOTE: Please make sure that the Neo4j database is not set to read-only", file=sys.stderr)
+    print("NOTE: If you are running create_indexes_constraints.py standalone and not via tsv-to-neo4j.sh, please make sure to re-set the read-only status of" +
+          " the Neo4j database to TRUE", file=sys.stderr)
 
     # Create Indexes on Node Properties
     create_index(node_label_list, "category")
