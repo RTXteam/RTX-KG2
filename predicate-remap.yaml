@@ -1914,7 +1914,7 @@ NDFRT:has_contraindicating_mechanism_of_action:
   - NCIT:C37933
 NDFRT:has_contraindicating_physiologic_effect:
   rename:
-  - chemical_or_drug_has_physiologic_efefct
+  - chemical_or_drug_has_physiologic_effect
   - NCIT:R125
 NDFRT:has_dose_form:
   rename:
