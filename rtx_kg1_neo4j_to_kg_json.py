@@ -147,7 +147,7 @@ if __name__ == '__main__':
         iri = expand(id)
         if iri is None:
             kg2_util.log_message(message='Invalid CURIE ID that cannot be expanded to an IRI',
-                                 ontology_name='RTXKG1;' + provided_by,
+                                 ontology_name=kg2_util.CURIE_PREFIX_RTX_KG1 + ':' + ';' + provided_by,
                                  node_curie_id=id,
                                  output_stream=sys.stderr)
         symbol = node_dict.get('symbol', None)
@@ -162,6 +162,8 @@ if __name__ == '__main__':
         elif category_label == kg2_util.BIOLINK_CATEGORY_MICRORNA and id.startswith(kg2_util.CURIE_PREFIX_NCBI_GENE + ':'):
             category_label = kg2_util.BIOLINK_CATEGORY_GENE
             synonym_list.append('Biotype:microRNA')
+        elif category_label == kg2_util.BIOLINK_CATEGORY_DISEASE and id.startswith(kg2_util.CURIE_PREFIX_OMIM + ':'):
+            category_label = kg2_util.BIOLINK_CATEGORY_PHENOTYPIC_FEATURE
         node_dict['category'] = kg2_util.convert_biolink_category_to_iri(category_label)
         node_dict['category label'] = category_label.replace(' ', '_')
         node_dict['iri'] = iri
