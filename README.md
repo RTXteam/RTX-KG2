@@ -322,7 +322,7 @@ your AWS instance.  The script should then initiate a `bash` session on the
 remote instance. Within that `bash` session, continue to follow the instructions
 for Option 1, starting at step (4).
 
-### Option 4: in an Ubuntu container in Docker (UNTESTED, IN DEVELOPMENT)
+### Option 4: in an Ubuntu container in Docker
 
 For the Docker option, you will need a *lot* of disk space in the root file system,
 unless you modify the Docker installation to store containers in some other (non-default) 
@@ -334,10 +334,11 @@ run this command in `bash` on the host OS:
     source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/install-docker.sh)
     
 (otherwise, the subsequent commands in this section assume that Docker is
-installed on whatever host system you are running). N For instructions for
-installing Docker on MacOS, see [macos-docker-notes.md](macos-docker-notes.md).
-NOTE: if your docker installation (like on macOS Homebrew) doesn't require
-`sudo`, just omit the `sudo` commands in the host OS below.
+installed on whatever host system you are running). For some notes on how to
+install Docker on MacOS via the Homebrew system, see
+[macos-docker-notes.md](macos-docker-notes.md).  NOTE: if your docker
+installation (like on macOS Homebrew) doesn't require `sudo`, just omit
+`sudo` everywhere you see `sudo docker` in the steps below.
 
 (2) Build a Docker image `kg2:latest`:
 
