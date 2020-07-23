@@ -157,8 +157,10 @@ def make_category_edges(drug: dict):
                     if category["mesh-id"] is not None and \
                        subject_id is not None and \
                        category["category"] is not None:
+                        object_id = kg2_util.CURIE_PREFIX_MESH + ":" + \
+                                    category["mesh-id"]
                         edge = format_edge(subject_id,
-                                           kg2_util.CURIE_PREFIX_MESH + category["mesh-id"],
+                                           object_id,
                                            predicate_label,
                                            category["category"])
                         category_edges.append(edge)
