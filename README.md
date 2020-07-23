@@ -197,8 +197,9 @@ symmetric multiprocessing to bring the build time down to 54 hours (Option #2).
 
 ## Build instructions
 
-Note: to follow the instructions for Option 2 and Option 3 below, you will need
-to be using the `bash` shell on your local computer.
+Note: to follow the instructions for Option 3 and Option 4 below, in addition to
+the requirements as described above, you will need to be using the `bash` shell
+on your *local* computer.
 
 ### Option 1: build KG2 serially (about 67 hours) directly on an Ubuntu system:
 
