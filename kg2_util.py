@@ -148,6 +148,7 @@ BIOLINK_CATEGORY_GENE = 'gene'
 BIOLINK_CATEGORY_GENE_FAMILY = 'gene family'
 BIOLINK_CATEGORY_MACROMOLECULAR_COMPLEX = 'macromolecular complex'
 BIOLINK_CATEGORY_METABOLITE = 'metabolite'
+BIOLINK_CATEGORY_MICRORNA = 'microRNA'
 BIOLINK_CATEGORY_MOLECULAR_ACTIVITY = 'molecular activity'
 BIOLINK_CATEGORY_MOLECULAR_ENTITY = 'molecular entity'
 BIOLINK_CATEGORY_ONTOLOGY_CLASS = 'ontology class'
@@ -502,6 +503,14 @@ def download_file_if_not_exist_locally(url: str, local_file_name: str):
     return local_file_name
 
 
+def cap(word):
+    return word[0].upper() + word[1:]
+
+
+def title_preserving_caps(string):
+    return " ".join(map(cap, string.split(' ')))
+
+
 def convert_snake_case_to_camel_case(name: str,
                                      uppercase_first_letter: bool = False):
     name = name.title().replace('_', '')
@@ -512,7 +521,7 @@ def convert_snake_case_to_camel_case(name: str,
 
 
 def convert_space_case_to_camel_case(name: str):
-    return name.title().replace(' ', '')
+    return title_preserving_caps(name).replace(' ', '')
 
 
 def convert_camel_case_to_snake_case(name: str):

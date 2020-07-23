@@ -147,27 +147,31 @@ if __name__ == '__main__':
         iri = expand(id)
         if iri is None:
             kg2_util.log_message(message='Invalid CURIE ID that cannot be expanded to an IRI',
-                                 ontology_name=provided_by,
+                                 ontology_name='RTXKG1;' + provided_by,
                                  node_curie_id=id,
                                  output_stream=sys.stderr)
-        category_label = node_dict['category'].replace('_', ' ')
-        if category_label == 'molecular function':
-            category_label = kg2_util.BIOLINK_CATEGORY_MOLECULAR_ACTIVITY
-        node_dict['category'] = kg2_util.convert_biolink_category_to_iri(category_label)
-        node_dict['category label'] = category_label.replace(' ', '_')
-        node_dict['iri'] = iri
         symbol = node_dict.get('symbol', None)
         synonym_list = []
         if symbol is not None:
             synonym_list.append(symbol)
             del node_dict['symbol']
+
+        category_label = node_dict['category'].replace('_', ' ')
+        if category_label == 'molecular function':
+            category_label = kg2_util.BIOLINK_CATEGORY_MOLECULAR_ACTIVITY
+        elif category_label == kg2_util.BIOLINK_CATEGORY_MICRORNA and id.startswith(kg2_util.CURIE_PREFIX_NCBI_GENE + ':'):
+            category_label = kg2_util.BIOLINK_CATEGORY_GENE
+            synonym_list.append('Biotype:microRNA')
+        node_dict['category'] = kg2_util.convert_biolink_category_to_iri(category_label)
+        node_dict['category label'] = category_label.replace(' ', '_')
+        node_dict['iri'] = iri
+        node_dict['description'] = node_dict.get('description', None)
         name = node_dict.get('name', None)
         if name is None:
             print("WARNING: node with NULL for the \'name\' field; id=" + id, file=sys.stderr)
             name = None
             node_dict['name'] = name
         node_dict['full name'] = node_dict['name']
-        node_dict['description'] = node_dict.get('description', None)
         node_dict['synonym'] = synonym_list
         node_dict['publications'] = []
         node_dict['update date'] = None
