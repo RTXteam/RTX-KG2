@@ -66,7 +66,7 @@ def create_canonicalized_kg_json(input_slim_kg2_path, output_canonicalized_kg2_p
     else:
         canonicalized_build_node = {'id': 'RTX:KG2C',
                                     'name': f"KG2C:Build - {now}",
-                                    'category label': None}
+                                    'category label': 'data_file'}
     nodes_canonicalized[canonicalized_build_node['id']] = canonicalized_build_node
 
     # Remap edges and merge them as appropriate
