@@ -1367,7 +1367,7 @@ def make_nodes_and_edges(context,
             "edges": edges}
 
 
-def make_kg2_graph(smpdb_dir: str):
+def make_kg2_graph(smpdb_dir: str, test_mode: bool):
     csv_update_date = convert_date(os.path.getmtime(smpdb_dir +
                                                     "pathbank_pathways.csv"))
     smpdb = csv.reader(open(smpdb_dir + "pathbank_pathways.csv"),
@@ -1397,6 +1397,8 @@ def make_kg2_graph(smpdb_dir: str):
         count += 1
         if count % 1000 == 0:
             print(count, " files have been read by ", date())
+        if count % 2000 == 0 and test_mode:
+            break
         if ".pwml" in filename:
             file = open(smpdb_dir + filename)
             try:
@@ -1474,7 +1476,7 @@ if __name__ == '__main__':
     test_mode = args.test
     output_file_name = args.outputFile
     print("Starting build: ", date())
-    graph = make_kg2_graph(smpdb_dir)
+    graph = make_kg2_graph(smpdb_dir,  test_mode)
     print("Finishing build: ", date())
     print("Start saving JSON: ", date())
     kg2_util.save_json(graph, output_file_name, test_mode)
