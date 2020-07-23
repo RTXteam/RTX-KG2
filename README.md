@@ -324,10 +324,10 @@ for Option 1, starting at step (4).
 
 ### Option 4: in an Ubuntu container in Docker
 
-For the Docker option, you will need a *lot* of disk space (as in, at least 800
-GiB) in the root file system, unless you modify the Docker installation to store
-containers in some other (non-default) file system location. Here are the
-instructions:
+For the Docker option, you will need a *lot* of disk space (see disk storage
+requirements above) in the root file system, unless you modify the Docker
+installation to store containers in some other (non-default) file system
+location. Here are the instructions:
 
 (1) Install Docker. If you are on Ubuntu 18.04 and you need to install Docker, you can
 run this command in `bash` on the host OS:
