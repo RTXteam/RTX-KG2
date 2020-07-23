@@ -6,23 +6,13 @@ import os
 import sys
 import time
 from datetime import datetime
+from typing import Dict, List
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/../../ARAX/NodeSynonymizer/")
 from node_synonymizer import NodeSynonymizer
 
 
-def create_canonicalized_kg_json(input_slim_kg2_path, output_canonicalized_kg2_path):
-    print(f"Starting to create {output_canonicalized_kg2_path}..")
-    start = time.time()
-    try:
-        with gzip.open(input_slim_kg2_path, 'r') as input_file:
-            input_kg2 = json.load(input_file)
-    except Exception:
-        print(f"ERROR: Could not find '{input_slim_kg2_path}' file.")
-        return
-    if not input_kg2.get('nodes') or not input_kg2.get('edges'):
-        print(f"ERROR: Input KG json file is missing a nodes and/or edges property.")
-        return
+def create_canonicalized_kg(input_kg2: Dict[str, List[Dict[str, any]]]) -> Dict[str, List[Dict[str, any]]]:
     print(f"  Input KG (non-canonicalized) contains {len(input_kg2['nodes'])} nodes and "
           f"{len(input_kg2['edges'])} edges.")
 
@@ -99,12 +89,7 @@ def create_canonicalized_kg_json(input_slim_kg2_path, output_canonicalized_kg2_p
     for edge in canonicalized_kg['edges']:
         assert set(edge) == {'subject', 'object', 'simplified edge label', 'provided by'}
 
-    # Save the KG to our output file..
-    print(f"  Saving canonicalized data to {output_canonicalized_kg2_path}..")
-    with open(output_canonicalized_kg2_path, 'w+') as output_file:
-        json.dump(canonicalized_kg, output_file)
-
-    print(f"Done! Took {round((time.time() - start) / 60)} minutes.")
+    return canonicalized_kg
 
 
 def main():
@@ -112,7 +97,28 @@ def main():
     parser.add_argument('input_file', type=str, help="Path to input file (e.g., kg2-slim.json.gz)")
     parser.add_argument('output_file', type=str, help="Path to output file (e.g., kg2-canonicalized.json)")
     args = parser.parse_args()
-    create_canonicalized_kg_json(args.input_file, args.output_file)
+
+    print(f"Starting to create {args.output_file}..")
+    start = time.time()
+
+    # Load the input (non-canonicalized) KG
+    try:
+        with gzip.open(args.input_file, 'r') as input_file:
+            input_kg2 = json.load(input_file)
+    except Exception:
+        print(f"ERROR: Could not find '{args.input_file}' file.")
+        return
+    if not input_kg2.get('nodes') or not input_kg2.get('edges'):
+        print(f"ERROR: Input KG json file is missing a nodes and/or edges property.")
+        return
+
+    # Create the canonicalized KG and save it to our output file
+    canonicalized_kg = create_canonicalized_kg(input_kg2)
+    print(f"  Saving canonicalized data to {args.output_file}..")
+    with open(args.output_file, 'w+') as output_file:
+        json.dump(canonicalized_kg, output_file)
+
+    print(f"Done! Took {round((time.time() - start) / 60)} minutes.")
 
 
 if __name__ == "__main__":
