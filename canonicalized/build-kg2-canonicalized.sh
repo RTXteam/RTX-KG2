@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-slim_kg2_file_name = kg2-slim.json.gz
-canonicalized_kg2_file_name = kg2-canonicalized.json
+slim_kg2_file_name=kg2-slim.json.gz
+canonicalized_kg2_file_name=kg2-canonicalized.json
 
 # Grab the latest "slim" KG2 from S3
 aws s3 cp --no-progress --region us-west-2 s3://rtx-kg2/${slim_kg2_file_name}
