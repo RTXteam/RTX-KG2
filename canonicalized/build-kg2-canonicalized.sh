@@ -4,7 +4,7 @@ slim_kg2_file_name=kg2-slim.json.gz
 canonicalized_kg2_file_name=kg2-canonicalized.json
 
 # Grab the latest "slim" KG2 from S3
-aws s3 cp --no-progress --region us-west-2 s3://rtx-kg2/${slim_kg2_file_name}
+aws s3 cp --no-progress --region us-west-2 s3://rtx-kg2/${slim_kg2_file_name} ${slim_kg2_file_name}
 
 # Create the canonicalized KG from the slim KG (represented as json)
 python3 -u create_canonicalized_kg_json.py ${slim_kg2_file_name} ${canonicalized_kg2_file_name}
