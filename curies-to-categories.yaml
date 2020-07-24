@@ -132,6 +132,25 @@ term-mappings:
     MEDDRA:10041244: phenomenon
     MEDDRA:10042613: procedure
     MEDDRA:10047065: disease
+    MESH:D000715: anatomical entity
+    MESH:D000760: procedure
+    MESH:D001520: activity and behavior
+    MESH:D001523: disease
+    MESH:D003933: procedure
+    MESH:D004864: device
+    MESH:D005159: provider
+    MESH:D006281: provider
+    MESH:D008919: procedure
+    MESH:D011579: phenomenon
+    MESH:D013514: procedure
+    MESH:D013812: procedure
+    MESH:D019602: biological entity
+    MESH:U000002: anatomical entity
+    MESH:U000004: phenomenon
+    MESH:U000005: chemical substance
+    MESH:U000006: disease
+    MESH:U000012: organism taxon
+    MESH:U000022: geographic location
     MONDO:0000001: disease
     MONDO:0001227: disease
     MONDO:0020420: disease
