@@ -389,7 +389,7 @@ and the related large KG2 JSON files are stored in a *non-versioned* S3 bucket.
 
 ## Updating the KG2 buid system
 
-We generally try to make the KG2 shell scripts idemopotent, following best
+We generally try to make the KG2 shell scripts idempotent, following best
 practice for *nix shell scripting. However, changes to `setup-kg2-build.sh` (or
 `setup-kg2-neo4j.sh`) that would bring in a new version of a major software
 dependency (e.g., Python) of the KG2 build system are not usually tested for
