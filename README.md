@@ -381,6 +381,25 @@ You can access the various artifacts from the KG2 build (config file, log file,
 etc.) at the AWS static website endpoint for the 
 `rtx-kg2-public` S3 bucket: <http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/>
 
+Each build of KG2 is labeled with a unique build date/timestamp. The build timestamp
+can be found in the `build` slot of the `kg2-simplified.json` file and it can be
+found in the node with ID `RTX:KG2` in the Neo4j KG2 database. Due to the size of KG2,
+we are not currently archiving old builds of KG2 and that is why `kg2-simplified.json`
+and the related large KG2 JSON files are stored in a *non-versioned* S3 bucket.
+
+## Updating the KG2 buid system
+
+We generally try to make the KG2 shell scripts idempotent, following best
+practice for *nix shell scripting. However, changes to `setup-kg2-build.sh` (or
+`setup-kg2-neo4j.sh`) that would bring in a new version of a major software
+dependency (e.g., Python) of the KG2 build system are not usually tested for
+whether they can also upgrade an *existing* installation of the build system;
+this is especially an issue for software dependencies that are installed using
+`apt-get`. In the event that `setup-kg2-build.sh` undergoes a major change that
+would trigger such an upgrade (e.g., from Python3.7 to Python3.8), instead of
+rerunning `setup-kg2-build.sh` on your existing build system, we recommend that
+you create a clean Ubuntu 18.04 instance and install using `setup-kg2-build.sh`.
+
 ## Hosting KG2 in a Neo4j server on a new AWS instance
 
 We host our production KG2 graph database in Neo4j version 3.5.13 with APOC

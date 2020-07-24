@@ -1403,7 +1403,7 @@ def make_kg2_graph(smpdb_dir: str, test_mode: bool):
         count += 1
         if count % 1000 == 0:
             print(count, " files have been read by ", date())
-        if count % 2000 == 0 and test_mode:
+        if count == 2000 and test_mode:
             break
         if ".pwml" in filename:
             file = open(smpdb_dir + filename)
