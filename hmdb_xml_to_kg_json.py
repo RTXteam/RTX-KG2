@@ -605,7 +605,7 @@ def make_property_edges(metabolite: dict, hmdb_id: str):
         for pathway in pathways:
             object_id = pathway["smpdb_id"]
             if object_id is not None:
-                object_id = "SMP00" + object_id.split("SMP")[1]
+                object_id = "SMP00" + object_id.split("SMP")[1] # Temporary, see #976
                 edge = make_hmdb_edge(hmdb_id,
                                       object_id,
                                       CURIE_PREFIX_HMDB,
@@ -617,7 +617,7 @@ def make_property_edges(metabolite: dict, hmdb_id: str):
     elif pathways is not None:
         object_id = pathways["smpdb_id"]
         if object_id is not None:
-            object_id = "SMP00" + object_id.split("SMP")[1]
+            object_id = "SMP00" + object_id.split("SMP")[1] # Temporary, see #976
             edge = make_hmdb_edge(hmdb_id,
                                   object_id,
                                   CURIE_PREFIX_HMDB,
