@@ -154,7 +154,7 @@ if __name__ == '__main__':
             print('relation curie is in the config file but was not detected in the graph: ' + relation_curie, file=sys.stderr)
     for relation_curie in relation_curies_not_in_nodes:
         print('could not get IRI for relation curie: ' + relation_curie)
-    update_date = datetime.now().strftime("%Y-%m-%d %H:%M"),
+    update_date = datetime.now().strftime("%Y-%m-%d %H:%M")
     build_info = kg2_util.make_node(kg2_util.CURIE_PREFIX_RTX + ':' + 'KG2',
                                     kg2_util.BASE_URL_RTX + 'KG2',
                                     'KG2:Build',
