@@ -35,8 +35,7 @@ CURIE_PREFIX_HMDB = kg2_util.CURIE_PREFIX_HMDB
 def get_args():
     arg_parser = argparse.ArgumentParser(description='hmdb_xml_to_kg_json.py: \
                                          builds a KG2 JSON representation of \
-                                         SMPDB pathways using the PWML \
-                                         dump and CSV files')
+                                         HMDB Metabolites using the XML dump')
     arg_parser.add_argument('--test',
                             dest='test',
                             action="store_true",
@@ -606,6 +605,7 @@ def make_property_edges(metabolite: dict, hmdb_id: str):
         for pathway in pathways:
             object_id = pathway["smpdb_id"]
             if object_id is not None:
+                object_id = "SMP00" + object_id.split("SMP")[1] # Temporary, see #976
                 edge = make_hmdb_edge(hmdb_id,
                                       object_id,
                                       CURIE_PREFIX_HMDB,
@@ -617,6 +617,7 @@ def make_property_edges(metabolite: dict, hmdb_id: str):
     elif pathways is not None:
         object_id = pathways["smpdb_id"]
         if object_id is not None:
+            object_id = "SMP00" + object_id.split("SMP")[1] # Temporary, see #976
             edge = make_hmdb_edge(hmdb_id,
                                   object_id,
                                   CURIE_PREFIX_HMDB,
@@ -630,7 +631,6 @@ def make_property_edges(metabolite: dict, hmdb_id: str):
 
 
 if __name__ == '__main__':
-    filename = "urine_metabolites"
     args = get_args()
     print("Script starting at", date())
     print("Starting load at", date())

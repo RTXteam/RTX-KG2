@@ -290,6 +290,7 @@ def per_compound_nodes_and_edges(compound: dict, pw_id: str, date):
     chebi_id = compound["chebi-id"]
     drugbank_id = compound["drugbank-id"]
     kegg_id = compound["kegg-id"]
+    hmdb_id = compound["hmdb-id"]
 
     id_list = []
     id_prefixes = {}
@@ -313,6 +314,11 @@ def per_compound_nodes_and_edges(compound: dict, pw_id: str, date):
                   id_list,
                   kegg_id,
                   kg2_util.CURIE_PREFIX_KEGG)
+
+    add_if_string(id_prefixes,
+                  id_list,
+                  hmdb_id,
+                  kg2_util.CURIE_PREFIX_HMDB)
 
     for edge in equivocate(id_prefixes,
                            id_list,
