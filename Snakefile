@@ -5,7 +5,7 @@ rule Finish:
         stats_simplify = config['SIMPLIFIED_REPORT_FILE_FULL'],
         nodes_simplify = config['SIMPLIFIED_OUTPUT_NODES_FILE_FULL'],
         kg_original = config['FINAL_OUTPUT_FILE_FULL'],
-        kg_simplify = config['SIMPLIFIED_OUTPUT_NODES_FILE_FULL'],
+        kg_simplify = config['SIMPLIFIED_OUTPUT_FILE_FULL'],
         orphan = config['OUTPUT_FILE_ORPHAN_EDGES'],
         slim = config['SLIM_OUTPUT_FILE_FULL'],
         placeholder = config['BUILD_DIR'] + "/tsv_placeholder.empty"
@@ -28,7 +28,19 @@ rule Finish:
 #        shell(config['S3_CP_CMD'] + " {input.orphan}.gz s3://rtx-kg2-public")
 #        shell(config['S3_CP_CMD'] + " " + config['KG2_TSV_TARBALL'] + " s3://rtx-kg2-public")
 
+
+rule ValidationTests:
+    output:
+        config['BUILD_DIR'] + "/validation-placeholder.empty"
+    log:
+        config['BUILD_DIR'] + "/run-validation-tests.log"
+    shell:
+        "bash -x " + config['CODE_DIR'] + "/run-validation-tests.sh > {log} 2>&1 && touch {output}"
+
+
 rule UMLS:
+    input:
+        config['BUILD_DIR'] + "/validation-placeholder.empty"
     output:
         config['BUILD_DIR'] + "/umls-placeholder.empty"
     log:
@@ -37,6 +49,8 @@ rule UMLS:
         "bash -x " + config['CODE_DIR'] + "/extract-umls.sh " + config['BUILD_DIR'] + " > {log} 2>&1 && touch {output}" 
 
 rule SemMedDB:
+    input:
+        config['BUILD_DIR'] + "/validation-placeholder.empty"
     output:
         config['SEMMED_TUPLELIST_FILE']
     log:
@@ -45,6 +59,8 @@ rule SemMedDB:
         "bash -x " + config['CODE_DIR'] + "/extract-semmeddb.sh {output} " + config['test'] + " > {log} 2>&1"
 
 rule UniprotKB:
+    input:
+        config['BUILD_DIR'] + "/validation-placeholder.empty"
     output:
         config['UNIPROTKB_DAT_FILE']
     log:
@@ -53,6 +69,8 @@ rule UniprotKB:
         "bash -x " + config['CODE_DIR'] + "/extract-uniprotkb.sh {output} > {log} 2>&1"
 
 rule Ensembl:
+    input:
+        config['BUILD_DIR'] + "/validation-placeholder.empty"
     output:
         config['ENSEMBL_SOURCE_JSON_FILE']
     log:
@@ -61,6 +79,8 @@ rule Ensembl:
         "bash -x " + config['CODE_DIR'] + "/extract-ensembl.sh > {log} 2>&1"
 
 rule UniChem:
+    input:
+        config['BUILD_DIR'] + "/validation-placeholder.empty"
     output:
         config['UNICHEM_OUTPUT_TSV_FILE']
     log:
@@ -69,6 +89,8 @@ rule UniChem:
         "bash -x " + config['CODE_DIR'] + "/extract-unichem.sh {output} > {log} 2>&1"
 
 rule ChemBL:
+    input:
+        config['BUILD_DIR'] + "/validation-placeholder.empty"
     output:
         placeholder = config['BUILD_DIR'] + "/chembl-placeholder.empty"
     log:
@@ -77,6 +99,8 @@ rule ChemBL:
         "bash -x " + config['CODE_DIR'] + "/extract-chembl.sh " + config['CHEMBL_MYSQL_DBNAME'] +" > {log} 2>&1 && touch {output.placeholder}"
 
 rule NCBIGene:
+    input:
+        config['BUILD_DIR'] + "/validation-placeholder.empty"
     output:
         config['NCBI_GENE_TSV_FILE']
     log:
@@ -85,6 +109,8 @@ rule NCBIGene:
         "bash -x " + config['CODE_DIR'] + "/extract-ncbigene.sh {output} > {log} 2>&1"
 
 rule DGIDB:
+    input:
+        config['BUILD_DIR'] + "/validation-placeholder.empty"
     output:
         config['DGIDB_DIR'] + "/interactions.tsv"
     log:
@@ -93,6 +119,8 @@ rule DGIDB:
         "bash -x " + config['CODE_DIR'] + "/extract-dgidb.sh " + config['DGIDB_DIR'] + " > {log} 2>&1"
 
 rule RepoDB:
+    input:
+        config['BUILD_DIR'] + "/validation-placeholder.empty"
     output:
         config['REPODB_INPUT_FILE']
     log:
@@ -101,6 +129,8 @@ rule RepoDB:
         "bash -x " + config['CODE_DIR'] + "/download-repodb-csv.sh " + config['REPODB_DIR'] + " > {log} 2>&1"
 
 rule SMPDB:
+    input:
+        config['BUILD_DIR'] + "/validation-placeholder.empty"
     output:
         config['SMPDB_INPUT_FILE']
     log:
@@ -109,6 +139,8 @@ rule SMPDB:
         "bash -x " + config['CODE_DIR'] + "/extract-smpdb.sh " + config['SMPDB_DIR'] + " > {log} 2>&1"
 
 rule DrugBank:
+    input:
+        config['BUILD_DIR'] + "/validation-placeholder.empty"
     output:
         config['DRUGBANK_INPUT_FILE']
     log:
@@ -117,6 +149,8 @@ rule DrugBank:
         "bash -x " + config['CODE_DIR'] + "/extract-drugbank.sh {output} > {log} 2>&1"
 
 rule HMDB:
+    input:
+        config['BUILD_DIR'] + "/validation-placeholder.empty"
     output:
         config['HMDB_INPUT_FILE']
     log:
@@ -125,6 +159,8 @@ rule HMDB:
         "bash -x " + config['CODE_DIR'] + "/extract-hmdb.sh > {log} 2>&1"
 
 rule KG_One:
+    input:
+        config['BUILD_DIR'] + "/validation-placeholder.empty"
     output:
         config['KG1_OUTPUT_FILE']
     run:
@@ -139,7 +175,7 @@ rule Ontologies_and_TTL:
     log:
         config['BUILD_DIR'] + "/build-multi-owl-kg.log"
     shell:
-        "bash -x " + config['VENV_DIR'] + "/build-multi-owl-kg.sh {output} " + config['test'] + " > {log} 2>&1" 
+        "bash -x " + config['CODE_DIR'] + "/build-multi-ont-kg.sh {output} " + config['test'] + " > {log} 2>&1" 
 
 rule NCBIGene_Conversion:
     input:

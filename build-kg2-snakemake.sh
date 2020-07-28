@@ -107,6 +107,7 @@ KG2_TSV_TARBALL=${BUILD_DIR}/kg2-tsv${TEST_ARG_D}.tar.gz
 PREDICATE_MAPPING_FILE=${CODE_DIR}/predicate-remap.yaml
 
 # Run snakemake from the virtualenv but run the snakefile in kg2-code
+# -F: Run all of the rules in the snakefile
 # -R Finish: Run all of the rules in the snakefile
 # -j: Run the rules in parallel
 # -config: give the test arguments to the snakefile
