@@ -47,17 +47,14 @@ def create_canonicalized_kg(input_kg2: Dict[str, List[Dict[str, any]]]) -> Dict[
           f"({round((len(nodes_canonicalized) / len(original_nodes)) * 100)}% of input KG).")
 
     # Record info about this build in a node
-    original_build_node = original_nodes.get('RTX:KG2')
     now = datetime.now().strftime('%Y-%m-%d %H:%M')
-    if original_build_node:
-        canonicalized_build_node = nodes_canonicalized.pop('RTX:KG2')
-        canonicalized_build_node['id'] = 'RTX:KG2C'
-        canonicalized_build_node['name'] = f"KG2C:Build - {now}, built from {original_build_node['update date']} KG2 build"
-    else:
-        canonicalized_build_node = {'id': 'RTX:KG2C',
-                                    'name': f"KG2C:Build - {now}",
-                                    'category label': 'data_file'}
+    canonicalized_build_node = {'id': 'RTX:KG2C',
+                                'name': f"KG2C:Build - {now}",
+                                'category label': 'data_file'}
     nodes_canonicalized[canonicalized_build_node['id']] = canonicalized_build_node
+    original_build_node = original_nodes.get('RTX:KG2')
+    if original_build_node:
+        nodes_canonicalized.pop('RTX:KG2')
 
     # Remap edges and merge them as appropriate
     print(f"  Remapping and merging edges..")
@@ -80,7 +77,10 @@ def create_canonicalized_kg(input_kg2: Dict[str, List[Dict[str, any]]]) -> Dict[
     # Put together our final canonicalized KG
     canonicalized_kg = {'nodes': list(nodes_canonicalized.values()),
                         'edges': list(edges_canonicalized.values())}
-    print(f"  Canonicalized KG contains {len(canonicalized_kg['nodes'])} nodes and {len(canonicalized_kg['edges'])} edges.")
+    print(f"  Canonicalized KG contains {len(canonicalized_kg['nodes'])} nodes "
+          f"({round((len(canonicalized_kg['nodes']) / len(input_kg2['nodes'])) * 100)}%) and "
+          f"{len(canonicalized_kg['edges'])} edges "
+          f"({round((len(canonicalized_kg['edges']) / len(input_kg2['edges'])) * 100)}%).")
 
     # Verify format is as expected
     print(f"  Verifying node/edge structure is as expected..")
