@@ -66,6 +66,7 @@ def canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any]
 
 
 def remap_edges(edges: List[Dict[str, any]], curie_map: Dict[str, str]) -> List[Dict[str, any]]:
+    allowed_self_edges = ['positively_regulates', 'interacts_with', 'increase']
     merged_edges = dict()
     for edge in edges:
         original_source_id = edge['subject']
@@ -73,14 +74,15 @@ def remap_edges(edges: List[Dict[str, any]], curie_map: Dict[str, str]) -> List[
         canonicalized_source_id = curie_map.get(original_source_id, original_source_id)
         canonicalized_target_id = curie_map.get(original_target_id, original_target_id)
         edge_type = edge['simplified_edge_label']
-        remapped_edge_key = f"{canonicalized_source_id}--{edge_type}--{canonicalized_target_id}"
-        if remapped_edge_key in merged_edges:
-            merged_edge = merged_edges[remapped_edge_key]
-            merged_edge['provided_by'] = list(set(merged_edge['provided_by'] + edge['provided_by']))
-        else:
-            edge['subject'] = canonicalized_source_id
-            edge['object'] = canonicalized_target_id
-            merged_edges[remapped_edge_key] = edge
+        if canonicalized_source_id != canonicalized_target_id or edge_type in allowed_self_edges:
+            remapped_edge_key = f"{canonicalized_source_id}--{edge_type}--{canonicalized_target_id}"
+            if remapped_edge_key in merged_edges:
+                merged_edge = merged_edges[remapped_edge_key]
+                merged_edge['provided_by'] = list(set(merged_edge['provided_by'] + edge['provided_by']))
+            else:
+                edge['subject'] = canonicalized_source_id
+                edge['object'] = canonicalized_target_id
+                merged_edges[remapped_edge_key] = edge
     return list(merged_edges.values())
 
 
