@@ -92,16 +92,16 @@ def create_canonicalized_tsvs(test=False):
     nodes_query = f"match (n) return n.id as id, n.name as name, n.category_label as category_label{' limit 50000' if test else ''}"
     nodes = _run_cypher_query(nodes_query)
     if nodes:
-        column_headers = nodes[0].keys()
         print(f"  Canonicalizing nodes..")
         canonicalized_nodes, curie_map = canonicalize_nodes(nodes)
         print(f"  Canonicalized KG contains {len(canonicalized_nodes)} nodes ({round((len(canonicalized_nodes) / len(nodes)) * 100)}%)")
         print(f"  Creating nodes header file..")
-        with open("nodes_c_header.tsv", "w+") as nodes_header_file:
+        column_headers = canonicalized_nodes[0].keys()
+        with open(f"{'test_' if test else ''}nodes_c_header.tsv", "w+") as nodes_header_file:
             dict_writer = csv.DictWriter(nodes_header_file, column_headers, delimiter='\t')
             dict_writer.writeheader()
         print(f"  Creating nodes file..")
-        with open("nodes_c.tsv", "w+") as nodes_file:
+        with open(f"{'test_' if test else ''}nodes_c.tsv", "w+") as nodes_file:
             dict_writer = csv.DictWriter(nodes_file, column_headers, delimiter='\t')
             dict_writer.writerows(canonicalized_nodes)
     else:
@@ -114,16 +114,16 @@ def create_canonicalized_tsvs(test=False):
                   f"simplified_edge_label, e.provided_by as provided_by{' limit 50000' if test else ''}"
     edges = _run_cypher_query(edges_query)
     if edges:
-        column_headers = edges[0].keys()
         print(f"  Remapping edges..")
         remapped_edges = remap_edges(edges, curie_map)
         print(f"  Canonicalized KG contains {len(remapped_edges)} edges ({round((len(remapped_edges) / len(edges)) * 100)}%)")
         print(f"  Creating edges header file..")
-        with open("edges_c_header.tsv", "w+") as edges_header_file:
+        column_headers = remapped_edges[0].keys()
+        with open(f"{'test_' if test else ''}edges_c_header.tsv", "w+") as edges_header_file:
             dict_writer = csv.DictWriter(edges_header_file, column_headers, delimiter='\t')
             dict_writer.writeheader()
         print(f"  Creating edges file..")
-        with open("edges_c.tsv", "w+") as edges_file:
+        with open(f"{'test_' if test else ''}edges_c.tsv", "w+") as edges_file:
             dict_writer = csv.DictWriter(edges_file, column_headers, delimiter='\t')
             dict_writer.writerows(remapped_edges)
     else:
