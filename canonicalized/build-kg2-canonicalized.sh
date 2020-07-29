@@ -4,9 +4,9 @@ set -e
 rtx_dir=${1:-~/RTX}
 
 # Rebuild NodeSynonymizer using the latest KG2
-cd ${rtx-dir}/data/KGmetadata
+cd ${rtx_dir}/data/KGmetadata
 python3 dumpdata.py
-cd ${rtx-dir}/code/ARAX/NodeSynonymizer
+cd ${rtx_dir}/code/ARAX/NodeSynonymizer
 python3 sri_node_normalizer.py --build
 python3 node_synonymizer.py --build --kg_name=both
 
