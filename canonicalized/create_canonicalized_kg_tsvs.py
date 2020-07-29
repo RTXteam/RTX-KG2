@@ -57,7 +57,8 @@ def canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any]
             node['id'] = canonicalized_curie
             node['category_label'] = canonical_info.get('preferred_type', node['category_label'])
             node['name'] = canonical_info.get('preferred_name', node['name'])
-            # TODO: also store list of types (once added to NodeSynonymizer output)
+            # TODO: also store list of types (once added to NodeSynonymizer output) and equivalent curies on nodes
+            # TODO: add a KG2C build node (and remove the one from original KG2/use data from it)
         else:
             curie_map[node['id']] = node['id']
         canonicalized_nodes[node['id']] = node
@@ -67,17 +68,19 @@ def canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any]
 def remap_edges(edges: List[Dict[str, any]], curie_map: Dict[str, str]) -> List[Dict[str, any]]:
     merged_edges = dict()
     for edge in edges:
-        source_id = edge['subject']
-        target_id = edge['object']
+        original_source_id = edge['subject']
+        original_target_id = edge['object']
+        canonicalized_source_id = curie_map.get(original_source_id, original_source_id)
+        canonicalized_target_id = curie_map.get(original_target_id, original_target_id)
         edge_type = edge['simplified_edge_label']
-        edge_key = f"{source_id}--{edge_type}--{target_id}"
-        if edge_key in merged_edges:
-            merged_edge = merged_edges[edge_key]
+        remapped_edge_key = f"{canonicalized_source_id}--{edge_type}--{canonicalized_target_id}"
+        if remapped_edge_key in merged_edges:
+            merged_edge = merged_edges[remapped_edge_key]
             merged_edge['provided_by'] = list(set(merged_edge['provided_by'] + edge['provided_by']))
         else:
-            edge['subject'] = curie_map.get(source_id, source_id)
-            edge['object'] = curie_map.get(target_id, target_id)
-            merged_edges[edge_key] = edge
+            edge['subject'] = canonicalized_source_id
+            edge['object'] = canonicalized_target_id
+            merged_edges[remapped_edge_key] = edge
     return list(merged_edges.values())
 
 
