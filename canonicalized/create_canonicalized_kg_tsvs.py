@@ -105,7 +105,7 @@ def remap_edges(edges: List[Dict[str, any]], curie_map: Dict[str, str]) -> List[
 def create_canonicalized_tsvs(test=False):
     # Grab the node data from KG2 neo4j and load it into TSVs
     print(f" Starting nodes..")
-    nodes_query = f"match (n) return n.id as id, n.name as name, n.category_label as category_label{' limit 30000' if test else ''}"
+    nodes_query = f"match (n) return n.id as id, n.name as name, n.category_label as category_label{' limit 20000' if test else ''}"
     nodes = _run_cypher_query(nodes_query)
     if nodes:
         print(f"  Canonicalizing nodes..")
@@ -127,7 +127,7 @@ def create_canonicalized_tsvs(test=False):
     # Grab the edge data from KG2 neo4j and load it into TSVs
     print(f" Starting edges..")
     edges_query = f"match (n)-[e]->(m) return n.id as subject, m.id as object, e.simplified_edge_label as " \
-                  f"simplified_edge_label, e.provided_by as provided_by{' limit 30000' if test else ''}"
+                  f"simplified_edge_label, e.provided_by as provided_by{' limit 20000' if test else ''}"
     edges = _run_cypher_query(edges_query)
     if edges:
         print(f"  Remapping edges..")
