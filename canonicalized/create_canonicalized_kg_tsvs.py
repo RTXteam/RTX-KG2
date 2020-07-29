@@ -11,6 +11,7 @@ import sys
 import time
 import traceback
 
+from datetime import datetime
 from typing import List, Dict, Tuple
 from neo4j import GraphDatabase
 
@@ -57,11 +58,26 @@ def canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any]
             node['id'] = canonicalized_curie
             node['category_label'] = canonical_info.get('preferred_type', node['category_label'])
             node['name'] = canonical_info.get('preferred_name', node['name'])
-            # TODO: also store list of types (once added to NodeSynonymizer output) and equivalent curies on nodes
-            # TODO: add a KG2C build node (and remove the one from original KG2/use data from it)
         else:
             curie_map[node['id']] = node['id']
         canonicalized_nodes[node['id']] = node
+
+    # Create a node containing information about this KG2C build, and remove the original build node
+    new_build_node = {'id': 'RTX:KG2C',
+                      'name': f"KG2C:Build created on {datetime.now().strftime('%Y-%m-%d %H:%M')}",
+                      'category_label': 'data_file'}
+    if 'RTX:KG2' in canonicalized_nodes:
+        original_build_node = canonicalized_nodes.pop('RTX:KG2')
+        new_build_node['name'] += f", from {original_build_node['update_date']} KG2 build"
+    canonicalized_nodes[new_build_node['id']] = new_build_node
+
+    # Add synonymization info to nodes
+    print(f"  Sending NodeSynonymizer.get_equivalent_nodes() a list of {len(node_ids)} curies..")
+    equivalent_curies_dict = synonymizer.get_equivalent_nodes(list(canonicalized_nodes.keys()))
+    for canonicalized_node_id, canonicalized_node in canonicalized_nodes.items():
+        canonicalized_node['equivalent_curies'] = equivalent_curies_dict.get(canonicalized_node_id)
+        # TODO: also store list of node types (once added to NodeSynonymizer output)
+
     return list(canonicalized_nodes.values()), curie_map
 
 
@@ -89,7 +105,7 @@ def remap_edges(edges: List[Dict[str, any]], curie_map: Dict[str, str]) -> List[
 def create_canonicalized_tsvs(test=False):
     # Grab the node data from KG2 neo4j and load it into TSVs
     print(f" Starting nodes..")
-    nodes_query = f"match (n) return n.id as id, n.name as name, n.category_label as category_label{' limit 50000' if test else ''}"
+    nodes_query = f"match (n) return n.id as id, n.name as name, n.category_label as category_label{' limit 30000' if test else ''}"
     nodes = _run_cypher_query(nodes_query)
     if nodes:
         print(f"  Canonicalizing nodes..")
@@ -111,7 +127,7 @@ def create_canonicalized_tsvs(test=False):
     # Grab the edge data from KG2 neo4j and load it into TSVs
     print(f" Starting edges..")
     edges_query = f"match (n)-[e]->(m) return n.id as subject, m.id as object, e.simplified_edge_label as " \
-                  f"simplified_edge_label, e.provided_by as provided_by{' limit 50000' if test else ''}"
+                  f"simplified_edge_label, e.provided_by as provided_by{' limit 30000' if test else ''}"
     edges = _run_cypher_query(edges_query)
     if edges:
         print(f"  Remapping edges..")
