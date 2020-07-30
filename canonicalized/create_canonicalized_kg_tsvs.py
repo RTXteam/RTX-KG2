@@ -71,12 +71,12 @@ def canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any]
         new_build_node['name'] += f", from {original_build_node['update_date']} KG2 build"
     canonicalized_nodes[new_build_node['id']] = new_build_node
 
-    # Add synonymization info to nodes
-    print(f"  Sending NodeSynonymizer.get_equivalent_nodes() a list of {len(node_ids)} curies..")
-    equivalent_curies_dict = synonymizer.get_equivalent_nodes(list(canonicalized_nodes.keys()))
-    for canonicalized_node_id, canonicalized_node in canonicalized_nodes.items():
-        canonicalized_node['equivalent_curies'] = equivalent_curies_dict.get(canonicalized_node_id)
-        # TODO: also store list of node types (once added to NodeSynonymizer output)
+    # Add synonymization info to nodes (equivalent curies, list of node types)
+    # print(f"  Sending NodeSynonymizer.get_equivalent_nodes() a list of {len(node_ids)} curies..")
+    # equivalent_curies_dict = synonymizer.get_equivalent_nodes(list(canonicalized_nodes.keys()))
+    # for canonicalized_node_id, canonicalized_node in canonicalized_nodes.items():
+    #     canonicalized_node['equivalent_curies'] = equivalent_curies_dict.get(canonicalized_node_id)
+    #     # TODO: also store list of node types (once added to NodeSynonymizer output)
 
     return list(canonicalized_nodes.values()), curie_map
 
