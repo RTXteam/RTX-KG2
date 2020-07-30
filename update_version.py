@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
-''' hmdb_xml_to_kg_json.py: Extracts a KG2 JSON file from the
-    HMDB metabolite download in XML format
+''' update_version.py: increments the version of KG2
 
-    Usage: hmdb_xml_to_kg_json.py [--test] <inputFile.xml>
+    Usage: update_version.py [--increment] <versionFile.txt>
     <outputFile.json>
 '''
 
