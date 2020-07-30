@@ -398,9 +398,15 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
             if value is not None and value != stored_value:
                 if type(value) == str and type(stored_value) == str:
                     if value.lower() != stored_value.lower():
-                        if key == 'description' or key == 'update date':
-                            if len(value) > len(stored_value):  # use the longer of the two descriptions or update date fields
+                        if key == 'update date':
+                            # Use the longer of the two update-date fields
+                            #   NOTE: this is not ideal; better to have actual
+                            #         dates (and not strings) so we can use the
+                            #         most recent date
+                            if len(value) > len(stored_value):
                                 ret_dict[key] = value
+                        elif key == 'description':
+                            ret_dict[key] = stored_value + '; ' + value
                         elif key == 'ontology node type':
                             log_message("warning:  for key: " + key + ", dropping second value: " + value + '; keeping first value: ' + stored_value,
                                         output_stream=sys.stderr)
