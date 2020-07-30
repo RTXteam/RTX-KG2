@@ -297,7 +297,7 @@ rule Merge:
 rule Nodes:
     input:
         real = config['FINAL_OUTPUT_FILE_FULL'],
-        placeholder = config['BUILD_DIR'] + "/kg2-report" + config['testd'] + ".json"
+        placeholder = config['REPORT_FILE_FULL']
     output:
         config['OUTPUT_NODES_FILE_FULL']
     shell:
@@ -317,8 +317,11 @@ rule Simplify:
         placeholder = config['OUTPUT_NODES_FILE_FULL']
     output:
         config['SIMPLIFIED_OUTPUT_FILE_FULL']
-    shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/filter_kg_and_remap_predicates.py " + config['testdd'] + " --dropNegated --dropSelfEdgesExcept interacts_with,positively_regulates,inhibits,increase " + config['PREDICATE_MAPPING_FILE'] + " " + config['CURIES_TO_URLS_FILE'] + " {input.real} {output}"
+    log:
+        config['BUILD_DIR'] + "/filter_kg_and_remap_predicates.log"
+    run:
+        shell("bash -x " + config['CODE_DIR'] + "/version.sh " + config['VERSION_FILE'] + " > {log} 2>&1")
+        shell(config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/filter_kg_and_remap_predicates.py " + config['testdd'] + " --dropNegated --dropSelfEdgesExcept interacts_with,positively_regulates,inhibits,increase " + config['PREDICATE_MAPPING_FILE'] + " " + config['CURIES_TO_URLS_FILE'] + " {input.real} {output} " + config['VERSION_FILE'] + " >> {log} 2>&1")
 
 rule Simplify_Nodes:
     input:

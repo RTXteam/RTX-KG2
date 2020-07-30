@@ -118,6 +118,8 @@ KG1_OUTPUT_FILE=${BUILD_DIR}/kg2-rtx-kg1${TEST_SUFFIX}.json
 KG2_TSV_DIR=${BUILD_DIR}/TSV
 KG2_TSV_TARBALL=${BUILD_DIR}/kg2-tsv${TEST_SUFFIX}.tar.gz
 
+VERSION_FILE=${BUILD_DIR}/kg2-version.txt
+
 cd ${BUILD_DIR}
 
 MEM_GB=`${CODE_DIR}/get-system-memory-gb.sh`
@@ -328,6 +330,13 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/report_stats_on_json_kg.py \
            ${FINAL_OUTPUT_FILE_FULL} \
            ${REPORT_FILE_FULL}
 
+
+echo "increase version of KG2"
+
+## Increase the version of KG2
+
+bash -x ${CODE_DIR}/version.sh ${VERSION_FILE}
+
 echo "filter the JSON KG and remap predicates"
 
 ## Filter the JSON KG and remap predicates:
@@ -339,7 +348,8 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/filter_kg_and_remap_predicates.py \
            ${PREDICATE_MAPPING_FILE} \
            ${CURIES_TO_URLS_FILE} \
            ${FINAL_OUTPUT_FILE_FULL} \
-           ${SIMPLIFIED_OUTPUT_FILE_FULL}
+           ${SIMPLIFIED_OUTPUT_FILE_FULL} \
+           ${VERSION_FILE}
 
 echo "running get_nodes_json_from_kg_json.py (for simplified KG)"
 
