@@ -410,6 +410,10 @@ DGIdb:vaccine:
   rename:
   - negatively_regulates_process_to_process
   - biolink:negatively_regulates_process_to_process
+DRUGBANK:category:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
 DRUGBANK:drug-interaction:
   rename:
   - physically_interacts_with
