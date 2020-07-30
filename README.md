@@ -233,7 +233,7 @@ that it provides control over which branch you want to use for the KG2 build cod
 
 Note that there is no need to redirect `stdout` or `stderr` to a log file, when
 executing `setup-kg2-build.sh`; this is because the script saves its own `stdout` and
-`stderr` to a log file `${HOME}/setup-kg2.log`. This script takes just a
+`stderr` to a log file `${HOME}/setup-kg2-build.log`. This script takes just a
 few minutes to complete. At some point, the script will print
 
     fatal error: Unable to locate credentials
