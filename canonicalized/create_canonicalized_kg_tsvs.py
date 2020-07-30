@@ -67,8 +67,7 @@ def canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any]
                       'name': f"KG2C:Build created on {datetime.now().strftime('%Y-%m-%d %H:%M')}",
                       'category_label': 'data_file'}
     if 'RTX:KG2' in canonicalized_nodes:
-        original_build_node = canonicalized_nodes.pop('RTX:KG2')
-        new_build_node['name'] += f", from {original_build_node['update_date']} KG2 build"
+        canonicalized_nodes.pop('RTX:KG2')
     canonicalized_nodes[new_build_node['id']] = new_build_node
 
     # Add synonymization info to nodes (equivalent curies, list of node types)
