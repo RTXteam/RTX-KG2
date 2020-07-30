@@ -43,5 +43,3 @@ cat /etc/neo4j/neo4j.conf | sed 's/#dbms.security.procedures.unrestricted=my.ext
 sudo mv /tmp/neo4j.conf /etc/neo4j
 
 echo "Not starting Neo4j so that you can configure its initial password using neo4j-admin set-initial-password <PWD>"
-
-
