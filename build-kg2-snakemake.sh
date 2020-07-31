@@ -12,27 +12,27 @@ fi
 
 # Usage: build-kg2-snakemake.sh [test]
 
-CONFIG_DIR=`dirname "$0"`
-source ${CONFIG_DIR}/master-config.shinc
+config_dir=`dirname "$0"`
+source ${config_dir}/master-config.shinc
 
 {
 echo "================= starting build-kg2-snakemake.sh =================="
 date
 
-BUILD_FLAG=${1-""}
+build_flag=${1-""}
 
-if [[ "${BUILD_FLAG}" == "test" ]]
+if [[ "${build_flag}" == "test" ]]
 then
     # The test argument for bash scripts (ex. extract-semmeddb.sh test)
-    TEST_ARG="test"
+    test_arg="test"
     # The test argument for file names (ex. kg2-owl-test.json)
-    TEST_ARG_D="-test"
+    test_arg_d="-test"
     # The test argument for python scripts (ex. python3 uniprotkb_dat_to_json.py --test)
-    TEST_ARG_DD="--test"
+    test_arg_dd="--test"
 else
-    TEST_ARG=""
-    TEST_ARG_D=""
-    TEST_ARG_DD=""
+    test_arg=""
+    test_arg_d=""
+    test_arg_dd=""
 fi
 
 SEMMED_TUPLELIST_FILE=${BUILD_DIR}/semmeddb/kg2-semmeddb${TEST_ARG_D}-tuplelist.json
@@ -71,7 +71,7 @@ ENSEMBL_OUTPUT_FILE=${BUILD_DIR}/kg2-ensembl${TEST_ARG_D}.json
 
 CHEMBL_OUTPUT_FILE=${BUILD_DIR}/kg2-chembl${TEST_ARG_D}.json
 
-OWL_LOAD_INVENTORY_FILE=${CODE_DIR}/owl-load-inventory${TEST_ARG_D}.yaml
+OWL_LOAD_INVENTORY_FILE=${CODE_DIR}/ont-load-inventory${TEST_ARG_D}.yaml
 
 CHEMBL_MYSQL_DBNAME=chembl
 
@@ -99,12 +99,9 @@ HMDB_INPUT_FILE=${BUILD_DIR}/hmdb_metabolites.xml
 HMDB_OUTPUT_FILE=${BUILD_DIR}/kg2-hmdb${TEST_ARG_D}.json
 
 KG1_OUTPUT_FILE=${BUILD_DIR}/kg2-rtx-kg1${TEST_ARG_D}.json
-RTX_CONFIG_FILE=RTXConfiguration-config.json
 
 KG2_TSV_DIR=${BUILD_DIR}/TSV
 KG2_TSV_TARBALL=${BUILD_DIR}/kg2-tsv${TEST_ARG_D}.tar.gz
-
-PREDICATE_MAPPING_FILE=${CODE_DIR}/predicate-remap.yaml
 
 VERSION_FILE=${BUILD_DIR}/kg2-version.txt
 
@@ -141,11 +138,11 @@ cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${CODE_DIR}/Snakefile \
      SMPDB_DIR="${SMPDB_DIR}" SMPDB_INPUT_FILE="${SMPDB_INPUT_FILE}" SMPDB_OUTPUT_FILE="${SMPDB_OUTPUT_FILE}" \
      DRUGBANK_INPUT_FILE="${DRUGBANK_INPUT_FILE}" DRUGBANK_OUTPUT_FILE="${DRUGBANK_OUTPUT_FILE}" \
      HMDB_INPUT_FILE="${HMDB_INPUT_FILE}" HMDB_OUTPUT_FILE="${HMDB_OUTPUT_FILE}" \
-     KG1_OUTPUT_FILE="${KG1_OUTPUT_FILE}" RTX_CONFIG_FILE="${RTX_CONFIG_FILE}" \
+     KG1_OUTPUT_FILE="${KG1_OUTPUT_FILE}" RTX_CONFIG_FILE="${rtx_config_file}" \
      KG2_TSV_DIR="${KG2_TSV_DIR}" KG2_TSV_TARBALL="${KG2_TSV_TARBALL}" \
-     PREDICATE_MAPPING_FILE="${PREDICATE_MAPPING_FILE}" \
-     VENV_DIR="${VENV_DIR}" BUILD_DIR="${BUILD_DIR}" CODE_DIR="${CODE_DIR}" CURIES_TO_URLS_FILE="${CURIES_TO_URLS_FILE}" \
-     MYSQL_CONF="${MYSQL_CONF}" S3_CP_CMD="${S3_CP_CMD}" VERSION_FILE="${VERSION_FILE}"
+     PREDICATE_MAPPING_FILE="${predicate_mapping_file}" \
+     VENV_DIR="${VENV_DIR}" BUILD_DIR="${BUILD_DIR}" CODE_DIR="${CODE_DIR}" CURIES_TO_URLS_FILE="${curies_to_urls_file}" \
+     MYSQL_CONF="${mysql_conf}" S3_CP_CMD="${s3_cp_cmd}" VERSION_FILE="${VERSION_FILE}"
 
 date
 echo "================ script finished ============================"

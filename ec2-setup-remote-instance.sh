@@ -11,33 +11,30 @@ if [[ $# != 0 || "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     exit 2
 fi
 
-PUBLIC_KEY_FILE=id_rsa.pub
+public_key_file=id_rsa.pub
 
 echo "Enter path to your AWS PEM file: "
-read AWS_PEM_FILE
-#AWS_PEM_FILE=/Volumes/WorkEncrypted/ramseyst-new-aws-login.pem
+read aws_pem_file
+#aws_pem_file=/Volumes/WorkEncrypted/ramseyst-new-aws-login.pem
 
 echo "Enter hostname of your instance: "
-read INSTANCE_HOSTNAME
-#INSTANCE_HOSTNAME=kg2dev.rtx.ai
+read instance_hostname
 
-ssh-keygen -F ${INSTANCE_HOSTNAME} >/dev/null 2>&1
+ssh-keygen -F ${instance_hostname} >/dev/null 2>&1
 if [ $? == 0 ]
 then
-    ssh-keygen -R ${INSTANCE_HOSTNAME}
+    ssh-keygen -R ${instance_hostname}
 fi
 
-if ! ssh -q -o StrictHostKeyChecking=no ubuntu@${INSTANCE_HOSTNAME} exit
+if ! ssh -q -o StrictHostKeyChecking=no ubuntu@${instance_hostname} exit
 then
-    ## remove kg2.saramsey.org from the ~/.ssh/known_hosts file
     ## copy the id_rsa.pub file to the instance
-    scp -i ${AWS_PEM_FILE} \
+    scp -i ${aws_pem_file} \
         -o StrictHostKeyChecking=no \
-        ~/.ssh/${PUBLIC_KEY_FILE} \
-        ubuntu@${INSTANCE_HOSTNAME}:
+        ~/.ssh/${public_key_file} \
+        ubuntu@${instance_hostname}:
     ## append the id_rsa.pub file to the authorized_keys file
-    ssh -i ${AWS_PEM_FILE} \
-        ubuntu@${INSTANCE_HOSTNAME} \
-        'cat ${PUBLIC_KEY_FILE} >> ~/.ssh/authorized_keys && rm ${PUBLIC_KEY_FILE}'
+    ssh -i ${aws_pem_file} \
+        ubuntu@${instance_hostname} \
+        'cat ${public_key_file} >> ~/.ssh/authorized_keys && rm ${public_key_file}'
 fi
-    

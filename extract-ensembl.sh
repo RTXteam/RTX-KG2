@@ -12,17 +12,17 @@ fi
 echo "================= starting extract-ensembl.sh ================="
 date
 
-CONFIG_DIR=`dirname "$0"`
-source ${CONFIG_DIR}/master-config.shinc
+config_dir=`dirname "$0"`
+source ${config_dir}/master-config.shinc
 
-ENSEMBL_RELEASE=97
+ensembl_release=97
 
-ENSEMBL_JSON_FILE=${1:-"${BUILD_DIR}/ensembl/ensembl_genes_homo_sapiens.json"}
-OUTPUT_DIR=`dirname ${ENSEMBL_JSON_FILE}`
+ensembl_json_file=${1:-"${BUILD_DIR}/ensembl/ensembl_genes_homo_sapiens.json"}
+output_dir=`dirname ${ensembl_json_file}`
 
-mkdir -p ${OUTPUT_DIR}
+mkdir -p ${output_dir}
 
-${CURL_GET} ftp://ftp.ensembl.org/pub/release-${ENSEMBL_RELEASE}/json/homo_sapiens/homo_sapiens.json > ${ENSEMBL_JSON_FILE}
+${curl_get} ftp://ftp.ensembl.org/pub/release-${ensembl_release}/json/homo_sapiens/homo_sapiens.json > ${ensembl_json_file}
 
 date
 echo  "================= finished extract-ensembl.sh ================="

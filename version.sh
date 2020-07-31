@@ -18,15 +18,15 @@ date
 CONFIG_DIR=`dirname "$0"`
 source ${CONFIG_DIR}/master-config.shinc
 
-LOCAL_VERSION_FILENAME=${1:-"${BUILD_DIR}/kg2-version.txt"}
-S3_VERSION_FILENAME="kg2-version.txt"
+local_version_filename=${1:-"${BUILD_DIR}/kg2-version.txt"}
+s3_version_filename="kg2-version.txt"
 
 
-${S3_CP_CMD} s3://${S3_BUCKET_PUBLIC}/${S3_VERSION_FILENAME} ${LOCAL_VERSION_FILENAME}
+${s3_cp_cmd} s3://${s3_bucket_public}/${s3_version_filename} ${local_version_filename}
 
-${VENV_DIR}/bin/python3 ${CODE_DIR}/update_version.py --increment ${LOCAL_VERSION_FILENAME}
+${VENV_DIR}/bin/python3 ${CODE_DIR}/update_version.py --increment ${local_version_filename}
 
-${S3_CP_CMD} ${LOCAL_VERSION_FILENAME} s3://${S3_BUCKET_PUBLIC}/${S3_VERSION_FILENAME}
+${s3_cp_cmd} ${local_version_filename} s3://${s3_bucket_public}/${s3_version_filename}
 
 date
 echo "================= finishing version.sh =================="

@@ -17,9 +17,9 @@ echo "================= starting setup-kg2.sh ================="
 date
 
 ## setup the shell variables for various directories
-CONFIG_DIR=`dirname "$0"`
+config_dir=`dirname "$0"`
 
-source ${CONFIG_DIR}/master-config.shinc
+source ${config_dir}/master-config.shinc
 
 ## sym-link into RTX/code/kg2
 if [ ! -L ${CODE_DIR} ]; then
@@ -55,7 +55,7 @@ mkdir -p ${BUILD_DIR}
 } >~/setup-kg2-neo4j.log 2>&1
 
 ## setup AWS CLI; this requires manual intervention so auto-logging is turned off here
-if ! aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/test-file-do-not-delete /tmp/; then
+if ! ${s3_cp_cmd} s3://${s3_bucket}/test-file-do-not-delete /tmp/; then
     aws configure
 else
     rm -f /tmp/test-file-do-not-delete
@@ -65,12 +65,12 @@ fi
     bash -x ${CODE_DIR}/install-neo4j.sh
 
     # copy the RTX configuration file from S3 to ${BUILD_DIR}
-    ${S3_CP_CMD} s3://${S3_BUCKET}/${RTX_CONFIG_FILE} ${BUILD_DIR}/${RTX_CONFIG_FILE}
+    ${s3_cp_cmd} s3://${s3_bucket}/${rtx_config_file} ${BUILD_DIR}/${rtx_config_file}
 } >>~/setup-kg2-neo4j.log 2>&1
 
 
 # turn off auto-logging since the password is passed to this script on the command-line
-kg2_neo4j_password=`${VENV_DIR}/bin/python3 ${CODE_DIR}/read_kg2_password_from_rtxconfig.py -c ${BUILD_DIR}/${RTX_CONFIG_FILE}`
+kg2_neo4j_password=`${VENV_DIR}/bin/python3 ${CODE_DIR}/read_kg2_password_from_rtxconfig.py -c ${BUILD_DIR}/${rtx_config_file}`
 sudo su - neo4j -c "neo4j-admin set-initial-password ${kg2_neo4j_password}"
 
 {
