@@ -113,6 +113,16 @@ def _modify_column_headers_for_neo4j(plain_column_headers: List[str]) -> List[st
     for header in plain_column_headers:
         if header in array_columns:
             header = f"{header}:string[]"
+        elif header == 'id':
+            header = f"{header}:ID"
+        elif header == 'preferred_type':
+            header = f"{header}:LABEL"
+        elif header == 'subject':
+            header = f"{header}:START_ID"
+        elif header == 'object':
+            header = f"{header}:END_ID"
+        elif header == 'simplified_edge_label':
+            header = f"{header}:TYPE"
         modified_headers.append(header)
     return modified_headers
 
