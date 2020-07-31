@@ -42,7 +42,7 @@ def _run_cypher_query(cypher_query: str, kg="KG2") -> List[Dict[str, any]]:
         return query_results
 
 
-def canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any]], Dict[str, str]]:
+def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any]], Dict[str, str]]:
     synonymizer = NodeSynonymizer()
     node_ids = [node.get('id') for node in nodes if node.get('id')]
     print(f"  Sending NodeSynonymizer.get_canonical_curies() a list of {len(node_ids)} curies..")
@@ -56,21 +56,24 @@ def canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any]
             canonicalized_node = {
                 'id': canonical_info.get('preferred_curie', node['id']),
                 'name': canonical_info.get('preferred_name', node['name']),
-                'types': [canonical_info.get('preferred_type', node['category_label'])]  # TODO: replace with type list when available from synonymizer
+                'types': [canonical_info.get('preferred_type', node['category_label'])],  # TODO: replace with type list when available from synonymizer
+                'preferred_type': canonical_info.get('preferred_type', node['category_label'])
             }
         else:
             canonicalized_node = {
                 'id': node['id'],
                 'name': node['name'],
-                'types': [node['category_label']]
+                'types': [node['category_label']],
+                'preferred_type': node['category_label']
             }
         curie_map[node['id']] = canonicalized_node['id']
         canonicalized_nodes[canonicalized_node['id']] = canonicalized_node
 
-    # Create a node containing information about this KG2C build, and remove the original build node
+    # Create a node containing information about this KG2C build
     new_build_node = {'id': 'RTX:KG2C',
                       'name': f"KG2C:Build created on {datetime.now().strftime('%Y-%m-%d %H:%M')}",
-                      'types': ['data_file']}
+                      'types': ['data_file'],
+                      'preferred_type': 'data_file'}
     canonicalized_nodes[new_build_node['id']] = new_build_node
 
     # Decorate nodes with equivalent curies
@@ -82,7 +85,7 @@ def canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any]
     return list(canonicalized_nodes.values()), curie_map
 
 
-def remap_edges(edges: List[Dict[str, any]], curie_map: Dict[str, str]) -> List[Dict[str, any]]:
+def _remap_edges(edges: List[Dict[str, any]], curie_map: Dict[str, str]) -> List[Dict[str, any]]:
     allowed_self_edges = ['positively_regulates', 'interacts_with', 'increase']
     merged_edges = dict()
     for edge in edges:
@@ -103,6 +106,17 @@ def remap_edges(edges: List[Dict[str, any]], curie_map: Dict[str, str]) -> List[
     return list(merged_edges.values())
 
 
+def _modify_column_headers_for_neo4j(plain_column_headers: List[str]) -> List[str]:
+    # TODO: Add to this function to specify :LABEL/:TYPE or whatever is needed
+    modified_headers = []
+    array_columns = ['provided_by', 'types', 'equivalent_curies']
+    for header in plain_column_headers:
+        if header in array_columns:
+            header = f"{header}:string[]"
+        modified_headers.append(header)
+    return modified_headers
+
+
 def create_canonicalized_tsvs(test=False):
     # Grab the node data from KG2 neo4j and load it into TSVs
     print(f" Starting nodes..")
@@ -110,12 +124,13 @@ def create_canonicalized_tsvs(test=False):
     nodes = _run_cypher_query(nodes_query)
     if nodes:
         print(f"  Canonicalizing nodes..")
-        canonicalized_nodes, curie_map = canonicalize_nodes(nodes)
+        canonicalized_nodes, curie_map = _canonicalize_nodes(nodes)
         print(f"  Canonicalized KG contains {len(canonicalized_nodes)} nodes ({round((len(canonicalized_nodes) / len(nodes)) * 100)}%)")
         print(f"  Creating nodes header file..")
         column_headers = canonicalized_nodes[0].keys()
+        modified_headers = _modify_column_headers_for_neo4j(list(column_headers))
         with open(f"{'test_' if test else ''}nodes_c_header.tsv", "w+") as nodes_header_file:
-            dict_writer = csv.DictWriter(nodes_header_file, column_headers, delimiter='\t')
+            dict_writer = csv.DictWriter(nodes_header_file, modified_headers, delimiter='\t')
             dict_writer.writeheader()
         print(f"  Creating nodes file..")
         with open(f"{'test_' if test else ''}nodes_c.tsv", "w+") as nodes_file:
@@ -132,12 +147,13 @@ def create_canonicalized_tsvs(test=False):
     edges = _run_cypher_query(edges_query)
     if edges:
         print(f"  Remapping edges..")
-        remapped_edges = remap_edges(edges, curie_map)
+        remapped_edges = _remap_edges(edges, curie_map)
         print(f"  Canonicalized KG contains {len(remapped_edges)} edges ({round((len(remapped_edges) / len(edges)) * 100)}%)")
         print(f"  Creating edges header file..")
         column_headers = remapped_edges[0].keys()
+        modified_headers = _modify_column_headers_for_neo4j(column_headers)
         with open(f"{'test_' if test else ''}edges_c_header.tsv", "w+") as edges_header_file:
-            dict_writer = csv.DictWriter(edges_header_file, column_headers, delimiter='\t')
+            dict_writer = csv.DictWriter(edges_header_file, modified_headers, delimiter='\t')
             dict_writer.writeheader()
         print(f"  Creating edges file..")
         with open(f"{'test_' if test else ''}edges_c.tsv", "w+") as edges_file:
