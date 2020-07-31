@@ -36,6 +36,7 @@ def make_arg_parser():
     arg_parser.add_argument('curiesToURIFile', type=str, help="The file mapping CURIE prefixes to URI fragments")
     arg_parser.add_argument('inputFileJson', type=str, help="The input KG2 grah, in JSON format")
     arg_parser.add_argument('outputFileJson', type=str, help="The output KG2 graph, in JSON format")
+    arg_parser.add_argument('versionFile', type=str, help="The text file storing the KG2 version")
     arg_parser.add_argument('--test', dest='test', action='store_true', default=False)
     arg_parser.add_argument('--dropSelfEdgesExcept', required=False, dest='drop_self_edges_except', default=None)
     arg_parser.add_argument('--dropNegated', dest='drop_negated', action='store_true', default=False)
@@ -155,9 +156,14 @@ if __name__ == '__main__':
     for relation_curie in relation_curies_not_in_nodes:
         print('could not get IRI for relation curie: ' + relation_curie)
     update_date = datetime.now().strftime("%Y-%m-%d %H:%M")
+    version_file = open(args.versionFile, 'r')
+    build_name = str
+    for line in version_file:
+        build_name = "RTX KG" + line
+        break
     build_info = kg2_util.make_node(kg2_util.CURIE_PREFIX_RTX + ':' + 'KG2',
                                     kg2_util.BASE_URL_RTX + 'KG2',
-                                    'KG2:Build',
+                                    build_name,
                                     kg2_util.BIOLINK_CATEGORY_DATA_FILE,
                                     update_date,
                                     kg2_util.CURIE_PREFIX_RTX + ':')

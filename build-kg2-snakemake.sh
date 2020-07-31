@@ -106,12 +106,17 @@ KG2_TSV_TARBALL=${BUILD_DIR}/kg2-tsv${TEST_ARG_D}.tar.gz
 
 PREDICATE_MAPPING_FILE=${CODE_DIR}/predicate-remap.yaml
 
+VERSION_FILE=${BUILD_DIR}/kg2-version.txt
+
 # Run snakemake from the virtualenv but run the snakefile in kg2-code
 # -F: Run all of the rules in the snakefile
 # -R Finish: Run all of the rules in the snakefile
 # -j: Run the rules in parallel
 # -config: give the test arguments to the snakefile
 # -n: dry run REMOVE THIS LATER
+
+export PATH=$PATH:${BUILD_DIR}
+
 cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${CODE_DIR}/Snakefile \
      -F -j --config test="${TEST_ARG}" testd="${TEST_ARG_D}" \
      testdd="${TEST_ARG_DD}" SEMMED_TUPLELIST_FILE="${SEMMED_TUPLELIST_FILE}" \
@@ -140,7 +145,7 @@ cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${CODE_DIR}/Snakefile \
      KG2_TSV_DIR="${KG2_TSV_DIR}" KG2_TSV_TARBALL="${KG2_TSV_TARBALL}" \
      PREDICATE_MAPPING_FILE="${PREDICATE_MAPPING_FILE}" \
      VENV_DIR="${VENV_DIR}" BUILD_DIR="${BUILD_DIR}" CODE_DIR="${CODE_DIR}" CURIES_TO_URLS_FILE="${CURIES_TO_URLS_FILE}" \
-     MYSQL_CONF="${MYSQL_CONF}" S3_CP_CMD="${S3_CP_CMD}"
+     MYSQL_CONF="${MYSQL_CONF}" S3_CP_CMD="${S3_CP_CMD}" VERSION_FILE="${VERSION_FILE}"
 
 date
 echo "================ script finished ============================"
