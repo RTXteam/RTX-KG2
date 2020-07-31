@@ -47,33 +47,37 @@ def canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any]
     node_ids = [node.get('id') for node in nodes if node.get('id')]
     print(f"  Sending NodeSynonymizer.get_canonical_curies() a list of {len(node_ids)} curies..")
     canonicalized_info = synonymizer.get_canonical_curies(curies=node_ids)
-    print(f"  Editing nodes..")
+    print(f"  Creating canonicalized nodes..")
     curie_map = dict()
     canonicalized_nodes = dict()
     for node in nodes:
         canonical_info = canonicalized_info.get(node['id'])
         if canonical_info:
-            canonicalized_curie = canonical_info.get('preferred_curie', node['id'])
-            curie_map[node['id']] = canonicalized_curie  # Store this mapping for easy access later
-            node['id'] = canonicalized_curie
-            node['category_label'] = canonical_info.get('preferred_type', node['category_label'])
-            node['name'] = canonical_info.get('preferred_name', node['name'])
+            canonicalized_node = {
+                'id': canonical_info.get('preferred_curie', node['id']),
+                'name': canonical_info.get('preferred_name', node['name']),
+                'types': [canonical_info.get('preferred_type', node['category_label'])]  # TODO: replace with type list when available from synonymizer
+            }
         else:
-            curie_map[node['id']] = node['id']
-        canonicalized_nodes[node['id']] = node
+            canonicalized_node = {
+                'id': node['id'],
+                'name': node['name'],
+                'types': [node['category_label']]
+            }
+        curie_map[node['id']] = canonicalized_node['id']
+        canonicalized_nodes[canonicalized_node['id']] = canonicalized_node
 
     # Create a node containing information about this KG2C build, and remove the original build node
     new_build_node = {'id': 'RTX:KG2C',
                       'name': f"KG2C:Build created on {datetime.now().strftime('%Y-%m-%d %H:%M')}",
-                      'category_label': 'data_file'}
+                      'types': ['data_file']}
     canonicalized_nodes[new_build_node['id']] = new_build_node
 
-    # Add synonymization info to nodes (equivalent curies, list of node types)
-    # print(f"  Sending NodeSynonymizer.get_equivalent_nodes() a list of {len(node_ids)} curies..")
-    # equivalent_curies_dict = synonymizer.get_equivalent_nodes(list(canonicalized_nodes.keys()))
-    # for canonicalized_node_id, canonicalized_node in canonicalized_nodes.items():
-    #     canonicalized_node['equivalent_curies'] = equivalent_curies_dict.get(canonicalized_node_id)
-    #     # TODO: also store list of node types (once added to NodeSynonymizer output)
+    # Decorate nodes with equivalent curies
+    print(f"  Sending NodeSynonymizer.get_equivalent_nodes() a list of {len(node_ids)} curies..")
+    equivalent_curies_dict = synonymizer.get_equivalent_nodes(list(canonicalized_nodes.keys()))
+    for curie, canonical_node in canonicalized_nodes.items():
+        canonical_node['equivalent_curies'] = equivalent_curies_dict.get(curie)
 
     return list(canonicalized_nodes.values()), curie_map
 
