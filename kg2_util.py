@@ -402,7 +402,7 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                             # Use the longer of the two update-date fields
                             #   NOTE: this is not ideal; better to have actual
                             #         dates (and not strings) so we can use the
-                            #         most recent date
+                            #         most recent date (see issue #980)
                             if len(value) > len(stored_value):
                                 ret_dict[key] = value
                         elif key == 'description':
