@@ -62,7 +62,7 @@ sudo apt-get install -y mysql-server \
      mysql-client \
      libmysqlclient-dev
 
-sudo /etc/init.d/mysql start
+sudo service mysql start
 
 ## this is for convenience when I am remote working
 sudo apt-get install -y emacs
