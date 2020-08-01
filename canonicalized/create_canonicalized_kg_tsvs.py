@@ -46,7 +46,7 @@ def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any
     synonymizer = NodeSynonymizer()
     node_ids = [node.get('id') for node in nodes if node.get('id')]
     print(f"  Sending NodeSynonymizer.get_canonical_curies() a list of {len(node_ids)} curies..")
-    canonicalized_info = synonymizer.get_canonical_curies(curies=node_ids)
+    canonicalized_info = synonymizer.get_canonical_curies(curies=node_ids, return_all_types=True)
     print(f"  Creating canonicalized nodes..")
     curie_map = dict()
     canonicalized_nodes = dict()
@@ -56,7 +56,7 @@ def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any
             canonicalized_node = {
                 'id': canonical_info.get('preferred_curie', node['id']),
                 'name': canonical_info.get('preferred_name', node['name']),
-                'types': [canonical_info.get('preferred_type', node['category_label'])],  # TODO: replace with type list when available from synonymizer
+                'types': list(canonical_info.get('all_types')),
                 'preferred_type': canonical_info.get('preferred_type', node['category_label'])
             }
         else:
@@ -107,7 +107,6 @@ def _remap_edges(edges: List[Dict[str, any]], curie_map: Dict[str, str]) -> List
 
 
 def _modify_column_headers_for_neo4j(plain_column_headers: List[str]) -> List[str]:
-    # TODO: Add to this function to specify :LABEL/:TYPE or whatever is needed
     modified_headers = []
     array_columns = ['provided_by', 'types', 'equivalent_curies']
     for header in plain_column_headers:
@@ -137,8 +136,8 @@ def create_canonicalized_tsvs(test=False):
         canonicalized_nodes, curie_map = _canonicalize_nodes(nodes)
         print(f"  Canonicalized KG contains {len(canonicalized_nodes)} nodes ({round((len(canonicalized_nodes) / len(nodes)) * 100)}%)")
         print(f"  Creating nodes header file..")
-        column_headers = canonicalized_nodes[0].keys()
-        modified_headers = _modify_column_headers_for_neo4j(list(column_headers))
+        column_headers = list(canonicalized_nodes[0].keys())
+        modified_headers = _modify_column_headers_for_neo4j(column_headers)
         with open(f"{'test_' if test else ''}nodes_c_header.tsv", "w+") as nodes_header_file:
             dict_writer = csv.DictWriter(nodes_header_file, modified_headers, delimiter='\t')
             dict_writer.writeheader()
@@ -160,7 +159,7 @@ def create_canonicalized_tsvs(test=False):
         remapped_edges = _remap_edges(edges, curie_map)
         print(f"  Canonicalized KG contains {len(remapped_edges)} edges ({round((len(remapped_edges) / len(edges)) * 100)}%)")
         print(f"  Creating edges header file..")
-        column_headers = remapped_edges[0].keys()
+        column_headers = list(remapped_edges[0].keys())
         modified_headers = _modify_column_headers_for_neo4j(column_headers)
         with open(f"{'test_' if test else ''}edges_c_header.tsv", "w+") as edges_header_file:
             dict_writer = csv.DictWriter(edges_header_file, modified_headers, delimiter='\t')
