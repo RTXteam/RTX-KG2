@@ -27,7 +27,7 @@ def _run_cypher_query(cypher_query: str, kg="KG2") -> List[Dict[str, any]]:
     if kg == "KG2":
         rtxc.live = "KG2"
     try:
-        driver = GraphDatabase.driver(rtxc.neo4j_bolt, auth=(rtxc.neo4j_username, rtxc.neo4j_password))
+        driver = GraphDatabase.driver("bolt://kg2endpoint.rtx.ai", auth=(rtxc.neo4j_username, rtxc.neo4j_password))
         with driver.session() as session:
             print(f"  Sending cypher query to {kg} neo4j..")
             query_results = session.run(cypher_query).data()
@@ -56,15 +56,17 @@ def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any
             canonicalized_node = {
                 'id': canonical_info.get('preferred_curie', node['id']),
                 'name': canonical_info.get('preferred_name', node['name']),
-                'types': str(list(canonical_info.get('all_types'))).strip("[").strip("]"),
-                'preferred_type': canonical_info.get('preferred_type', node['category_label'])
+                'types': str(list(canonical_info.get('all_types'))).strip("[").strip("]").replace("'", ""),
+                'preferred_type': canonical_info.get('preferred_type', node['category_label']),
+                'preferred_type_for_conversion': canonical_info.get('preferred_type', node['category_label'])
             }
         else:
             canonicalized_node = {
                 'id': node['id'],
                 'name': node['name'],
                 'types': node['category_label'],
-                'preferred_type': node['category_label']
+                'preferred_type': node['category_label'],
+                'preferred_type_for_conversion': node['category_label']
             }
         curie_map[node['id']] = canonicalized_node['id']
         canonicalized_nodes[canonicalized_node['id']] = canonicalized_node
@@ -73,14 +75,15 @@ def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any
     new_build_node = {'id': 'RTX:KG2C',
                       'name': f"KG2C:Build created on {datetime.now().strftime('%Y-%m-%d %H:%M')}",
                       'types': 'data_file',
-                      'preferred_type': 'data_file'}
+                      'preferred_type': 'data_file',
+                      'preferred_type_for_conversion': 'data_file'}
     canonicalized_nodes[new_build_node['id']] = new_build_node
 
     # Decorate nodes with equivalent curies
     print(f"  Sending NodeSynonymizer.get_equivalent_nodes() a list of {len(node_ids)} curies..")
     equivalent_curies_dict = synonymizer.get_equivalent_nodes(list(canonicalized_nodes.keys()))
     for curie, canonical_node in canonicalized_nodes.items():
-        canonical_node['equivalent_curies'] = str(equivalent_curies_dict.get(curie)).strip("[").strip("]")
+        canonical_node['equivalent_curies'] = str(equivalent_curies_dict.get(curie)).strip("[").strip("]").replace("'", "")
 
     return list(canonicalized_nodes.values()), curie_map
 
@@ -99,11 +102,14 @@ def _remap_edges(edges: List[Dict[str, any]], curie_map: Dict[str, str]) -> List
             if remapped_edge_key in merged_edges:
                 merged_edge = merged_edges[remapped_edge_key]
                 edge['provided_by'] = str(edge['provided_by']).strip("['").strip("']")
-                merged_edge['provided_by'] = str(list(set([merged_edge['provided_by']] + [edge['provided_by']]))).strip("[").strip("]").replace('"', "")
+                merged_edge['provided_by'] = str(list(set([merged_edge['provided_by']] + [edge['provided_by']]))).strip("[").strip("]").replace('"', "").replace("'", "")
             else:
                 edge['subject'] = canonicalized_source_id
                 edge['object'] = canonicalized_target_id
-                edge['provided_by'] = str(edge['provided_by']).strip("[").strip("]")
+                edge['provided_by'] = str(edge['provided_by']).strip("[").strip("]").replace('"', "").replace("'", "")
+                edge['simplified_edge_label_for_conversion'] = edge['simplified_edge_label']
+                edge['subject_for_conversion'] = edge['subject']
+                edge['object_for_conversion'] = edge['object']
                 merged_edges[remapped_edge_key] = edge
     return list(merged_edges.values())
 
@@ -116,14 +122,14 @@ def _modify_column_headers_for_neo4j(plain_column_headers: List[str]) -> List[st
             header = f"{header}:string[]"
         elif header == 'id':
             header = f"{header}:ID"
-        elif header == 'preferred_type':
-            header = f"{header}:LABEL"
-        elif header == 'subject':
-            header = f"{header}:START_ID"
-        elif header == 'object':
-            header = f"{header}:END_ID"
-        elif header == 'simplified_edge_label':
-            header = f"{header}:TYPE"
+        elif header == 'preferred_type_for_conversion':
+            header = ":LABEL"
+        elif header == 'subject_for_conversion':
+            header = ":START_ID"
+        elif header == 'object_for_conversion':
+            header = ":END_ID"
+        elif header == 'simplified_edge_label_for_conversion':
+            header = ":TYPE"
         modified_headers.append(header)
     return modified_headers
 
