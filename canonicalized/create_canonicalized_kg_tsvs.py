@@ -56,14 +56,14 @@ def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any
             canonicalized_node = {
                 'id': canonical_info.get('preferred_curie', node['id']),
                 'name': canonical_info.get('preferred_name', node['name']),
-                'types': list(canonical_info.get('all_types')),
+                'types': str(list(canonical_info.get('all_types'))).strip("[").strip("]"),
                 'preferred_type': canonical_info.get('preferred_type', node['category_label'])
             }
         else:
             canonicalized_node = {
                 'id': node['id'],
                 'name': node['name'],
-                'types': [node['category_label']],
+                'types': node['category_label'],
                 'preferred_type': node['category_label']
             }
         curie_map[node['id']] = canonicalized_node['id']
@@ -72,7 +72,7 @@ def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any
     # Create a node containing information about this KG2C build
     new_build_node = {'id': 'RTX:KG2C',
                       'name': f"KG2C:Build created on {datetime.now().strftime('%Y-%m-%d %H:%M')}",
-                      'types': ['data_file'],
+                      'types': 'data_file',
                       'preferred_type': 'data_file'}
     canonicalized_nodes[new_build_node['id']] = new_build_node
 
@@ -80,7 +80,7 @@ def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any
     print(f"  Sending NodeSynonymizer.get_equivalent_nodes() a list of {len(node_ids)} curies..")
     equivalent_curies_dict = synonymizer.get_equivalent_nodes(list(canonicalized_nodes.keys()))
     for curie, canonical_node in canonicalized_nodes.items():
-        canonical_node['equivalent_curies'] = equivalent_curies_dict.get(curie)
+        canonical_node['equivalent_curies'] = str(equivalent_curies_dict.get(curie)).strip("[").strip("]")
 
     return list(canonicalized_nodes.values()), curie_map
 
@@ -98,10 +98,12 @@ def _remap_edges(edges: List[Dict[str, any]], curie_map: Dict[str, str]) -> List
             remapped_edge_key = f"{canonicalized_source_id}--{edge_type}--{canonicalized_target_id}"
             if remapped_edge_key in merged_edges:
                 merged_edge = merged_edges[remapped_edge_key]
-                merged_edge['provided_by'] = list(set(merged_edge['provided_by'] + edge['provided_by']))
+                edge['provided_by'] = str(edge['provided_by']).strip("['").strip("']")
+                merged_edge['provided_by'] = str(list(set([merged_edge['provided_by']] + [edge['provided_by']]))).strip("[").strip("]").replace('"', "")
             else:
                 edge['subject'] = canonicalized_source_id
                 edge['object'] = canonicalized_target_id
+                edge['provided_by'] = str(edge['provided_by']).strip("[").strip("]")
                 merged_edges[remapped_edge_key] = edge
     return list(merged_edges.values())
 
