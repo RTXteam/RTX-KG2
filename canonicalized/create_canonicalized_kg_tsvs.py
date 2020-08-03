@@ -27,7 +27,7 @@ def _run_cypher_query(cypher_query: str, kg="KG2") -> List[Dict[str, any]]:
     if kg == "KG2":
         rtxc.live = "KG2"
     try:
-        driver = GraphDatabase.driver("bolt://kg2endpoint.rtx.ai", auth=(rtxc.neo4j_username, rtxc.neo4j_password))
+        driver = GraphDatabase.driver(rtxc.neo4j_bolt, auth=(rtxc.neo4j_username, rtxc.neo4j_password))
         with driver.session() as session:
             print(f"  Sending cypher query to {kg} neo4j..")
             query_results = session.run(cypher_query).data()
