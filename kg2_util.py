@@ -469,7 +469,16 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                             log_message("warning:  for key: " + key + ", dropping second value: " + value + '; keeping first value: ' + stored_value,
                                         output_stream=sys.stderr)
                 elif type(value) == list and type(stored_value) == list:
-                    ret_dict[key] = list(set(value + stored_value))
+                    if key != 'synonym':
+                        ret_dict[key] = list(set(value + stored_value))
+                    else:
+                        if len(stored_value) > 0:
+                            first_element = {stored_value[0]}
+                        elif len(value) > 0 and len(stored_value) == 0:
+                            first_element = {value[0]}
+                        else:
+                            first_element = set()
+                        ret_dict[key] = list(first_element) + sorted(list(set(value + stored_value) - first_element))
                 elif type(value) == list and type(stored_value) == str:
                     ret_dict[key] = list(set(value + [stored_value]))
                 elif type(value) == str and type(stored_value) == list:
