@@ -674,12 +674,12 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
 
             node_dict['full name'] = node_full_name
             node_dict['description'] = node_description
-            node_dict['creation date'] = node_creation_date   # slot name is not biolink standard
-            node_dict['deprecated'] = node_deprecated         # slot name is not biolink standard
-            node_dict['replaced by'] = node_replaced_by_curie  # slot name is not biolink standard
+            node_dict['creation date'] = node_creation_date      # slot name is not biolink standard
+            node_dict['deprecated'] = node_deprecated            # slot name is not biolink standard
+            node_dict['replaced by'] = node_replaced_by_curie    # slot name is not biolink standard
             node_dict['ontology node ids'] = [ontology_node_id]  # slot name is not biolink standard
-            node_dict['xrefs'] = list(node_xrefs)            # slot name is not biolink standard
-            node_dict['synonym'] = list(node_synonyms)       # slot name is not biolink standard
+            node_dict['xrefs'] = list(node_xrefs)                # slot name is not biolink standard
+            node_dict['synonym'] = sorted(list(node_synonyms))   # slot name is not biolink standard
             node_dict['publications'] = list(node_publications)
 
             # check if we need to make a CUI node
