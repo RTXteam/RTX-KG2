@@ -80,7 +80,7 @@ def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any
     canonicalized_nodes[new_build_node['id']] = new_build_node
 
     # Decorate nodes with equivalent curies
-    print(f"  Sending NodeSynonymizer.get_equivalent_nodes() a list of {len(node_ids)} curies..")
+    print(f"  Sending NodeSynonymizer.get_equivalent_nodes() a list of {len(canonicalized_nodes)} curies..")
     equivalent_curies_dict = synonymizer.get_equivalent_nodes(list(canonicalized_nodes.keys()))
     for curie, canonical_node in canonicalized_nodes.items():
         equivalent_curies = []
