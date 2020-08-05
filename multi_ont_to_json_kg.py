@@ -680,7 +680,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             node_dict['ontology node ids'] = [ontology_node_id]  # slot name is not biolink standard
             node_dict['xrefs'] = list(node_xrefs)                # slot name is not biolink standard
             node_dict['synonym'] = sorted(list(node_synonyms))   # slot name is not biolink standard
-            node_dict['publications'] = list(node_publications)
+            node_dict['publications'] = sorted(list(node_publications))
 
             # check if we need to make a CUI node
             if node_meta is not None and basic_property_values is not None:
