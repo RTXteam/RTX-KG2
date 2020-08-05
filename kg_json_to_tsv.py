@@ -153,6 +153,9 @@ def nodes(graph, output_file_location):
                 value = " "
             elif key == "synonym":
                 value = truncate_node_synonyms_if_too_large(node[key], node['id'])
+                value = str(value).replace("'", "").replace("[", "").replace("]", "")
+            elif key == "publications":
+                value = str(value).replace("'", "").replace("[", "").replace("]", "")
             else:
                 # If the property does exist, assign the property value
                 value = node[key]
@@ -174,6 +177,8 @@ def nodes(graph, output_file_location):
             nodekeys = no_space('category label', nodekeys, ':LABEL')
             nodekeys = no_space('category label', nodekeys, 'category_label')
             nodekeys = no_space('id', nodekeys, 'id:ID')
+            nodekeys = no_space('publications', nodekeys, "publications:string[]")
+            nodekeys = no_space('synonym', nodekeys, "synonym:string[]")
             tsvwrite_h.writerow(nodekeys)
         tsvwrite.writerow(vallist)
 
@@ -255,6 +260,8 @@ def edges(graph, output_file_location):
                 value = str(value).replace("', '", ",").replace("['", "").replace("']", "")
             elif key == 'edge label':  # fix for issue number 473 (hyphens in edge labels)
                 value = value.replace('-', '_').replace('(', '').replace(')', '')
+            elif key == 'publications':
+                value = str(value).replace("'", "").replace("[", "").replace("]", "")
             vallist.append(value)
 
         # Add the edge property labels to the edge header TSV file
@@ -272,6 +279,7 @@ def edges(graph, output_file_location):
             edgekeys = no_space('edge label', edgekeys, 'edge_label')
             edgekeys = no_space('subject', edgekeys, ':START_ID')
             edgekeys = no_space('object', edgekeys, ':END_ID')
+            edgekeys = no_space('publications', edgekeys, "publications:string[]")
             tsvwrite_h.writerow(edgekeys)
         tsvwrite.writerow(vallist)
 
