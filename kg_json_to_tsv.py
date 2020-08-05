@@ -153,9 +153,9 @@ def nodes(graph, output_file_location):
                 value = " "
             elif key == "synonym":
                 value = truncate_node_synonyms_if_too_large(node[key], node['id'])
-                value = str(value).replace("'", "").replace("[", "").replace("]", "")
+                value = str(value).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
             elif key == "publications":
-                value = str(value).replace("'", "").replace("[", "").replace("]", "")
+                value = str(value).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
             else:
                 # If the property does exist, assign the property value
                 value = node[key]
@@ -257,11 +257,11 @@ def edges(graph, output_file_location):
             if key == "publications info":
                 value = limit_publication_info_size(key, value)
             elif key == 'provided by':
-                value = str(value).replace("', '", ",").replace("['", "").replace("']", "")
+                value = str(value).replace("', '", "; ").replace("['", "").replace("']", "")
             elif key == 'edge label':  # fix for issue number 473 (hyphens in edge labels)
                 value = value.replace('-', '_').replace('(', '').replace(')', '')
             elif key == 'publications':
-                value = str(value).replace("'", "").replace("[", "").replace("]", "")
+                value = str(value).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
             vallist.append(value)
 
         # Add the edge property labels to the edge header TSV file
