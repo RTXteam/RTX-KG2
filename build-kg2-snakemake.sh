@@ -35,8 +35,8 @@ else
     test_arg=""
 fi
 
-semmed_tuplelist_file=${BUILD_DIR}/semmeddb/kg2-semmeddb${TEST_ARG_D}-tuplelist.json
-semmed_output_file=${BUILD_DIR}/kg2-semmeddb${TEST_ARG_D}-edges.json
+semmed_tuplelist_file=${BUILD_DIR}/semmeddb/kg2-semmeddb${test_suffix}-tuplelist.json
+semmed_output_file=${BUILD_DIR}/kg2-semmeddb${test_suffix}-edges.json
 
 uniprotkb_dat_file=${BUILD_DIR}/uniprotkb/uniprot_sprot.dat
 uniprotkb_output_file=${BUILD_DIR}/kg2-uniprotkb${test_suffix}.json
