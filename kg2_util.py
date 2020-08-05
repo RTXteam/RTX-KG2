@@ -470,7 +470,7 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                                         output_stream=sys.stderr)
                 elif type(value) == list and type(stored_value) == list:
                     if key != 'synonym':
-                        ret_dict[key] = list(set(value + stored_value))
+                        ret_dict[key] = sorted(list(set(value + stored_value)))
                     else:
                         if len(stored_value) > 0:
                             first_element = {stored_value[0]}
