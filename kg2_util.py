@@ -437,8 +437,8 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                                 continue
                         elif key == 'category':
                             if biolink_depth_getter is not None:
-                                value_category = urllib.parse.urlparse(value).path.rsplit('/', 1)[-1]
-                                stored_value_category = urllib.parse.urlparse(stored_value).path.rsplit('/', 1)[-1]
+                                value_category = value.replace(CURIE_PREFIX_BIOLINK + ':', '')
+                                stored_value_category = stored_value.replace(CURIE_PREFIX_BIOLINK + ':', '')
                                 depth_x = biolink_depth_getter(stored_value_category)
                                 depth_y = biolink_depth_getter(value_category)
                                 if depth_y is not None:
@@ -549,12 +549,10 @@ def convert_camel_case_to_snake_case(name: str):
     return converted.replace(' ', '_')
 
 
-def convert_biolink_category_to_iri(biolink_category_label: str,
-                                    biolink_category_base_iri: str = BASE_URL_BIOLINK_CONCEPTS):
+def convert_biolink_category_to_curie(biolink_category_label: str):
     if '_' in biolink_category_label:
         raise ValueError("invalid category label: " + biolink_category_label)
-    return urllib.parse.urljoin(biolink_category_base_iri,
-                                convert_space_case_to_camel_case(biolink_category_label))
+    return CURIE_PREFIX_BIOLINK + ':' + convert_space_case_to_camel_case(biolink_category_label)
 
 
 def make_node(id: str,
@@ -563,11 +561,13 @@ def make_node(id: str,
               category_label: str,
               update_date: str,
               provided_by: str):
+    if '-' in category_label:
+        raise ValueError('underscore character detected in category_label argument to function kg2_util.make_node: ' + category_label)
     return {'id': id,
             'iri': iri,
             'name': name,
             'full name': name,
-            'category': convert_biolink_category_to_iri(category_label),
+            'category': convert_biolink_category_to_curie(category_label),
             'category label': category_label.replace(' ', '_'),
             'description': None,
             'synonym': [],
