@@ -19,7 +19,6 @@ read AWS_PEM_FILE
 
 echo "Enter hostname of your instance: "
 read INSTANCE_HOSTNAME
-#INSTANCE_HOSTNAME=kg2dev.rtx.ai
 
 ssh-keygen -F ${INSTANCE_HOSTNAME} >/dev/null 2>&1
 if [ $? == 0 ]
@@ -29,7 +28,6 @@ fi
 
 if ! ssh -q -o StrictHostKeyChecking=no ubuntu@${INSTANCE_HOSTNAME} exit
 then
-    ## remove kg2.saramsey.org from the ~/.ssh/known_hosts file
     ## copy the id_rsa.pub file to the instance
     scp -i ${AWS_PEM_FILE} \
         -o StrictHostKeyChecking=no \
@@ -40,4 +38,3 @@ then
         ubuntu@${INSTANCE_HOSTNAME} \
         'cat ${PUBLIC_KEY_FILE} >> ~/.ssh/authorized_keys && rm ${PUBLIC_KEY_FILE}'
 fi
-    
