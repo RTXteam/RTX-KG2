@@ -427,4 +427,4 @@ ${s3_cp_cmd} ${build_kg2_log_file} s3://${s3_bucket_public}/
 ${s3_cp_cmd} ${build_kg2_log_file} s3://${s3_bucket_versioned}/
 ${s3_cp_cmd} ${report_file_full} s3://${s3_bucket_versioned}/
 ${s3_cp_cmd} ${simplified_report_file_full} s3://${s3_bucket_versioned}/
-${s3_cp_cmd} ${build_multi_owl_stderr_file} s3://${s3_bucket_public_versioned}/
+${s3_cp_cmd} ${build_multi_owl_stderr_file} s3://${s3_bucket_versioned}/
