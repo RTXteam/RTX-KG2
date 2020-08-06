@@ -155,7 +155,7 @@ def nodes(graph, output_file_location):
                 value = truncate_node_synonyms_if_too_large(node[key], node['id'])
                 value = str(value).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
             elif key == "publications":
-                value = str(value).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
+                value = str(node[key]).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
             else:
                 # If the property does exist, assign the property value
                 value = node[key]
