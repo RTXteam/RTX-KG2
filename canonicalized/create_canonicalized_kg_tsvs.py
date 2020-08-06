@@ -42,46 +42,58 @@ def _run_cypher_query(cypher_query: str, kg="KG2") -> List[Dict[str, any]]:
         return query_results
 
 
-def canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any]], Dict[str, str]]:
+def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any]], Dict[str, str]]:
     synonymizer = NodeSynonymizer()
     node_ids = [node.get('id') for node in nodes if node.get('id')]
     print(f"  Sending NodeSynonymizer.get_canonical_curies() a list of {len(node_ids)} curies..")
-    canonicalized_info = synonymizer.get_canonical_curies(curies=node_ids)
-    print(f"  Editing nodes..")
+    canonicalized_info = synonymizer.get_canonical_curies(curies=node_ids, return_all_types=True)
+    print(f"  Creating canonicalized nodes..")
     curie_map = dict()
     canonicalized_nodes = dict()
     for node in nodes:
         canonical_info = canonicalized_info.get(node['id'])
         if canonical_info:
-            canonicalized_curie = canonical_info.get('preferred_curie', node['id'])
-            curie_map[node['id']] = canonicalized_curie  # Store this mapping for easy access later
-            node['id'] = canonicalized_curie
-            node['category_label'] = canonical_info.get('preferred_type', node['category_label'])
-            node['name'] = canonical_info.get('preferred_name', node['name'])
+            canonicalized_node = {
+                'id': canonical_info.get('preferred_curie', node['id']),
+                'name': canonical_info.get('preferred_name', node['name']),
+                'types': str(list(canonical_info.get('all_types'))).strip("[").strip("]").replace("'", ""),
+                'preferred_type': canonical_info.get('preferred_type', node['category_label']),
+                'preferred_type_for_conversion': canonical_info.get('preferred_type', node['category_label'])
+            }
         else:
-            curie_map[node['id']] = node['id']
-        canonicalized_nodes[node['id']] = node
+            canonicalized_node = {
+                'id': node['id'],
+                'name': node['name'],
+                'types': node['category_label'],
+                'preferred_type': node['category_label'],
+                'preferred_type_for_conversion': node['category_label']
+            }
+        curie_map[node['id']] = canonicalized_node['id']
+        canonicalized_nodes[canonicalized_node['id']] = canonicalized_node
 
-    # Create a node containing information about this KG2C build, and remove the original build node
+    # Create a node containing information about this KG2C build
     new_build_node = {'id': 'RTX:KG2C',
                       'name': f"KG2C:Build created on {datetime.now().strftime('%Y-%m-%d %H:%M')}",
-                      'category_label': 'data_file'}
-    if 'RTX:KG2' in canonicalized_nodes:
-        original_build_node = canonicalized_nodes.pop('RTX:KG2')
-        new_build_node['name'] += f", from {original_build_node['update_date']} KG2 build"
+                      'types': 'data_file',
+                      'preferred_type': 'data_file',
+                      'preferred_type_for_conversion': 'data_file'}
     canonicalized_nodes[new_build_node['id']] = new_build_node
 
-    # Add synonymization info to nodes
-    print(f"  Sending NodeSynonymizer.get_equivalent_nodes() a list of {len(node_ids)} curies..")
+    # Decorate nodes with equivalent curies
+    print(f"  Sending NodeSynonymizer.get_equivalent_nodes() a list of {len(canonicalized_nodes)} curies..")
     equivalent_curies_dict = synonymizer.get_equivalent_nodes(list(canonicalized_nodes.keys()))
-    for canonicalized_node_id, canonicalized_node in canonicalized_nodes.items():
-        canonicalized_node['equivalent_curies'] = equivalent_curies_dict.get(canonicalized_node_id)
-        # TODO: also store list of node types (once added to NodeSynonymizer output)
+    for curie, canonical_node in canonicalized_nodes.items():
+        equivalent_curies = []
+        equivalent_curies_dict_for_curie = equivalent_curies_dict.get(curie)
+        if equivalent_curies_dict_for_curie is not None:
+            for equivalent_curie in equivalent_curies_dict_for_curie:
+                equivalent_curies.append(equivalent_curie)
+        canonical_node['equivalent_curies'] = str(equivalent_curies).strip("[").strip("]").replace("'", "")
 
     return list(canonicalized_nodes.values()), curie_map
 
 
-def remap_edges(edges: List[Dict[str, any]], curie_map: Dict[str, str]) -> List[Dict[str, any]]:
+def _remap_edges(edges: List[Dict[str, any]], curie_map: Dict[str, str]) -> List[Dict[str, any]]:
     allowed_self_edges = ['positively_regulates', 'interacts_with', 'increase']
     merged_edges = dict()
     for edge in edges:
@@ -94,12 +106,37 @@ def remap_edges(edges: List[Dict[str, any]], curie_map: Dict[str, str]) -> List[
             remapped_edge_key = f"{canonicalized_source_id}--{edge_type}--{canonicalized_target_id}"
             if remapped_edge_key in merged_edges:
                 merged_edge = merged_edges[remapped_edge_key]
-                merged_edge['provided_by'] = list(set(merged_edge['provided_by'] + edge['provided_by']))
+                edge['provided_by'] = str(edge['provided_by']).strip("['").strip("']")
+                merged_edge['provided_by'] = str(list(set([merged_edge['provided_by']] + [edge['provided_by']]))).strip("[").strip("]").replace('"', "").replace("'", "")
             else:
                 edge['subject'] = canonicalized_source_id
                 edge['object'] = canonicalized_target_id
+                edge['provided_by'] = str(edge['provided_by']).strip("[").strip("]").replace('"', "").replace("'", "")
+                edge['simplified_edge_label_for_conversion'] = edge['simplified_edge_label']
+                edge['subject_for_conversion'] = edge['subject']
+                edge['object_for_conversion'] = edge['object']
                 merged_edges[remapped_edge_key] = edge
     return list(merged_edges.values())
+
+
+def _modify_column_headers_for_neo4j(plain_column_headers: List[str]) -> List[str]:
+    modified_headers = []
+    array_columns = ['provided_by', 'types', 'equivalent_curies']
+    for header in plain_column_headers:
+        if header in array_columns:
+            header = f"{header}:string[]"
+        elif header == 'id':
+            header = f"{header}:ID"
+        elif header == 'preferred_type_for_conversion':
+            header = ":LABEL"
+        elif header == 'subject_for_conversion':
+            header = ":START_ID"
+        elif header == 'object_for_conversion':
+            header = ":END_ID"
+        elif header == 'simplified_edge_label_for_conversion':
+            header = ":TYPE"
+        modified_headers.append(header)
+    return modified_headers
 
 
 def create_canonicalized_tsvs(test=False):
@@ -109,12 +146,13 @@ def create_canonicalized_tsvs(test=False):
     nodes = _run_cypher_query(nodes_query)
     if nodes:
         print(f"  Canonicalizing nodes..")
-        canonicalized_nodes, curie_map = canonicalize_nodes(nodes)
+        canonicalized_nodes, curie_map = _canonicalize_nodes(nodes)
         print(f"  Canonicalized KG contains {len(canonicalized_nodes)} nodes ({round((len(canonicalized_nodes) / len(nodes)) * 100)}%)")
         print(f"  Creating nodes header file..")
-        column_headers = canonicalized_nodes[0].keys()
+        column_headers = list(canonicalized_nodes[0].keys())
+        modified_headers = _modify_column_headers_for_neo4j(column_headers)
         with open(f"{'test_' if test else ''}nodes_c_header.tsv", "w+") as nodes_header_file:
-            dict_writer = csv.DictWriter(nodes_header_file, column_headers, delimiter='\t')
+            dict_writer = csv.DictWriter(nodes_header_file, modified_headers, delimiter='\t')
             dict_writer.writeheader()
         print(f"  Creating nodes file..")
         with open(f"{'test_' if test else ''}nodes_c.tsv", "w+") as nodes_file:
@@ -131,12 +169,13 @@ def create_canonicalized_tsvs(test=False):
     edges = _run_cypher_query(edges_query)
     if edges:
         print(f"  Remapping edges..")
-        remapped_edges = remap_edges(edges, curie_map)
+        remapped_edges = _remap_edges(edges, curie_map)
         print(f"  Canonicalized KG contains {len(remapped_edges)} edges ({round((len(remapped_edges) / len(edges)) * 100)}%)")
         print(f"  Creating edges header file..")
-        column_headers = remapped_edges[0].keys()
+        column_headers = list(remapped_edges[0].keys())
+        modified_headers = _modify_column_headers_for_neo4j(column_headers)
         with open(f"{'test_' if test else ''}edges_c_header.tsv", "w+") as edges_header_file:
-            dict_writer = csv.DictWriter(edges_header_file, column_headers, delimiter='\t')
+            dict_writer = csv.DictWriter(edges_header_file, modified_headers, delimiter='\t')
             dict_writer.writeheader()
         print(f"  Creating edges file..")
         with open(f"{'test_' if test else ''}edges_c.tsv", "w+") as edges_file:
