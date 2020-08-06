@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# extract-hmdb.sh: Download the Small Molecule Pathway Database
+# extract-hmdb.sh: Download the Human Metabolome Database
 # Copyright 2020 Stephen A. Ramsey
 # Author Erica Wood
 
