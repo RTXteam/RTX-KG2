@@ -11,9 +11,13 @@ if [[ $# != 0 || "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     exit 2
 fi
 
+sudo service mysql stop || true
+sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password"
+sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password"
 sudo DEBIAN_FRONTEND=noninteractive apt-get remove --purge -y mysql*
 sudo apt-get -y autoremove
 sudo apt-get -y autoclean
 sudo apt-get remove dbconfig-mysql
-sudo rm -r -f /etc/mysql /var/lib/mysql
+sudo rm -r -f /etc/mysql /var/lib/mysql /var/lib/mysql-files /var/lib/mysql-keyring /run/mysqld /home/ubuntu/.mysql_history
+
 

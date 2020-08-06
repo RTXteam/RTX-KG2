@@ -19,7 +19,6 @@ __status__ = 'Prototype'
 
 
 import argparse
-import functools
 import kg2_util
 import ontobio
 import os.path
@@ -31,6 +30,7 @@ import sys
 import tempfile
 import urllib.parse
 import urllib.request
+from typing import Dict
 
 # -------------- define globals here ---------------
 
@@ -162,7 +162,6 @@ def load_ont_file_return_ontology_and_metadata(file_name: str,
 def make_kg2(curies_to_categories: dict,
              uri_to_curie_shortener: callable,
              curie_to_uri_expander: callable,
-             map_category_label_to_iri: callable,
              ont_urls_and_files: tuple,
              output_file_name: str,
              test_mode: bool = False):
@@ -190,8 +189,7 @@ def make_kg2(curies_to_categories: dict,
     nodes_dict = make_nodes_dict_from_ontologies_list(ont_file_information_dict_list,
                                                       curies_to_categories,
                                                       uri_to_curie_shortener,
-                                                      curie_to_uri_expander,
-                                                      map_category_label_to_iri)
+                                                      curie_to_uri_expander)
 
     kg2_util.log_message('Calling make_map_of_node_ontology_ids_to_curie_ids')
 
@@ -369,8 +367,7 @@ def parse_umls_sver_date(umls_sver: str, sourcename: str):
 def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                          curies_to_categories: dict,
                                          uri_to_curie_shortener: callable,
-                                         curie_to_uri_expander: callable,
-                                         category_label_to_iri_mapper: callable):
+                                         curie_to_uri_expander: callable) -> Dict[str, dict]:
     ret_dict = dict()
     ontologies_iris_to_curies = dict()
 
@@ -632,7 +629,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                 else:
                     if node_category_label is None:
                         node_category_label = node_tui_category_label  # override the node category label if we have a TUI
-                node_tui_category_iri = category_label_to_iri_mapper(node_tui_category_label)
+                node_tui_category_curie = kg2_util.convert_biolink_category_to_curie(node_tui_category_label)
             ontology_curie_id = ontologies_iris_to_curies[iri_of_ontology]
             source_ontology_information = ret_dict.get(ontology_curie_id, None)
             if source_ontology_information is None:
@@ -700,7 +697,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         cui_node_dict['id'] = cui_curie
                         cui_node_dict['iri'] = cui_uri
                         cui_node_dict['synonym'] = []
-                        cui_node_dict['category'] = node_tui_category_iri
+                        cui_node_dict['category'] = node_tui_category_curie
                         cui_node_dict['category label'] = node_tui_category_label.replace(' ', '_')
                         cui_node_dict['ontology node ids'] = []
                         cui_node_dict['provided by'] = kg2_util.CURIE_ID_UMLS_SOURCE_CUI
@@ -1041,15 +1038,12 @@ if __name__ == '__main__':
     curies_to_categories = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_categories_file_name))
     map_dict = kg2_util.make_uri_curie_mappers(curies_to_uri_file_name)
     [curie_to_uri_expander, uri_to_curie_shortener] = [map_dict['expand'], map_dict['contract']]
-    map_category_label_to_iri = functools.partial(kg2_util.convert_biolink_category_to_iri,
-                                                  biolink_category_base_iri=kg2_util.BASE_URL_BIOLINK_CONCEPTS)
 
     ont_urls_and_files = tuple(kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(ont_load_inventory_file)))
 
     make_kg2(curies_to_categories,
              uri_to_curie_shortener,
              curie_to_uri_expander,
-             map_category_label_to_iri,
              ont_urls_and_files,
              output_file,
              test_mode)

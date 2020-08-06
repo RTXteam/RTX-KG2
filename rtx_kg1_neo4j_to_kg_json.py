@@ -164,7 +164,7 @@ if __name__ == '__main__':
             synonym_list.append('Biotype:microRNA')
         elif category_label == kg2_util.BIOLINK_CATEGORY_DISEASE and id.startswith(kg2_util.CURIE_PREFIX_OMIM + ':'):
             category_label = kg2_util.BIOLINK_CATEGORY_PHENOTYPIC_FEATURE
-        node_dict['category'] = kg2_util.convert_biolink_category_to_iri(category_label)
+        node_dict['category'] = kg2_util.convert_biolink_category_to_curie(category_label)
         node_dict['category label'] = category_label.replace(' ', '_')
         node_dict['iri'] = iri
         node_dict['description'] = node_dict.get('description', None)
