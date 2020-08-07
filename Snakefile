@@ -166,7 +166,7 @@ rule GO_Annotations:
     log:
         config['BUILD_DIR'] + "/extract-go-annotations.log"
     shell:
-        "bash -x " + config['CODE_DIR'] + "/extract-go-annotations.sh > {log} 2>&1"
+        "bash -x " + config['CODE_DIR'] + "/extract-go-annotations.sh {output} > {log} 2>&1"
 
 rule KG_One:
     input:
