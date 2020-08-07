@@ -20,11 +20,11 @@ uniprotkb_dat_file=${1:-"${BUILD_DIR}/uniprot_sprot.dat"}
 uniprotkb_dir=`dirname ${uniprotkb_dat_file}`
 
 mkdir -p ${uniprotkb_dir}
-${CURL_GET} ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.dat.gz  \
+${curl_get} ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.dat.gz  \
             > ${uniprotkb_dir}/uniprot_sprot.dat.gz
 
 zcat ${uniprotkb_dir}/uniprot_sprot.dat.gz > /tmp/uniprot_sprot.dat
 mv /tmp/uniprot_sprot.dat ${uniprotkb_dat_file}
 
 date
-echo "================= script finished ================="
+echo "================= finished extract-uniprotkb.sh ================="

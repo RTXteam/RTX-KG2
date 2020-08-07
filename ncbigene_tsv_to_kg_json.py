@@ -15,10 +15,12 @@ __status__ = 'Prototype'
 
 import argparse
 import kg2_util
+import os
 
 
-NCBI_BASE_IRI = 'https://www.ncbi.nlm.nih.gov/gene'
-NCBI_RELATION_CURIE_PREFIX = 'NCBIGene'
+NCBI_BASE_IRI = kg2_util.BASE_URL_NCBIGENE
+NCBI_KB_CURIE_ID = kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY + ':' + 'ncbigene'
+NCBI_KB_URL = kg2_util.BASE_URL_IDENTIFIERS_ORG_REGISTRY + 'ncbigene'
 
 
 def get_args():
@@ -34,17 +36,17 @@ def make_node(ncbi_gene_id: str,
               gene_symbol: str,
               update_date: str,
               other_synonyms: list = None):
-    category_label = 'gene'
+    category_label = kg2_util.BIOLINK_CATEGORY_GENE
     if other_synonyms is None:
         other_synonyms = []
     node_curie = kg2_util.CURIE_PREFIX_NCBI_GENE + ':' + ncbi_gene_id
-    iri = NCBI_BASE_IRI + '/' + ncbi_gene_id
+    iri = NCBI_BASE_IRI + ncbi_gene_id
     node_dict = kg2_util.make_node(node_curie,
                                    iri,
                                    full_name,
                                    category_label,
                                    update_date,
-                                   NCBI_BASE_IRI)
+                                   NCBI_KB_CURIE_ID)
     node_dict['synonym'] = list(set([gene_symbol] + other_synonyms))
     return node_dict
 
@@ -53,6 +55,17 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
     nodes = []
     edges = []
     gene_ctr = 0
+
+    update_date = os.path.getmtime(input_file_name)
+    ontology_curie_id = NCBI_KB_CURIE_ID
+    ens_kp_node = kg2_util.make_node(ontology_curie_id,
+                                     NCBI_KB_URL,
+                                     'NCBI Genes',
+                                     kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                                     update_date,
+                                     ontology_curie_id)
+    nodes.append(ens_kp_node)
+
     with open(input_file_name, 'r') as input_file:
         for line in input_file:
             if line.startswith('#'):
@@ -114,33 +127,29 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
             node_dict['description'] = node_description
             nodes.append(node_dict)
             org_curie = kg2_util.CURIE_PREFIX_NCBI_TAXON + ':' + taxon_id_str
-            predicate_label = 'gene_found_in_organism'
-            [relation, relation_curie] = kg2_util.predicate_label_to_iri_and_curie(predicate_label,
-                                                                                   NCBI_RELATION_CURIE_PREFIX,
-                                                                                   NCBI_BASE_IRI)
-            edge_dict = kg2_util.make_edge(node_curie_id,
-                                           org_curie,
-                                           relation,
-                                           relation_curie,
-                                           predicate_label,
-                                           NCBI_BASE_IRI,
-                                           modify_date)
+            predicate_label = 'in_taxon'
+
+            edge_dict = kg2_util.make_edge_biolink(node_curie_id,
+                                                   org_curie,
+                                                   predicate_label,
+                                                   NCBI_KB_CURIE_ID,
+                                                   modify_date)
             edges.append(edge_dict)
             if db_xrefs is not None:
                 xrefs_list = db_xrefs.split('|')
                 for xref_curie in xrefs_list:
                     if xref_curie.startswith('HGNC:HGNC:'):
-                        xref_curie = 'HGNC:' + xref_curie.replace('HGNC:', '')
+                        xref_curie = kg2_util.CURIE_PREFIX_HGNC + ':' + xref_curie.replace('HGNC:', '')
                     elif xref_curie.startswith('Ensembl:'):
                         xref_curie = xref_curie.upper()
                     elif xref_curie.startswith('MIM:'):
-                        xref_curie = 'OMIM:' + xref_curie.replace('MIM:', '')
+                        xref_curie = kg2_util.CURIE_PREFIX_OMIM + ':' + xref_curie.replace('MIM:', '')
                     edges.append(kg2_util.make_edge(node_curie_id,
                                                     xref_curie,
                                                     kg2_util.IRI_OWL_SAME_AS,
-                                                    kg2_util.CURIE_OWL_SAME_AS,
-                                                    'equivalent_to',
-                                                    NCBI_BASE_IRI,
+                                                    kg2_util.CURIE_ID_OWL_SAME_AS,
+                                                    kg2_util.EDGE_LABEL_OWL_SAME_AS,
+                                                    NCBI_KB_CURIE_ID,
                                                     modify_date))
     return {'nodes': nodes,
             'edges': edges}

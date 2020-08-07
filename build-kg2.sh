@@ -15,18 +15,11 @@ fi
 # 
 # * The 'all' argument means that the script will build the UMLS and SemMedDB files. Complete KG2 build.
 #
-# * The 'test' argument means that the OWL inventory is read from "owl-load-inventory-test.yaml"
+# * The 'test' argument means that the OWL inventory is read from "ont-load-inventory-test.yaml"
 #   and all KG JSON files generated will have the string "-test" appended before their JSON suffixes.
-
-## load the master config file
-config_dir=`dirname "$0"`
-source ${config_dir}/master-config.shinc
 
 build_flag=${1:-""}
 echo "${build_flag}"
-
-## set the path to include ${BUILD_DIR}
-export PATH=$PATH:${BUILD_DIR}
 
 if [ "${build_flag}" == 'test' ]
 then
@@ -38,13 +31,26 @@ else
     test_arg=''
 fi
 
+## load the master config file
+config_dir=`dirname "$0"`
+source ${config_dir}/master-config.shinc
+
+## set the path to include ${BUILD_DIR}
+export PATH=$PATH:${BUILD_DIR}
+
 build_kg2_log_file=${BUILD_DIR}/build-kg2${test_suffix}.log
 
 {
 
 echo "================= starting build-kg2.sh ================="
 date
-    
+
+echo `hostname`
+
+echo "running validation tests on KG2 config files"
+
+bash -x ${CODE_DIR}/run-validation-tests.sh
+
 ## supply a default value for the build_flag string
 
 semmed_tuplelist_file=${BUILD_DIR}/semmeddb/kg2-semmeddb${test_suffix}-tuplelist.json
@@ -53,7 +59,7 @@ semmed_output_file=${BUILD_DIR}/kg2-semmeddb${test_suffix}-edges.json
 uniprotkb_dat_file=${BUILD_DIR}/uniprotkb/uniprot_sprot.dat
 uniprotkb_output_file=${BUILD_DIR}/kg2-uniprotkb${test_suffix}.json
 
-output_file_base=kg2-owl${test_suffix}.json
+output_file_base=kg2-ont${test_suffix}.json
 output_file_full=${BUILD_DIR}/${output_file_base}
 
 output_file_orphan_edges=${BUILD_DIR}/kg2-orphans${test_suffix}-edges.json
@@ -81,11 +87,8 @@ slim_output_file_full=${BUILD_DIR}/kg2-slim${test_suffix}.json
 ensembl_source_json_file=${BUILD_DIR}/ensembl/ensembl_genes_homo_sapiens.json
 ensembl_output_file=${BUILD_DIR}/kg2-ensembl${test_suffix}.json
 
-chemble_output_file=${BUILD_DIR}/kg2-chembl${test_suffix}.json
-
-owl_load_inventory_file=${CODE_DIR}/owl-load-inventory${test_suffix}.yaml
-
-chemble_mysql_dbname=chembl
+chembl_output_file=${BUILD_DIR}/kg2-chembl${test_suffix}.json
+chembl_mysql_dbname=chembl
 
 unichem_output_tsv_file=${BUILD_DIR}/unichem/chembl-to-curies.tsv
 unichem_output_file=${BUILD_DIR}/kg2-unichem${test_suffix}.json
@@ -100,13 +103,24 @@ repodb_dir=${BUILD_DIR}/repodb
 repodb_input_file=${BUILD_DIR}/repodb/repodb.csv
 repodb_output_file=${BUILD_DIR}/kg2-repodb${test_suffix}.json
 
+smpdb_dir=${BUILD_DIR}/smpdb
+smpdb_output_file=${BUILD_DIR}/kg2-smpdb.json
+
+drugbank_input_file=${BUILD_DIR}/drugbank.xml
+drugbank_output_file=${BUILD_DIR}/kg2-drugbank${test_suffix}.json
+
+hmdb_input_file=${BUILD_DIR}/hmdb_metabolites.xml
+hmdb_output_file=${BUILD_DIR}/kg2-hmdb${test_suffix}.json
+
+go_annotation_input_file=${BUILD_DIR}/goa_human.gpa
+go_annotation_output_file=${BUILD_DIR}/kg2-go-annotation${test_suffix}.json
+
 kg1_output_file=${BUILD_DIR}/kg2-rtx-kg1${test_suffix}.json
-rtx_config_file=RTXConfiguration-config.json
 
 kg2_tsv_dir=${BUILD_DIR}/TSV
 kg2_tsv_tarball=${BUILD_DIR}/kg2-tsv${test_suffix}.tar.gz
 
-predicate_mapping_file=${CODE_DIR}/predicate-remap.yaml
+version_file=${BUILD_DIR}/kg2-version.txt
 
 cd ${BUILD_DIR}
 
@@ -128,7 +142,7 @@ then
     bash -x ${CODE_DIR}/extract-ensembl.sh ${ensembl_source_json_file}
 ## Extract ChEMBL
     echo "running extract-chembl.sh"
-    bash -x ${CODE_DIR}/extract-chembl.sh ${chemble_mysql_dbname}
+    bash -x ${CODE_DIR}/extract-chembl.sh ${chembl_mysql_dbname}
 ## Extract UniChem chembl-to-chebi mappings
     echo "running extract-unichem.sh"
     bash -x ${CODE_DIR}/extract-unichem.sh ${unichem_output_tsv_file}
@@ -141,6 +155,22 @@ then
 ## Download REPODB
     echo "running download-repodb-csv.sh"
     bash -x ${CODE_DIR}/download-repodb-csv.sh ${repodb_dir}
+
+## Download SMPDB
+    echo "running extract-smpdb.sh"
+    bash -x ${CODE_DIR}/extract-smpdb.sh ${smpdb_dir}
+
+## Download DrugBank
+    echo "running extract-drugbank.sh"
+    bash -x ${CODE_DIR}/extract-drugbank.sh ${drugbank_input_file}
+
+## Download HMDB
+    echo "running extract-hmdb.sh"
+    bash -x ${CODE_DIR}/extract-hmdb.sh
+
+## Extract GO Annotations
+    echo "running extract-go-annotations.sh"
+    bash -x ${CODE_DIR}/extract-go-annotations.sh ${go_annotation_input_file}
 fi
 
 echo "running uniprotkb_dat_to_json.py"
@@ -153,9 +183,18 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/uniprotkb_dat_to_json.py \
 
 echo "running semmeddb_tuple_list_json_to_kg_json.py"
 
+mrcui_rrf_file=${umls_dest_dir}/MRCUI.RRF
+if [ -f "${mrcui_rrf_file}" ]
+then
+    mrcui_arg="--mrcuiFile ${mrcui_rrf_file}"
+else
+    echo "WARNING: the MRCUI.RRF file is not found! proceeding withoutthe MRCUI.RRF-based CUI mapping"
+    mrcui_arg=""
+fi
 ## Build SemMedDB KG2 edges file as JSON:
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/semmeddb_tuple_list_json_to_kg_json.py \
            ${test_arg} \
+           ${mrcui_arg} \
            ${semmed_tuplelist_file} \
            ${semmed_output_file}
 
@@ -172,14 +211,14 @@ echo "running chembl_mysql_to_kg_json.py"
 ## Build Chembl KG2 edges file as JSON:
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/chembl_mysql_to_kg_json.py \
            ${test_arg} \
-           ${MYSQL_CONF} \
-           ${chemble_mysql_dbname} \
-           ${chemble_output_file}
+           ${mysql_conf} \
+           ${chembl_mysql_dbname} \
+           ${chembl_output_file}
 
-echo "running build-multi-owl-kg.sh"
+echo "running build-multi-ont-kg.sh"
 
 ## Combine all the TTL files and OBO Foundry OWL files into KG and save as JSON:
-bash -x ${CODE_DIR}/build-multi-owl-kg.sh \
+bash -x ${CODE_DIR}/build-multi-ont-kg.sh \
            ${output_file_full} ${build_flag}
 
 echo "running unichem_tsv_to_edges_json.py"
@@ -207,7 +246,7 @@ echo "running dgidb_tsv_to_kg_json.py"
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/dgidb_tsv_to_kg_json.py \
            ${test_arg} \
            ${dgidb_dir}/interactions.tsv \
-           ${dgidb_output_file} 2> ${dgidb_dir}/dgidb-tsv-to-kg-json.log
+           ${dgidb_output_file} 2> ${dgidb_dir}/dgidb-tsv-to-kg-json-stderr.log
 
 echo "running repodb_csv_to_kg_json.py"
 
@@ -216,17 +255,54 @@ echo "running repodb_csv_to_kg_json.py"
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/repodb_csv_to_kg_json.py \
            ${test_arg} \
            ${repodb_input_file} \
-           ${repodb_output_file} 2> ${repodb_dir}/repodb-csv-to-kg-json.log
+           ${repodb_output_file} 2> ${repodb_dir}/repodb-csv-to-kg-json-stderr.log
+
+echo "running drugbank_xml_to_kg_json.py"
+
+## Make JSON file for DrugBank
+
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/drugbank_xml_to_kg_json.py \
+           ${test_arg} \
+           ${drugbank_input_file} \
+           ${drugbank_output_file} 2> ${BUILD_DIR}/drugbank-xml-to-kg-json-stderr.log
+
+echo "running smpdb_csv_to_kg_json.py"
+
+## Make JSON file for SMPDB
+
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/smpdb_csv_to_kg_json.py \
+           ${test_arg} \
+           ${smpdb_dir} \
+           ${smpdb_output_file}
+
+echo "running hmdb_xml_to_kg_json.py"
+
+## Make JSON file for HMDB
+
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/hmdb_xml_to_kg_json.py \
+           ${test_arg} \
+           ${hmdb_input_file} \
+           ${hmdb_output_file}
+
+echo "running go_gpa_to_kg_json.py"
+
+## Make JSON Edges for GO Annotations
+
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/go_gpa_to_kg_json.py \
+           ${test_arg} \
+           ${go_annotation_input_file \
+           ${go_annotation_output_file}
 
 echo "copying RTX Configuration JSON file from S3"
 
-${S3_CP_CMD} s3://${S3_BUCKET}/${rtx_config_file} ${BUILD_DIR}/${rtx_config_file}
+${s3_cp_cmd} s3://${s3_bucket}/${rtx_config_file} ${BUILD_DIR}/${rtx_config_file}
 
 echo "extracting KG JSON representation of RTX KG1, from the Neo4j endpoint"
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/rtx_kg1_neo4j_to_kg_json.py \
            ${test_arg} \
            --configFile ${BUILD_DIR}/${rtx_config_file} \
+           ${curies_to_urls_file} \
            ${kg1_output_file}
 
 echo "running merge_graphs.py"
@@ -240,15 +316,19 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/merge_graphs.py \
                      ${uniprotkb_output_file} \
                      ${ensembl_output_file} \
                      ${unichem_output_file} \
-                     ${chemble_output_file} \
+                     ${chembl_output_file} \
                      ${ncbi_gene_output_file} \
                      ${dgidb_output_file} \
                      ${repodb_output_file} \
+                     ${smpdb_output_file} \
+                     ${drugbank_output_file} \
+                     ${hmdb_output_file} \
+                     ${go_annotation_output_file} \
                      ${kg1_output_file} \
            --kgFileOrphanEdges ${output_file_orphan_edges} \
            ${final_output_file_full}
 
-echo "get_nodes_json_from_kg_json.py"
+echo "running get_nodes_json_from_kg_json.py"
 
 ## Get a JSON file with just the nodes in it
 
@@ -265,6 +345,13 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/report_stats_on_json_kg.py \
            ${final_output_file_full} \
            ${report_file_full}
 
+
+echo "increase version of KG2"
+
+## Increase the version of KG2
+
+bash -x ${CODE_DIR}/version.sh ${version_file}
+
 echo "filter the JSON KG and remap predicates"
 
 ## Filter the JSON KG and remap predicates:
@@ -274,11 +361,12 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/filter_kg_and_remap_predicates.py \
            --dropNegated \
            --dropSelfEdgesExcept interacts_with,positively_regulates,inhibits,increase \
            ${predicate_mapping_file} \
-           ${CURIES_TO_URLS_FILE} \
+           ${curies_to_urls_file} \
            ${final_output_file_full} \
-           ${simplified_output_file_full}
+           ${simplified_output_file_full} \
+           ${version_file}
 
-echo "get_nodes_json_from_kg_json.py (for simplified KG)"
+echo "running get_nodes_json_from_kg_json.py (for simplified KG)"
 
 ## Get a JSON file with just the nodes in it
 
@@ -313,7 +401,7 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/kg_json_to_tsv.py \
            ${kg2_tsv_dir}
 
 tar -C ${kg2_tsv_dir} -czvf ${kg2_tsv_tarball} nodes.tsv nodes_header.tsv edges.tsv edges_header.tsv
-${S3_CP_CMD} ${kg2_tsv_tarball} s3://${S3_BUCKET}/
+${s3_cp_cmd} ${kg2_tsv_tarball} s3://${s3_bucket}/
 
 ## Compress the huge files
 gzip -f ${simplified_output_file_full}
@@ -323,32 +411,37 @@ gzip -f ${output_file_orphan_edges}
 gzip -f ${slim_output_file_full}
 
 ## copy the KG and various build artifacts to the public S3 bucket
-${S3_CP_CMD} ${final_output_file_full}.gz s3://${S3_BUCKET}/
-${S3_CP_CMD} ${simplified_output_file_full}.gz s3://${S3_BUCKET}/
-${S3_CP_CMD} ${output_nodes_file_full}.gz s3://${S3_BUCKET}/
-${S3_CP_CMD} ${report_file_full} s3://${S3_BUCKET_PUBLIC}/
-${S3_CP_CMD} ${simplified_report_file_full} s3://${S3_BUCKET_PUBLIC}/
-${S3_CP_CMD} ${output_file_orphan_edges}.gz s3://${S3_BUCKET_PUBLIC}/
-${S3_CP_CMD} ${slim_output_file_full}.gz s3://${S3_BUCKET}/
-${S3_CP_CMD} ${simplified_output_nodes_file_full}.gz s3://${S3_BUCKET}/
+${s3_cp_cmd} ${final_output_file_full}.gz s3://${s3_bucket}/
+${s3_cp_cmd} ${simplified_output_file_full}.gz s3://${s3_bucket}/
+${s3_cp_cmd} ${output_nodes_file_full}.gz s3://${s3_bucket}/
+${s3_cp_cmd} ${report_file_full} s3://${s3_bucket_public}/
+${s3_cp_cmd} ${simplified_report_file_full} s3://${s3_bucket_public}/
+${s3_cp_cmd} ${output_file_orphan_edges}.gz s3://${s3_bucket_public}/
+${s3_cp_cmd} ${slim_output_file_full}.gz s3://${s3_bucket}/
+${s3_cp_cmd} ${simplified_output_nodes_file_full}.gz s3://${s3_bucket}/
 
 ## copy the log files to the public S3 bucket
 build_multi_owl_stderr_file="${BUILD_DIR}/build-${output_file_base%.*}"-stderr.log
 
-${S3_CP_CMD} ${build_multi_owl_stderr_file} s3://${S3_BUCKET_PUBLIC}/
+${s3_cp_cmd} ${build_multi_owl_stderr_file} s3://${s3_bucket_public}/
 
 ## copy the config files to the public S3 bucket
-${S3_CP_CMD} ${owl_load_inventory_file} s3://${S3_BUCKET_PUBLIC}/
+${s3_cp_cmd} ${ont_load_inventory_file} s3://${s3_bucket_public}/
 
 # copy the index.html file to the public S3 bucket
-${S3_CP_CMD} ${CODE_DIR}/s3-index.html s3://${S3_BUCKET_PUBLIC}/index.html
+${s3_cp_cmd} ${CODE_DIR}/s3-index.html s3://${s3_bucket_public}/index.html
 
 
 date
-echo "================= script finished ================="
+echo "================= finished build-kg2.sh ================="
 
 } >${build_kg2_log_file} 2>&1
 
 # copy the KG2 build log file to the S3 bucket
-${S3_CP_CMD} ${build_kg2_log_file} s3://${S3_BUCKET_PUBLIC}/
+${s3_cp_cmd} ${build_kg2_log_file} s3://${s3_bucket_public}/
 
+# copy the log files and reports to the versioned S3 bucket
+${s3_cp_cmd} ${build_kg2_log_file} s3://${s3_bucket_versioned}/
+${s3_cp_cmd} ${report_file_full} s3://${s3_bucket_versioned}/
+${s3_cp_cmd} ${simplified_report_file_full} s3://${s3_bucket_versioned}/
+${s3_cp_cmd} ${build_multi_owl_stderr_file} s3://${s3_bucket_versioned}/

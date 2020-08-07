@@ -19,11 +19,15 @@ read aws_pem_file
 
 echo "Enter hostname of your instance: "
 read instance_hostname
-#instance_hostname=kg2dev.rtx.ai
 
-if ! ssh -q -o StrictHostKeyChecking=no ubuntu@${instance_hostname} exit; then
-    ## remove kg2.saramsey.org from the ~/.ssh/known_hosts file
+ssh-keygen -F ${instance_hostname} >/dev/null 2>&1
+if [ $? == 0 ]
+then
     ssh-keygen -R ${instance_hostname}
+fi
+
+if ! ssh -q -o StrictHostKeyChecking=no ubuntu@${instance_hostname} exit
+then
     ## copy the id_rsa.pub file to the instance
     scp -i ${aws_pem_file} \
         -o StrictHostKeyChecking=no \
@@ -34,9 +38,3 @@ if ! ssh -q -o StrictHostKeyChecking=no ubuntu@${instance_hostname} exit; then
         ubuntu@${instance_hostname} \
         'cat ${public_key_file} >> ~/.ssh/authorized_keys && rm ${public_key_file}'
 fi
-    
-## clone the RTX repo into the instance
-ssh ubuntu@${instance_hostname} git clone https://github.com/RTXteam/RTX.git
-
-ssh -t ubuntu@${instance_hostname}
-
