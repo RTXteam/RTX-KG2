@@ -98,6 +98,18 @@ def truncate_node_synonyms_if_too_large(node_synonym_field, node_id):
         return node_synonym_field
 
 
+def shorten_description_if_too_large(node_description_field, node_id):
+    """
+    Truncates a node's description if it's too large for Neo4j. (Neo4j apparently cannot 'read a field larger than
+    buffer size 4194304' - see Github issue #460).
+    """
+    if len(node_description_field) > NEO4J_CHAR_LIMIT:
+        print("warning: truncating 'description field on node {} because it's too big for neo4j".format(node_id), file=sys.stderr)
+        return str(list(node_description_field)[0:NEO4J_CHAR_LIMIT]).replace("[", "").replace("]", "").replace("', '", "").replace("'", "")
+    else:
+        return node_description_field
+
+
 def nodes(graph, output_file_location):
     """
     :param graph: A dictionary containing KG2
@@ -156,10 +168,11 @@ def nodes(graph, output_file_location):
                 value = str(value).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
             elif key == "publications":
                 value = str(node[key]).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
+            elif key == "description" and node[key] is not None:
+                value = shorten_description_if_too_large(node[key], node['id'])
             else:
                 # If the property does exist, assign the property value
                 value = node[key]
-
             # Add the value of the property to the property value list
             vallist.append(value)
 
