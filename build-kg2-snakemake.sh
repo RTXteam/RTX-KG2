@@ -98,6 +98,9 @@ drugbank_output_file=${BUILD_DIR}/kg2-drugbank${test_suffix}.json
 hmdb_input_file=${BUILD_DIR}/hmdb_metabolites.xml
 hmdb_output_file=${BUILD_DIR}/kg2-hmdb${test_suffix}.json
 
+go_annotation_input_file=${BUILD_DIR}/goa_human.gpa
+go_annotation_output_file=${BUILD_DIR}/kg2-go-annotation${test_suffix}.json
+
 kg1_output_file=${BUILD_DIR}/kg2-rtx-kg1${test_suffix}.json
 
 kg2_tsv_dir=${BUILD_DIR}/TSV
@@ -138,6 +141,7 @@ cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${CODE_DIR}/Snakefile \
      SMPDB_DIR="${smpdb_dir}" SMPDB_INPUT_FILE="${smpdb_input_file}" SMPDB_OUTPUT_FILE="${smpdb_output_file}" \
      DRUGBANK_INPUT_FILE="${drugbank_input_file}" DRUGBANK_OUTPUT_FILE="${drugbank_output_file}" \
      HMDB_INPUT_FILE="${hmdb_input_file}" HMDB_OUTPUT_FILE="${hmdb_output_file}" \
+     GO_ANNOTATION_INPUT_FILE="${go_annotation_input_file}" GO_ANNOTATION_OUTPUT_FILE="${go_annotation_output_file}" \
      KG1_OUTPUT_FILE="${kg1_output_file}" RTX_CONFIG_FILE="${rtx_config_file}" \
      KG2_TSV_DIR="${kg2_tsv_dir}" KG2_TSV_TARBALL="${kg2_tsv_tarball}" \
      PREDICATE_MAPPING_FILE="${predicate_mapping_file}" \

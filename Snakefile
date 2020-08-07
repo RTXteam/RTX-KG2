@@ -158,6 +158,16 @@ rule HMDB:
     shell:
         "bash -x " + config['CODE_DIR'] + "/extract-hmdb.sh > {log} 2>&1"
 
+rule GO_Annotations:
+    input:
+        config['BUILD_DIR'] + "/validation-placeholder.empty"
+    output:
+        config['GO_ANNOTATION_INPUT_FILE']
+    log:
+        config['BUILD_DIR'] + "/extract-go-annotations.log"
+    shell:
+        "bash -x " + config['CODE_DIR'] + "/extract-go-annotations.sh > {log} 2>&1"
+
 rule KG_One:
     input:
         config['BUILD_DIR'] + "/validation-placeholder.empty"
@@ -272,6 +282,16 @@ rule HMDB_Conversion:
         config['BUILD_DIR'] + "/hmdb-xml-to-kg-json.log"
     shell:
         config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/hmdb_xml_to_kg_json.py " + config['TEST_ARG'] + " {input} {output} > {log} 2>&1"
+
+rule GO_Annotations_Conversion:
+    input:
+        config['GO_ANNOTATION_INPUT_FILE']
+    output:
+        config['GO_ANNOTATION_OUTPUT_FILE']
+    log:
+        config['BUILD_DIR'] + "/go-gpa-to-kg-json.log"
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/go_gpa_to_kg_json.py " + config['TEST_ARG'] + " {input} {output} > {log} 2>&1"
         
 rule Merge:
     input:
@@ -287,12 +307,13 @@ rule Merge:
         repoddb = config['REPODB_OUTPUT_FILE'],
         drugbank = config['DRUGBANK_OUTPUT_FILE'],
         smpdb = config['SMPDB_OUTPUT_FILE'],
-        hmdb = config['HMDB_OUTPUT_FILE']
+        hmdb = config['HMDB_OUTPUT_FILE'],
+        go_annotations = config['GO_ANNOTATION_OUTPUT_FILE']
     output:
         full = config['FINAL_OUTPUT_FILE_FULL'],
         orph = config['OUTPUT_FILE_ORPHAN_EDGES']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/merge_graphs.py " + config['TEST_ARG'] + " --kgFiles {input.owl} {input.uniprot} {input.semmeddb} {input.chembl} {input.ensembl} {input.unichem} {input.ncbigene} {input.dgidb} {input.kg_one} {input.repoddb} {input.drugbank} {input.smpdb} {input.hmdb} --kgFileOrphanEdges {output.orph} {output.full}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/merge_graphs.py " + config['TEST_ARG'] + " --kgFiles {input.owl} {input.uniprot} {input.semmeddb} {input.chembl} {input.ensembl} {input.unichem} {input.ncbigene} {input.dgidb} {input.kg_one} {input.repoddb} {input.drugbank} {input.smpdb} {input.hmdb} {input.go_annotations} --kgFileOrphanEdges {output.orph} {output.full}"
 
 rule Nodes:
     input:

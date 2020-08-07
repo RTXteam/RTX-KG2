@@ -112,6 +112,9 @@ drugbank_output_file=${BUILD_DIR}/kg2-drugbank${test_suffix}.json
 hmdb_input_file=${BUILD_DIR}/hmdb_metabolites.xml
 hmdb_output_file=${BUILD_DIR}/kg2-hmdb${test_suffix}.json
 
+go_annotation_input_file=${BUILD_DIR}/goa_human.gpa
+go_annotation_output_file=${BUILD_DIR}/kg2-go-annotation${test_suffix}.json
+
 kg1_output_file=${BUILD_DIR}/kg2-rtx-kg1${test_suffix}.json
 
 kg2_tsv_dir=${BUILD_DIR}/TSV
@@ -162,8 +165,12 @@ then
     bash -x ${CODE_DIR}/extract-drugbank.sh ${drugbank_input_file}
 
 ## Download HMDB
-  echo "running extract-hmdb.sh"
-  bash -x ${CODE_DIR}/extract-hmdb.sh
+    echo "running extract-hmdb.sh"
+    bash -x ${CODE_DIR}/extract-hmdb.sh
+
+## Extract GO Annotations
+    echo "running extract-go-annotations.sh"
+    bash -x ${CODE_DIR}/extract-go-annotations.sh ${go_annotation_input_file}
 fi
 
 echo "running uniprotkb_dat_to_json.py"
@@ -277,6 +284,15 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/hmdb_xml_to_kg_json.py \
            ${hmdb_input_file} \
            ${hmdb_output_file}
 
+echo "running go_gpa_to_kg_json.py"
+
+## Make JSON Edges for GO Annotations
+
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/go_gpa_to_kg_json.py \
+           ${test_arg} \
+           ${go_annotation_input_file \
+           ${go_annotation_output_file}
+
 echo "copying RTX Configuration JSON file from S3"
 
 ${s3_cp_cmd} s3://${s3_bucket}/${rtx_config_file} ${BUILD_DIR}/${rtx_config_file}
@@ -307,6 +323,7 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/merge_graphs.py \
                      ${smpdb_output_file} \
                      ${drugbank_output_file} \
                      ${hmdb_output_file} \
+                     ${go_annotation_output_file} \
                      ${kg1_output_file} \
            --kgFileOrphanEdges ${output_file_orphan_edges} \
            ${final_output_file_full}
