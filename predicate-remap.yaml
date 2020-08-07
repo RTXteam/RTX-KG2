@@ -756,6 +756,42 @@ GENEPIO:0001739:
   - biolink:precedes
 GO:SIB:
   delete: null
+GO:acts_upstream_of:
+  rename:
+  - macromolecular_machine_to_biological_process_association_object
+  - biolink:macromolecular_machine_to_biological_process_association_object
+GO:acts_upstream_of_negative_effect:
+  rename:
+  - macromolecular_machine_to_biological_process_association_object
+  - biolink:macromolecular_machine_to_biological_process_association_object
+GO:acts_upstream_of_or_within:
+  rename:
+  - macromolecular_machine_to_biological_process_association_object
+  - biolink:macromolecular_machine_to_biological_process_association_object
+GO:acts_upstream_of_or_within_negative_effect:
+  rename:
+  - macromolecular_machine_to_biological_process_association_object
+  - biolink:macromolecular_machine_to_biological_process_association_object
+GO:acts_upstream_of_or_within_positive_effect:
+  rename:
+  - macromolecular_machine_to_biological_process_association_object
+  - biolink:macromolecular_machine_to_biological_process_association_object
+GO:acts_upstream_of_positive_effect:
+  rename:
+  - macromolecular_machine_to_biological_process_association_object
+  - biolink:macromolecular_machine_to_biological_process_association_object
+GO:colocalizes_with:
+  rename:
+  - colocalizes_with
+  - biolink:colocalizes_with
+GO:contributes_to:
+  rename:
+  - contributes_to
+  - biolink:contributes_to
+GO:enables:
+  rename:
+  - enables
+  - biolink:enables
 GO:ends_during:
   rename:
   - related_to
@@ -778,10 +814,18 @@ GO:inverse_isa:
   invert:
   - subclass_of
   - biolink:subclass_of
+GO:involved_in:
+  rename:
+  - participates_in
+  - biolink:participates_in
 GO:isa:
   rename:
   - subclass_of
   - biolink:subclass_of
+GO:is_active_in:
+  rename:
+  - actively_involved_in
+  - biolink:actively_involved_in
 GO:negatively_regulated_by:
   invert:
   - negatively_regulates

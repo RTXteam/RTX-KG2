@@ -144,6 +144,8 @@ use_for_bidirectional_mapping:
   -
     GOREL: http://purl.obolibrary.org/obo/GOREL_
   -
+    GO_REF: "https://identifiers.org/GO_REF:"
+  -
     GTPI: https://www.guidetopharmacology.org/GRAC/LigandDisplayForward?ligandId=
   -
     GTPI_source: https://www.guidetopharmacology.org/
