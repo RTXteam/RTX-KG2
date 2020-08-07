@@ -283,6 +283,8 @@ def safe_load_yaml_from_string(yaml_string: str):
 
 
 def shorten_iri_to_curie(iri: str, curie_to_iri_map: list) -> str:
+    if iri is None:
+        raise ValueError('cannot shorten an IRI with value None')
     curie_list = prefixcommons.contract_uri(iri,
                                             curie_to_iri_map)
     if len(curie_list) == 0:

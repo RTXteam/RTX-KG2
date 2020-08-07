@@ -1004,7 +1004,10 @@ def convert_bpv_predicate_to_curie(bpv_pred: str,
         bpv_pred_curie = uri_shortener(bpv_pred)
     else:
         assert ':' in bpv_pred, bpv_pred
-        bpv_pred_curie = uri_shortener(curie_expander(bpv_pred))
+        uri = curie_expander(bpv_pred)
+        if uri is None:
+            raise ValueError('unable to expand CURIE: ' + bpv_pred)
+        bpv_pred_curie = uri_shortener(uri)
     return bpv_pred_curie
 
 
