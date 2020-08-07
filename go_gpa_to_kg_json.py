@@ -7,7 +7,7 @@
 
 import csv
 import datetime
-import RTX.code.kg2.kg2_util as kg2_util
+import kg2_util
 import argparse
 
 __author__ = 'Erica Wood'
