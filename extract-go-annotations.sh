@@ -24,7 +24,7 @@ output_file=${1-'${BUILD_DIR}/goa_human.gpa'}
 
 go_link="ftp://ftp.ebi.ac.uk/pub/databases/GO/goa/HUMAN/goa_human.gpa.gz"
 
-${CURL_GET} ${go_link} > ${BUILD_DIR}/${go_file}
+${curl_get} ${go_link} > ${BUILD_DIR}/${go_file}
 
 gunzip -c ${BUILD_DIR}/${go_file} > ${output_file}
 
