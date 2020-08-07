@@ -56,7 +56,7 @@ rule SemMedDB:
     log:
         config['BUILD_DIR'] + "/extract-semmeddb.log"
     shell:
-        "bash -x " + config['CODE_DIR'] + "/extract-semmeddb.sh {output} " + config['test'] + " > {log} 2>&1"
+        "bash -x " + config['CODE_DIR'] + "/extract-semmeddb.sh {output} " + config['TEST_FLAG'] + " > {log} 2>&1"
 
 rule UniprotKB:
     input:
@@ -158,6 +158,16 @@ rule HMDB:
     shell:
         "bash -x " + config['CODE_DIR'] + "/extract-hmdb.sh > {log} 2>&1"
 
+rule GO_Annotations:
+    input:
+        config['BUILD_DIR'] + "/validation-placeholder.empty"
+    output:
+        config['GO_ANNOTATION_INPUT_FILE']
+    log:
+        config['BUILD_DIR'] + "/extract-go-annotations.log"
+    shell:
+        "bash -x " + config['CODE_DIR'] + "/extract-go-annotations.sh {output} > {log} 2>&1"
+
 rule KG_One:
     input:
         config['BUILD_DIR'] + "/validation-placeholder.empty"
@@ -165,7 +175,7 @@ rule KG_One:
         config['KG1_OUTPUT_FILE']
     run:
         shell(config['S3_CP_CMD'] + " s3://rtx-kg2/" + config['RTX_CONFIG_FILE'] + " " + config['BUILD_DIR'] + "/" + config['RTX_CONFIG_FILE'])
-        shell(config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/rtx_kg1_neo4j_to_kg_json.py " + config['testdd'] + " --configFile " + config['BUILD_DIR'] + "/" + config['RTX_CONFIG_FILE'] + " " + config['CURIES_TO_URLS_FILE'] + " {output}")
+        shell(config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/rtx_kg1_neo4j_to_kg_json.py " + config['TEST_ARG'] + " --configFile " + config['BUILD_DIR'] + "/" + config['RTX_CONFIG_FILE'] + " " + config['CURIES_TO_URLS_FILE'] + " {output}")
 
 rule Ontologies_and_TTL:
     input:
@@ -175,7 +185,7 @@ rule Ontologies_and_TTL:
     log:
         config['BUILD_DIR'] + "/build-multi-owl-kg.log"
     shell:
-        "bash -x " + config['CODE_DIR'] + "/build-multi-ont-kg.sh {output} " + config['test'] + " > {log} 2>&1" 
+        "bash -x " + config['CODE_DIR'] + "/build-multi-ont-kg.sh {output} " + config['TEST_FLAG'] + " > {log} 2>&1" 
 
 rule NCBIGene_Conversion:
     input:
@@ -183,7 +193,7 @@ rule NCBIGene_Conversion:
     output:
         config['NCBI_GENE_OUTPUT_FILE']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/ncbigene_tsv_to_kg_json.py " + config['testdd'] + " {input} {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/ncbigene_tsv_to_kg_json.py " + config['TEST_ARG'] + " {input} {output}"
 
 rule DGIDB_Conversion:
     input:
@@ -193,7 +203,7 @@ rule DGIDB_Conversion:
     log:
         config['DGIDB_DIR'] + "/dgidb-tsv-to-kg-json-stderr.log"
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/dgidb_tsv_to_kg_json.py " + config['testdd'] + " {input} {output}" + " > {log} 2>&1"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/dgidb_tsv_to_kg_json.py " + config['TEST_ARG'] + " {input} {output}" + " > {log} 2>&1"
 
 rule ChemBL_Conversion:
     input:
@@ -201,7 +211,7 @@ rule ChemBL_Conversion:
     output:
         config['CHEMBL_OUTPUT_FILE']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/chembl_mysql_to_kg_json.py " + config['testdd'] + " " + config['MYSQL_CONF'] + " " + config['CHEMBL_MYSQL_DBNAME'] + " {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/chembl_mysql_to_kg_json.py " + config['TEST_ARG'] + " " + config['MYSQL_CONF'] + " " + config['CHEMBL_MYSQL_DBNAME'] + " {output}"
 
 rule UniChem_Conversion:
     input:
@@ -209,7 +219,7 @@ rule UniChem_Conversion:
     output:
         config['UNICHEM_OUTPUT_FILE']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/unichem_tsv_to_edges_json.py " + config['testdd'] + " {input} {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/unichem_tsv_to_edges_json.py " + config['TEST_ARG'] + " {input} {output}"
 
 rule Ensembl_Conversion:
     input:
@@ -217,7 +227,7 @@ rule Ensembl_Conversion:
     output:
         config['ENSEMBL_OUTPUT_FILE']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/ensembl_json_to_kg_json.py " + config['testdd'] + " {input} {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/ensembl_json_to_kg_json.py " + config['TEST_ARG'] + " {input} {output}"
 
 rule SemMed_Conversion:
     input:
@@ -225,7 +235,7 @@ rule SemMed_Conversion:
     output:
         config['SEMMED_OUTPUT_FILE']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/semmeddb_tuple_list_json_to_kg_json.py " + config['testdd'] + " {input} {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/semmeddb_tuple_list_json_to_kg_json.py " + config['TEST_ARG'] + " {input} {output}"
 
 rule Uniprot_Conversion:
     input:
@@ -233,7 +243,7 @@ rule Uniprot_Conversion:
     output:
         config['UNIPROTKB_OUTPUT_FILE']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/uniprotkb_dat_to_json.py " + config['testdd'] + " {input} {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/uniprotkb_dat_to_json.py " + config['TEST_ARG'] + " {input} {output}"
 
 rule RepodDB_Conversion:
     input:
@@ -241,7 +251,7 @@ rule RepodDB_Conversion:
     output:
         config['REPODB_OUTPUT_FILE']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/repodb_csv_to_kg_json.py " + config['testdd'] + " {input} {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/repodb_csv_to_kg_json.py " + config['TEST_ARG'] + " {input} {output}"
 
 rule SMPDB_Conversion:
     input:
@@ -251,7 +261,7 @@ rule SMPDB_Conversion:
     log:
         config['SMPDB_DIR'] + "/smpdb-csv-to-kg-json.log"
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/smpdb_csv_to_kg_json.py " + config['testdd'] + " " + config['SMPDB_DIR'] + " {output} > {log} 2>&1"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/smpdb_csv_to_kg_json.py " + config['TEST_ARG'] + " " + config['SMPDB_DIR'] + " {output} > {log} 2>&1"
 
 rule DrugBank_Conversion:
     input:
@@ -261,7 +271,7 @@ rule DrugBank_Conversion:
     log:
         config['BUILD_DIR'] + "/drugbank-xml-to-kg-json.log"
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/drugbank_xml_to_kg_json.py " + config['testdd'] + " {input} {output} > {log} 2>&1"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/drugbank_xml_to_kg_json.py " + config['TEST_ARG'] + " {input} {output} > {log} 2>&1"
 
 rule HMDB_Conversion:
     input:
@@ -271,7 +281,17 @@ rule HMDB_Conversion:
     log:
         config['BUILD_DIR'] + "/hmdb-xml-to-kg-json.log"
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/hmdb_xml_to_kg_json.py " + config['testdd'] + " {input} {output} > {log} 2>&1"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/hmdb_xml_to_kg_json.py " + config['TEST_ARG'] + " {input} {output} > {log} 2>&1"
+
+rule GO_Annotations_Conversion:
+    input:
+        config['GO_ANNOTATION_INPUT_FILE']
+    output:
+        config['GO_ANNOTATION_OUTPUT_FILE']
+    log:
+        config['BUILD_DIR'] + "/go-gpa-to-kg-json.log"
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/go_gpa_to_kg_json.py " + config['TEST_ARG'] + " {input} {output} > {log} 2>&1"
         
 rule Merge:
     input:
@@ -287,12 +307,13 @@ rule Merge:
         repoddb = config['REPODB_OUTPUT_FILE'],
         drugbank = config['DRUGBANK_OUTPUT_FILE'],
         smpdb = config['SMPDB_OUTPUT_FILE'],
-        hmdb = config['HMDB_OUTPUT_FILE']
+        hmdb = config['HMDB_OUTPUT_FILE'],
+        go_annotations = config['GO_ANNOTATION_OUTPUT_FILE']
     output:
         full = config['FINAL_OUTPUT_FILE_FULL'],
         orph = config['OUTPUT_FILE_ORPHAN_EDGES']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/merge_graphs.py " + config['testdd'] + " --kgFiles {input.owl} {input.uniprot} {input.semmeddb} {input.chembl} {input.ensembl} {input.unichem} {input.ncbigene} {input.dgidb} {input.kg_one} {input.repoddb} {input.drugbank} {input.smpdb} {input.hmdb} --kgFileOrphanEdges {output.orph} {output.full}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/merge_graphs.py " + config['TEST_ARG'] + " --kgFiles {input.owl} {input.uniprot} {input.semmeddb} {input.chembl} {input.ensembl} {input.unichem} {input.ncbigene} {input.dgidb} {input.kg_one} {input.repoddb} {input.drugbank} {input.smpdb} {input.hmdb} {input.go_annotations} --kgFileOrphanEdges {output.orph} {output.full}"
 
 rule Nodes:
     input:
@@ -301,7 +322,7 @@ rule Nodes:
     output:
         config['OUTPUT_NODES_FILE_FULL']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/get_nodes_json_from_kg_json.py " + config['testdd'] + " {input.real} {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/get_nodes_json_from_kg_json.py " + config['TEST_ARG'] + " {input.real} {output}"
 
 rule Stats:
     input:
@@ -321,7 +342,7 @@ rule Simplify:
         config['BUILD_DIR'] + "/filter_kg_and_remap_predicates.log"
     run:
         shell("bash -x " + config['CODE_DIR'] + "/version.sh " + config['VERSION_FILE'] + " > {log} 2>&1")
-        shell(config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/filter_kg_and_remap_predicates.py " + config['testdd'] + " --dropNegated --dropSelfEdgesExcept interacts_with,positively_regulates,inhibits,increase " + config['PREDICATE_MAPPING_FILE'] + " " + config['CURIES_TO_URLS_FILE'] + " {input.real} {output} " + config['VERSION_FILE'] + " >> {log} 2>&1")
+        shell(config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/filter_kg_and_remap_predicates.py " + config['TEST_ARG'] + " --dropNegated --dropSelfEdgesExcept interacts_with,positively_regulates,inhibits,increase " + config['PREDICATE_MAPPING_FILE'] + " " + config['CURIES_TO_URLS_FILE'] + " {input.real} {output} " + config['VERSION_FILE'] + " >> {log} 2>&1")
 
 rule Simplify_Nodes:
     input:
@@ -329,7 +350,7 @@ rule Simplify_Nodes:
     output:
         config['SIMPLIFIED_OUTPUT_NODES_FILE_FULL']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/get_nodes_json_from_kg_json.py " + config['testdd'] + " {input} {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/get_nodes_json_from_kg_json.py " + config['TEST_ARG'] + " {input} {output}"
 
 rule Slim:
     input:
@@ -338,7 +359,7 @@ rule Slim:
     output:
         config['SLIM_OUTPUT_FILE_FULL']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/slim_kg2.py " + config['testdd'] + " {input.real} {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/slim_kg2.py " + config['TEST_ARG'] + " {input.real} {output}"
 
 rule Simplify_Stats:
     input:

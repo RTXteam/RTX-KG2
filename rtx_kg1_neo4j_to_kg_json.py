@@ -87,13 +87,13 @@ def query_neo4j(neo4j_auth: dict, http_uri: str, cypher_query: str, test_mode=Fa
 
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='rtx_kg1_neo4j_to_kg_json.py: downloads the RTX KG1 from a Neo4j endpoint, as a JSON file')
-    arg_parser.add_argument('curiesToURLsMapFile', type=str)
     arg_parser.add_argument("-c", "--configFile", type=str, help="The RTXConfiguration config.json file", default=None)
     arg_parser.add_argument("-u", "--user", type=str, help="The neo4j username", default=None)
     arg_parser.add_argument("-p", "--password", type=str, help="The neo4j passworl", default=None)
     arg_parser.add_argument("-e", "--endpoint_uri", type=str, help="The neo4j HTTP URI (including port)",
                             default=None)
     arg_parser.add_argument('--test', dest='test', action='store_true', default=False)
+    arg_parser.add_argument('curiesToURLsMapFile', type=str)
     arg_parser.add_argument('outputFileName', type=str, help="The filename of the output JSON file")
     return arg_parser.parse_args()
 

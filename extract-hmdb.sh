@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# extract-hmdb.sh: Download the Small Molecule Pathway Database
+# extract-hmdb.sh: Download the Human Metabolome Database
 # Copyright 2020 Stephen A. Ramsey
 # Author Erica Wood
 
@@ -15,16 +15,16 @@ fi
 echo "================= starting extract-hmdb.sh =================="
 date
 
-CONFIG_DIR=`dirname "$0"`
-source ${CONFIG_DIR}/master-config.shinc
+config_dir=`dirname "$0"`
+source ${config_dir}/master-config.shinc
 
-OUTPUT_FILE=hmdb_metabolites
+output_file=hmdb_metabolites
 
-HMDB_LINK="https://hmdb.ca/system/downloads/current/hmdb_metabolites.zip"
+hmdb_link="https://hmdb.ca/system/downloads/current/hmdb_metabolites.zip"
 
-${CURL_GET} ${HMDB_LINK} > ${BUILD_DIR}/${OUTPUT_FILE}.zip
+${curl_get} ${hmdb_link} > ${BUILD_DIR}/${output_file}.zip
 
-unzip -o ${BUILD_DIR}/${OUTPUT_FILE}.zip -d ${BUILD_DIR}
+unzip -o ${BUILD_DIR}/${output_file}.zip -d ${BUILD_DIR}
 
 date
 echo "================= finishing extract-hmdb.sh =================="

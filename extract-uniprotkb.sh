@@ -12,19 +12,19 @@ fi
 echo "================= starting extract-uniprotkb.sh ================="
 date
 
-CONFIG_DIR=`dirname "$0"`
-source ${CONFIG_DIR}/master-config.shinc
+config_dir=`dirname "$0"`
+source ${config_dir}/master-config.shinc
 
-UNIPROTKB_DAT_FILE=${1:-"${BUILD_DIR}/uniprot_sprot.dat"}
+uniprotkb_dat_file=${1:-"${BUILD_DIR}/uniprot_sprot.dat"}
 
-UNIPROTKB_DIR=`dirname ${UNIPROTKB_DAT_FILE}`
+uniprotkb_dir=`dirname ${uniprotkb_dat_file}`
 
-mkdir -p ${UNIPROTKB_DIR}
-${CURL_GET} ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.dat.gz  \
-            > ${UNIPROTKB_DIR}/uniprot_sprot.dat.gz
+mkdir -p ${uniprotkb_dir}
+${curl_get} ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.dat.gz  \
+            > ${uniprotkb_dir}/uniprot_sprot.dat.gz
 
-zcat ${UNIPROTKB_DIR}/uniprot_sprot.dat.gz > /tmp/uniprot_sprot.dat
-mv /tmp/uniprot_sprot.dat ${UNIPROTKB_DAT_FILE}
+zcat ${uniprotkb_dir}/uniprot_sprot.dat.gz > /tmp/uniprot_sprot.dat
+mv /tmp/uniprot_sprot.dat ${uniprotkb_dat_file}
 
 date
 echo "================= finished extract-uniprotkb.sh ================="

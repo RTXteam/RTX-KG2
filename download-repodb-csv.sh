@@ -12,15 +12,15 @@ echo "================= starting doenload-repodb-csv.sh ================="
 date
 
 ## load the master config file
-CONFIG_DIR=`dirname "$0"`
-source ${CONFIG_DIR}/master-config.shinc
+config_dir=`dirname "$0"`
+source ${config_dir}/master-config.shinc
 
-REPODB_DIR=${1:-"${BUILD_DIR}/repodb/"}
-REPODB_FILE=repodb.csv
+repodb_dir=${1:-"${BUILD_DIR}/repodb/"}
+repodb_file=repodb.csv
 
-mkdir -p ${REPODB_DIR}
+mkdir -p ${repodb_dir}
 
-aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/${REPODB_FILE} ${REPODB_DIR}/${REPODB_FILE}
+${s3_cp_cmd} s3://${s3_bucket}/${repodb_file} ${repodb_dir}/${repodb_file}
 
 date
 echo "================= script finished ================="

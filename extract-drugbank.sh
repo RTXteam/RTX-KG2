@@ -15,15 +15,15 @@ fi
 echo "================= starting extract-drugbank.sh =================="
 date
 
-CONFIG_DIR=`dirname "$0"`
-source ${CONFIG_DIR}/master-config.shinc
+config_dir=`dirname "$0"`
+source ${config_dir}/master-config.shinc
 
-OUTPUT_FILE=${1:-"${BUILD_DIR}/drugbank.xml"}
+output_file=${1:-"${BUILD_DIR}/drugbank.xml"}
 
-XML_FILENAME="drugbank.xml.gz"
+xml_filename="drugbank.xml.gz"
 
-${S3_CP_CMD} s3://${S3_BUCKET}/${XML_FILENAME} ${BUILD_DIR}
-gzip -cdf ${BUILD_DIR}/${XML_FILENAME} > ${OUTPUT_FILE}
+${s3_cp_cmd} s3://${s3_bucket}/${xml_filename} ${BUILD_DIR}
+gzip -cdf ${BUILD_DIR}/${xml_filename} > ${output_file}
 
 date
 echo "================= finished extract-drugbank.sh =================="
