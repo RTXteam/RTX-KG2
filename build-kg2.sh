@@ -290,7 +290,7 @@ echo "running go_gpa_to_kg_json.py"
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/go_gpa_to_kg_json.py \
            ${test_arg} \
-           ${go_annotation_input_file \
+           ${go_annotation_input_file} \
            ${go_annotation_output_file}
 
 echo "copying RTX Configuration JSON file from S3"
