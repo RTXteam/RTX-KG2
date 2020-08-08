@@ -1,4 +1,4 @@
-if [ -z ${TEST_SUFFIX+x} ]; then TEST_SUFFIX=""; fi
+if [ -z ${test_suffix+x} ]; then test_suffix=""; fi
 BUILD_DIR=~/kg2-build
 VENV_DIR=~/kg2-venv
 CODE_DIR=~/kg2-code
@@ -14,6 +14,6 @@ curl_get="curl -s -L"
 curies_to_categories_file=${CODE_DIR}/curies-to-categories.yaml
 curies_to_urls_file=${CODE_DIR}/curies-to-urls-map.yaml
 predicate_mapping_file=${CODE_DIR}/predicate-remap.yaml
-ont_load_inventory_file=${CODE_DIR}/ont-load-inventory${TEST_SUFFIX}.yaml
+ont_load_inventory_file=${CODE_DIR}/ont-load-inventory${test_suffix}.yaml
 umls2rdf_config_master=${CODE_DIR}/umls2rdf-umls.conf
 rtx_config_file=RTXConfiguration-config.json
