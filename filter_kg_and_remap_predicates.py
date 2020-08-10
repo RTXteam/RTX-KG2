@@ -159,7 +159,10 @@ if __name__ == '__main__':
     version_file = open(args.versionFile, 'r')
     build_name = str
     for line in version_file:
-        build_name = "RTX KG" + line
+        test_flag = ""
+        if test_mode:
+            test_flag = "-TEST"
+        build_name = "RTX KG" + line + test_flag
         break
     build_info = kg2_util.make_node(kg2_util.CURIE_PREFIX_RTX + ':' + 'KG2',
                                     kg2_util.BASE_URL_RTX + 'KG2',
