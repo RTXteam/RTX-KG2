@@ -163,7 +163,7 @@ if __name__ == '__main__':
         test_flag = ""
         if test_mode:
             test_flag = "-TEST"
-        build_name = "RTX KG" + line + test_flag
+        build_name = "RTX KG" + line.rstrip() + test_flag
         break
     build_node = kg2_util.make_node(kg2_util.CURIE_PREFIX_RTX + ':' + 'KG2',
                                     kg2_util.BASE_URL_RTX + 'KG2',
