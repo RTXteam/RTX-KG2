@@ -90,7 +90,7 @@ chmod +x ${BUILD_DIR}/owltools
 
 
 ## setup AWS CLI
-if ! ${s3_cp_cmd} s3://${s3_bucket}/test-file-do-note-delete /tmp/; then
+if ! ${s3_cp_cmd} s3://${s3_bucket}/test-file-do-not-delete /tmp/; then
     aws configure
 else
     rm -f /tmp/test-file-do-not-delete
