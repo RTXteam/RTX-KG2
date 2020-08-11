@@ -17,9 +17,10 @@ http://kg2endpoint.rtx.ai:7474
 
 (contact the KG2 maintainer for the username and password)
 
-## Where to download the RTX KG2 knowledge graph in JSON format
+## RTX KG2 Versioning
 
-http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/
+The version of RTX KG2 is stored in the public AWS S3 bucket under
+https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2-version.txt
 
 # What data sources are used in KG2
 
