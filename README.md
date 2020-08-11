@@ -469,6 +469,113 @@ same Ubuntu instance where KG2 was built; but this workflow is usually not
 tested since in our setup, we nearly always perform the KG2 build and Neo4j
 hosting on separate AWS instances.
 
+# Structure of the JSON KG2
+
+The file `kg2.json` is an intermediate file that is probably only of use to KG2
+developers.  The file `kg2-simplified.json` is a key artifact of the build
+process that feeds into several downstream artifacts and may be of direct use to
+application developers. The `kg2-simplified.json` JSON data structure is a
+name-value pair object (i.e., dictionary) with the following keys:
+
+## `build` slot
+The top-level `build` slot contains a dictionary whose keys are:
+
+  - `version`: a string containing the version identifier for the KG2 build,
+    like `RTX KG2.2.3`.  For a "test" build, the version identifier will have
+    `-TEST` appended to it.
+  - `timestamp_utc`: a string containing the ISO 8601 date/timestamp (in UTC)
+  for the build, like this: `2020-08-11 21:51`.
+  
+## `nodes` slot
+
+The top-level `nodes` slot contains a list of node objects. Each node object has
+the following keys:
+  - `category`: a string containing a CURIE ID for the semantic type of the
+    node, as a category in the Biolink model. Example: `biolink:Gene`.
+  - `category label`: a `snake_case` representation of the `category` field,
+    without the `biolink:` CURIE prefix.
+  - `creation date`: a string identifier of the date in which this node object
+  was first created in the upstream source database; it has (at present) no
+  consistent format, unfortunately (usual value is `null`).
+  - `deprecated`: a Boolean field indicating whether or not this node has been
+    deprecated by the upstream source database (usual value is `false`).
+  - `description`: a narrative description field for the node, in prose text
+  - `full name`: a longer name for the node (often is identical to the `name` field)
+  - `id`: a CURIE ID for the node; this CURIE ID will be unique across nodes in
+    KG2 (that constraint is enforced in the build process)
+  - `iri`: a URI where the user can get more information about this node (we try
+    to make these resolvable wherever possible)
+  - `name`: a display name for the node
+  - `provided by`: a CURIE ID (which corresponds to an actual node in KG2) for
+  the upstream source database that is the definitive source for information
+  about this node
+  - `publications`: a list of CURIE IDs of publications (e.g., `PMID` or `ISBN`
+    or `DOI` identifiers) that contain information about this node
+  - `replaced by`: a CURIE ID for the node that replaces this node, for cases
+    when this node has been deprecated (usually it is `null`).
+  - `synonym`: a list of strings with synonyms for the node; if the node is a
+  gene, the first entry in the list should be the official gene symbol; other
+  types of information can for certain node types be found in this list, such as
+  protein sequence information for UniProt protein nodes.
+  - `update date`: a string identifier of the date in which the information for
+  this node object was last updated in the upstream source database; it has (at
+  present) no consitent format, unfortunately; it is usually not `null`.
+
+## `edges` slot
+- `edges`: a list of edge objects. Each edge object has the following keys:
+  - `edge label`: a `snake_case` representation of the plain English label for
+    the original predicate for the edge provided by the upstream source database
+    (see the `relation curie` field)
+  - `negated`: a Boolean field indicating whether or not the edge relationship
+    is "negated"; usually `false`, in the normal build process for KG2
+  - `object`: the CURIE ID (`id`) for the KG2 node that is the object of the
+    edge
+  - `provided by`: a list containing CURIE IDs (each of which should be a node
+  in KG2) of the upstream source databases that reported this edge's specific
+  combination of subject/predicate/object (in the case of multiple providers for
+  an edge, the other fields like `publications` are merged from the information
+  from the multiple sources).
+  - `publications`: a list of CURIE IDs of publications supporting this edge
+    (e.g., `PMID` or `ISBN` or `DOI` identifiers)
+  - `publications info`: a dictionary whose keys are CURIE IDs from the list in the
+  `publications` field, and whose values are described in the next subsection ("publication_info")
+    - `relation`: a URI for the relation as reported by the upstream database
+    source (NOTE: the URI information on the edge is going away soon, per issue
+    1006)
+  - `relation curie`: a CURIE ID for the relation as reported by the upstream
+    database source (NOTE: this property name will soon be renamed `relation`,
+    per issue 1006).
+  - `simplified edge label`: a `snake_case` representation of the plain English
+    label for the simplified predicate (see the `simplified relation curie`
+    field); in most cases this is a predicate type from the Biolink model.
+  - `simplified relation`: a URI for the simplified relation (NOTE: the URI
+    information on the edge is going away soon, per issue 1006)
+  - `simplified relation curie`: a CURIE ID for the simplified relation (NOTE:
+  this property name will soon be renamed `simplified relation`, per issue 1006)
+  - `subject`: the CURIE ID (`id`) for the KG2 node that is the subject of the
+    edge
+  - `update date`: a string identifier of the date in which the information for
+  this node object was last updated in the upstream source database; it has (at
+  present) no consitent format, unfortunately; it is usually not `null`.
+
+### `publication_info` slot
+
+If it is not `null`, the `publication_info` object's values are objects containing
+the following name/value pairs:
+  - `publication date`: string representation of the date of the publication, in
+    ISO 8601 format (`%Y-%m-%d %H:%i:%S`)
+  - `sentence`: a string containing the natural language sentence from which the
+    edge was inferred (this is only not `null` for SemMedDB edges, at present)
+  - `subject score`: a string containing a confidence score; for SemMedDB edges,
+    this score corresponds to a confidence with which the subject of the triple
+    was correctly identified; for other edges (like ChEMBL drug to target
+    predictinos), the score corresponds to a confidence in a computational
+    prediction of the ligand-to-target binding relationship; NOTE: there at
+    present no unified scale for this field, unfortunately
+  - `object score`: for SemMedDB edges, this score corresponds to a confidence
+    with which the subject of the triple was correctly identified; otherwise
+    `null`
+
 # For Developers
 
 This section has some guidelines for KG2 developers
