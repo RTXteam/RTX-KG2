@@ -369,7 +369,7 @@ def tissues_converter(tissue: str):
                     "Mouth": "FMA:49184",
                     "Thalamus": "FMA:62007",
                     "IMR-90 Cells (Fetal Lung Diploid Fibroblasts)": None,
-                    "All Tissues": cui + "2983684",
+                    "All Tissues": None,
                     "Central Nervous System": mesh + ":D002490",
                     "Leukocyte": "FMA:62852",
                     "Hippocampus": "FMA:275020",
