@@ -102,6 +102,8 @@ CURIE_PREFIX_UMLS_SOURCE = 'umls_source'
 CURIE_PREFIX_UNICHEM_SOURCE = 'UNICHEM_source'
 CURIE_PREFIX_UNIPROT = 'UniProtKB'
 
+CURIE_PREFIXES_RELATIONS_USE_CAMELCASE = {'owl', 'rdfs', 'skos'}
+
 BASE_BASE_URL_IDENTIFIERS_ORG = 'https://identifiers.org/'
 
 BASE_URL_BIOLINK_CONCEPTS = 'https://w3id.org/biolink/vocab/'
@@ -615,14 +617,14 @@ def predicate_label_to_iri_and_curie(predicate_label: str,
                                      relation_iri_prefix: str):
     predicate_label = predicate_label.replace(' ', '_')
     if ':' not in predicate_label:
-        if relation_curie_prefix.lower() != 'biolink':
-            predicate_label_to_use = convert_snake_case_to_camel_case(predicate_label)
-        else:
+        if relation_curie_prefix not in CURIE_PREFIXES_RELATIONS_USE_CAMELCASE:
             predicate_label_to_use = predicate_label
+        else:
+            predicate_label_to_use = convert_snake_case_to_camel_case(predicate_label)
     else:
         predicate_label_to_use = predicate_label.replace(':', '_')
-    return [urllib.parse.urljoin(relation_iri_prefix, predicate_label_to_use),
-            relation_curie_prefix + ':' + predicate_label]
+    return [relation_iri_prefix + predicate_label_to_use,
+            relation_curie_prefix + ':' + predicate_label_to_use]
 
 
 def make_edge_biolink(subject_curie_id: str,
