@@ -350,7 +350,7 @@ echo "increase version of KG2"
 
 ## Increase the version of KG2
 
-bash -x ${CODE_DIR}/version.sh ${version_file}
+bash -x ${CODE_DIR}/version.sh ${version_file} ${build_flag}
 
 echo "filter the JSON KG and remap predicates"
 

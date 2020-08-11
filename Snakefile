@@ -341,7 +341,7 @@ rule Simplify:
     log:
         config['BUILD_DIR'] + "/filter_kg_and_remap_predicates.log"
     run:
-        shell("bash -x " + config['CODE_DIR'] + "/version.sh " + config['VERSION_FILE'] + " > {log} 2>&1")
+        shell("bash -x " + config['CODE_DIR'] + "/version.sh " + config['VERSION_FILE'] + " " + code['TEST_FLAG'] + " > {log} 2>&1")
         shell(config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/filter_kg_and_remap_predicates.py " + config['TEST_ARG'] + " --dropNegated --dropSelfEdgesExcept interacts_with,positively_regulates,inhibits,increase " + config['PREDICATE_MAPPING_FILE'] + " " + config['CURIES_TO_URLS_FILE'] + " {input.real} {output} " + config['VERSION_FILE'] + " >> {log} 2>&1")
 
 rule Simplify_Nodes:
