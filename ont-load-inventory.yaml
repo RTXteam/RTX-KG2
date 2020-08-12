@@ -177,6 +177,11 @@
   file: bfo.owl
   download: true
   title: Basic Formal Ontology
+- # maps to CURIE prefix: CHEBI
+  url:  http://purl.obolibrary.org/obo/chebi.owl
+  file: chebi.owl
+  download: true
+  title: Chemical Entities of Biological Interest
 - # maps to CURIE prefix: GO
   url:  http://purl.obolibrary.org/obo/go/extensions/go-plus.owl
   file: go-plus.owl
@@ -212,11 +217,6 @@
   file: cl.owl
   download: true
   title: Cell Ontology
--
-  url:  http://purl.obolibrary.org/obo/chebi.owl
-  file: chebi.owl
-  download: true
-  title: Chemical Entities of Biological Interest
 -
   url: http://purl.obolibrary.org/obo/foodon.owl 
   file: foodon.owl
