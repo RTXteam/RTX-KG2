@@ -22,12 +22,8 @@ import argparse
 import kg2_util
 import ontobio
 import os.path
-import pickle
 import re
-import shutil
-import subprocess
 import sys
-import tempfile
 import urllib.parse
 import urllib.request
 from typing import Dict
@@ -62,54 +58,11 @@ def delete_ontobio_cachier_caches():
     kg2_util.purge("~/.cachier", ".prefixcommons*")
 
 
-# This function will load the ontology object from a pickle file (if it exists)
-# or it will create the ontology object by parsing the OWL-XML ontology file
-# NOTE: it seems that ontobio can't directly read a TTL file (at least, it is
-# not working for me), so we convert all input files (whether OWL or TTL) to
-# JSON and then load the JSON files using ontobio, for "simplicity". A second
-# reason why we load using JSON is because when it loads an OWL file, ontobio
-# does some internal caching that cannot be opted out of; it does not do this
-# caching if you load an ontology in JSON format.
-def make_ontology_from_local_file(file_name: str):
-    file_name_without_ext = os.path.splitext(file_name)[0]
-    file_name_with_pickle_ext = file_name_without_ext + ".pickle"
-    if not os.path.isfile(file_name_with_pickle_ext):
-        # the ontology hsa not been saved as a pickle file, so we need to load it from a text file
-        if not file_name.endswith('.json'):
-            temp_file_name = tempfile.mkstemp(prefix=kg2_util.TEMP_FILE_PREFIX + '-')[1] + '.json'
-            size = os.path.getsize(file_name)
-            kg2_util.log_message(message="Reading ontology file: " + file_name + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
-                                 ontology_name=None)
-            cp = subprocess.run(['owltools', file_name, '-o', '-f', 'json', temp_file_name],
-                                check=True)
-            # robot commented out because it is giving a NullPointerException on umls-semantictypes.owl
-            # Once robot no longer gives a NullPointerException, we can use it like this:
-            #        cp = subprocess.run(['robot', 'convert', '--input', file_name, '--output', temp_file_name])
-            if cp.stdout is not None:
-                kg2_util.log_message(message="OWL convert result: " + cp.stdout, ontology_name=None, output_stream=sys.stdout)
-            if cp.stderr is not None:
-                kg2_util.log_message(message="OWL convert result: " + cp.stderr, ontology_name=None, output_stream=sys.stderr)
-            assert cp.returncode == 0
-            json_file = file_name_without_ext + ".json"
-            shutil.move(temp_file_name, json_file)
-        else:
-            json_file = file_name
-        size = os.path.getsize(json_file)
-        kg2_util.log_message(message="Reading ontology JSON file: " + json_file + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
-                             ontology_name=None)
-        assert os.path.exists(json_file)
-        ont_return = kg2_util.load_ontology_from_owl_or_json_file(json_file)
-    else:
-        size = os.path.getsize(file_name_with_pickle_ext)
-        kg2_util.log_message("Reading ontology file: " + file_name_with_pickle_ext + "; size: " + "{0:.2f}".format(size/1024) + " KiB", ontology_name=None)
-        ont_return = pickle.load(open(file_name_with_pickle_ext, "rb"))
-    return ont_return
-
-
 def load_ont_file_return_ontology_and_metadata(file_name: str,
                                                download_url: str = None,
-                                               ontology_title: str = None):
-    ontology = make_ontology_from_local_file(file_name)
+                                               ontology_title: str = None,
+                                               save_pickle: bool = False):
+    ontology = kg2_util.make_ontology_from_local_file(file_name, save_pickle=save_pickle)
     file_last_modified_timestamp = kg2_util.format_timestamp(kg2_util.get_file_last_modified_timestamp(file_name))
     print("file: " + file_name + "; last modified: " + file_last_modified_timestamp)
     ont_version = ontology.meta.get('version', None)
@@ -164,7 +117,8 @@ def make_kg2(curies_to_categories: dict,
              curie_to_uri_expander: callable,
              ont_urls_and_files: tuple,
              output_file_name: str,
-             test_mode: bool = False):
+             test_mode: bool = False,
+             save_pickle: bool = False):
 
     ont_file_information_dict_list = []
 
@@ -177,10 +131,11 @@ def make_kg2(curies_to_categories: dict,
         else:
             local_file_name = ont_source_info_dict['file']
             assert os.path.exists(ont_source_info_dict['file']), local_file_name
-        # load the OWL file dadta into an ontobio.ontol.Ontology data structure and information dictionary
+        # load the OWL file data into an ontobio.ontol.Ontology data structure and information dictionary
         [ont, metadata_dict] = load_ont_file_return_ontology_and_metadata(local_file_name,
                                                                           ont_source_info_dict['url'],
-                                                                          ont_source_info_dict['title'])
+                                                                          ont_source_info_dict['title'],
+                                                                          save_pickle)
         metadata_dict['ontology'] = ont
         ont_file_information_dict_list.append(metadata_dict)
 
@@ -291,10 +246,11 @@ def get_biolink_category_for_node(ontology_node_id: str,
             else:
                 parent_nodes_different_prefix.add(parent_ontology_node_id)
             parent_nodes_ont_to_curie[parent_ontology_node_id] = parent_node_curie_id
+        candidate_categories = set()
         for parent_ontology_node_id in list(parent_nodes_same_prefix) + list(parent_nodes_different_prefix):
             parent_node_curie_id = parent_nodes_ont_to_curie[parent_ontology_node_id]
             try:
-                [ret_category,
+                [candidate_category,
                  ontology_node_id_of_node_with_category] = get_biolink_category_for_node(parent_ontology_node_id,
                                                                                          parent_node_curie_id,
                                                                                          ontology,
@@ -311,8 +267,15 @@ def get_biolink_category_for_node(ontology_node_id: str,
                                      node_curie_id=node_curie_id,
                                      output_stream=sys.stderr)
                 assert False
-            if ret_category is not None:
-                break
+            if candidate_category is not None:
+                candidate_categories.add(candidate_category)
+        if len(candidate_categories) == 1:
+            ret_category = next(iter(candidate_categories))
+        elif len(candidate_categories) > 1:
+            candidate_category_depths = {category: biolink_category_depths.get(kg2_util.convert_snake_case_to_camel_case(category.replace(' ', '_'),
+                                                                                                                         uppercase_first_letter=True), None) for
+                                         category in sorted(candidate_categories)}
+            ret_category = max(candidate_category_depths, key=candidate_category_depths.get)
     if ret_category is None:
         if node_curie_id.startswith(kg2_util.CURIE_PREFIX_ENSEMBL + ':'):
             curie_suffix = node_curie_id.replace(kg2_util.CURIE_PREFIX_ENSEMBL + ':', '')
@@ -1021,6 +984,7 @@ def make_convert_bpv_predicate_to_curie(uri_shortener: callable,
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='multi_ont_to_json_kg.py: builds the KG2 knowledge graph for the RTX system')
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
+    arg_parser.add_argument('--savePickle', dest='save_pickle', action="store_true", default=False)
     arg_parser.add_argument('categoriesFile', type=str)
     arg_parser.add_argument('curiesToURIFile', type=str)
     arg_parser.add_argument('ontLoadInventoryFile', type=str)
@@ -1037,6 +1001,7 @@ if __name__ == '__main__':
     curies_to_uri_file_name = args.curiesToURIFile
     ont_load_inventory_file = args.ontLoadInventoryFile
     output_file = args.outputFile
+    save_pickle = args.save_pickle
     test_mode = args.test
     curies_to_categories = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_categories_file_name))
     map_dict = kg2_util.make_uri_curie_mappers(curies_to_uri_file_name)
@@ -1049,4 +1014,5 @@ if __name__ == '__main__':
              curie_to_uri_expander,
              ont_urls_and_files,
              output_file,
-             test_mode)
+             test_mode,
+             save_pickle)
