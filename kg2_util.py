@@ -25,11 +25,13 @@ import math
 import ontobio
 import os
 import pathlib
+import pickle
 import pprint
 import prefixcommons
 import re
 import shutil
 import ssl
+import subprocess
 import sys
 import tempfile
 import time
@@ -658,3 +660,49 @@ def is_a_valid_http_url(id: str) -> bool:
 def load_ontology_from_owl_or_json_file(ontology_file_name: str):
     ont_factory = ontobio.ontol_factory.OntologyFactory()
     return ont_factory.create(ontology_file_name, ignore_cache=True)
+
+
+# This function will load the ontology object from a pickle file (if it exists)
+# or it will create the ontology object by parsing the OWL-XML ontology file
+# NOTE: it seems that ontobio can't directly read a TTL file (at least, it is
+# not working for me), so we convert all input files (whether OWL or TTL) to
+# JSON and then load the JSON files using ontobio, for "simplicity". A second
+# reason why we load using JSON is because when it loads an OWL file, ontobio
+# does some internal caching that cannot be opted out of; it does not do this
+# caching if you load an ontology in JSON format.
+def make_ontology_from_local_file(file_name: str, save_pickle: bool = False):
+    file_name_without_ext = os.path.splitext(file_name)[0]
+    file_name_with_pickle_ext = file_name_without_ext + ".pickle"
+    if not os.path.isfile(file_name_with_pickle_ext) or save_pickle:
+        # the ontology hsa not been saved as a pickle file, so we need to load it from a text file
+        if not file_name.endswith('.json'):
+            temp_file_name = tempfile.mkstemp(prefix=TEMP_FILE_PREFIX + '-')[1] + '.json'
+            size = os.path.getsize(file_name)
+            log_message(message="Reading ontology file: " + file_name + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
+                        ontology_name=None)
+            cp = subprocess.run(['owltools', file_name, '-o', '-f', 'json', temp_file_name],
+                                check=True)
+            # robot commented out because it is giving a NullPointerException on umls-semantictypes.owl
+            # Once robot no longer gives a NullPointerException, we can use it like this:
+            #        cp = subprocess.run(['robot', 'convert', '--input', file_name, '--output', temp_file_name])
+            if cp.stdout is not None:
+                log_message(message="OWL convert result: " + cp.stdout, ontology_name=None, output_stream=sys.stdout)
+            if cp.stderr is not None:
+                log_message(message="OWL convert result: " + cp.stderr, ontology_name=None, output_stream=sys.stderr)
+            assert cp.returncode == 0
+            json_file = file_name_without_ext + ".json"
+            shutil.move(temp_file_name, json_file)
+        else:
+            json_file = file_name
+        size = os.path.getsize(json_file)
+        log_message(message="Reading ontology JSON file: " + json_file + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
+                    ontology_name=None)
+        assert os.path.exists(json_file)
+        ont_return = load_ontology_from_owl_or_json_file(json_file)
+        if save_pickle:
+            pickle.dump(ont_return, open(file_name_with_pickle_ext, 'wb'))
+    else:
+        size = os.path.getsize(file_name_with_pickle_ext)
+        log_message("Reading ontology file: " + file_name_with_pickle_ext + "; size: " + "{0:.2f}".format(size/1024) + " KiB", ontology_name=None)
+        ont_return = pickle.load(open(file_name_with_pickle_ext, "rb"))
+    return ont_return
