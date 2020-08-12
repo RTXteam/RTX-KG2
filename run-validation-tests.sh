@@ -19,12 +19,15 @@ date
 
 BIOLINK_RAW_BASE_URL=https://raw.githubusercontent.com/biolink/biolink-model/master/
 BIOLINK_URL_CONTEXT_JSONLD=${BIOLINK_RAW_BASE_URL}context.jsonld
-BIOLINK_URL_MODEL_OWL=${BIOLINK_RAW_BASE_URL}biolink-model.owl
+BIOLINK_MODEL_OWL=biolink-model.owl
+BIOLINK_MODEL_LOCAL_FILE=${BUILD_DIR}/${BIOLINK_MODEL_OWL}
+BIOLINK_MODEL_URL=${BIOLINK_RAW_BASE_URL}${BIOLINK_MODEL_OWL}
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_curies_to_categories_yaml.py \
            ${curies_to_categories_file} \
            ${curies_to_urls_file} \
-           ${BIOLINK_URL_MODEL_OWL}
+           ${BIOLINK_MODEL_URL} \
+           ${BIOLINK_MODEL_LOCAL_FILE}
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_curies_to_urls_map_yaml.py \
            ${curies_to_urls_file} \
@@ -35,18 +38,21 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_rtx_kg1_curie_mappings.py \
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_kg2_util_curies_urls_categories.py \
            ${curies_to_urls_file} \
-           ${BIOLINK_URL_MODEL_OWL}
+           ${BIOLINK_MODEL_URL} \
+           ${BIOLINK_MODEL_LOCAL_FILE}
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_predicate_remap_yaml.py \
            ${curies_to_urls_file} \
            ${predicate_mapping_file} \
-           ${BIOLINK_URL_MODEL_OWL}
+           ${BIOLINK_MODEL_URL} \
+           ${BIOLINK_MODEL_LOCAL_FILE}
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_ont_load_inventory.py \
            ${ont_load_inventory_file} \
            ${curies_to_urls_file} \
            ${umls2rdf_config_master} \
-           ${BIOLINK_URL_MODEL_OWL}
+           ${BIOLINK_MODEL_URL} \
+           ${BIOLINK_MODEL_LOCAL_FILE}
 
 date
 echo "================= finished run-validation-tests.sh ================="

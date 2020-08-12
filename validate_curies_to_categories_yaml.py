@@ -16,7 +16,6 @@ __status__ = 'Prototype'
 
 import argparse
 import kg2_util
-import tempfile
 
 
 def make_arg_parser():
@@ -24,6 +23,7 @@ def make_arg_parser():
     arg_parser.add_argument('curiesToCategoriesFile', type=str)
     arg_parser.add_argument('curiesToURLsMapFile', type=str)
     arg_parser.add_argument('biolinkModelURL', type=str)
+    arg_parser.add_argument('biolinkModelLocalFile', type=str)
     return arg_parser
 
 
@@ -31,13 +31,13 @@ args = make_arg_parser().parse_args()
 curies_to_categories_file_name = args.curiesToCategoriesFile
 curies_to_urls_map_file_name = args.curiesToURLsMapFile
 biolink_model_url = args.biolinkModelURL
+biolink_model_file_name = args.biolinkModelLocalFile
 curies_to_categories_data = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_categories_file_name))
 curies_to_url_map_data = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_urls_map_file_name))
 curies_to_url_map_data_bidir = {next(iter(listitem.keys())) for listitem in curies_to_url_map_data['use_for_bidirectional_mapping']}
 
-biolink_model_file_name = tempfile.mkstemp()[1] + '.owl'
 kg2_util.download_file_if_not_exist_locally(biolink_model_url, biolink_model_file_name)
-biolink_ont = kg2_util.load_ontology_from_owl_or_json_file(biolink_model_file_name)
+biolink_ont = kg2_util.make_ontology_from_local_file(biolink_model_file_name)
 biolink_categories_ontology_depths = kg2_util.get_biolink_categories_ontology_depths(biolink_ont)
 
 for prefix in curies_to_categories_data['prefix-mappings'].keys():
