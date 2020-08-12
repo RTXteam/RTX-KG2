@@ -36,15 +36,15 @@ if __name__ == '__main__':
 
     input_file = open(input_file_name, "r")
     for line in input_file:
-    	input_file.close()
-    	output_file = open(input_file_name, "w")
-    	old_version = line.split(".")
-    	graph_ver = old_version[0]
-    	major_ver = old_version[1]
-    	minor_ver = int(old_version[2])
-    	if increment:
-    		minor_ver += 1
-    	new_version = graph_ver + "." + major_ver + "." + str(minor_ver)
-    	output_file.write(new_version)
-    	output_file.close()
-    	break
+        input_file.close()
+        output_file = open(input_file_name, "w")
+        old_version = line.split(".")
+        graph_ver = old_version[0]
+        major_ver = old_version[1]
+        minor_ver = int(old_version[2])
+        if increment:
+            minor_ver += 1
+        new_version = graph_ver + "." + major_ver + "." + str(minor_ver)
+        output_file.write(new_version)
+        output_file.close()
+        break
