@@ -1,3 +1,27 @@
+# Table of Contents
+
+ - [Contact](#contact)
+ - [Understanding Snakemake](#understanding-snakemake)
+   - [`build-kg2-snakemake.sh`](#build-kg2-snakemakesh)
+   - [`Snakefile`](#snakefile)
+   - [Bash Shell Script to Snakemake Shell](#bash-shell-script-to-snakemake-shell)
+ - [Adding to Snakemake Build System](#adding-to-snakemake-build-system)
+   - [Adding an ETL Script](#adding-an-etl-script)
+     - [Editing `Snakefile`](#editing-snakefile)
+       - [General Steps](#general-steps)
+       - [Special Circumstances](#special-circumstances)
+     - [Editing `build-kg2-snakemake.sh`](#editing-build-kg2-snakemakesh)
+       - [General Steps](#general-steps-1)
+   - [Adding Scripts that Go BEFORE ETL Scripts](#adding-scripts-that-go-before-etl-scripts)
+     - [Editing `Snakefile`](#editing-snakefile-1)
+       - [General Steps](#general-steps-2)
+     - [Editing `build-kg2-snakemake.sh`](#editing-build-kg2-snakemakesh-1)
+   - [Adding Scripts to Go AFTER Merge](#adding-scripts-that-go-after-merge)
+     - [Editing `Snakefile`](#editing-snakefile-2)
+       - [General Steps](#general-steps-3)
+     - [Editing `build-kg2-snakemake.sh`](#editing-build-kg2-snakemakesh-2)
+
+
 # Contact
 
 If you have any questions about these instructions or
@@ -76,7 +100,7 @@ For the `shell` section of a Snakemake rule, you should use Bash commands. Howev
 
 **`log`**: Since script you will be running is most likely a bash script, use a log file to capture the output of `bash -x`, since it would otherwise fill the Snakemake log file in an unorganized manner that makes it difficult to read and debug issues.
 
-**`shell`**: looks the same as it would in `build-kg2.sh`, but remember to follow the conversions listed under Understanding Snakemake->Bash Shell Script to Snakemake Shell.
+**`shell`**: looks the same as it would in `build-kg2.sh`, but remember to follow the conversions listed under [Understanding Snakemake->Bash Shell Script to Snakemake Shell](#bash-shell-script-to-snakemake-shell).
 
 Example: (no placeholder)
 ```
@@ -112,7 +136,7 @@ rule ChemBL:
 
 **`log`**: a log file is only necessary if the script will produce a lot of print outs
 
-**`shell`**: looks the same as it would in `build-kg2.sh`, but remember to convert to follow the conversions listed under Understanding Snakemake->Bash Shell Script to Snakemake Shell.
+**`shell`**: looks the same as it would in `build-kg2.sh`, but remember to convert to follow the conversions listed under [Understanding Snakemake->Bash Shell Script to Snakemake Shell](#bash-shell-script-to-snakemake-shell).
 
 Example: (no placeholder - data file instead - for input)
 ```
@@ -277,15 +301,15 @@ ___
 
 (1) Determine if your code can run in parallel with [run-validation-tests.sh](https://github.com/RTXteam/RTX/blob/master/code/kg2/run-validation-tests.sh). If it can (go to 2a next) or if it must run after `run-validation-tests.sh` (go to 2b next), place your new rule after `rule ValidationTests`. If it must run before `run-validation-tests.sh`, place the new rule before `rule ValidationTests`, but after `rule Finish` (then go to 2c). 
 
-(2a) In parallel with `run-validation-tests.sh`: you don't need an `input`, so configure the rule to have an `output`, whether a data file or a placeholder (which you will need to `touch` in your `shell` command). Use that `output` as another input for the ETL Extraction Script rules (discussed in Adding to Snakemake Build System->Adding an ETL Script->Editing `Snakefile`->General Steps->Step 1). Make sure to put a comma after the first input line. Finally, add your Bash command to the `shell` field (and a `log` file as necessary).
+(2a) In parallel with `run-validation-tests.sh`: you don't need an `input`, so configure the rule to have an `output`, whether a data file or a placeholder (which you will need to `touch` in your `shell` command). Use that `output` as another input for the ETL Extraction Script rules (discussed in [Adding to Snakemake Build System->Adding an ETL Script->Editing `Snakefile`->General Steps->Step 1](#general-steps)). Make sure to put a comma after the first input line. Finally, add your Bash command to the `shell` field (and a `log` file as necessary).
 
-(2b) After `run-validation-tests.sh`: use `validation-placeholder.empty` in the `input` field of your new rule. Then, configure your new rule to have an `output` file, whether a data file or placeholder (which you will need to `touch` in your `shell` command). Then, change all of the ETL Extraction Script rules (discussed in Adding to Snakemake Build System->Adding an ETL Script->Editing `Snakefile`->General Steps->Step 1) to use this new `output` as their `input`. Finally, add your Bash command to the `shell` field (and a `log` file as necessary).
+(2b) After `run-validation-tests.sh`: use `validation-placeholder.empty` in the `input` field of your new rule. Then, configure your new rule to have an `output` file, whether a data file or placeholder (which you will need to `touch` in your `shell` command). Then, change all of the ETL Extraction Script rules (discussed in [Adding to Snakemake Build System->Adding an ETL Script->Editing `Snakefile`->General Steps->Step 1](#general-steps)) to use this new `output` as their `input`. Finally, add your Bash command to the `shell` field (and a `log` file as necessary).
 
 (2c) Before `run-validation-tests.sh`: you don't need an `input`, so configure the rule to have an `output`, whether a data file or a placeholder (which you will need to `touch` in your `shell` command). Use that `output` as the `input` for `rule ValidationTests`. Finally, add your Bash command to the `shell` field (and a `log` file as necessary).
 ___
 ### Editing `build-kg2-snakemake.sh`:
 
-Follow the instructions listed under Adding to Snakemake Build System->Adding an ETL Script->Editing `build-kg2-snakemake.sh`->General Steps.
+Follow the instructions listed under [Adding to Snakemake Build System->Adding an ETL Script->Editing `build-kg2-snakemake.sh`->General Steps](#general-steps-1).
 
 ___
 ## Adding Scripts that Go **AFTER** Merge
@@ -361,4 +385,4 @@ rule Simplify:
 ___
 ### Editing `build-kg2-snakemake.sh`:
 
-Follow the instructions listed under Adding to Snakemake Build System->Adding an ETL Script->Editing `build-kg2-snakemake.sh`->General Steps.
+Follow the instructions listed under [Adding to Snakemake Build System->Adding an ETL Script->Editing `build-kg2-snakemake.sh`->General Steps](#general-steps-1).
