@@ -15,6 +15,7 @@ __status__ = 'Prototype'
 
 import argparse
 import kg2_util
+import pprint
 import sys
 from datetime import datetime
 
@@ -162,14 +163,16 @@ if __name__ == '__main__':
         test_flag = ""
         if test_mode:
             test_flag = "-TEST"
-        build_name = "RTX KG" + line + test_flag
+        build_name = "RTX KG" + line.rstrip() + test_flag
         break
-    build_info = kg2_util.make_node(kg2_util.CURIE_PREFIX_RTX + ':' + 'KG2',
+    build_node = kg2_util.make_node(kg2_util.CURIE_PREFIX_RTX + ':' + 'KG2',
                                     kg2_util.BASE_URL_RTX + 'KG2',
                                     build_name,
                                     kg2_util.BIOLINK_CATEGORY_DATA_FILE,
                                     update_date,
                                     kg2_util.CURIE_PREFIX_RTX + ':')
+    build_info = {'version': build_node['name'], 'timestamp_utc': build_node['update date']}
+    pprint.pprint(build_info)
     graph["build"] = build_info
-    graph["nodes"].append(build_info)
+    graph["nodes"].append(build_node)
     kg2_util.save_json(graph, output_file_name, test_mode)
