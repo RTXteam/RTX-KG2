@@ -1,0 +1,175 @@
+DRUGBANK,name,groups
+DB00852,Pseudoephedrine,approved
+DB00397,Phenylpropanolamine,"approved,vet_approved,withdrawn"
+DB00420,Promazine,"approved,vet_approved"
+DB00427,Triprolidine,approved
+DB00434,Cyproheptadine,approved
+DB00145,Glycine,"approved,nutraceutical,vet_approved"
+DB00201,Caffeine,approved
+DB00283,Clemastine,"approved,investigational"
+DB00318,Codeine,"approved,illicit"
+DB00455,Loratadine,"approved,investigational"
+DB00462,Methscopolamine bromide,approved
+DB00332,Ipratropium,"approved,experimental"
+DB00341,Cetirizine,approved
+DB00366,Doxylamine,"approved,vet_approved"
+DB00388,Phenylephrine,approved
+DB00514,Dextromethorphan,approved
+DB08799,Antazoline,approved
+DB08936,Chlorcyclizine,approved
+DB00557,Hydroxyzine,approved
+DB01364,Ephedrine,approved
+DB00719,Azatadine,approved
+DB00747,Scopolamine,"approved,investigational"
+DB00748,Carbinoxamine,approved
+DB00788,Naproxen,"approved,vet_approved"
+DB00874,Guaifenesin,"approved,investigational,vet_approved"
+DB00902,Methdilazine,approved
+DB00935,Oxymetazoline,"approved,investigational"
+DB00956,Hydrocodone,"approved,illicit,investigational"
+DB00967,Desloratadine,"approved,investigational"
+DB00792,Tripelennamine,"approved,vet_approved"
+DB00835,Brompheniramine,approved
+DB01114,Chlorpheniramine,approved
+DB01146,Diphenylpyraline,"approved,investigational"
+DB01176,Cyclizine,approved
+DB01551,Dihydrocodeine,"approved,illicit"
+DB01237,Bromodiphenhydramine,approved
+DB01240,Epoprostenol,approved
+DB01246,Alimemazine,"approved,vet_approved"
+DB01619,Phenindamine,approved
+DB01620,Pheniramine,approved
+DB04837,Clofedanol,"approved,withdrawn"
+DB06691,Mepyramine,"approved,vet_approved"
+DB06694,Xylometazoline,"approved,investigational"
+DB06715,Potassium Iodide,approved
+DB06764,Tetryzoline,approved
+DB06767,Ammonium chloride,"approved,investigational,vet_approved"
+DB09154,Sodium citrate,"approved,investigational"
+DB09488,Acrivastine,approved
+DB00588,Fluticasone propionate,approved
+DB00126,Ascorbic acid,"approved,nutraceutical"
+DB00163,Vitamin E,"approved,nutraceutical,vet_approved"
+DB00316,Acetaminophen,approved
+DB08797,Salicylamide,approved
+DB00936,Salicylic acid,"approved,investigational,vet_approved"
+DB00945,Acetylsalicylic acid,"approved,vet_approved"
+DB00435,Nitric Oxide,approved
+DB00641,Simvastatin,approved
+DB00063,Eptifibatide,"approved,investigational"
+DB01109,Heparin,"approved,investigational"
+DB00274,Cefmetazole,"approved,investigational"
+DB00456,Cefalotin,"approved,investigational,vet_approved"
+DB00681,Amphotericin B,"approved,investigational"
+DB00595,Oxytetracycline,"approved,investigational,vet_approved"
+DB01332,Ceftizoxime,"approved,withdrawn"
+DB01333,Cefradine,approved
+DB00618,Demeclocycline,approved
+DB00759,Tetracycline,"approved,vet_approved"
+DB00833,Cefaclor,approved
+DB01017,Minocycline,"approved,investigational"
+DB01139,Cefapirin,"approved,vet_approved"
+DB01059,Norfloxacin,approved
+DB01165,Ofloxacin,approved
+DB01208,Sparfloxacin,"approved,investigational,withdrawn"
+DB02703,Fusidic acid,"approved,investigational"
+DB01326,Cefamandole,"approved,experimental"
+DB01328,Cefonicid,"approved,investigational"
+DB00620,Triamcinolone,"approved,vet_approved"
+DB00043,Omalizumab,"approved,investigational"
+DB00180,Flunisolide,"approved,investigational"
+DB00277,Theophylline,approved
+DB00443,Betamethasone,"approved,vet_approved"
+DB00368,Norepinephrine,approved
+DB00394,Beclomethasone dipropionate,"approved,investigational"
+DB08906,Fluticasone furoate,approved
+DB00635,Prednisone,"approved,vet_approved"
+DB00651,Dyphylline,approved
+DB00668,Epinephrine,"approved,vet_approved"
+DB00549,Zafirlukast,"approved,investigational"
+DB01380,Cortisone acetate,"approved,investigational"
+DB00716,Nedocromil,"approved,investigational"
+DB00741,Hydrocortisone,"approved,vet_approved"
+DB00764,Mometasone,"approved,vet_approved"
+DB00860,Prednisolone,"approved,vet_approved"
+DB00871,Terbutaline,approved
+DB00885,Pemirolast,"approved,investigational"
+DB00959,Methylprednisolone,"approved,vet_approved"
+DB00816,Orciprenaline,approved
+DB01003,Cromoglicic acid,approved
+DB01409,Tiotropium,approved
+DB01410,Ciclesonide,"approved,investigational"
+DB01222,Budesonide,approved
+DB01223,Aminophylline,approved
+DB01234,Dexamethasone,"approved,investigational,vet_approved"
+DB01260,Desonide,"approved,investigational"
+DB01291,Pirbuterol,approved
+DB09082,Vilanterol,approved
+DB00612,Bisoprolol,approved
+DB00983,Formoterol,"approved,investigational"
+DB00938,Salmeterol,approved
+DB00295,Morphine,"approved,investigational"
+DB08897,Aclidinium,approved
+DB09076,Umeclidinium,approved
+DB09080,Olodaterol,approved
+DB00986,Glycopyrronium,"approved,investigational,vet_approved"
+DB01430,Almitrine,approved
+DB01274,Arformoterol,"approved,investigational"
+DB00787,Acyclovir,approved
+DB00577,Valaciclovir,"approved,investigational"
+DB01001,Salbutamol,"approved,vet_approved"
+DB06415,Calfactant,approved
+DB00537,Ciprofloxacin,"approved,investigational"
+DB01190,Clindamycin,"approved,vet_approved"
+DB00608,Chloroquine,"approved,investigational,vet_approved"
+DB00358,Mefloquine,"approved,investigational"
+DB00205,Pyrimethamine,"approved,investigational,vet_approved"
+DB00684,Tobramycin,"approved,investigational"
+DB00760,Meropenem,"approved,investigational"
+DB00415,Ampicillin,"approved,vet_approved"
+DB00438,Ceftazidime,approved
+DB00199,Erythromycin,"approved,investigational,vet_approved"
+DB00207,Azithromycin,approved
+DB00218,Moxifloxacin,"approved,investigational"
+DB00254,Doxycycline,"approved,investigational,vet_approved"
+DB00303,Ertapenem,"approved,investigational"
+DB00479,Amikacin,"approved,investigational,vet_approved"
+DB00319,Piperacillin,approved
+DB00493,Cefotaxime,approved
+DB01331,Cefoxitin,approved
+DB01066,Cefditoren,"approved,investigational"
+DB00766,Clavulanic acid,"approved,vet_approved"
+DB00798,Gentamicin,"approved,vet_approved"
+DB01112,Cefuroxime,approved
+DB01137,Levofloxacin,"approved,investigational"
+DB01155,Gemifloxacin,"approved,investigational"
+DB01044,Gatifloxacin,"approved,investigational"
+DB01060,Amoxicillin,"approved,vet_approved"
+DB01172,Kanamycin,"approved,investigational,vet_approved"
+DB01211,Clarithromycin,approved
+DB01413,Cefepime,"approved,investigational"
+DB01416,Cefpodoxime,"approved,vet_approved"
+DB01597,Cilastatin,"approved,investigational"
+DB01212,Ceftriaxone,approved
+DB01598,Imipenem,approved
+DB01606,Tazobactam,approved
+DB01607,Ticarcillin,"approved,investigational,vet_approved"
+DB01327,Cefazolin,approved
+DB01330,Cefotetan,approved
+DB06402,Telavancin,approved
+DB00198,Oseltamivir,approved
+DB00558,Zanamivir,"approved,investigational"
+DB03843,Formaldehyde,"approved,vet_approved"
+DB06614,Peramivir,"approved,investigational"
+DB00864,Tacrolimus,"approved,investigational"
+DB00877,Sirolimus,"approved,investigational"
+DB01590,Everolimus,approved
+DB00419,Miglustat,approved
+DB00053,Imiglucerase,approved
+DB09039,Eliglustat,approved
+DB06720,Velaglucerase alfa,"approved,investigational"
+DB00678,Losartan,approved
+DB01029,Irbesartan,"approved,investigational"
+DB01197,Captopril,approved
+DB00110,Palivizumab,"approved,investigational"
+DB00811,Ribavirin,approved
