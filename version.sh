@@ -28,7 +28,7 @@ if [ "${build_flag}" == 'test' ]
 then
 	echo "*** TEST MODE -- NO INCREMENT ***"
 else
-	${VENV_DIR}/bin/python3 ${CODE_DIR}/update_version.py ${increment} ${local_version_filename}
+	${VENV_DIR}/bin/python3 ${CODE_DIR}/update_version.py --increment ${local_version_filename}
 
 	${s3_cp_cmd} ${local_version_filename} s3://${s3_bucket_public}/${s3_version_filename}
 fi
