@@ -36,6 +36,11 @@ http://kg2endpoint.rtx.ai:7474
 
 # What data sources are used in KG2?
 
+Information from many knowledge databases is combined in bulding KG2, including
+the entire contents of
+[KG1](https://github.com/RTXteam/RTX/tree/master/code/reasoningtool), the RTX
+first-generation knowledge graph.
+
 | Knowledge source                | Type     | KG1 | KG2 | Redistribution license info                                                                                                                      | Home page                                                      |
 |---------------------------------|----------|-----|-----|--------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------|
 | Chembl   [without metabolism]   | data     | x   | x   | [link](https://chembl.gitbook.io/chembl-interface-documentation/about#data-licensing)                                                            | [link](https://www.ebi.ac.uk/chembl/)                                  |
