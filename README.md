@@ -151,14 +151,13 @@ best bet would be to use Docker (see Option 3 below).
 
 ## AWS authentication key and AWS buckets
 
-Aside from a suitable system as described above, you'll need to have an Amazon
-Web Services (AWS) authentication key that is configured to be able to read from
-the `s3://rtx-kg2` Amazon Simple Cloud Storage Service (S3) bucket (ask the KG2
-maintainer to set this up), so that the build script can download a copy of the
-full Unified Medical Language System (UMLS) distribution.  You will be asked (by
-the AWS Command-line Interface, CLI) to provide this authentication key when you
-run the KG2 setup script. Your configured AWS CLI will also need to be able to
-programmatically write to the (publicly readable) S3 bucket
+In order to be able to build KG2, you'll need to have an AWS authentication key
+pair that is configured to be able to read from the `s3://rtx-kg2` S3 bucket
+(ask the KG2 maintainer to set this up), so that the build script can download a
+copy of the full Unified Medical Language System (UMLS) distribution.  You will
+be asked (by the AWS Command-line Interface, CLI) to provide this authentication
+key when you run the KG2 setup script. Your configured AWS CLI will also need to
+be able to programmatically write to the (publicly readable) S3 bucket
 `s3://rtx-kg2-public` (both buckets are in the `us-west-2` AWS region). The KG2
 build script downloads the UMLS distribution (including SNOMED CT) from the
 private S3 bucket `rtx-kg2` (IANAL, but it appears that the UMLS is encumbered
