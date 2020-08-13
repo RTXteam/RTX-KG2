@@ -92,14 +92,18 @@ The KG2 build system is designed only to run in an Ubuntu 18.04 environment
 (i.e., either (i) an Ubuntu 18.04 host OS or (ii) Ubuntu 18.04 running in a
 Docker container) as a non-root user which must have passwordless `sudo` enabled
 and should have `bash` as the default shell (the build commands in the
-instructions in this README page assume a `bash` shell). Currently, KG2 is built
-using a set of `bash` scripts that are designed to run in Amazon's Elastic
-Compute Cloud (EC2), and thus, configurability and/or coexisting with other
-installed software pipelines was not a design consideration for the build
-system. The KG2 build system's `bash` scripts create three subdirectories under
-the `${HOME}` directory of whatever Linux user account you use to run the KG2
-build software (if you run on an EC2 Ubuntu instance, this directory would by
-default be `/home/ubuntu`):
+instructions in this README page assume a `bash` shell). The build system will
+also need (but will set up for itself, prompting the user for access keys at
+setup time) a local configured installation of the Amazon Web Services (AWS)
+command-line interface (CLI) software in order to be able to retrieve various
+required files on-demand from a storage bucket in the AWS Simple Storage Service
+(S3) system. Currently, KG2 is built using a set of `bash` scripts that are
+designed to run in Amazon's Elastic Compute Cloud (EC2), and thus,
+configurability and/or coexisting with other installed software pipelines was
+not a design consideration for the build system. The KG2 build system's `bash`
+scripts create three subdirectories under the `${HOME}` directory of whatever
+Linux user account you use to run the KG2 build software (if you run on an EC2
+Ubuntu instance, this directory would by default be `/home/ubuntu`):
 
 1. `~/kg2-build`
 2. `~/kg2-code`
