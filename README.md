@@ -24,7 +24,8 @@ biomedical reasoning system.
 
 ## Bug reports
 
-Please use the GitHub issues page for this project, and add the label `kg2`.
+Please use the GitHub [issues](https://github.com/RTXteam/RTX/issues) page for
+this project, and add the label `kg2`.
 
 # How to access RTX KG2
 
