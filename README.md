@@ -1,3 +1,10 @@
+# What is KG2?
+
+KG2 is the second-generation biomedical knowledge graph for the
+[ARAX](https://github.com/RTXteam/RTX) system.  The GitHub `RTX/code/kg2`
+subdirectory centralizes all of the code for building KG2 and all of the
+documentation about how to build, host, access, and use KG2.
+
 # Contact
 
 ## Maintainers
@@ -16,11 +23,6 @@ Please use the GitHub issues page for this project, and add the label `kg2`.
 http://kg2endpoint.rtx.ai:7474
 
 (contact the KG2 maintainer for the username and password)
-
-## RTX KG2 Versioning
-
-The version of RTX KG2 is stored in the public AWS S3 bucket under
-https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2-version.txt
 
 # What data sources are used in KG2
 
@@ -591,7 +593,7 @@ the following keys:
 - `edges`: a list of edge objects. Each edge object has the following keys:
   - `edge label`: a `snake_case` representation of the plain English label for
     the original predicate for the edge provided by the upstream source database
-    (see the `relation curie` field)
+    (see the `relation` field)
   - `negated`: a Boolean field indicating whether or not the edge relationship
     is "negated"; usually `false`, in the normal build process for KG2
   - `object`: the CURIE ID (`id`) for the KG2 node that is the object of the
@@ -608,7 +610,7 @@ the following keys:
   - `relation`: a CURIE ID for the relation as reported by the upstream
     database source.
   - `simplified edge label`: a `snake_case` representation of the plain English
-    label for the simplified predicate (see the `simplified relation curie`
+    label for the simplified predicate (see the `simplified relation`
     field); in most cases this is a predicate type from the Biolink model.
   - `simplified relation`: a CURIE ID for the simplified relation
   - `subject`: the CURIE ID (`id`) for the KG2 node that is the subject of the
