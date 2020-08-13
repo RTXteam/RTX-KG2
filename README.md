@@ -15,7 +15,7 @@ build system can produce an export of the KG2 knowledge graph that is suitable
 for importing into the [mediKanren](https://github.com/webyrd/mediKanren)
 biomedical reasoning system.
 
-# KG2 contact information
+# KG2 team contact information
 
 ## Maintainers
 
