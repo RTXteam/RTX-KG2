@@ -4,14 +4,14 @@ KG2 is the second-generation biomedical knowledge graph for the
 [ARAX](https://github.com/RTXteam/RTX) system.  The GitHub `RTX/code/kg2`
 subdirectory centralizes all of the code for building KG2 and all of the
 documentation about how to build, host, access, and use KG2. The KG2 build
-system produces knowledge graphs in JSON format and in a tab-separated value
-(TSV) format that can be imported into Neo4j. Through additional scripts in the
-`canonicalized` subdirectory, the build system can produce a "canonicalized"
-knowledge graph where synonym concepts (nodes) are identified. Through
-additional scripts in the `mediKanren` subdirectory, the build system can
-produce an export of the KG2 knowledge graph that is suitable for importing into
-the [mediKanren](https://github.com/webyrd/mediKanren) biomedical reasoning
-system.
+system produces knowledge graphs in a [Biolink model](https://biolink.github.io)
+standard-compliant JSON format and in a tab-separated value (TSV) format that
+can be imported into Neo4j. Through additional scripts in the `canonicalized`
+subdirectory, the build system can produce a "canonicalized" knowledge graph
+where synonym concepts (nodes) are identified. Through additional scripts in the
+`mediKanren` subdirectory, the build system can produce an export of the KG2
+knowledge graph that is suitable for importing into the
+[mediKanren](https://github.com/webyrd/mediKanren) biomedical reasoning system.
 
 # KG2 contact information
 
