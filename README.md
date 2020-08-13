@@ -388,11 +388,11 @@ This option requires that you have `curl` installed on your local computer. In a
 You will be prompted to enter the path to your AWS PEM file and the hostname of
 your AWS instance.  The script should then initiate a `bash` session on the
 remote instance. Within that `bash` session, continue to follow the instructions
-for Option 1, starting at step (4).
+for Build Option 1, starting at step (4).
 
 ### Build Option 4: in an Ubuntu container in Docker
 
-For the Docker option, you will need a *lot* of disk space (see disk storage
+For Build Option 4, you will need a *lot* of disk space (see disk storage
 requirements above) in the root file system, unless you modify the Docker
 installation to store containers in some other (non-default) file system
 location. Here are the instructions:
@@ -429,7 +429,7 @@ installation (like on macOS Homebrew) doesn't require `sudo`, just omit
 
     su - ubuntu
     
-Now follow the instructions for Option 1 above.
+Now follow the instructions for Build Option 1 above.
 
 ## The output KG
 
