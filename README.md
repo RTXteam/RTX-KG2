@@ -494,7 +494,7 @@ We host our production KG2 graph database in Neo4j version 3.5.13 with APOC
 (`r5a.2xlarge`) in the `us-east-2` AWS region, although it is possible to host KG2
 on an `r5a.xlarge` instance and this is what we do for our test/dev KG2 host.
 
-**Installation:** in a fresh Ubuntu 18.04 AWS
+**Installation:** in a newly initialized Ubuntu 18.04 AWS
 instance, as user `ubuntu`, run the following commands:
 
 (1) Make sure you are in your home directory:
