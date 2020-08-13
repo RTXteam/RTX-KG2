@@ -32,7 +32,7 @@ http://kg2endpoint.rtx.ai:7474
 
 (contact the KG2 maintainer for the username and password)
 
-# What data sources are used in KG2
+# What data sources are used in KG2?
 
 | Knowledge source                | Type     | KG1 | KG2 | Redistribution license info                                                                                                                      | Home page                                                      |
 |---------------------------------|----------|-----|-----|--------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------|
