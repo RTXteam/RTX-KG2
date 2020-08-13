@@ -250,9 +250,11 @@ just hit enter/return.
 (5) Look in the log file `${HOME}/setup-kg2-build.log` to see if the script
 completed successfully; it should end with `======= script finished ======`.
 
-(6) [**THIS STEP IS NORMALLY SKIPPED**] If (and *only* if) you have updated the
-schema for KG2, you will need to trigger the incrementing of the major release
-version, by doing this:
+(6) [**THIS STEP IS NORMALLY SKIPPED**] If (and *only* if) you have made code
+changes to KG2 that will cause a change to the schema for KG2 (or added a major
+new upstream source database), you will want to increment the "major" release
+number for KG2. To do that, at this step of the build process, you would run
+this command:
 
     touch ~/kg2-build/major-release
 
@@ -299,6 +301,38 @@ will automatically delete the file `~/kg2-build/major-release` so that it will
 not persist for the next build. Note: if the build system happens to terminate
 unexpectedly while running `version.sh`, you should check what state the file
 `s3://rtx-kg2-public/kg2-version.txt` was left in.
+
+#### Partial build of KG2
+
+In some circumstances, if there are no updates to any of the upstream source
+databases (like UMLS, ChEMBL, SemMedDB, etc.) that are extracted using
+`extract*.sh` scripts (as shown in the list of KG2 scripts), you can trigger
+a "partial" build that just downloads the OBO ontologies and does a build
+downstream of that. This can be useful in cases where you are testing a change
+to one of the YAML configuration files for KG2, for example. To do a partial
+build, in Step (8) above, you would run
+
+    bash -x ~/kg2-code/build-kg2.sh
+
+(note the absence of the `all` argument to `build-kg2.sh`). A partial build of KG2
+may take about 12 hours.
+
+#### Test build of KG2
+
+For testing/debugging purposes, it is helpful to have a faster way to exercise
+the KG2 build code. For this, you may want to execute a "test" build. This build
+mode builds a smaller graph with a significantly reduced set of nodes and edges.
+To execute a "test" build, in Step (8) above, you would run:
+
+    bash -x ~/kg2-code/build-kg2.sh test
+    
+In the case of a test build, the build log file names are changed:
+
+    ~/kg2-build/build-kg2-test.log
+    ~/kg2-build/build-kg2-ont-test-stderr.log
+
+and all of the intermediate JSON files that the build system creates will have
+`-test` appended to the filename before the usual filename suffix (`.json`).
 
 ### Option 2: build KG2 in parallel (about 54 hours) directly on an Ubuntu system: (NOT CURRENTLY WORKING, see Issue 694)
 
