@@ -1,8 +1,8 @@
 # What is KG2?
 
 KG2 is the second-generation biomedical knowledge graph for the
-[ARAX](https://github.com/RTXteam/RTX) system.  The GitHub `RTX/code/kg2`
-subdirectory centralizes all of the code for building KG2 and all of the
+[ARAX](https://github.com/RTXteam/RTX) system.  The GitHub subdirectory
+`RTX/code/kg2` centralizes all of the code for building KG2 and all of the
 documentation about how to build, host, access, and use KG2. The KG2 build
 system produces knowledge graphs in a [Biolink model](https://biolink.github.io)
 standard-compliant JSON format and in a tab-separated value (TSV) format that
