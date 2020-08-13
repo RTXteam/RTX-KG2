@@ -590,13 +590,12 @@ def make_node(id: str,
 def make_edge_key(edge_dict: dict):
     return edge_dict['subject'] + '---' + \
            edge_dict['object'] + '---' + \
-           edge_dict['relation curie'] + '---' + \
+           edge_dict['relation'] + '---' + \
            edge_dict['provided by']
 
 
 def make_edge(subject_id: str,
               object_id: str,
-              relation: str,
               relation_curie: str,
               predicate_label: str,
               provided_by: str,
@@ -605,8 +604,7 @@ def make_edge(subject_id: str,
     return {'subject': subject_id,
             'object': object_id,
             'edge label': predicate_label,
-            'relation': relation,
-            'relation curie': relation_curie,
+            'relation': relation_curie,
             'negated': False,
             'publications': [],
             'publications info': {},
@@ -614,9 +612,8 @@ def make_edge(subject_id: str,
             'provided by': provided_by}
 
 
-def predicate_label_to_iri_and_curie(predicate_label: str,
-                                     relation_curie_prefix: str,
-                                     relation_iri_prefix: str):
+def predicate_label_to_curie(predicate_label: str,
+                             relation_curie_prefix: str):
     predicate_label = predicate_label.replace(' ', '_')
     if ':' not in predicate_label:
         if relation_curie_prefix not in CURIE_PREFIXES_RELATIONS_USE_CAMELCASE:
@@ -625,8 +622,7 @@ def predicate_label_to_iri_and_curie(predicate_label: str,
             predicate_label_to_use = convert_snake_case_to_camel_case(predicate_label)
     else:
         predicate_label_to_use = predicate_label.replace(':', '_')
-    return [relation_iri_prefix + predicate_label_to_use,
-            relation_curie_prefix + ':' + predicate_label_to_use]
+    return relation_curie_prefix + ':' + predicate_label_to_use
 
 
 def make_edge_biolink(subject_curie_id: str,
@@ -634,12 +630,10 @@ def make_edge_biolink(subject_curie_id: str,
                       predicate_label: str,
                       provided_by_curie: str,
                       update_date: str):
-    [relation, relation_curie] = predicate_label_to_iri_and_curie(predicate_label,
-                                                                  CURIE_PREFIX_BIOLINK,
-                                                                  BASE_URL_BIOLINK_CONCEPTS)
+    relation_curie = predicate_label_to_curie(predicate_label,
+                                              CURIE_PREFIX_BIOLINK)
     rel = make_edge(subject_curie_id,
                     object_curie_id,
-                    relation,
                     relation_curie,
                     predicate_label,
                     provided_by_curie,
