@@ -250,11 +250,17 @@ just hit enter/return.
 (5) Look in the log file `${HOME}/setup-kg2-build.log` to see if the script
 completed successfully; it should end with `======= script finished ======`.
 
-(6) Initiate a `screen` session to provide a stable pseudo-tty:
+(6) [**THIS STEP IS NORMALLY SKIPPED**] If (and *only* if) you have updated the
+schema for KG2, you will need to trigger the incrementing of the major release
+version, by doing this:
+
+    touch ~/kg2-build/major-release
+
+(7) Initiate a `screen` session to provide a stable pseudo-tty:
 
     screen
 
-(7) Within the `screen` session, run:
+(8) Within the `screen` session, run:
 
     bash -x ~/kg2-code/build-kg2.sh all
 
@@ -267,6 +273,32 @@ watch the progress of your KG2 build by using this command:
     
 Note that the `build-multi-ont-kg.sh` script also saves `stderr` from running `multi_ont_to_json_kg.py`
 to a file `~/kg2-build/build-kg2-ont-stderr.log`.
+
+#### Note about versioning of KG2
+
+KG2 has semantic versioning with a graph/major/minor release system:
+- The graph release number is always 2. 
+- The major release number is incremented when the schema for KG2 is changed
+  (and the minor release is set to zero in that case)
+- The minor release number is incremented for each non-test build for which the
+  schema is not modified.
+  
+So an example version of KG2 would be "RTX KG 2.1.3" (graph release 2, major
+release 1, minor release 3). This build version is recorded in three places:
+- the top-level `build` slot in the KG2 JSON file
+- in the `name` field of a node object with `id` field `RTX:KG2` (in both the
+  JSON version of the KG and in the Neo4j version of the KG)
+- the file `s3://rtx-kg2-public/kg2-version.txt` in the S3 bucket `rtx-kg2-public`.
+
+By default, the KG2 build process (as outlined above) will automatically
+increment the minor release number and update the file `kg2-version.txt` in the
+S3 bucket.  If you are doing a build in which the KG2 schema has changed, you
+should trigger the incrementing of the major release version by making sure to
+do step (6) above.  The build script (specifically, the script `version.sh`)
+will automatically delete the file `~/kg2-build/major-release` so that it will
+not persist for the next build. Note: if the build system happens to terminate
+unexpectedly while running `version.sh`, you should check what state the file
+`s3://rtx-kg2-public/kg2-version.txt` was left in.
 
 ### Option 2: build KG2 in parallel (about 54 hours) directly on an Ubuntu system: (NOT CURRENTLY WORKING, see Issue 694)
 
@@ -539,19 +571,12 @@ the following keys:
     (e.g., `PMID` or `ISBN` or `DOI` identifiers)
   - `publications info`: a dictionary whose keys are CURIE IDs from the list in the
   `publications` field, and whose values are described in the next subsection ("publication_info")
-    - `relation`: a URI for the relation as reported by the upstream database
-    source (NOTE: the URI information on the edge is going away soon, per issue
-    1006)
-  - `relation curie`: a CURIE ID for the relation as reported by the upstream
-    database source (NOTE: this property name will soon be renamed `relation`,
-    per issue 1006).
+  - `relation`: a CURIE ID for the relation as reported by the upstream
+    database source.
   - `simplified edge label`: a `snake_case` representation of the plain English
     label for the simplified predicate (see the `simplified relation curie`
     field); in most cases this is a predicate type from the Biolink model.
-  - `simplified relation`: a URI for the simplified relation (NOTE: the URI
-    information on the edge is going away soon, per issue 1006)
-  - `simplified relation curie`: a CURIE ID for the simplified relation (NOTE:
-  this property name will soon be renamed `simplified relation`, per issue 1006)
+  - `simplified relation`: a CURIE ID for the simplified relation
   - `subject`: the CURIE ID (`id`) for the KG2 node that is the subject of the
     edge
   - `update date`: a string identifier of the date in which the information for
