@@ -202,7 +202,7 @@ Note: to follow the instructions for Option 3 and Option 4 below, in addition to
 the requirements as described above, you will need to be using the `bash` shell
 on your *local* computer.
 
-### Option 1: build KG2 serially (about 67 hours) directly on an Ubuntu system:
+### Build Option 1: build KG2 serially (about 67 hours) directly on an Ubuntu system:
 
 These instructions assume that you are logged into the target Ubuntu system, and
 that the Ubuntu system has *not* previously had `setup-kg2-build.sh` run (if it
@@ -334,7 +334,7 @@ In the case of a test build, the build log file names are changed:
 and all of the intermediate JSON files that the build system creates will have
 `-test` appended to the filename before the usual filename suffix (`.json`).
 
-### Option 2: build KG2 in parallel (about 54 hours) directly on an Ubuntu system: (NOT CURRENTLY WORKING, see Issue 694)
+### Build Option 2: build KG2 in parallel (about 54 hours) directly on an Ubuntu system: (NOT CURRENTLY WORKING, see Issue 694)
 
 <!-- (1)-(5) Follow steps (1) through (5) from Option 1 -->
 
@@ -377,7 +377,7 @@ and all of the intermediate JSON files that the build system creates will have
 
 <!-- the code failed. -->
 
-### Option 3: setup ssh key exchange so you can build KG2 in a remote EC2 instance
+### Build Option 3: setup ssh key exchange so you can build KG2 in a remote EC2 instance
 
 This option requires that you have `curl` installed on your local computer. In a
 `bash` terminal session, set up the remote EC2 instance by running this command
@@ -390,7 +390,7 @@ your AWS instance.  The script should then initiate a `bash` session on the
 remote instance. Within that `bash` session, continue to follow the instructions
 for Option 1, starting at step (4).
 
-### Option 4: in an Ubuntu container in Docker
+### Build Option 4: in an Ubuntu container in Docker
 
 For the Docker option, you will need a *lot* of disk space (see disk storage
 requirements above) in the root file system, unless you modify the Docker
