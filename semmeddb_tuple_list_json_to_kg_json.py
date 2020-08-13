@@ -73,16 +73,11 @@ def make_rel(preds_dict: dict,
     if key_val is None:
         relation_type = predicate.lower()
         if relation_type != 'xref':
-            relation_iri = kg2_util.convert_snake_case_to_camel_case(relation_type.replace(' ', '_'))
-            relation_iri = relation_iri[0].lower() + relation_iri[1:]
-            relation_iri = SEMMEDDB_IRI + '#' + relation_iri
             relation_curie = SEMMEDDB_CURIE_PREFIX + ':' + relation_type
         else:
             relation_curie = 'OBO:xref'
-            relation_iri = prefixcommons.expand_uri(relation_curie)
         edge_dict = kg2_util.make_edge(subject_curie,
                                        object_curie,
-                                       relation_iri,
                                        relation_curie,
                                        relation_type,
                                        SEMMEDDB_CURIE_PREFIX + ':',

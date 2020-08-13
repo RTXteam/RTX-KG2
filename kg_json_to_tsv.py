@@ -76,10 +76,16 @@ def check_all_edges_have_same_set(edgekeys_list):
     :param edgekeys_list: A list containing keys for an edge
     """
     # Supported_ls is a list of properties that edges can have
-    supported_ls = ["edge label", "negated", "object", "provided by",
-                    "publications", "publications info",
-                    "relation", "relation curie", "subject", "update date",
-                    "simplified relation curie","simplified relation",
+    supported_ls = ["edge label",
+                    "negated",
+                    "object",
+                    "provided by",
+                    "publications",
+                    "publications info",
+                    "relation",
+                    "subject",
+                    "update date",
+                    "simplified relation",
                     "simplified edge label"]
     for edgelabel in edgekeys_list:
         if edgelabel not in supported_ls:
@@ -280,12 +286,9 @@ def edges(graph, output_file_location):
         # Add the edge property labels to the edge header TSV file
         # But only for the first edge
         if loop == 1:
-            edgekeys = no_space('publications info', edgekeys,
-                                'publications_info')
+            edgekeys = no_space('publications info', edgekeys, 'publications_info')
             edgekeys = no_space('provided by', edgekeys, 'provided_by:string[]')
-            edgekeys = no_space('relation curie', edgekeys, 'relation_curie')
             edgekeys = no_space('update date', edgekeys, 'update_date')
-            edgekeys = no_space('simplified relation curie', edgekeys, 'simplified_relation_curie')
             edgekeys = no_space('simplified relation', edgekeys, 'simplified_relation')
             edgekeys = no_space('simplified edge label', edgekeys, 'simplified_edge_label')
             edgekeys = no_space('simplified edge label', edgekeys, 'edge_label:TYPE')

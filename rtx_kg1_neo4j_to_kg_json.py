@@ -201,14 +201,11 @@ if __name__ == '__main__':
         predicate_label = edge_dict['relation']
         edge_dict['edge label'] = predicate_label
         del edge_dict['relation']
-        [relation, relation_curie] = kg2_util.predicate_label_to_iri_and_curie(predicate_label,
-                                                                               KG1_RELATION_CURIE_PREFIX,
-                                                                               KG1_RELATION_IRI_PREFIX)
+        relation_curie = kg2_util.predicate_label_to_curie(predicate_label,
+                                                           KG1_RELATION_CURIE_PREFIX)
         if relation_curie == 'bioLink:subclass_of':
             relation_curie = kg2_util.CURIE_ID_RDFS_SUBCLASS_OF
-            relation = prefixcommons.expand_uri(relation_curie)
-        edge_dict['relation'] = relation
-        edge_dict['relation curie'] = relation_curie
+        edge_dict['relation'] = relation_curie
         edge_dict['negated'] = False
         publications = edge_dict.get('publications', None)
         if publications is not None and publications != '':

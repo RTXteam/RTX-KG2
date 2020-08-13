@@ -92,7 +92,7 @@ def count_edges_by_source(edges: list):
 
 
 def count_edges_by_predicate_curie(edges: list):
-    curie_field = 'relation curie' if not args.use_simplified_predicates else 'simplified relation curie'
+    curie_field = 'relation' if not args.use_simplified_predicates else 'simplified relation'
     return collections.Counter([edge[curie_field] for edge in edges])
 
 
@@ -102,12 +102,12 @@ def count_edges_by_predicate_type(edges: list):
 
 
 def count_edges_by_predicate_curie_prefix(edges: list):
-    curie_field = 'relation curie' if not args.use_simplified_predicates else 'simplified relation curie'
+    curie_field = 'relation' if not args.use_simplified_predicates else 'simplified relation'
     return collections.Counter([get_prefix_from_curie_id(edge[curie_field]) for edge in edges])
 
 
 def count_predicates_by_predicate_curie_prefix(edges: list):
-    curie_field = 'relation curie' if not args.use_simplified_predicates else 'simplified relation curie'
+    curie_field = 'relation' if not args.use_simplified_predicates else 'simplified relation'
     unique_relation_curies = set([edge[curie_field] for edge in edges])
     return collections.Counter([get_prefix_from_curie_id(curie) for curie in unique_relation_curies])
 

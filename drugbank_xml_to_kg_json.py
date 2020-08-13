@@ -70,13 +70,11 @@ def format_edge(subject_id: str,
                 predicate_label: str,
                 description: str,
                 publications: list = None):
-    [relation, relation_curie] = kg2_util.predicate_label_to_iri_and_curie(predicate_label,
-                                                                           DRUGBANK_RELATION_CURIE_PREFIX,
-                                                                           DRUGBANK_KB_IRI)
+    relation_curie = kg2_util.predicate_label_to_curie(predicate_label,
+                                                       DRUGBANK_RELATION_CURIE_PREFIX)
 
     edge = kg2_util.make_edge(subject_id,
                               object_id,
-                              relation,
                               relation_curie,
                               predicate_label,
                               DRUGBANK_KB_CURIE_ID,

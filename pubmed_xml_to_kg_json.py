@@ -62,7 +62,6 @@ def date_to_num(date: str):
 
 def make_node_and_edges(article: dict,
                         mesh_predicate_label: str,
-                        mesh_relation: str,
                         mesh_relation_curie: str):
     nodes = []
     edges = []
@@ -106,7 +105,6 @@ def make_node_and_edges(article: dict,
                           mesh_topic["DescriptorName"]["@UI"]
                 edge = kg2_util.make_edge(pmid,
                                           mesh_id,
-                                          mesh_relation,
                                           mesh_relation_curie,
                                           mesh_predicate_label,
                                           PMID_PROVIDED_BY_CURIE_ID,
@@ -129,9 +127,8 @@ if __name__ == '__main__':
     edges = []
     latest_date = 0
     mesh_predicate_label = "references"
-    [mesh_relation, mesh_relation_curie] = kg2_util.predicate_label_to_iri_and_curie(mesh_predicate_label,
-                                                                                     kg2_util.CURIE_PREFIX_PMID,
-                                                                                     PMID_BASE_IRI)
+    mesh_relation_curie = kg2_util.predicate_label_to_curie(mesh_predicate_label,
+                                                            kg2_util.CURIE_PREFIX_PMID)
     for filename in os.listdir(pubmed_dir):
         if ".gz" in filename:
             print("Starting Load of", filename, ":", date())
@@ -143,7 +140,6 @@ if __name__ == '__main__':
             for article in articles:
                 [data, update_date] = make_node_and_edges(article,
                                                           mesh_predicate_label,
-                                                          mesh_relation,
                                                           mesh_relation_curie)
                 for node in data["nodes"]:
                     nodes.append(node)

@@ -80,10 +80,8 @@ if __name__ == '__main__':
             continue
         edge_label = edge_dict['edge label']
         simplified_edge_label = edge_label
-        relation_curie = edge_dict['relation curie']
+        relation_curie = edge_dict['relation']
         simplified_relation_curie = relation_curie
-        relation = edge_dict['relation']
-        simplified_relation = relation
         if record_of_relation_curie_occurrences.get(relation_curie, None) is not None:
             record_of_relation_curie_occurrences[relation_curie] = True
             pred_remap_info = predicate_remap_config.get(relation_curie, None)
@@ -122,20 +120,12 @@ if __name__ == '__main__':
            edge_dict['subject'] == edge_dict['object'] and \
            simplified_edge_label not in drop_self_edges_except:
             continue  # see issue 743
-        edge_dict['simplified relation curie'] = simplified_relation_curie
-        if simplified_relation_curie in nodes_dict:
-            simplified_relation = nodes_dict[simplified_relation_curie]['iri']
-        else:
+        edge_dict['simplified relation'] = simplified_relation_curie
+        if simplified_relation_curie not in nodes_dict:
             simplified_relation_curie_prefix = simplified_relation_curie.split(':')[0]
             simplified_relation_uri_prefix = curie_to_uri_expander(simplified_relation_curie_prefix + ':')
-            if simplified_relation_uri_prefix != simplified_relation_curie_prefix:
-                simplified_relation = kg2_util.predicate_label_to_iri_and_curie(simplified_edge_label,
-                                                                                simplified_relation_curie_prefix,
-                                                                                simplified_relation_uri_prefix)[0]
-            else:
-                simplified_relation = relation
+            if simplified_relation_uri_prefix == simplified_relation_curie_prefix:
                 relation_curies_not_in_nodes.add(simplified_relation_curie)
-        edge_dict['simplified relation'] = simplified_relation
         edge_dict['provided by'] = [edge_dict['provided by']]
         edge_key = edge_dict['subject'] + ' /// ' + simplified_edge_label + ' /// ' + edge_dict['object']
         existing_edge = new_edges.get(edge_key, None)
@@ -153,9 +143,9 @@ if __name__ == '__main__':
                   file=sys.stderr)
     for relation_curie in record_of_relation_curie_occurrences:
         if not record_of_relation_curie_occurrences[relation_curie]:
-            print('relation curie is in the config file but was not detected in the graph: ' + relation_curie, file=sys.stderr)
+            print('relation curie is in the config file but was not used in any edge in the graph: ' + relation_curie, file=sys.stderr)
     for relation_curie in relation_curies_not_in_nodes:
-        print('could not get IRI for relation curie: ' + relation_curie)
+        print('could not find a node for relation curie: ' + relation_curie)
     update_date = datetime.now().strftime("%Y-%m-%d %H:%M")
     version_file = open(args.versionFile, 'r')
     build_name = str

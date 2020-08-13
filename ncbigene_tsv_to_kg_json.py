@@ -146,7 +146,6 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                         xref_curie = kg2_util.CURIE_PREFIX_OMIM + ':' + xref_curie.replace('MIM:', '')
                     edges.append(kg2_util.make_edge(node_curie_id,
                                                     xref_curie,
-                                                    kg2_util.IRI_OWL_SAME_AS,
                                                     kg2_util.CURIE_ID_OWL_SAME_AS,
                                                     kg2_util.EDGE_LABEL_OWL_SAME_AS,
                                                     NCBI_KB_CURIE_ID,
