@@ -11,7 +11,7 @@ fi
 
 mysql_dbname=${1:-"chembl"}
 
-echo "================= starting build-chembl.sh ================="
+echo "================= starting extract-chembl.sh ================="
 date
 
 config_dir=`dirname "$0"`
@@ -25,20 +25,20 @@ chembl_sql_file=${chembl_dir}/chembl_${chembl_version}/chembl_${chembl_version}_
 rm -r -f ${chembl_dir}
 mkdir -p ${chembl_dir}
 
-${CURL_GET} ftp://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/${chembl_db_tarball} > ${chembl_dir}/${chembl_db_tarball}
+${curl_get} ftp://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/releases/chembl_${chembl_version}/${chembl_db_tarball} > ${chembl_dir}/${chembl_db_tarball}
 
 tar xzf ${chembl_dir}/${chembl_db_tarball} -C ${chembl_dir}
 rm -f ${chembl_dir}/${chembl_db_tarball}
 gzip ${chembl_sql_file}
 
 ## if a "chembl" database already exists, delete it
-mysql --defaults-extra-file=${MYSQL_CONF} \
+mysql --defaults-extra-file=${mysql_conf} \
       -e "DROP DATABASE IF EXISTS ${mysql_dbname}"
 
-mysql --defaults-extra-file=${MYSQL_CONF} \
+mysql --defaults-extra-file=${mysql_conf} \
       -e "CREATE DATABASE IF NOT EXISTS ${mysql_dbname} DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;"
 
-zcat ${chembl_sql_file}.gz | mysql --defaults-extra-file=${MYSQL_CONF} --database=${mysql_dbname}
+zcat ${chembl_sql_file}.gz | mysql --defaults-extra-file=${mysql_conf} --database=${mysql_dbname}
 
 date
-echo "================= script finished ================="
+echo "================= finished extract-chembl.sh ================="

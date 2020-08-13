@@ -17,9 +17,10 @@ http://kg2endpoint.rtx.ai:7474
 
 (contact the KG2 maintainer for the username and password)
 
-## Where to download the RTX KG2 knowledge graph in JSON format
+## RTX KG2 Versioning
 
-http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/
+The version of RTX KG2 is stored in the public AWS S3 bucket under
+https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2-version.txt
 
 # What data sources are used in KG2
 
@@ -87,37 +88,47 @@ http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/
 
 The KG2 build system is designed only to run in an Ubuntu 18.04 environment
 (i.e., either (i) an Ubuntu 18.04 host OS or (ii) Ubuntu 18.04 running in a
-Docker container with a host OS that has `bash` and `sudo`). Currently, KG2 is
-built using a set of `bash` scripts that are designed to run in Amazon's Elastic
+Docker container) as a non-root user which must have passwordless `sudo` enabled
+and should have `bash` as the default shell (the build commands in the
+instructions in this README page assume a `bash` shell). Currently, KG2 is built
+using a set of `bash` scripts that are designed to run in Amazon's Elastic
 Compute Cloud (EC2), and thus, configurability and/or coexisting with other
 installed software pipelines was not a design consideration for the build
-system. The KG2 build system's `bash` scripts create three subdirectories
-`~/kg2-build`, `~/kg2-code`, and `~/kg2-venv` under the `${HOME}` directory of
-whatever Linux user account you use to run the KG2 build software (if you run on
-an EC2 Ubuntu instance, this directory would by default be `/home/ubuntu`). The
-various directories used by the KG2 build system are configured in the `bash`
-include file `master-config.shinc`.
+system. The KG2 build system's `bash` scripts create three subdirectories under
+the `${HOME}` directory of whatever Linux user account you use to run the KG2
+build software (if you run on an EC2 Ubuntu instance, this directory would by
+default be `/home/ubuntu`):
+
+1. `~/kg2-build`
+2. `~/kg2-code`
+3. `~/kg2-venv`
+
+The various directories used by the KG2 build system are configured in the
+`bash` include file `master-config.shinc`. Most of the KG2 build system code is
+written in the Python3 programming language, and designed to run in python3.7
+(and tested specifically in python 3.7.5).
 
 Note about atomicity of file moving: The build software is designed to run with
 the `kg2-build` directory being in the same file system as the Python temporary
 file directory (i.e., the directory name that is returned by the variable
-`tempfile.tempdir` in Python). If you modify the KG2 software or runtime
-environment so that `kg2-build` is in a different file system from the file
-system in which the directory `tempfile.tempdir` resides, then the file moving
-operations that are performed by the KG2 build software will not be atomic and
-interruption of `build-kg2.py` could then leave a source data file in a
-half-downloaded (i.e., broken) state.
+`tempfile.tempdir` in Python). If the KG2 software or installation is modified
+so that `kg2-build` is in a different file system from the file system in which
+the directory `tempfile.tempdir` (as referenced in the `tempfile` python module)
+resides, then the file moving operations that are performed by the KG2 build
+software will not be atomic and interruption of `build-kg2.sh` or its
+subprocesses could then leave a source data file in a half-downloaded (i.e.,
+broken) state.
 
 ## Setup your computing environment
 
 The computing environment where you will be running the KG2 build should be
-running Ubuntu 18.04.  Your build environment should have the following *minimum*
-specifications:
+running **Ubuntu 18.04**.  Your build environment should have the following
+*minimum* specifications:
 
 - 256 GiB of system memory
 - 1,023 GiB of disk space in the root file system 
 - high-speed networking (20 Gb/s networking) and storage
-- ideally, AWS zone `us-west-2` since that is where the RTX KG2 S3 buckets are located
+- ideally, AWS region `us-west-2` since that is where the RTX KG2 S3 buckets are located
 
 ## The KG2 build system assumes there is no MySQL database already present
 
@@ -134,15 +145,15 @@ best bet would be to use Docker (see Option 3 below).
 
 ## AWS authentication key and AWS buckets
 
-Aside from your host OS, you'll need to have an Amazon Web Services (AWS)
-authentication key that is configured to be able to read from the `s3://rtx-kg2`
-Amazon Simple Cloud Storage Service (S3) bucket (ask the KG2 maintainer to set
-this up), so that the build script can download a copy of the full Unified
-Medical Language System (UMLS) distribution.  You will be asked (by the AWS
-Command-line Interface, CLI) to provide this authentication key when you run the
-KG2 setup script. Your configured AWS CLI will also need to be able to
+Aside from a suitable system as described above, you'll need to have an Amazon
+Web Services (AWS) authentication key that is configured to be able to read from
+the `s3://rtx-kg2` Amazon Simple Cloud Storage Service (S3) bucket (ask the KG2
+maintainer to set this up), so that the build script can download a copy of the
+full Unified Medical Language System (UMLS) distribution.  You will be asked (by
+the AWS Command-line Interface, CLI) to provide this authentication key when you
+run the KG2 setup script. Your configured AWS CLI will also need to be able to
 programmatically write to the (publicly readable) S3 bucket
-`s3://rtx-kg2-public` (both buckets are in the `us-west-2` AWS zone). The KG2
+`s3://rtx-kg2-public` (both buckets are in the `us-west-2` AWS region). The KG2
 build script downloads the UMLS distribution (including SNOMED CT) from the
 private S3 bucket `rtx-kg2` (IANAL, but it appears that the UMLS is encumbered
 by a license preventing redistribution so I have not hosted them on a public
@@ -153,18 +164,18 @@ S3 bucket `rtx-kg2-public`. Alternatively, you can set up your own S3 bucket to
 which to copy the gzipped KG2 JSON file (which you would specify in the
 configuration file `master-config.shinc`), or in the file `build-kg2.sh`, you
 can comment out the line that copies the final gzipped JSON file to the S3
-bucket. You will also need to edit and place a file `RTXConfiguration-config.json` in the
-S3 bucket `s3://rtx-kg2/`; this file provides credentials (username, password, and
-HTTP URI for Neo4j REST API server) for accessing a RTX KG1 Neo4j endpoint; the
-KG2 build system will dump the KG1 graph from that endpoint and will merge that
-graph into KG2. As a minimal example of the data format for
-`RTXConfiguration-config.json`, see the file
-`RTXConfiguration-config-EXAMPLE.json` in this repository code directory (note:
-that config file can contain authentication information for additional server
-types in the RTX system; those are not shown in the example file in this code
-directory). The KG1 Neo4j endpoint need not (and in general, won't be) hosted in
-the same EC2 instance that hosts the KG2 build system. Currently, the KG1 Neo4j
-endpoint is hosted in the instance `arax.rtx.ai`; the URI of its Neo4j
+bucket. You will also need to edit and place a file
+`RTXConfiguration-config.json` in the S3 bucket `s3://rtx-kg2/`; this file
+provides credentials (username, password, and HTTP URI for Neo4j REST API
+server) for accessing a RTX KG1 Neo4j endpoint; the KG2 build system will dump
+the KG1 graph from that endpoint and will merge that graph into KG2. As a
+minimal example of the data format for `RTXConfiguration-config.json`, see the
+file `RTXConfiguration-config-EXAMPLE.json` in this repository code directory
+(note: that config file can contain authentication information for additional
+server types in the RTX system; those are not shown in the example file in this
+code directory). The KG1 Neo4j endpoint need not (and in general, won't be)
+hosted in the same EC2 instance that hosts the KG2 build system. Currently, the
+KG1 Neo4j endpoint is hosted in the instance `arax.rtx.ai`; the URI of its Neo4j
 REST HTTP interface is: `http://arax.rtx.ai:7474`.
 
 ## My normal EC2 instance
@@ -174,10 +185,10 @@ The KG2 build software has been tested with the following instance type:
 - AMI: Ubuntu Server 18.04 LTS (HVM), SSD Volume Type - `ami-005bdb005fb00e791` (64-bit x86)
 - Instance type: `r5a.8xlarge` (256 GiB of memory)
 - Storage: 1,023 GiB, Elastic Block Storage
-- Security Group: ingress TCP packets on port 22 (ssh) permitted
+- Security Group: ingress TCP packets on port 22 (`ssh`) permitted
 
 As of summer 2019, an on-demand `r5a.8xlarge` instance in the `us-west-2` AWS
-zone costs $1.81 per hour, so the cost to build KG2 (estimated to take 67 hours)
+region costs $1.81 per hour, so the cost to build KG2 (estimated to take 67 hours)
 would be approximately $121 (this is currently just a rough estimate, plus or
 minus 20%). [Unfortunately, AWS doesn't seem to allow the provisioning of spot
 instances while specifying minimum memory greater than 240 GiB; but perhaps soon
@@ -187,22 +198,26 @@ symmetric multiprocessing to bring the build time down to 54 hours (Option #2).
 
 ## Build instructions
 
-Note: to follow the instructions for Option 2 and Option 3 below, you will need
-to be using the `bash` shell on your local computer.
+Note: to follow the instructions for Option 3 and Option 4 below, in addition to
+the requirements as described above, you will need to be using the `bash` shell
+on your *local* computer.
 
 ### Option 1: build KG2 serially (about 67 hours) directly on an Ubuntu system:
 
 These instructions assume that you are logged into the target Ubuntu system, and
-that the Ubuntu system has *not* previously had `setup-kg2-build.sh` run (if it has
-previously had `setup-kg2-build.sh` run, you may wish to clear out the instance by running
-`clear-instance.sh` before proceeding, in order to ensure that you are getting the
-exact python packages needed in the latest `requirements.txt` file in the KG2 codebase):
+that the Ubuntu system has *not* previously had `setup-kg2-build.sh` run (if it
+has previously had `setup-kg2-build.sh` run, you may wish to clear out the
+instance by running `clear-instance.sh` before proceeding, in order to ensure
+that you are getting the exact python packages needed in the latest
+`requirements-kg2-build.txt` file in the KG2 codebase):
 
-(1) Install `git` by running this command in the `bash` shell:
+(1) Install the `git` and `screen` packages if they are not already installed (though
+in an Ubuntu 18.04 instance created using the standard AWS AMI, they should already
+be installed):
 
-    sudo apt-get update -y && sudo apt-get install -y screen git
+    sudo apt-get update && sudo apt-get install -y screen git
 
-(2) change to the user's home directory:
+(2) change to the home directory for user `ubuntu`:
 
     cd 
     
@@ -210,21 +225,29 @@ exact python packages needed in the latest `requirements.txt` file in the KG2 co
 
     git clone https://github.com/RTXteam/RTX.git
 
+[An advantage to having the `git clone` command separated out from the install script is
+that it provides control over which branch you want to use for the KG2 build code.]
+
 (4) Setup the KG2 build system: 
 
-    RTX/code/kg2/setup-kg2-build.sh
+    bash -x RTX/code/kg2/setup-kg2-build.sh
 
 Note that there is no need to redirect `stdout` or `stderr` to a log file, when
 executing `setup-kg2-build.sh`; this is because the script saves its own `stdout` and
-`stderr` to a log file `/home/ubuntu/setup-kg2.log`. This script takes just a
-few minutes to complete. The script will ask you to enter your AWS Access Key ID
+`stderr` to a log file `${HOME}/setup-kg2-build.log`. This script takes just a
+few minutes to complete. At some point, the script will print
+
+    fatal error: Unable to locate credentials
+    
+This is normal. The script will then prompt you to enter your AWS Access Key ID
 and AWS Secret Access Key, for an AWS account with access to the private S3
 bucket that is configured in `master-config.shinc`. It will also ask you to
-enter your default AWS zone, which in our case is normally `us-west-2` (you
-should enter the AWS zone that hosts the private S3 bucket that you intend to
-use with the KG2 build system).
+enter your default AWS region, which in our case is normally `us-west-2` (you
+should enter the AWS region that hosts the private S3 bucket that you intend to
+use with the KG2 build system). When prompted `Default output format [None]`,
+just hit enter/return.
 
-(5) Look in the log file `/home/ubuntu/setup-kg2-build.sh` to see if the script
+(5) Look in the log file `${HOME}/setup-kg2-build.log` to see if the script
 completed successfully; it should end with `======= script finished ======`.
 
 (6) Initiate a `screen` session to provide a stable pseudo-tty:
@@ -242,10 +265,10 @@ watch the progress of your KG2 build by using this command:
 
     tail -f ~/kg2-build/build-kg2.log
     
-Note that the `build-multi-owl-kg.sh` script also saves `stderr` from running `multi_owl_to_json_kg.py`
-to a file `~/kg2-build/build-kg2-owl-stderr.log`.
+Note that the `build-multi-ont-kg.sh` script also saves `stderr` from running `multi_ont_to_json_kg.py`
+to a file `~/kg2-build/build-kg2-ont-stderr.log`.
 
-### Option 2: build KG2 in parallel (about 54 hours) directly on an Ubuntu system: (NOT CURRENTLY WORKING)
+### Option 2: build KG2 in parallel (about 54 hours) directly on an Ubuntu system: (NOT CURRENTLY WORKING, see Issue 694)
 
 <!-- (1)-(5) Follow steps (1) through (5) from Option 1 -->
 
@@ -272,8 +295,8 @@ to a file `~/kg2-build/build-kg2-owl-stderr.log`.
 
 <!--     tail -f ~/kg2-build/build-kg2-snakemake.log -->
     
-<!-- Note that the `build-multi-owl-kg.sh` script also saves `stderr` from running `multi_owl_to_json_kg.py` -->
-<!-- to a file `~/kg2-build/build-kg2-owl-stderr.log`. -->
+<!-- Note that the `build-multi-ont-kg.sh` script also saves `stderr` from running `multi_ont_to_json_kg.py` -->
+<!-- to a file `~/kg2-build/build-kg2-ont-stderr.log`. -->
 
 <!-- (8) When the build is complete, look for the following line (the 2nd line from -->
 <!--     the bottom) in `build-kg2-snakemake.log` and `.snakemake/log/` file (you only need -->
@@ -288,102 +311,280 @@ to a file `~/kg2-build/build-kg2-owl-stderr.log`.
 
 <!-- the code failed. -->
 
-### Option 3: remotely build KG2 in an EC2 instance via ssh, orchestrated from your local computer
+### Option 3: setup ssh key exchange so you can build KG2 in a remote EC2 instance
 
 This option requires that you have `curl` installed on your local computer. In a
 `bash` terminal session, set up the remote EC2 instance by running this command
 (requires `ssh` installed and in your path):
 
     source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/ec2-setup-remote-instance.sh)
-    
+
 You will be prompted to enter the path to your AWS PEM file and the hostname of
 your AWS instance.  The script should then initiate a `bash` session on the
-remote instance. Within that `bash` session, continue to follow the instructions for Option 1 or 2, starting at step (4).
+remote instance. Within that `bash` session, continue to follow the instructions
+for Option 1, starting at step (4).
 
-### Option 4: in an Ubuntu container in Docker (UNTESTED, IN DEVELOPMENT)
+### Option 4: in an Ubuntu container in Docker
 
-(1) If you are on Ubuntu and you need to install Docker, you can run this command in `bash` on the host OS:
+For the Docker option, you will need a *lot* of disk space (see disk storage
+requirements above) in the root file system, unless you modify the Docker
+installation to store containers in some other (non-default) file system
+location. Here are the instructions:
+
+(1) Install Docker. If you are on Ubuntu 18.04 and you need to install Docker, you can
+run this command in `bash` on the host OS:
    
     source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/install-docker.sh)
     
-(otherwise, the subsequent commands in this section assume that Docker is installed
-on whatever host OS you are running). 
+(otherwise, the subsequent commands in this section assume that Docker is
+installed on whatever host system you are running). For some notes on how to
+install Docker on MacOS via the Homebrew system, see
+[macos-docker-notes.md](macos-docker-notes.md).  NOTE: if your docker
+installation (like on macOS Homebrew) doesn't require `sudo`, just omit
+`sudo` everywhere you see `sudo docker` in the steps below.
 
-(2) Clone the RTX software into your home directory:
+(2) Build a Docker image `kg2:latest`:
 
-    cd 
+    sudo docker image build -t kg2 https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/Dockerfile 
     
-    git clone https://github.com/RTXteam/RTX.git
+(3) Create a container called `kg2` from the `kg2:latest` image 
 
-(3) Build a Docker image for KG2:
+    sudo docker create --name kg2 kg2:latest
+
+(4) Start the `kg2` container:
+
+    sudo docker start kg2
     
-    sudo docker build -t kg2 RTX/code/kg2/
+(5) Open a bash shell as user `root` inside the container:
+
+    sudo docker exec -it kg2 /bin/bash
     
-(4) Setup a container and setup KG2 in it:
+(6) Become user `ubuntu`:
 
-    sudo docker run -it --name kg2 kg2:latest su - ubuntu -c "RTX/code/kg2/setup-kg2-build.sh"
+    su - ubuntu
     
-(If anything goes wrong, look for an error message using `sudo docker exec kg2 "cat setup-kg2.log"`)
-
-(5) Set up a persistent pseudo-tty using `screen`:
-
-    screen
-    
-(6) Inside the `screen` session, run:
-    
-    sudo docker exec kg2 "bash -x kg2-code/build-kg2.sh all"
-
-Then exit screen (`ctrl-a d`). You can watch the progress of your KG2 setup using the
-following command:
-
-    sudo docker exec -it kg2 "tail -f kg2-build/build-kg2.log"
-
-Note that the `build-multi-owl-kg.sh` script also saves `stderr` from running `multi_owl_to_json_kg.py`
-to a file `~/kg2-build/build-kg2-owl-stderr.log` inside the container.
+Now follow the instructions for Option 1 above.
 
 ## The output KG
 
 The `build-kg2.sh` script (run via one of the three methods shown above) creates
-a JSON file `kg2.json.gz` and copies it to a publicly accessible S3 bucket
-`rtx-kg2-public`. You can access the gzipped JSON file via HTTP, as shown here:
+a gzipped JSON file `kg2-simplified.json.gz` and copies it to an S3 bucket
+`rtx-kg2`. You can access the gzipped JSON file using the AWS command-line
+interface (CLI) tool `aws` with the command
 
-    curl https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2.json.gz > kg2.json.gz
+    aws s3 cp s3://rtx-kg2/kg2-simplified.json.gz .
 
-Or using the AWS command-line interface (CLI) tool `aws` with the command
+The TSV files for the knowledge graph can be accessed via HTTP as well, 
 
-    aws s3 cp s3://rtx-kg2-public/kg2.json.gz .
-
-The TSV files for the knowledge graph can be accessed via HTTP as well, shown here:
-
-    curl https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2-tsv.tar.gz > kg2-tsv.tar.gz
-
-Or using the AWS command-line interface (CLI) tool `aws` with the command
-
-    aws s3 cp s3://rtx-kg2-public/kg2-tsv.tar.gz .
+    aws s3 cp s3://rtx-kg2/kg2-tsv.tar.gz .
 
 You can access the various artifacts from the KG2 build (config file, log file,
 etc.) at the AWS static website endpoint for the 
 `rtx-kg2-public` S3 bucket: <http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/>
 
-## Hosting the KG on a Neo4j instance
+Each build of KG2 is labeled with a unique build date/timestamp. The build timestamp
+can be found in the `build` slot of the `kg2-simplified.json` file and it can be
+found in the node with ID `RTX:KG2` in the Neo4j KG2 database. Due to the size of KG2,
+we are not currently archiving old builds of KG2 and that is why `kg2-simplified.json`
+and the related large KG2 JSON files are stored in a *non-versioned* S3 bucket.
 
-In a clean Ubuntu 18.04 AWS instance, run the following commands:
+## Updating the KG2 buid system
 
-(1) Clone the RTX software from GitHub:
+We generally try to make the KG2 shell scripts idempotent, following best
+practice for *nix shell scripting. However, changes to `setup-kg2-build.sh` (or
+`setup-kg2-neo4j.sh`) that would bring in a new version of a major software
+dependency (e.g., Python) of the KG2 build system are not usually tested for
+whether they can also upgrade an *existing* installation of the build system;
+this is especially an issue for software dependencies that are installed using
+`apt-get`. In the event that `setup-kg2-build.sh` undergoes a major change that
+would trigger such an upgrade (e.g., from Python3.7 to Python3.8), instead of
+rerunning `setup-kg2-build.sh` on your existing build system, we recommend that
+you create a clean Ubuntu 18.04 instance and install using `setup-kg2-build.sh`.
+
+## Hosting KG2 in a Neo4j server on a new AWS instance
+
+We host our production KG2 graph database in Neo4j version 3.5.13 with APOC
+3.5.0.4, on an Ubuntu 18.04 EC2 instance with 64 GiB of RAM and 8 vCPUs
+(`r5a.2xlarge`) in the `us-east-2` AWS region, although it is possible to host KG2
+on an `r5a.xlarge` instance and this is what we do for our test/dev KG2 host.
+
+**Installation:** in a fresh Ubuntu 18.04 AWS
+instance, as user `ubuntu`, run the following commands:
+
+(1) Make sure you are in your home directory:
+
+    cd
+    
+(2) Clone the RTX software from GitHub:
 
     git clone https://github.com/RTXteam/RTX.git
 
-(2) Install and configure Neo4j, with APOC:
+(3) Install and configure Neo4j, with APOC:
 
     RTX/code/kg2/setup-kg2-neo4j.sh
 
-(3) Set up the Neo4j password, by navigating your HTTP browser to Neo4j on the server (port 7474)
+This script takes just a few minutes to complete. At some point, the script will
+print
 
-(4) Load KG2 into Neo4j:
-
-    RTX/code/kg2/tsv-to-neo4j.sh
+    fatal error: Unable to locate credentials
     
-In Step 4, you will be prompted to enter the Neo4j database password that you chose in step (3).
+This is normal. The script will then prompt you to enter your AWS Access Key ID
+and AWS Secret Access Key, for an AWS account with access to the private S3
+bucket that is configured in `master-config.shinc`. It will also ask you to
+enter your default AWS region; you should enter the AWS region that hosts the
+private S3 bucket that you intend to use with the KG2 build system, which in our
+case would be `us-west-2`. When prompted `Default output format [None]`, just
+hit enter/return. Also, the setup script will print a warning
+
+    WARNING: Max 1024 open files allowed, minimum of 40000 recommended. See the Neo4j manual.
+    
+but this, too, can be ignored [The `/lib/systemd/service/neo4j.service` file 
+that is installed (indirectly) by the setup script actually sets the limit to 60000,
+for when the Neo4j database system is run via systemd (but when running `neo4j-admin`
+at the CLI to set the password, Neo4j doesn't know this and it reports a limit warning).]
+
+(4) Look in the log file `${HOME}/setup-kg2-neo4j.log` to see if the script
+completed successfully; it should end with `======= script finished ======`.
+
+(5) Load KG2 into Neo4j:
+
+    RTX/code/kg2/tsv-to-neo4j.sh > ~/kg2-build/tsv-to-neo4j.log 2>&1
+
+This script takes about an hour. You may wish to run it in a `screen` session.
+
+(6) Look in the log file `~/kg2-build/tsv-to-neo4j.log` to see if the script
+completed successfully; it should end with `======= script finished ======`.
+
+## Reloading KG2 into an existing Neo4j server
+
+Once you have loaded KG2 into Neo4j as described above, if you want to reload
+KG2, just run (as user `ubuntu`):
+
+    ~/RTX/code/kg2/tsv-to-neo4j.sh > ~/kg2-build/tsv-to-neo4j.log 2>&1
+
+## Co-hosting the KG2 build system and Neo4j server?
+
+In theory, it should be possible to install Neo4j and load KG2 into it on the
+same Ubuntu instance where KG2 was built; but this workflow is usually not
+tested since in our setup, we nearly always perform the KG2 build and Neo4j
+hosting on separate AWS instances.
+
+# Structure of the JSON KG2
+
+The file `kg2.json` is an intermediate file that is probably only of use to KG2
+developers.  The file `kg2-simplified.json` is a key artifact of the build
+process that feeds into several downstream artifacts and may be of direct use to
+application developers. The `kg2-simplified.json` JSON data structure is a
+name-value pair object (i.e., dictionary) with the following keys:
+
+## `build` slot
+The top-level `build` slot contains a dictionary whose keys are:
+
+  - `version`: a string containing the version identifier for the KG2 build,
+    like `RTX KG2.2.3`.  For a "test" build, the version identifier will have
+    `-TEST` appended to it.
+  - `timestamp_utc`: a string containing the ISO 8601 date/timestamp (in UTC)
+  for the build, like this: `2020-08-11 21:51`.
+  
+## `nodes` slot
+
+The top-level `nodes` slot contains a list of node objects. Each node object has
+the following keys:
+  - `category`: a string containing a CURIE ID for the semantic type of the
+    node, as a category in the Biolink model. Example: `biolink:Gene`.
+  - `category label`: a `snake_case` representation of the `category` field,
+    without the `biolink:` CURIE prefix.
+  - `creation date`: a string identifier of the date in which this node object
+  was first created in the upstream source database; it has (at present) no
+  consistent format, unfortunately (usual value is `null`).
+  - `deprecated`: a Boolean field indicating whether or not this node has been
+    deprecated by the upstream source database (usual value is `false`).
+  - `description`: a narrative description field for the node, in prose text
+  - `full name`: a longer name for the node (often is identical to the `name` field)
+  - `id`: a CURIE ID for the node; this CURIE ID will be unique across nodes in
+    KG2 (that constraint is enforced in the build process)
+  - `iri`: a URI where the user can get more information about this node (we try
+    to make these resolvable wherever possible)
+  - `name`: a display name for the node
+  - `provided by`: a CURIE ID (which corresponds to an actual node in KG2) for
+  the upstream source database that is the definitive source for information
+  about this node
+  - `publications`: a list of CURIE IDs of publications (e.g., `PMID` or `ISBN`
+    or `DOI` identifiers) that contain information about this node
+  - `replaced by`: a CURIE ID for the node that replaces this node, for cases
+    when this node has been deprecated (usually it is `null`).
+  - `synonym`: a list of strings with synonyms for the node; if the node is a
+  gene, the first entry in the list should be the official gene symbol; other
+  types of information can for certain node types be found in this list, such as
+  protein sequence information for UniProt protein nodes.
+  - `update date`: a string identifier of the date in which the information for
+  this node object was last updated in the upstream source database; it has (at
+  present) no consitent format, unfortunately; it is usually not `null`.
+
+## `edges` slot
+- `edges`: a list of edge objects. Each edge object has the following keys:
+  - `edge label`: a `snake_case` representation of the plain English label for
+    the original predicate for the edge provided by the upstream source database
+    (see the `relation curie` field)
+  - `negated`: a Boolean field indicating whether or not the edge relationship
+    is "negated"; usually `false`, in the normal build process for KG2
+  - `object`: the CURIE ID (`id`) for the KG2 node that is the object of the
+    edge
+  - `provided by`: a list containing CURIE IDs (each of which should be a node
+  in KG2) of the upstream source databases that reported this edge's specific
+  combination of subject/predicate/object (in the case of multiple providers for
+  an edge, the other fields like `publications` are merged from the information
+  from the multiple sources).
+  - `publications`: a list of CURIE IDs of publications supporting this edge
+    (e.g., `PMID` or `ISBN` or `DOI` identifiers)
+  - `publications info`: a dictionary whose keys are CURIE IDs from the list in the
+  `publications` field, and whose values are described in the next subsection ("publication_info")
+    - `relation`: a URI for the relation as reported by the upstream database
+    source (NOTE: the URI information on the edge is going away soon, per issue
+    1006)
+  - `relation curie`: a CURIE ID for the relation as reported by the upstream
+    database source (NOTE: this property name will soon be renamed `relation`,
+    per issue 1006).
+  - `simplified edge label`: a `snake_case` representation of the plain English
+    label for the simplified predicate (see the `simplified relation curie`
+    field); in most cases this is a predicate type from the Biolink model.
+  - `simplified relation`: a URI for the simplified relation (NOTE: the URI
+    information on the edge is going away soon, per issue 1006)
+  - `simplified relation curie`: a CURIE ID for the simplified relation (NOTE:
+  this property name will soon be renamed `simplified relation`, per issue 1006)
+  - `subject`: the CURIE ID (`id`) for the KG2 node that is the subject of the
+    edge
+  - `update date`: a string identifier of the date in which the information for
+  this node object was last updated in the upstream source database; it has (at
+  present) no consitent format, unfortunately; it is usually not `null`.
+
+### `publication_info` slot
+
+If it is not `null`, the `publication_info` object's values are objects containing
+the following name/value pairs:
+  - `publication date`: string representation of the date of the publication, in
+    ISO 8601 format (`%Y-%m-%d %H:%i:%S`)
+  - `sentence`: a string containing the natural language sentence from which the
+    edge was inferred (this is only not `null` for SemMedDB edges, at present)
+  - `subject score`: a string containing a confidence score; for SemMedDB edges,
+    this score corresponds to a confidence with which the subject of the triple
+    was correctly identified; for other edges (like ChEMBL drug to target
+    predictinos), the score corresponds to a confidence in a computational
+    prediction of the ligand-to-target binding relationship; NOTE: there at
+    present no unified scale for this field, unfortunately
+  - `object score`: for SemMedDB edges, this score corresponds to a confidence
+    with which the subject of the triple was correctly identified; otherwise
+    `null`
+
+# For Developers
+
+This section has some guidelines for KG2 developers
+
+## KG2 coding standards
+
+- For python, only python3 is allowed and please follow PEP8 formatting standards.
+- Hard tabs are not permitted in source files such as python or bash (use spaces
+instead).
 
 # Credits
 
@@ -394,7 +595,7 @@ Stephen Ramsey, Amy Glen, Finn Womack, Erica Wood, Veronica Flores, Deqing Qu, a
 
 ## Advice and feedback
 David Koslicki, Eric Deutsch, Yao Yao, Jared Roach, Chris Mungall, Tom Conlin, Matt Brush,
-Chunlei Wu, Harold Solbrig, Will Byrd, and Michael Patton.
+Chunlei Wu, Harold Solbrig, Will Byrd, Michael Patton, Jim Balhoff, Chunyu Ma, and Chris Bizon.
 
 ## Funding
 National Center for Advancing Translational Sciences (award number OT2TR002520).

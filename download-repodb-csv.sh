@@ -20,7 +20,7 @@ repodb_file=repodb.csv
 
 mkdir -p ${repodb_dir}
 
-aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/${repodb_file} ${repodb_dir}/${repodb_file}
+${s3_cp_cmd} s3://${s3_bucket}/${repodb_file} ${repodb_dir}/${repodb_file}
 
 date
 echo "================= script finished ================="

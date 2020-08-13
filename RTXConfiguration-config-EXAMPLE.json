@@ -1,10 +1,26 @@
 {
-     "KG1": {
-        "neo4j": {
-            "bolt": "bolt://kg1endpoint.rtx.ai:7687",
-            "database": "kg1endpoint.rtx.ai:7474/db/data",
-            "username": "neo4j",
-            "password": "THIS_IS_NOT_A_VALID_PASSWORD"
-        }
-    }    
+  "KG1": {
+    "neo4j": {
+      "bolt": "bolt://arax.rtx.ai:7687",
+      "database": "arax.rtx.ai:7474/db/data",
+      "username": "neo4j",
+      "password": "THIS_IS_NOT_A_VALID_PASSWORD"
+    }
+  },
+  "KG2": {
+    "neo4j": {
+      "bolt": "bolt://kg2endpoint2.rtx.ai:7687",
+      "database": "kg2endpoint2.rtx.ai:7474/db/data",
+      "username": "neo4j",
+      "password": "THIS_IS_NOT_A_VALID_PASSWORD"
+    }
+  },
+  "KG2C": {
+    "neo4j": {
+      "bolt": "bolt://kg2canonicalized.rtx.ai:7687",
+      "database": "kg2canonicalized.rtx.ai:7474/db/data",
+      "username": "neo4j",
+      "password": "THIS_IS_NOT_A_VALID_PASSWORD"
+    }
+  }
 }

@@ -9,7 +9,7 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     exit 2
 fi
 
-echo "================= starting build-unichem.sh ================="
+echo "================= starting extract-unichem.sh ================="
 date
 
 config_dir=`dirname "$0"`
@@ -24,9 +24,9 @@ rm -r -f ${unichem_dir}
 mkdir -p ${unichem_dir}
 mkdir -p ${unichem_output_dir}
 
-${CURL_GET} ${unichem_ftp_site}/oracleDumps/UDRI${unichem_ver}/UC_XREF.txt.gz > ${unichem_dir}/UC_XREF.txt.gz
-${CURL_GET} ${unichem_ftp_site}/oracleDumps/UDRI${unichem_ver}/UC_SOURCE.txt.gz > ${unichem_dir}/UC_SOURCE.txt.gz
-${CURL_GET} ${unichem_ftp_site}/oracleDumps/UDRI${unichem_ver}/UC_RELEASE.txt.gz > ${unichem_dir}/UC_RELEASE.txt.gz
+${curl_get} ${unichem_ftp_site}/oracleDumps/UDRI${unichem_ver}/UC_XREF.txt.gz > ${unichem_dir}/UC_XREF.txt.gz
+${curl_get} ${unichem_ftp_site}/oracleDumps/UDRI${unichem_ver}/UC_SOURCE.txt.gz > ${unichem_dir}/UC_SOURCE.txt.gz
+${curl_get} ${unichem_ftp_site}/oracleDumps/UDRI${unichem_ver}/UC_RELEASE.txt.gz > ${unichem_dir}/UC_RELEASE.txt.gz
 
 chembl_src_id=`zcat ${unichem_dir}/UC_SOURCE.txt.gz | awk '{if ($2 == "chembl") {printf "%s", $1}}'`
 chebi_src_id=`zcat ${unichem_dir}/UC_SOURCE.txt.gz | awk '{if ($2 == "chebi") {printf "%s", $1}}'`
@@ -43,4 +43,4 @@ join ${unichem_dir}/chembl.txt ${unichem_dir}/chebi.txt | sed 's/ /\t/g' | cut -
 join ${unichem_dir}/chembl.txt ${unichem_dir}/drugbank.txt | sed 's/ /\t/g' | cut -f2-3 >> ${output_tsv_file}
 
 date
-echo "================= script finished ================="
+echo "================= finished extract-unichem.sh ================="
