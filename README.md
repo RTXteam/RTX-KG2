@@ -1,4 +1,21 @@
-# Contact
+# What is KG2?
+
+KG2 is the second-generation biomedical knowledge graph for the
+[ARAX](https://github.com/RTXteam/RTX) system.  The GitHub subdirectory
+`RTX/code/kg2` (including sub-subdirectories) centralizes all of the code for
+building KG2 and all of the documentation about how to build, host, access, and
+use KG2. The KG2 build system produces knowledge graphs in a
+[Biolink model](https://biolink.github.io/biolink-model/) standard-compliant
+JSON format and in a tab-separated value (TSV) format that can be imported into
+a [Neo4j](https://neo4j.com) graph database system. Through additional scripts
+in the `canonicalized` subdirectory, the build system can produce a
+"canonicalized" knowledge graph where synonym concepts (nodes) are
+identified. Through additional scripts in the `mediKanren` subdirectory, the
+build system can produce an export of the KG2 knowledge graph that is suitable
+for importing into the [mediKanren](https://github.com/webyrd/mediKanren)
+biomedical reasoning system.
+
+# KG2 team contact information
 
 ## Maintainers
 
@@ -17,43 +34,43 @@ http://kg2endpoint.rtx.ai:7474
 
 (contact the KG2 maintainer for the username and password)
 
-## RTX KG2 Versioning
+# What data sources are used in KG2?
 
-The version of RTX KG2 is stored in the public AWS S3 bucket under
-https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2-version.txt
-
-# What data sources are used in KG2
+Information from many knowledge databases is combined in bulding KG2, including
+the entire contents of
+[KG1](https://github.com/RTXteam/RTX/tree/master/code/reasoningtool), the RTX
+first-generation knowledge graph.
 
 | Knowledge source                | Type     | KG1 | KG2 | Redistribution license info                                                                                                                      | Home page                                                      |
 |---------------------------------|----------|-----|-----|--------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------|
-| BigCLAM                         | data     | x   | x   |                                                                                                                                                  | [link](http://biggim.ncats.io/api/)                                    |
-| BigGIM                          | data     | x   | x   |                                                                                                                                                  | [link](http://biggim.ncats.io/api/)                                    |
 | Chembl   [without metabolism]   | data     | x   | x   | [link](https://chembl.gitbook.io/chembl-interface-documentation/about#data-licensing)                                                            | [link](https://www.ebi.ac.uk/chembl/)                                  |
-| Columbia Open Health Data       | data     | x   | x   |                                                                                                                                                  | [link](http://cohd.nsides.io/)                                         |
 | DGIdb                           | data     | x   | x   | [link](https://github.com/griffithlab/dgi-db/blob/master/LICENSE)                                                                                | [link](http://www.dgidb.org/)                                          |
 | DisGeNET                        | data     | x   | x   | [link](http://www.disgenet.org/legal)                                                                                                            | [link](http://www.disgenet.org/)                                       |
-| DrugBank   [partial]            | data     |     | x   | [link](https://www.drugbank.ca/legal/terms_of_use)                                                                                               | [link](https://www.drugbank.ca/)                                       |
+| DrugBank                        | data     |     | x   | [link](https://www.drugbank.ca/legal/terms_of_use)                                                                                               | [link](https://www.drugbank.ca/)                                       |
 | Ensembl Genes                   | data     |     | x   | [link](https://uswest.ensembl.org/info/about/legal/code_licence.html)                                                                            | [link](https://uswest.ensembl.org/index.html)                          |
 | GeneProf                        | data     | x   | x   |                                                                                                                                                  | [link](https://bio.tools/geneprof)                                     |
+| GO annotations from EBI         | data     |     | x   |                                                                                                                                                  | [link](https://www.ebi.ac.uk/GOA/)                                     |
 | GtP                             | data     |     | x   | [link](https://www.guidetopharmacology.org/about.jsp#license)                                                                                    | [link](https://www.guidetopharmacology.org/)                           |
 | HMDB                            | data     | x   | x   |                                                                                                                                                  | [link](http://www.hmdb.ca/)                                            |
 | KEGG                            | data     | x   | x   | [link](https://www.kegg.jp/kegg/legal.html)                                                                                                      | [link](https://www.genome.jp/kegg/)                                    |
-| miRBase                         | data     | x   | x   | [link](http://mirbase.org/help/FAQs.shtml#Do%20I%20need%20permission%20to%20download/use%20data%20contained%20in%20miRBase%20for%20my%20own%20research?) | [link](http://www.mirbase.org/)                                        |
+| miRBase                         | data     | x   | x   | [link](http://mirbase.org/help/FAQs.shtml#Do%20I%20need%20permission%20to%20download/use%20data%20contained%20in%20miRBase%20for%20my%20own%20research?) | [link](http://www.mirbase.org/)                                |
 | miRGate                         | data     | x   | x   |                                                                                                                                                  | [link](http://mirgate.bioinfo.cnio.es/miRGate/)                        |
 | MyChem.info                     | data     | x   | x   |                                                                                                                                                  | [link](https://mychem.info/)                                           |
 | MyGene.info                     | data     | x   | x   |                                                                                                                                                  | [link](https://mygene.info/)                                           |
 | NCBI Genes                      | data     |     | x   |                                                                                                                                                  | [link](https://www.ncbi.nlm.nih.gov/gene)                              |
 | OMIM                            | data     | x   | x   | [link](https://www.omim.org/help/copyright)                                                                                                      | [link](https://www.omim.org/)                                          |
 | Pathway Commons                 | data     | x   | x   |                                                                                                                                                  | [link](https://www.pathwaycommons.org/)                                |
+| PathWhiz                        | data     |     | x   |                                                                                                                                                  | [link](https://smpdb.ca/pathwhiz)                                      |
 | Pharos                          | data     | x   | x   |                                                                                                                                                  | [link](https://pharos.nih.gov/)                                        |
 | Reactome                        | data     | x   | x   | [link](https://reactome.org/license)                                                                                                             | [link](https://reactome.org/)                                          |
 | SciGraph data                   | data     | x   | x   |                                                                                                                                                  | [link](https://scigraph-data.monarchinitiative.org/scigraph/docs/)     |
 | SemMedDB                        | data     | x   | x   | [link](https://skr3.nlm.nih.gov/TermsAndCond.html)                                                                                               | [link](https://skr3.nlm.nih.gov/SemMedDB/)                             |
 | SIDER                           | data     | x   | x   |                                                                                                                                                  | [link](http://sideeffects.embl.de/)                                    |
+| SMPDB                           | data     |     | x   | [link](https://smpdb.ca/about#citing)                                                                                                            | [link](https://smpdb.ca/)                                              |
 | Therapeutic Target Database     | data     |     | x   |                                                                                                                                                  | [link](http://bidd.nus.edu.sg/group/cjttd/)                            |
 | UniChem   [partial]             | data     |     | x   |                                                                                                                                                  | [link](https://www.ebi.ac.uk/unichem/)                                 |
 | UniProtKB   [human + pathogens] | data     | x   | x   | [link](https://www.uniprot.org/help/license)                                                                                                     | [link](https://www.uniprot.org/help/uniprotkb)                         |
-| Biolink                         | ontology | x   | x   |                                                                                                                                                  | [link](https://github.com/biolink/biolink-api)                         |
+| Biolink model                   | ontology | x   | x   |                                                                                                                                                  | [link](https://github.com/biolink/biolink-api)                         |
 | BFO                             | ontology |     | x   |                                                                                                                                                  | [link](http://www.obofoundry.org/ontology/bfo.html)                    |
 | BSPO                            | ontology |     | x   |                                                                                                                                                  | [link](http://www.obofoundry.org/ontology/bspo.html)                   |
 | Cell Ontology                   | ontology | x   | x   |                                                                                                                                                  | [link](http://www.obofoundry.org/ontology/cl.html)                     |
@@ -90,14 +107,18 @@ The KG2 build system is designed only to run in an Ubuntu 18.04 environment
 (i.e., either (i) an Ubuntu 18.04 host OS or (ii) Ubuntu 18.04 running in a
 Docker container) as a non-root user which must have passwordless `sudo` enabled
 and should have `bash` as the default shell (the build commands in the
-instructions in this README page assume a `bash` shell). Currently, KG2 is built
-using a set of `bash` scripts that are designed to run in Amazon's Elastic
-Compute Cloud (EC2), and thus, configurability and/or coexisting with other
-installed software pipelines was not a design consideration for the build
-system. The KG2 build system's `bash` scripts create three subdirectories under
-the `${HOME}` directory of whatever Linux user account you use to run the KG2
-build software (if you run on an EC2 Ubuntu instance, this directory would by
-default be `/home/ubuntu`):
+instructions in this README page assume a `bash` shell). The build system will
+also need (but will set up for itself, prompting the user for access keys at
+setup time) a local configured installation of the Amazon Web Services (AWS)
+command-line interface (CLI) software in order to be able to retrieve various
+required files on-demand from a storage bucket in the AWS Simple Storage Service
+(S3) system. Currently, KG2 is built using a set of `bash` scripts that are
+designed to run in Amazon's Elastic Compute Cloud (EC2), and thus,
+configurability and/or coexisting with other installed software pipelines was
+not a design consideration for the build system. The KG2 build system's `bash`
+scripts create three subdirectories under the `${HOME}` directory of whatever
+Linux user account you use to run the KG2 build software (if you run on an EC2
+Ubuntu instance, this directory would by default be `/home/ubuntu`):
 
 1. `~/kg2-build`
 2. `~/kg2-code`
@@ -145,14 +166,13 @@ best bet would be to use Docker (see Option 3 below).
 
 ## AWS authentication key and AWS buckets
 
-Aside from a suitable system as described above, you'll need to have an Amazon
-Web Services (AWS) authentication key that is configured to be able to read from
-the `s3://rtx-kg2` Amazon Simple Cloud Storage Service (S3) bucket (ask the KG2
-maintainer to set this up), so that the build script can download a copy of the
-full Unified Medical Language System (UMLS) distribution.  You will be asked (by
-the AWS Command-line Interface, CLI) to provide this authentication key when you
-run the KG2 setup script. Your configured AWS CLI will also need to be able to
-programmatically write to the (publicly readable) S3 bucket
+In order to be able to build KG2, you'll need to have an AWS authentication key
+pair that is configured to be able to read from the `s3://rtx-kg2` S3 bucket
+(ask the KG2 maintainer to set this up), so that the build script can download a
+copy of the full Unified Medical Language System (UMLS) distribution.  You will
+be asked (by the AWS Command-line Interface, CLI) to provide this authentication
+key when you run the KG2 setup script. Your configured AWS CLI will also need to
+be able to programmatically write to the (publicly readable) S3 bucket
 `s3://rtx-kg2-public` (both buckets are in the `us-west-2` AWS region). The KG2
 build script downloads the UMLS distribution (including SNOMED CT) from the
 private S3 bucket `rtx-kg2` (IANAL, but it appears that the UMLS is encumbered
@@ -202,7 +222,7 @@ Note: to follow the instructions for Option 3 and Option 4 below, in addition to
 the requirements as described above, you will need to be using the `bash` shell
 on your *local* computer.
 
-### Option 1: build KG2 serially (about 67 hours) directly on an Ubuntu system:
+### Build Option 1: build KG2 serially (about 67 hours) directly on an Ubuntu system:
 
 These instructions assume that you are logged into the target Ubuntu system, and
 that the Ubuntu system has *not* previously had `setup-kg2-build.sh` run (if it
@@ -250,11 +270,19 @@ just hit enter/return.
 (5) Look in the log file `${HOME}/setup-kg2-build.log` to see if the script
 completed successfully; it should end with `======= script finished ======`.
 
-(6) Initiate a `screen` session to provide a stable pseudo-tty:
+(6) [**THIS STEP IS NORMALLY SKIPPED**] If (and *only* if) you have made code
+changes to KG2 that will cause a change to the schema for KG2 (or added a major
+new upstream source database), you will want to increment the "major" release
+number for KG2. To do that, at this step of the build process, you would run
+this command:
+
+    touch ~/kg2-build/major-release
+
+(7) Initiate a `screen` session to provide a stable pseudo-tty:
 
     screen
 
-(7) Within the `screen` session, run:
+(8) Within the `screen` session, run:
 
     bash -x ~/kg2-code/build-kg2.sh all
 
@@ -268,7 +296,65 @@ watch the progress of your KG2 build by using this command:
 Note that the `build-multi-ont-kg.sh` script also saves `stderr` from running `multi_ont_to_json_kg.py`
 to a file `~/kg2-build/build-kg2-ont-stderr.log`.
 
-### Option 2: build KG2 in parallel (about 54 hours) directly on an Ubuntu system: (NOT CURRENTLY WORKING, see Issue 694)
+#### Note about versioning of KG2
+
+KG2 has semantic versioning with a graph/major/minor release system:
+- The graph release number is always 2. 
+- The major release number is incremented when the schema for KG2 is changed
+  (and the minor release is set to zero in that case)
+- The minor release number is incremented for each non-test build for which the
+  schema is not modified.
+  
+So an example version of KG2 would be "RTX KG 2.1.3" (graph release 2, major
+release 1, minor release 3). This build version is recorded in three places:
+- the top-level `build` slot in the KG2 JSON file
+- in the `name` field of a node object with `id` field `RTX:KG2` (in both the
+  JSON version of the KG and in the Neo4j version of the KG)
+- the file `s3://rtx-kg2-public/kg2-version.txt` in the S3 bucket `rtx-kg2-public`.
+
+By default, the KG2 build process (as outlined above) will automatically
+increment the minor release number and update the file `kg2-version.txt` in the
+S3 bucket.  If you are doing a build in which the KG2 schema has changed, you
+should trigger the incrementing of the major release version by making sure to
+do step (6) above.  The build script (specifically, the script `version.sh`)
+will automatically delete the file `~/kg2-build/major-release` so that it will
+not persist for the next build. Note: if the build system happens to terminate
+unexpectedly while running `version.sh`, you should check what state the file
+`s3://rtx-kg2-public/kg2-version.txt` was left in.
+
+#### Partial build of KG2
+
+In some circumstances, if there are no updates to any of the upstream source
+databases (like UMLS, ChEMBL, SemMedDB, etc.) that are extracted using
+`extract*.sh` scripts (as shown in the list of KG2 scripts), you can trigger
+a "partial" build that just downloads the OBO ontologies and does a build
+downstream of that. This can be useful in cases where you are testing a change
+to one of the YAML configuration files for KG2, for example. To do a partial
+build, in Step (8) above, you would run
+
+    bash -x ~/kg2-code/build-kg2.sh
+
+(note the absence of the `all` argument to `build-kg2.sh`). A partial build of KG2
+may take about 12 hours.
+
+#### Test build of KG2
+
+For testing/debugging purposes, it is helpful to have a faster way to exercise
+the KG2 build code. For this, you may want to execute a "test" build. This build
+mode builds a smaller graph with a significantly reduced set of nodes and edges.
+To execute a "test" build, in Step (8) above, you would run:
+
+    bash -x ~/kg2-code/build-kg2.sh test
+    
+In the case of a test build, the build log file names are changed:
+
+    ~/kg2-build/build-kg2-test.log
+    ~/kg2-build/build-kg2-ont-test-stderr.log
+
+and all of the intermediate JSON files that the build system creates will have
+`-test` appended to the filename before the usual filename suffix (`.json`).
+
+### Build Option 2: build KG2 in parallel (about 54 hours) directly on an Ubuntu system: (NOT CURRENTLY WORKING, see Issue 694)
 
 <!-- (1)-(5) Follow steps (1) through (5) from Option 1 -->
 
@@ -311,7 +397,7 @@ to a file `~/kg2-build/build-kg2-ont-stderr.log`.
 
 <!-- the code failed. -->
 
-### Option 3: setup ssh key exchange so you can build KG2 in a remote EC2 instance
+### Build Option 3: setup ssh key exchange so you can build KG2 in a remote EC2 instance
 
 This option requires that you have `curl` installed on your local computer. In a
 `bash` terminal session, set up the remote EC2 instance by running this command
@@ -322,11 +408,11 @@ This option requires that you have `curl` installed on your local computer. In a
 You will be prompted to enter the path to your AWS PEM file and the hostname of
 your AWS instance.  The script should then initiate a `bash` session on the
 remote instance. Within that `bash` session, continue to follow the instructions
-for Option 1, starting at step (4).
+for Build Option 1, starting at step (4).
 
-### Option 4: in an Ubuntu container in Docker
+### Build Option 4: in an Ubuntu container in Docker
 
-For the Docker option, you will need a *lot* of disk space (see disk storage
+For Build Option 4, you will need a *lot* of disk space (see disk storage
 requirements above) in the root file system, unless you modify the Docker
 installation to store containers in some other (non-default) file system
 location. Here are the instructions:
@@ -363,7 +449,7 @@ installation (like on macOS Homebrew) doesn't require `sudo`, just omit
 
     su - ubuntu
     
-Now follow the instructions for Option 1 above.
+Now follow the instructions for Build Option 1 above.
 
 ## The output KG
 
@@ -388,7 +474,7 @@ found in the node with ID `RTX:KG2` in the Neo4j KG2 database. Due to the size o
 we are not currently archiving old builds of KG2 and that is why `kg2-simplified.json`
 and the related large KG2 JSON files are stored in a *non-versioned* S3 bucket.
 
-## Updating the KG2 buid system
+## Updating the KG2 build system
 
 We generally try to make the KG2 shell scripts idempotent, following best
 practice for *nix shell scripting. However, changes to `setup-kg2-build.sh` (or
@@ -525,7 +611,7 @@ the following keys:
 - `edges`: a list of edge objects. Each edge object has the following keys:
   - `edge label`: a `snake_case` representation of the plain English label for
     the original predicate for the edge provided by the upstream source database
-    (see the `relation curie` field)
+    (see the `relation` field)
   - `negated`: a Boolean field indicating whether or not the edge relationship
     is "negated"; usually `false`, in the normal build process for KG2
   - `object`: the CURIE ID (`id`) for the KG2 node that is the object of the
@@ -539,19 +625,12 @@ the following keys:
     (e.g., `PMID` or `ISBN` or `DOI` identifiers)
   - `publications info`: a dictionary whose keys are CURIE IDs from the list in the
   `publications` field, and whose values are described in the next subsection ("publication_info")
-    - `relation`: a URI for the relation as reported by the upstream database
-    source (NOTE: the URI information on the edge is going away soon, per issue
-    1006)
-  - `relation curie`: a CURIE ID for the relation as reported by the upstream
-    database source (NOTE: this property name will soon be renamed `relation`,
-    per issue 1006).
+  - `relation`: a CURIE ID for the relation as reported by the upstream
+    database source.
   - `simplified edge label`: a `snake_case` representation of the plain English
-    label for the simplified predicate (see the `simplified relation curie`
+    label for the simplified predicate (see the `simplified relation`
     field); in most cases this is a predicate type from the Biolink model.
-  - `simplified relation`: a URI for the simplified relation (NOTE: the URI
-    information on the edge is going away soon, per issue 1006)
-  - `simplified relation curie`: a CURIE ID for the simplified relation (NOTE:
-  this property name will soon be renamed `simplified relation`, per issue 1006)
+  - `simplified relation`: a CURIE ID for the simplified relation
   - `subject`: the CURIE ID (`id`) for the KG2 node that is the subject of the
     edge
   - `update date`: a string identifier of the date in which the information for
