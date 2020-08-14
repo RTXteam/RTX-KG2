@@ -116,8 +116,7 @@ def make_node_and_edges(article: dict,
 
         #authors = get_authors(article_citation)
 
-        journal = get_journal(article_citation)
-        print(journal)
+        #journal = get_journal(article_citation)
 
         name = article_citation["Article"]["ArticleTitle"]
         if isinstance(name, dict):
