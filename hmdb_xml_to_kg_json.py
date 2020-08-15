@@ -445,7 +445,6 @@ def tissues_converter(tissue: str):
                     "Erythroid Cells": mesh + ":D041905",
                     "Granulocytes": None,
                     "Gum": None,
-                    "Chylomicrons": mesh + ":D002914",
                     "Dermis": mesh + ":D020405",
                     "Melanocyte": "FMA:70545",
                     "Endothelium (Fibroblasts)": None,
@@ -466,43 +465,43 @@ def make_property_edges(metabolite: dict, hmdb_id: str):
         try:
             biospecimens = (biological_properties["biospecimen_locations"]
                                                  ["biospecimen"])
-        except:
+        except (KeyError, TypeError):
             biospecimens = None
         try:
             locations = biological_properties["cellular_locations"]["cellular"]
-        except:
+        except (KeyError, TypeError):
             locations = None
         try:
             tissues = biological_properties["tissue_locations"]["tissue"]
-        except:
+        except (KeyError, TypeError):
             tissues = None
         try:
             pathways = biological_properties["pathways"]["pathway"]
-        except:
+        except (KeyError, TypeError):
             pathways = None
-    except:
+    except (KeyError, TypeError):
         try:
             biospecimens = metabolite["biospecimen_locations"]["biospecimen"]
-        except:
+        except (KeyError, TypeError):
             biospecimens = None
         try:
             locations = metabolite["cellular_locations"]["cellular"]
-        except:
+        except (KeyError, TypeError):
             locations = None
         try:
             tissues = metabolite["tissue_locations"]["tissue"]
-        except:
+        except (KeyError, TypeError):
             tissues = None
         try:
             pathways = metabolite["pathways"]["pathway"]
-        except:
+        except (KeyError, TypeError):
             pathways = None
 
     if isinstance(biospecimens, list):
         for biospecimen in biospecimens:
             try:
                 object_id = biospecimen_converter(biospecimen)
-            except:
+            except (KeyError, TypeError):
                 print("Biospecimen not found:", biospecimen)
                 object_id = None
             if object_id is not None:
@@ -517,7 +516,7 @@ def make_property_edges(metabolite: dict, hmdb_id: str):
     elif biospecimens is not None:
         try:
             object_id = biospecimen_converter(biospecimens)
-        except:
+        except (KeyError, TypeError):
             print("Biospecimen not found:", biospecimens)
             object_id = None
         if object_id is not None:
@@ -534,7 +533,7 @@ def make_property_edges(metabolite: dict, hmdb_id: str):
         for location in locations:
             try:
                 object_id = cellular_locations_converter(location)
-            except:
+            except (KeyError, TypeError):
                 print("Location not found:", location)
                 object_id = None
             if object_id is not None:
@@ -549,7 +548,7 @@ def make_property_edges(metabolite: dict, hmdb_id: str):
     elif locations is not None:
         try:
             object_id = cellular_locations_converter(locations)
-        except:
+        except (KeyError, TypeError):
             print("Location not found:", locations)
             object_id = None
         if object_id is not None:
@@ -566,7 +565,7 @@ def make_property_edges(metabolite: dict, hmdb_id: str):
         for tissue in tissues:
             try:
                 object_id = tissues_converter(tissue)
-            except:
+            except (KeyError, TypeError):
                 print("Tissue not found:", tissue)
                 object_id = None
             if object_id is not None:
@@ -581,7 +580,7 @@ def make_property_edges(metabolite: dict, hmdb_id: str):
     elif tissues is not None:
         try:
             object_id = tissues_converter(tissues)
-        except:
+        except (KeyError, TypeError):
             print("Tissue not found:", tissues)
             object_id = None
         if object_id is not None:

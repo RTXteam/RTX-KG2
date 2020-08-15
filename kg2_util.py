@@ -133,6 +133,7 @@ BASE_URL_PATHWHIZ_NUCLEIC_ACID = 'https://pathbank.org/lims#/nucleic_acids/'
 BASE_URL_PATHWHIZ_COMPOUND = 'https://pathbank.org/lims#/compounds/'
 BASE_URL_PATHWHIZ_REACTION = 'https://pathbank.org/lims#/reactions/'
 BASE_URL_PATHWHIZ_BOUND = 'https://pathbank.org/lims#/bounds/'
+BASE_URL_PMID = "http://www.ncbi.nlm.nih.gov/pubmed/"
 BASE_URL_REPODB = 'http://apps.chiragjpgroup.org/repoDB'
 BASE_URL_RTX = 'http://rtx.ai/identifiers#'
 BASE_URL_RTX_KG1 = 'http://arax.rtx.ai/'
