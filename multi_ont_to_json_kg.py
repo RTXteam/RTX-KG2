@@ -275,7 +275,11 @@ def get_biolink_category_for_node(ontology_node_id: str,
             candidate_category_depths = {category: biolink_category_depths.get(kg2_util.convert_snake_case_to_camel_case(category.replace(' ', '_'),
                                                                                                                          uppercase_first_letter=True), None) for
                                          category in sorted(candidate_categories)}
-            ret_category = max(candidate_category_depths, key=candidate_category_depths.get)
+            candidate_category_depths = {k: v for k, v in candidate_category_depths.items() if v is not None}
+            if len(candidate_category_depths) > 0:
+                ret_category = max(candidate_category_depths, key=candidate_category_depths.get)
+            else:
+                assert ret_category is None
     if ret_category is None:
         if node_curie_id.startswith(kg2_util.CURIE_PREFIX_ENSEMBL + ':'):
             curie_suffix = node_curie_id.replace(kg2_util.CURIE_PREFIX_ENSEMBL + ':', '')
