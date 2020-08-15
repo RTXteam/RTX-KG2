@@ -21,7 +21,6 @@ import argparse
 import json
 import kg2_util
 import operator
-import prefixcommons
 import requests
 import sys
 
@@ -165,7 +164,7 @@ if __name__ == '__main__':
         elif category_label == kg2_util.BIOLINK_CATEGORY_DISEASE and id.startswith(kg2_util.CURIE_PREFIX_OMIM + ':'):
             category_label = kg2_util.BIOLINK_CATEGORY_PHENOTYPIC_FEATURE
         node_dict['category'] = kg2_util.convert_biolink_category_to_curie(category_label)
-        node_dict['category label'] = category_label.replace(' ', '_')
+        node_dict['category_label'] = category_label.replace(' ', '_')
         node_dict['iri'] = iri
         node_dict['description'] = node_dict.get('description', None)
         name = node_dict.get('name', None)
@@ -173,14 +172,14 @@ if __name__ == '__main__':
             print("WARNING: node with NULL for the \'name\' field; id=" + id, file=sys.stderr)
             name = None
             node_dict['name'] = name
-        node_dict['full name'] = node_dict['name']
+        node_dict['full_name'] = node_dict['name']
         node_dict['synonym'] = synonym_list
         node_dict['publications'] = []
-        node_dict['update date'] = None
-        node_dict['creation date'] = None
+        node_dict['update_date'] = None
+        node_dict['creation_date'] = None
         node_dict['deprecated'] = False
-        node_dict['replaced by'] = None
-        node_dict['provided by'] = provided_by
+        node_dict['replaced_by'] = None
+        node_dict['provided_by'] = provided_by
 #    pprint.pprint(nodes_list)
     query_statement = "MATCH (n)-[r]->(m) RETURN n.id, r, m.id"
     if test_mode:
@@ -199,7 +198,7 @@ if __name__ == '__main__':
         del edge_dict['source_node_uuid']
         del edge_dict['target_node_uuid']
         predicate_label = edge_dict['relation']
-        edge_dict['edge label'] = predicate_label
+        edge_dict['edge_label'] = predicate_label
         del edge_dict['relation']
         relation_curie = kg2_util.predicate_label_to_curie(predicate_label,
                                                            KG1_RELATION_CURIE_PREFIX)
@@ -213,12 +212,12 @@ if __name__ == '__main__':
         else:
             publications = []
         edge_dict['publications'] = publications
-        edge_dict['update date'] = None
+        edge_dict['update_date'] = None
         provided_by = edge_dict['provided_by']
         if provided_by.startswith('DGIdb;'):
             provided_by = 'DGIdb'
         provided_by_kg2 = KG1_PROVIDED_BY_TO_KG2_PROVIDED_BY_CURIE_IDS.get(provided_by, None)
-        edge_dict['provided by'] = provided_by_kg2
+        edge_dict['provided_by'] = provided_by_kg2
         if provided_by_kg2 is None:
             print("Unable to find a KG2 provided IRI for this KG1 source: " + provided_by,
                   file=sys.stderr)
@@ -235,7 +234,7 @@ if __name__ == '__main__':
             del edge_dict['probability']
         else:
             publications_info = {}
-        edge_dict['publications info'] = publications_info
+        edge_dict['publications_info'] = publications_info
     graph = {'nodes': nodes_list,
              'edges': edges_list}
     kg2_util.save_json(graph, output_file_name, test_mode)

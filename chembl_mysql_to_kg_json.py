@@ -74,7 +74,7 @@ def make_edge(subject_id: str,
                               CHEMBL_KB_CURIE_ID,
                               update_date)
     edge['publications'] = [] if publications is None else publications
-    edge['publications info'] = {}
+    edge['publications_info'] = {}
     return edge
 
 

@@ -186,9 +186,9 @@ def make_pw_edge(subject_id: str,
                                   PW_PROVIDED_BY_CURIE_ID,
                                   date)
     if description is not None:
-        edge["publications info"]["sentences"] = description
+        edge["publications_info"]["sentences"] = description
     if publications_info is not None:
-        edge["publications info"] = publications_info
+        edge["publications_info"] = publications_info
     return edge
 
 
