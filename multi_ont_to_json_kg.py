@@ -443,7 +443,6 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             if node_curie_id in ret_dict:
                 prev_provided_by = ret_dict[node_curie_id].get('provided_by', None)
                 if prev_provided_by is not None and node_curie_id == prev_provided_by:
-                    print("ISSUE 984 FIRST CHECK TRIGGERED FOR CURIE ID: " + node_curie_id)
                     continue  # issue 984
 
             curie_prefix = get_prefix_from_curie_id(node_curie_id)
