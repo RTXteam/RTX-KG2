@@ -115,7 +115,7 @@ def count_predicates_by_predicate_curie_prefix(edges: list):
 def count_types_of_pairs_of_curies_for_xrefs(edges: list):
     prefix_pairs_list = list()
     for edge in edges:
-        if edge['edge_label'] == 'xref' or edge['edge_labe'] == 'close_match':
+        if edge['edge_label'] == 'xref' or edge['edge_label'] == 'close_match':
             subject_curie = edge['subject']
             subject_prefix = get_prefix_from_curie_id(subject_curie)
             object_curie = edge['object']
