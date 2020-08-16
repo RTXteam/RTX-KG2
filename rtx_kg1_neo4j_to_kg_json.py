@@ -221,7 +221,6 @@ if __name__ == '__main__':
         if provided_by_kg2 is None:
             print("Unable to find a KG2 provided IRI for this KG1 source: " + provided_by,
                   file=sys.stderr)
-        del edge_dict['provided_by']
         if edge_dict.get('predicate', None) is not None:
             del edge_dict['predicate']
         probability = edge_dict.get('probability', None)
