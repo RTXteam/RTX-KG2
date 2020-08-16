@@ -71,12 +71,10 @@ BSPO:0000100:
   - coexists_with
   - biolink:coexists_with
 BSPO:0000102:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 BSPO:0000104:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
@@ -89,12 +87,10 @@ BSPO:0000108:
   - located_in
   - biolink:located_in
 BSPO:0000110:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 BSPO:0000113:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
@@ -159,52 +155,42 @@ BSPO:0005001:
   - overlaps
   - biolink:overlaps
 BSPO:0015001:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 BSPO:0015002:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 BSPO:0015003:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 BSPO:0015005:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 BSPO:0015006:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 BSPO:0015007:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 BSPO:0015008:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 BSPO:0015009:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 BSPO:0015012:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 BSPO:0015014:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
@@ -583,64 +569,52 @@ FMA:adjacent_to:
   - related_to
   - biolink:related_to
 FMA:afferent_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:anatomical_entity_observed_in:
   delete: null
 FMA:anterior_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:anteroinferior_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:anterolateral_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:anteromedial_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:anterosuperior_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:arterial_supply_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:articulates_with:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:attaches_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:bounded_by:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:bounds:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:branch_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
@@ -649,12 +623,10 @@ FMA:connected_to:
   - related_to
   - biolink:related_to
 FMA:connection_type_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:constitutional_part_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
@@ -667,17 +639,14 @@ FMA:contains:
   - part_of
   - biolink:part_of
 FMA:continuation_branch_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:continuous_distally_with:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:continuous_proximally_with:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
@@ -686,7 +655,6 @@ FMA:continuous_with:
   - related_to
   - biolink:related_to
 FMA:corresponds_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
@@ -695,17 +663,14 @@ FMA:derives:
   - derives_from
   - biolink:derives_from
 FMA:derives_from:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:development_type_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:developmental_stage_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
@@ -718,137 +683,110 @@ FMA:develops_into:
   - related_to
   - biolink:related_to
 FMA:direct_cell_shape_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:direct_left_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:direct_right_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:distal_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:drains_into:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:efferent_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:external_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:formed_by:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:forms:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:full_grown_phenotype_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:fuses_with:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:fusion_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:germ_origin_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:has_adherent:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:has_arterial_supply:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:has_branch:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:has_connection_type:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:has_constitutional_part:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:has_continuation_branch:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:has_development_type:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:has_developmental_stage:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:has_direct_cell_shape:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:has_full_grown_phenotype:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:has_fusion:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:has_germ_origin:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:has_inherent_3d_shape:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:has_insertion:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
@@ -857,7 +795,6 @@ FMA:has_location:
   - located_in
   - biolink:located_in
 FMA:has_lymphatic_drainage:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
@@ -866,17 +803,14 @@ FMA:has_member:
   - part_of
   - biolink:part_of
 FMA:has_nerve_supply:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:has_observed_anatomical_entity:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:has_origin:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
@@ -885,99 +819,80 @@ FMA:has_part:
   - part_of
   - biolink:part_of
 FMA:has_primary_segmental_supply:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:has_projection:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:has_regional_part:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:has_related_developmental_entity:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:has_secondary_segmental_supply:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:has_segmental_composition:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:has_segmental_supply:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:has_tributary:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:has_venous_drainage:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:homonym_for:
   delete: null
 FMA:homonym_of:
-  keep: null
   rename:
-  - coexists_with
-  - biolink:coexists_with
+  - related_to
+  - biolink:related_to
 FMA:inferior_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:inferolateral_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:inferomedial_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:inherent_3d_shape_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:insertion_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:internal_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:lateral_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:left_lateral_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:left_medial_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
@@ -986,22 +901,18 @@ FMA:location_of:
   - located_in
   - biolink:located_in
 FMA:lymphatic_drainage_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:matures_from:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:matures_into:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:medial_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
@@ -1010,17 +921,14 @@ FMA:member_of:
   - part_of
   - biolink:part_of
 FMA:merges_with:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:nerve_supply_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:origin_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
@@ -1029,77 +937,62 @@ FMA:part_of:
   - part_of
   - biolink:part_of
 FMA:posterior_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:posteroinferior_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:posterolateral_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:posteromedial_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:posterosuperior_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:primary_segmental_supply_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:projects_from:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:projects_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:proximal_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:receives_attachment_from:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:receives_drainage_from:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:receives_input_from:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:receives_projection:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:regional_part_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:related_developmental_entity_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
@@ -1108,52 +1001,42 @@ FMA:related_object:
   - related_to
   - biolink:related_to
 FMA:related_part:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:right_lateral_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:right_medial_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:secondary_segmental_supply_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:segmental_composition_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:segmental_supply_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:sends_output_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:superior_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:superolateral_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:superomedial_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
@@ -1166,12 +1049,10 @@ FMA:surrounds:
   - related_to
   - biolink:related_to
 FMA:transforms_from:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 FMA:transforms_into:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
@@ -1180,7 +1061,6 @@ FMA:tributary_of:
   - part_of
   - biolink:part_of
 FMA:venous_drainage_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
@@ -4501,27 +4381,22 @@ SO:has_origin:
   - coexists_with
   - biolink:coexists_with
 UBERON:anastomoses_with:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 UBERON:anteriorly_connected_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 UBERON:channel_for:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 UBERON:channels_from:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 UBERON:channels_into:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
@@ -4530,67 +4405,54 @@ UBERON:composed_primarily_of:
   - has_part
   - biolink:has_part
 UBERON:conduit_for:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 UBERON:distally_connected_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 UBERON:existence_starts_and_ends_during:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 UBERON:extends_fibers_into:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 UBERON:filtered_through:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 UBERON:in_central_side_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 UBERON:in_innermost_side_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 UBERON:in_outermost_side_of:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 UBERON:indirectly_supplies:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 UBERON:posteriorly_connected_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 UBERON:protects:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 UBERON:proximally_connected_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
 UBERON:sexually_homologous_to:
-  keep: null
   rename:
   - coexists_with
   - biolink:coexists_with
