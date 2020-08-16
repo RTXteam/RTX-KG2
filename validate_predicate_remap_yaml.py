@@ -69,6 +69,7 @@ pred_info = yaml.safe_load(open(predicate_remap_file_name, 'r'))
 
 for relation, instruction_dict in pred_info.items():
     command, subinfo = next(iter(instruction_dict.items()))
+    assert len(instruction_dict) == 1, relation
     if command == 'keep' and not relation.startswith('biolink:'):
         if not relation.startswith('BSPO:') and \
            not relation.startswith('FMA:') and \
