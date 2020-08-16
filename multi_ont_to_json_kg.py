@@ -275,13 +275,13 @@ def get_biolink_category_for_node(ontology_node_id: str,
             candidate_category_depths = {category: biolink_category_depths.get(kg2_util.convert_snake_case_to_camel_case(category.replace(' ', '_'),
                                                                                                                          uppercase_first_letter=True), None) for
                                          category in sorted(candidate_categories)}
-            for k, v in candidate_category_depths.items():
-                if v is None:
-                    kg2_util.log_message(message="unexpected None category depth for category " + k,
-                                         ontology_name=ontology.id,
-                                         node_curie_id=node_curie_id,
-                                         output_stream=sys.stderr)
-                    del candidate_category_depths[k]
+            keys_remove = {k for k, v in candidate_category_depths.items() if v is None}
+            for k in keys_remove:
+                kg2_util.log_message(message="unexpected None category depth for category " + k,
+                                     ontology_name=ontology.id,
+                                     node_curie_id=node_curie_id,
+                                     output_stream=sys.stderr)
+                del candidate_category_depths[k]
 #            candidate_category_depths = {k: v for k, v in candidate_category_depths.items() if v is not None}
             if len(candidate_category_depths) > 0:
                 ret_category = max(candidate_category_depths, key=candidate_category_depths.get)
