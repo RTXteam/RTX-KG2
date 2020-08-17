@@ -121,9 +121,9 @@ scripts create three subdirectories under the `${HOME}` directory of whatever
 Linux user account you use to run the KG2 build software (if you run on an EC2
 Ubuntu instance, this directory would by default be `/home/ubuntu`):
 
-1. `~/kg2-build`
-2. `~/kg2-code`
-3. `~/kg2-venv`
+1. `~/kg2-build`, where various build artifacts are stored
+2. `~/kg2-code`, which is a symbolic link to the git checkout directory `RTX/code/kg2`
+3. `~/kg2-venv`, which is the virtualenv for the KG2 build system
 
 The various directories used by the KG2 build system are configured in the
 `bash` include file `master-config.shinc`. Most of the KG2 build system code is
