@@ -1,15 +1,15 @@
 # What is KG2?
 
-KG2 is the second-generation biomedical knowledge graph for the
-[ARAX](https://github.com/RTXteam/RTX) system.  The GitHub subdirectory
-`RTX/code/kg2` (including sub-subdirectories) centralizes all of the code for
-building KG2 and all of the documentation about how to build, host, access, and
-use KG2. The KG2 build system produces knowledge graphs in a
-[Biolink model](https://biolink.github.io/biolink-model/) standard-compliant
-JSON format and in a tab-separated value (TSV) format that can be imported into
-a [Neo4j](https://neo4j.com) graph database system. Through additional scripts
-in the `canonicalized` subdirectory, the build system can produce a
-"canonicalized" knowledge graph where synonym concepts (nodes) are
+KG2 is the second-generation knowledge graph for the
+[ARAX](https://github.com/RTXteam/RTX) biomedical reasoning system.  The GitHub
+subdirectory `RTX/code/kg2` (including its sub-subdirectories) contains all of
+the code for building KG2 as well as all of the documentation about how to
+build, host, access, and use KG2. The KG2 build system produces knowledge graphs
+in a [Biolink model](https://biolink.github.io/biolink-model/)
+standard-compliant JSON format and in a tab-separated value (TSV) format that
+can be imported into a [Neo4j](https://neo4j.com) graph database system. Through
+additional scripts in the `canonicalized` subdirectory, the build system can
+produce a "canonicalized" knowledge graph where synonym concepts (nodes) are
 identified. Through additional scripts in the `mediKanren` subdirectory, the
 build system can produce an export of the KG2 knowledge graph that is suitable
 for importing into the [mediKanren](https://github.com/webyrd/mediKanren)
@@ -104,7 +104,7 @@ first-generation knowledge graph.
 
 ## General notes:
 
-The KG2 build system is designed only to run in an Ubuntu 18.04 environment
+The KG2 build system is designed only to run in an **Ubuntu 18.04** environment
 (i.e., either (i) an Ubuntu 18.04 host OS or (ii) Ubuntu 18.04 running in a
 Docker container) as a non-root user which must have passwordless `sudo` enabled
 and should have `bash` as the default shell (the build commands in the
@@ -187,8 +187,9 @@ configuration file `master-config.shinc`), or in the file `build-kg2.sh`, you
 can comment out the line that copies the final gzipped JSON file to the S3
 bucket. You will also need to edit and place a file
 `RTXConfiguration-config.json` in the S3 bucket `s3://rtx-kg2/`; this file
-provides credentials (username, password, and HTTP URI for Neo4j REST API
-server) for accessing a RTX KG1 Neo4j endpoint; the KG2 build system will dump
+provides credentials [username, password, and HTTP URI for Neo4j Representational
+State Transfer (REST) Application Programming Interface (API)
+server] for accessing a RTX KG1 Neo4j endpoint; the KG2 build system will dump
 the KG1 graph from that endpoint and will merge that graph into KG2. As a
 minimal example of the data format for `RTXConfiguration-config.json`, see the
 file `RTXConfiguration-config-EXAMPLE.json` in this repository code directory
@@ -208,14 +209,15 @@ The KG2 build software has been tested with the following instance type:
 - Storage: 1,023 GiB, Elastic Block Storage
 - Security Group: ingress TCP packets on port 22 (`ssh`) permitted
 
-As of summer 2019, an on-demand `r5a.8xlarge` instance in the `us-west-2` AWS
-region costs $1.81 per hour, so the cost to build KG2 (estimated to take 67 hours)
-would be approximately $121 (this is currently just a rough estimate, plus or
-minus 20%). [Unfortunately, AWS doesn't seem to allow the provisioning of spot
+As of summer 2020, an on-demand `r5a.8xlarge` instance in the `us-west-2` AWS
+region costs $1.808 per hour, so the cost to build KG2 (estimated to take 67
+hours) would be approximately $121 (rough estimate, plus or minus
+20%). (Unfortunately, AWS doesn't seem to allow the provisioning of spot
 instances while specifying minimum memory greater than 240 GiB; but perhaps soon
-that will happen, and if so, it could save significantly on the cost of updating the RTX KG2.]
-There is also an experimental Snakemake build system which takes advantage of
-symmetric multiprocessing to bring the build time down to 54 hours (Option #2).
+that will happen, and if so, it could save significantly on the cost of updating
+the RTX KG2.)  There is also an experimental Snakemake build system (see Build
+Option 2 below) which takes advantage of symmetric multiprocessing to bring the
+build time down to 54 hours (Option #2).
 
 ## Build instructions
 
@@ -336,7 +338,8 @@ build, in Step (8) above, you would run
     bash -x ~/kg2-code/build-kg2.sh
 
 (note the absence of the `all` argument to `build-kg2.sh`). A partial build of KG2
-may take about 12 hours.
+may take about 12 hours. Note, you have to have previously run an `all` build
+of KG2, or else the partial build will not work.
 
 #### Test build of KG2
 
@@ -345,15 +348,25 @@ the KG2 build code. For this, you may want to execute a "test" build. This build
 mode builds a smaller graph with a significantly reduced set of nodes and edges.
 To execute a "test" build, in Step (8) above, you would run:
 
-    bash -x ~/kg2-code/build-kg2.sh test
+    bash -x ~/kg2-code/build-kg2.sh alltest
     
 In the case of a test build, the build log file names are changed:
 
     ~/kg2-build/build-kg2-test.log
     ~/kg2-build/build-kg2-ont-test-stderr.log
 
-and all of the intermediate JSON files that the build system creates will have
-`-test` appended to the filename before the usual filename suffix (`.json`).
+and all of the intermediate JSON and TSV files that the build system creates
+will have `-test` appended to the filename before the usual filename suffix
+(`.json`).
+
+#### Partial test build of KG2
+
+To run a partial build of KG2 in "test" mode, the command would be:
+
+    bash -x ~/kg2-code/build-kg2.sh test
+
+This option is frequently used in testing/development. Note, you have to have
+previously run an `alltest` build, or else a `test` build will not work.
 
 ### Build Option 2: build KG2 in parallel (about 54 hours) directly on an Ubuntu system: (NOT CURRENTLY WORKING, see Issue 694)
 
@@ -662,9 +675,14 @@ This section has some guidelines for KG2 developers
 
 ## KG2 coding standards
 
-- For python, only python3 is allowed and please follow PEP8 formatting standards.
 - Hard tabs are not permitted in source files such as python or bash (use spaces
+
+### Python coding standards for KG2
+
+- only python3 is allowed 
+- please follow PEP8 formatting standards.
 instead).
+- please use type hints wherever possible
 
 # Credits
 
