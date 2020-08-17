@@ -566,8 +566,8 @@ FMA:adheres_to:
   - biolink:physically_interacts_with
 FMA:adjacent_to:
   rename:
-  - related_to
-  - biolink:related_to
+  - coexists_with
+  - biolink:coexists_with
 FMA:afferent_to:
   rename:
   - coexists_with
@@ -1042,24 +1042,24 @@ FMA:superomedial_to:
   - biolink:coexists_with
 FMA:surrounded_by:
   rename:
-  - related_to
-  - biolink:related_to
+  - coexists_with
+  - biolink:coexists_with
 FMA:surrounds:
   rename:
-  - related_to
-  - biolink:related_to
-FMA:transforms_from:
-  rename:
   - coexists_with
   - biolink:coexists_with
+FMA:transforms_from:
+  invert:
+  - precedes
+  - biolink:precedes
 FMA:transforms_into:
   rename:
-  - coexists_with
-  - biolink:coexists_with
+  - precedes
+  - biolink:precedes
 FMA:tributary_of:
   rename:
-  - part_of
-  - biolink:part_of
+  - coexists_with
+  - biolink:coexists_with
 FMA:venous_drainage_of:
   rename:
   - coexists_with
