@@ -634,17 +634,26 @@ if __name__ == '__main__':
     nodes = []
     edges = []
     tissue_dict = {}
+
+    metabolite_count = 0
+
     for metabolite in metabolite_data["hmdb"]["metabolite"]:
-        hmdb_id = metabolite["accession"]
-        nodes.append(make_node(metabolite, hmdb_id))
-        for edge in make_disease_edges(metabolite, hmdb_id):
-            edges.append(edge)
-        for edge in make_protein_edges(metabolite, hmdb_id):
-            edges.append(edge)
-        for edge in make_equivalencies(metabolite, hmdb_id):
-            edges.append(edge)
-        for edge in make_property_edges(metabolite, hmdb_id):
-            edges.append(edge)
+        metabolite_count += 1
+
+        if metabolite_count <= 10000:
+            hmdb_id = metabolite["accession"]
+            nodes.append(make_node(metabolite, hmdb_id))
+            for edge in make_disease_edges(metabolite, hmdb_id):
+                edges.append(edge)
+            for edge in make_protein_edges(metabolite, hmdb_id):
+                edges.append(edge)
+            for edge in make_equivalencies(metabolite, hmdb_id):
+                edges.append(edge)
+            for edge in make_property_edges(metabolite, hmdb_id):
+                edges.append(edge)
+        else:
+            break
+
     file_update_date = convert_date(os.path.getmtime(args.inputFile))
     hmdb_kp_node = kg2_util.make_node(HMDB_PROVIDED_BY_CURIE_ID,
                                       HMDB_KB_IRI,
