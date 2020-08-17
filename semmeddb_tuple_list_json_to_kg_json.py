@@ -244,12 +244,14 @@ if __name__ == '__main__':
     out_graph = {'edges': [rel_dict for rel_dict in edges_dict.values()],
                  'nodes': [node_dict for node_dict in nodes_dict.values()]}
 
+    del nodes_dict
+
     for rel_dict in out_graph['edges']:
         if len(rel_dict['publications']) > 1:
             rel_dict['publications'] = list(set(rel_dict['publications']))
 
+    del rel_dict
+
     kg2_util.save_json(out_graph, output_file_name, test_mode)
 
     del out_graph
-    del nodes_dict
-    del rel_dict
