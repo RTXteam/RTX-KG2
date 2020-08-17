@@ -21,7 +21,7 @@ fi
 build_flag=${1:-""}
 echo "${build_flag}"
 
-if [ "${build_flag}" == 'test' ]
+if [ "${build_flag}" == 'test' || "${build_flag}" == 'alltest' ]
 then
     echo "********** TEST MODE **********"
     test_suffix='-test'
@@ -126,7 +126,7 @@ cd ${BUILD_DIR}
 
 mem_gb=`${CODE_DIR}/get-system-memory-gb.sh`
 
-if [ "${build_flag}" == 'all' ]
+if [ "${build_flag}" == 'all' || "${build_flag}" == 'alltest' ]
 then
 ## Build UMLS knowledge sources at TTL files:
     echo "running extract-umls.sh"
@@ -136,7 +136,7 @@ then
     bash -x ${CODE_DIR}/extract-uniprotkb.sh ${uniprotkb_dat_file}
 ## Extract SemMedDB to tuple-list JSON
     echo "running extract-semmeddb.sh"
-    bash -x ${CODE_DIR}/extract-semmeddb.sh ${semmed_tuplelist_file}
+    bash -x ${CODE_DIR}/extract-semmeddb.sh ${semmed_tuplelist_file} ${build_flag}
 ## Extract Ensembl
     echo "running extract-ensembl.sh"
     bash -x ${CODE_DIR}/extract-ensembl.sh ${ensembl_source_json_file}

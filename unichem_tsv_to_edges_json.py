@@ -26,7 +26,6 @@ def make_xref(subject: str,
               update_date: str):
     edge_dict = kg2_util.make_edge(subject,
                                    object,
-                                   kg2_util.IRI_OWL_SAME_AS,
                                    kg2_util.CURIE_ID_OWL_SAME_AS,
                                    kg2_util.EDGE_LABEL_OWL_SAME_AS,
                                    UNICHEM_KB_CURIE,

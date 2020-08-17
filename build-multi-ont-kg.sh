@@ -18,7 +18,7 @@ date
 ## supply a default value for the build_flag string
 build_flag=${2:-""}
 
-if [ "${build_flag}" == 'test' ]
+if [ "${build_flag}" == 'test' || "${build_flag}" == 'alltest' ]
 then
     test_suffix='-test'
     test_arg='--test'

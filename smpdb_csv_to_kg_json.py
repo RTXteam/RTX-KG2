@@ -8,7 +8,6 @@
 
 import csv
 import kg2_util
-import json
 import os
 import xmltodict
 import argparse
@@ -165,9 +164,8 @@ def make_pw_edge(subject_id: str,
                  description=None,
                  publications_info=None,
                  date=None):
-    [relation, relation_curie] = kg2_util.predicate_label_to_iri_and_curie(predicate_label,
-                                                                           PW_RELATION_CURIE_PREFIX,
-                                                                           PW_BASE_IRI)
+    relation_curie = kg2_util.predicate_label_to_curie(predicate_label,
+                                                       PW_RELATION_CURIE_PREFIX)
 
     if subject_prefix is not None:
         subject_id = subject_prefix + ":" + subject_id
@@ -183,15 +181,14 @@ def make_pw_edge(subject_id: str,
     else:
         edge = kg2_util.make_edge(subject_id,
                                   object_id,
-                                  relation,
                                   relation_curie,
                                   predicate_label,
                                   PW_PROVIDED_BY_CURIE_ID,
                                   date)
     if description is not None:
-        edge["publications info"]["sentences"] = description
+        edge["publications_info"]["sentences"] = description
     if publications_info is not None:
-        edge["publications info"] = publications_info
+        edge["publications_info"] = publications_info
     return edge
 
 
@@ -200,7 +197,6 @@ def equivocate(id_prefixes: dict,
                eq_label: str,
                date=None):
     edges = []
-    loop = 0
     index = 0
     while index < len(ids):
         subject_id = ids[index]
@@ -490,8 +486,6 @@ def per_protein_nodes_and_edges(protein: dict, pw_id: str, date):
     drugbank_id = protein["drugbank-id"]
 #    description = protein["description"]
 
-    publications = []
-
     publications_info = {}
     '''
     if isinstance(description, dict):
@@ -739,10 +733,6 @@ def per_place_nodes_and_edges(tissue: dict,
 
     if isinstance(tissue, dict):
         ontology_id = tissue[query]
-
-        publications = []
-
-        publications_info = {}
 
         id_list = []
         id_prefixes = {}
@@ -1286,7 +1276,7 @@ def make_nodes_and_edges(context,
         for node in nucl_acids["nodes"]:
             nodes.append(node)
         for edge in nucl_acids["edges"]:
-                edges.append(edge)
+            edges.append(edge)
 
     data_translator["NucleicAcid"] = nucl_acid_translator
 
@@ -1468,6 +1458,7 @@ def check_dirname(dirname: str):
     if dirname.endswith("/"):
         return dirname
     return dirname + "/"
+
 
 if __name__ == '__main__':
     print("Start time: ", date())

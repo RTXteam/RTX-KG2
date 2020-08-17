@@ -25,8 +25,8 @@ __email__ = ''
 __status__ = 'Prototype'
 
 
-PMID_BASE_IRI = "https://pubmed.ncbi.nlm.nih.gov/"
-PMID_KB_IRI = kg2_util.BASE_URL_IDENTIFIERS_ORG_REGISTRY + "pmid"
+PMID_BASE_IRI = kg2_util.BASE_URL_PMID
+PMID_KB_IRI = kg2_util.BASE_URL_PMID
 BIOLINK_CATEGORY_PUBLICATION = "publication"
 PMID_PROVIDED_BY_CURIE_ID = kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY \
                                 + ":pubmed"
@@ -60,9 +60,46 @@ def date_to_num(date: str):
     return int(date.replace(",", "").replace("'", ""))
 
 
+def exist_or_empty_string(dictionary: dict, key: str):
+    data_string = ""
+    try:
+        data_string = dictionary[key]
+    except:
+        data_string = ""
+    return data_string
+
+
+def get_authors(article_citation: dict):
+    authors = []
+
+    article = article_citation["Article"]
+    try:
+        author_list = article["AuthorList"]["Author"]
+    except:
+        return []
+
+    if isinstance(author_list, list):
+        for author in article["AuthorList"]["Author"]:
+            first_name = exist_or_empty_string(author, "ForeName")
+            last_name = exist_or_empty_string(author, "LastName")
+            authors.append(first_name + " " + last_name)
+    else:
+        first_name = exist_or_empty_string(author_list, "ForeName")
+        last_name = exist_or_empty_string(author_list, "LastName")
+        authors.append(first_name + " " + last_name)
+    return authors
+
+
+def get_journal(article_citation: dict):
+    article = article_citation["Article"]
+
+    journal = article["Journal"]["Title"]
+
+    return journal
+
+
 def make_node_and_edges(article: dict,
                         mesh_predicate_label: str,
-                        mesh_relation: str,
                         mesh_relation_curie: str):
     nodes = []
     edges = []
@@ -74,6 +111,13 @@ def make_node_and_edges(article: dict,
     update_date = extract_date(article_citation["DateRevised"])
 
     if pmid in pmids:
+        # These aren't necessary yet, but it might be someday, so I wrote
+        # and tested a couple of functions to extract them
+
+        #authors = get_authors(article_citation)
+
+        #journal = get_journal(article_citation)
+
         name = article_citation["Article"]["ArticleTitle"]
         if isinstance(name, dict):
             try:
@@ -97,7 +141,7 @@ def make_node_and_edges(article: dict,
                                   BIOLINK_CATEGORY_PUBLICATION,
                                   update_date,
                                   PMID_PROVIDED_BY_CURIE_ID)
-        node["creation date"] = created_date
+        node["creation_date"] = created_date
         nodes.append(node)
         try:
             for mesh_topic in (article_citation["MeshHeadingList"]
@@ -106,7 +150,6 @@ def make_node_and_edges(article: dict,
                           mesh_topic["DescriptorName"]["@UI"]
                 edge = kg2_util.make_edge(pmid,
                                           mesh_id,
-                                          mesh_relation,
                                           mesh_relation_curie,
                                           mesh_predicate_label,
                                           PMID_PROVIDED_BY_CURIE_ID,
@@ -129,9 +172,8 @@ if __name__ == '__main__':
     edges = []
     latest_date = 0
     mesh_predicate_label = "references"
-    [mesh_relation, mesh_relation_curie] = kg2_util.predicate_label_to_iri_and_curie(mesh_predicate_label,
-                                                                                     kg2_util.CURIE_PREFIX_PMID,
-                                                                                     PMID_BASE_IRI)
+    mesh_relation_curie = kg2_util.predicate_label_to_curie(mesh_predicate_label,
+                                                            kg2_util.CURIE_PREFIX_PMID)
     for filename in os.listdir(pubmed_dir):
         if ".gz" in filename:
             print("Starting Load of", filename, ":", date())
@@ -143,7 +185,6 @@ if __name__ == '__main__':
             for article in articles:
                 [data, update_date] = make_node_and_edges(article,
                                                           mesh_predicate_label,
-                                                          mesh_relation,
                                                           mesh_relation_curie)
                 for node in data["nodes"]:
                     nodes.append(node)

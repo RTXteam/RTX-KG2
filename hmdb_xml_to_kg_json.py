@@ -6,7 +6,6 @@
     <outputFile.json>
 '''
 
-import json
 import xmltodict
 import kg2_util
 import argparse
@@ -60,9 +59,8 @@ def make_hmdb_edge(subject_id: str,
                    predicate_label: str,
                    update_date: str,
                    publications_info: dict):
-    [relation, relation_curie] = kg2_util.predicate_label_to_iri_and_curie(predicate_label,
-                                                                           CURIE_PREFIX_HMDB,
-                                                                           HMDB_BASE_IRI)
+    relation_curie = kg2_util.predicate_label_to_curie(predicate_label,
+                                                       CURIE_PREFIX_HMDB)
     subject = subject_prefix + ":" + subject_id
     object = object_id
     if object_prefix is not None:
@@ -77,12 +75,11 @@ def make_hmdb_edge(subject_id: str,
     else:
         edge = kg2_util.make_edge(subject,
                                   object,
-                                  relation,
                                   relation_curie,
                                   predicate_label,
                                   HMDB_PROVIDED_BY_CURIE_ID,
                                   update_date)
-    edge["publications info"] = publications_info
+    edge["publications_info"] = publications_info
 
     return edge
 
@@ -115,7 +112,7 @@ def make_node(metabolite: dict, hmdb_id: str):
                               provided_by)
     node["description"] = description
     node["synonym"] = synonyms
-    node["creation date"] = creation_date
+    node["creation_date"] = creation_date
     node["publications"] = publications
 
     return node
@@ -213,10 +210,7 @@ def make_protein_edges(metabolite: dict, hmdb_id: str):
 
 
 def get_id(metabolite: dict, key: str):
-    try:
-        return metabolite[key]
-    except:
-        return None
+    return metabolite.get(key, None)
 
 
 def add_if_string(id_dict: dict, id_list: list, id, prefix):
@@ -230,7 +224,6 @@ def equivocate(id_prefixes: dict,
                eq_label: str,
                update_date: str):
     edges = []
-    loop = 0
     index = 0
     while index < len(ids):
         subject_id = ids[index]
@@ -452,7 +445,6 @@ def tissues_converter(tissue: str):
                     "Erythroid Cells": mesh + ":D041905",
                     "Granulocytes": None,
                     "Gum": None,
-                    "Chylomicrons": mesh + ":D002914",
                     "Dermis": mesh + ":D020405",
                     "Melanocyte": "FMA:70545",
                     "Endothelium (Fibroblasts)": None,
@@ -473,43 +465,43 @@ def make_property_edges(metabolite: dict, hmdb_id: str):
         try:
             biospecimens = (biological_properties["biospecimen_locations"]
                                                  ["biospecimen"])
-        except:
+        except (KeyError, TypeError):
             biospecimens = None
         try:
             locations = biological_properties["cellular_locations"]["cellular"]
-        except:
+        except (KeyError, TypeError):
             locations = None
         try:
             tissues = biological_properties["tissue_locations"]["tissue"]
-        except:
+        except (KeyError, TypeError):
             tissues = None
         try:
             pathways = biological_properties["pathways"]["pathway"]
-        except:
+        except (KeyError, TypeError):
             pathways = None
-    except:
+    except (KeyError, TypeError):
         try:
             biospecimens = metabolite["biospecimen_locations"]["biospecimen"]
-        except:
+        except (KeyError, TypeError):
             biospecimens = None
         try:
             locations = metabolite["cellular_locations"]["cellular"]
-        except:
+        except (KeyError, TypeError):
             locations = None
         try:
             tissues = metabolite["tissue_locations"]["tissue"]
-        except:
+        except (KeyError, TypeError):
             tissues = None
         try:
             pathways = metabolite["pathways"]["pathway"]
-        except:
+        except (KeyError, TypeError):
             pathways = None
 
     if isinstance(biospecimens, list):
         for biospecimen in biospecimens:
             try:
                 object_id = biospecimen_converter(biospecimen)
-            except:
+            except (KeyError, TypeError):
                 print("Biospecimen not found:", biospecimen)
                 object_id = None
             if object_id is not None:
@@ -524,7 +516,7 @@ def make_property_edges(metabolite: dict, hmdb_id: str):
     elif biospecimens is not None:
         try:
             object_id = biospecimen_converter(biospecimens)
-        except:
+        except (KeyError, TypeError):
             print("Biospecimen not found:", biospecimens)
             object_id = None
         if object_id is not None:
@@ -541,7 +533,7 @@ def make_property_edges(metabolite: dict, hmdb_id: str):
         for location in locations:
             try:
                 object_id = cellular_locations_converter(location)
-            except:
+            except (KeyError, TypeError):
                 print("Location not found:", location)
                 object_id = None
             if object_id is not None:
@@ -555,8 +547,8 @@ def make_property_edges(metabolite: dict, hmdb_id: str):
                 edges.append(edge)
     elif locations is not None:
         try:
-           object_id = cellular_locations_converter(locations)
-        except:
+            object_id = cellular_locations_converter(locations)
+        except (KeyError, TypeError):
             print("Location not found:", locations)
             object_id = None
         if object_id is not None:
@@ -573,7 +565,7 @@ def make_property_edges(metabolite: dict, hmdb_id: str):
         for tissue in tissues:
             try:
                 object_id = tissues_converter(tissue)
-            except:
+            except (KeyError, TypeError):
                 print("Tissue not found:", tissue)
                 object_id = None
             if object_id is not None:
@@ -588,7 +580,7 @@ def make_property_edges(metabolite: dict, hmdb_id: str):
     elif tissues is not None:
         try:
             object_id = tissues_converter(tissues)
-        except:
+        except (KeyError, TypeError):
             print("Tissue not found:", tissues)
             object_id = None
         if object_id is not None:
@@ -605,7 +597,7 @@ def make_property_edges(metabolite: dict, hmdb_id: str):
         for pathway in pathways:
             object_id = pathway["smpdb_id"]
             if object_id is not None:
-                object_id = "SMP00" + object_id.split("SMP")[1] # Temporary, see #976
+                object_id = "SMP00" + object_id.split("SMP")[1]  # Temporary, see #976
                 edge = make_hmdb_edge(hmdb_id,
                                       object_id,
                                       CURIE_PREFIX_HMDB,
@@ -617,7 +609,7 @@ def make_property_edges(metabolite: dict, hmdb_id: str):
     elif pathways is not None:
         object_id = pathways["smpdb_id"]
         if object_id is not None:
-            object_id = "SMP00" + object_id.split("SMP")[1] # Temporary, see #976
+            object_id = "SMP00" + object_id.split("SMP")[1]  # Temporary, see #976
             edge = make_hmdb_edge(hmdb_id,
                                   object_id,
                                   CURIE_PREFIX_HMDB,
@@ -642,17 +634,26 @@ if __name__ == '__main__':
     nodes = []
     edges = []
     tissue_dict = {}
+
+    metabolite_count = 0
+
     for metabolite in metabolite_data["hmdb"]["metabolite"]:
-        hmdb_id = metabolite["accession"]
-        nodes.append(make_node(metabolite, hmdb_id))
-        for edge in make_disease_edges(metabolite, hmdb_id):
-            edges.append(edge)
-        for edge in make_protein_edges(metabolite, hmdb_id):
-            edges.append(edge)
-        for edge in make_equivalencies(metabolite, hmdb_id):
-            edges.append(edge)
-        for edge in make_property_edges(metabolite, hmdb_id):
-            edges.append(edge)
+        metabolite_count += 1
+
+        if metabolite_count <= 10000:
+            hmdb_id = metabolite["accession"]
+            nodes.append(make_node(metabolite, hmdb_id))
+            for edge in make_disease_edges(metabolite, hmdb_id):
+                edges.append(edge)
+            for edge in make_protein_edges(metabolite, hmdb_id):
+                edges.append(edge)
+            for edge in make_equivalencies(metabolite, hmdb_id):
+                edges.append(edge)
+            for edge in make_property_edges(metabolite, hmdb_id):
+                edges.append(edge)
+        else:
+            break
+
     file_update_date = convert_date(os.path.getmtime(args.inputFile))
     hmdb_kp_node = kg2_util.make_node(HMDB_PROVIDED_BY_CURIE_ID,
                                       HMDB_KB_IRI,
@@ -664,7 +665,7 @@ if __name__ == '__main__':
     print("Saving JSON at", date())
     kg2_util.save_json({"nodes": nodes,
                         "edges": edges},
-                        args.outputFile,
-                        args.test)
+                       args.outputFile,
+                       args.test)
     print("Finished saving JSON at", date())
     print("Script finished at", date())

@@ -66,12 +66,10 @@ if __name__ == '__main__':
                 negated = True
                 predicate_label = predicate_label.replace("NOT|", "")
 
-            relation = GO_BASE_IRI + predicate_label
             relation_curie = CURIE_PREFIX_GO + ":" + predicate_label
 
             edge = kg2_util.make_edge(subject_curie,
                                       object_curie,
-                                      relation,
                                       relation_curie,
                                       predicate_label,
                                       GO_PROVIDED_BY_CURIE_ID,

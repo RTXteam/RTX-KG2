@@ -17,7 +17,6 @@ __status__ = 'Prototype'
 import argparse
 import kg2_util
 import os
-import pprint
 import re
 import sys
 
@@ -124,7 +123,7 @@ def make_edges(records: list, nodes_dict: dict):
         accession = record_dict['AC'][0]
         curie_id = kg2_util.CURIE_PREFIX_UNIPROT + ':' + accession
         organism_int = record_dict['organism']
-        update_date = nodes_dict[curie_id]['update date']
+        update_date = nodes_dict[curie_id]['update_date']
         ret_list.append(kg2_util.make_edge_biolink(curie_id,
                                                    kg2_util.CURIE_PREFIX_NCBI_TAXON + ':' + str(organism_int),
                                                    kg2_util.EDGE_LABEL_BIOLINK_IN_TAXON,
@@ -271,11 +270,11 @@ def make_nodes(records: list):
                                        category_label,
                                        update_date,
                                        UNIPROTKB_PROVIDED_BY_CURIE_ID)
-        node_dict['full name'] = full_name
+        node_dict['full_name'] = full_name
         node_dict['description'] = description
         node_dict['synonym'] = synonyms
         node_dict['publications'] = publications
-        node_dict['creation date'] = creation_date
+        node_dict['creation_date'] = creation_date
         if len(xrefs) == 0:
             xrefs = None
         node_dict['xrefs'] = xrefs

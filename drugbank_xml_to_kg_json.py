@@ -59,7 +59,7 @@ def format_node(drugbank_id: str,
                                    update_date,
                                    DRUGBANK_KB_CURIE_ID)
     node_dict["synonym"] = synonyms
-    node_dict["creation date"] = creation_date
+    node_dict["creation_date"] = creation_date
     node_dict["description"] = description
     node_dict["publications"] = publications
     return node_dict
@@ -70,20 +70,18 @@ def format_edge(subject_id: str,
                 predicate_label: str,
                 description: str,
                 publications: list = None):
-    [relation, relation_curie] = kg2_util.predicate_label_to_iri_and_curie(predicate_label,
-                                                                           DRUGBANK_RELATION_CURIE_PREFIX,
-                                                                           DRUGBANK_KB_IRI)
+    relation_curie = kg2_util.predicate_label_to_curie(predicate_label,
+                                                       DRUGBANK_RELATION_CURIE_PREFIX)
 
     edge = kg2_util.make_edge(subject_id,
                               object_id,
-                              relation,
                               relation_curie,
                               predicate_label,
                               DRUGBANK_KB_CURIE_ID,
                               None)
 
     if description is not None:
-        edge["publications info"] = {"sentence": description}
+        edge["publications_info"] = {"sentence": description}
 
     if publications is not None:
         edge["publications"] = publications

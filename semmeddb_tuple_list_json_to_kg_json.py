@@ -18,7 +18,6 @@ import argparse
 import datetime
 import json
 import kg2_util
-import prefixcommons
 import re
 import sys
 
@@ -73,26 +72,21 @@ def make_rel(preds_dict: dict,
     if key_val is None:
         relation_type = predicate.lower()
         if relation_type != 'xref':
-            relation_iri = kg2_util.convert_snake_case_to_camel_case(relation_type.replace(' ', '_'))
-            relation_iri = relation_iri[0].lower() + relation_iri[1:]
-            relation_iri = SEMMEDDB_IRI + '#' + relation_iri
             relation_curie = SEMMEDDB_CURIE_PREFIX + ':' + relation_type
         else:
             relation_curie = 'OBO:xref'
-            relation_iri = prefixcommons.expand_uri(relation_curie)
         edge_dict = kg2_util.make_edge(subject_curie,
                                        object_curie,
-                                       relation_iri,
                                        relation_curie,
                                        relation_type,
                                        SEMMEDDB_CURIE_PREFIX + ':',
                                        curr_timestamp)
         edge_dict['publications'] = [publication_curie]
-        edge_dict['publications info'] = {publication_curie: publication_info_dict}
+        edge_dict['publications_info'] = {publication_curie: publication_info_dict}
         edge_dict['negated'] = negated
         preds_dict[key] = edge_dict
     else:
-        key_val['publications info'][publication_curie] = publication_info_dict
+        key_val['publications_info'][publication_curie] = publication_info_dict
         key_val['publications'] = key_val['publications'] + [publication_curie]
 
 
@@ -235,6 +229,9 @@ if __name__ == '__main__':
                                                        category_label=kg2_util.BIOLINK_CATEGORY_RELATIONSHIP_TYPE,
                                                        update_date=curr_timestamp,
                                                        provided_by=SEMMEDDB_CURIE_PREFIX + ':')
+
+    del input_data
+
     semmeddb_kb_curie_id = SEMMEDDB_CURIE_PREFIX + ':'
     nodes_dict[semmeddb_kb_curie_id] = kg2_util.make_node(
         id=semmeddb_kb_curie_id,
@@ -247,8 +244,14 @@ if __name__ == '__main__':
     out_graph = {'edges': [rel_dict for rel_dict in edges_dict.values()],
                  'nodes': [node_dict for node_dict in nodes_dict.values()]}
 
+    del nodes_dict
+
     for rel_dict in out_graph['edges']:
         if len(rel_dict['publications']) > 1:
             rel_dict['publications'] = list(set(rel_dict['publications']))
 
+    del rel_dict
+
     kg2_util.save_json(out_graph, output_file_name, test_mode)
+
+    del out_graph

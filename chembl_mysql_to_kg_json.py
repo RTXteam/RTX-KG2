@@ -66,19 +66,16 @@ def make_edge(subject_id: str,
               predicate_label: str,
               update_date: str = None,
               publications: list = None):
-    relation = CHEMBL_BASE_IRI_PREDICATE + kg2_util.convert_snake_case_to_camel_case(predicate_label)
-    if publications is None:
-        publications = []
-    return {'subject': subject_id,
-            'object': object_id,
-            'edge label': predicate_label,
-            'relation': relation,
-            'relation curie': kg2_util.CURIE_PREFIX_CHEMBL_MECHANISM + ':' + predicate_label,
-            'negated': False,
-            'publications': publications,
-            'publications info': {},
-            'update date': update_date,
-            'provided by': CHEMBL_KB_CURIE_ID}
+    relation_curie = kg2_util.CURIE_PREFIX_CHEMBL_MECHANISM + ':' + predicate_label
+    edge = kg2_util.make_edge(subject_id,
+                              object_id,
+                              relation_curie,
+                              predicate_label,
+                              CHEMBL_KB_CURIE_ID,
+                              update_date)
+    edge['publications'] = [] if publications is None else publications
+    edge['publications_info'] = {}
+    return edge
 
 
 def make_node(id: str,
@@ -167,10 +164,10 @@ if __name__ == '__main__':
 
         # query to get all synonyms and publications associated with the ChEMBL molecule
 
-        sql_synonyms = '''select distinct compound_name, src_short_name, src_compound_id, pubmed_id 
-                          from (compound_records natural join source) 
-                          left join docs on compound_records.doc_id = docs.doc_id 
-                          where molregno ='''
+        sql_synonyms = ('select distinct compound_name, src_short_name, src_compound_id, pubmed_id '
+                        'from (compound_records natural join source) '
+                        'left join docs on compound_records.doc_id = docs.doc_id '
+                        'where molregno =')
 
         sql_synonyms += str(molregno)
         publications = []
