@@ -1,15 +1,15 @@
 # What is KG2?
 
-KG2 is the second-generation biomedical knowledge graph for the
-[ARAX](https://github.com/RTXteam/RTX) system.  The GitHub subdirectory
-`RTX/code/kg2` (including sub-subdirectories) centralizes all of the code for
-building KG2 and all of the documentation about how to build, host, access, and
-use KG2. The KG2 build system produces knowledge graphs in a
-[Biolink model](https://biolink.github.io/biolink-model/) standard-compliant
-JSON format and in a tab-separated value (TSV) format that can be imported into
-a [Neo4j](https://neo4j.com) graph database system. Through additional scripts
-in the `canonicalized` subdirectory, the build system can produce a
-"canonicalized" knowledge graph where synonym concepts (nodes) are
+KG2 is the second-generation knowledge graph for the
+[ARAX](https://github.com/RTXteam/RTX) biomedical reasoning system.  The GitHub
+subdirectory `RTX/code/kg2` (including its sub-subdirectories) contains all of
+the code for building KG2 as well as all of the documentation about how to
+build, host, access, and use KG2. The KG2 build system produces knowledge graphs
+in a [Biolink model](https://biolink.github.io/biolink-model/)
+standard-compliant JSON format and in a tab-separated value (TSV) format that
+can be imported into a [Neo4j](https://neo4j.com) graph database system. Through
+additional scripts in the `canonicalized` subdirectory, the build system can
+produce a "canonicalized" knowledge graph where synonym concepts (nodes) are
 identified. Through additional scripts in the `mediKanren` subdirectory, the
 build system can produce an export of the KG2 knowledge graph that is suitable
 for importing into the [mediKanren](https://github.com/webyrd/mediKanren)
@@ -347,7 +347,7 @@ the KG2 build code. For this, you may want to execute a "test" build. This build
 mode builds a smaller graph with a significantly reduced set of nodes and edges.
 To execute a "test" build, in Step (8) above, you would run:
 
-    bash -x ~/kg2-code/build-kg2.sh test
+    bash -x ~/kg2-code/build-kg2.sh alltest
     
 In the case of a test build, the build log file names are changed:
 
@@ -357,6 +357,12 @@ In the case of a test build, the build log file names are changed:
 and all of the intermediate JSON and TSV files that the build system creates
 will have `-test` appended to the filename before the usual filename suffix
 (`.json`).
+
+#### Partial test build of KG2
+
+To run a partial build of KG2 in "test" mode, the command would be:
+
+    bash -x ~/kg2-code/build-kg2.sh test
 
 ### Build Option 2: build KG2 in parallel (about 54 hours) directly on an Ubuntu system: (NOT CURRENTLY WORKING, see Issue 694)
 
