@@ -34,7 +34,7 @@ The Neo4j endpoint for KG2 Canonicalized is accessible at http://kg2canonicalize
 
 (6) Build Canonicalized KG2 (should take less than 3 hours):
 
-`bash -x build-kg2-canonicalized.sh ~/RTX`
+`bash -x build-kg2-canonicalized.sh`
 
 # Host Canonicalized KG2 in Neo4j
 
