@@ -100,7 +100,7 @@ first-generation knowledge graph.
 | Uberon                          | ontology |     | x   |                                                                                                                                                  | [link](http://www.obofoundry.org/ontology/uberon.html)                 |
 | UMLS                            | ontology | x   | x   | [link](https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/license_agreement.html)                                     | [link](https://www.nlm.nih.gov/research/umls/index.html)               |
 
-# How to build your own RTX KG2
+# How to build RTX KG2 from its upstream sources
 
 ## General notes:
 
