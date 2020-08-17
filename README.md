@@ -364,6 +364,8 @@ To run a partial build of KG2 in "test" mode, the command would be:
 
     bash -x ~/kg2-code/build-kg2.sh test
 
+This option is frequently used in testing/development.
+
 ### Build Option 2: build KG2 in parallel (about 54 hours) directly on an Ubuntu system: (NOT CURRENTLY WORKING, see Issue 694)
 
 <!-- (1)-(5) Follow steps (1) through (5) from Option 1 -->
