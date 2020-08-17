@@ -352,8 +352,9 @@ In the case of a test build, the build log file names are changed:
     ~/kg2-build/build-kg2-test.log
     ~/kg2-build/build-kg2-ont-test-stderr.log
 
-and all of the intermediate JSON files that the build system creates will have
-`-test` appended to the filename before the usual filename suffix (`.json`).
+and all of the intermediate JSON and TSV files that the build system creates
+will have `-test` appended to the filename before the usual filename suffix
+(`.json`).
 
 ### Build Option 2: build KG2 in parallel (about 54 hours) directly on an Ubuntu system: (NOT CURRENTLY WORKING, see Issue 694)
 
