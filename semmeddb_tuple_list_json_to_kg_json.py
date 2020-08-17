@@ -229,6 +229,9 @@ if __name__ == '__main__':
                                                        category_label=kg2_util.BIOLINK_CATEGORY_RELATIONSHIP_TYPE,
                                                        update_date=curr_timestamp,
                                                        provided_by=SEMMEDDB_CURIE_PREFIX + ':')
+
+    del input_data
+
     semmeddb_kb_curie_id = SEMMEDDB_CURIE_PREFIX + ':'
     nodes_dict[semmeddb_kb_curie_id] = kg2_util.make_node(
         id=semmeddb_kb_curie_id,
@@ -246,3 +249,7 @@ if __name__ == '__main__':
             rel_dict['publications'] = list(set(rel_dict['publications']))
 
     kg2_util.save_json(out_graph, output_file_name, test_mode)
+
+    del out_graph
+    del nodes_dict
+    del rel_dict
