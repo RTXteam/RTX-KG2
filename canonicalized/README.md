@@ -1,6 +1,8 @@
 # What is Canonicalized KG2?
 
-Canonicalized KG2 is a smaller version of KG2, based on the production KG2 Neo4j endpoint. Identical nodes are collapsed into one node using the `NodeSynonymizer`. In Canonicalized KG2, nodes contain the following fields: `id`, `name`, `types`, `preferred_type`, and `equivalent_curies`. Edges contain the following fields: `subject`, `object`, `simplified_edge_label`, and `provided_by`.
+Canonicalized KG2 is a lightweight version of KG2 in which synonymous nodes have been collapsed into one. It is built from the 'production' KG2 neo4j endpoint and uses the ARAX `NodeSynonymizer` to determine which nodes are equivalent. 
+
+In Canonicalized KG2, nodes contain the following fields: `id`, `name`, `types`, `preferred_type`, and `equivalent_curies`. Edges contain the following fields: `subject`, `object`, `simplified_edge_label`, and `provided_by`.
 
 The Neo4j endpoint for KG2 Canonicalized is accessible at http://kg2canonicalized.rtx.ai:7474/browser/ (contact the maintainer for username and password).
 
@@ -10,35 +12,29 @@ The Neo4j endpoint for KG2 Canonicalized is accessible at http://kg2canonicalize
 
 # Build Canonicalized KG2
 
-(1) Change directories into your home directory.
+(1) Change directories into your home directory:
 
 `cd ~`
 
-(2) Clone the GitHub repository.
+(2) Clone the GitHub repository:
 
 `git clone https://github.com/RTXteam/RTX.git`
 
 (3) Follow step 1 in the [ARAX wiki](https://github.com/RTXteam/RTX/wiki/Dev-info) so that you will be able to build the `NodeSynonymizer`.
 
-(4) Install AWS CLI and configure it.
+(4) Install AWS CLI and configure it:
 
 `sudo apt-get install -y awscli`
 
 `aws configure`
 
-(5) Change directories into the `canonicalized` directory.
+(5) Change directories into the `canonicalized` directory:
 
 `cd ~/RTX/code/kg2/canonicalized/`
 
-(5) Install AWS CLI and configure it.
+(6) Build Canonicalized KG2 (should take less than 3 hours):
 
-`sudo apt-get install -y awscli`
-
-`aws configure`
-
-(5) Build Canonicalized KG2.
-
-`bash -x build-kg2-canonicalized.sh ~/RTX`
+`bash -x build-kg2-canonicalized.sh`
 
 # Host Canonicalized KG2 in Neo4j
 
