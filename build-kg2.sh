@@ -136,7 +136,7 @@ then
     bash -x ${CODE_DIR}/extract-uniprotkb.sh ${uniprotkb_dat_file}
 ## Extract SemMedDB to tuple-list JSON
     echo "running extract-semmeddb.sh"
-    bash -x ${CODE_DIR}/extract-semmeddb.sh ${semmed_tuplelist_file}
+    bash -x ${CODE_DIR}/extract-semmeddb.sh ${semmed_tuplelist_file} ${build_flag}
 ## Extract Ensembl
     echo "running extract-ensembl.sh"
     bash -x ${CODE_DIR}/extract-ensembl.sh ${ensembl_source_json_file}
