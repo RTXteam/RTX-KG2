@@ -21,7 +21,7 @@ fi
 build_flag=${1:-""}
 echo "${build_flag}"
 
-if [ "${build_flag}" == 'test' ]
+if [ "${build_flag}" == 'test' || "${build_flag}" == 'alltest' ]
 then
     echo "********** TEST MODE **********"
     test_suffix='-test'
@@ -126,7 +126,7 @@ cd ${BUILD_DIR}
 
 mem_gb=`${CODE_DIR}/get-system-memory-gb.sh`
 
-if [ "${build_flag}" == 'all' ]
+if [ "${build_flag}" == 'all' || "${build_flag}" == 'alltest' ]
 then
 ## Build UMLS knowledge sources at TTL files:
     echo "running extract-umls.sh"
