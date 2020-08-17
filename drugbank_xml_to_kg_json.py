@@ -59,7 +59,7 @@ def format_node(drugbank_id: str,
                                    update_date,
                                    DRUGBANK_KB_CURIE_ID)
     node_dict["synonym"] = synonyms
-    node_dict["creation date"] = creation_date
+    node_dict["creation_date"] = creation_date
     node_dict["description"] = description
     node_dict["publications"] = publications
     return node_dict
@@ -81,7 +81,7 @@ def format_edge(subject_id: str,
                               None)
 
     if description is not None:
-        edge["publications info"] = {"sentence": description}
+        edge["publications_info"] = {"sentence": description}
 
     if publications is not None:
         edge["publications"] = publications

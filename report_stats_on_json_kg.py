@@ -42,7 +42,7 @@ def get_prefix_from_curie_id(curie_id: str):
 
 def get_nodes_with_none_category(nodes: list):
     return [node for node in nodes if
-            node['category label'] is None or node['category label'] == 'unknown category']
+            node['category_label'] is None or node['category_label'] == 'unknown category']
 
 
 def count_nodes_by_curie_prefix(nodes: list):
@@ -54,23 +54,23 @@ def count_nodes_by_curie_prefix_given_no_category(nodes: list):
 
 
 def count_nodes_by_category(nodes: list):
-    return collections.Counter([node['category label'] for node in nodes])
+    return collections.Counter([node['category_label'] for node in nodes])
 
 
 def count_nodes_by_source(nodes: list):
-    return collections.Counter([node['provided by'] for node in nodes])
+    return collections.Counter([node['provided_by'] for node in nodes])
 
 
 def count_number_of_nodes_by_source_and_category(nodes: list):
     fulldict = {}
-    sourcedict = collections.Counter([node['provided by'] for node in nodes])
+    sourcedict = collections.Counter([node['provided_by'] for node in nodes])
     sourcecatdict = {}
     categorylist = []
     for source in sourcedict:
         categorylist = []
         for node in nodes:
-            if node['provided by'] == source:
-                categorylist.append(node['category label'])
+            if node['provided_by'] == source:
+                categorylist.append(node['category_label'])
         sourcecatdict.update({source: categorylist})
     for defintion in sourcecatdict:
         sourcecount = collections.Counter(sourcecatdict.get(defintion))
@@ -80,34 +80,34 @@ def count_number_of_nodes_by_source_and_category(nodes: list):
 
 def count_edges_by_source(edges: list):
     ret_data = None
-    if type(edges[0]['provided by']) == str:
-        ret_data = collections.Counter([edge['provided by'] for edge in edges])
+    if type(edges[0]['provided_by']) == str:
+        ret_data = collections.Counter([edge['provided_by'] for edge in edges])
     else:
-        assert type(edges[0]['provided by'] == list)
+        assert type(edges[0]['provided_by'] == list)
         provby_list = []
         for edge in edges:
-            provby_list += edge['provided by']
+            provby_list += edge['provided_by']
         ret_data = collections.Counter(provby_list)
     return ret_data
 
 
 def count_edges_by_predicate_curie(edges: list):
-    curie_field = 'relation' if not args.use_simplified_predicates else 'simplified relation'
+    curie_field = 'relation' if not args.use_simplified_predicates else 'simplified_relation'
     return collections.Counter([edge[curie_field] for edge in edges])
 
 
 def count_edges_by_predicate_type(edges: list):
-    label_field = 'edge label' if not args.use_simplified_predicates else 'simplified edge label'
+    label_field = 'edge_label' if not args.use_simplified_predicates else 'simplified_edge_label'
     return collections.Counter([edge[label_field] for edge in edges])
 
 
 def count_edges_by_predicate_curie_prefix(edges: list):
-    curie_field = 'relation' if not args.use_simplified_predicates else 'simplified relation'
+    curie_field = 'relation' if not args.use_simplified_predicates else 'simplified_relation'
     return collections.Counter([get_prefix_from_curie_id(edge[curie_field]) for edge in edges])
 
 
 def count_predicates_by_predicate_curie_prefix(edges: list):
-    curie_field = 'relation' if not args.use_simplified_predicates else 'simplified relation'
+    curie_field = 'relation' if not args.use_simplified_predicates else 'simplified_relation'
     unique_relation_curies = set([edge[curie_field] for edge in edges])
     return collections.Counter([get_prefix_from_curie_id(curie) for curie in unique_relation_curies])
 
@@ -115,7 +115,7 @@ def count_predicates_by_predicate_curie_prefix(edges: list):
 def count_types_of_pairs_of_curies_for_xrefs(edges: list):
     prefix_pairs_list = list()
     for edge in edges:
-        if edge['edge label'] == 'xref':
+        if edge['edge_label'] == 'xref' or edge['edge_label'] == 'close_match':
             subject_curie = edge['subject']
             subject_prefix = get_prefix_from_curie_id(subject_curie)
             object_curie = edge['object']
@@ -128,7 +128,7 @@ def count_types_of_pairs_of_curies_for_xrefs(edges: list):
 def count_types_of_pairs_of_curies_for_equivs(edges: list):
     prefix_pairs_list = list()
     for edge in edges:
-        if edge['edge label'] == kg2_util.EDGE_LABEL_OWL_SAME_AS:
+        if edge['edge_label'] == kg2_util.EDGE_LABEL_OWL_SAME_AS:
             subject_curie = edge['subject']
             subject_prefix = get_prefix_from_curie_id(subject_curie)
             object_curie = edge['object']

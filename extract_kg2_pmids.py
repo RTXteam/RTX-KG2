@@ -45,7 +45,7 @@ if __name__ == '__main__':
             publications[publication] = None
 
     for edge in kg2_data["edges"]:
-        for publication in edge["publications info"].keys():
+        for publication in edge["publications_info"].keys():
             publications[publication] = None
         for publication in edge["publications"]:
             publications[publication] = None

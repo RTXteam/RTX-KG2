@@ -10,49 +10,51 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
 fi
 
 ## load the master config file
-CONFIG_DIR=`dirname "$0"`
-source ${CONFIG_DIR}/master-config.shinc
-
+config_dir=`dirname "$0"`
+source ${config_dir}/master-config.shinc
 
 echo "================= starting run-validation-tests.sh ================="
 date
 
-BIOLINK_RAW_BASE_URL=https://raw.githubusercontent.com/biolink/biolink-model/master/
-BIOLINK_URL_CONTEXT_JSONLD=${BIOLINK_RAW_BASE_URL}context.jsonld
-BIOLINK_MODEL_OWL=biolink-model.owl
-BIOLINK_MODEL_LOCAL_FILE=${BUILD_DIR}/${BIOLINK_MODEL_OWL}
-BIOLINK_MODEL_URL=${BIOLINK_RAW_BASE_URL}${BIOLINK_MODEL_OWL}
+biolink_raw_base_url=https://raw.githubusercontent.com/biolink/biolink-model/master/
+biolink_url_context_jsonld=${biolink_raw_base_url}context.jsonld
+biolink_model_owl=biolink-model.owl
+biolink_model_owl_local_file=${BUILD_DIR}/${biolink_model_owl}
+biolink_model_owl_url=${biolink_raw_base_url}${biolink_model_owl}
+biolink_model_yaml=biolink-model.yaml
+biolink_model_yaml_url=${biolink_raw_base_url}${biolink_model_yaml}
+biolink_model_yaml_local_file=${BUILD_DIR}/${biolink_model_yaml}
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_curies_to_categories_yaml.py \
            ${curies_to_categories_file} \
            ${curies_to_urls_file} \
-           ${BIOLINK_MODEL_URL} \
-           ${BIOLINK_MODEL_LOCAL_FILE}
+           ${biolink_model_owl_url} \
+           ${biolink_model_owl_local_file}
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_curies_to_urls_map_yaml.py \
            ${curies_to_urls_file} \
-           ${BIOLINK_URL_CONTEXT_JSONLD}
+           ${biolink_url_context_jsonld}
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_rtx_kg1_curie_mappings.py \
            ${curies_to_urls_file}
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_kg2_util_curies_urls_categories.py \
            ${curies_to_urls_file} \
-           ${BIOLINK_MODEL_URL} \
-           ${BIOLINK_MODEL_LOCAL_FILE}
+           ${biolink_model_owl_url} \
+           ${biolink_model_owl_local_file}
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_predicate_remap_yaml.py \
            ${curies_to_urls_file} \
            ${predicate_mapping_file} \
-           ${BIOLINK_MODEL_URL} \
-           ${BIOLINK_MODEL_LOCAL_FILE}
+           ${biolink_model_yaml_url} \
+           ${biolink_model_yaml_local_file}
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_ont_load_inventory.py \
            ${ont_load_inventory_file} \
            ${curies_to_urls_file} \
            ${umls2rdf_config_master} \
-           ${BIOLINK_MODEL_URL} \
-           ${BIOLINK_MODEL_LOCAL_FILE}
+           ${biolink_model_owl_url} \
+           ${biolink_model_owl_local_file}
 
 date
 echo "================= finished run-validation-tests.sh ================="

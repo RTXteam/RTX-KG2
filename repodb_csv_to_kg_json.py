@@ -61,7 +61,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                                        update_date=None)
         if not df['NCT'].isna()[idx]:
             edge_dict['publications'].append(NCT_CURIE + df['NCT'][idx])
-            edge_dict['publications info'][NCT_CURIE + df['NCT'][idx]] = CLINICALTRIALS_IRI + df['NCT'][idx]
+            edge_dict['publications_info'][NCT_CURIE + df['NCT'][idx]] = CLINICALTRIALS_IRI + df['NCT'][idx]
         edges.append(edge_dict)
     return {'nodes': nodes,
             'edges': edges}

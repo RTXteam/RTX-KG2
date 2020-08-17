@@ -275,7 +275,18 @@ def get_biolink_category_for_node(ontology_node_id: str,
             candidate_category_depths = {category: biolink_category_depths.get(kg2_util.convert_snake_case_to_camel_case(category.replace(' ', '_'),
                                                                                                                          uppercase_first_letter=True), None) for
                                          category in sorted(candidate_categories)}
-            ret_category = max(candidate_category_depths, key=candidate_category_depths.get)
+            keys_remove = {k for k, v in candidate_category_depths.items() if v is None}
+            for k in keys_remove:
+                kg2_util.log_message(message="unexpected None category depth for category " + k,
+                                     ontology_name=ontology.id,
+                                     node_curie_id=node_curie_id,
+                                     output_stream=sys.stderr)
+                del candidate_category_depths[k]
+#            candidate_category_depths = {k: v for k, v in candidate_category_depths.items() if v is not None}
+            if len(candidate_category_depths) > 0:
+                ret_category = max(candidate_category_depths, key=candidate_category_depths.get)
+            else:
+                assert ret_category is None
     if ret_category is None:
         if node_curie_id.startswith(kg2_util.CURIE_PREFIX_ENSEMBL + ':'):
             curie_suffix = node_curie_id.replace(kg2_util.CURIE_PREFIX_ENSEMBL + ':', '')
@@ -430,9 +441,8 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             assert node_curie_id is not None
 
             if node_curie_id in ret_dict:
-                prev_provided_by = ret_dict[node_curie_id].get('provided by', None)
+                prev_provided_by = ret_dict[node_curie_id].get('provided_by', None)
                 if prev_provided_by is not None and node_curie_id == prev_provided_by:
-                    print("ISSUE 984 FIRST CHECK TRIGGERED FOR CURIE ID: " + node_curie_id)
                     continue  # issue 984
 
             curie_prefix = get_prefix_from_curie_id(node_curie_id)
@@ -591,7 +601,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                              output_stream=sys.stderr)
                 else:
                     if node_category_label is None:
-                        node_category_label = node_tui_category_label  # override the node category label if we have a TUI
+                        node_category_label = node_tui_category_label  # override the node category_label if we have a TUI
                 node_tui_category_curie = kg2_util.convert_biolink_category_to_curie(node_tui_category_label)
             ontology_curie_id = ontologies_iris_to_curies[iri_of_ontology]
             source_ontology_information = ret_dict.get(ontology_curie_id, None)
@@ -600,7 +610,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                      ontology_name=iri_of_ontology,
                                      output_stream=sys.stderr)
                 assert False
-            source_ontology_update_date = source_ontology_information['update date']
+            source_ontology_update_date = source_ontology_information['update_date']
             if node_update_date is None:
                 node_update_date = source_ontology_update_date
 
@@ -632,11 +642,11 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                            node_update_date,
                                            provided_by)
 
-            node_dict['full name'] = node_full_name
+            node_dict['full_name'] = node_full_name
             node_dict['description'] = node_description
-            node_dict['creation date'] = node_creation_date      # slot name is not biolink standard
+            node_dict['creation_date'] = node_creation_date      # slot name is not biolink standard
             node_dict['deprecated'] = node_deprecated            # slot name is not biolink standard
-            node_dict['replaced by'] = node_replaced_by_curie    # slot name is not biolink standard
+            node_dict['replaced_by'] = node_replaced_by_curie    # slot name is not biolink standard
             node_dict['ontology node ids'] = [ontology_node_id]  # slot name is not biolink standard
             node_dict['xrefs'] = list(node_xrefs)                # slot name is not biolink standard
             node_dict['synonym'] = sorted(list(node_synonyms))   # slot name is not biolink standard
@@ -661,9 +671,9 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         cui_node_dict['iri'] = cui_uri
                         cui_node_dict['synonym'] = []
                         cui_node_dict['category'] = node_tui_category_curie
-                        cui_node_dict['category label'] = node_tui_category_label.replace(' ', '_')
+                        cui_node_dict['category_label'] = node_tui_category_label.replace(' ', '_')
                         cui_node_dict['ontology node ids'] = []
-                        cui_node_dict['provided by'] = kg2_util.CURIE_ID_UMLS_SOURCE_CUI
+                        cui_node_dict['provided_by'] = kg2_util.CURIE_ID_UMLS_SOURCE_CUI
                         cui_node_dict['xrefs'] = []  # blanking the "xrefs" here is *vital* in order to avoid issue #395
                         cui_node_dict_existing = ret_dict.get(cui_curie, None)
                         if cui_node_dict_existing is not None:
@@ -715,7 +725,7 @@ def get_rels_dict(nodes: dict,
 
             ontology_node = nodes.get(ontology_curie_id, None)
             if ontology_node is not None:
-                ontology_update_date = ontology_node['update date']
+                ontology_update_date = ontology_node['update_date']
 
             if subject_id == OWL_BASE_CLASS or object_id == OWL_BASE_CLASS:
                 continue
@@ -841,7 +851,7 @@ def get_rels_dict(nodes: dict,
             if xrefs is not None:
                 for xref_node_id in xrefs:
                     if xref_node_id in nodes and node_id != xref_node_id:
-                        provided_by = nodes[node_id]['provided by']
+                        provided_by = nodes[node_id]['provided_by']
                         key = make_rel_key(node_id, CURIE_OBO_XREF, xref_node_id, provided_by)
                         if rels_dict.get(key, None) is None:
                             edge = kg2_util.make_edge(node_id,

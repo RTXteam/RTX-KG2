@@ -407,7 +407,7 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
             if value is not None and value != stored_value:
                 if type(value) == str and type(stored_value) == str:
                     if value.lower() != stored_value.lower():
-                        if key == 'update date':
+                        if key == 'update_date':
                             # Use the longer of the two update-date fields
                             #   NOTE: this is not ideal; better to have actual
                             #         dates (and not strings) so we can use the
@@ -420,10 +420,10 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                             log_message("warning:  for key: " + key + ", dropping second value: " + value + '; keeping first value: ' + stored_value,
                                         output_stream=sys.stderr)
                             ret_dict[key] = stored_value
-                        elif key == 'provided by':
+                        elif key == 'provided_by':
                             if value.endswith('/STY'):
                                 ret_dict[key] = value
-                        elif key == 'category label':
+                        elif key == 'category_label':
                             if biolink_depth_getter is not None:
                                 depth_x = biolink_depth_getter(convert_snake_case_to_camel_case(stored_value, uppercase_first_letter=True))
                                 depth_y = biolink_depth_getter(convert_snake_case_to_camel_case(value, uppercase_first_letter=True))
@@ -438,9 +438,9 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                                     if stored_value == 'named_thing':
                                         ret_dict[key] = value
                                     else:
-                                        log_message(message="inconsistent category label information; keeping original category label " + stored_value +
-                                                    " and discarding new category label " + value,
-                                                    ontology_name=str(x.get('provided by', 'provided_by=UNKNOWN')),
+                                        log_message(message="inconsistent category_label information; keeping original category_label " + stored_value +
+                                                    " and discarding new category_label " + value,
+                                                    ontology_name=str(x.get('provided_by', 'provided_by=UNKNOWN')),
                                                     node_curie_id=x.get('id', 'id=UNKNOWN'),
                                                     output_stream=sys.stderr)
                                 continue
@@ -463,11 +463,11 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                                     else:
                                         log_message(message="inconsistent category information; keeping original category " + stored_value +
                                                     " and discarding new category " + value,
-                                                    ontology_name=str(x.get('provided by', 'provided_by=UNKNOWN')),
+                                                    ontology_name=str(x.get('provided_by', 'provided_by=UNKNOWN')),
                                                     node_curie_id=x.get('id', 'id=UNKNOWN'),
                                                     output_stream=sys.stderr)
                                 continue
-                        elif key == 'name' or key == 'full name':
+                        elif key == 'name' or key == 'full_name':
                             if value.replace(' ', '_') != stored_value.replace(' ', '_'):
                                 stored_desc = ret_dict.get('description', None)
                                 new_desc = y.get('description', None)
@@ -498,7 +498,7 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                     ret_dict[key] = True  # special case for deprecation; True always trumps False for this property
                 else:
                     log_message(message="invalid type for key: " + key,
-                                ontology_name=str(x.get('provided by', 'provided_by=UNKNOWN')),
+                                ontology_name=str(x.get('provided_by', 'provided_by=UNKNOWN')),
                                 node_curie_id=x.get('id', 'id=UNKNOWN'),
                                 output_stream=sys.stderr)
                     assert False
@@ -560,7 +560,7 @@ def convert_camel_case_to_snake_case(name: str):
 
 def convert_biolink_category_to_curie(biolink_category_label: str):
     if '_' in biolink_category_label:
-        raise ValueError("invalid category label: " + biolink_category_label)
+        raise ValueError("invalid category_label: " + biolink_category_label)
     return CURIE_PREFIX_BIOLINK + ':' + convert_space_case_to_camel_case(biolink_category_label)
 
 
@@ -575,24 +575,24 @@ def make_node(id: str,
     return {'id': id,
             'iri': iri,
             'name': name,
-            'full name': name,
+            'full_name': name,
             'category': convert_biolink_category_to_curie(category_label),
-            'category label': category_label.replace(' ', '_'),
+            'category_label': category_label.replace(' ', '_'),
             'description': None,
             'synonym': [],
             'publications': [],
-            'creation date': None,
-            'update date': update_date,
+            'creation_date': None,
+            'update_date': update_date,
             'deprecated': False,
-            'replaced by': None,
-            'provided by': provided_by}
+            'replaced_by': None,
+            'provided_by': provided_by}
 
 
 def make_edge_key(edge_dict: dict):
     return edge_dict['subject'] + '---' + \
            edge_dict['object'] + '---' + \
            edge_dict['relation'] + '---' + \
-           edge_dict['provided by']
+           edge_dict['provided_by']
 
 
 def make_edge(subject_id: str,
@@ -604,13 +604,13 @@ def make_edge(subject_id: str,
 
     return {'subject': subject_id,
             'object': object_id,
-            'edge label': predicate_label,
+            'edge_label': predicate_label,
             'relation': relation_curie,
             'negated': False,
             'publications': [],
-            'publications info': {},
-            'update date': update_date,
-            'provided by': provided_by}
+            'publications_info': {},
+            'update_date': update_date,
+            'provided_by': provided_by}
 
 
 def predicate_label_to_curie(predicate_label: str,

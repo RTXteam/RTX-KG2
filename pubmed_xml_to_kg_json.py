@@ -141,7 +141,7 @@ def make_node_and_edges(article: dict,
                                   BIOLINK_CATEGORY_PUBLICATION,
                                   update_date,
                                   PMID_PROVIDED_BY_CURIE_ID)
-        node["creation date"] = created_date
+        node["creation_date"] = created_date
         nodes.append(node)
         try:
             for mesh_topic in (article_citation["MeshHeadingList"]

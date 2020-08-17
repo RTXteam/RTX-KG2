@@ -79,7 +79,7 @@ def make_hmdb_edge(subject_id: str,
                                   predicate_label,
                                   HMDB_PROVIDED_BY_CURIE_ID,
                                   update_date)
-    edge["publications info"] = publications_info
+    edge["publications_info"] = publications_info
 
     return edge
 
@@ -112,7 +112,7 @@ def make_node(metabolite: dict, hmdb_id: str):
                               provided_by)
     node["description"] = description
     node["synonym"] = synonyms
-    node["creation date"] = creation_date
+    node["creation_date"] = creation_date
     node["publications"] = publications
 
     return node
