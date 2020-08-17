@@ -488,7 +488,7 @@ found in the node with ID `RTX:KG2` in the Neo4j KG2 database. Due to the size o
 we are not currently archiving old builds of KG2 and that is why `kg2-simplified.json`
 and the related large KG2 JSON files are stored in a *non-versioned* S3 bucket.
 
-## Updating the KG2 build system
+## Updating the installed KG2 build system software
 
 We generally try to make the KG2 shell scripts idempotent, following best
 practice for *nix shell scripting. However, changes to `setup-kg2-build.sh` (or
