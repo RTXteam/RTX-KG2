@@ -338,7 +338,8 @@ build, in Step (8) above, you would run
     bash -x ~/kg2-code/build-kg2.sh
 
 (note the absence of the `all` argument to `build-kg2.sh`). A partial build of KG2
-may take about 12 hours.
+may take about 12 hours. Note, you have to have previously run an `all` build
+of KG2, or else the partial build will not work.
 
 #### Test build of KG2
 
@@ -364,7 +365,8 @@ To run a partial build of KG2 in "test" mode, the command would be:
 
     bash -x ~/kg2-code/build-kg2.sh test
 
-This option is frequently used in testing/development.
+This option is frequently used in testing/development. Note, you have to have
+previously run an `alltest` build, or else a `test` build will not work.
 
 ### Build Option 2: build KG2 in parallel (about 54 hours) directly on an Ubuntu system: (NOT CURRENTLY WORKING, see Issue 694)
 
