@@ -187,8 +187,9 @@ configuration file `master-config.shinc`), or in the file `build-kg2.sh`, you
 can comment out the line that copies the final gzipped JSON file to the S3
 bucket. You will also need to edit and place a file
 `RTXConfiguration-config.json` in the S3 bucket `s3://rtx-kg2/`; this file
-provides credentials (username, password, and HTTP URI for Neo4j REST API
-server) for accessing a RTX KG1 Neo4j endpoint; the KG2 build system will dump
+provides credentials [username, password, and HTTP URI for Neo4j Representational
+State Transfer (REST) Application Programming Interface (API)
+server] for accessing a RTX KG1 Neo4j endpoint; the KG2 build system will dump
 the KG1 graph from that endpoint and will merge that graph into KG2. As a
 minimal example of the data format for `RTXConfiguration-config.json`, see the
 file `RTXConfiguration-config-EXAMPLE.json` in this repository code directory
