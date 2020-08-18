@@ -435,7 +435,7 @@ location. Here are the instructions:
 (1) Install Docker. If you are on Ubuntu 18.04 and you need to install Docker, you can
 run this command in `bash` on the host OS:
    
-    source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/install-docker.sh)
+    source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/install-docker-ubuntu18.sh)
     
 (otherwise, the subsequent commands in this section assume that Docker is
 installed on whatever host system you are running). For some notes on how to
