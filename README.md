@@ -21,6 +21,7 @@ biomedical reasoning system.
 
 - Stephen Ramsey, Oregon State University (stephen.ramsey@oregonstate.edu)
 - Amy Glen, Oregon State University (glena@oregonstate.edu)
+- Erica Wood, Crescent Valley High School
 
 ## Bug reports
 
@@ -200,7 +201,7 @@ hosted in the same EC2 instance that hosts the KG2 build system. Currently, the
 KG1 Neo4j endpoint is hosted in the instance `arax.rtx.ai`; the URI of its Neo4j
 REST HTTP interface is: `http://arax.rtx.ai:7474`.
 
-## My normal EC2 instance
+## Typical EC2 instance type used for building KG2
 
 The KG2 build software has been tested with the following instance type:
 
@@ -434,7 +435,7 @@ location. Here are the instructions:
 (1) Install Docker. If you are on Ubuntu 18.04 and you need to install Docker, you can
 run this command in `bash` on the host OS:
    
-    source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/install-docker.sh)
+    source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/install-docker-ubuntu18.sh)
     
 (otherwise, the subsequent commands in this section assume that Docker is
 installed on whatever host system you are running). For some notes on how to
@@ -505,8 +506,7 @@ you create a clean Ubuntu 18.04 instance and install using `setup-kg2-build.sh`.
 
 We host our production KG2 graph database in Neo4j version 3.5.13 with APOC
 3.5.0.4, on an Ubuntu 18.04 EC2 instance with 64 GiB of RAM and 8 vCPUs
-(`r5a.2xlarge`) in the `us-east-2` AWS region, although it is possible to host KG2
-on an `r5a.xlarge` instance and this is what we do for our test/dev KG2 host.
+(`r5a.2xlarge`) in the `us-east-2` AWS region.
 
 **Installation:** in a newly initialized Ubuntu 18.04 AWS
 instance, as user `ubuntu`, run the following commands:
@@ -675,18 +675,18 @@ This section has some guidelines for KG2 developers
 
 ## KG2 coding standards
 
-- Hard tabs are not permitted in source files such as python or bash (use spaces
+- Hard tabs are not permitted in source files such as python or bash (use spaces).
 
 ### Python coding standards for KG2
 
-- only python3 is allowed 
-- please follow PEP8 formatting standards.
-instead).
-- please use type hints wherever possible
+- Only python3 is allowed.
+- Please follow PEP8 formatting standards.
+- Please use type hints wherever possible.
 
 # Credits
 
-Thank you to the many people who have contributed to the development of RTX KG2:
+Thank you to the many people who have contributed to the development of RTX KG2, as described
+in the next three subsections:
 
 ## Code
 Stephen Ramsey, Amy Glen, Finn Womack, Erica Wood, Veronica Flores, Deqing Qu, and Lindsey Kvarfordt.
