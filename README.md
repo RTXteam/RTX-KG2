@@ -201,7 +201,7 @@ hosted in the same EC2 instance that hosts the KG2 build system. Currently, the
 KG1 Neo4j endpoint is hosted in the instance `arax.rtx.ai`; the URI of its Neo4j
 REST HTTP interface is: `http://arax.rtx.ai:7474`.
 
-## My normal EC2 instance
+## Typical EC2 instance type used for building KG2
 
 The KG2 build software has been tested with the following instance type:
 
