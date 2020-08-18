@@ -686,7 +686,8 @@ This section has some guidelines for KG2 developers
 
 # Credits
 
-Thank you to the many people who have contributed to the development of RTX KG2:
+Thank you to the many people who have contributed to the development of RTX KG2, as described
+in the next three subsections:
 
 ## Code
 Stephen Ramsey, Amy Glen, Finn Womack, Erica Wood, Veronica Flores, Deqing Qu, and Lindsey Kvarfordt.
