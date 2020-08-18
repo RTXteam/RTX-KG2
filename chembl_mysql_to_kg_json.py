@@ -182,7 +182,8 @@ if __name__ == '__main__':
                  pubmed_id) in synonym_results:
                 if pref_name is None and compound_name is not None:
                     pref_name = compound_name
-                synonym_set.add(compound_name)
+                if compound_name is not None:
+                    synonym_set.add(compound_name)
                 if pubmed_id is not None:
                     publications_set.add(kg2_util.CURIE_PREFIX_PMID + ':' + str(pubmed_id))
                 if src_compound_id is not None and src_short_name is not None and src_short_name != "LITERATURE":
