@@ -1,0 +1,88 @@
+rule Merge:
+    input:
+        ont = config['OUTPUT_FILE_FULL'],
+        uniprot = config['UNIPROTKB_OUTPUT_FILE'],
+        semmeddb = config['SEMMED_OUTPUT_FILE'],
+        chembl = config['CHEMBL_OUTPUT_FILE'],
+        ensembl = config['ENSEMBL_OUTPUT_FILE'],
+        unichem = config['UNICHEM_OUTPUT_FILE'],
+        ncbigene = config['NCBI_GENE_OUTPUT_FILE'],
+        dgidb = config['DGIDB_OUTPUT_FILE'],
+        kg_one = config['KG1_OUTPUT_FILE'],
+        repoddb = config['REPODB_OUTPUT_FILE'],
+        drugbank = config['DRUGBANK_OUTPUT_FILE'],
+        smpdb = config['SMPDB_OUTPUT_FILE'],
+        hmdb = config['HMDB_OUTPUT_FILE'],
+        go_annotations = config['GO_ANNOTATION_OUTPUT_FILE']
+    output:
+        full = config['FINAL_OUTPUT_FILE_FULL'],
+        orph = config['OUTPUT_FILE_ORPHAN_EDGES']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/merge_graphs.py " + config['TEST_ARG'] + " --kgFiles {input.ont} {input.uniprot} {input.semmeddb} {input.chembl} {input.ensembl} {input.unichem} {input.ncbigene} {input.dgidb} {input.kg_one} {input.repoddb} {input.drugbank} {input.smpdb} {input.hmdb} {input.go_annotations} --kgFileOrphanEdges {output.orph} {output.full}"
+
+rule Nodes:
+    input:
+        real = config['FINAL_OUTPUT_FILE_FULL'],
+        placeholder = config['REPORT_FILE_FULL']
+    output:
+        config['OUTPUT_NODES_FILE_FULL']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/get_nodes_json_from_kg_json.py " + config['TEST_ARG'] + " {input.real} {output}"
+
+rule Stats:
+    input:
+        config['FINAL_OUTPUT_FILE_FULL']
+    output:
+        config['REPORT_FILE_FULL']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/report_stats_on_json_kg.py {input} {output}"
+
+rule Simplify:
+    input:
+        real = config['FINAL_OUTPUT_FILE_FULL'],
+        placeholder = config['OUTPUT_NODES_FILE_FULL']
+    output:
+        config['SIMPLIFIED_OUTPUT_FILE_FULL']
+    log:
+        config['BUILD_DIR'] + "/filter_kg_and_remap_predicates.log"
+    run:
+        shell("bash -x " + config['CODE_DIR'] + "/version.sh " + config['VERSION_FILE'] + " " + code['TEST_FLAG'] + " > {log} 2>&1")
+        shell(config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/filter_kg_and_remap_predicates.py " + config['TEST_ARG'] + " --dropNegated --dropSelfEdgesExcept interacts_with,positively_regulates,inhibits,increase " + config['PREDICATE_MAPPING_FILE'] + " " + config['CURIES_TO_URLS_FILE'] + " {input.real} {output} " + config['VERSION_FILE'] + " >> {log} 2>&1")
+
+rule Simplify_Nodes:
+    input:
+        config['SIMPLIFIED_OUTPUT_FILE_FULL']
+    output:
+        config['SIMPLIFIED_OUTPUT_NODES_FILE_FULL']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/get_nodes_json_from_kg_json.py " + config['TEST_ARG'] + " {input} {output}"
+
+rule Slim:
+    input:
+        real = config['SIMPLIFIED_OUTPUT_FILE_FULL'],
+        placeholder = config['SIMPLIFIED_OUTPUT_NODES_FILE_FULL']
+    output:
+        config['SLIM_OUTPUT_FILE_FULL']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/slim_kg2.py " + config['TEST_ARG'] + " {input.real} {output}"
+
+rule Simplify_Stats:
+    input:
+        real = config['SIMPLIFIED_OUTPUT_FILE_FULL'],
+        placeholder = config['SLIM_OUTPUT_FILE_FULL']
+    output:
+        config['SIMPLIFIED_REPORT_FILE_FULL']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/report_stats_on_json_kg.py --useSimplifiedPredicates {input.real} {output}"
+
+rule TSV:
+    input:
+        real = config['SIMPLIFIED_OUTPUT_FILE_FULL'],
+        placeholder = config['SIMPLIFIED_REPORT_FILE_FULL']
+    output:
+        placeholder = config['BUILD_DIR'] + "/tsv_placeholder.empty"
+    run:
+        shell("rm -rf " + config['KG2_TSV_DIR'])
+        shell("mkdir -p " + config['KG2_TSV_DIR'])
+        shell(config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/kg_json_to_tsv.py {input.real} " + config['KG2_TSV_DIR'])
+        shell("touch {output.placeholder}")
