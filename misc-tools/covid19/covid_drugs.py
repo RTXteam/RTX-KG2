@@ -8,6 +8,15 @@ from typing import List, Dict
 sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/../../../")  # code directory
 from RTXConfiguration import RTXConfiguration
 
+def get_args():
+    arg_parser = argparse.ArgumentParser(description='covid_drugs.py runs a set of hardcoded queries \
+                                            about possible drugs to treat covid19. Contains functionality \
+                                            to filter by FDA approval. Works with KG2 builds including drugbank nodes \
+                                            (generally anything newer than 2020-07-25). Does not yet work with KG2C.')
+    arg_parser.add_argument('inputFile', type=str, help = "path to the approved_drugs.csvs file generated from drugbank_get_approved_drugs_and_ids.py")
+    arg_parser.add_argument('resultsDirectory', type=str, help= "path to direcotry to store result csvs")
+    return arg_parser.parse_args()
+
 
 def _run_cypher_query(cypher_query: str, kg="KG2") -> List[Dict[str, any]]:
     # This function sends a cypher query to neo4j (either KG1 or KG2) and returns results

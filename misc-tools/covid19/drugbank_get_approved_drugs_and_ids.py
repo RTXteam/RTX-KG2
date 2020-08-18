@@ -4,7 +4,7 @@
     drug idsfrom DrugBank database in XML format
 
     Usage: drugbank_get_approved_drugs_and_ids.py <inputFile.xml>
-    <approvedDrugOutputFile.csv> <drugIdsOutputFile.csv>
+    <approvedDrugOutputFile.csv>
 '''
 
 import argparse
@@ -24,17 +24,13 @@ os.sys.path.append("..")
 
 def get_args():
     arg_parser = argparse.ArgumentParser(description='drugbank_get_approved_drugs_and_ids.py: \
-                                         builds two csv files from Drugbank database,  \
-                                         one that contains approved drugs by name and drugbank id, \
-                                         and one that contains drugbank ids and all external ids noted by drugbank.')
+                                         builds a csv file from Drugbank database,  \
+                                         that contains approved drugs by name, drugbank id, \
+                                         and all external ids noted by drugbank.')
     arg_parser.add_argument('inputFile', type=str, help = "path to the drugbank.xml file")
     arg_parser.add_argument('approvedDrugOutputFile', type=str)
-    arg_parser.add_argument('drugIdsOutputFile', type=str)
     return arg_parser.parse_args()
 
-
-# need to add usage and cmdline args; as of now runs on kg2dev from the ~/lindsey directory
-# also needs to be generalized
 
 def xml_to_drugbank_dict(input_file_name: str):
     drugbank = open(input_file_name)
@@ -104,11 +100,7 @@ args = get_args()
 drugbank_dict = xml_to_drugbank_dict(args.inputFile)
 
 approved_df = create_approved_drug_df(drugbank_dict)
-approved_df.to_csv(args.approvedDrugOutputFile, index=False)
-
 drug_ids_df = create_external_drug_ids_df(drugbank_dict)
-drug_ids_df.to_csv(args.drugIdsOutputFile, index=False)
 
-#approved drugs with ids (creating so i can have a smaller file to copy down to my laptop)
-approved_ids_df = approved_df.merge(drug_ids_df, how="left", on=["DRUGBANK"])
-approved_ids_df.to_csv("./approved_ids.csv")
+approved_ids_df = approved_df.merge(drug_ids_df, how="left", on=["DRUGBANK"]) # approved drugs with all external ids
+approved_ids_df.to_csv(args.approvedDrugOutputFile)
