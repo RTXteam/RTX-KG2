@@ -985,7 +985,6 @@ def xref_as_a_publication(xref: str):
                 print(ret_xref)
                 break
 
-
     return ret_xref
 
 
