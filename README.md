@@ -676,14 +676,13 @@ This section has some guidelines for KG2 developers
 
 ## KG2 coding standards
 
-- Hard tabs are not permitted in source files such as python or bash (use spaces
+- Hard tabs are not permitted in source files such as python or bash (use spaces).
 
 ### Python coding standards for KG2
 
-- only python3 is allowed 
-- please follow PEP8 formatting standards.
-instead).
-- please use type hints wherever possible
+- Only python3 is allowed.
+- Please follow PEP8 formatting standards.
+- Please use type hints wherever possible.
 
 # Credits
 
