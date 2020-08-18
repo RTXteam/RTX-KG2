@@ -693,7 +693,8 @@ Stephen Ramsey, Amy Glen, Finn Womack, Erica Wood, Veronica Flores, Deqing Qu, a
 
 ## Advice and feedback
 David Koslicki, Eric Deutsch, Yao Yao, Jared Roach, Chris Mungall, Tom Conlin, Matt Brush,
-Chunlei Wu, Harold Solbrig, Will Byrd, Michael Patton, Jim Balhoff, Chunyu Ma, and Chris Bizon.
+Chunlei Wu, Harold Solbrig, Will Byrd, Michael Patton, Jim Balhoff, Chunyu Ma, Chris Bizon, and 
+Deepak Unni.
 
 ## Funding
 National Center for Advancing Translational Sciences (award number OT2TR002520).
