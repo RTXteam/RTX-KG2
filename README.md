@@ -506,8 +506,7 @@ you create a clean Ubuntu 18.04 instance and install using `setup-kg2-build.sh`.
 
 We host our production KG2 graph database in Neo4j version 3.5.13 with APOC
 3.5.0.4, on an Ubuntu 18.04 EC2 instance with 64 GiB of RAM and 8 vCPUs
-(`r5a.2xlarge`) in the `us-east-2` AWS region, although it is possible to host KG2
-on an `r5a.xlarge` instance and this is what we do for our test/dev KG2 host.
+(`r5a.2xlarge`) in the `us-east-2` AWS region.
 
 **Installation:** in a newly initialized Ubuntu 18.04 AWS
 instance, as user `ubuntu`, run the following commands:
