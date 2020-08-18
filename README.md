@@ -17,7 +17,7 @@ biomedical reasoning system.
 
 # KG2 team contact information
 
-## Maintainers
+## Technical Leads
 
 - Stephen Ramsey, Oregon State University (stephen.ramsey@oregonstate.edu)
 - Amy Glen, Oregon State University (glena@oregonstate.edu)
