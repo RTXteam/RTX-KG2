@@ -671,7 +671,7 @@ the following name/value pairs:
 
 # For Developers
 
-This section has some guidelines for KG2 developers
+This section has some guidelines for the development team for the KG2 build system.
 
 ## KG2 coding standards
 
