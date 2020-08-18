@@ -71,8 +71,10 @@ rule SemMed_Conversion:
         validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
     output:
         config['SEMMED_OUTPUT_FILE']
+    log:
+        config['BUILD_DIR'] + "/semmeddb-tuple-list-json-to-kg-json.log"
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/semmeddb_tuple_list_json_to_kg_json.py " + config['TEST_ARG'] + " --mrcuiFile ~/kg2-build/umls/META/MRCUI.RRF {input.real} {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/semmeddb_tuple_list_json_to_kg_json.py " + config['TEST_ARG'] + " --mrcuiFile ~/kg2-build/umls/META/MRCUI.RRF {input.real} {output} > {log} 2>&1"
 
 rule Uniprot_Conversion:
     input:
