@@ -72,7 +72,7 @@ rule SemMed_Conversion:
     output:
         config['SEMMED_OUTPUT_FILE']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/semmeddb_tuple_list_json_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/semmeddb_tuple_list_json_to_kg_json.py " + config['TEST_ARG'] + " --mrcuiFile ~/kg2-build/umls/META/MRCUI.RRF {input.real} {output}"
 
 rule Uniprot_Conversion:
     input:
