@@ -241,7 +241,7 @@ if __name__ == '__main__':
                               pref_name,
                               category_label,
                               description,
-                              synonyms,
+                              [],
                               [],
                               update_date)
         nodes.append(node_dict)
