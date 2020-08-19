@@ -12,7 +12,7 @@ def make_arg_parser():
 
 graph = json.load(open(make_arg_parser().parse_args().inputFile, 'r'))
 for node in graph['nodes']:
-    if None in node['synonym']:
+    if node.get('synonym', None) is None or None in node['synonym']:
         pprint.pprint(node)
         assert False
 
