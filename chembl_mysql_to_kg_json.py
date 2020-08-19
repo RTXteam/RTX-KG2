@@ -93,7 +93,7 @@ def make_node(id: str,
                                    update_date,
                                    CHEMBL_KB_CURIE_ID)
     node_dict['description'] = description
-    node_dict['synonym'] = synonyms
+    node_dict['synonym'] = synonym
     node_dict['publications'] = publications
     return node_dict
 
