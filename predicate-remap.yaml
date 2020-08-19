@@ -628,8 +628,8 @@ FMA:connection_type_of:
   - biolink:coexists_with
 FMA:constitutional_part_of:
   rename:
-  - coexists_with
-  - biolink:coexists_with
+  - part_of
+  - biolink:part_of
 FMA:contained_in:
   rename:
   - part_of
@@ -990,8 +990,8 @@ FMA:receives_projection:
   - biolink:coexists_with
 FMA:regional_part_of:
   rename:
-  - coexists_with
-  - biolink:coexists_with
+  - part_of
+  - biolink:part_of
 FMA:related_developmental_entity_of:
   rename:
   - coexists_with
