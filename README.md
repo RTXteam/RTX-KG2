@@ -569,6 +569,12 @@ same Ubuntu instance where KG2 was built; but this workflow is usually not
 tested since in our setup, we nearly always perform the KG2 build and Neo4j
 hosting on separate AWS instances.
 
+# Post-setup tasks
+
+We typically define a DNS `CNAME` record for the KG2 server endpoint hostname,
+of the form `kg2endpoint-kg2-X-Y.rtx.ai`, where `X` is the major version number
+and `Y` is the minor version number.
+
 # Structure of the JSON KG2
 
 The file `kg2.json` is an intermediate file that is probably only of use to KG2
