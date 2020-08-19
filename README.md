@@ -17,7 +17,7 @@ biomedical reasoning system.
 
 # KG2 team contact information
 
-## Maintainers
+## Technical Leads
 
 - Stephen Ramsey, Oregon State University (stephen.ramsey@oregonstate.edu)
 - Amy Glen, Oregon State University (glena@oregonstate.edu)
@@ -671,7 +671,7 @@ the following name/value pairs:
 
 # For Developers
 
-This section has some guidelines for KG2 developers
+This section has some guidelines for the development team for the KG2 build system.
 
 ## KG2 coding standards
 
@@ -693,7 +693,8 @@ Stephen Ramsey, Amy Glen, Finn Womack, Erica Wood, Veronica Flores, Deqing Qu, a
 
 ## Advice and feedback
 David Koslicki, Eric Deutsch, Yao Yao, Jared Roach, Chris Mungall, Tom Conlin, Matt Brush,
-Chunlei Wu, Harold Solbrig, Will Byrd, Michael Patton, Jim Balhoff, Chunyu Ma, and Chris Bizon.
+Chunlei Wu, Harold Solbrig, Will Byrd, Michael Patton, Jim Balhoff, Chunyu Ma, Chris Bizon, and 
+Deepak Unni.
 
 ## Funding
 National Center for Advancing Translational Sciences (award number OT2TR002520).
