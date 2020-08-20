@@ -136,7 +136,9 @@ if __name__ == '__main__':
         else:
             new_edges[edge_key] = edge_dict
     del graph['edges']
+    del nodes_dict
     graph['edges'] = [edge_dict for edge_dict in new_edges.values()]
+    del new_edges
     for relation_curie_not_in_config in relation_curies_not_in_config:
         if not relation_curie_not_in_config.startswith(kg2_util.CURIE_PREFIX_BIOLINK + ':'):
             print('relation curie is missing from the YAML config file: ' + relation_curie_not_in_config,
@@ -166,3 +168,4 @@ if __name__ == '__main__':
     graph["build"] = build_info
     graph["nodes"].append(build_node)
     kg2_util.save_json(graph, output_file_name, test_mode)
+    del graph
