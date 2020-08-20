@@ -26,7 +26,7 @@ s3_version_filename="kg2-version.txt"
 
 ${s3_cp_cmd} s3://${s3_bucket_public}/${s3_version_filename} ${local_version_filename}
 
-if [ "${build_flag}" == 'test' || "${build_flag}" == 'alltest' ]
+if [[ "${build_flag}" == 'test' || "${build_flag}" == 'alltest' ]]
 then
    increment_flag=''
 else
@@ -38,7 +38,7 @@ else
     fi
 fi
 
-if [ "${increment_flag}" != '' ]
+if [[ "${increment_flag}" != '' ]]
 then
     ${VENV_DIR}/bin/python3 ${CODE_DIR}/update_version.py ${increment_flag} ${local_version_filename}
     ${s3_cp_cmd} ${local_version_filename} s3://${s3_bucket_public}/${s3_version_filename}
@@ -46,7 +46,7 @@ else
     echo "*** TEST MODE -- NO INCREMENT ***"
 fi
 
-if [ -f ${trigger_file_is_major_release} ]
+if [[ -f ${trigger_file_is_major_release} ]]
 then
    rm -f ${trigger_file_is_major_release}
 fi
