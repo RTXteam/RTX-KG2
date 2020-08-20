@@ -68,6 +68,7 @@ rule Ensembl_Conversion:
 rule SemMed_Conversion:
     input:
         real = config['SEMMED_TUPLELIST_FILE'],
+        mrcui_req = config['BUILD_DIR'] + "/umls-placeholder.empty",
         validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
     output:
         config['SEMMED_OUTPUT_FILE']
