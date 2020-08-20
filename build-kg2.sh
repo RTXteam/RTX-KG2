@@ -15,7 +15,7 @@ fi
 # 
 # * The 'all' argument means that the script will build the UMLS and SemMedDB files. Complete KG2 build.
 #
-# * The 'test' argument means that the OWL inventory is read from "ont-load-inventory-test.yaml"
+# * The 'test' (or 'alltest') argument means that the OWL inventory is read from "ont-load-inventory-test.yaml"
 #   and all KG JSON files generated will have the string "-test" appended before their JSON suffixes.
 
 build_flag=${1:-""}

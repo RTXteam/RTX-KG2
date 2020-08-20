@@ -558,6 +558,10 @@ EFO:is_executed_in:
   rename:
   - has_attribute
   - biolink:has_attribute
+ENVO:01001307:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
 FMA:SIB:
   delete: null
 FMA:adheres_to:
@@ -1196,6 +1200,10 @@ GOREL:0001006:
   rename:
   - affects
   - biolink:affects
+GOREL:0001007:
+  invert:
+  - participates_in
+  - biolink:participates_in
 GOREL:0002003:
   rename:
   - affects_localization_of
@@ -1208,6 +1216,10 @@ GOREL:0002005:
   rename:
   - related_to
   - biolink:related_to
+GOREL:0002008:
+  invert:
+  - participates_in
+  - biolink:participates_in
 GOREL:0012006:
   rename:
   - related_to
@@ -2204,6 +2216,10 @@ NCIT:procedure_has_imaged_anatomy:
   rename:
   - located_in
   - biolink:located_in
+NCIT:procedure_has_target_anatomy:
+  rename:
+  - located_in
+  - biolink:located_in
 NCIT:procedure_has_partially_excised_anatomy:
   rename:
   - located_in
@@ -2406,6 +2422,10 @@ OBI:0001927:
   invert:
   - has_attribute
   - biolink:has_attribute
+OBO:disease_shares_features_of:
+  rename:
+  - related_to
+  - biolink:related_to
 OBO:INO_0000154:
   rename:
   - has_attribute
@@ -2804,6 +2824,18 @@ RO:0002008:
   rename:
   - related_to
   - biolink:related_to
+RO:0002013:
+  rename:
+  - capable_of
+  - biolink:capable_of
+RO:0002015:
+  rename:
+  - capable_of
+  - biolink:capable_of
+RO:0002016:
+  rename:
+  - capable_of
+  - biolink:capable_of
 RO:0002082:
   rename:
   - related_to
@@ -3028,6 +3060,10 @@ RO:0002299:
   rename:
   - has_output
   - biolink:has_output
+RO:0002303:
+  rename:
+  - located_in
+  - biolink:located_in
 RO:0002313:
   rename:
   - affects_transport_of
@@ -3113,6 +3149,10 @@ RO:0002352:
   - has_input
   - biolink:has_input
 RO:0002353:
+  invert:
+  - has_output
+  - biolink:has_output
+RO:0002354:
   invert:
   - has_output
   - biolink:has_output
@@ -3208,6 +3248,10 @@ RO:0002497:
   rename:
   - related_to
   - biolink:related_to
+RO:0002500:
+  rename:
+  - capable_of
+  - biolink:capable_of
 RO:0002505:
   invert:
   - participates_in
@@ -3218,6 +3262,10 @@ RO:0002507:
   - biolink:causes
 RO:0002508:
   rename:
+  - causes
+  - biolink:causes
+RO:0002509:
+  invert:
   - causes
   - biolink:causes
 RO:0002524:
@@ -3384,42 +3432,14 @@ RO:participates_in:
   rename:
   - participates_in
   - biolink:participates_in
-RTXKG1:activator:
-  rename:
-  - positively_regulates
-  - biolink:positively_regulates
 RTXKG1:affects:
   rename:
   - affects
   - biolink:affects
-RTXKG1:agonist:
-  rename:
-  - positively_regulates
-  - biolink:positively_regulates
-RTXKG1:allosteric_modulator:
-  rename:
-  - regulates
-  - biolink:regulates
-RTXKG1:antagonist:
-  rename:
-  - negatively_regulates
-  - biolink:negatively_regulates
-RTXKG1:antibody:
-  rename:
-  - molecularly_interacts_with
-  - biolink:molecularly_interacts_with
 RTXKG1:associated_with_disease:
   rename:
   - correlated_with
   - biolink:correlated_with
-RTXKG1:binder:
-  rename:
-  - physically_interacts_with
-  - biolink:physically_interacts_with
-RTXKG1:blocker:
-  rename:
-  - negatively_regulates
-  - biolink:negatively_regulates
 RTXKG1:capable_of:
   rename:
   - capable_of
@@ -3428,18 +3448,6 @@ RTXKG1:capable_of_part_of:
   rename:
   - causes
   - biolink:causes
-RTXKG1:causes_or_contributes_to:
-  rename:
-  - causes
-  - biolink:causes
-RTXKG1:channel_blocker:
-  rename:
-  - negatively_regulates
-  - biolink:negatively_regulates
-RTXKG1:cofactor:
-  rename:
-  - positively_regulates
-  - biolink:positively_regulates
 RTXKG1:composed_primarily_of:
   rename:
   - has_part
@@ -3468,10 +3476,6 @@ RTXKG1:disease_has_location:
   rename:
   - located_in
   - biolink:located_in
-RTXKG1:equivalentClass:
-  rename:
-  - same_as
-  - biolink:same_as
 RTXKG1:expressed_in:
   rename:
   - expressed_in
@@ -3480,10 +3484,6 @@ RTXKG1:functionally_related_to:
   rename:
   - related_to
   - biolink:related_to
-RTXKG1:gating_inhibitor:
-  rename:
-  - negatively_regulates
-  - biolink:negatively_regulates
 RTXKG1:gene_associated_with_condition:
   rename:
   - gene_associated_with_condition
@@ -3512,18 +3512,6 @@ RTXKG1:indicated_for:
   rename:
   - treats
   - biolink:treats
-RTXKG1:inducer:
-  rename:
-  - positively_regulates
-  - biolink:positively_regulates
-RTXKG1:inhibitor:
-  rename:
-  - negatively_regulates
-  - biolink:negatively_regulates
-RTXKG1:inverse_agonist:
-  rename:
-  - decreases_activity_of
-  - biolink:decreases_activity_of
 RTXKG1:involved_in:
   rename:
   - actively_involved_in
@@ -3532,22 +3520,10 @@ RTXKG1:lacks_part:
   rename:
   - lacks_part
   - biolink:lacks_part
-RTXKG1:modulator:
-  rename:
-  - regulates
-  - biolink:regulates
-RTXKG1:negative_modulator:
-  rename:
-  - negatively_regulates
-  - biolink:negatively_regulates
 RTXKG1:output_of:
   invert:
   - has_output
   - biolink:has_output
-RTXKG1:partial_agonist:
-  rename:
-  - positively_regulates
-  - biolink:positively_regulates
 RTXKG1:participates_in:
   rename:
   - participates_in
@@ -3556,10 +3532,6 @@ RTXKG1:physically_interacts_with:
   rename:
   - physically_interacts_with
   - biolink:physically_interacts_with
-RTXKG1:positive_allosteric_modulator:
-  rename:
-  - positively_regulates
-  - biolink:positively_regulates
 RTXKG1:realized_in_response_to:
   rename:
   - causes
@@ -3580,14 +3552,6 @@ RTXKG1:site_of:
   invert:
   - located_in
   - biolink:located_in
-RTXKG1:stimulator:
-  rename:
-  - positively_regulates
-  - biolink:positively_regulates
-RTXKG1:subClassOf:
-  rename:
-  - subclass_of
-  - biolink:subclass_of
 RTXKG1:subclass_of:
   rename:
   - subclass_of
@@ -3596,10 +3560,6 @@ RTXKG1:targets:
   rename:
   - molecularly_interacts_with
   - biolink:molecularly_interacts_with
-RTXKG1:vaccine:
-  rename:
-  - negatively_regulates
-  - biolink:negatively_regulates
 RXNORM:consists_of:
   invert:
   - part_of
@@ -3820,6 +3780,10 @@ SEMMEDDB:uses:
   - biolink:has_input
 SEMMEDDB:verb:
   delete: null
+SIO:000658:
+  invert:
+  - precedes
+  - biolink:precedes
 SNOMED:access_device_used_by:
   delete: null
 SNOMED:access_of:

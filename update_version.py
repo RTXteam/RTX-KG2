@@ -55,4 +55,5 @@ if __name__ == '__main__':
         new_version = graph_ver + "." + str(major_ver) + "." + str(minor_ver)
         output_file.write(new_version)
         output_file.close()
+        print("KG2 version: " + new_version)
         break
