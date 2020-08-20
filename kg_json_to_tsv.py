@@ -191,6 +191,7 @@ def nodes(graph, output_file_location):
             nodekeys = no_space('id', nodekeys, 'id:ID')
             nodekeys = no_space('publications', nodekeys, "publications:string[]")
             nodekeys = no_space('synonym', nodekeys, "synonym:string[]")
+            nodekeys = no_space('category_label', nodekeys, ':LABEL')
             tsvwrite_h.writerow(nodekeys)
         tsvwrite.writerow(vallist)
 

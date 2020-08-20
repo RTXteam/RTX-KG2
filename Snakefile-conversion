@@ -68,6 +68,7 @@ rule Ensembl_Conversion:
 rule SemMed_Conversion:
     input:
         real = config['SEMMED_TUPLELIST_FILE'],
+        mrcui_req = config['BUILD_DIR'] + "/umls-placeholder.empty",
         validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
     output:
         config['SEMMED_OUTPUT_FILE']
@@ -85,7 +86,7 @@ rule Uniprot_Conversion:
     shell:
         config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/uniprotkb_dat_to_json.py " + config['TEST_ARG'] + " {input.real} {output}"
 
-rule RepodDB_Conversion:
+rule RepoDB_Conversion:
     input:
         real = config['REPODB_INPUT_FILE'],
         validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
