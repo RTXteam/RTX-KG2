@@ -35,7 +35,7 @@ if __name__ == '__main__':
     kg_file_names = args.kgFiles
     test_mode = args.test
     output_file_name = args.outputFile
-    kg_orphan_edges = {'edges': []}
+    kg_orphan_edges = {'nodes': [], 'edges': []}
     nodes = dict()
     rels = dict()
     for kg_file_name in kg_file_names:
