@@ -88,6 +88,7 @@ if __name__ == '__main__':
         last_orphan_edges = len(kg_orphan_edges['edges'])
     kg = {'nodes': [node for node in nodes.values()],
           'edges': edges}
+    del nodes
     kg2_util.save_json(kg, output_file_name, test_mode)
     kg_file_orphan_edges = args.kgFileOrphanEdges
     if kg_file_orphan_edges is not None:
