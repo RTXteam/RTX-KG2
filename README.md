@@ -567,7 +567,9 @@ KG2, just run (as user `ubuntu`):
 In theory, it should be possible to install Neo4j and load KG2 into it on the
 same Ubuntu instance where KG2 was built; but this workflow is usually not
 tested since in our setup, we nearly always perform the KG2 build and Neo4j
-hosting on separate AWS instances.
+hosting on separate AWS instances. This is because the system requirements
+to build KG2 are much greater than the system requirements to host KG2 in 
+Neo4j.
 
 # Post-setup tasks
 
