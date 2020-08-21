@@ -477,7 +477,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                 node_definition = node_meta.get('definition', None)
                 if node_definition is not None:
                     node_description = node_definition['val']
-                    if node_description.startswith('OBSOLETE:') or node_description.startswith('Obsolete.'):
+                    if node_description.lower().startswith('obsolete:') or node_description.lower().startswith('obsolete.'):
                         continue
 
                     node_definition_xrefs = node_definition.get('xrefs', None)
