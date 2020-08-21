@@ -567,11 +567,13 @@ KG2, just run (as user `ubuntu`):
 In theory, it should be possible to install Neo4j and load KG2 into it on the
 same Ubuntu instance where KG2 was built; but this workflow is usually not
 tested since in our setup, we nearly always perform the KG2 build and Neo4j
-hosting on separate AWS instances.
+hosting on separate AWS instances. This is because the system requirements
+to build KG2 are much greater than the system requirements to host KG2 in 
+Neo4j.
 
 # Post-setup tasks
 
-We typically define a DNS `CNAME` record for the KG2 server endpoint hostname,
+We typically define a DNS `CNAME` record for the KG2 Neo4j server hostname,
 of the form `kg2endpoint-kg2-X-Y.rtx.ai`, where `X` is the major version number
 and `Y` is the minor version number.
 
@@ -598,26 +600,26 @@ The top-level `nodes` slot contains a list of node objects. Each node object has
 the following keys:
   - `category`: a string containing a CURIE ID for the semantic type of the
     node, as a category in the Biolink model. Example: `biolink:Gene`.
-  - `category label`: a `snake_case` representation of the `category` field,
+  - `category_label`: a `snake_case` representation of the `category` field,
     without the `biolink:` CURIE prefix.
-  - `creation date`: a string identifier of the date in which this node object
+  - `creation_date`: a string identifier of the date in which this node object
   was first created in the upstream source database; it has (at present) no
   consistent format, unfortunately (usual value is `null`).
   - `deprecated`: a Boolean field indicating whether or not this node has been
     deprecated by the upstream source database (usual value is `false`).
   - `description`: a narrative description field for the node, in prose text
-  - `full name`: a longer name for the node (often is identical to the `name` field)
+  - `full_name`: a longer name for the node (often is identical to the `name` field)
   - `id`: a CURIE ID for the node; this CURIE ID will be unique across nodes in
     KG2 (that constraint is enforced in the build process)
   - `iri`: a URI where the user can get more information about this node (we try
     to make these resolvable wherever possible)
   - `name`: a display name for the node
-  - `provided by`: a CURIE ID (which corresponds to an actual node in KG2) for
+  - `provided_by`: a CURIE ID (which corresponds to an actual node in KG2) for
   the upstream source database that is the definitive source for information
   about this node
   - `publications`: a list of CURIE IDs of publications (e.g., `PMID` or `ISBN`
     or `DOI` identifiers) that contain information about this node
-  - `replaced by`: a CURIE ID for the node that replaces this node, for cases
+  - `replaced_by`: a CURIE ID for the node that replaces this node, for cases
     when this node has been deprecated (usually it is `null`).
   - `synonym`: a list of strings with synonyms for the node; if the node is a
   gene, the first entry in the list should be the official gene symbol; other
@@ -629,37 +631,37 @@ the following keys:
 
 ## `edges` slot
 - `edges`: a list of edge objects. Each edge object has the following keys:
-  - `edge label`: a `snake_case` representation of the plain English label for
+  - `edge_label`: a `snake_case` representation of the plain English label for
     the original predicate for the edge provided by the upstream source database
     (see the `relation` field)
   - `negated`: a Boolean field indicating whether or not the edge relationship
     is "negated"; usually `false`, in the normal build process for KG2
   - `object`: the CURIE ID (`id`) for the KG2 node that is the object of the
     edge
-  - `provided by`: a list containing CURIE IDs (each of which should be a node
+  - `provided_by`: a list containing CURIE IDs (each of which should be a node
   in KG2) of the upstream source databases that reported this edge's specific
   combination of subject/predicate/object (in the case of multiple providers for
   an edge, the other fields like `publications` are merged from the information
   from the multiple sources).
   - `publications`: a list of CURIE IDs of publications supporting this edge
     (e.g., `PMID` or `ISBN` or `DOI` identifiers)
-  - `publications info`: a dictionary whose keys are CURIE IDs from the list in the
+  - `publications_info`: a dictionary whose keys are CURIE IDs from the list in the
   `publications` field, and whose values are described in the next subsection ("publication_info")
   - `relation`: a CURIE ID for the relation as reported by the upstream
     database source.
-  - `simplified edge label`: a `snake_case` representation of the plain English
+  - `simplified_edge_label`: a `snake_case` representation of the plain English
     label for the simplified predicate (see the `simplified relation`
     field); in most cases this is a predicate type from the Biolink model.
-  - `simplified relation`: a CURIE ID for the simplified relation
+  - `simplified_relation`: a CURIE ID for the simplified relation
   - `subject`: the CURIE ID (`id`) for the KG2 node that is the subject of the
     edge
-  - `update date`: a string identifier of the date in which the information for
+  - `update_date`: a string identifier of the date in which the information for
   this node object was last updated in the upstream source database; it has (at
   present) no consitent format, unfortunately; it is usually not `null`.
 
-### `publication_info` slot
+### `publications_info` slot
 
-If it is not `null`, the `publication_info` object's values are objects containing
+If it is not `null`, the `publications_info` object's values are objects containing
 the following name/value pairs:
   - `publication date`: string representation of the date of the publication, in
     ISO 8601 format (`%Y-%m-%d %H:%i:%S`)
@@ -674,6 +676,14 @@ the following name/value pairs:
   - `object score`: for SemMedDB edges, this score corresponds to a confidence
     with which the subject of the triple was correctly identified; otherwise
     `null`
+
+# Files generated by the KG2 build system (UNDER DEVELOPMENT)
+
+- `kg2-simplified.json`: This is the main KG2 graph, in JSON format (48 GiB).
+- `kg2.json`
+- `kg2-simplified-report.json`
+- `kg2-slim.json`
+- `kg2-version.txt`
 
 # For Developers
 
