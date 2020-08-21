@@ -571,7 +571,7 @@ hosting on separate AWS instances.
 
 # Post-setup tasks
 
-We typically define a DNS `CNAME` record for the KG2 Neo4j server endpoint hostname,
+We typically define a DNS `CNAME` record for the KG2 Neo4j server hostname,
 of the form `kg2endpoint-kg2-X-Y.rtx.ai`, where `X` is the major version number
 and `Y` is the minor version number.
 
