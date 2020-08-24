@@ -21,8 +21,8 @@ def get_args():
 def _run_cypher_query(cypher_query: str, kg="KG2") -> List[Dict[str, any]]:
     # This function sends a cypher query to neo4j (either KG1 or KG2) and returns results
     rtxc = RTXConfiguration()
-    if kg == "KG2":
-        rtxc.live = "KG2"
+    if kg == "KG2" or kg == "KG2C":
+        rtxc.live = kg
     try:
         driver = GraphDatabase.driver(rtxc.neo4j_bolt, auth=(rtxc.neo4j_username, rtxc.neo4j_password))
         with driver.session() as session:
@@ -63,6 +63,7 @@ def ask(cypher_query:str, outputFilename:str):
     ids = get_result_ids(full_results)
     result_ids = list(filter_by_fda_approval(ids, approved_drug_df))
     if len(result_ids) != 0:
+        print(f"Found {len(result_ids)} FDA approved results")
         result_df = pd.DataFrame(result_ids, columns=["DRUGBANK"])
         result_df = result_df.merge(approved_drug_df, how="left", on=["DRUGBANK"])
         result_df = result_df[["DRUGBANK", "name", "groups"]]
