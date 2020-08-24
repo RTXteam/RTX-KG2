@@ -347,7 +347,9 @@ of KG2, or else the partial build will not work.
 For testing/debugging purposes, it is helpful to have a faster way to exercise
 the KG2 build code. For this, you may want to execute a "test" build. This build
 mode builds a smaller graph with a significantly reduced set of nodes and edges.
-To execute a "test" build, in Step (8) above, you would run:
+Before you can do a test build, you must have previously done a full *non-test*
+build of KG2 (i.e., `build-kg2.sh all`) at least once. To execute a full *test*
+build, in Step (8) above, you would run:
 
     bash -x ~/kg2-code/build-kg2.sh alltest
     
@@ -670,7 +672,7 @@ the following name/value pairs:
   - `subject score`: a string containing a confidence score; for SemMedDB edges,
     this score corresponds to a confidence with which the subject of the triple
     was correctly identified; for other edges (like ChEMBL drug to target
-    predictinos), the score corresponds to a confidence in a computational
+    predictions), the score corresponds to a confidence in a computational
     prediction of the ligand-to-target binding relationship; NOTE: there at
     present no unified scale for this field, unfortunately
   - `object score`: for SemMedDB edges, this score corresponds to a confidence
