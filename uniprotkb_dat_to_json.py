@@ -242,7 +242,7 @@ def make_nodes(records: list):
         assert type(publications) == list
         assert type(description) == str
         publications += [pub.replace('PubMed:', kg2_util.CURIE_PREFIX_PMID + ':') for pub in REGEX_PUBLICATIONS.findall(description)]
-        publications = list(set(publications))
+        publications = sorted(list(set(publications)))
         gene_names_str = record_dict.get('GN', None)
         gene_symbol = None
         if gene_names_str is not None:
