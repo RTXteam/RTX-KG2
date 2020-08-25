@@ -10,7 +10,7 @@
 
 __author__ = 'Stephen Ramsey'
 __copyright__ = 'Oregon State University'
-__credits__ = ['Stephen Ramsey']
+__credits__ = ['Stephen Ramsey', 'Erica Wood']
 __license__ = 'MIT'
 __version__ = '0.1.0'
 __maintainer__ = ''
@@ -387,7 +387,6 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                            kg2_util.BIOLINK_CATEGORY_DATA_FILE,
                                            updated_date,
                                            ontology_curie_id)
-
         ontology_node['description'] = ontology_info_dict['description']
         ontology_node['ontology node ids'] = [iri_of_ontology]
         ontology_node['xrefs'] = []
@@ -478,7 +477,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                 node_definition = node_meta.get('definition', None)
                 if node_definition is not None:
                     node_description = node_definition['val']
-                    if node_description.startswith('OBSOLETE:') or node_description.startswith('Obsolete.'):
+                    if node_description.lower().startswith('obsolete:') or node_description.lower().startswith('obsolete.'):
                         continue
 
                     node_definition_xrefs = node_definition.get('xrefs', None)
@@ -961,10 +960,31 @@ def make_map_of_node_ontology_ids_to_curie_ids(nodes: dict):
 
 def xref_as_a_publication(xref: str):
     ret_xref = None
+    xref = xref.lower().strip("url:").strip()
+
+    pubmed_url_prefixes = ['https://pubmed.ncbi.nlm.nih.gov/',
+                           'http://www.ncbi.nlm.nih.gov/pubmed/',
+                           'https://www.ncbi.nlm.nih.gov/pubmed/',
+                           'http://www.ncbi.nlm.nih.gov/pubmed?term=',
+                           'http://www.pubmedcentral.nih.gov/articlerender.fcgi?tool=pubmed&pubmedid=',
+                           'http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=retrieve&db=pubmed&list_uids=',
+                           'http://www.ncbi.nlm.nih.gov:80/entrez/query.fcgi?cmd=retrieve&db=pubmed&list_uids=',
+                           None]
+
     if xref.upper().startswith(kg2_util.CURIE_PREFIX_PMID + ':') or xref.upper().startswith(kg2_util.CURIE_PREFIX_ISBN + ':'):
         ret_xref = xref.upper()
     elif kg2_util.is_a_valid_http_url(xref):
-        ret_xref = xref
+        for pubmed_url_prefix in pubmed_url_prefixes:
+            if pubmed_url_prefix is None:
+                ret_xref = xref
+            elif xref.startswith(pubmed_url_prefix):
+                ret_xref = kg2_util.CURIE_PREFIX_PMID + ':' + xref.replace(pubmed_url_prefix, "")
+                ret_xref = ret_xref.upper().replace("DOPT=ABSTRACT", "")
+                ret_xref = ret_xref.replace("TERM=", "").replace("/", "")
+                ret_xref = ret_xref.replace(",", "").replace("&", "").replace("?", "")
+                print(ret_xref)
+                break
+
     return ret_xref
 
 

@@ -17,10 +17,11 @@ biomedical reasoning system.
 
 # KG2 team contact information
 
-## Maintainers
+## Technical Leads
 
 - Stephen Ramsey, Oregon State University (stephen.ramsey@oregonstate.edu)
 - Amy Glen, Oregon State University (glena@oregonstate.edu)
+- Erica Wood, Crescent Valley High School
 
 ## Bug reports
 
@@ -65,7 +66,7 @@ first-generation knowledge graph.
 | Pharos                          | data     | x   | x   |                                                                                                                                                  | [link](https://pharos.nih.gov/)                                        |
 | Reactome                        | data     | x   | x   | [link](https://reactome.org/license)                                                                                                             | [link](https://reactome.org/)                                          |
 | SciGraph data                   | data     | x   | x   |                                                                                                                                                  | [link](https://scigraph-data.monarchinitiative.org/scigraph/docs/)     |
-| SemMedDB                        | data     | x   | x   | [link](https://skr3.nlm.nih.gov/TermsAndCond.html)                                                                                               | [link](https://skr3.nlm.nih.gov/SemMedDB/)                             |
+| SemMedDB                        | data     |     | x   | [link](https://skr3.nlm.nih.gov/TermsAndCond.html)                                                                                               | [link](https://skr3.nlm.nih.gov/SemMedDB/)                             |
 | SIDER                           | data     | x   | x   |                                                                                                                                                  | [link](http://sideeffects.embl.de/)                                    |
 | SMPDB                           | data     |     | x   | [link](https://smpdb.ca/about#citing)                                                                                                            | [link](https://smpdb.ca/)                                              |
 | Therapeutic Target Database     | data     |     | x   |                                                                                                                                                  | [link](http://bidd.nus.edu.sg/group/cjttd/)                            |
@@ -100,7 +101,7 @@ first-generation knowledge graph.
 | Uberon                          | ontology |     | x   |                                                                                                                                                  | [link](http://www.obofoundry.org/ontology/uberon.html)                 |
 | UMLS                            | ontology | x   | x   | [link](https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/license_agreement.html)                                     | [link](https://www.nlm.nih.gov/research/umls/index.html)               |
 
-# How to build your own RTX KG2
+# How to build RTX KG2 from its upstream sources
 
 ## General notes:
 
@@ -121,9 +122,9 @@ scripts create three subdirectories under the `${HOME}` directory of whatever
 Linux user account you use to run the KG2 build software (if you run on an EC2
 Ubuntu instance, this directory would by default be `/home/ubuntu`):
 
-1. `~/kg2-build`
-2. `~/kg2-code`
-3. `~/kg2-venv`
+1. `~/kg2-build`, where various build artifacts are stored
+2. `~/kg2-code`, which is a symbolic link to the git checkout directory `RTX/code/kg2`
+3. `~/kg2-venv`, which is the virtualenv for the KG2 build system
 
 The various directories used by the KG2 build system are configured in the
 `bash` include file `master-config.shinc`. Most of the KG2 build system code is
@@ -200,7 +201,7 @@ hosted in the same EC2 instance that hosts the KG2 build system. Currently, the
 KG1 Neo4j endpoint is hosted in the instance `arax.rtx.ai`; the URI of its Neo4j
 REST HTTP interface is: `http://arax.rtx.ai:7474`.
 
-## My normal EC2 instance
+## Typical EC2 instance type used for building KG2
 
 The KG2 build software has been tested with the following instance type:
 
@@ -434,7 +435,7 @@ location. Here are the instructions:
 (1) Install Docker. If you are on Ubuntu 18.04 and you need to install Docker, you can
 run this command in `bash` on the host OS:
    
-    source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/install-docker.sh)
+    source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/install-docker-ubuntu18.sh)
     
 (otherwise, the subsequent commands in this section assume that Docker is
 installed on whatever host system you are running). For some notes on how to
@@ -505,8 +506,7 @@ you create a clean Ubuntu 18.04 instance and install using `setup-kg2-build.sh`.
 
 We host our production KG2 graph database in Neo4j version 3.5.13 with APOC
 3.5.0.4, on an Ubuntu 18.04 EC2 instance with 64 GiB of RAM and 8 vCPUs
-(`r5a.2xlarge`) in the `us-east-2` AWS region, although it is possible to host KG2
-on an `r5a.xlarge` instance and this is what we do for our test/dev KG2 host.
+(`r5a.2xlarge`) in the `us-east-2` AWS region.
 
 **Installation:** in a newly initialized Ubuntu 18.04 AWS
 instance, as user `ubuntu`, run the following commands:
@@ -567,7 +567,15 @@ KG2, just run (as user `ubuntu`):
 In theory, it should be possible to install Neo4j and load KG2 into it on the
 same Ubuntu instance where KG2 was built; but this workflow is usually not
 tested since in our setup, we nearly always perform the KG2 build and Neo4j
-hosting on separate AWS instances.
+hosting on separate AWS instances. This is because the system requirements
+to build KG2 are much greater than the system requirements to host KG2 in 
+Neo4j.
+
+# Post-setup tasks
+
+We typically define a DNS `CNAME` record for the KG2 Neo4j server hostname,
+of the form `kg2endpoint-kg2-X-Y.rtx.ai`, where `X` is the major version number
+and `Y` is the minor version number.
 
 # Structure of the JSON KG2
 
@@ -592,26 +600,26 @@ The top-level `nodes` slot contains a list of node objects. Each node object has
 the following keys:
   - `category`: a string containing a CURIE ID for the semantic type of the
     node, as a category in the Biolink model. Example: `biolink:Gene`.
-  - `category label`: a `snake_case` representation of the `category` field,
+  - `category_label`: a `snake_case` representation of the `category` field,
     without the `biolink:` CURIE prefix.
-  - `creation date`: a string identifier of the date in which this node object
+  - `creation_date`: a string identifier of the date in which this node object
   was first created in the upstream source database; it has (at present) no
   consistent format, unfortunately (usual value is `null`).
   - `deprecated`: a Boolean field indicating whether or not this node has been
     deprecated by the upstream source database (usual value is `false`).
   - `description`: a narrative description field for the node, in prose text
-  - `full name`: a longer name for the node (often is identical to the `name` field)
+  - `full_name`: a longer name for the node (often is identical to the `name` field)
   - `id`: a CURIE ID for the node; this CURIE ID will be unique across nodes in
     KG2 (that constraint is enforced in the build process)
   - `iri`: a URI where the user can get more information about this node (we try
     to make these resolvable wherever possible)
   - `name`: a display name for the node
-  - `provided by`: a CURIE ID (which corresponds to an actual node in KG2) for
+  - `provided_by`: a CURIE ID (which corresponds to an actual node in KG2) for
   the upstream source database that is the definitive source for information
   about this node
   - `publications`: a list of CURIE IDs of publications (e.g., `PMID` or `ISBN`
     or `DOI` identifiers) that contain information about this node
-  - `replaced by`: a CURIE ID for the node that replaces this node, for cases
+  - `replaced_by`: a CURIE ID for the node that replaces this node, for cases
     when this node has been deprecated (usually it is `null`).
   - `synonym`: a list of strings with synonyms for the node; if the node is a
   gene, the first entry in the list should be the official gene symbol; other
@@ -623,37 +631,37 @@ the following keys:
 
 ## `edges` slot
 - `edges`: a list of edge objects. Each edge object has the following keys:
-  - `edge label`: a `snake_case` representation of the plain English label for
+  - `edge_label`: a `snake_case` representation of the plain English label for
     the original predicate for the edge provided by the upstream source database
     (see the `relation` field)
   - `negated`: a Boolean field indicating whether or not the edge relationship
     is "negated"; usually `false`, in the normal build process for KG2
   - `object`: the CURIE ID (`id`) for the KG2 node that is the object of the
     edge
-  - `provided by`: a list containing CURIE IDs (each of which should be a node
+  - `provided_by`: a list containing CURIE IDs (each of which should be a node
   in KG2) of the upstream source databases that reported this edge's specific
   combination of subject/predicate/object (in the case of multiple providers for
   an edge, the other fields like `publications` are merged from the information
   from the multiple sources).
   - `publications`: a list of CURIE IDs of publications supporting this edge
     (e.g., `PMID` or `ISBN` or `DOI` identifiers)
-  - `publications info`: a dictionary whose keys are CURIE IDs from the list in the
+  - `publications_info`: a dictionary whose keys are CURIE IDs from the list in the
   `publications` field, and whose values are described in the next subsection ("publication_info")
   - `relation`: a CURIE ID for the relation as reported by the upstream
     database source.
-  - `simplified edge label`: a `snake_case` representation of the plain English
+  - `simplified_edge_label`: a `snake_case` representation of the plain English
     label for the simplified predicate (see the `simplified relation`
     field); in most cases this is a predicate type from the Biolink model.
-  - `simplified relation`: a CURIE ID for the simplified relation
+  - `simplified_relation`: a CURIE ID for the simplified relation
   - `subject`: the CURIE ID (`id`) for the KG2 node that is the subject of the
     edge
-  - `update date`: a string identifier of the date in which the information for
+  - `update_date`: a string identifier of the date in which the information for
   this node object was last updated in the upstream source database; it has (at
   present) no consitent format, unfortunately; it is usually not `null`.
 
-### `publication_info` slot
+### `publications_info` slot
 
-If it is not `null`, the `publication_info` object's values are objects containing
+If it is not `null`, the `publications_info` object's values are objects containing
 the following name/value pairs:
   - `publication date`: string representation of the date of the publication, in
     ISO 8601 format (`%Y-%m-%d %H:%i:%S`)
@@ -669,31 +677,40 @@ the following name/value pairs:
     with which the subject of the triple was correctly identified; otherwise
     `null`
 
+# Files generated by the KG2 build system (UNDER DEVELOPMENT)
+
+- `kg2-simplified.json`: This is the main KG2 graph, in JSON format (48 GiB).
+- `kg2.json`
+- `kg2-simplified-report.json`
+- `kg2-slim.json`
+- `kg2-version.txt`
+
 # For Developers
 
-This section has some guidelines for KG2 developers
+This section has some guidelines for the development team for the KG2 build system.
 
 ## KG2 coding standards
 
-- Hard tabs are not permitted in source files such as python or bash (use spaces
+- Hard tabs are not permitted in source files such as python or bash (use spaces).
 
 ### Python coding standards for KG2
 
-- only python3 is allowed 
-- please follow PEP8 formatting standards.
-instead).
-- please use type hints wherever possible
+- Only python3 is allowed.
+- Please follow PEP8 formatting standards.
+- Please use type hints wherever possible.
 
 # Credits
 
-Thank you to the many people who have contributed to the development of RTX KG2:
+Thank you to the many people who have contributed to the development of RTX KG2, as described
+in the next three subsections:
 
 ## Code
 Stephen Ramsey, Amy Glen, Finn Womack, Erica Wood, Veronica Flores, Deqing Qu, and Lindsey Kvarfordt.
 
 ## Advice and feedback
 David Koslicki, Eric Deutsch, Yao Yao, Jared Roach, Chris Mungall, Tom Conlin, Matt Brush,
-Chunlei Wu, Harold Solbrig, Will Byrd, Michael Patton, Jim Balhoff, Chunyu Ma, and Chris Bizon.
+Chunlei Wu, Harold Solbrig, Will Byrd, Michael Patton, Jim Balhoff, Chunyu Ma, Chris Bizon, and 
+Deepak Unni.
 
 ## Funding
 National Center for Advancing Translational Sciences (award number OT2TR002520).

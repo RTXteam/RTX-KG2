@@ -15,13 +15,13 @@ fi
 # 
 # * The 'all' argument means that the script will build the UMLS and SemMedDB files. Complete KG2 build.
 #
-# * The 'test' argument means that the OWL inventory is read from "ont-load-inventory-test.yaml"
+# * The 'test' (or 'alltest') argument means that the OWL inventory is read from "ont-load-inventory-test.yaml"
 #   and all KG JSON files generated will have the string "-test" appended before their JSON suffixes.
 
 build_flag=${1:-""}
 echo "${build_flag}"
 
-if [ "${build_flag}" == 'test' || "${build_flag}" == 'alltest' ]
+if [[ "${build_flag}" == 'test' || "${build_flag}" == 'alltest' ]]
 then
     echo "********** TEST MODE **********"
     test_suffix='-test'
@@ -126,7 +126,7 @@ cd ${BUILD_DIR}
 
 mem_gb=`${CODE_DIR}/get-system-memory-gb.sh`
 
-if [ "${build_flag}" == 'all' || "${build_flag}" == 'alltest' ]
+if [[ "${build_flag}" == 'all' || "${build_flag}" == 'alltest' ]]
 then
 ## Build UMLS knowledge sources at TTL files:
     echo "running extract-umls.sh"

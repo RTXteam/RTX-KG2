@@ -93,7 +93,7 @@ def make_node(id: str,
                                    update_date,
                                    CHEMBL_KB_CURIE_ID)
     node_dict['description'] = description
-    node_dict['synonym'] = synonyms
+    node_dict['synonym'] = synonym
     node_dict['publications'] = publications
     return node_dict
 
@@ -182,7 +182,8 @@ if __name__ == '__main__':
                  pubmed_id) in synonym_results:
                 if pref_name is None and compound_name is not None:
                     pref_name = compound_name
-                synonym_set.add(compound_name)
+                if compound_name is not None:
+                    synonym_set.add(compound_name)
                 if pubmed_id is not None:
                     publications_set.add(kg2_util.CURIE_PREFIX_PMID + ':' + str(pubmed_id))
                 if src_compound_id is not None and src_short_name is not None and src_short_name != "LITERATURE":
@@ -240,7 +241,7 @@ if __name__ == '__main__':
                               pref_name,
                               category_label,
                               description,
-                              synonyms,
+                              [],
                               [],
                               update_date)
         nodes.append(node_dict)

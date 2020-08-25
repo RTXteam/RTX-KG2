@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# install-docker.sh:  install Docker into an Ubuntu 18.04 system
+# install-docker-ubuntu18.sh:  install Docker into an Ubuntu 18.04 system
 # Copyright 2019 Stephen A. Ramsey <stephen.ramsey@oregonstate.edu>
 
 set -o nounset -o pipefail -o errexit

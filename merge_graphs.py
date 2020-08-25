@@ -35,7 +35,7 @@ if __name__ == '__main__':
     kg_file_names = args.kgFiles
     test_mode = args.test
     output_file_name = args.outputFile
-    kg_orphan_edges = {'edges': []}
+    kg_orphan_edges = {'nodes': [], 'edges': []}
     nodes = dict()
     rels = dict()
     for kg_file_name in kg_file_names:
@@ -88,6 +88,7 @@ if __name__ == '__main__':
         last_orphan_edges = len(kg_orphan_edges['edges'])
     kg = {'nodes': [node for node in nodes.values()],
           'edges': edges}
+    del nodes
     kg2_util.save_json(kg, output_file_name, test_mode)
     kg_file_orphan_edges = args.kgFileOrphanEdges
     if kg_file_orphan_edges is not None:
