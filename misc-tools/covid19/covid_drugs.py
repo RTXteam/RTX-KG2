@@ -2,6 +2,7 @@ import sys
 import os
 import re
 import pandas as pd
+import argparse
 from neo4j import GraphDatabase
 from typing import List, Dict
 
@@ -13,7 +14,7 @@ def get_args():
                                             about possible drugs to treat covid19. Contains functionality \
                                             to filter by FDA approval. Works with KG2 builds including drugbank nodes \
                                             (generally anything newer than 2020-07-25). Does not yet work with KG2C.')
-    arg_parser.add_argument('inputFile', type=str, help = "path to the approved_drugs.csvs file generated from drugbank_get_approved_drugs_and_ids.py")
+    arg_parser.add_argument('inputFile', type=str, help = "path to the approved_drugs.csv file generated from drugbank_get_approved_drugs_and_ids.py")
     arg_parser.add_argument('resultsDirectory', type=str, help= "path to direcotry to store result csvs")
     return arg_parser.parse_args()
 
@@ -58,7 +59,7 @@ def filter_by_fda_approval(result_ids: list, approved_drug_df: pd.DataFrame):
 
     print("Skipped", skipped,"drugs because of lack of equivalent ids")
 
-def ask(cypher_query:str, outputFilename:str):
+def ask(cypher_query:str, outputFilename:str, ):
     full_results = _run_cypher_query(cypher_query)
     ids = get_result_ids(full_results)
     result_ids = list(filter_by_fda_approval(ids, approved_drug_df))
@@ -67,12 +68,13 @@ def ask(cypher_query:str, outputFilename:str):
         result_df = pd.DataFrame(result_ids, columns=["DRUGBANK"])
         result_df = result_df.merge(approved_drug_df, how="left", on=["DRUGBANK"])
         result_df = result_df[["DRUGBANK", "name", "groups"]]
-        result_df.to_csv("./results/"+outputFilename, index=False)
+        result_df.to_csv(outputFilename, index=False)
     else:
         print("No FDA approved results for query.")
 
 
-approved_drug_df = pd.read_csv("./approved_ids.csv", sep=',')
+args = get_args()
+approved_drug_df = pd.read_csv(args.inputFile, sep=',')
 
 #add queries and result filenames here. make sure cypher querie returns d
 cypher_queries = {
@@ -87,6 +89,6 @@ cypher_queries = {
 
 for query, filename in cypher_queries.items():
     print("\n******generating", filename,"******")
-    ask(query, filename)
+    ask(query, args.resultsDirectory + filename)
 
 

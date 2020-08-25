@@ -1,87 +1,82 @@
 DRUGBANK,name,groups
-DB06817,Raltegravir,approved
-DB05521,Telaprevir,"approved,withdrawn"
-DB00709,Lamivudine,"approved,investigational"
-DB00701,Amprenavir,"approved,investigational"
-DB00705,Delavirdine,approved
-DB01610,Valganciclovir,"approved,investigational"
-DB01601,Lopinavir,approved
-DB00300,Tenofovir disoproxil,"approved,investigational"
-DB00369,Cidofovir,approved
+DB08864,Rilpivirine,approved
+DB01232,Saquinavir,"approved,investigational"
+DB01179,Podofilox,approved
 DB01264,Darunavir,approved
 DB01265,Telbivudine,"approved,investigational"
 DB01266,Sinecatechins,"approved,investigational,nutraceutical"
 DB06290,Simeprevir,approved
-DB01232,Saquinavir,"approved,investigational"
-DB01179,Podofilox,approved
+DB00110,Palivizumab,"approved,investigational"
 DB09102,Daclatasvir,"approved,investigational"
 DB09101,Elvitegravir,approved
 DB00787,Acyclovir,approved
-DB00718,Adefovir dipivoxil,"approved,investigational"
-DB09183,Dasabuvir,approved
+DB06817,Raltegravir,approved
+DB00709,Lamivudine,"approved,investigational"
+DB00701,Amprenavir,"approved,investigational"
+DB00705,Delavirdine,approved
 DB00879,Emtricitabine,"approved,investigational"
 DB09299,Tenofovir alafenamide,approved
 DB09297,Paritaprevir,"approved,investigational"
 DB09296,Ombitasvir,"approved,investigational"
-DB11586,Asunaprevir,"approved,investigational,withdrawn"
+DB00718,Adefovir dipivoxil,"approved,investigational"
+DB09183,Dasabuvir,approved
 DB11574,Elbasvir,approved
 DB11575,Grazoprevir,approved
 DB09274,Artesunate,"approved,investigational"
-DB11613,Velpatasvir,"approved,investigational"
 DB00811,Ribavirin,approved
+DB00503,Ritonavir,"approved,investigational"
+DB11613,Velpatasvir,"approved,investigational"
 DB04835,Maraviroc,"approved,investigational"
 DB00915,Amantadine,approved
 DB00943,Zalcitabine,"approved,investigational"
 DB00932,Tipranavir,"approved,investigational"
 DB00900,Didanosine,approved
 DB11799,Bictegravir,"approved,investigational"
+DB01610,Valganciclovir,"approved,investigational"
+DB01601,Lopinavir,approved
+DB00300,Tenofovir disoproxil,"approved,investigational"
+DB00426,Famciclovir,"approved,investigational"
+DB00478,Rimantadine,"approved,investigational"
+DB13156,Inosine pranobex,approved
 DB01048,Abacavir,"approved,investigational"
 DB01072,Atazanavir,"approved,investigational"
 DB01004,Ganciclovir,"approved,investigational"
-DB00625,Efavirenz,"approved,investigational"
-DB12698,Ibalizumab,"approved,investigational"
-DB09027,Ledipasvir,approved
-DB13156,Inosine pranobex,approved
-DB08873,Boceprevir,"approved,withdrawn"
-DB08864,Rilpivirine,approved
-DB00249,Idoxuridine,"approved,investigational"
-DB00238,Nevirapine,approved
 DB00008,Peginterferon alfa-2a,"approved,investigational"
 DB00022,Peginterferon alfa-2b,approved
 DB00011,Interferon alfa-n1,"approved,investigational"
 DB01319,Fosamprenavir,approved
-DB00503,Ritonavir,"approved,investigational"
-DB00110,Palivizumab,"approved,investigational"
-DB13421,Edoxudine,"approved,investigational,withdrawn"
+DB00249,Idoxuridine,"approved,investigational"
+DB00238,Nevirapine,approved
+DB00220,Nelfinavir,approved
+DB00224,Indinavir,approved
+DB08930,Dolutegravir,approved
+DB00198,Oseltamivir,approved
+DB08934,Sofosbuvir,approved
+DB00625,Efavirenz,"approved,investigational"
+DB12698,Ibalizumab,"approved,investigational"
+DB09027,Ledipasvir,approved
+DB00369,Cidofovir,approved
+DB12301,Doravirine,"approved,investigational"
 DB00109,Enfuvirtide,"approved,investigational"
 DB12070,Letermovir,"approved,investigational"
 DB12020,Tecovirimat,"approved,investigational"
 DB00069,Interferon alfacon-1,"approved,investigational"
 DB00060,Interferon beta-1a,"approved,investigational"
 DB12026,Voxilaprevir,"approved,investigational"
-DB00426,Famciclovir,"approved,investigational"
-DB00478,Rimantadine,"approved,investigational"
-DB00220,Nelfinavir,approved
-DB00224,Indinavir,approved
-DB08930,Dolutegravir,approved
-DB00198,Oseltamivir,approved
-DB08934,Sofosbuvir,approved
 DB00194,Vidarabine,"approved,investigational"
-DB12301,Doravirine,"approved,investigational"
-DB00299,Penciclovir,approved
-DB06414,Etravirine,approved
 DB00495,Zidovudine,approved
 DB00442,Entecavir,"approved,investigational"
 DB00432,Trifluridine,"approved,investigational"
+DB00299,Penciclovir,approved
+DB06414,Etravirine,approved
 DB00558,Zanamivir,"approved,investigational"
 DB13879,Glecaprevir,"approved,investigational"
 DB13878,Pibrentasvir,"approved,investigational"
 DB00577,Valaciclovir,"approved,investigational"
 DB06614,Peramivir,"approved,investigational"
 DB00529,Foscarnet,approved
+DB13997,Baloxavir marboxil,"approved,investigational"
 DB00649,Stavudine,"approved,investigational"
 DB00632,Docosanol,"approved,investigational"
-DB13997,Baloxavir marboxil,"approved,investigational"
-DB06759,Fomivirsen,"approved,investigational,withdrawn"
 DB03312,Brivudine,"approved,investigational"
 DB13288,Tromantadine,approved
