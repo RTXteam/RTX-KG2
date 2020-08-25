@@ -22,12 +22,14 @@ __status__ = 'Prototype'
 
 os.sys.path.append("..")
 
+
 def get_args():
     arg_parser = argparse.ArgumentParser(description='drugbank_get_approved_drugs_and_ids.py: \
                                          builds a csv file from Drugbank database,  \
                                          that contains approved drugs by name, drugbank id, \
                                          and all external ids noted by drugbank.')
-    arg_parser.add_argument('inputFile', type=str, help = "path to the drugbank.xml file")
+    arg_parser.add_argument('inputFile', type=str,
+                            help="path to the drugbank.xml file")
     arg_parser.add_argument('approvedDrugOutputFile', type=str)
     return arg_parser.parse_args()
 
@@ -86,6 +88,8 @@ def create_approved_drug_df(drugbank_dict):
     df = df[["DRUGBANK", "name", "groups"]]
     approved_df = df[df["groups"].astype("str").str.contains(
         "[,]approved|^approved", regex=True)]
+    approved_df = approved_df[~approved_df["groups"].astype(
+        "str").str.contains("withdrawn", regex=True)]  # remove withdrawn drugs
     return approved_df
 
 
@@ -97,10 +101,16 @@ def create_external_drug_ids_df(drugbank_dict):
 
 
 args = get_args()
+print("Loading drugbank.xml...")
 drugbank_dict = xml_to_drugbank_dict(args.inputFile)
 
+print("Filtering by approval...")
 approved_df = create_approved_drug_df(drugbank_dict)
+print("Geting equivalent IDs...")
 drug_ids_df = create_external_drug_ids_df(drugbank_dict)
 
-approved_ids_df = approved_df.merge(drug_ids_df, how="left", on=["DRUGBANK"]) # approved drugs with all external ids
+# approved drugs with all external ids
+approved_ids_df = approved_df.merge(drug_ids_df, how="left", on=["DRUGBANK"])
+print("Exporting to csv...")
 approved_ids_df.to_csv(args.approvedDrugOutputFile)
+print("Done.")
