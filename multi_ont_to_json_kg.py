@@ -682,7 +682,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         ret_dict[cui_curie] = cui_node_dict
                         node_dict_xrefs = node_dict['xrefs']
                         node_dict_xrefs.append(cui_curie)
-                        node_dict['xrefs'] = list(set(node_dict_xrefs))
+                        node_dict['xrefs'] = sorted(list(set(node_dict_xrefs)))
                     elif bpv_pred_curie == kg2_util.CURIE_ID_HGNC_ENTREZ_GENE_ID:
                         entrez_gene_id = bpv_val
                         entrez_node_dict = dict(node_dict)
@@ -692,7 +692,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         ret_dict[entrez_curie] = entrez_node_dict
                         node_dict_xrefs = node_dict['xrefs']
                         node_dict_xrefs.append(entrez_curie)
-                        node_dict['xrefs'] = list(set(node_dict_xrefs))
+                        node_dict['xrefs'] = sorted(list(set(node_dict_xrefs)))
             if node_curie_id in ret_dict:
                 if node_curie_id != provided_by:
                     node_dict = kg2_util.merge_two_dicts(ret_dict[node_curie_id],
@@ -982,7 +982,6 @@ def xref_as_a_publication(xref: str):
                 ret_xref = ret_xref.upper().replace("DOPT=ABSTRACT", "")
                 ret_xref = ret_xref.replace("TERM=", "").replace("/", "")
                 ret_xref = ret_xref.replace(",", "").replace("&", "").replace("?", "")
-                print(ret_xref)
                 break
 
     return ret_xref

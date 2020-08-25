@@ -489,9 +489,9 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                             first_element = set()
                         ret_dict[key] = list(first_element) + sorted(filter(None, list(set(value + stored_value) - first_element)))
                 elif type(value) == list and type(stored_value) == str:
-                    ret_dict[key] = list(set(value + [stored_value]))
+                    ret_dict[key] = sorted(list(set(value + [stored_value])))
                 elif type(value) == str and type(stored_value) == list:
-                    ret_dict[key] = list(set([value] + stored_value))
+                    ret_dict[key] = sorted(list(set([value] + stored_value)))
                 elif type(value) == dict and type(stored_value) == dict:
                     ret_dict[key] = merge_two_dicts(value, stored_value, biolink_depth_getter)
                 elif key == 'deprecated' and type(value) == bool:
