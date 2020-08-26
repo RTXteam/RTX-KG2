@@ -152,7 +152,7 @@ def make_edges(records: list, nodes_dict: dict):
     for node_id, node_dict in nodes_dict.items():
         xrefs = node_dict['xrefs']
         if xrefs is not None and len(xrefs) > 0:
-            for xref_curie in xrefs:
+            for xref_curie in sorted(list(xrefs)):
                 ret_list.append(kg2_util.make_edge_biolink(node_id,
                                                            xref_curie,
                                                            kg2_util.EDGE_LABEL_BIOLINK_PHYSICALLY_INTERACTS_WITH,
@@ -242,7 +242,7 @@ def make_nodes(records: list):
         assert type(publications) == list
         assert type(description) == str
         publications += [pub.replace('PubMed:', kg2_util.CURIE_PREFIX_PMID + ':') for pub in REGEX_PUBLICATIONS.findall(description)]
-        publications = list(set(publications))
+        publications = sorted(list(set(publications)))
         gene_names_str = record_dict.get('GN', None)
         gene_symbol = None
         if gene_names_str is not None:

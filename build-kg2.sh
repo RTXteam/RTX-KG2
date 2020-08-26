@@ -126,32 +126,36 @@ cd ${BUILD_DIR}
 
 mem_gb=`${CODE_DIR}/get-system-memory-gb.sh`
 
-if [[ "${build_flag}" == 'all' || "${build_flag}" == 'alltest' ]]
+if [[ "${build_flag}" == 'all' ]]
 then
 ## Build UMLS knowledge sources at TTL files:
     echo "running extract-umls.sh"
     bash -x ${CODE_DIR}/extract-umls.sh ${BUILD_DIR}
+    
 ## Extract UniprotKB
     echo "running extract-uniprotkb.sh"
     bash -x ${CODE_DIR}/extract-uniprotkb.sh ${uniprotkb_dat_file}
-## Extract SemMedDB to tuple-list JSON
-    echo "running extract-semmeddb.sh"
-    bash -x ${CODE_DIR}/extract-semmeddb.sh ${semmed_tuplelist_file} ${build_flag}
+    
 ## Extract Ensembl
     echo "running extract-ensembl.sh"
     bash -x ${CODE_DIR}/extract-ensembl.sh ${ensembl_source_json_file}
+    
 ## Extract ChEMBL
     echo "running extract-chembl.sh"
     bash -x ${CODE_DIR}/extract-chembl.sh ${chembl_mysql_dbname}
+    
 ## Extract UniChem chembl-to-chebi mappings
     echo "running extract-unichem.sh"
     bash -x ${CODE_DIR}/extract-unichem.sh ${unichem_output_tsv_file}
+    
 ## Extract NCBI Gene
     echo "running extract-ncbigene.sh"
     bash -x ${CODE_DIR}/extract-ncbigene.sh ${ncbi_tsv_gene_file}
+
 ## Extract DGIDB
     echo "running extract-dgidb.sh"
     bash -x ${CODE_DIR}/extract-dgidb.sh ${dgidb_dir}
+    
 ## Download REPODB
     echo "running download-repodb-csv.sh"
     bash -x ${CODE_DIR}/download-repodb-csv.sh ${repodb_dir}
@@ -171,6 +175,13 @@ then
 ## Extract GO Annotations
     echo "running extract-go-annotations.sh"
     bash -x ${CODE_DIR}/extract-go-annotations.sh ${go_annotation_input_file}
+fi
+
+if [[ "${build_flag}" == 'all' || "${build_flag}" == 'alltest' ]]
+then
+## Extract SemMedDB to tuple-list JSON
+    echo "running extract-semmeddb.sh"
+    bash -x ${CODE_DIR}/extract-semmeddb.sh ${semmed_tuplelist_file} ${build_flag}
 fi
 
 echo "running uniprotkb_dat_to_json.py"

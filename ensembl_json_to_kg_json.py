@@ -47,7 +47,7 @@ def make_node(ensembl_gene_id: str,
                                    category_label,
                                    update_date,
                                    ENSEMBL_KB_CURIE_ID)
-    node_dict['synonym'] = [gene_symbol] + list(set(other_synonyms))
+    node_dict['synonym'] = [gene_symbol] + sorted(list(set(other_synonyms)))
     return node_dict
 
 

@@ -248,7 +248,7 @@ if __name__ == '__main__':
 
     for rel_dict in out_graph['edges']:
         if len(rel_dict['publications']) > 1:
-            rel_dict['publications'] = list(set(rel_dict['publications']))
+            rel_dict['publications'] = sorted(list(set(rel_dict['publications'])))
 
     del rel_dict
 

@@ -60,7 +60,6 @@ if __name__ == '__main__':
     map_dict = kg2_util.make_uri_curie_mappers(curies_to_uri_file_name)
     [curie_to_uri_expander, uri_to_curie_shortener] = [map_dict['expand'], map_dict['contract']]
     graph = kg2_util.load_json(input_file_name)
-    edge_keys = set()
     new_edges = dict()
     relation_curies_not_in_config = set()
     record_of_relation_curie_occurrences = {relation_curie: False for relation_curie in
@@ -130,14 +129,14 @@ if __name__ == '__main__':
         edge_key = edge_dict['subject'] + ' /// ' + simplified_edge_label + ' /// ' + edge_dict['object']
         existing_edge = new_edges.get(edge_key, None)
         if existing_edge is not None:
-            existing_edge['provided_by'] = list(set(existing_edge['provided_by'] + edge_dict['provided_by']))
+            existing_edge['provided_by'] = sorted(list(set(existing_edge['provided_by'] + edge_dict['provided_by'])))
             existing_edge['publications'] += edge_dict['publications']
             existing_edge['publications_info'].update(edge_dict['publications_info'])
         else:
             new_edges[edge_key] = edge_dict
     del graph['edges']
     del nodes_dict
-    graph['edges'] = [edge_dict for edge_dict in new_edges.values()]
+    graph['edges'] = list(new_edges.values())
     del new_edges
     for relation_curie_not_in_config in relation_curies_not_in_config:
         if not relation_curie_not_in_config.startswith(kg2_util.CURIE_PREFIX_BIOLINK + ':'):
