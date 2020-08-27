@@ -477,8 +477,6 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                 node_definition = node_meta.get('definition', None)
                 if node_definition is not None:
                     node_description = node_definition['val']
-                    if node_description.lower().startswith('obsolete:') or node_description.lower().startswith('obsolete.'):
-                        continue
 
                     node_definition_xrefs = node_definition.get('xrefs', None)
                     if node_definition_xrefs is not None:
@@ -629,6 +627,14 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             # deal with node names that are ALLCAPS
             if node_name is not None and node_name.isupper():
                 node_name = kg2_util.allcaps_to_only_first_letter_capitalized(node_name)
+
+            if node_name is not None:
+                if node_name.lower().startswith('obsolete:'):
+                    continue
+
+            if node_description is not None:
+                if node_description.lower().startswith('obsolete:') or node_description.lower().startswith('obsolete.'):
+                    continue
 
             provided_by = ontology_curie_id
             if node_category_label == kg2_util.BIOLINK_CATEGORY_ATTRIBUTE:
