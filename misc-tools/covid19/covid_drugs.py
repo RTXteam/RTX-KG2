@@ -1,4 +1,3 @@
-from RTXConfiguration import RTXConfiguration
 import sys
 import os
 import re
@@ -7,8 +6,8 @@ import argparse
 from neo4j import GraphDatabase
 from typing import List, Dict
 
-sys.path.append(os.path.dirname(os.path.abspath(__file__)) +
-                "/../../../")  # code directory
+sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/../../../")  # code directory
+from RTXConfiguration import RTXConfiguration
 
 
 def get_args():
