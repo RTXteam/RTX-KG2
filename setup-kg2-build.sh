@@ -62,7 +62,8 @@ sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again p
 
 sudo apt-get install -y mysql-server \
      mysql-client \
-     libmysqlclient-dev
+     libmysqlclient-dev \
+     python3-mysqldb
 
 sudo service mysql start
 
@@ -90,7 +91,7 @@ chmod +x ${BUILD_DIR}/owltools
 
 
 ## setup AWS CLI
-if ! ${s3_cp_cmd} s3://${s3_bucket}/test-file-do-note-delete /tmp/; then
+if ! ${s3_cp_cmd} s3://${s3_bucket}/test-file-do-not-delete /tmp/; then
     aws configure
 else
     rm -f /tmp/test-file-do-not-delete
@@ -110,8 +111,8 @@ sudo make install
 sudo ldconfig
 
 # setup MySQL
-mysql_pwd=${mysql_password} mysql -u root -e "CREATE USER '${mysql_user}'@'localhost' IDENTIFIED BY '${mysql_password}'"
-mysql_pwd=${mysql_password} mysql -u root -e "GRANT ALL PRIVILEGES ON *.* to '${mysql_user}'@'localhost'"
+MYSQL_PWD=${mysql_password} mysql -u root -e "CREATE USER '${mysql_user}'@'localhost' IDENTIFIED BY '${mysql_password}'"
+MYSQL_PWD=${mysql_password} mysql -u root -e "GRANT ALL PRIVILEGES ON *.* to '${mysql_user}'@'localhost'"
 
 cat >${mysql_conf} <<EOF
 [client]

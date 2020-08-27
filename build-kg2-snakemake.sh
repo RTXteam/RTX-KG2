@@ -21,11 +21,11 @@ date
 
 build_flag=${1-""}
 
-if [[ "${build_flag}" == "test" ]]
+if [[ "${build_flag}" == "test" || "${build_flag}" == "alltest" ]]
 then
     # The test argument for bash scripts (ex. extract-semmeddb.sh test)
     test_flag="test"
-    # The test argument for file names (ex. kg2-owl-test.json)
+    # The test argument for file names (ex. kg2-ont-test.json)
     test_suffix="-test"
     # The test argument for python scripts (ex. python3 uniprotkb_dat_to_json.py --test)
     test_arg="--test"
@@ -41,7 +41,7 @@ semmed_output_file=${BUILD_DIR}/kg2-semmeddb${test_suffix}-edges.json
 uniprotkb_dat_file=${BUILD_DIR}/uniprotkb/uniprot_sprot.dat
 uniprotkb_output_file=${BUILD_DIR}/kg2-uniprotkb${test_suffix}.json
 
-output_file_base=kg2-owl${test_suffix}.json
+output_file_base=kg2-ont${test_suffix}.json
 output_file_full=${BUILD_DIR}/${output_file_base}
 
 output_file_orphan_edge=${BUILD_DIR}/kg2-orphans${test_suffix}-edges.json
@@ -116,6 +116,24 @@ version_file=${BUILD_DIR}/kg2-version.txt
 # -n: dry run REMOVE THIS LATER
 
 export PATH=$PATH:${BUILD_DIR}
+
+cat ${CODE_DIR}/Snakefile-finish > ${CODE_DIR}/Snakefile
+
+echo 'include: "Snakefile-pre-etl"' >> ${CODE_DIR}/Snakefile
+
+echo 'include: "Snakefile-conversion"' >> ${CODE_DIR}/Snakefile
+
+echo 'include: "Snakefile-post-etl"' >> ${CODE_DIR}/Snakefile
+
+if [[ "${build_flag}" == "all" || "${build_flag}" == "alltest" ]]
+then
+    echo 'include: "Snakefile-semmeddb-extraction"' >> ${CODE_DIR}/Snakefile
+fi
+
+if [[ "${build_flag}" == "all" ]]
+then
+    echo 'include: "Snakefile-extraction"' >> ${CODE_DIR}/Snakefile
+fi
 
 cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${CODE_DIR}/Snakefile \
      -F -j --config TEST_FLAG="${test_flag}" TEST_SUFFIX="${test_suffix}" \

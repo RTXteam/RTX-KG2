@@ -19,9 +19,8 @@ source ${config_dir}/master-config.shinc
 
 output_dir=${1:-${BUILD_DIR}}
 
-umls_ver=2018AB
-umls_file_base=${umls_ver}-full
-mmsys_dir=${umls_dir}/${umls_file_base}
+umls_ver=2020AA
+umls_file_base=${umls_ver}-metathesaurus
 umls2rdf_release=rtx-2.1
 umls2rdf_pkgname=umls2rdf-${umls2rdf_release}
 umls2rdf_dir=${umls_dir}/${umls2rdf_pkgname}
@@ -43,31 +42,10 @@ mkdir -p ${umls_dest_dir}
 ${s3_cp_cmd} s3://${s3_bucket}/umls-${umls_file_base}.zip ${umls_dir}/
 cp ${CODE_DIR}/umls-config.prop ${config_file}
 
-## unpack UMLS and MetamorphoSys zip archives
+## unpack UMLS zip archive
 unzip ${umls_dir}/umls-${umls_file_base}.zip -d ${umls_dir}/
-unzip ${umls_dir}/${umls_file_base}/mmsys.zip -d ${umls_dir}/${umls_file_base}
 
-## setup environment for running MetamorphoSys
-export METADIR=${umls_dir}
-export DESTDIR=${umls_dest_dir}
-export MMSYS_HOME=${umls_dir}/${umls_file_base}
-export CLASSPATH=${mmsys_dir}:${mmsys_dir}/lib/jpf-boot.jar
-export JAVA_HOME=${mmsys_dir}/jre/linux
-cd ${MMSYS_HOME}
-
-## this is a workaround for a strange runtime warning I was getting from apache log4j
-cp ${MMSYS_HOME}/etc/subset.log4j.properties ${MMSYS_HOME}/log4j.properties
-
-## estimate amount of system ram, in GB
-mem_gb=`${CODE_DIR}/get-system-memory-gb.sh`
-
-## export UMLS to Rich Release Format (RRF)
-${JAVA_HOME}/bin/java -Djava.awt.headless=true \
-                      -Djpf.boot.config=${MMSYS_HOME}/etc/subset.boot.properties \
-                      -Dinput.uri=${METADIR} \
-                      -Doutput.uri=${DESTDIR} \
-                      -Dmmsys.config.uri=${config_file} \
-                      -Xms300M -Xmx${mem_gb}G org.java.plugin.boot.Boot
+mv ${umls_dir}/2020AA/META/* ${umls_dest_dir} 
 
 mysql_user=`grep 'user = ' ${mysql_conf} | sed 's/user = //g'`
 mysql_password=`grep 'password = ' ${mysql_conf} | sed 's/password = //g'`
@@ -92,7 +70,9 @@ chmod +x ${umls_dest_dir}/populate_mysql_db_configured.sh
 
 cp ${umls_dest_dir}/mysql_tables.sql ${umls_dest_dir}/mysql_tables.sql-original
 cat ${umls_dest_dir}/mysql_tables.sql-original | sed 's/\\r\\n/\\n/g' > ${umls_dest_dir}/mysql_tables.sql
-cd ${umls_dest_dir} && ./populate_mysql_db_configured.sh
+sed -i "s/@LINE_TERMINATION@/'\n'/g" ${umls_dest_dir}/mysql_tables.sql
+cd ${umls_dest_dir}
+bash -x populate_mysql_db_configured.sh
 
 ## download and unpack the umls2rdf software
 ${curl_get} https://github.com/RTXteam/umls2rdf/archive/${umls2rdf_release}.tar.gz > ${umls2rdf_pkgname}.tar.gz
@@ -115,7 +95,7 @@ cd ${umls2rdf_dir}
 ${VENV_DIR}/bin/python3 umls2rdf.py
 
 ## verify the output files
-./checkOutputSyntax.sh  # uses "rapper" command from the "raptor" package
+./checkOutputSyntax.sh  ${output_dir} # uses "rapper" command from the "raptor" package
 
 date
 echo "================= finished extract-umls.sh ================="

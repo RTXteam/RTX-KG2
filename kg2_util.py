@@ -25,11 +25,13 @@ import math
 import ontobio
 import os
 import pathlib
+import pickle
 import pprint
 import prefixcommons
 import re
 import shutil
 import ssl
+import subprocess
 import sys
 import tempfile
 import time
@@ -131,6 +133,7 @@ BASE_URL_PATHWHIZ_NUCLEIC_ACID = 'https://pathbank.org/lims#/nucleic_acids/'
 BASE_URL_PATHWHIZ_COMPOUND = 'https://pathbank.org/lims#/compounds/'
 BASE_URL_PATHWHIZ_REACTION = 'https://pathbank.org/lims#/reactions/'
 BASE_URL_PATHWHIZ_BOUND = 'https://pathbank.org/lims#/bounds/'
+BASE_URL_PMID = "http://www.ncbi.nlm.nih.gov/pubmed/"
 BASE_URL_REPODB = 'http://apps.chiragjpgroup.org/repoDB'
 BASE_URL_RTX = 'http://rtx.ai/identifiers#'
 BASE_URL_RTX_KG1 = 'http://arax.rtx.ai/'
@@ -404,7 +407,7 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
             if value is not None and value != stored_value:
                 if type(value) == str and type(stored_value) == str:
                     if value.lower() != stored_value.lower():
-                        if key == 'update date':
+                        if key == 'update_date':
                             # Use the longer of the two update-date fields
                             #   NOTE: this is not ideal; better to have actual
                             #         dates (and not strings) so we can use the
@@ -417,10 +420,10 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                             log_message("warning:  for key: " + key + ", dropping second value: " + value + '; keeping first value: ' + stored_value,
                                         output_stream=sys.stderr)
                             ret_dict[key] = stored_value
-                        elif key == 'provided by':
+                        elif key == 'provided_by':
                             if value.endswith('/STY'):
                                 ret_dict[key] = value
-                        elif key == 'category label':
+                        elif key == 'category_label':
                             if biolink_depth_getter is not None:
                                 depth_x = biolink_depth_getter(convert_snake_case_to_camel_case(stored_value, uppercase_first_letter=True))
                                 depth_y = biolink_depth_getter(convert_snake_case_to_camel_case(value, uppercase_first_letter=True))
@@ -435,9 +438,9 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                                     if stored_value == 'named_thing':
                                         ret_dict[key] = value
                                     else:
-                                        log_message(message="inconsistent category label information; keeping original category label " + stored_value +
-                                                    " and discarding new category label " + value,
-                                                    ontology_name=str(x.get('provided by', 'provided_by=UNKNOWN')),
+                                        log_message(message="inconsistent category_label information; keeping original category_label " + stored_value +
+                                                    " and discarding new category_label " + value,
+                                                    ontology_name=str(x.get('provided_by', 'provided_by=UNKNOWN')),
                                                     node_curie_id=x.get('id', 'id=UNKNOWN'),
                                                     output_stream=sys.stderr)
                                 continue
@@ -460,11 +463,11 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                                     else:
                                         log_message(message="inconsistent category information; keeping original category " + stored_value +
                                                     " and discarding new category " + value,
-                                                    ontology_name=str(x.get('provided by', 'provided_by=UNKNOWN')),
+                                                    ontology_name=str(x.get('provided_by', 'provided_by=UNKNOWN')),
                                                     node_curie_id=x.get('id', 'id=UNKNOWN'),
                                                     output_stream=sys.stderr)
                                 continue
-                        elif key == 'name' or key == 'full name':
+                        elif key == 'name' or key == 'full_name':
                             if value.replace(' ', '_') != stored_value.replace(' ', '_'):
                                 stored_desc = ret_dict.get('description', None)
                                 new_desc = y.get('description', None)
@@ -484,18 +487,18 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                             first_element = {value[0]}
                         else:
                             first_element = set()
-                        ret_dict[key] = list(first_element) + sorted(list(set(value + stored_value) - first_element))
+                        ret_dict[key] = list(first_element) + sorted(filter(None, list(set(value + stored_value) - first_element)))
                 elif type(value) == list and type(stored_value) == str:
-                    ret_dict[key] = list(set(value + [stored_value]))
+                    ret_dict[key] = sorted(list(set(value + [stored_value])))
                 elif type(value) == str and type(stored_value) == list:
-                    ret_dict[key] = list(set([value] + stored_value))
+                    ret_dict[key] = sorted(list(set([value] + stored_value)))
                 elif type(value) == dict and type(stored_value) == dict:
                     ret_dict[key] = merge_two_dicts(value, stored_value, biolink_depth_getter)
                 elif key == 'deprecated' and type(value) == bool:
                     ret_dict[key] = True  # special case for deprecation; True always trumps False for this property
                 else:
                     log_message(message="invalid type for key: " + key,
-                                ontology_name=str(x.get('provided by', 'provided_by=UNKNOWN')),
+                                ontology_name=str(x.get('provided_by', 'provided_by=UNKNOWN')),
                                 node_curie_id=x.get('id', 'id=UNKNOWN'),
                                 output_stream=sys.stderr)
                     assert False
@@ -557,7 +560,7 @@ def convert_camel_case_to_snake_case(name: str):
 
 def convert_biolink_category_to_curie(biolink_category_label: str):
     if '_' in biolink_category_label:
-        raise ValueError("invalid category label: " + biolink_category_label)
+        raise ValueError("invalid category_label: " + biolink_category_label)
     return CURIE_PREFIX_BIOLINK + ':' + convert_space_case_to_camel_case(biolink_category_label)
 
 
@@ -572,29 +575,28 @@ def make_node(id: str,
     return {'id': id,
             'iri': iri,
             'name': name,
-            'full name': name,
+            'full_name': name,
             'category': convert_biolink_category_to_curie(category_label),
-            'category label': category_label.replace(' ', '_'),
+            'category_label': category_label.replace(' ', '_'),
             'description': None,
             'synonym': [],
             'publications': [],
-            'creation date': None,
-            'update date': update_date,
+            'creation_date': None,
+            'update_date': update_date,
             'deprecated': False,
-            'replaced by': None,
-            'provided by': provided_by}
+            'replaced_by': None,
+            'provided_by': provided_by}
 
 
 def make_edge_key(edge_dict: dict):
     return edge_dict['subject'] + '---' + \
            edge_dict['object'] + '---' + \
-           edge_dict['relation curie'] + '---' + \
-           edge_dict['provided by']
+           edge_dict['relation'] + '---' + \
+           edge_dict['provided_by']
 
 
 def make_edge(subject_id: str,
               object_id: str,
-              relation: str,
               relation_curie: str,
               predicate_label: str,
               provided_by: str,
@@ -602,19 +604,17 @@ def make_edge(subject_id: str,
 
     return {'subject': subject_id,
             'object': object_id,
-            'edge label': predicate_label,
-            'relation': relation,
-            'relation curie': relation_curie,
+            'edge_label': predicate_label,
+            'relation': relation_curie,
             'negated': False,
             'publications': [],
-            'publications info': {},
-            'update date': update_date,
-            'provided by': provided_by}
+            'publications_info': {},
+            'update_date': update_date,
+            'provided_by': provided_by}
 
 
-def predicate_label_to_iri_and_curie(predicate_label: str,
-                                     relation_curie_prefix: str,
-                                     relation_iri_prefix: str):
+def predicate_label_to_curie(predicate_label: str,
+                             relation_curie_prefix: str):
     predicate_label = predicate_label.replace(' ', '_')
     if ':' not in predicate_label:
         if relation_curie_prefix not in CURIE_PREFIXES_RELATIONS_USE_CAMELCASE:
@@ -623,8 +623,7 @@ def predicate_label_to_iri_and_curie(predicate_label: str,
             predicate_label_to_use = convert_snake_case_to_camel_case(predicate_label)
     else:
         predicate_label_to_use = predicate_label.replace(':', '_')
-    return [relation_iri_prefix + predicate_label_to_use,
-            relation_curie_prefix + ':' + predicate_label_to_use]
+    return relation_curie_prefix + ':' + predicate_label_to_use
 
 
 def make_edge_biolink(subject_curie_id: str,
@@ -632,12 +631,10 @@ def make_edge_biolink(subject_curie_id: str,
                       predicate_label: str,
                       provided_by_curie: str,
                       update_date: str):
-    [relation, relation_curie] = predicate_label_to_iri_and_curie(predicate_label,
-                                                                  CURIE_PREFIX_BIOLINK,
-                                                                  BASE_URL_BIOLINK_CONCEPTS)
+    relation_curie = predicate_label_to_curie(predicate_label,
+                                              CURIE_PREFIX_BIOLINK)
     rel = make_edge(subject_curie_id,
                     object_curie_id,
-                    relation,
                     relation_curie,
                     predicate_label,
                     provided_by_curie,
@@ -658,3 +655,49 @@ def is_a_valid_http_url(id: str) -> bool:
 def load_ontology_from_owl_or_json_file(ontology_file_name: str):
     ont_factory = ontobio.ontol_factory.OntologyFactory()
     return ont_factory.create(ontology_file_name, ignore_cache=True)
+
+
+# This function will load the ontology object from a pickle file (if it exists)
+# or it will create the ontology object by parsing the OWL-XML ontology file
+# NOTE: it seems that ontobio can't directly read a TTL file (at least, it is
+# not working for me), so we convert all input files (whether OWL or TTL) to
+# JSON and then load the JSON files using ontobio, for "simplicity". A second
+# reason why we load using JSON is because when it loads an OWL file, ontobio
+# does some internal caching that cannot be opted out of; it does not do this
+# caching if you load an ontology in JSON format.
+def make_ontology_from_local_file(file_name: str, save_pickle: bool = False):
+    file_name_without_ext = os.path.splitext(file_name)[0]
+    file_name_with_pickle_ext = file_name_without_ext + ".pickle"
+    if not os.path.isfile(file_name_with_pickle_ext) or save_pickle:
+        # the ontology hsa not been saved as a pickle file, so we need to load it from a text file
+        if not file_name.endswith('.json'):
+            temp_file_name = tempfile.mkstemp(prefix=TEMP_FILE_PREFIX + '-')[1] + '.json'
+            size = os.path.getsize(file_name)
+            log_message(message="Reading ontology file: " + file_name + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
+                        ontology_name=None)
+            cp = subprocess.run(['owltools', file_name, '-o', '-f', 'json', temp_file_name],
+                                check=True)
+            # robot commented out because it is giving a NullPointerException on umls-semantictypes.owl
+            # Once robot no longer gives a NullPointerException, we can use it like this:
+            #        cp = subprocess.run(['robot', 'convert', '--input', file_name, '--output', temp_file_name])
+            if cp.stdout is not None:
+                log_message(message="OWL convert result: " + cp.stdout, ontology_name=None, output_stream=sys.stdout)
+            if cp.stderr is not None:
+                log_message(message="OWL convert result: " + cp.stderr, ontology_name=None, output_stream=sys.stderr)
+            assert cp.returncode == 0
+            json_file = file_name_without_ext + ".json"
+            shutil.move(temp_file_name, json_file)
+        else:
+            json_file = file_name
+        size = os.path.getsize(json_file)
+        log_message(message="Reading ontology JSON file: " + json_file + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
+                    ontology_name=None)
+        assert os.path.exists(json_file)
+        ont_return = load_ontology_from_owl_or_json_file(json_file)
+        if save_pickle:
+            pickle.dump(ont_return, open(file_name_with_pickle_ext, 'wb'))
+    else:
+        size = os.path.getsize(file_name_with_pickle_ext)
+        log_message("Reading ontology file: " + file_name_with_pickle_ext + "; size: " + "{0:.2f}".format(size/1024) + " KiB", ontology_name=None)
+        ont_return = pickle.load(open(file_name_with_pickle_ext, "rb"))
+    return ont_return

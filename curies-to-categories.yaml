@@ -67,12 +67,12 @@ term-mappings:
     CHEBI:2709: chemical substance
     CHEBI:23888: drug
     CHEBI:24431: chemical substance
-    CHEBI:24432: functional association
+    CHEBI:24432: biological entity
     CHEBI:25212: metabolite
-    CHEBI:33232: functional association
+    CHEBI:33232: chemical substance
     CHEBI:33697: gene product
     CHEBI:36342: chemical substance
-    CHEBI:51086: functional association
+    CHEBI:51086: chemical substance
     CHEBI:78295: biological entity
     CHEBI:50906: biological process
     CL:0000000: anatomical entity

@@ -118,8 +118,6 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                     interaction = interaction.replace(' ', '_')
                     edge_dict = kg2_util.make_edge(subject_curie_id,
                                                    object_curie_id,
-                                                   DGIDB_BASE_IRI +
-                                                   kg2_util.convert_snake_case_to_camel_case(interaction),
                                                    DGIDB_CURIE_PREFIX + ':' + interaction,
                                                    interaction,
                                                    DGIDB_KB_CURIE,

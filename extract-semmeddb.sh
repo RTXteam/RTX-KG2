@@ -48,7 +48,7 @@ ${s3_cp_cmd} s3://${s3_bucket}/${semmed_sql_file}.gz ${semmed_dir}/
 	
 zcat ${semmed_dir}/${semmed_sql_file}.gz | mysql --defaults-extra-file=${mysql_conf} --database=${mysql_dbname}
 
-if [[ "${build_flag}" == "test" ]]
+if [[ "${build_flag}" == "test" || "${build_flag}" == 'alltest' ]]
 then
    test_arg=" --test"
 else

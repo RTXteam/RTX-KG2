@@ -10,7 +10,7 @@
 
 __author__ = 'Stephen Ramsey'
 __copyright__ = 'Oregon State University'
-__credits__ = ['Stephen Ramsey']
+__credits__ = ['Stephen Ramsey', 'Erica Wood']
 __license__ = 'MIT'
 __version__ = '0.1.0'
 __maintainer__ = ''
@@ -22,12 +22,8 @@ import argparse
 import kg2_util
 import ontobio
 import os.path
-import pickle
 import re
-import shutil
-import subprocess
 import sys
-import tempfile
 import urllib.parse
 import urllib.request
 from typing import Dict
@@ -62,54 +58,11 @@ def delete_ontobio_cachier_caches():
     kg2_util.purge("~/.cachier", ".prefixcommons*")
 
 
-# This function will load the ontology object from a pickle file (if it exists)
-# or it will create the ontology object by parsing the OWL-XML ontology file
-# NOTE: it seems that ontobio can't directly read a TTL file (at least, it is
-# not working for me), so we convert all input files (whether OWL or TTL) to
-# JSON and then load the JSON files using ontobio, for "simplicity". A second
-# reason why we load using JSON is because when it loads an OWL file, ontobio
-# does some internal caching that cannot be opted out of; it does not do this
-# caching if you load an ontology in JSON format.
-def make_ontology_from_local_file(file_name: str):
-    file_name_without_ext = os.path.splitext(file_name)[0]
-    file_name_with_pickle_ext = file_name_without_ext + ".pickle"
-    if not os.path.isfile(file_name_with_pickle_ext):
-        # the ontology hsa not been saved as a pickle file, so we need to load it from a text file
-        if not file_name.endswith('.json'):
-            temp_file_name = tempfile.mkstemp(prefix=kg2_util.TEMP_FILE_PREFIX + '-')[1] + '.json'
-            size = os.path.getsize(file_name)
-            kg2_util.log_message(message="Reading ontology file: " + file_name + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
-                                 ontology_name=None)
-            cp = subprocess.run(['owltools', file_name, '-o', '-f', 'json', temp_file_name],
-                                check=True)
-            # robot commented out because it is giving a NullPointerException on umls-semantictypes.owl
-            # Once robot no longer gives a NullPointerException, we can use it like this:
-            #        cp = subprocess.run(['robot', 'convert', '--input', file_name, '--output', temp_file_name])
-            if cp.stdout is not None:
-                kg2_util.log_message(message="OWL convert result: " + cp.stdout, ontology_name=None, output_stream=sys.stdout)
-            if cp.stderr is not None:
-                kg2_util.log_message(message="OWL convert result: " + cp.stderr, ontology_name=None, output_stream=sys.stderr)
-            assert cp.returncode == 0
-            json_file = file_name_without_ext + ".json"
-            shutil.move(temp_file_name, json_file)
-        else:
-            json_file = file_name
-        size = os.path.getsize(json_file)
-        kg2_util.log_message(message="Reading ontology JSON file: " + json_file + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
-                             ontology_name=None)
-        assert os.path.exists(json_file)
-        ont_return = kg2_util.load_ontology_from_owl_or_json_file(json_file)
-    else:
-        size = os.path.getsize(file_name_with_pickle_ext)
-        kg2_util.log_message("Reading ontology file: " + file_name_with_pickle_ext + "; size: " + "{0:.2f}".format(size/1024) + " KiB", ontology_name=None)
-        ont_return = pickle.load(open(file_name_with_pickle_ext, "rb"))
-    return ont_return
-
-
 def load_ont_file_return_ontology_and_metadata(file_name: str,
                                                download_url: str = None,
-                                               ontology_title: str = None):
-    ontology = make_ontology_from_local_file(file_name)
+                                               ontology_title: str = None,
+                                               save_pickle: bool = False):
+    ontology = kg2_util.make_ontology_from_local_file(file_name, save_pickle=save_pickle)
     file_last_modified_timestamp = kg2_util.format_timestamp(kg2_util.get_file_last_modified_timestamp(file_name))
     print("file: " + file_name + "; last modified: " + file_last_modified_timestamp)
     ont_version = ontology.meta.get('version', None)
@@ -164,7 +117,8 @@ def make_kg2(curies_to_categories: dict,
              curie_to_uri_expander: callable,
              ont_urls_and_files: tuple,
              output_file_name: str,
-             test_mode: bool = False):
+             test_mode: bool = False,
+             save_pickle: bool = False):
 
     ont_file_information_dict_list = []
 
@@ -177,10 +131,11 @@ def make_kg2(curies_to_categories: dict,
         else:
             local_file_name = ont_source_info_dict['file']
             assert os.path.exists(ont_source_info_dict['file']), local_file_name
-        # load the OWL file dadta into an ontobio.ontol.Ontology data structure and information dictionary
+        # load the OWL file data into an ontobio.ontol.Ontology data structure and information dictionary
         [ont, metadata_dict] = load_ont_file_return_ontology_and_metadata(local_file_name,
                                                                           ont_source_info_dict['url'],
-                                                                          ont_source_info_dict['title'])
+                                                                          ont_source_info_dict['title'],
+                                                                          save_pickle)
         metadata_dict['ontology'] = ont
         ont_file_information_dict_list.append(metadata_dict)
 
@@ -291,10 +246,11 @@ def get_biolink_category_for_node(ontology_node_id: str,
             else:
                 parent_nodes_different_prefix.add(parent_ontology_node_id)
             parent_nodes_ont_to_curie[parent_ontology_node_id] = parent_node_curie_id
+        candidate_categories = set()
         for parent_ontology_node_id in list(parent_nodes_same_prefix) + list(parent_nodes_different_prefix):
             parent_node_curie_id = parent_nodes_ont_to_curie[parent_ontology_node_id]
             try:
-                [ret_category,
+                [candidate_category,
                  ontology_node_id_of_node_with_category] = get_biolink_category_for_node(parent_ontology_node_id,
                                                                                          parent_node_curie_id,
                                                                                          ontology,
@@ -311,8 +267,26 @@ def get_biolink_category_for_node(ontology_node_id: str,
                                      node_curie_id=node_curie_id,
                                      output_stream=sys.stderr)
                 assert False
-            if ret_category is not None:
-                break
+            if candidate_category is not None:
+                candidate_categories.add(candidate_category)
+        if len(candidate_categories) == 1:
+            ret_category = next(iter(candidate_categories))
+        elif len(candidate_categories) > 1:
+            candidate_category_depths = {category: biolink_category_depths.get(kg2_util.convert_snake_case_to_camel_case(category.replace(' ', '_'),
+                                                                                                                         uppercase_first_letter=True), None) for
+                                         category in sorted(candidate_categories)}
+            keys_remove = {k for k, v in candidate_category_depths.items() if v is None}
+            for k in keys_remove:
+                kg2_util.log_message(message="unexpected None category depth for category " + k,
+                                     ontology_name=ontology.id,
+                                     node_curie_id=node_curie_id,
+                                     output_stream=sys.stderr)
+                del candidate_category_depths[k]
+#            candidate_category_depths = {k: v for k, v in candidate_category_depths.items() if v is not None}
+            if len(candidate_category_depths) > 0:
+                ret_category = max(candidate_category_depths, key=candidate_category_depths.get)
+            else:
+                assert ret_category is None
     if ret_category is None:
         if node_curie_id.startswith(kg2_util.CURIE_PREFIX_ENSEMBL + ':'):
             curie_suffix = node_curie_id.replace(kg2_util.CURIE_PREFIX_ENSEMBL + ':', '')
@@ -413,7 +387,6 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                            kg2_util.BIOLINK_CATEGORY_DATA_FILE,
                                            updated_date,
                                            ontology_curie_id)
-
         ontology_node['description'] = ontology_info_dict['description']
         ontology_node['ontology node ids'] = [iri_of_ontology]
         ontology_node['xrefs'] = []
@@ -467,9 +440,8 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             assert node_curie_id is not None
 
             if node_curie_id in ret_dict:
-                prev_provided_by = ret_dict[node_curie_id].get('provided by', None)
+                prev_provided_by = ret_dict[node_curie_id].get('provided_by', None)
                 if prev_provided_by is not None and node_curie_id == prev_provided_by:
-                    print("ISSUE 984 FIRST CHECK TRIGGERED FOR CURIE ID: " + node_curie_id)
                     continue  # issue 984
 
             curie_prefix = get_prefix_from_curie_id(node_curie_id)
@@ -505,7 +477,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                 node_definition = node_meta.get('definition', None)
                 if node_definition is not None:
                     node_description = node_definition['val']
-                    if node_description.startswith('OBSOLETE:') or node_description.startswith('Obsolete.'):
+                    if node_description.lower().startswith('obsolete:') or node_description.lower().startswith('obsolete.'):
                         continue
 
                     node_definition_xrefs = node_definition.get('xrefs', None)
@@ -628,7 +600,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                              output_stream=sys.stderr)
                 else:
                     if node_category_label is None:
-                        node_category_label = node_tui_category_label  # override the node category label if we have a TUI
+                        node_category_label = node_tui_category_label  # override the node category_label if we have a TUI
                 node_tui_category_curie = kg2_util.convert_biolink_category_to_curie(node_tui_category_label)
             ontology_curie_id = ontologies_iris_to_curies[iri_of_ontology]
             source_ontology_information = ret_dict.get(ontology_curie_id, None)
@@ -637,7 +609,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                      ontology_name=iri_of_ontology,
                                      output_stream=sys.stderr)
                 assert False
-            source_ontology_update_date = source_ontology_information['update date']
+            source_ontology_update_date = source_ontology_information['update_date']
             if node_update_date is None:
                 node_update_date = source_ontology_update_date
 
@@ -669,13 +641,13 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                            node_update_date,
                                            provided_by)
 
-            node_dict['full name'] = node_full_name
+            node_dict['full_name'] = node_full_name
             node_dict['description'] = node_description
-            node_dict['creation date'] = node_creation_date      # slot name is not biolink standard
+            node_dict['creation_date'] = node_creation_date      # slot name is not biolink standard
             node_dict['deprecated'] = node_deprecated            # slot name is not biolink standard
-            node_dict['replaced by'] = node_replaced_by_curie    # slot name is not biolink standard
+            node_dict['replaced_by'] = node_replaced_by_curie    # slot name is not biolink standard
             node_dict['ontology node ids'] = [ontology_node_id]  # slot name is not biolink standard
-            node_dict['xrefs'] = list(node_xrefs)                # slot name is not biolink standard
+            node_dict['xrefs'] = sorted(list(node_xrefs))        # slot name is not biolink standard
             node_dict['synonym'] = sorted(list(node_synonyms))   # slot name is not biolink standard
             node_dict['publications'] = sorted(list(node_publications))
 
@@ -698,9 +670,9 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         cui_node_dict['iri'] = cui_uri
                         cui_node_dict['synonym'] = []
                         cui_node_dict['category'] = node_tui_category_curie
-                        cui_node_dict['category label'] = node_tui_category_label.replace(' ', '_')
+                        cui_node_dict['category_label'] = node_tui_category_label.replace(' ', '_')
                         cui_node_dict['ontology node ids'] = []
-                        cui_node_dict['provided by'] = kg2_util.CURIE_ID_UMLS_SOURCE_CUI
+                        cui_node_dict['provided_by'] = kg2_util.CURIE_ID_UMLS_SOURCE_CUI
                         cui_node_dict['xrefs'] = []  # blanking the "xrefs" here is *vital* in order to avoid issue #395
                         cui_node_dict_existing = ret_dict.get(cui_curie, None)
                         if cui_node_dict_existing is not None:
@@ -710,7 +682,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         ret_dict[cui_curie] = cui_node_dict
                         node_dict_xrefs = node_dict['xrefs']
                         node_dict_xrefs.append(cui_curie)
-                        node_dict['xrefs'] = list(set(node_dict_xrefs))
+                        node_dict['xrefs'] = sorted(list(set(node_dict_xrefs)))
                     elif bpv_pred_curie == kg2_util.CURIE_ID_HGNC_ENTREZ_GENE_ID:
                         entrez_gene_id = bpv_val
                         entrez_node_dict = dict(node_dict)
@@ -720,7 +692,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         ret_dict[entrez_curie] = entrez_node_dict
                         node_dict_xrefs = node_dict['xrefs']
                         node_dict_xrefs.append(entrez_curie)
-                        node_dict['xrefs'] = list(set(node_dict_xrefs))
+                        node_dict['xrefs'] = sorted(list(set(node_dict_xrefs)))
             if node_curie_id in ret_dict:
                 if node_curie_id != provided_by:
                     node_dict = kg2_util.merge_two_dicts(ret_dict[node_curie_id],
@@ -752,7 +724,7 @@ def get_rels_dict(nodes: dict,
 
             ontology_node = nodes.get(ontology_curie_id, None)
             if ontology_node is not None:
-                ontology_update_date = ontology_node['update date']
+                ontology_update_date = ontology_node['update_date']
 
             if subject_id == OWL_BASE_CLASS or object_id == OWL_BASE_CLASS:
                 continue
@@ -868,7 +840,6 @@ def get_rels_dict(nodes: dict,
             if rels_dict.get(rel_key, None) is None:
                 edge = kg2_util.make_edge(subject_curie_id,
                                           object_curie_id,
-                                          predicate_iri,
                                           predicate_curie,
                                           predicate_label,
                                           ontology_curie_id,
@@ -879,12 +850,11 @@ def get_rels_dict(nodes: dict,
             if xrefs is not None:
                 for xref_node_id in xrefs:
                     if xref_node_id in nodes and node_id != xref_node_id:
-                        provided_by = nodes[node_id]['provided by']
+                        provided_by = nodes[node_id]['provided_by']
                         key = make_rel_key(node_id, CURIE_OBO_XREF, xref_node_id, provided_by)
                         if rels_dict.get(key, None) is None:
                             edge = kg2_util.make_edge(node_id,
                                                       xref_node_id,
-                                                      IRI_OBO_XREF,
                                                       CURIE_OBO_XREF,
                                                       'xref',
                                                       provided_by,
@@ -990,10 +960,30 @@ def make_map_of_node_ontology_ids_to_curie_ids(nodes: dict):
 
 def xref_as_a_publication(xref: str):
     ret_xref = None
+    xref = xref.lower().strip("url:").strip()
+
+    pubmed_url_prefixes = ['https://pubmed.ncbi.nlm.nih.gov/',
+                           'http://www.ncbi.nlm.nih.gov/pubmed/',
+                           'https://www.ncbi.nlm.nih.gov/pubmed/',
+                           'http://www.ncbi.nlm.nih.gov/pubmed?term=',
+                           'http://www.pubmedcentral.nih.gov/articlerender.fcgi?tool=pubmed&pubmedid=',
+                           'http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=retrieve&db=pubmed&list_uids=',
+                           'http://www.ncbi.nlm.nih.gov:80/entrez/query.fcgi?cmd=retrieve&db=pubmed&list_uids=',
+                           None]
+
     if xref.upper().startswith(kg2_util.CURIE_PREFIX_PMID + ':') or xref.upper().startswith(kg2_util.CURIE_PREFIX_ISBN + ':'):
         ret_xref = xref.upper()
     elif kg2_util.is_a_valid_http_url(xref):
-        ret_xref = xref
+        for pubmed_url_prefix in pubmed_url_prefixes:
+            if pubmed_url_prefix is None:
+                ret_xref = xref
+            elif xref.startswith(pubmed_url_prefix):
+                ret_xref = kg2_util.CURIE_PREFIX_PMID + ':' + xref.replace(pubmed_url_prefix, "")
+                ret_xref = ret_xref.upper().replace("DOPT=ABSTRACT", "")
+                ret_xref = ret_xref.replace("TERM=", "").replace("/", "")
+                ret_xref = ret_xref.replace(",", "").replace("&", "").replace("?", "")
+                break
+
     return ret_xref
 
 
@@ -1021,6 +1011,7 @@ def make_convert_bpv_predicate_to_curie(uri_shortener: callable,
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='multi_ont_to_json_kg.py: builds the KG2 knowledge graph for the RTX system')
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
+    arg_parser.add_argument('--savePickle', dest='save_pickle', action="store_true", default=False)
     arg_parser.add_argument('categoriesFile', type=str)
     arg_parser.add_argument('curiesToURIFile', type=str)
     arg_parser.add_argument('ontLoadInventoryFile', type=str)
@@ -1037,6 +1028,7 @@ if __name__ == '__main__':
     curies_to_uri_file_name = args.curiesToURIFile
     ont_load_inventory_file = args.ontLoadInventoryFile
     output_file = args.outputFile
+    save_pickle = args.save_pickle
     test_mode = args.test
     curies_to_categories = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_categories_file_name))
     map_dict = kg2_util.make_uri_curie_mappers(curies_to_uri_file_name)
@@ -1049,4 +1041,5 @@ if __name__ == '__main__':
              curie_to_uri_expander,
              ont_urls_and_files,
              output_file,
-             test_mode)
+             test_mode,
+             save_pickle)

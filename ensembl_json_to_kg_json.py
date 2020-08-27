@@ -47,7 +47,7 @@ def make_node(ensembl_gene_id: str,
                                    category_label,
                                    update_date,
                                    ENSEMBL_KB_CURIE_ID)
-    node_dict['synonym'] = [gene_symbol] + list(set(other_synonyms))
+    node_dict['synonym'] = [gene_symbol] + sorted(list(set(other_synonyms)))
     return node_dict
 
 
@@ -98,7 +98,6 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
             for hgnc_curie in hgnc_list:
                 edges.append(kg2_util.make_edge(ensembl_gene_curie_id,
                                                 hgnc_curie,
-                                                kg2_util.IRI_OWL_SAME_AS,
                                                 kg2_util.CURIE_ID_OWL_SAME_AS,
                                                 kg2_util.EDGE_LABEL_OWL_SAME_AS,
                                                 ENSEMBL_KB_CURIE_ID,
