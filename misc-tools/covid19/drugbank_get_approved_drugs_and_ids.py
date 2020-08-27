@@ -97,6 +97,10 @@ def create_external_drug_ids_df(drugbank_dict):
     all_drug_ids = [get_external_ids(dict(d))
                     for d in drugbank_dict["drugbank"]["drug"]]
     df = pd.DataFrame(all_drug_ids)
+    external_id_name_map = { # change column name to match the first part of the colon separated node id
+        "GUIDE TO PHARMACOLOGY": "GTPI",
+    }
+    df.rename(external_id_name_map, axis=1)
     return df
 
 
@@ -112,5 +116,5 @@ drug_ids_df = create_external_drug_ids_df(drugbank_dict)
 # approved drugs with all external ids
 approved_ids_df = approved_df.merge(drug_ids_df, how="left", on=["DRUGBANK"])
 print("Exporting to csv...")
-approved_ids_df.to_csv(args.approvedDrugOutputFile)
+approved_ids_df.to_csv(args.approvedDrugOutputFile, index=False)
 print("Done.")
