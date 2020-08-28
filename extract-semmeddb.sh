@@ -29,7 +29,6 @@ semmed_output_dir=`dirname "${semmed_output_file}"`
 semmed_sql_file=semmed${semmed_ver}_${semmed_year}_R_WHOLEDB.sql
 mysql_dbname=semmeddb
 
-rm -r -f ${semmed_dir}
 mkdir -p ${semmed_dir}
 mkdir -p ${semmed_output_dir}
 
