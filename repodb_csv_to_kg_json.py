@@ -3,7 +3,7 @@
    Usage: repodb_csv_to_kg_json.py [--test] <inputFile.tsv> <outputFile.json>
 '''
 
-__author__ = ''
+__author__ = 'Finn Womack'
 __copyright__ = 'Oregon State University'
 __credits__ = []
 __license__ = 'MIT'
@@ -14,14 +14,15 @@ __status__ = 'Prototype'
 
 import argparse
 import kg2_util
+import os
 import pandas as pd
 
-DRUGBANK_CURIE = "DRUGBANK:"
-UMLS_CURIE = "CUI:"
-CLINICALTRIALS_IRI = "https://clinicaltrials.gov/ct2/show/"
-REPODB_IRI = "http://apps.chiragjpgroup.org/repoDB/"
-REPODB_CURIE = "REPODB:"
-NCT_CUTRIE = "clinicaltrials:"
+DRUGBANK_CURIE = kg2_util.CURIE_PREFIX_DRUGBANK
+UMLS_CURIE = kg2_util.CURIE_PREFIX_UMLS
+REPODB_IRI = kg2_util.BASE_URL_REPODB
+REPODB_CURIE = kg2_util.CURIE_PREFIX_REPODB
+NCT_CURIE = kg2_util.CURIE_PREFIX_CLINICALTRIALS
+CLINICALTRIALS_IRI = kg2_util.BASE_URL_CLINICALTRIALS
 
 
 def get_args():
@@ -33,7 +34,13 @@ def get_args():
 
 
 def make_kg2_graph(input_file_name: str, test_mode: bool = False):
-    nodes = []
+    update_date = os.path.getmtime(input_file_name)
+    nodes = [kg2_util.make_node(id=REPODB_CURIE + ':',
+                                iri=REPODB_IRI,
+                                name='repoDB drug repositioning database',
+                                category_label=kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                                update_date=update_date,
+                                provided_by=REPODB_CURIE + ':')]
     edges = []
     df = pd.read_csv(input_file_name)
     for idx in range(len(df)):
@@ -42,23 +49,23 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
         else:
             status = "unknown_status"
         if not df['phase'].isna()[idx]:
-            phase = df['phase'][idx].lower().replace(" ", "_").replace("/","_or_")
+            phase = df['phase'][idx].lower().replace(" ", "_").replace("/", "_or_")
         else:
             phase = "unknown_phase"
         relation = "clinically_tested_" + status + "_" + phase
-        edge_dict = kg2_util.make_edge(subject_id = DRUGBANK_CURIE + df['drug_id'][idx],
-              object_id = UMLS_CURIE + df['ind_id'][idx],
-              relation = REPODB_IRI + '#' + kg2_util.convert_snake_case_to_camel_case(relation),
-              relation_curie = REPODB_CURIE + relation,
-              predicate_label = relation,
-              provided_by = REPODB_IRI,
-              update_date = None)
+        edge_dict = kg2_util.make_edge(subject_id=DRUGBANK_CURIE + ':' + df['drug_id'][idx],
+                                       object_id=UMLS_CURIE + ':' + df['ind_id'][idx],
+                                       relation_curie=REPODB_CURIE + ':' + relation,
+                                       predicate_label=relation,
+                                       provided_by=REPODB_CURIE + ':',
+                                       update_date=None)
         if not df['NCT'].isna()[idx]:
-            edge_dict['publications'].append(NCT_CUTRIE + df['NCT'][idx])
-            edge_dict['publications info'][NCT_CUTRIE + df['NCT'][idx]] = CLINICALTRIALS_IRI + df['NCT'][idx]
+            edge_dict['publications'].append(NCT_CURIE + df['NCT'][idx])
+            edge_dict['publications_info'][NCT_CURIE + df['NCT'][idx]] = CLINICALTRIALS_IRI + df['NCT'][idx]
         edges.append(edge_dict)
     return {'nodes': nodes,
             'edges': edges}
+
 
 if __name__ == '__main__':
     args = get_args()
@@ -67,5 +74,3 @@ if __name__ == '__main__':
     test_mode = args.test
     graph = make_kg2_graph(input_file_name, test_mode)
     kg2_util.save_json(graph, output_file_name, test_mode)
-
-

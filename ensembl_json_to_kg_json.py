@@ -17,25 +17,10 @@ import argparse
 import kg2_util
 
 
-ENSEMBL_BASE_IRI = 'http://ensembl.org/Homo_sapiens/Gene/Summary?db=core;g='
-ENSEMBL_KB_IRI = 'http://ensembl.org/Homo_sapiens/Gene'
-ENSEMBL_RELATION_CURIE_PREFIX = 'ENSEMBL'
-
-def make_edge(subject_curie_id: str,
-              object_curie_id: str,
-              predicate_label: str,
-              update_date: str):
-    [relation, relation_curie] = kg2_util.predicate_label_to_iri_and_curie(predicate_label,
-                                                                           ENSEMBL_RELATION_CURIE_PREFIX,
-                                                                           ENSEMBL_KB_IRI)
-    rel = kg2_util.make_edge(subject_curie_id,
-                             object_curie_id,
-                             relation,
-                             relation_curie,
-                             predicate_label,
-                             ENSEMBL_KB_IRI,
-                             update_date)
-    return rel
+ENSEMBL_BASE_IRI = kg2_util.BASE_URL_ENSEMBL
+ENSEMBL_RELATION_CURIE_PREFIX = kg2_util.CURIE_PREFIX_ENSEMBL
+ENSEMBL_KB_CURIE_ID = kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY + ':' + 'ensembl'
+ENSEMBL_KB_URI = kg2_util.BASE_URL_IDENTIFIERS_ORG_REGISTRY + "ensembl"
 
 
 def get_args():
@@ -51,7 +36,7 @@ def make_node(ensembl_gene_id: str,
               gene_symbol: str,
               update_date: str,
               other_synonyms: list = None):
-    category_label = 'gene'
+    category_label = kg2_util.BIOLINK_CATEGORY_GENE
     if other_synonyms is None:
         other_synonyms = []
     node_curie = kg2_util.CURIE_PREFIX_ENSEMBL + ':' + ensembl_gene_id
@@ -61,8 +46,8 @@ def make_node(ensembl_gene_id: str,
                                    description,
                                    category_label,
                                    update_date,
-                                   ENSEMBL_KB_IRI)
-    node_dict['synonym'] = [gene_symbol] + list(set(other_synonyms))
+                                   ENSEMBL_KB_CURIE_ID)
+    node_dict['synonym'] = [gene_symbol] + sorted(list(set(other_synonyms)))
     return node_dict
 
 
@@ -73,6 +58,16 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
     genebuild_str = ensembl_data['genebuild']
     update_date = genebuild_str.split('/')[1]
     gene_ctr = 0
+
+    ontology_curie_id = ENSEMBL_KB_CURIE_ID
+    ens_kp_node = kg2_util.make_node(ontology_curie_id,
+                                     ENSEMBL_KB_URI,
+                                     'Ensembl Genes',
+                                     kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                                     update_date,
+                                     ontology_curie_id)
+    nodes.append(ens_kp_node)
+
     for gene_dict in ensembl_data['genes']:
         gene_ctr += 1
         if test_mode and gene_ctr > 10000:
@@ -93,19 +88,19 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
         ensembl_gene_curie_id = node_dict['id']
         taxon_id_int = gene_dict.get('taxon_id', None)
         assert taxon_id_int == 9606, "unexpected taxon ID"
-        edges.append(make_edge(ensembl_gene_curie_id,
-                               'NCBITaxon:' + str(taxon_id_int),
-                               'gene_found_in_organism',
-                               update_date))
+        edges.append(kg2_util.make_edge_biolink(ensembl_gene_curie_id,
+                                                kg2_util.CURIE_PREFIX_NCBI_TAXON + ':' + str(taxon_id_int),
+                                                kg2_util.EDGE_LABEL_BIOLINK_IN_TAXON,
+                                                ENSEMBL_KB_CURIE_ID,
+                                                update_date))
         hgnc_list = gene_dict.get('HGNC', None)
         if hgnc_list is not None:
             for hgnc_curie in hgnc_list:
                 edges.append(kg2_util.make_edge(ensembl_gene_curie_id,
                                                 hgnc_curie,
-                                                kg2_util.IRI_OWL_SAME_AS,
-                                                kg2_util.CURIE_OWL_SAME_AS,
-                                                'equivalent_to',
-                                                ENSEMBL_KB_IRI,
+                                                kg2_util.CURIE_ID_OWL_SAME_AS,
+                                                kg2_util.EDGE_LABEL_OWL_SAME_AS,
+                                                ENSEMBL_KB_CURIE_ID,
                                                 update_date))
     return {'nodes': nodes,
             'edges': edges}

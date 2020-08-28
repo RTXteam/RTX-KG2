@@ -9,7 +9,7 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     exit 2
 fi
 
-echo "================= starting build-unichem.sh ================="
+echo "================= starting extract-dgidb.sh ================="
 date
 
 config_dir=`dirname "$0"`
@@ -20,10 +20,10 @@ dgidb_file=interactions.tsv
 
 mkdir -p ${dgidb_dir}
 
-${CURL_GET} http://www.dgidb.org/data/${dgidb_file} > /tmp/${dgidb_file}
-update_date=`${CURL_GET} http://www.dgidb.org/downloads | grep 'Last updated' | sed 's/Last updated //g'`
+${curl_get} http://www.dgidb.org/data/${dgidb_file} > /tmp/${dgidb_file}
+update_date=`${curl_get} http://www.dgidb.org/downloads | grep 'Last updated' | sed 's/Last updated //g'`
 echo "#${update_date}" > ${dgidb_dir}/${dgidb_file}
 cat /tmp/${dgidb_file} >> ${dgidb_dir}/${dgidb_file}
 
 date
-echo "================= script finished ================="
+echo "================= finished extract-dgidb.sh ================="

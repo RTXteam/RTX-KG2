@@ -1,0 +1,30 @@
+rule Finish:
+    input:
+        stats_original = config['REPORT_FILE_FULL'],
+        nodes_original = config['OUTPUT_NODES_FILE_FULL'],
+        stats_simplify = config['SIMPLIFIED_REPORT_FILE_FULL'],
+        nodes_simplify = config['SIMPLIFIED_OUTPUT_NODES_FILE_FULL'],
+        kg_original = config['FINAL_OUTPUT_FILE_FULL'],
+        kg_simplify = config['SIMPLIFIED_OUTPUT_FILE_FULL'],
+        orphan = config['OUTPUT_FILE_ORPHAN_EDGES'],
+        slim = config['SLIM_OUTPUT_FILE_FULL'],
+        placeholder = config['BUILD_DIR'] + "/tsv_placeholder.empty"
+    run:
+        shell("gzip -f {input.nodes_original}")
+        shell("gzip -f {input.nodes_simplify}")
+        shell("gzip -f {input.kg_original}")
+        shell("gzip -f {input.kg_simplify}")
+        shell("gzip -f {input.slim}")
+        shell("gzip -f {input.orphan}")
+        shell("tar -czvf " + config['KG2_TSV_TARBALL'] + " " + config['KG2_TSV_DIR'])
+
+#        shell(config['S3_CP_CMD'] + " {input.nodes_original}.gz s3://rtx-kg2-public")
+#        shell(config['S3_CP_CMD'] + " {input.nodes_simplify}.gz s3://rtx-kg2-public")
+#        shell(config['S3_CP_CMD'] + " {input.stats_original} s3://rtx-kg2-public")
+#        shell(config['S3_CP_CMD'] + " {input.kg_original}.gz s3://rtx-kg2")
+#        shell(config['S3_CP_CMD'] + " {input.kg_simplify}.gz s3://rtx-kg2")
+#        shell(config['S3_CP_CMD'] + " {input.slim}.gz s3://rtx-kg2-public")
+#        shell(config['S3_CP_CMD'] + " {input.stats_simplify} s3://rtx-kg2-public")
+#        shell(config['S3_CP_CMD'] + " {input.orphan}.gz s3://rtx-kg2-public")
+#        shell(config['S3_CP_CMD'] + " " + config['KG2_TSV_TARBALL'] + " s3://rtx-kg2-public")
+

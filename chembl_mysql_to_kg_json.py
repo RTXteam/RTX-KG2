@@ -18,37 +18,37 @@ import argparse
 import kg2_util
 import pymysql
 
-CHEMBL_CURIE_BASE_COMPOUND = 'CHEMBL.COMPOUND'
-CHEMBL_CURIE_BASE_TARGET = 'CHEMBL.TARGET'
-CHEMBL_CURIE_BASE_MECHANISM = 'CHEMBL.MECHANISM'
-CHEMBL_KB_IRI = 'https://www.ebi.ac.uk/chembl'
-CHEMBL_BASE_IRI_COMPOUND = 'https://www.ebi.ac.uk/chembl/compound/inspect'
-CHEMBL_BASE_IRI_TARGET = 'https://www.ebi.ac.uk/chembl/target_report_card/'
-CHEMBL_BASE_IRI_PREDICATE = 'https://www.ebi.ac.uk/chembl#'
+CHEMBL_CURIE_BASE_COMPOUND = kg2_util.CURIE_PREFIX_CHEMBL_COMPOUND
+CHEMBL_CURIE_BASE_TARGET = kg2_util.CURIE_PREFIX_CHEMBL_TARGET
+CHEMBL_CURIE_BASE_MECHANISM = kg2_util.CURIE_PREFIX_CHEMBL_MECHANISM
+CHEMBL_KB_CURIE_ID = kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY + ':' + 'chembl'
+CHEMBL_BASE_IRI_COMPOUND = kg2_util.BASE_URL_CHEMBL_COMPOUND
+CHEMBL_BASE_IRI_TARGET = kg2_util.BASE_URL_CHEMBL_TARGET
+CHEMBL_BASE_IRI_PREDICATE = kg2_util.BASE_URL_CHEMBL_MECHANISM
 
 ROW_LIMIT_TEST_MODE = 10000
 
 TARGET_TYPE_TO_CATEGORY = {
-    'CELL-LINE': 'cell type',
-    'CHIMERIC PROTEIN': 'protein',
-    'LIPID': 'lipid',
-    'MACROMOLECULE': 'biological molecular complex',
-    'METAL': 'element',
-    'NUCLEIC-ACID': 'nucleic acid',
-    'OLIGOSACCHARIDE': 'metabolite',
-    'ORGANISM': 'organism taxon',
-    'PHENOTYPE': 'phenotypic feature',
-    'PROTEIN COMPLEX': 'biological molecular complex',
-    'PROTEIN COMPLEX GROUP': 'biological molecular complex',
-    'PROTEIN FAMILY': 'protein family',
-    'PROTEIN NUCLEIC-ACID COMPLEX': 'biological molecular complex',
-    'PROTEIN-PROTEIN INTERACTION': 'protein',
-    'SELECTIVITY GROUP': 'protein family',
-    'SINGLE PROTEIN': 'protein',
-    'SMALL MOLECULE': 'chemical substance',
-    'SUBCELLULAR': 'cellular component',
-    'TISSUE': 'anatomical entity',
-    'UNKNOWN': 'biological molecule'
+    'CELL-LINE': kg2_util.BIOLINK_CATEGORY_CELL,
+    'CHIMERIC PROTEIN': kg2_util.BIOLINK_CATEGORY_PROTEIN,
+    'LIPID': kg2_util.BIOLINK_CATEGORY_MOLECULAR_ENTITY,
+    'MACROMOLECULE': kg2_util.BIOLINK_CATEGORY_MACROMOLECULAR_COMPLEX,
+    'METAL': kg2_util.BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE,
+    'NUCLEIC-ACID': kg2_util.BIOLINK_CATEGORY_MOLECULAR_ENTITY,
+    'OLIGOSACCHARIDE': kg2_util.BIOLINK_CATEGORY_METABOLITE,
+    'ORGANISM': kg2_util.BIOLINK_CATEGORY_ORGANISM_TAXON,
+    'PHENOTYPE': kg2_util.BIOLINK_CATEGORY_PHENOTYPIC_FEATURE,
+    'PROTEIN COMPLEX': kg2_util.BIOLINK_CATEGORY_MOLECULAR_ENTITY,
+    'PROTEIN COMPLEX GROUP': kg2_util.BIOLINK_CATEGORY_MOLECULAR_ENTITY,
+    'PROTEIN FAMILY': kg2_util.BIOLINK_CATEGORY_GENE_FAMILY,
+    'PROTEIN NUCLEIC-ACID COMPLEX': kg2_util.BIOLINK_CATEGORY_MOLECULAR_ENTITY,
+    'PROTEIN-PROTEIN INTERACTION': kg2_util.BIOLINK_CATEGORY_PROTEIN,
+    'SELECTIVITY GROUP': kg2_util.BIOLINK_CATEGORY_GENE_FAMILY,
+    'SINGLE PROTEIN': kg2_util.BIOLINK_CATEGORY_PROTEIN,
+    'SMALL MOLECULE': kg2_util.BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE,
+    'SUBCELLULAR': kg2_util.BIOLINK_CATEGORY_CELLULAR_COMPONENT,
+    'TISSUE': kg2_util.BIOLINK_CATEGORY_ANATOMICAL_ENTITY,
+    'UNKNOWN': kg2_util.BIOLINK_CATEGORY_MOLECULAR_ENTITY
 }
 
 
@@ -66,19 +66,16 @@ def make_edge(subject_id: str,
               predicate_label: str,
               update_date: str = None,
               publications: list = None):
-    relation = CHEMBL_BASE_IRI_PREDICATE + kg2_util.convert_snake_case_to_camel_case(predicate_label)
-    if publications is None:
-        publications = []
-    return {'subject': subject_id,
-            'object': object_id,
-            'edge label': predicate_label,
-            'relation': relation,
-            'relation curie': 'CHEMBL:' + predicate_label,
-            'negated': False,
-            'publications': publications,
-            'publications info': {},
-            'update date': update_date,
-            'provided by': CHEMBL_KB_IRI}
+    relation_curie = kg2_util.CURIE_PREFIX_CHEMBL_MECHANISM + ':' + predicate_label
+    edge = kg2_util.make_edge(subject_id,
+                              object_id,
+                              relation_curie,
+                              predicate_label,
+                              CHEMBL_KB_CURIE_ID,
+                              update_date)
+    edge['publications'] = [] if publications is None else publications
+    edge['publications_info'] = {}
+    return edge
 
 
 def make_node(id: str,
@@ -94,10 +91,10 @@ def make_node(id: str,
                                    name,
                                    category_label,
                                    update_date,
-                                   CHEMBL_KB_IRI)
+                                   CHEMBL_KB_CURIE_ID)
     node_dict['description'] = description
-    node_dict['synonym'] = synonyms
-    node_dict['publications'] = publications
+    node_dict['synonym'] = sorted(synonym)
+    node_dict['publications'] = sorted(publications)
     return node_dict
 
 
@@ -163,14 +160,14 @@ if __name__ == '__main__':
             synonyms.append(canonical_smiles)
 
         curie_id = 'CHEMBL.COMPOUND:' + chembl_id
-        category_label = 'chemical_substance'
+        category_label = kg2_util.BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE
 
         # query to get all synonyms and publications associated with the ChEMBL molecule
 
-        sql_synonyms = '''select distinct compound_name, src_short_name, src_compound_id, pubmed_id 
-                          from (compound_records natural join source) 
-                          left join docs on compound_records.doc_id = docs.doc_id 
-                          where molregno ='''
+        sql_synonyms = ('select distinct compound_name, src_short_name, src_compound_id, pubmed_id '
+                        'from (compound_records natural join source) '
+                        'left join docs on compound_records.doc_id = docs.doc_id '
+                        'where molregno =')
 
         sql_synonyms += str(molregno)
         publications = []
@@ -185,14 +182,16 @@ if __name__ == '__main__':
                  pubmed_id) in synonym_results:
                 if pref_name is None and compound_name is not None:
                     pref_name = compound_name
-                synonym_set.add(compound_name)
+                if compound_name is not None:
+                    synonym_set.add(compound_name)
                 if pubmed_id is not None:
-                    publications_set.add('PMID:' + str(pubmed_id))
+                    publications_set.add(kg2_util.CURIE_PREFIX_PMID + ':' + str(pubmed_id))
                 if src_compound_id is not None and src_short_name is not None and src_short_name != "LITERATURE":
                     synonym_set.add(src_short_name + ':' + src_compound_id)
         compound_synonyms = list(synonym_set)
         publications += list(publications_set)
         synonyms += compound_synonyms
+        synonyms = synonyms
         if pref_name is not None:
             description = pref_name
         else:
@@ -202,7 +201,7 @@ if __name__ == '__main__':
         if max_phase_int is not None:
             description += '; MAX_FDA_APPROVAL_PHASE: ' + str(max_phase_int)
         id = CHEMBL_CURIE_BASE_COMPOUND + ':' + chembl_id
-        iri = CHEMBL_BASE_IRI_COMPOUND + '/' + chembl_id
+        iri = CHEMBL_BASE_IRI_COMPOUND + chembl_id
         node_dict = make_node(id,
                               iri,
                               pref_name,
@@ -238,13 +237,12 @@ if __name__ == '__main__':
         category_label = TARGET_TYPE_TO_CATEGORY.get(target_type, None)
         if category_label is None:
             continue
-        category_label = category_label.replace(' ', '_')
         node_dict = make_node(curie_id,
                               CHEMBL_BASE_IRI_TARGET + chembl_id,
                               pref_name,
                               category_label,
                               description,
-                              synonyms,
+                              [],
                               [],
                               update_date)
         nodes.append(node_dict)
@@ -261,7 +259,7 @@ if __name__ == '__main__':
         if mechanism_of_action is not None:
             node_label = mechanism_of_action.lower().replace(' ', '_')
             node_curie_id = CHEMBL_CURIE_BASE_MECHANISM + ':' + node_label
-            category_label = 'mechanism_of_action'
+            category_label = kg2_util.BIOLINK_CATEGORY_RELATIONSHIP_TYPE
             node_dict = make_node(node_curie_id,
                                   CHEMBL_BASE_IRI_PREDICATE + node_label,
                                   mechanism_of_action,
@@ -281,23 +279,24 @@ if __name__ == '__main__':
     for (action_type, description, parent_type) in results:
         name = action_type.lower()
         predicate_label = name.replace(' ', '_')
-        curie_id = 'CHEMBL:' + predicate_label
-        category_label = 'semantic_type'
+        curie_id = kg2_util.CURIE_PREFIX_CHEMBL_MECHANISM + ':' + predicate_label
         node_dict = make_node(curie_id,
-                              CHEMBL_BASE_IRI_PREDICATE + chembl_id,
+                              CHEMBL_BASE_IRI_PREDICATE + predicate_label,
                               name,
-                              category_label,
+                              kg2_util.BIOLINK_CATEGORY_RELATIONSHIP_TYPE,
                               description,
                               [],
                               [],
                               update_date)
         nodes.append(node_dict)
         parent_label = parent_type.lower().replace(' ', '_')
-        parent_curie_id = 'CHEMBL:' + parent_label
-        edges.append(make_edge(curie_id,
-                               parent_curie_id,
-                               'subclass_of',
-                               update_date))
+        parent_curie_id = kg2_util.CURIE_PREFIX_CHEMBL_MECHANISM + ':' + parent_label
+        new_edge = kg2_util.make_edge_biolink(curie_id,
+                                              parent_curie_id,
+                                              kg2_util.EDGE_LABEL_BIOLINK_SUBCLASS_OF,
+                                              CHEMBL_KB_CURIE_ID,
+                                              update_date)
+        edges.append(new_edge)
 
 # get target-to-target subset_of relationships
 
@@ -317,8 +316,8 @@ if __name__ == '__main__':
     for (t1_chembl_id,
          relationship,
          t2_chembl_id) in results:
-        subject_curie_id = 'CHEMBL.TARGET:' + t1_chembl_id
-        object_curie_id = 'CHEMBL.TARGET:' + t2_chembl_id
+        subject_curie_id = kg2_util.CURIE_PREFIX_CHEMBL_TARGET + ':' + t1_chembl_id
+        object_curie_id = kg2_util.CURIE_PREFIX_CHEMBL_TARGET + ':' + t2_chembl_id
         predicate_label = relationship.lower().replace(' ', '_')
         edges.append(make_edge(subject_curie_id,
                                object_curie_id,
@@ -350,16 +349,17 @@ if __name__ == '__main__':
          accession,
          db_source,
          db_version) in results:
-        subject_curie_id = 'CHEMBL.TARGET:' + chembl_id
+        subject_curie_id = kg2_util.CURIE_PREFIX_CHEMBL_TARGET + ':' + chembl_id
         if component_type == 'PROTEIN':
-            object_curie_id = 'UniProtKB:' + accession
+            object_curie_id = kg2_util.CURIE_PREFIX_UNIPROT + ':' + accession
         elif component_type == 'RNA':
             object_curie_id = kg2_util.CURIE_PREFIX_ENSEMBL + ':' + accession
-        predicate_label = 'has_sequence'
-        edges.append(make_edge(subject_curie_id,
-                               object_curie_id,
-                               predicate_label,
-                               update_date))
+        edges.append(kg2_util.make_edge_biolink(subject_curie_id,
+                                                object_curie_id,
+                                                kg2_util.EDGE_LABEL_BIOLINK_PART_OF,
+                                                CHEMBL_KB_CURIE_ID,
+                                                update_date))
+
 
 # get drug-to-target edges and additional information about drugs (direct_interaction, has_role, etc.)
 
@@ -399,23 +399,23 @@ if __name__ == '__main__':
                                update_date,
                                publications))
         if direct_interaction is not None and direct_interaction == 1:
-            edges.append(make_edge(subject_curie_id,
-                                   object_curie_id,
-                                   'directly_interacts_with',
-                                   update_date))
+            edges.append(kg2_util.make_edge_biolink(subject_curie_id,
+                                                    object_curie_id,
+                                                    kg2_util.EDGE_LABEL_BIOLINK_PHYSICALLY_INTERACTS_WITH,
+                                                    CHEMBL_KB_CURIE_ID,
+                                                    update_date))
         if mechanism_of_action is not None:
             mech_label = mechanism_of_action.lower().replace(' ', '_')
             mech_curie_id = CHEMBL_CURIE_BASE_MECHANISM + ':' + mech_label
-            edges.append(make_edge(subject_curie_id,
-                                   mech_curie_id,
-                                   'has_role',
-                                   update_date))
+            edges.append(kg2_util.make_edge_biolink(subject_curie_id,
+                                                    mech_curie_id,
+                                                    kg2_util.EDGE_LABEL_BIOLINK_RELATED_TO,
+                                                    CHEMBL_KB_CURIE_ID,
+                                                    update_date))
 
 # get molecule-to-disease indications
 
-    sql = '''select md.chembl_id, di.mesh_id 
-             from molecule_dictionary as md 
-             inner join drug_indication as di on md.molregno = di.molregno'''
+    sql = '''select md.chembl_id, di.mesh_id from molecule_dictionary as md inner join drug_indication as di on md.molregno = di.molregno'''
     if test_mode:
         sql += str_sql_row_limit_test_mode
     with connection.cursor() as cursor:
@@ -423,13 +423,14 @@ if __name__ == '__main__':
         results = cursor.fetchall()
     for (chembl_id, mesh_id) in results:
         subject_curie_id = CHEMBL_CURIE_BASE_COMPOUND + ':' + chembl_id
-        object_curie_id = 'MESH:' + mesh_id
-        predicate_label = 'has_indication'
-        edges.append(make_edge(subject_curie_id,
-                               object_curie_id,
-                               predicate_label,
-                               update_date,
-                               []))
+        object_curie_id = kg2_util.CURIE_PREFIX_MESH + ':' + mesh_id
+        predicate_label = kg2_util.EDGE_LABEL_BIOLINK_TREATS
+        edges.append(kg2_util.make_edge_biolink(subject_curie_id,
+                                                object_curie_id,
+                                                predicate_label,
+                                                CHEMBL_KB_CURIE_ID,
+                                                update_date))
+
     kg2_util.save_json({'nodes': nodes, 'edges': edges},
                        output_file_name,
                        test_mode)

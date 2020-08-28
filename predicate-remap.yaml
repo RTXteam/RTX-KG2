@@ -1,2076 +1,4580 @@
-BFO:0000050: {keep: null}
+BFO:0000050:
+  rename:
+  - part_of
+  - biolink:part_of
 BFO:0000051:
-  invert: [part_of, 'BFO:0000050']
-BFO:0000054: {keep: null}
-BFO:0000055: {keep: null}
+  invert:
+  - part_of
+  - biolink:part_of
+BFO:0000054:
+  rename:
+  - related_to
+  - biolink:related_to
+BFO:0000055:
+  invert:
+  - part_of
+  - biolink:part_of
 BFO:0000056:
-  rename: [participates_in, 'RO:0000056']
+  rename:
+  - participates_in
+  - biolink:participates_in
 BFO:0000062:
-  invert: [precedes, 'BFO:0000063']
-BFO:0000063: {keep: null}
-BFO:0000066: {keep: null}
+  invert:
+  - precedes
+  - biolink:precedes
+BFO:0000063:
+  rename:
+  - precedes
+  - biolink:precedes
+BFO:0000066:
+  rename:
+  - occurs_in
+  - biolink:occurs_in
 BFO:0000067:
-  invert: [part_of, 'BFO:0000050']
+  invert:
+  - part_of
+  - biolink:part_of
 BFO:0000068:
-  rename: [existence_starts_during, 'RO:0002488']
+  rename:
+  - related_to
+  - biolink:related_to
 BFO:0000069:
-  rename: [existence_ends_during, 'RO:0002492']
+  rename:
+  - related_to
+  - biolink:related_to
 BFO:0000117:
-  invert: [part_of, 'BFO:0000050']
+  invert:
+  - part_of
+  - biolink:part_of
 BFO:0000167:
-  invert: [participates_in, 'RO:0000056']
-Biolink:encodes:
-  rename: [has_gene_product, 'Biolink:has_gene_product']
-RTXKG1:physically_interacts_with:
-  rename: [directly_interacts_with, 'Biolink:physically_interacts_with']
-RTXKG1:regulates_activity_of:
-  rename: [regulates, 'RO:0002211']
-RTXKG1:regulates_expression_of:
-  rename: [regulates_levels_of, 'RO:0002332']
-RTXKG1:subclass_of:
-  rename: [subclass_of, 'Biolink:subclass_of']
-RTXKG1:targets:
-  rename: [molecularly_interacts_with, 'RO:0002436']
+  invert:
+  - participates_in
+  - biolink:participates_in
 BSPO:0000096:
-  rename: [anterior_to, 'FMA:anterior_to']
+  rename:
+  - coexists_with
+  - biolink:coexists_with
 BSPO:0000097:
-  rename: [distal_to, 'FMA:distal_to']
-BSPO:0000098: {keep: null}
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0000098:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
 BSPO:0000099:
-  rename: [posterior_to, 'FMA:posterior_to']
+  rename:
+  - coexists_with
+  - biolink:coexists_with
 BSPO:0000100:
-  rename: [proximal_to, 'FMA:proximal_to']
-BSPO:0000102: {keep: null}
-BSPO:0000104: {keep: null}
-BSPO:0000107: {keep: null}
-BSPO:0000108: {keep: null}
-BSPO:0000110: {keep: null}
-BSPO:0000113: {keep: null}
-BSPO:0000120: {keep: null}
-BSPO:0000121: {keep: null}
-BSPO:0000122: {keep: null}
-BSPO:0000123: {keep: null}
-BSPO:0000124: {keep: null}
-BSPO:0000125: {keep: null}
-BSPO:0000126: {keep: null}
-BSPO:0001100: {keep: null}
-BSPO:0001101: {keep: null}
-BSPO:0001106: {keep: null}
-BSPO:0001107: {keep: null}
-BSPO:0001108: {keep: null}
-BSPO:0001113: {keep: null}
-BSPO:0001115: {keep: null}
-BSPO:0005001: {keep: null}
-BSPO:0015001: {keep: null}
-BSPO:0015002: {keep: null}
-BSPO:0015003: {keep: null}
-BSPO:0015005: {keep: null}
-BSPO:0015006: {keep: null}
-BSPO:0015007: {keep: null}
-BSPO:0015008: {keep: null}
-BSPO:0015009: {keep: null}
-BSPO:0015012: {keep: null}
-BSPO:0015014: {keep: null}
-BSPO:0015101: {keep: null}
-BSPO:0015102: {keep: null}
-BSPO:0015202: {keep: null}
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0000102:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0000104:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0000107:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0000108:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0000110:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0000113:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0000120:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0000121:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0000122:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0000123:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0000124:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0000125:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0000126:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0001100:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0001101:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0001106:
+  rename:
+  - part_of
+  - biolink:part_of
+BSPO:0001107:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0001108:
+  rename:
+  - part_of
+  - biolink:part_of
+BSPO:0001113:
+  rename:
+  - part_of
+  - biolink:part_of
+BSPO:0001115:
+  rename:
+  - part_of
+  - biolink:part_of
+BSPO:0005001:
+  rename:
+  - overlaps
+  - biolink:overlaps
+BSPO:0015001:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0015002:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0015003:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0015005:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0015006:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0015007:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0015008:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0015009:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0015012:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0015014:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0015101:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0015102:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0015202:
+  rename:
+  - located_in
+  - biolink:located_in
 BTO:develops_from:
-  invert: [develops_into, 'RO:0002203']
+  invert:
+  - related_to
+  - biolink:related_to
 BTO:related_to:
-  rename: [close_match, 'Biolink:related_to']
-CCC:actual_outcome_of: {delete: null}
-CCC:expected_outcome_of: {delete: null}
-CCC:has_actual_outcome:
-  rename: [has_attribute, 'Biolink:has_attribute']
-CCC:has_expected_outcome:
-  rename: [has_attribute, 'Biolink:has_attribute']
-CCC:modified_by: {delete: null}
-CCC:modifies:
-  rename: [affects, 'RO:0002264']
-CCS:SIB: {delete: null}
-CCS:has_multi_level_category:
-  rename: [has_attribute, 'Biolink:has_attribute']
-CCS:has_single_level_category:
-  rename: [has_attribute, 'Biolink:has_attribute']
-CDT:SIB: {delete: null}
+  rename:
+  - related_to
+  - biolink:related_to
 CHEBI:has_functional_parent:
-  rename: [derives_from, 'RO:0001000']
-CHEBI:has_parent_hydride: {keep: null}
-CHEBI:is_conjugate_acid_of: {delete: null}
-CHEBI:is_conjugate_base_of: {keep: null}
+  rename:
+  - derives_from
+  - biolink:derives_from
+CHEBI:has_parent_hydride:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+CHEBI:is_conjugate_acid_of:
+  rename:
+  - related_to
+  - biolink:related_to
+CHEBI:is_conjugate_base_of:
+  rename:
+  - related_to
+  - biolink:related_to
 CHEBI:is_enantiomer_of:
-  rename: [close_match, 'skos:closeMatch']
+  rename:
+  - close_match
+  - skos:closeMatch
 CHEBI:is_substituent_group_from:
-  rename: [part_of, 'BFO:0000050']
+  rename:
+  - part_of
+  - biolink:part_of
 CHEBI:is_tautomer_of:
-  rename: [close_match, 'skos:closeMatch']
-CHEMBL:activator:
-  rename: [activates, 'RO:0002450']
-CHEMBL:agonist: {keep: null}
-CHEMBL:allosteric_antagonist:
-  rename: [inhibits, 'RO:0002408']
-CHEMBL:antagonist: {keep: null}
-CHEMBL:antisense_inhibitor: {keep: null}
-CHEMBL:binding_agent: {keep: null}
-CHEMBL:blocker:
-  rename: [inhibits, 'RO:0002408']
-CHEMBL:chelating_agent: {keep: null}
-CHEMBL:cross-linking_agent: {keep: null}
-CHEMBL:degrader:
-  rename: [increases_degradation_of, 'Biolink:increases_degradation_of']
-CHEMBL:directly_interacts_with:
-  rename: [directly_interacts_with, 'Biolink:physically_interacts_with']
-CHEMBL:disrupting_agent:
-  rename: [disrupts, 'Biolink:disrupts']
-CHEMBL:equivalent_to:
-  rename: [equivalent_to, 'owl:equivalentClass']
-CHEMBL:has_role:
-  rename: [has_role, 'RO:0000087']
-CHEMBL:has_indication:
-  rename: [is_substance_that_treats, 'RO:0002606']
-CHEMBL:has_sequence:
-  rename: [has_biological_sequence, 'Biolink:has_biological_sequence']
-CHEMBL:hydrolytic_enzyme: {keep: null}
-CHEMBL:inhibitor:
-  rename: [inhibits, 'RO:0002449']
-CHEMBL:inverse_agonist: {keep: null}
-CHEMBL:modulator:
-  rename: [regulates, 'RO:0002211']
-CHEMBL:negative_allosteric_modulator:
-  rename: [negatively_regulates, 'Biolink:negatively_regulates']
-CHEMBL:negative_modulator:
-  rename: [negatively_regulates, 'Biolink:negatively_regulates']
-CHEMBL:opener: {keep: null}
-CHEMBL:other: {delete: null}
-CHEMBL:overlaps_with:
-  rename: [overlaps, 'RO:0002131']
-CHEMBL:oxidative_enzyme: {keep: null}
-CHEMBL:partial_agonist:
-  rename: [activates, 'RO:0002450']
-CHEMBL:positive_allosteric_modulator:
-  rename: [positively_regulates, 'Biolink:positively_regulates']
-CHEMBL:positive_modulator:
-  rename: [positively_regulates, 'Biolink:positively_regulates']
-CHEMBL:proteolytic_enzyme:
-  rename: [increases_degradation_of, 'Biolink:increases_degradation_of']
-CHEMBL:reducing_agent: {keep: null}
-CHEMBL:releasing_agent: {keep: null}
-CHEMBL:sequestering_agent: {keep: null}
-CHEMBL:stabiliser:
-  rename: [increases_stability_of, 'Biolink:increases_stability_of']
-CHEMBL:subclass_of:
-  rename: [subclass_of, 'Biolink:subclass_of']
-CHEMBL:subset_of:
-  rename: [subclass_of, 'Biolink:subclass_of']
-CHEMBL:substrate: {keep: null}
-CHEMBL:superset_of:
-  invert: [subclass_of, 'Biolink:subclass_of']
-CL:has_completed: {keep: null}
+  rename:
+  - close_match
+  - skos:closeMatch
+CHEMBL.MECHANISM:activator:
+  rename:
+  - positively_regulates
+  - biolink:positively_regulates
+CHEMBL.MECHANISM:agonist:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+CHEMBL.MECHANISM:allosteric_antagonist:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+CHEMBL.MECHANISM:antagonist:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+CHEMBL.MECHANISM:antisense_inhibitor:
+  rename:
+  - decreases_expression_of
+  - biolink:decreases_expression_of
+CHEMBL.MECHANISM:binding_agent:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+CHEMBL.MECHANISM:blocker:
+  rename:
+  - negatively_regulates
+  - biolink:negatively_regulates
+CHEMBL.MECHANISM:chelating_agent:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+CHEMBL.MECHANISM:cross-linking_agent:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+CHEMBL.MECHANISM:degrader:
+  rename:
+  - increases_degradation_of
+  - biolink:increases_degradation_of
+CHEMBL.MECHANISM:disrupting_agent:
+  rename:
+  - disrupts
+  - biolink:disrupts
+CHEMBL.MECHANISM:equivalent_to:
+  rename:
+  - same_as
+  - biolink:same_as
+CHEMBL.MECHANISM:hydrolytic_enzyme:
+  rename:
+  - increases_degradation_of
+  - biolink:increases_degradation_of
+CHEMBL.MECHANISM:inhibitor:
+  rename:
+  - negatively_regulates
+  - biolink:negatively_regulates
+CHEMBL.MECHANISM:inverse_agonist:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+CHEMBL.MECHANISM:modulator:
+  rename:
+  - regulates
+  - biolink:regulates
+CHEMBL.MECHANISM:negative_allosteric_modulator:
+  rename:
+  - negatively_regulates
+  - biolink:negatively_regulates
+CHEMBL.MECHANISM:negative_modulator:
+  rename:
+  - negatively_regulates
+  - biolink:negatively_regulates
+CHEMBL.MECHANISM:opener:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+CHEMBL.MECHANISM:other:
+  delete: null
+CHEMBL.MECHANISM:overlaps_with:
+  rename:
+  - overlaps
+  - biolink:overlaps
+CHEMBL.MECHANISM:oxidative_enzyme:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+CHEMBL.MECHANISM:partial_agonist:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+CHEMBL.MECHANISM:positive_allosteric_modulator:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+CHEMBL.MECHANISM:positive_modulator:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+CHEMBL.MECHANISM:proteolytic_enzyme:
+  rename:
+  - increases_degradation_of
+  - biolink:increases_degradation_of
+CHEMBL.MECHANISM:reducing_agent:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+CHEMBL.MECHANISM:releasing_agent:
+  rename:
+  - increases_expression_of
+  - biolink:increases_expression_of
+CHEMBL.MECHANISM:sequestering_agent:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+CHEMBL.MECHANISM:stabiliser:
+  rename:
+  - increases_stability_of
+  - biolink:increases_stability_of
+CHEMBL.MECHANISM:subset_of:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+CHEMBL.MECHANISM:substrate:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+CHEMBL.MECHANISM:superset_of:
+  invert:
+  - subclass_of
+  - biolink:subclass_of
+CL:has_completed:
+  rename:
+  - has_completed
+  - biolink:has_completed
 CL:has_high_plasma_membrane_amount:
-  rename: [expresses, 'Biolink:expresses']
+  rename:
+  - has_increased_amount
+  - biolink:has_increased_amount
 CL:has_low_plasma_membrane_amount:
-  rename: [expresses, 'Biolink:expresses']
-CL:has_not_completed: {keep: null}
-CL:lacks_part: {keep: null}
-CL:lacks_plasma_membrane_part: {delete: null}
-CPT:SIB: {delete: null}
-CPT:add_on_code_for: {delete: null}
-CPT:do_not_code_with: {delete: null}
+  rename:
+  - has_decreased_amount
+  - biolink:has_decreased_amount
+CL:has_not_completed:
+  rename:
+  - has_not_completed
+  - biolink:has_not_completed
+CL:lacks_part:
+  rename:
+  - lacks_part
+  - biolink:lacks_part
+CL:lacks_plasma_membrane_part:
+  rename:
+  - lacks_part
+  - biolink:lacks_part
+CPT:SIB:
+  delete: null
+CPT:add_on_code_for:
+  delete: null
+CPT:do_not_code_with:
+  delete: null
 CPT:has_add_on_code:
-  rename: [related_to, 'Biolink:related_to']
-CPT:has_panel_element: {delete: null}
+  rename:
+  - related_to
+  - biolink:related_to
+CPT:has_panel_element:
+  delete: null
 CPT:has_possibly_included_panel_element:
-  rename: [has_attribute, 'Biolink:has_attribute']
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+CPT:mapped_from:
+  delete: null
+CPT:mapped_to:
+  rename:
+  - related_to
+  - biolink:related_to
 CPT:panel_element_of:
-  rename: [part_of, 'BFO:0000050']
+  rename:
+  - part_of
+  - biolink:part_of
 CPT:panel_element_of_possibly_included:
-  rename: [part_of, 'BFO:0000050']
+  rename:
+  - part_of
+  - biolink:part_of
 DDANAT:develops_from:
-  invert: [develops_into, 'RO:0002203']
-DGIDB:activator:
-  rename: [activates, 'RO:0002450']
-DGIDB:affects:
-  rename: [affects, 'Biolink:affects']
-DGIDB:agonist:
-  rename: [agonist, 'CHEMBL:agonist']
-DGIDB:allosteric_modulator:
-  rename: [regulates, 'RO:0002211']
-DGIDB:antagonist:
-  rename: [antagonist, 'CHEMBL:antagonist']
-DGIDB:antibody:
-  rename: [molecularly_interacts_with, 'RO:0002436']
-DGIDB:antisense:
-  rename: [antisense, 'RTX:antisense']
-DGIDB:antisense_oligonucleotide:
-  rename: [antisense, 'RTX:antisense']
-DGIDB:binder:
-  rename: [directly_interacts_with, 'Biolink:physically_interacts_with']
-DGIDB:blocker:
-  rename: [inhibits, 'RO:0002408']
-DGIDB:channel_blocker:
-  rename: [inhibits, 'RO:0002408']
-DGIDB:cofactor:
-  rename: [activates, 'RO:0002450']
-DGIDB:gating_inhibitor:
-  rename: [inhibits, 'RO:0002408']
-DGIDB:inducer:
-  rename: [positively_regulates, 'Biolink:positively_regulates']
-DGIDB:inhibitor:
-  rename: [inhibits, 'RO:0002449']
-DGIDB:inhibitory_allosteric_modulator:
-  rename: [inhibits, 'RO:0002408']
-DGIDB:inverse_agonist:
-  rename: [inverse_agonist, 'CHEMBL:inverse_agonist']
-DGIDB:modulator:
-  rename: [regulates, 'RO:0002211']
-DGIDB:negative_modulator:
-  rename: [negatively_regulates, 'Biolink:negatively_regulates']
-DGIDB:partial_agonist:
-  rename: [activates, 'RO:0002450']
-DGIDB:positive_allosteric_modulator:
-  rename: [positively_regulates, 'Biolink:positively_regulates']
-DGIDB:stimulator:
-  rename: [activates, 'RO:0002450']
-DGIDB:vaccine:
-  rename: [inhibits, 'RO:0002408']
-DOID:derives_from:
-  rename: [derives_from, 'RO:0001000']
-DOID:has_symptom:
-  rename: [has_phenotype, 'Biolink:has_phenotype']
+  invert:
+  - related_to
+  - biolink:related_to
+DGIdb:activator:
+  rename:
+  - positively_regulates
+  - biolink:positively_regulates
+DGIdb:affects:
+  rename:
+  - affects
+  - biolink:affects
+DGIdb:agonist:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DGIdb:allosteric_modulator:
+  rename:
+  - affects_activity_of
+  - biolink:affects_activity_of
+DGIdb:antagonist:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DGIdb:antibody:
+  rename:
+  - molecularly_interacts_with
+  - biolink:molecularly_interacts_with
+DGIdb:antisense:
+  rename:
+  - decreases_expression_of
+  - biolink:decreases_expression_of
+DGIdb:antisense_oligonucleotide:
+  rename:
+  - decreases_expression_of
+  - biolink:decreases_expression_of
+DGIdb:binder:
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+DGIdb:blocker:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DGIdb:channel_blocker:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DGIdb:cofactor:
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+DGIdb:gating_inhibitor:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DGIdb:inducer:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DGIdb:inhibitor:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DGIdb:inhibitory_allosteric_modulator:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DGIdb:inverse_agonist:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DGIdb:modulator:
+  rename:
+  - affects_activity_of
+  - biolink:affects_activity_of
+DGIdb:negative_modulator:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DGIdb:partial_agonist:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DGIdb:positive_allosteric_modulator:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DGIdb:stimulator:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DGIdb:vaccine:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DRUGBANK:category:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+DRUGBANK:drug-interaction:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+DRUGBANK:external-identifier:
+  rename:
+  - same_as
+  - biolink:same_as
+DRUGBANK:pathway:
+  rename:
+  - affects
+  - biolink:affects
+DRUGBANK:target:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
 EFO:0000784:
-  rename: [affects, 'Biolink:affects']
+  rename:
+  - located_in
+  - biolink:located_in
 EFO:0001697:
-  invert: [has_unit, 'Biolink:has_unit']
+  invert:
+  - has_unit
+  - biolink:has_unit
 EFO:0006351:
-  rename: [related_to, 'Biolink:related_to']
+  rename:
+  - related_to
+  - biolink:related_to
 EFO:is_executed_in:
-  rename: [has_attribute, 'Biolink:has_attribute']
-ENSEMBL:gene_found_in_organism:
-  rename: [in_taxon, 'Biolink:in_taxon']
-ENVO:has_increased_levels_of:
-  rename: [related_to, 'Biolink:related_to']
-FMA:SIB: {delete: null}
-FMA:adheres_to: {keep: null}
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+ENVO:01001307:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:SIB:
+  delete: null
+FMA:adheres_to:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
 FMA:adjacent_to:
-  rename: [adjacent_to, 'RO:0002220']
-FMA:afferent_to: {keep: null}
-FMA:anatomical_entity_observed_in: {delete: null}
-FMA:anterior_to: {keep: null}
-FMA:anteroinferior_to: {keep: null}
-FMA:anterolateral_to: {keep: null}
-FMA:anteromedial_to: {keep: null}
-FMA:anterosuperior_to: {keep: null}
-FMA:arterial_supply_of: {keep: null}
-FMA:articulates_with: {keep: null}
-FMA:attaches_to: {keep: null}
-FMA:bounded_by: {keep: null}
-FMA:bounds: {keep: null}
-FMA:branch_of: {keep: null}
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:afferent_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:anatomical_entity_observed_in:
+  delete: null
+FMA:anterior_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:anteroinferior_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:anterolateral_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:anteromedial_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:anterosuperior_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:arterial_supply_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:articulates_with:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:attaches_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:bounded_by:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:bounds:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:branch_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
 FMA:connected_to:
-  rename: [connected_to, 'RO:0002170']
-FMA:connection_type_of: {keep: null}
-FMA:constitutional_part_of: {keep: null}
+  rename:
+  - related_to
+  - biolink:related_to
+FMA:connection_type_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:constitutional_part_of:
+  rename:
+  - part_of
+  - biolink:part_of
 FMA:contained_in:
-  rename: [part_of, 'BFO:0000050']
+  rename:
+  - part_of
+  - biolink:part_of
 FMA:contains:
-  invert: [part_of, 'BFO:0000050']
-FMA:continuation_branch_of: {keep: null}
-FMA:continuous_distally_with: {keep: null}
-FMA:continuous_proximally_with: {keep: null}
+  invert:
+  - part_of
+  - biolink:part_of
+FMA:continuation_branch_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:continuous_distally_with:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:continuous_proximally_with:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
 FMA:continuous_with:
-  rename: [continuous_with, 'RO:0002150']
-FMA:corresponds_to: {keep: null}
+  rename:
+  - related_to
+  - biolink:related_to
+FMA:corresponds_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
 FMA:derives:
-  invert: [derives_from, 'RO:0001000']
-FMA:derives_from: {keep: null}
-FMA:development_type_of: {keep: null}
-FMA:developmental_stage_of: {keep: null}
+  invert:
+  - derives_from
+  - biolink:derives_from
+FMA:derives_from:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:development_type_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:developmental_stage_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
 FMA:develops_from:
-  invert: [develops_into, 'RO:0002203']
+  invert:
+  - related_to
+  - biolink:related_to
 FMA:develops_into:
-  rename: [develops_into, 'RO:0002203']
-FMA:direct_cell_shape_of: {keep: null}
-FMA:direct_left_of: {keep: null}
-FMA:direct_right_of: {keep: null}
-FMA:distal_to: {keep: null}
-FMA:drains_into: {keep: null}
-FMA:efferent_to: {keep: null}
-FMA:external_to: {keep: null}
-FMA:formed_by: {keep: null}
-FMA:forms: {keep: null}
-FMA:full_grown_phenotype_of: {keep: null}
-FMA:fuses_with: {keep: null}
-FMA:fusion_of: {keep: null}
-FMA:germ_origin_of: {keep: null}
-FMA:has_adherent: {keep: null}
-FMA:has_arterial_supply: {keep: null}
-FMA:has_branch: {keep: null}
-FMA:has_connection_type: {keep: null}
-FMA:has_constitutional_part: {keep: null}
-FMA:has_continuation_branch: {keep: null}
-FMA:has_development_type: {keep: null}
-FMA:has_developmental_stage: {keep: null}
-FMA:has_direct_cell_shape: {keep: null}
-FMA:has_full_grown_phenotype: {keep: null}
-FMA:has_fusion: {keep: null}
-FMA:has_germ_origin: {keep: null}
-FMA:has_inherent_3d_shape: {keep: null}
-FMA:has_insertion: {keep: null}
+  rename:
+  - related_to
+  - biolink:related_to
+FMA:direct_cell_shape_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:direct_left_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:direct_right_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:distal_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:drains_into:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:efferent_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:external_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:formed_by:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:forms:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:full_grown_phenotype_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:fuses_with:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:fusion_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:germ_origin_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_adherent:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_arterial_supply:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_branch:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_connection_type:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_constitutional_part:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_continuation_branch:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_development_type:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_developmental_stage:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_direct_cell_shape:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_full_grown_phenotype:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_fusion:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_germ_origin:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_inherent_3d_shape:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_insertion:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
 FMA:has_location:
-  rename: [located_in, 'RO:0001025']
-FMA:has_lymphatic_drainage: {keep: null}
+  rename:
+  - located_in
+  - biolink:located_in
+FMA:has_lymphatic_drainage:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
 FMA:has_member:
-  invert: [part_of, 'BFO:0000050']
-FMA:has_nerve_supply: {keep: null}
-FMA:has_observed_anatomical_entity: {keep: null}
-FMA:has_origin: {keep: null}
+  invert:
+  - part_of
+  - biolink:part_of
+FMA:has_nerve_supply:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_observed_anatomical_entity:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_origin:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
 FMA:has_part:
-  invert: [part_of, 'BFO:0000050']
-FMA:has_primary_segmental_supply: {keep: null}
-FMA:has_projection: {keep: null}
-FMA:has_regional_part: {keep: null}
-FMA:has_related_developmental_entity: {keep: null}
-FMA:has_secondary_segmental_supply: {keep: null}
-FMA:has_segmental_composition: {keep: null}
-FMA:has_segmental_supply: {keep: null}
-FMA:has_tributary: {keep: null}
-FMA:has_venous_drainage: {keep: null}
-FMA:homonym_for: {delete: null}
-FMA:homonym_of: {keep: null}
-FMA:inferior_to: {keep: null}
-FMA:inferolateral_to: {keep: null}
-FMA:inferomedial_to: {keep: null}
-FMA:inherent_3d_shape_of: {keep: null}
-FMA:insertion_of: {keep: null}
-FMA:internal_to: {keep: null}
-FMA:lateral_to: {keep: null}
-FMA:left_lateral_to: {keep: null}
-FMA:left_medial_to: {keep: null}
+  invert:
+  - part_of
+  - biolink:part_of
+FMA:has_primary_segmental_supply:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_projection:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_regional_part:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_related_developmental_entity:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_secondary_segmental_supply:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_segmental_composition:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_segmental_supply:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_tributary:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_venous_drainage:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:homonym_for:
+  delete: null
+FMA:homonym_of:
+  rename:
+  - related_to
+  - biolink:related_to
+FMA:inferior_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:inferolateral_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:inferomedial_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:inherent_3d_shape_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:insertion_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:internal_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:lateral_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:left_lateral_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:left_medial_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
 FMA:location_of:
-  invert: [located_in, 'RO:0001025']
-FMA:lymphatic_drainage_of: {keep: null}
-FMA:matures_from: {keep: null}
-FMA:matures_into: {keep: null}
-FMA:medial_to: {keep: null}
+  invert:
+  - located_in
+  - biolink:located_in
+FMA:lymphatic_drainage_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:matures_from:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:matures_into:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:medial_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
 FMA:member_of:
-  rename: [member_of, 'RO:0002350']
-FMA:merges_with: {keep: null}
-FMA:nerve_supply_of: {keep: null}
-FMA:origin_of: {keep: null}
+  rename:
+  - part_of
+  - biolink:part_of
+FMA:merges_with:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:nerve_supply_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:origin_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
 FMA:part_of:
-  rename: [part_of, 'BFO:0000050']
-FMA:posterior_to: {keep: null}
-FMA:posteroinferior_to: {keep: null}
-FMA:posterolateral_to: {keep: null}
-FMA:posteromedial_to: {keep: null}
-FMA:posterosuperior_to: {keep: null}
-FMA:primary_segmental_supply_of: {keep: null}
-FMA:projects_from: {keep: null}
-FMA:projects_to: {keep: null}
-FMA:proximal_to: {keep: null}
-FMA:receives_attachment_from: {keep: null}
-FMA:receives_drainage_from: {keep: null}
-FMA:receives_input_from: {keep: null}
-FMA:receives_projection: {keep: null}
-FMA:regional_part_of: {keep: null}
-FMA:related_developmental_entity_of: {keep: null}
+  rename:
+  - part_of
+  - biolink:part_of
+FMA:posterior_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:posteroinferior_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:posterolateral_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:posteromedial_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:posterosuperior_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:primary_segmental_supply_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:projects_from:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:projects_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:proximal_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:receives_attachment_from:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:receives_drainage_from:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:receives_input_from:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:receives_projection:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:regional_part_of:
+  rename:
+  - part_of
+  - biolink:part_of
+FMA:related_developmental_entity_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
 FMA:related_object:
-  rename: [related_to, 'Biolink:related_to']
-FMA:related_part: {keep: null}
-FMA:right_lateral_to: {keep: null}
-FMA:right_medial_to: {keep: null}
-FMA:secondary_segmental_supply_of: {keep: null}
-FMA:segmental_composition_of: {keep: null}
-FMA:segmental_supply_of: {keep: null}
-FMA:sends_output_to: {keep: null}
-FMA:superior_to: {keep: null}
-FMA:superolateral_to: {keep: null}
-FMA:superomedial_to: {keep: null}
+  rename:
+  - related_to
+  - biolink:related_to
+FMA:related_part:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:right_lateral_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:right_medial_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:secondary_segmental_supply_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:segmental_composition_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:segmental_supply_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:sends_output_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:superior_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:superolateral_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:superomedial_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
 FMA:surrounded_by:
-  rename: [surrounded_by, 'RO:0002219']
+  rename:
+  - coexists_with
+  - biolink:coexists_with
 FMA:surrounds:
-  rename: [surrounds, 'RO:0002221']
-FMA:transforms_from: {keep: null}
-FMA:transforms_into: {keep: null}
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:transforms_from:
+  invert:
+  - precedes
+  - biolink:precedes
+FMA:transforms_into:
+  rename:
+  - precedes
+  - biolink:precedes
 FMA:tributary_of:
-  rename: [tributary_of, 'RO:0002376']
-FMA:venous_drainage_of: {keep: null}
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:venous_drainage_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
 FOODON:00001301:
-  rename: [model_of, 'Biolink:model_of']
+  rename:
+  - model_of
+  - biolink:model_of
 FOODON:00001563:
-  invert: [part_of, 'BFO:0000050']
+  invert:
+  - part_of
+  - biolink:part_of
 FOODON:00002420:
-  invert: [part_of, 'BFO:0000050']
-GO:SIB: {delete: null}
+  invert:
+  - part_of
+  - biolink:part_of
+GENEPIO:0001739:
+  invert:
+  - precedes
+  - biolink:precedes
+GO:SIB:
+  delete: null
+GO:acts_upstream_of:
+  rename:
+  - affects
+  - biolink:affects
+GO:acts_upstream_of_negative_effect:
+  rename:
+  - negatively_regulates
+  - biolink:negatively_regulates
+GO:acts_upstream_of_or_within:
+  rename:
+  - affects
+  - biolink:affects
+GO:acts_upstream_of_or_within_negative_effect:
+  rename:
+  - negatively_regulates
+  - biolink:negatively_regulates
+GO:acts_upstream_of_or_within_positive_effect:
+  rename:
+  - positively_regulates
+  - biolink:positively_regulates
+GO:acts_upstream_of_positive_effect:
+  rename:
+  - positively_regulates
+  - biolink:positively_regulates
+GO:colocalizes_with:
+  rename:
+  - colocalizes_with
+  - biolink:colocalizes_with
+GO:contributes_to:
+  rename:
+  - contributes_to
+  - biolink:contributes_to
+GO:enables:
+  rename:
+  - enables
+  - biolink:enables
 GO:ends_during:
-  rename: [ends_during, 'RO:0002093']
+  rename:
+  - related_to
+  - biolink:related_to
 GO:happens_during:
-  rename: [happens_during, 'RO:0002092']
-GO:has_occurrence: {keep: null}
+  rename:
+  - related_to
+  - biolink:related_to
+GO:has_occurrence:
+  rename:
+  - capable_of
+  - biolink:capable_of
 GO:has_part:
-  invert: [part_of, 'BFO:0000050']
-GO:inverse_ends_during: {keep: null}
-GO:inverse_happens_during: {delete: null}
+  invert:
+  - part_of
+  - biolink:part_of
+GO:inverse_ends_during:
+  rename:
+  - related_to
+  - biolink:related_to
+GO:inverse_happens_during:
+  delete: null
 GO:inverse_isa:
-  invert: [subclass_of, 'Biolink:subclass_of']
+  invert:
+  - subclass_of
+  - biolink:subclass_of
+GO:involved_in:
+  rename:
+  - participates_in
+  - biolink:participates_in
+GO:is_active_in:
+  rename:
+  - actively_involved_in
+  - biolink:actively_involved_in
 GO:isa:
-  rename: [subclass_of, 'Biolink:subclass_of']
+  rename:
+  - subclass_of
+  - biolink:subclass_of
 GO:negatively_regulated_by:
-  invert: [negatively_regulates, 'Biolink:negatively_regulates']
+  invert:
+  - negatively_regulates
+  - biolink:negatively_regulates
 GO:negatively_regulates:
-  rename: [negatively_regulates, 'Biolink:negatively_regulates']
+  rename:
+  - negatively_regulates
+  - biolink:negatively_regulates
 GO:occurs_in:
-  rename: [occurs_in, 'BFO:0000066']
+  rename:
+  - occurs_in
+  - biolink:occurs_in
 GO:part_of:
-  rename: [part_of, 'BFO:0000050']
+  rename:
+  - part_of
+  - biolink:part_of
 GO:positively_regulated_by:
-  invert: [positively_regulates, 'Biolink:positively_regulates']
+  invert:
+  - positively_regulates
+  - biolink:positively_regulates
 GO:positively_regulates:
-  rename: [positively_regulates, 'Biolink:positively_regulates']
+  rename:
+  - positively_regulates
+  - biolink:positively_regulates
 GO:regulated_by:
-  invert: [regulates, 'RO:0002211']
+  invert:
+  - regulates
+  - biolink:regulates
 GO:regulates:
-  rename: [regulates, 'RO:0002211']
-GOREL:0000040: {keep: null}
-GOREL:0001006: {keep: null}
-GOREL:0001007: {keep: null}
-GOREL:0002003: {keep: null}
-GOREL:0002004: {keep: null}
-GOREL:0002005: {keep: null}
-GOREL:0002008: {keep: null}
-GOREL:0012006: {keep: null}
-HCPCS:mapped_from: {delete: null}
+  rename:
+  - regulates
+  - biolink:regulates
+GOREL:0000040:
+  rename:
+  - causes
+  - biolink:causes
+GOREL:0001006:
+  rename:
+  - affects
+  - biolink:affects
+GOREL:0001007:
+  invert:
+  - participates_in
+  - biolink:participates_in
+GOREL:0002003:
+  rename:
+  - affects_localization_of
+  - biolink:affects_localization_of
+GOREL:0002004:
+  rename:
+  - increases_degradation_of
+  - biolink:increases_degradation_of
+GOREL:0002005:
+  rename:
+  - related_to
+  - biolink:related_to
+GOREL:0002008:
+  invert:
+  - participates_in
+  - biolink:participates_in
+GOREL:0012006:
+  rename:
+  - related_to
+  - biolink:related_to
+HANCESTRO:0301:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+HANCESTRO:0330:
+  rename:
+  - synonym
+  - biolink:synonym
+HCPCS:mapped_from:
+  delete: null
 HCPCS:mapped_to:
-  rename: [mapped_to, 'Biolink:related_to']
-HCPT:mapped_from: {delete: null}
-HCPT:mapped_to:
-  rename: [mapped_to, 'Biolink:related_to']
-HL7:class_code_classified_by:
-  rename: [related_to, 'Biolink:related_to']
-HL7:classifies_class_code: {delete: null}
-HL7:component_of:
-  rename: [part_of, 'BFO:0000050']
-HL7:context_binding_of: {delete: null}
-HL7:has_component:
-  invert: [part_of, 'BFO:0000050']
-HL7:has_context_binding:
-  rename: [related_to, 'Biolink:related_to']
-HL7:has_owning_affiliate:
-  rename: [part_of, 'BFO:0000050']
-HL7:has_owning_section: {delete: null}
-HL7:has_owning_subsection: {delete: null}
-HL7:has_supported_concept_property:
-  rename: [has_attribute, 'Biolink:has_attribute']
-HL7:has_supported_concept_relationship:
-  rename: [has_attribute, 'Biolink:has_attribute']
-HL7:larger_than:
-  rename: [related_to, 'Biolink:related_to']
-HL7:may_be_qualified_by:
-  rename: [has_attribute, 'Biolink:has_attribute']
-HL7:may_qualify: {delete: null}
-HL7:owning_affiliate_of: {delete: null}
-HL7:owning_section_of:
-  rename: [related_to, 'Biolink:related_to']
-HL7:owning_subsection_of:
-  rename: [part_of, 'BFO:0000050']
-HL7:smaller_than:
-  rename: [decreased_in_magnitude_relative_to, 'PATO:decreased_in_magnitude_relative_to']
-HL7:supported_concept_property_in: {delete: null}
-HL7:supported_concept_relationship_in: {delete: null}
-HPO:SIB: {delete: null}
-IAO:0000136: {keep: null}
-ICD10CM:SIB: {delete: null}
-ICD10PCS:SIB: {delete: null}
-ICNP:SIB: {delete: null}
-IDO:0000664: {keep: null}
-LNC:adjustment_of: {delete: null}
-LNC:analyzed_by: {delete: null}
-LNC:analyzes:
-  rename: [analyzes, 'Biolink:quantifier_qualifier']
-LNC:answer_to: {delete: null}
-LNC:associated_with:
-  rename: [correlated_with, 'RO:0002610']
-LNC:challenge_of: {delete: null}
-LNC:class_of:
-  rename: [subclass_of, 'Biolink:subclass_of']
-LNC:component_of:
-  rename: [part_of, 'BFO:0000050']
-LNC:count_of: {delete: null}
-LNC:divisor_of: {delete: null}
-LNC:evaluation_of: {delete: null}
-LNC:fragments_for_synonyms_of: {delete: null}
-LNC:has_action_guidance:
-  rename: [has_attribute, 'Biolink:has_attribute']
-LNC:has_adjustment:
-  rename: [has_attribute, 'Biolink:has_attribute']
-LNC:has_aggregation_view:
-  rename: [has_attribute, 'Biolink:has_attribute']
-LNC:has_answer:
-  rename: [related_to, 'Biolink:related_to']
-LNC:has_approach_guidance:
-  rename: [has_attribute, 'Biolink:has_attribute']
-LNC:has_challenge:
-  rename: [related_to, 'Biolink:related_to']
-LNC:has_class:
-  invert: [subclass_of, 'Biolink:subclass_of']
-LNC:has_component:
-  invert: [part_of, 'BFO:0000050']
-LNC:has_count:
-  rename: [has_count, 'Biolink:has_count']
-LNC:has_divisor:
-  rename: [has_attribute, 'Biolink:has_attribute']
-LNC:has_evaluation:
-  rename: [related_to, 'Biolink:related_to']
-LNC:has_exam:
-  rename: [has_attribute, 'Biolink:has_attribute']
-LNC:has_fragments_for_synonyms:
-  rename: [has_input, 'Biolink:has_input']
-LNC:has_given_pharmaceutical_substance: {delete: null}
-LNC:has_imaged_location:
-  rename: [occurs_in, 'Biolink:occurs_in']
-LNC:has_imaging_focus:
-  rename: [procedure_has_target_anatomy, 'NCIT:R163']
-LNC:has_lateral_anatomic_location:
-  rename: [has_attribute, 'Biolink:has_attribute']
-LNC:has_lateral_location_presence:
-  rename: [has_attribute, 'Biolink:has_attribute']
-LNC:has_maneuver_type:
-  rename: [has_attribute_type, 'Biolink:has_attribute_type']
-LNC:has_member:
-  invert: [part_of, 'BFO:0000050']
-LNC:has_method:
-  rename: [has_attribute, 'Biolink:has_attribute']
-LNC:has_modality_subtype:
-  rename: [has_attribute, 'Biolink:has_attribute']
-LNC:has_modality_type:
-  rename: [has_attribute_type, 'Biolink:has_attribute_type']
-LNC:has_multipart: {delete: null}
-LNC:has_object_guidance:
-  rename: [has_attribute, 'Biolink:has_attribute']
-LNC:has_pharmaceutical_route:
-  rename: [has_route, 'Biolink:has_route']
-LNC:has_presence_guidance: {delete: null}
-LNC:has_property: {delete: null}
-LNC:has_quotient:
-  rename: [has_attribute, 'Biolink:has_attribute']
-LNC:has_scale:
-  rename: [has_attribute, 'Biolink:has_attribute']
-LNC:has_subject:
-  rename: [has_participant, 'RO:0000057']
-LNC:has_suffix:
-  rename: [has_attribute, 'Biolink:has_attribute']
-LNC:has_supersystem:
-  rename: [part_of, 'BFO:0000050']
-LNC:has_system:
-  rename: [has_input, 'Biolink:has_input']
-LNC:has_time_aspect:
-  rename: [has_attribute, 'Biolink:has_attribute']
-LNC:has_time_modifier:
-  rename: [has_attribute, 'Biolink:has_attribute']
-LNC:has_timing_of:
-  rename: [has_attribute, 'Biolink:has_attribute']
-LNC:has_view_type:
-  rename: [has_attribute_type, 'Biolink:has_attribute_type']
-LNC:is_action_guidance_for: {delete: null}
-LNC:is_aggregation_view_of: {delete: null}
-LNC:is_approach_guidance_for: {delete: null}
-LNC:is_exam_for: {delete: null}
-LNC:is_given_pharmaceutical_substance_for:
-  rename: [participates_in, 'RO:0000056']
-LNC:is_imaged_location_for: {delete: null}
-LNC:is_imaging_focus_of: {delete: null}
-LNC:is_lateral_anatomic_location_of: {delete: null}
-LNC:is_maneuver_type_for: {delete: null}
-LNC:is_modality_subtype_for: {delete: null}
-LNC:is_modality_type_for: {delete: null}
-LNC:is_object_guidance_for: {delete: null}
-LNC:is_pharmaceutical_route_for: {delete: null}
-LNC:is_presence_guidance_for:
-  rename: [subclass_of, 'Biolink:subclass_of']
-LNC:is_presence_of_lateral_location: {delete: null}
-LNC:is_subject_of: {delete: null}
-LNC:is_timing_for: {delete: null}
-LNC:is_view_type_for: {delete: null}
-LNC:mapped_from: {delete: null}
-LNC:mapped_to:
-  rename: [mapped_to, 'Biolink:related_to']
-LNC:measured_by:
-  rename: [quantifier_qualifier, 'Biolink:quantifier_qualifier']
-LNC:measures: {delete: null}
-LNC:member_of:
-  rename: [member_of, 'RO:0002350']
-LNC:method_of: {delete: null}
-LNC:mth_expanded_form_of: {delete: null}
-LNC:mth_has_expanded_form:
-  rename: [related_to, 'Biolink:related_to']
-LNC:multipart_of:
-  rename: [part_of, 'BFO:0000050']
-LNC:property_of:
-  rename: [quantifier_qualifier, 'Biolink:quantifier_qualifier']
-LNC:quotient_of: {delete: null}
-LNC:scale_of: {delete: null}
-LNC:suffix_of: {delete: null}
-LNC:supersystem_of: {delete: null}
-LNC:system_of: {delete: null}
-LNC:time_aspect_of: {delete: null}
-LNC:time_modifier_of: {delete: null}
-MED-RT:SIB: {delete: null}
-MED-RT:has_mechanism_of_action:
-  rename: [chemical_or_drug_has_mechanism_of_action, 'NCIT:R124']
-MED-RT:has_physiologic_effect:
-  rename: [causes_condition, 'RO:0003303']
-MED-RT:has_structural_class: {delete: null}
-MED-RT:has_therapeutic_class: {delete: null}
-MED-RT:mechanism_of_action_of: {delete: null}
-MED-RT:physiologic_effect_of: {delete: null}
-MED-RT:structural_class_of:
-  rename: [subclass_of, 'Biolink:subclass_of']
-MED-RT:therapeutic_class_of:
-  rename: [subclass_of, 'Biolink:subclass_of']
-MEDDRA:SIB: {delete: null}
+  rename:
+  - related_to
+  - biolink:related_to
+HMDB:at_cellular_location:
+  rename:
+  - located_in
+  - biolink:located_in
+HMDB:at_tissue:
+  rename:
+  - located_in
+  - biolink:located_in
+HMDB:disease:
+  rename:
+  - related_to
+  - biolink:related_to
+HMDB:has_protein_association:
+  rename:
+  - related_to
+  - biolink:related_to
+HMDB:in_biospecimen:
+  rename:
+  - located_in
+  - biolink:located_in
+HMDB:in_pathway:
+  rename:
+  - part_of
+  - biolink:part_of
+HP:SIB:
+  delete: null
+IAO:0000039:
+  rename:
+  - has_unit
+  - biolink:has_unit
+IAO:0000136:
+  rename:
+  - related_to
+  - biolink:related_to
+IAO:0000219:
+  rename:
+  - synonym
+  - biolink:synonym
+ICD10:SIB:
+  delete: null
+ICD10PCS:SIB:
+  delete: null
+ICD9:SIB:
+  delete: null
+IDO:0000664:
+  invert:
+  - contributes_to
+  - biolink:contributes_to
+LOINC:adjustment_of:
+  delete: null
+LOINC:analyzed_by:
+  delete: null
+LOINC:analyzes:
+  rename:
+  - quantifier_qualifier
+  - biolink:quantifier_qualifier
+LOINC:answer_to:
+  delete: null
+LOINC:associated_with:
+  rename:
+  - correlated_with
+  - biolink:correlated_with
+LOINC:challenge_of:
+  delete: null
+LOINC:class_of:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+LOINC:component_of:
+  rename:
+  - part_of
+  - biolink:part_of
+LOINC:count_of:
+  delete: null
+LOINC:divisor_of:
+  delete: null
+LOINC:evaluation_of:
+  delete: null
+LOINC:fragments_for_synonyms_of:
+  delete: null
+LOINC:has_action_guidance:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+LOINC:has_adjustment:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+LOINC:has_aggregation_view:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+LOINC:has_answer:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:has_approach_guidance:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+LOINC:has_challenge:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:has_class:
+  invert:
+  - subclass_of
+  - biolink:subclass_of
+LOINC:has_component:
+  invert:
+  - part_of
+  - biolink:part_of
+LOINC:has_count:
+  rename:
+  - has_count
+  - biolink:has_count
+LOINC:has_divisor:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+LOINC:has_evaluation:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:has_exam:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+LOINC:has_fragments_for_synonyms:
+  rename:
+  - has_input
+  - biolink:has_input
+LOINC:has_given_pharmaceutical_substance:
+  delete: null
+LOINC:has_imaged_location:
+  rename:
+  - occurs_in
+  - biolink:occurs_in
+LOINC:has_imaging_focus:
+  rename:
+  - located_in
+  - biolink:located_in
+LOINC:has_lateral_anatomic_location:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+LOINC:has_lateral_location_presence:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+LOINC:has_maneuver_type:
+  rename:
+  - has_attribute_type
+  - biolink:has_attribute_type
+LOINC:has_member:
+  invert:
+  - part_of
+  - biolink:part_of
+LOINC:has_method:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+LOINC:has_modality_subtype:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+LOINC:has_modality_type:
+  rename:
+  - has_attribute_type
+  - biolink:has_attribute_type
+LOINC:has_multipart:
+  delete: null
+LOINC:has_object_guidance:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+LOINC:has_pharmaceutical_route:
+  rename:
+  - has_route
+  - biolink:has_route
+LOINC:has_presence_guidance:
+  delete: null
+LOINC:has_property:
+  delete: null
+LOINC:has_quotient:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+LOINC:has_scale:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+LOINC:has_subject:
+  invert:
+  - participates_in
+  - biolink:participates_in
+LOINC:has_suffix:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+LOINC:has_supersystem:
+  rename:
+  - part_of
+  - biolink:part_of
+LOINC:has_system:
+  rename:
+  - has_input
+  - biolink:has_input
+LOINC:has_time_aspect:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+LOINC:has_time_modifier:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+LOINC:has_timing_of:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+LOINC:has_view_type:
+  rename:
+  - has_attribute_type
+  - biolink:has_attribute_type
+LOINC:is_action_guidance_for:
+  delete: null
+LOINC:is_aggregation_view_of:
+  delete: null
+LOINC:is_approach_guidance_for:
+  delete: null
+LOINC:is_exam_for:
+  delete: null
+LOINC:is_given_pharmaceutical_substance_for:
+  rename:
+  - participates_in
+  - biolink:participates_in
+LOINC:is_imaged_location_for:
+  delete: null
+LOINC:is_imaging_focus_of:
+  delete: null
+LOINC:is_lateral_anatomic_location_of:
+  delete: null
+LOINC:is_maneuver_type_for:
+  delete: null
+LOINC:is_modality_subtype_for:
+  delete: null
+LOINC:is_modality_type_for:
+  delete: null
+LOINC:is_object_guidance_for:
+  delete: null
+LOINC:is_pharmaceutical_route_for:
+  delete: null
+LOINC:is_presence_guidance_for:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+LOINC:is_presence_of_lateral_location:
+  delete: null
+LOINC:is_subject_of:
+  delete: null
+LOINC:is_timing_for:
+  delete: null
+LOINC:is_view_type_for:
+  delete: null
+LOINC:mapped_from:
+  delete: null
+LOINC:mapped_to:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:measured_by:
+  rename:
+  - quantifier_qualifier
+  - biolink:quantifier_qualifier
+LOINC:measures:
+  delete: null
+LOINC:member_of:
+  rename:
+  - part_of
+  - biolink:part_of
+LOINC:method_of:
+  delete: null
+LOINC:mth_expanded_form_of:
+  delete: null
+LOINC:mth_has_expanded_form:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:multipart_of:
+  rename:
+  - part_of
+  - biolink:part_of
+LOINC:property_of:
+  rename:
+  - quantifier_qualifier
+  - biolink:quantifier_qualifier
+LOINC:quotient_of:
+  delete: null
+LOINC:scale_of:
+  delete: null
+LOINC:suffix_of:
+  delete: null
+LOINC:supersystem_of:
+  delete: null
+LOINC:system_of:
+  delete: null
+LOINC:time_aspect_of:
+  delete: null
+LOINC:time_modifier_of:
+  delete: null
+MEDDRA:SIB:
+  delete: null
 MEDDRA:classified_as:
-  rename: [close_match, 'skos:closeMatch']
-MEDDRA:classifies: {delete: null}
+  rename:
+  - close_match
+  - skos:closeMatch
+MEDDRA:classifies:
+  delete: null
 MEDDRA:has_member:
-  invert: [part_of, 'BFO:0000050']
+  invert:
+  - part_of
+  - biolink:part_of
 MEDDRA:member_of:
-  rename: [member_of, 'RO:0002350']
-MEDDRA:mth_british_form_of: {delete: null}
+  rename:
+  - part_of
+  - biolink:part_of
+MEDDRA:mth_british_form_of:
+  delete: null
 MEDDRA:mth_has_british_form:
-  rename: [close_match, 'skos:closeMatch']
-MEDLINEPLUS:SIB: {delete: null}
-MEDLINEPLUS:related_to:
-  rename: [close_match, 'Biolink:related_to']
-MESH:AQ: {delete: null}
-MESH:QB: {delete: null}
+  rename:
+  - close_match
+  - skos:closeMatch
+MESH:AQ:
+  delete: null
+MESH:QB:
+  delete: null
 MESH:RO:
-  invert: [related_to, 'Biolink:related_to']
-MESH:SIB: {delete: null}
+  invert:
+  - related_to
+  - biolink:related_to
+MESH:SIB:
+  delete: null
 MESH:has_mapping_qualifier:
-  rename: [related_to, 'Biolink:related_to']
+  rename:
+  - related_to
+  - biolink:related_to
 MESH:inverse_isa:
-  invert: [subclass_of, 'Biolink:subclass_of']
+  invert:
+  - subclass_of
+  - biolink:subclass_of
 MESH:isa:
-  rename: [subclass_of, 'Biolink:subclass_of']
-MESH:mapped_from: {delete: null}
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+MESH:mapped_from:
+  delete: null
 MESH:mapped_to:
-  rename: [mapped_to, 'Biolink:related_to']
-MESH:mapping_qualifier_of: {delete: null}
-MMSL:contained_in:
-  rename: [part_of, 'BFO:0000050']
-MMSL:contains:
-  invert: [part_of, 'BFO:0000050']
-MMSL:has_ingredient:
-  invert: [part_of, 'BFO:0000050']
-MMSL:ingredient_of:
-  rename: [part_of, 'BFO:0000050']
-MMSL:inverse_isa:
-  invert: [subclass_of, 'Biolink:subclass_of']
-MMSL:isa:
-  rename: [subclass_of, 'Biolink:subclass_of']
-MONDO:disease_causes_feature: {keep: null}
-MONDO:disease_has_basis_in_accumulation_of: {keep: null}
-MONDO:disease_has_basis_in_development_of: {keep: null}
-MONDO:disease_has_major_feature: {keep: null}
-MONDO:disease_responds_to: {keep: null}
-MONDO:disease_shares_features_of: {keep: null}
-MONDO:disease_triggers: {keep: null}
-MONDO:part_of_progression_of_disease: {keep: null}
-MONDO:predisposes_towards: {keep: null}
-MTH:exhibited_by:
-  rename: [related_to, 'Biolink:related_to']
-MTH:exhibits: {delete: null}
-MTH:form_of: {delete: null}
-MTH:has_form:
-  rename: [related_to, 'Biolink:related_to']
-MTH:measured_by:
-  rename: [quantifier_qualifier, 'Biolink:quantifier_qualifier']
-MTH:measures: {delete: null}
-MTH:RB:
-  invert: [subclass_of, 'Biolink:subclass_of']
-MTH:RO:
-  invert: [related_to, 'Biolink:related_to']
-MTH:SY:
-  rename: [close_match, 'skos:closeMatch']
-MTHMST:RB:
-  invert: [subclass_of, 'Biolink:subclass_of']
-MTHMST:RO:
-  invert: [related_to, 'Biolink:related_to']
-MTHMST:associated_with:
-  rename: [correlated_with, 'RO:0002610']
-MTHMST:conceptual_part_of:
-  rename: [part_of, 'BFO:0000050']
-MTHMST:degree_of:
-  rename: [subclass_of, 'Biolink:subclass_of']
-MTHMST:diagnosed_by: {delete: null}
-MTHMST:diagnoses:
-  rename: [diagnoses, 'NCIT:C15220']
-MTHMST:evaluation_of: {delete: null}
-MTHMST:has_conceptual_part: {delete: null}
-MTHMST:has_degree: {delete: null}
-MTHMST:has_evaluation:
-  rename: [related_to, 'Biolink:related_to']
-MTHMST:has_location:
-  rename: [located_in, 'RO:0001025']
-MTHMST:has_manifestation:
-  invert: [subclass_of, 'Biolink:subclass_of']
-MTHMST:has_method:
-  rename: [has_attribute, 'Biolink:has_attribute']
-MTHMST:has_part:
-  invert: [part_of, 'BFO:0000050']
-MTHMST:has_result:
-  rename: [causes_or_contributes_to, 'RO:0003302']
-MTHMST:inverse_isa:
-  invert: [subclass_of, 'Biolink:subclass_of']
-MTHMST:isa:
-  rename: [subclass_of, 'Biolink:subclass_of']
-MTHMST:location_of:
-  invert: [located_in, 'RO:0001025']
-MTHMST:manifestation_of:
-  rename: [subclass_of, 'Biolink:subclass_of']
-MTHMST:method_of: {delete: null}
-MTHMST:part_of:
-  rename: [part_of, 'BFO:0000050']
-MTHMST:result_of: {delete: null}
-MTHMST:treated_by: {delete: null}
-MTHMST:treats:
-  rename: [is_substance_that_treats, 'RO:0002606']
-MTHMST:used_by:
-  invert: [has_input, 'Biolink:has_input']
-MTHMST:uses:
-  rename: [has_input, 'Biolink:has_input']
-MTHSPL:active_ingredient_of:
-  rename: [active_ingredient_of, 'RO:0002249']
-MTHSPL:active_moiety_of: {delete: null}
-MTHSPL:has_active_ingredient: {delete: null}
-MTHSPL:has_active_moiety: {delete: null}
-MTHSPL:has_inactive_ingredient: {delete: null}
-MTHSPL:inactive_ingredient_of:
-  rename: [part_of, 'BFO:0000050']
-NANDA-I:SIB: {delete: null}
-NANDA-I:associated_condition_of:
-  invert: [correlated_with_condition, 'RO:0003308']
-NANDA-I:defining_characteristic_of: {delete: null}
-NANDA-I:has_associated_condition:
-  rename: [affects_risk_for, 'Biolink:affects_risk_for']
-NANDA-I:has_at_risk_population: {delete: null}
-NANDA-I:has_defining_characteristic:
-  rename: [has_phenotype, 'Biolink:has_phenotype']
-NANDA-I:has_related_factor:
-  rename: [close_match, 'Biolink:related_to']
-NANDA-I:has_risk_factor: {delete: null}
-NANDA-I:population_at_risk_for:
-  rename: [affects_risk_for, 'Biolink:affects_risk_for']
-NANDA-I:related_factor_of: {delete: null}
-NANDA-I:risk_factor_of:
-  rename: [affects_risk_for, 'Biolink:affects_risk_for']
-NBO:by_means:
-  invert: [involved_in, 'RO:0002331']
-NBO:has_participant:
-  invert: [participates_in, 'RO:0000056']
-NBO:in_response_to:
-  invert: [causes_or_contributes_to, 'RO:0003302']
-NBO:is_about:
-  rename: [is_about, 'IAO:0000136']
-NCBIGene:gene_found_in_organism:
-  rename: [in_taxon, 'Biolink:in_taxon']
-NCIT:abnormal_cell_affected_by_chemical_or_drug: {delete: null}
-NCIT:abnormality_associated_with_allele: {delete: null}
-NCIT:activity_of_allele: {delete: null}
+  rename:
+  - related_to
+  - biolink:related_to
+MESH:mapping_qualifier_of:
+  delete: null
+MONDO:disease_causes_feature:
+  rename:
+  - causes
+  - biolink:causes
+MONDO:disease_has_basis_in_accumulation_of:
+  rename:
+  - disease_has_basis_in
+  - biolink:disease_has_basis_in
+MONDO:disease_has_basis_in_development_of:
+  rename:
+  - disease_has_basis_in
+  - biolink:disease_has_basis_in
+MONDO:disease_has_major_feature:
+  rename:
+  - has_part
+  - biolink:has_part
+MONDO:disease_responds_to:
+  invert:
+  - treats
+  - biolink:treats
+MONDO:disease_shares_features_of:
+  rename:
+  - related_to
+  - biolink:related_to
+MONDO:disease_triggers:
+  rename:
+  - causes
+  - biolink:causes
+MONDO:equivalentTo:
+  rename:
+  - same_as
+  - biolink:same_as
+MONDO:part_of_progression_of_disease:
+  rename:
+  - part_of
+  - biolink:part_of
+MONDO:predisposes_towards:
+  rename:
+  - contributes_to
+  - biolink:contributes_to
+NCIT:abnormal_cell_affected_by_chemical_or_drug:
+  delete: null
+NCIT:abnormality_associated_with_allele:
+  delete: null
+NCIT:activity_of_allele:
+  delete: null
 NCIT:allele_absent_from_wild-type_chromosomal_location:
-  rename: [located_in, 'RO:0001025']
+  rename:
+  - located_in
+  - biolink:located_in
 NCIT:allele_has_abnormality:
-  rename: [variant_to_thing_association, 'Biolink:variant_to_thing_association']
+  rename:
+  - causes
+  - biolink:causes
 NCIT:allele_has_activity:
-  rename: [has_molecular_consequence, 'Biolink:has_molecular_consequence']
+  rename:
+  - has_molecular_consequence
+  - biolink:has_molecular_consequence
 NCIT:allele_in_chromosomal_location:
-  rename: [located_in, 'RO:0001025']
+  rename:
+  - located_in
+  - biolink:located_in
 NCIT:allele_plays_altered_role_in_process:
-  rename: [allele_affects, 'Biolink:affects']
+  rename:
+  - affects
+  - biolink:affects
 NCIT:allele_plays_role_in_metabolism_of_chemical_or_drug:
-  rename: [allele_affects, 'Biolink:affects']
-NCIT:anatomic_structure_has_location: {delete: null}
+  rename:
+  - affects
+  - biolink:affects
+NCIT:anatomic_structure_has_location:
+  delete: null
 NCIT:anatomic_structure_is_physical_part_of:
-  rename: [part_of, 'BFO:0000050']
-NCIT:anatomy_originated_from_biological_process: {delete: null}
-NCIT:associated_with_malfunction_of_gene_product: {delete: null}
+  rename:
+  - part_of
+  - biolink:part_of
+NCIT:anatomy_originated_from_biological_process:
+  delete: null
+NCIT:associated_with_malfunction_of_gene_product:
+  delete: null
 NCIT:biological_process_has_associated_location:
-  rename: [affects, 'Biolink:affects']
-NCIT:biological_process_has_initiator_chemical_or_drug: {delete: null}
-NCIT:biological_process_has_initiator_process: {delete: null}
+  rename:
+  - affects
+  - biolink:affects
+NCIT:biological_process_has_initiator_chemical_or_drug:
+  delete: null
+NCIT:biological_process_has_initiator_process:
+  delete: null
 NCIT:biological_process_has_result_anatomy:
-  rename: [results_in_formation_of, 'RO:0002297']
+  rename:
+  - has_output
+  - biolink:has_output
 NCIT:biological_process_has_result_biological_process:
-  rename: [causes_or_contributes_to, 'RO:0003302']
+  rename:
+  - causes
+  - biolink:causes
 NCIT:biological_process_has_result_chemical_or_drug:
-  rename: [produces, 'Biolink:produces']
+  rename:
+  - produces
+  - biolink:produces
 NCIT:biological_process_involves_chemical_or_drug:
-  invert: [involved_in, 'RO:0002331']
-NCIT:biological_process_involves_gene_product: {delete: null}
-NCIT:biological_process_is_part_of_process: {delete: null}
-NCIT:biological_process_results_from_biological_process: {delete: null}
-NCIT:biomarker_type_includes_gene: {delete: null}
-NCIT:biomarker_type_includes_gene_product: {delete: null}
+  invert:
+  - actively_involved_in
+  - biolink:actively_involved_in
+NCIT:biological_process_involves_gene_product:
+  delete: null
+NCIT:biological_process_is_part_of_process:
+  delete: null
+NCIT:biological_process_results_from_biological_process:
+  delete: null
+NCIT:biomarker_type_includes_gene:
+  delete: null
+NCIT:biomarker_type_includes_gene_product:
+  delete: null
 NCIT:cdrh_parent_of:
-  invert: [subclass_of, 'Biolink:subclass_of']
-NCIT:cell_type_is_associated_with_eo_disease: {delete: null}
-NCIT:cell_type_or_tissue_affected_by_chemical_or_drug: {delete: null}
+  invert:
+  - subclass_of
+  - biolink:subclass_of
+NCIT:cell_type_is_associated_with_eo_disease:
+  delete: null
+NCIT:cell_type_or_tissue_affected_by_chemical_or_drug:
+  delete: null
 NCIT:chemical_or_drug_affects_abnormal_cell:
-  rename: [affects, 'Biolink:affects']
+  rename:
+  - affects
+  - biolink:affects
 NCIT:chemical_or_drug_affects_cell_type_or_tissue:
-  rename: [affects, 'Biolink:affects']
+  rename:
+  - affects
+  - biolink:affects
 NCIT:chemical_or_drug_affects_gene_product:
-  rename: [affects, 'Biolink:affects']
+  rename:
+  - affects
+  - biolink:affects
 NCIT:chemical_or_drug_has_mechanism_of_action:
-  rename: [chemical_or_drug_has_mechanism_of_action, 'NCIT:R124']
+  rename:
+  - affects
+  - biolink:affects
 NCIT:chemical_or_drug_has_physiologic_effect:
-  rename: [causes_or_contributes_to, 'RO:0003302']
+  rename:
+  - causes
+  - biolink:causes
 NCIT:chemical_or_drug_initiates_biological_process:
-  rename: [initiates, 'RO:0002223']
-NCIT:chemical_or_drug_is_metabolized_by_enzyme: {delete: null}
-NCIT:chemical_or_drug_is_product_of_biological_process: {delete: null}
-NCIT:chemical_or_drug_metabolism_is_associated_with_allele: {delete: null}
-NCIT:chemical_or_drug_plays_role_in_biological_process: {delete: null}
-NCIT:chemotherapy_regimen_has_component: {delete: null}
-NCIT:chromosomal_location_of_allele: {delete: null}
-NCIT:chromosomal_location_of_wild-type_gene: {delete: null}
-NCIT:chromosome_involved_in_cytogenetic_abnormality: {delete: null}
+  rename:
+  - part_of
+  - biolink:part_of
+NCIT:chemical_or_drug_is_metabolized_by_enzyme:
+  delete: null
+NCIT:chemical_or_drug_is_product_of_biological_process:
+  delete: null
+NCIT:chemical_or_drug_metabolism_is_associated_with_allele:
+  delete: null
+NCIT:chemical_or_drug_plays_role_in_biological_process:
+  delete: null
+NCIT:chemotherapy_regimen_has_component:
+  delete: null
+NCIT:chromosomal_location_of_allele:
+  delete: null
+NCIT:chromosomal_location_of_wild-type_gene:
+  delete: null
+NCIT:chromosome_involved_in_cytogenetic_abnormality:
+  delete: null
 NCIT:chromosome_mapped_to_disease:
-  rename: [is_genetic_basis_for_condition, 'RO:0004010']
-NCIT:completely_excised_anatomy_has_procedure: {delete: null}
-NCIT:completely_excised_anatomy_may_have_procedure: {delete: null}
+  rename:
+  - causes
+  - biolink:causes
+NCIT:completely_excised_anatomy_has_procedure:
+  delete: null
+NCIT:completely_excised_anatomy_may_have_procedure:
+  delete: null
 NCIT:complex_has_physical_part:
-  invert: [part_of, 'BFO:0000050']
-NCIT:concept_in_subset: {delete: null}
+  invert:
+  - part_of
+  - biolink:part_of
+NCIT:concept_in_subset:
+  delete: null
 NCIT:conceptual_part_of:
-  rename: [part_of, 'BFO:0000050']
+  rename:
+  - part_of
+  - biolink:part_of
 NCIT:ctcae_5_parent_of:
-  invert: [subclass_of, 'Biolink:subclass_of']
+  invert:
+  - subclass_of
+  - biolink:subclass_of
 NCIT:cytogenetic_abnormality_involves_chromosome:
-  rename: [affects, 'Biolink:affects']
-NCIT:data_element_of: {delete: null}
-NCIT:disease_excludes_abnormal_cell: {delete: null}
-NCIT:disease_excludes_cytogenetic_abnormality: {delete: null}
+  rename:
+  - affects
+  - biolink:affects
+NCIT:data_element_of:
+  delete: null
+NCIT:disease_excludes_abnormal_cell:
+  delete: null
+NCIT:disease_excludes_cytogenetic_abnormality:
+  delete: null
 NCIT:disease_excludes_finding:
-  rename: [disease_excludes_finding, 'NCIT:R142']
-NCIT:disease_excludes_molecular_abnormality: {delete: null}
+  delete: null
+NCIT:disease_excludes_molecular_abnormality:
+  delete: null
 NCIT:disease_excludes_normal_cell_origin:
-  rename: [disease_excludes_normal_cell_origin, 'NCIT:R138']
-NCIT:disease_excludes_normal_tissue_origin: {delete: null}
-NCIT:disease_excludes_primary_anatomic_site: {delete: null}
-NCIT:disease_has_abnormal_cell: {delete: null}
-NCIT:disease_has_accepted_treatment_with_regimen: {delete: null}
+  delete: null
+NCIT:disease_excludes_normal_tissue_origin:
+  delete: null
+NCIT:disease_excludes_primary_anatomic_site:
+  delete: null
+NCIT:disease_has_abnormal_cell:
+  delete: null
+NCIT:disease_has_accepted_treatment_with_regimen:
+  delete: null
 NCIT:disease_has_associated_anatomic_site:
-  rename: [disease_has_associated_anatomic_site, 'NCIT:R100']
-NCIT:disease_has_associated_disease: {delete: null}
-NCIT:disease_has_associated_gene: {delete: null}
-NCIT:disease_has_cytogenetic_abnormality: {delete: null}
+  rename:
+  - affects
+  - biolink:affects
+NCIT:disease_has_associated_disease:
+  delete: null
+NCIT:disease_has_associated_gene:
+  delete: null
+NCIT:disease_has_cytogenetic_abnormality:
+  delete: null
 NCIT:disease_has_finding:
-  rename: [disease_has_finding, 'NCIT:R108']
+  invert:
+  - biomarker_for
+  - biolink:biomarker_for
 NCIT:disease_has_metastatic_anatomic_site:
-  rename: [disease_has_metastatic_anatomic_site, 'NCIT:R102']
+  rename:
+  - affects
+  - biolink:affects
 NCIT:disease_has_molecular_abnormality:
-  rename: [disease_has_molecular_abnormality, 'NCIT:R106']
-NCIT:disease_has_normal_cell_origin: {delete: null}
+  invert:
+  - biomarker_for
+  - biolink:biomarker_for
+NCIT:disease_has_normal_cell_origin:
+  delete: null
 NCIT:disease_has_normal_tissue_origin:
-  rename: [disease_arises_from_structure, 'RO:0004030']
+  rename:
+  - causes
+  - biolink:causes
 NCIT:disease_has_primary_anatomic_site:
-  rename: [disease_has_associated_anatomic_site, 'NCIT:R100']
+  rename:
+  - affects
+  - biolink:affects
 NCIT:disease_is_grade:
-  rename: [disease_is_grade, 'NCIT:R110']
+  rename:
+  - has_attribute
+  - biolink:has_attribute
 NCIT:disease_is_marked_by_gene:
-  invert: [biomarker_of, 'Biolink:biomarker_for']
+  invert:
+  - biomarker_for
+  - biolink:biomarker_for
 NCIT:disease_is_stage:
-  rename: [disease_is_stage, 'NCIT:R88']
-NCIT:disease_mapped_to_chromosome: {delete: null}
-NCIT:disease_mapped_to_gene: {delete: null}
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+NCIT:disease_mapped_to_chromosome:
+  delete: null
+NCIT:disease_mapped_to_gene:
+  delete: null
 NCIT:disease_may_have_abnormal_cell:
-  rename: [affects, 'Biolink:affects']
+  rename:
+  - affects
+  - biolink:affects
 NCIT:disease_may_have_associated_disease:
-  rename: [disease_may_have_associated_disease, 'NCIT:R116']
-NCIT:disease_may_have_cytogenetic_abnormality: {delete: null}
+  rename:
+  - related_to
+  - biolink:related_to
+NCIT:disease_may_have_cytogenetic_abnormality:
+  delete: null
 NCIT:disease_may_have_finding:
-  rename: [has_phenotype, 'Biolink:has_phenotype']
+  rename:
+  - has_phenotype
+  - biolink:has_phenotype
 NCIT:disease_may_have_molecular_abnormality:
-  rename: [has_phenotype, 'Biolink:has_phenotype']
-NCIT:disease_may_have_normal_cell_origin: {delete: null}
-NCIT:endogenous_product_related_to: {delete: null}
+  rename:
+  - has_phenotype
+  - biolink:has_phenotype
+NCIT:disease_may_have_normal_cell_origin:
+  delete: null
+NCIT:endogenous_product_related_to:
+  delete: null
 NCIT:enzyme_metabolizes_chemical_or_drug:
-  rename: [increases_metabolic_processing_of, 'Biolink:increases_metabolic_processing_of']
-NCIT:eo_anatomy_is_associated_with_eo_disease: {delete: null}
+  rename:
+  - increases_metabolic_processing_of
+  - biolink:increases_metabolic_processing_of
+NCIT:eo_anatomy_is_associated_with_eo_disease:
+  delete: null
 NCIT:eo_disease_has_associated_cell_type:
-  rename: [affects, 'Biolink:affects']
+  rename:
+  - affects
+  - biolink:affects
 NCIT:eo_disease_has_associated_eo_anatomy:
-  rename: [affects, 'Biolink:affects']
+  rename:
+  - affects
+  - biolink:affects
 NCIT:eo_disease_has_property_or_attribute:
-  rename: [disease_to_thing_association, 'Biolink:disease_to_thing_association']
-NCIT:eo_disease_maps_to_human_disease: {delete: null}
-NCIT:excised_anatomy_has_procedure: {delete: null}
-NCIT:excised_anatomy_may_have_procedure: {delete: null}
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+NCIT:eo_disease_maps_to_human_disease:
+  delete: null
+NCIT:excised_anatomy_has_procedure:
+  delete: null
+NCIT:excised_anatomy_may_have_procedure:
+  delete: null
 NCIT:gene_associated_with_disease:
-  rename: [associated_with, 'Biolink:gene_associated_with_condition']
+  rename:
+  - gene_associated_with_condition
+  - biolink:gene_associated_with_condition
 NCIT:gene_encodes_gene_product:
-  rename: [has_gene_product, 'Biolink:has_gene_product']
+  rename:
+  - has_gene_product
+  - biolink:has_gene_product
 NCIT:gene_found_in_organism:
-  rename: [in_taxon, 'Biolink:in_taxon']
-NCIT:gene_has_abnormality: {delete: null}
+  rename:
+  - in_taxon
+  - biolink:in_taxon
+NCIT:gene_has_abnormality:
+  delete: null
 NCIT:gene_has_physical_location:
-  rename: [gene_has_physical_location, 'NCIT:R145']
+  rename:
+  - located_in
+  - biolink:located_in
 NCIT:gene_in_chromosomal_location:
-  rename: [located_in, 'RO:0001025']
+  rename:
+  - located_in
+  - biolink:located_in
 NCIT:gene_involved_in_molecular_abnormality:
-  rename: [involved_in, 'RO:0002331']
+  rename:
+  - actively_involved_in
+  - biolink:actively_involved_in
 NCIT:gene_involved_in_pathogenesis_of_disease:
-  rename: [associated_with, 'Biolink:gene_associated_with_condition']
+  rename:
+  - gene_associated_with_condition
+  - biolink:gene_associated_with_condition
 NCIT:gene_is_biomarker_of:
-  rename: [biomarker_of, 'Biolink:biomarker_for']
+  rename:
+  - biomarker_for
+  - biolink:biomarker_for
 NCIT:gene_is_biomarker_type:
-  rename: [gene_to_thing_association, 'Biolink:gene_to_thing_association']
+  rename:
+  - biomarker_for
+  - biolink:biomarker_for
 NCIT:gene_is_element_in_pathway:
-  rename: [participates_in, 'RO:0000056']
+  rename:
+  - participates_in
+  - biolink:participates_in
 NCIT:gene_mapped_to_disease:
-  rename: [affects, 'Biolink:affects']
+  rename:
+  - affects
+  - biolink:affects
 NCIT:gene_mutant_encodes_gene_product_sequence_variation:
-  rename: [has_gene_product, 'Biolink:has_gene_product']
+  rename:
+  - has_gene_product
+  - biolink:has_gene_product
 NCIT:gene_plays_role_in_process:
-  rename: [participates_in, 'RO:0000056']
-NCIT:gene_product_affected_by_chemical_or_drug: {delete: null}
-NCIT:gene_product_encoded_by_gene: {delete: null}
+  rename:
+  - participates_in
+  - biolink:participates_in
+NCIT:gene_product_affected_by_chemical_or_drug:
+  delete: null
+NCIT:gene_product_encoded_by_gene:
+  delete: null
 NCIT:gene_product_expressed_in_tissue:
-  rename: [expressed_in, 'Biolink:expressed_in']
+  rename:
+  - expressed_in
+  - biolink:expressed_in
 NCIT:gene_product_has_abnormality:
-  rename: [affects, 'Biolink:affects']
+  rename:
+  - affects
+  - biolink:affects
 NCIT:gene_product_has_associated_anatomy:
-  rename: [expressed_in, 'Biolink:expressed_in']
+  rename:
+  - expressed_in
+  - biolink:expressed_in
 NCIT:gene_product_has_biochemical_function:
-  rename: [capable_of, 'RO:0002215']
+  rename:
+  - capable_of
+  - biolink:capable_of
 NCIT:gene_product_has_chemical_classification:
-  rename: [subclass_of, 'Biolink:subclass_of']
-NCIT:gene_product_has_gene_product_variant: {delete: null}
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+NCIT:gene_product_has_gene_product_variant:
+  delete: null
 NCIT:gene_product_has_organism_source:
-  rename: [in_taxon, 'Biolink:in_taxon']
+  rename:
+  - in_taxon
+  - biolink:in_taxon
 NCIT:gene_product_has_structural_domain_or_motif:
-  rename: [gene_product_has_structural_domain_or_motif, 'NCIT:R50']
+  rename:
+  - has_gene_product
+  - biolink:has_gene_product
 NCIT:gene_product_is_biomarker_of:
-  rename: [biomarker_of, 'Biolink:biomarker_for']
+  rename:
+  - biomarker_for
+  - biolink:biomarker_for
 NCIT:gene_product_is_biomarker_type:
-  rename: [subclass_of, 'Biolink:subclass_of']
+  rename:
+  - subclass_of
+  - biolink:subclass_of
 NCIT:gene_product_is_element_in_pathway:
-  rename: [participates_in, 'RO:0000056']
+  rename:
+  - participates_in
+  - biolink:participates_in
 NCIT:gene_product_is_physical_part_of:
-  rename: [participates_in, 'RO:0000056']
+  rename:
+  - participates_in
+  - biolink:participates_in
 NCIT:gene_product_malfunction_associated_with_disease:
-  rename: [associated_with, 'Biolink:gene_associated_with_condition']
+  rename:
+  - gene_associated_with_condition
+  - biolink:gene_associated_with_condition
 NCIT:gene_product_plays_role_in_biological_process:
-  rename: [participates_in, 'RO:0000056']
+  rename:
+  - participates_in
+  - biolink:participates_in
 NCIT:gene_product_sequence_variation_encoded_by_gene_mutant:
-  invert: [has_gene_product, 'Biolink:has_gene_product']
+  invert:
+  - has_gene_product
+  - biolink:has_gene_product
 NCIT:gene_product_variant_of_gene_product:
-  rename: [variant_of, 'Biolink:variant_to_thing_association']
+  rename:
+  - related_to
+  - biolink:related_to
 NCIT:genetic_biomarker_related_to:
-  rename: [involved_in, 'RO:0002331']
-NCIT:has_cdrh_parent: {delete: null}
-NCIT:has_conceptual_part: {delete: null}
-NCIT:has_ctcae_5_parent: {delete: null}
+  rename:
+  - actively_involved_in
+  - biolink:actively_involved_in
+NCIT:has_cdrh_parent:
+  delete: null
+NCIT:has_conceptual_part:
+  delete: null
+NCIT:has_ctcae_5_parent:
+  delete: null
 NCIT:has_data_element:
-  rename: [has_data_element, 'NCIT:A12']
-NCIT:has_free_acid_or_base_form: {delete: null}
-NCIT:has_gene_product_element: {delete: null}
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+NCIT:has_free_acid_or_base_form:
+  delete: null
+NCIT:has_gene_product_element:
+  delete: null
 NCIT:has_nichd_parent:
-  rename: [subclass_of, 'Biolink:subclass_of']
-NCIT:has_physical_part_of_anatomic_structure: {delete: null}
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+NCIT:has_physical_part_of_anatomic_structure:
+  delete: null
 NCIT:has_salt_form:
-  rename: [has_salt_form, 'NCIT:A5']
+  invert:
+  - subclass_of
+  - biolink:subclass_of
 NCIT:has_target:
-  rename: [directly_interacts_with, 'Biolink:physically_interacts_with']
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
 NCIT:has_tradename:
-  rename: [has_related_synonym, 'oboInOwl:hasRelatedSynonym']
+  rename:
+  - synonym
+  - biolink:synonym
 NCIT:human_disease_maps_to_eo_disease:
-  rename: [analogous_to, 'Biolink:related_to']
-NCIT:imaged_anatomy_has_procedure: {delete: null}
+  rename:
+  - related_to
+  - biolink:related_to
+NCIT:imaged_anatomy_has_procedure:
+  delete: null
 NCIT:is_abnormal_cell_of_disease:
-  rename: [abnormal_in, 'RTX:is_abnormal_in']
-NCIT:is_abnormality_of_gene: {delete: null}
-NCIT:is_abnormality_of_gene_product: {delete: null}
-NCIT:is_associated_anatomic_site_of: {delete: null}
-NCIT:is_associated_anatomy_of_gene_product: {delete: null}
+  rename:
+  - related_to
+  - biolink:related_to
+NCIT:is_abnormality_of_gene:
+  delete: null
+NCIT:is_abnormality_of_gene_product:
+  delete: null
+NCIT:is_associated_anatomic_site_of:
+  delete: null
+NCIT:is_associated_anatomy_of_gene_product:
+  delete: null
 NCIT:is_associated_disease_of:
-  rename: [correlated_with_condition, 'RO:0003308']
-NCIT:is_biochemical_function_of_gene_product: {delete: null}
-NCIT:is_chemical_classification_of_gene_product: {delete: null}
-NCIT:is_chromosomal_location_of_gene: {delete: null}
+  rename:
+  - correlated_with
+  - biolink:correlated_with
+NCIT:is_biochemical_function_of_gene_product:
+  delete: null
+NCIT:is_chemical_classification_of_gene_product:
+  delete: null
+NCIT:is_chromosomal_location_of_gene:
+  delete: null
 NCIT:is_component_of_chemotherapy_regimen:
-  rename: [part_of, 'BFO:0000050']
+  rename:
+  - part_of
+  - biolink:part_of
 NCIT:is_cytogenetic_abnormality_of_disease:
-  invert: [correlated_with_condition, 'RO:0003308']
-NCIT:is_finding_of_disease: {delete: null}
-NCIT:is_grade_of_disease: {delete: null}
+  invert:
+  - correlated_with
+  - biolink:correlated_with
+NCIT:is_finding_of_disease:
+  delete: null
+NCIT:is_grade_of_disease:
+  delete: null
 NCIT:is_location_of_anatomic_structure:
-  rename: [located_in, 'RO:0001025']
-NCIT:is_location_of_biological_process: {delete: null}
-NCIT:is_marked_by_gene_product: {delete: null}
-NCIT:is_mechanism_of_action_of_chemical_or_drug: {delete: null}
-NCIT:is_metastatic_anatomic_site_of_disease: {delete: null}
+  rename:
+  - located_in
+  - biolink:located_in
+NCIT:is_location_of_biological_process:
+  delete: null
+NCIT:is_marked_by_gene_product:
+  delete: null
+NCIT:is_mechanism_of_action_of_chemical_or_drug:
+  delete: null
+NCIT:is_metastatic_anatomic_site_of_disease:
+  delete: null
 NCIT:is_molecular_abnormality_of_disease:
-  invert: [disease_has_molecular_abnormality, 'NCIT:R106']
+  rename:
+  - biomarker_for
+  - biolink:biomarker_for
 NCIT:is_normal_cell_origin_of_disease:
-  invert: [derives_from, 'RO:0001000']
-NCIT:is_normal_tissue_origin_of_disease: {delete: null}
-NCIT:is_not_abnormal_cell_of_disease: {delete: null}
-NCIT:is_not_cytogenetic_abnormality_of_disease: {delete: null}
-NCIT:is_not_finding_of_disease: {delete: null}
-NCIT:is_not_molecular_abnormality_of_disease: {delete: null}
-NCIT:is_not_normal_cell_origin_of_disease: {delete: null}
-NCIT:is_not_normal_tissue_origin_of_disease: {delete: null}
-NCIT:is_not_primary_anatomic_site_of_disease: {delete: null}
+  invert:
+  - derives_from
+  - biolink:derives_from
+NCIT:is_normal_tissue_origin_of_disease:
+  delete: null
+NCIT:is_not_abnormal_cell_of_disease:
+  delete: null
+NCIT:is_not_cytogenetic_abnormality_of_disease:
+  delete: null
+NCIT:is_not_finding_of_disease:
+  delete: null
+NCIT:is_not_molecular_abnormality_of_disease:
+  delete: null
+NCIT:is_not_normal_cell_origin_of_disease:
+  delete: null
+NCIT:is_not_normal_tissue_origin_of_disease:
+  delete: null
+NCIT:is_not_primary_anatomic_site_of_disease:
+  delete: null
 NCIT:is_organism_source_of_gene_product:
-  invert: [in_taxon, 'Biolink:in_taxon']
-NCIT:is_physical_location_of_gene: {delete: null}
-NCIT:is_physiologic_effect_of_chemical_or_drug: {delete: null}
-NCIT:is_primary_anatomic_site_of_disease: {delete: null}
-NCIT:is_property_or_attribute_of_eo_disease: {delete: null}
+  invert:
+  - in_taxon
+  - biolink:in_taxon
+NCIT:is_physical_location_of_gene:
+  delete: null
+NCIT:is_physiologic_effect_of_chemical_or_drug:
+  delete: null
+NCIT:is_primary_anatomic_site_of_disease:
+  delete: null
+NCIT:is_property_or_attribute_of_eo_disease:
+  delete: null
 NCIT:is_qualified_by:
-  rename: [has_attribute, 'Biolink:has_attribute']
+  rename:
+  - has_attribute
+  - biolink:has_attribute
 NCIT:is_related_to_endogenous_product:
-  rename: [mimicrous_to, 'RO:HOMO0000033']
-NCIT:is_stage_of_disease: {delete: null}
-NCIT:is_structural_domain_or_motif_of_gene_product: {delete: null}
-NCIT:is_target: {delete: null}
-NCIT:kind_is_domain_of: {delete: null}
-NCIT:kind_is_range_of: {delete: null}
-NCIT:may_be_abnormal_cell_of_disease: {delete: null}
-NCIT:may_be_associated_disease_of_disease: {delete: null}
-NCIT:may_be_cytogenetic_abnormality_of_disease: {delete: null}
-NCIT:may_be_finding_of_disease: {delete: null}
-NCIT:may_be_molecular_abnormality_of_disease: {delete: null}
+  rename:
+  - related_to
+  - biolink:related_to
+NCIT:is_stage_of_disease:
+  delete: null
+NCIT:is_structural_domain_or_motif_of_gene_product:
+  delete: null
+NCIT:is_target:
+  delete: null
+NCIT:kind_is_domain_of:
+  delete: null
+NCIT:kind_is_range_of:
+  delete: null
+NCIT:located_in:
+  rename:
+  - located_in
+  - biolink:located_in
+NCIT:may_be_abnormal_cell_of_disease:
+  delete: null
+NCIT:may_be_associated_disease_of_disease:
+  delete: null
+NCIT:may_be_cytogenetic_abnormality_of_disease:
+  delete: null
+NCIT:may_be_finding_of_disease:
+  delete: null
+NCIT:may_be_molecular_abnormality_of_disease:
+  delete: null
 NCIT:may_be_normal_cell_origin_of_disease:
-  invert: [derives_from, 'RO:0001000']
-NCIT:molecular_abnormality_involves_gene: {delete: null}
+  invert:
+  - derives_from
+  - biolink:derives_from
+NCIT:molecular_abnormality_involves_gene:
+  delete: null
 NCIT:neoplasm_has_special_category:
-  rename: [subclass_of, 'Biolink:subclass_of']
-NCIT:nichd_parent_of: {delete: null}
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+NCIT:nichd_parent_of:
+  delete: null
 NCIT:organism_has_gene:
-  invert: [in_taxon, 'Biolink:in_taxon']
-NCIT:partially_excised_anatomy_has_procedure: {delete: null}
-NCIT:partially_excised_anatomy_may_have_procedure: {delete: null}
-NCIT:pathogenesis_of_disease_involves_gene: {delete: null}
+  invert:
+  - in_taxon
+  - biolink:in_taxon
+NCIT:partially_excised_anatomy_has_procedure:
+  delete: null
+NCIT:partially_excised_anatomy_may_have_procedure:
+  delete: null
+NCIT:pathogenesis_of_disease_involves_gene:
+  delete: null
 NCIT:pathway_has_gene_element:
-  invert: [participates_in, 'RO:0000056']
+  invert:
+  - participates_in
+  - biolink:participates_in
 NCIT:procedure_has_completely_excised_anatomy:
-  rename: [procedure_has_target_anatomy, 'NCIT:R163']
+  rename:
+  - located_in
+  - biolink:located_in
 NCIT:procedure_has_excised_anatomy:
-  rename: [procedure_has_target_anatomy, 'NCIT:R163']
+  rename:
+  - located_in
+  - biolink:located_in
 NCIT:procedure_has_imaged_anatomy:
-  rename: [procedure_has_target_anatomy, 'NCIT:R163']
-NCIT:procedure_has_partially_excised_anatomy:
-  rename: [procedure_has_target_anatomy, 'NCIT:R163']
+  rename:
+  - located_in
+  - biolink:located_in
 NCIT:procedure_has_target_anatomy:
-  rename: [procedure_has_target_anatomy, 'NCIT:R163']
+  rename:
+  - located_in
+  - biolink:located_in
+NCIT:procedure_has_partially_excised_anatomy:
+  rename:
+  - located_in
+  - biolink:located_in
 NCIT:procedure_may_have_completely_excised_anatomy:
-  rename: [procedure_has_target_anatomy, 'NCIT:R163']
+  rename:
+  - located_in
+  - biolink:located_in
 NCIT:procedure_may_have_excised_anatomy:
-  rename: [procedure_has_target_anatomy, 'NCIT:R163']
+  rename:
+  - located_in
+  - biolink:located_in
 NCIT:procedure_may_have_partially_excised_anatomy:
-  rename: [procedure_has_target_anatomy, 'NCIT:R163']
-NCIT:process_altered_by_allele: {delete: null}
+  rename:
+  - located_in
+  - biolink:located_in
+NCIT:process_altered_by_allele:
+  delete: null
 NCIT:process_includes_biological_process:
-  invert: [subclass_of, 'Biolink:subclass_of']
+  invert:
+  - subclass_of
+  - biolink:subclass_of
 NCIT:process_initiates_biological_process:
-  rename: [initiates, 'RO:0002223']
+  rename:
+  - part_of
+  - biolink:part_of
 NCIT:process_involves_gene:
-  invert: [participates_in, 'RO:0000056']
+  invert:
+  - participates_in
+  - biolink:participates_in
 NCIT:qualifier_applies_to:
-  rename: [has_attribute, 'Biolink:has_attribute']
+  rename:
+  - has_attribute
+  - biolink:has_attribute
 NCIT:regimen_has_accepted_use_for_disease:
-  rename: [is_substance_that_treats, 'RO:0002606']
-NCIT:related_to_genetic_biomarker: {delete: null}
+  rename:
+  - treats
+  - biolink:treats
+NCIT:related_to_genetic_biomarker:
+  delete: null
 NCIT:role_has_domain:
-  rename: [role_has_domain, 'NCIT:A1']
+  rename:
+  - has_attribute
+  - biolink:has_attribute
 NCIT:role_has_parent:
-  rename: [subclass_of, 'Biolink:subclass_of']
+  rename:
+  - subclass_of
+  - biolink:subclass_of
 NCIT:role_has_range:
-  rename: [role_has_range, 'NCIT:A2']
-NCIT:role_is_parent_of: {delete: null}
-NCIT:special_category_includes_neoplasm: {delete: null}
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+NCIT:role_is_parent_of:
+  delete: null
+NCIT:special_category_includes_neoplasm:
+  delete: null
 NCIT:subset_includes_concept:
-  invert: [subclass_of, 'Biolink:subclass_of']
-NCIT:target_anatomy_has_procedure: {delete: null}
-NCIT:tissue_is_expression_site_of_gene_product: {delete: null}
-NCIT:tradename_of: {delete: null}
-NDDF:dose_form_of: {delete: null}
+  invert:
+  - subclass_of
+  - biolink:subclass_of
+NCIT:target_anatomy_has_procedure:
+  delete: null
+NCIT:tissue_is_expression_site_of_gene_product:
+  delete: null
+NCIT:tradename_of:
+  delete: null
+NDDF:dose_form_of:
+  delete: null
 NDDF:has_dose_form:
-  rename: [has_dose_form, 'RXNORM:has_dose_form']
+  rename:
+  - subclass_of
+  - biolink:subclass_of
 NDDF:has_ingredient:
-  invert: [part_of, 'BFO:0000050']
+  invert:
+  - part_of
+  - biolink:part_of
 NDDF:ingredient_of:
-  rename: [part_of, 'BFO:0000050']
+  rename:
+  - part_of
+  - biolink:part_of
 NDFRT:active_metabolites_of:
-  rename: [derives_from, 'Biolink:derives_from']
+  rename:
+  - derives_from
+  - biolink:derives_from
 NDFRT:contraindicated_with_disease:
-  rename: [contraindicated_with, 'NCIT:C37933']
+  rename:
+  - contraindicated_for
+  - biolink:contraindicated_for
 NDFRT:contraindicating_class_of:
-  rename: [contraindicated_with, 'NCIT:C37933']
-NDFRT:contraindicating_mechanism_of_action_of: {delete: null}
-NDFRT:contraindicating_physiologic_effect_of: {delete: null}
-NDFRT:dose_form_of: {delete: null}
-NDFRT:effect_may_be_inhibited_by: {delete: null}
-NDFRT:has_active_metabolites: {delete: null}
-NDFRT:has_contraindicated_drug: {delete: null}
+  rename:
+  - contraindicated_for
+  - biolink:contraindicated_for
+NDFRT:contraindicating_mechanism_of_action_of:
+  delete: null
+NDFRT:contraindicating_physiologic_effect_of:
+  delete: null
+NDFRT:dose_form_of:
+  delete: null
+NDFRT:effect_may_be_inhibited_by:
+  delete: null
+NDFRT:has_active_metabolites:
+  delete: null
+NDFRT:has_contraindicated_drug:
+  delete: null
 NDFRT:has_contraindicating_class:
-  rename: [contraindicated_with, 'NCIT:C37933']
+  rename:
+  - contraindicated_for
+  - biolink:contraindicated_for
 NDFRT:has_contraindicating_mechanism_of_action:
-  rename: [contraindicated_with, 'NCIT:C37933']
+  rename:
+  - contraindicated_for
+  - biolink:contraindicated_for
 NDFRT:has_contraindicating_physiologic_effect:
-  rename: [chemical_or_drug_has_physiologic_efefct, 'NCIT:R125']
+  rename:
+  - causes
+  - biolink:causes
 NDFRT:has_dose_form:
-  rename: [has_dose_form, 'RXNORM:has_dose_form']
+  rename:
+  - subclass_of
+  - biolink:subclass_of
 NDFRT:has_ingredient:
-  invert: [part_of, 'BFO:0000050']
+  invert:
+  - part_of
+  - biolink:part_of
 NDFRT:has_mechanism_of_action:
-  rename: [chemical_or_drug_has_mechanism_of_action, 'NCIT:R124']
+  rename:
+  - affects
+  - biolink:affects
 NDFRT:has_pharmacokinetics:
-  rename: [has_route, 'Biolink:has_route']
+  rename:
+  - has_route
+  - biolink:has_route
 NDFRT:has_physiologic_effect:
-  rename: [causes_condition, 'RO:0003303']
-NDFRT:has_print_name:
-  rename: [close_match, 'skos:closeMatch']
-NDFRT:has_product_component: {delete: null}
-NDFRT:induced_by: {delete: null}
+  rename:
+  - causes
+  - biolink:causes
+NDFRT:has_product_component:
+  delete: null
+NDFRT:induced_by:
+  delete: null
 NDFRT:induces:
-  rename: [positively_regulates, 'Biolink:positively_regulates']
+  rename:
+  - positively_regulates
+  - biolink:positively_regulates
 NDFRT:ingredient_of:
-  rename: [part_of, 'BFO:0000050']
-NDFRT:may_be_diagnosed_by: {delete: null}
-NDFRT:may_be_prevented_by: {delete: null}
-NDFRT:may_be_treated_by: {delete: null}
+  rename:
+  - part_of
+  - biolink:part_of
+NDFRT:may_be_diagnosed_by:
+  delete: null
+NDFRT:may_be_prevented_by:
+  delete: null
+NDFRT:may_be_treated_by:
+  delete: null
 NDFRT:may_diagnose:
-  rename: [biomarker_of, 'Biolink:biomarker_for']
+  rename:
+  - biomarker_for
+  - biolink:biomarker_for
 NDFRT:may_inhibit_effect_of:
-  rename: [inhibits, 'RO:0002408']
+  rename:
+  - negatively_regulates
+  - biolink:negatively_regulates
 NDFRT:may_prevent:
-  rename: [capable_of_inhibiting_or_preventing_pathological_process, 'RO:0002599']
+  rename:
+  - prevents
+  - biolink:prevents
 NDFRT:may_treat:
-  rename: [is_substance_that_treats, 'RO:0002606']
-NDFRT:mechanism_of_action_of: {delete: null}
-NDFRT:metabolic_site_of: {delete: null}
-NDFRT:pharmacokinetics_of: {delete: null}
-NDFRT:physiologic_effect_of: {delete: null}
-NDFRT:print_name_of: {delete: null}
+  rename:
+  - treats
+  - biolink:treats
+NDFRT:mechanism_of_action_of:
+  delete: null
+NDFRT:metabolic_site_of:
+  delete: null
+NDFRT:pharmacokinetics_of:
+  delete: null
+NDFRT:physiologic_effect_of:
+  delete: null
 NDFRT:product_component_of:
-  rename: [part_of, 'BFO:0000050']
+  rename:
+  - part_of
+  - biolink:part_of
 NDFRT:site_of_metabolism:
-  invert: [increases_metabolic_processing_of, 'Biolink:increases_metabolic_processing_of']
+  invert:
+  - increases_metabolic_processing_of
+  - biolink:increases_metabolic_processing_of
 OBI:0000293:
-  invert: [input_of, 'RO:0002352']
+  invert:
+  - participates_in
+  - biolink:participates_in
 OBI:0000295:
-  rename: [input_of, 'RO:0002352']
+  rename:
+  - participates_in
+  - biolink:participates_in
 OBI:0000299:
-  rename: [has_output, 'RO:0002234']
-OBO:HANCESTRO_0301:
-  rename: [has_attribute, 'Biolink:has_attribute']
-OBO:HANCESTRO_0330:
-  invert: [has_attribute, 'Biolink:has_attribute']
-OBO:bearer_of:
-  rename: [bearer_of, 'RO:0000053']
-OBO:connected_to:
-  rename: [connected_to, 'RO:0002170']
-OBO:disease_shares_features_of_:
-  rename: [close_match, 'Biolink:related_to']
-OBO:distally_connected_to:
-  rename: [distally_connected_to, 'UBERON:distally_connected_to']
-OBO:hancestro_0285:
-  rename: [has_attribute, 'Biolink:has_attribute']
+  rename:
+  - has_output
+  - biolink:has_output
+OBI:0001927:
+  invert:
+  - has_attribute
+  - biolink:has_attribute
+OBO:disease_shares_features_of:
+  rename:
+  - related_to
+  - biolink:related_to
+OBO:INO_0000154:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+OBO:core#connected_to:
+  rename:
+  - related_to
+  - biolink:related_to
+OBO:core#distally_connected_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+OBO:core#innervated_by:
+  rename:
+  - related_to
+  - biolink:related_to
+OBO:core#subdivision_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+OBO:doid#derives_from:
+  rename:
+  - derives_from
+  - biolink:derives_from
+OBO:doid#has_symptom:
+  rename:
+  - has_phenotype
+  - biolink:has_phenotype
+OBO:envo#has_increased_levels_of:
+  rename:
+  - related_to
+  - biolink:related_to
 OBO:hancestro_0308:
-  rename: [has_attribute, 'Biolink:has_attribute']
-OBO:hancestro_0330:
-  invert: [has_attribute, 'Biolink:has_attribute']
+  rename:
+  - has_attribute
+  - biolink:has_attribute
 OBO:has_role:
-  rename: [has_role, 'RO:0000087']
-OBO:innervated_by:
-  rename: [innervated_by, 'RO:0002005']
+  rename:
+  - related_to
+  - biolink:related_to
 OBO:intersection_of:
-  rename: [subclass_of, 'Biolink:subclass_of']
-OBO:subdivision_of:
-  rename: [subdivision_of, 'UBERON:subdivision_of']
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+OBO:nbo#by_means:
+  invert:
+  - actively_involved_in
+  - biolink:actively_involved_in
+OBO:nbo#has_participant:
+  invert:
+  - participates_in
+  - biolink:participates_in
+OBO:nbo#in_response_to:
+  invert:
+  - causes
+  - biolink:causes
+OBO:nbo#is_about:
+  rename:
+  - related_to
+  - biolink:related_to
+OBO:uo#is_unit_of:
+  invert:
+  - has_unit
+  - biolink:has_unit
 OBO:xref:
-  rename: [close_match, 'skos:closeMatch']
+  rename:
+  - close_match
+  - skos:closeMatch
+OBOREL:bearer_of:
+  rename:
+  - related_to
+  - biolink:related_to
 OMIM:allelic_variant_of:
-  rename: [variant_of, 'Biolink:variant_to_thing_association']
-OMIM:has_allelic_variant: {delete: null}
+  rename:
+  - related_to
+  - biolink:related_to
+OMIM:has_allelic_variant:
+  delete: null
 OMIM:has_inheritance_type:
-  rename: [disease_to_thing_association, 'Biolink:disease_to_thing_association']
+  rename:
+  - has_attribute
+  - biolink:has_attribute
 OMIM:has_manifestation:
-  invert: [subclass_of, 'Biolink:subclass_of']
+  invert:
+  - subclass_of
+  - biolink:subclass_of
 OMIM:has_phenotype:
-  rename: [has_phenotype, 'Biolink:has_phenotype']
-OMIM:inheritance_type_of: {delete: null}
+  rename:
+  - has_phenotype
+  - biolink:has_phenotype
+OMIM:inheritance_type_of:
+  delete: null
 OMIM:manifestation_of:
-  rename: [subclass_of, 'Biolink:subclass_of']
+  rename:
+  - manifestation_of
+  - biolink:manifestation_of
 OMIM:phenotype_of:
-  invert: [has_phenotype, 'Biolink:has_phenotype']
-Orphanet:317343:
-  rename: [is_causal_germline_mutation_in, 'RO:0004013']
-Orphanet:317344:
-  rename: [is_causal_somatic_mutation_in, 'RO:0004014']
-Orphanet:317345:
-  rename: [correlated_with_condition, 'RO:0003308']
-Orphanet:317346:
-  rename: [is_causal_germline_mutation_partially_giving_rise_to, 'RO:0004016']
-Orphanet:317348:
-  rename: [involved_in, 'RO:0002331']
-Orphanet:317349:
-  rename: [involved_in, 'RO:0002331']
-Orphanet:327767:
-  rename: [involved_in, 'RO:0002331']
-Orphanet:410295:
-  rename: [is_causal_loss_of_function_germline_mutation_in, 'RO:0004012']
-Orphanet:410296:
-  rename: [is_causal_gain_of_function_germline_mutation_in, 'RO:0004011']
-Orphanet:465410:
-  rename: [biomarker_of, 'Biolink:biomarker_for']
-Orphanet:C016:
-  rename: [disease_to_thing_association, 'Biolink:disease_to_thing_association']
-Orphanet:C017:
-  rename: [has_attribute, 'Biolink:has_attribute']
+  invert:
+  - has_phenotype
+  - biolink:has_phenotype
+ORPHANET:317343:
+  rename:
+  - causes
+  - biolink:causes
+ORPHANET:317344:
+  rename:
+  - causes
+  - biolink:causes
+ORPHANET:317345:
+  rename:
+  - correlated_with
+  - biolink:correlated_with
+ORPHANET:317346:
+  rename:
+  - causes
+  - biolink:causes
+ORPHANET:317348:
+  rename:
+  - actively_involved_in
+  - biolink:actively_involved_in
+ORPHANET:317349:
+  rename:
+  - actively_involved_in
+  - biolink:actively_involved_in
+ORPHANET:327767:
+  rename:
+  - actively_involved_in
+  - biolink:actively_involved_in
+ORPHANET:410295:
+  rename:
+  - causes
+  - biolink:causes
+ORPHANET:410296:
+  rename:
+  - causes
+  - biolink:causes
+ORPHANET:465410:
+  rename:
+  - biomarker_for
+  - biolink:biomarker_for
+ORPHANET:C016:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+ORPHANET:C017:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
 PATO:correlates_with:
-  rename: [correlated_with, 'RO:0002610']
-PATO:decreased_in_magnitude_relative_to: {keep: null}
-PATO:has_cross_section: {keep: null}
-PATO:has_relative_magnitude: {keep: null}
+  rename:
+  - correlated_with
+  - biolink:correlated_with
+PATO:decreased_in_magnitude_relative_to:
+  rename:
+  - related_to
+  - biolink:related_to
+PATO:has_cross_section:
+  rename:
+  - related_to
+  - biolink:related_to
+PATO:has_relative_magnitude:
+  rename:
+  - related_to
+  - biolink:related_to
 PATO:increased_in_magnitude_relative_to:
-  rename: [greater_than, 'Biolink:related_to']
-PATO:reciprocal_of: {keep: null}
+  rename:
+  - related_to
+  - biolink:related_to
+PATO:reciprocal_of:
+  rename:
+  - related_to
+  - biolink:related_to
 PATO:towards:
-  invert: [involved_in, 'RO:0002331']
+  invert:
+  - actively_involved_in
+  - biolink:actively_involved_in
 PDQ:associated_disease:
-  rename: [correlated_with_condition, 'RO:0003308']
-PDQ:associated_genetic_condition: {delete: null}
+  rename:
+  - correlated_with
+  - biolink:correlated_with
+PDQ:associated_genetic_condition:
+  delete: null
 PDQ:component_of:
-  rename: [part_of, 'BFO:0000050']
+  rename:
+  - part_of
+  - biolink:part_of
 PDQ:has_component:
-  invert: [part_of, 'BFO:0000050']
-PNDS:SIB: {delete: null}
+  invert:
+  - part_of
+  - biolink:part_of
 PR:has_gene_template:
-  invert: [has_gene_product, 'Biolink:has_gene_product']
+  invert:
+  - has_gene_product
+  - biolink:has_gene_product
 PR:lacks_part:
-  rename: [lacks_part, 'CL:lacks_part']
+  rename:
+  - lacks_part
+  - biolink:lacks_part
 PR:non-covalently_bound_to:
-  rename: [directly_interacts_with, 'Biolink:physically_interacts_with']
-REPODB:clinically_tested_withdrawn_phase_0:
-  rename: [intent_to_treat, 'NCIT:C54398']
-REPODB:clinically_tested_withdrawn_phase_1:
-  rename: [intent_to_treat, 'NCIT:C54398']
-REPODB:clinically_tested_withdrawn_phase_2:
-  rename: [intent_to_treat, 'NCIT:C54398']
-REPODB:clinically_tested_withdrawn_phase_3:
-  rename: [intent_to_treat, 'NCIT:C54398']
-REPODB:clinically_tested_withdrawn_phase_1_or_phase_2:
-  rename: [intent_to_treat, 'NCIT:C54398']
-REPODB:clinically_tested_withdrawn_phase_2_or_phase_3:
-  rename: [intent_to_treat, 'NCIT:C54398']
-REPODB:clinically_tested_terminated_phase_0:
-  rename: [intent_to_treat, 'NCIT:C54398']
-REPODB:clinically_tested_terminated_phase_1:
-  rename: [intent_to_treat, 'NCIT:C54398']
-REPODB:clinically_tested_terminated_phase_2:
-  rename: [intent_to_treat, 'NCIT:C54398']
-REPODB:clinically_tested_terminated_phase_3:
-  rename: [intent_to_treat, 'NCIT:C54398']
-REPODB:clinically_tested_terminated_phase_1_or_phase_2:
-  rename: [intent_to_treat, 'NCIT:C54398']
-REPODB:clinically_tested_terminated_phase_2_or_phase_3:
-  rename: [intent_to_treat, 'NCIT:C54398']
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+PathWhiz:has_bound:
+  invert:
+  - participates_in
+  - biolink:participates_in
+PathWhiz:has_compound:
+  invert:
+  - participates_in
+  - biolink:participates_in
+PathWhiz:has_element_collection:
+  invert:
+  - participates_in
+  - biolink:participates_in
+PathWhiz:has_element_in_bound:
+  invert:
+  - part_of
+  - biolink:part_of
+PathWhiz:has_enzyme:
+  invert:
+  - participates_in
+  - biolink:participates_in
+PathWhiz:has_left_element:
+  rename:
+  - has_input
+  - biolink:has_input
+PathWhiz:has_location:
+  rename:
+  - occurs_in
+  - biolink:occurs_in
+PathWhiz:has_nucleic_acid:
+  invert:
+  - participates_in
+  - biolink:participates_in
+PathWhiz:has_protein:
+  invert:
+  - participates_in
+  - biolink:participates_in
+PathWhiz:has_protein_in_complex:
+  invert:
+  - part_of
+  - biolink:part_of
+PathWhiz:has_reaction:
+  invert:
+  - participates_in
+  - biolink:participates_in
+PathWhiz:has_right_element:
+  rename:
+  - has_output
+  - biolink:has_output
+PathWhiz:in_species:
+  rename:
+  - occurs_in
+  - biolink:occurs_in
+PathWhiz:uses_tissue:
+  rename:
+  - occurs_in
+  - biolink:occurs_in
 REPODB:clinically_tested_approved_unknown_phase:
-  rename: [is_substance_that_treats, 'RO:0002606']
+  rename:
+  - treats
+  - biolink:treats
 REPODB:clinically_tested_suspended_phase_0:
-  rename: [intent_to_treat, 'NCIT:C54398']
+  rename:
+  - treats
+  - biolink:treats
 REPODB:clinically_tested_suspended_phase_1:
-  rename: [intent_to_treat, 'NCIT:C54398']
-REPODB:clinically_tested_suspended_phase_2:
-  rename: [intent_to_treat, 'NCIT:C54398']
-REPODB:clinically_tested_suspended_phase_3:
-  rename: [intent_to_treat, 'NCIT:C54398']
+  rename:
+  - treats
+  - biolink:treats
 REPODB:clinically_tested_suspended_phase_1_or_phase_2:
-  rename: [intent_to_treat, 'NCIT:C54398']
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_suspended_phase_2:
+  rename:
+  - treats
+  - biolink:treats
 REPODB:clinically_tested_suspended_phase_2_or_phase_3:
-  rename: [intent_to_treat, 'NCIT:C54398']
-RO:0000052: {keep: null}
-RO:0000053: {keep: null}
-RO:0000056: {keep: null}
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_suspended_phase_3:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_terminated_phase_0:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_terminated_phase_1:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_terminated_phase_1_or_phase_2:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_terminated_phase_2:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_terminated_phase_2_or_phase_3:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_terminated_phase_3:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_withdrawn_phase_0:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_withdrawn_phase_1:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_withdrawn_phase_1_or_phase_2:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_withdrawn_phase_2:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_withdrawn_phase_2_or_phase_3:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_withdrawn_phase_3:
+  rename:
+  - treats
+  - biolink:treats
+RO:0000052:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0000053:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+RO:0000056:
+  rename:
+  - participates_in
+  - biolink:participates_in
 RO:0000057:
-  invert: [participates_in, 'RO:0000056']
-RO:0000086: {keep: null}
-RO:0000087: {keep: null}
-RO:0001000: {keep: null}
+  invert:
+  - participates_in
+  - biolink:participates_in
+RO:0000086:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0000087:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0001000:
+  rename:
+  - derives_from
+  - biolink:derives_from
 RO:0001015:
-  invert: [located_in, 'RO:0001025']
+  invert:
+  - located_in
+  - biolink:located_in
 RO:0001019:
-  invert: [part_of, 'BFO:0000050']
-RO:0001022: {keep: null}
-RO:0001025: {keep: null}
-RO:0002002: {keep: null}
-RO:0002005: {keep: null}
-RO:0002007: {keep: null}
-RO:0002008: {keep: null}
-RO:0002013: {keep: null}
-RO:0002015: {keep: null}
-RO:0002016: {keep: null}
-RO:0002082: {keep: null}
-RO:0002087: {keep: null}
-RO:0002090: {keep: null}
-RO:0002092: {keep: null}
-RO:0002093: {keep: null}
-RO:0002100: {keep: null}
-RO:0002102: {keep: null}
-RO:0002103: {keep: null}
-RO:0002104: {keep: null}
-RO:0002120: {keep: null}
-RO:0002130: {keep: null}
-RO:0002131: {keep: null}
-RO:0002134: {keep: null}
-RO:0002150: {keep: null}
-RO:0002159: {keep: null}
-RO:0002160: {keep: null}
-RO:0002162: {keep: null}
-RO:0002170: {keep: null}
-RO:0002176: {keep: null}
-RO:0002177: {keep: null}
-RO:0002178: {keep: null}
-RO:0002179: {keep: null}
+  invert:
+  - part_of
+  - biolink:part_of
+RO:0001022:
+  invert:
+  - causes
+  - biolink:causes
+RO:0001025:
+  rename:
+  - located_in
+  - biolink:located_in
+RO:0002001:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002002:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002005:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002007:
+  rename:
+  - part_of
+  - biolink:part_of
+RO:0002008:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002013:
+  rename:
+  - capable_of
+  - biolink:capable_of
+RO:0002015:
+  rename:
+  - capable_of
+  - biolink:capable_of
+RO:0002016:
+  rename:
+  - capable_of
+  - biolink:capable_of
+RO:0002082:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002083:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002087:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002090:
+  rename:
+  - precedes
+  - biolink:precedes
+RO:0002092:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002093:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002100:
+  rename:
+  - overlaps
+  - biolink:overlaps
+RO:0002102:
+  rename:
+  - overlaps
+  - biolink:overlaps
+RO:0002103:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002104:
+  invert:
+  - part_of
+  - biolink:part_of
+RO:0002120:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002130:
+  rename:
+  - overlaps
+  - biolink:overlaps
+RO:0002131:
+  rename:
+  - overlaps
+  - biolink:overlaps
+RO:0002134:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002150:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002159:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002160:
+  rename:
+  - in_taxon
+  - biolink:in_taxon
+RO:0002162:
+  rename:
+  - in_taxon
+  - biolink:in_taxon
+RO:0002170:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002176:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002177:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002178:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002179:
+  rename:
+  - related_to
+  - biolink:related_to
 RO:0002180:
-  invert: [part_of, 'BFO:0000050']
+  invert:
+  - part_of
+  - biolink:part_of
 RO:0002200:
-  rename: [has_phenotype, 'Biolink:has_phenotype']
+  rename:
+  - has_phenotype
+  - biolink:has_phenotype
 RO:0002202:
-  invert: [develops_into, 'RO:0002203']
-RO:0002203: {keep: null}
-RO:0002207: {keep: null}
-RO:0002211: {keep: null}
+  invert:
+  - related_to
+  - biolink:related_to
+RO:0002203:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002207:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002211:
+  rename:
+  - regulates,_process_to_process
+  - biolink:regulates,_process_to_process
 RO:0002212:
-  rename: [negatively_regulates, 'Biolink:negatively_regulates']
+  rename:
+  - negatively_regulates,_process_to_process
+  - biolink:negatively_regulates,_process_to_process
 RO:0002213:
-  rename: [positively_regulates, 'Biolink:positively_regulates']
-RO:0002215: {keep: null}
-RO:0002216: {keep: null}
-RO:0002218: {keep: null}
-RO:0002219: {keep: null}
-RO:0002220: {keep: null}
-RO:0002221: {keep: null}
-RO:0002223: {keep: null}
-RO:0002224: {keep: null}
-RO:0002225: {keep: null}
-RO:0002226: {keep: null}
-RO:0002229: {keep: null}
-RO:0002230: {keep: null}
-RO:0002231: {keep: null}
-RO:0002232: {keep: null}
+  rename:
+  - positively_regulates,_process_to_process
+  - biolink:positively_regulates,_process_to_process
+RO:0002215:
+  rename:
+  - capable_of
+  - biolink:capable_of
+RO:0002216:
+  rename:
+  - participates_in
+  - biolink:participates_in
+RO:0002218:
+  invert:
+  - participates_in
+  - biolink:participates_in
+RO:0002219:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002220:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002221:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002223:
+  rename:
+  - part_of
+  - biolink:part_of
+RO:0002224:
+  invert:
+  - part_of
+  - biolink:part_of
+RO:0002225:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002226:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002229:
+  rename:
+  - part_of
+  - biolink:part_of
+RO:0002230:
+  invert:
+  - part_of
+  - biolink:part_of
+RO:0002231:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002232:
+  rename:
+  - related_to
+  - biolink:related_to
 RO:0002233:
-  invert: [input_of, 'RO:0002352']
-RO:0002234: {keep: null}
-RO:0002254: {keep: null}
-RO:0002256: {keep: null}
-RO:0002285: {keep: null}
+  rename:
+  - has_input
+  - biolink:has_input
+RO:0002234:
+  rename:
+  - has_output
+  - biolink:has_output
+RO:0002254:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002256:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002285:
+  rename:
+  - related_to
+  - biolink:related_to
 RO:0002292:
-  rename: [expresses, 'Biolink:expresses']
-RO:0002295: {keep: null}
-RO:0002296: {keep: null}
-RO:0002297: {keep: null}
-RO:0002298: {keep: null}
-RO:0002299: {keep: null}
-RO:0002313: {keep: null}
-RO:0002314: {keep: null}
-RO:0002315: {keep: null}
-RO:0002322: {keep: null}
-RO:0002328: {keep: null}
-RO:0002331: {keep: null}
-RO:0002332: {keep: null}
+  rename:
+  - expresses
+  - biolink:expresses
+RO:0002295:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002296:
+  rename:
+  - has_output
+  - biolink:has_output
+RO:0002297:
+  rename:
+  - has_output
+  - biolink:has_output
+RO:0002298:
+  rename:
+  - has_output
+  - biolink:has_output
+RO:0002299:
+  rename:
+  - has_output
+  - biolink:has_output
+RO:0002303:
+  rename:
+  - located_in
+  - biolink:located_in
+RO:0002313:
+  rename:
+  - affects_transport_of
+  - biolink:affects_transport_of
+RO:0002314:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002315:
+  rename:
+  - causes
+  - biolink:causes
+RO:0002322:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002328:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002331:
+  rename:
+  - actively_involved_in
+  - biolink:actively_involved_in
+RO:0002332:
+  rename:
+  - related_to
+  - biolink:related_to
 RO:0002334:
-  invert: [regulates, 'RO:0002211']
-RO:0002338: {keep: null}
-RO:0002339: {keep: null}
-RO:0002340: {keep: null}
-RO:0002341: {keep: null}
-RO:0002342: {keep: null}
-RO:0002343: {keep: null}
-RO:0002344: {keep: null}
-RO:0002345: {keep: null}
-RO:0002348: {keep: null}
-RO:0002349: {keep: null}
-RO:0002350: {keep: null}
+  invert:
+  - regulates
+  - biolink:regulates
+RO:0002338:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002339:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002340:
+  rename:
+  - affects_transport_of
+  - biolink:affects_transport_of
+RO:0002341:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002342:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002343:
+  rename:
+  - affects
+  - biolink:affects
+RO:0002344:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002345:
+  rename:
+  - affects_transport_of
+  - biolink:affects_transport_of
+RO:0002348:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002349:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002350:
+  rename:
+  - part_of
+  - biolink:part_of
 RO:0002351:
-  invert: [part_of, 'BFO:0000050']
-RO:0002352: {keep: null}
+  invert:
+  - part_of
+  - biolink:part_of
+RO:0002352:
+  invert:
+  - has_input
+  - biolink:has_input
 RO:0002353:
-  invert: [has_output, 'RO:0002234']
-RO:0002355: {keep: null}
-RO:0002356: {keep: null}
-RO:0002371: {keep: null}
-RO:0002372: {keep: null}
-RO:0002373: {keep: null}
-RO:0002374: {keep: null}
-RO:0002376: {keep: null}
-RO:0002380: {keep: null}
-RO:0002385: {keep: null}
-RO:0002387: {keep: null}
-RO:0002411: {keep: null}
-RO:0002412: {keep: null}
-RO:0002433: {keep: null}
-RO:0002451: {keep: null}
-RO:0002473: {keep: null}
-RO:0002488: {keep: null}
-RO:0002489: {keep: null}
-RO:0002492: {keep: null}
-RO:0002493: {keep: null}
-RO:0002494: {keep: null}
-RO:0002495: {keep: null}
-RO:0002496: {keep: null}
-RO:0002497: {keep: null}
-RO:0002507: {keep: null}
-RO:0002508: {keep: null}
-RO:0002524: {keep: null}
-RO:0002551: {keep: null}
-RO:0002565: {keep: null}
-RO:0002568: {keep: null}
-RO:0002571: {keep: null}
-RO:0002572: {keep: null}
-RO:0002573: {keep: null}
-RO:0002576: {keep: null}
-RO:0002578: {keep: null}
-RO:0002588: {keep: null}
-RO:0002590: {keep: null}
-RO:0002591: {keep: null}
-RO:0002592: {keep: null}
-RO:0002629: {keep: null}
-RO:0002630: {keep: null}
+  invert:
+  - has_output
+  - biolink:has_output
+RO:0002354:
+  invert:
+  - has_output
+  - biolink:has_output
+RO:0002355:
+  rename:
+  - affects
+  - biolink:affects
+RO:0002356:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002371:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002372:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002373:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002374:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002376:
+  rename:
+  - part_of
+  - biolink:part_of
+RO:0002380:
+  rename:
+  - part_of
+  - biolink:part_of
+RO:0002385:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002387:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002411:
+  rename:
+  - precedes
+  - biolink:precedes
+RO:0002412:
+  rename:
+  - precedes
+  - biolink:precedes
+RO:0002433:
+  rename:
+  - overlaps
+  - biolink:overlaps
+RO:0002451:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002473:
+  invert:
+  - part_of
+  - biolink:part_of
+RO:0002488:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002489:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002492:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002493:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002494:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002495:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002496:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002497:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002500:
+  rename:
+  - capable_of
+  - biolink:capable_of
+RO:0002505:
+  invert:
+  - participates_in
+  - biolink:participates_in
+RO:0002507:
+  invert:
+  - causes
+  - biolink:causes
+RO:0002508:
+  rename:
+  - causes
+  - biolink:causes
+RO:0002509:
+  invert:
+  - causes
+  - biolink:causes
+RO:0002524:
+  invert:
+  - part_of
+  - biolink:part_of
+RO:0002551:
+  invert:
+  - part_of
+  - biolink:part_of
+RO:0002565:
+  invert:
+  - participates_in
+  - biolink:participates_in
+RO:0002568:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002571:
+  rename:
+  - part_of
+  - biolink:part_of
+RO:0002572:
+  rename:
+  - part_of
+  - biolink:part_of
+RO:0002573:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002576:
+  rename:
+  - part_of
+  - biolink:part_of
+RO:0002578:
+  rename:
+  - regulates
+  - biolink:regulates
+RO:0002588:
+  rename:
+  - has_output
+  - biolink:has_output
+RO:0002590:
+  rename:
+  - has_input
+  - biolink:has_input
+RO:0002591:
+  rename:
+  - affects
+  - biolink:affects
+RO:0002592:
+  rename:
+  - affects
+  - biolink:affects
+RO:0002608:
+  invert:
+  - causes
+  - biolink:causes
+RO:0002629:
+  rename:
+  - positively_regulates
+  - biolink:positively_regulates
+RO:0002630:
+  rename:
+  - negatively_regulates
+  - biolink:negatively_regulates
 RO:0003000:
-  rename: [produces, 'Biolink:produces']
+  rename:
+  - produces
+  - biolink:produces
 RO:0003001:
-  invert: [produces, 'Biolink:produces']
-RO:0003304: {keep: null}
-RO:0004007: {keep: null}
-RO:0004008: {keep: null}
-RO:0004009: {keep: null}
-RO:0004019: {keep: null}
-RO:0004020: {keep: null}
-RO:0004021: {keep: null}
-RO:0004022: {keep: null}
-RO:0004024: {keep: null}
-RO:0004025: {keep: null}
-RO:0004026: {keep: null}
-RO:0004027: {keep: null}
-RO:0004028: {keep: null}
-RO:0004029: {keep: null}
-RO:0004030: {keep: null}
-RO:0009001: {keep: null}
-RO:0009004: {keep: null}
-RO:0009501: {keep: null}
-RO:derives_from: {keep: null}
+  invert:
+  - produces
+  - biolink:produces
+RO:0003304:
+  rename:
+  - causes
+  - biolink:causes
+RO:0004001:
+  rename:
+  - causes
+  - biolink:causes
+RO:0004007:
+  invert:
+  - participates_in
+  - biolink:participates_in
+RO:0004008:
+  rename:
+  - has_output
+  - biolink:has_output
+RO:0004009:
+  rename:
+  - has_input
+  - biolink:has_input
+RO:0004019:
+  invert:
+  - causes
+  - biolink:causes
+RO:0004020:
+  invert:
+  - participates_in
+  - biolink:participates_in
+RO:0004021:
+  invert:
+  - participates_in
+  - biolink:participates_in
+RO:0004022:
+  rename:
+  - has_phenotype
+  - biolink:has_phenotype
+RO:0004024:
+  rename:
+  - disrupts
+  - biolink:disrupts
+RO:0004025:
+  rename:
+  - disrupts
+  - biolink:disrupts
+RO:0004026:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0004027:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0004028:
+  invert:
+  - causes
+  - biolink:causes
+RO:0004029:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0004030:
+  invert:
+  - causes
+  - biolink:causes
+RO:0009001:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0009004:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0009501:
+  invert:
+  - causes
+  - biolink:causes
+RO:0012003:
+  rename:
+  - affects
+  - biolink:affects
+RO:derives_from:
+  rename:
+  - related_to
+  - biolink:related_to
 RO:has_participant:
-  invert: [participates_in, 'RO:0000056']
+  invert:
+  - participates_in
+  - biolink:participates_in
 RO:participates_in:
-  rename: [participates_in, 'RO:0000056']
-RTXKG1:activator:
-  rename: [activates, 'RO:0002450']
-RTXKG1:affects: {keep: null}
-RTXKG1:agonist:
-  rename: [agonist, 'CHEMBL:agonist']
-RTXKG1:allosteric_modulator:
-  rename: [regulates, 'RO:0002211']
-RTXKG1:antagonist:
-  rename: [antagonist, 'CHEMBL:antagonist']
-RTXKG1:antibody:
-  rename: [molecularly_interacts_with, 'RO:0002436']
-RTXKG1:antisense:
-  rename: [antisense, 'RTX:antisense']
-RTXKG1:antisense_oligonucleotide:
-  rename: [antisense, 'RTX:antisense']
+  rename:
+  - participates_in
+  - biolink:participates_in
+RTXKG1:affects:
+  rename:
+  - affects
+  - biolink:affects
 RTXKG1:associated_with_disease:
-  rename: [correlated_with_condition, 'RO:0003308']
-RTXKG1:binder:
-  rename: [directly_interacts_with, 'Biolink:physically_interacts_with']
-RTXKG1:blocker:
-  rename: [inhibits, 'RO:0002408']
+  rename:
+  - correlated_with
+  - biolink:correlated_with
 RTXKG1:capable_of:
-  rename: [capable_of, 'RO:0002215']
+  rename:
+  - capable_of
+  - biolink:capable_of
 RTXKG1:capable_of_part_of:
-  rename: [capable_of_part_of, 'RO:0002216']
-RTXKG1:causes_or_contributes_to:
-  rename: [causes_or_contributes_to, 'RO:0003302']
-RTXKG1:channel_blocker:
-  rename: [inhibits, 'RO:0002408']
-RTXKG1:cofactor:
-  rename: [activates, 'RO:0002450']
+  rename:
+  - causes
+  - biolink:causes
 RTXKG1:composed_primarily_of:
-  rename: [composed_primarily_of, 'RO:0002473']
+  rename:
+  - has_part
+  - biolink:has_part
 RTXKG1:contains_process:
-  invert: [part_of, 'BFO:0000050']
+  invert:
+  - part_of
+  - biolink:part_of
 RTXKG1:contraindicated_for:
-  rename: [contraindicated_with, 'NCIT:C37933']
+  rename:
+  - contraindicated_for
+  - biolink:contraindicated_for
 RTXKG1:disease_caused_by_disruption_of:
-  invert: [causes_or_contributes_to, 'RO:0003302']
+  invert:
+  - causes
+  - biolink:causes
 RTXKG1:disease_causes_disruption_of:
-  rename: [disease_causes_disruption_of, 'RO:0004024']
+  rename:
+  - causes
+  - biolink:causes
 RTXKG1:disease_has_basis_in_dysfunction_of:
-  rename: [disease_has_basis_in_dysfunction_of, 'RO:0004020']
+  rename:
+  - causes
+  - biolink:causes
 RTXKG1:disease_has_location:
-  rename: [disease_has_location, 'RO:0004026']
-RTXKG1:equivalentClass:
-  rename: [equivalent_to, 'owl:equivalentClass']
-RTXKG1:expressed_in: {keep: null}
+  rename:
+  - located_in
+  - biolink:located_in
+RTXKG1:expressed_in:
+  rename:
+  - expressed_in
+  - biolink:expressed_in
 RTXKG1:functionally_related_to:
-  rename: [functionally_related_to, 'RO:0002328']
-RTXKG1:gating_inhibitor:
-  rename: [inhibits, 'RO:0002408']
+  rename:
+  - related_to
+  - biolink:related_to
 RTXKG1:gene_associated_with_condition:
-  rename: [associated_with, 'Biolink:gene_associated_with_condition']
-#RTXKG1:gene_found_in_organism:
-#  rename: [in_taxon, 'Biolink:in_taxon']
+  rename:
+  - gene_associated_with_condition
+  - biolink:gene_associated_with_condition
 RTXKG1:gene_mutations_contribute_to:
-  rename: [is_causal_susceptibility_factor_for, 'RO:0004015']
-Biolink:gene_product_has_organism_source:
-  rename: [in_taxon, 'Biolink:in_taxon']
+  rename:
+  - causes
+  - biolink:causes
 RTXKG1:has_completed:
-  rename: [has_completed, 'CL:has_completed']
+  rename:
+  - has_completed
+  - biolink:has_completed
 RTXKG1:has_part:
-  invert: [part_of, 'BFO:0000050']
-RTXKG1:has_phenotype: {keep: null}
+  invert:
+  - part_of
+  - biolink:part_of
+RTXKG1:has_phenotype:
+  rename:
+  - has_phenotype
+  - biolink:has_phenotype
 RTXKG1:has_plasma_membrane_part:
-  rename: [has_plasma_membrane_part, 'RO:0002104']
+  rename:
+  - has_part
+  - biolink:has_part
 RTXKG1:indicated_for:
-  rename: [is_substance_that_treats, 'RO:0002606']
-RTXKG1:inducer:
-  rename: [positively_regulates, 'Biolink:positively_regulates']
-RTXKG1:inhibitor:
-  rename: [inhibits, 'RO:0002449']
-RTXKG1:inverse_agonist:
-  rename: [inverse_agonist, 'CHEMBL:inverse_agonist']
+  rename:
+  - treats
+  - biolink:treats
 RTXKG1:involved_in:
-  rename: [involved_in, 'RO:0002331']
+  rename:
+  - actively_involved_in
+  - biolink:actively_involved_in
 RTXKG1:lacks_part:
-  rename: [lacks_part, 'CL:lacks_part']
-RTXKG1:modulator:
-  rename: [regulates, 'RO:0002211']
-RTXKG1:negative_modulator:
-  rename: [negatively_regulates, 'Biolink:negatively_regulates']
+  rename:
+  - lacks_part
+  - biolink:lacks_part
 RTXKG1:output_of:
-  invert: [has_output, 'RO:0002234']
-RTXKG1:partial_agonist:
-  rename: [activates, 'RO:0002450']
+  invert:
+  - has_output
+  - biolink:has_output
 RTXKG1:participates_in:
-  rename: [participates_in, 'RO:0000056']
-RTXKG1:positive_allosteric_modulator:
-  rename: [positively_regulates, 'Biolink:positively_regulates']
+  rename:
+  - participates_in
+  - biolink:participates_in
+RTXKG1:physically_interacts_with:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
 RTXKG1:realized_in_response_to:
-  rename: [realized_in_response_to, 'RO:0009501']
+  rename:
+  - causes
+  - biolink:causes
 RTXKG1:realized_in_response_to_stimulus:
-  rename: [realized_in_response_to_stimulus, 'RO:0004028']
+  rename:
+  - causes
+  - biolink:causes
+RTXKG1:regulates_activity_of:
+  rename:
+  - regulates
+  - biolink:regulates
+RTXKG1:regulates_expression_of:
+  rename:
+  - related_to
+  - biolink:related_to
 RTXKG1:site_of:
-  rename: [site_of, 'UBERON:site_of']
-RTXKG1:stimulator:
-  rename: [activates, 'RO:0002450']
-RTXKG1:subClassOf:
-  rename: [subclass_of, 'Biolink:subclass_of']
-RTXKG1:vaccine:
-  rename: [inhibits, 'RO:0002408']
+  invert:
+  - located_in
+  - biolink:located_in
+RTXKG1:subclass_of:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+RTXKG1:targets:
+  rename:
+  - molecularly_interacts_with
+  - biolink:molecularly_interacts_with
 RXNORM:consists_of:
-  invert: [part_of, 'BFO:0000050']
+  invert:
+  - part_of
+  - biolink:part_of
 RXNORM:constitutes:
-  rename: [part_of, 'BFO:0000050']
+  rename:
+  - part_of
+  - biolink:part_of
 RXNORM:contained_in:
-  rename: [part_of, 'BFO:0000050']
+  rename:
+  - part_of
+  - biolink:part_of
 RXNORM:contains:
-  invert: [part_of, 'BFO:0000050']
-RXNORM:dose_form_of: {delete: null}
-RXNORM:doseformgroup_of: {delete: null}
-RXNORM:form_of: {delete: null}
-RXNORM:has_dose_form: {keep: null}
+  invert:
+  - part_of
+  - biolink:part_of
+RXNORM:dose_form_of:
+  delete: null
+RXNORM:doseformgroup_of:
+  delete: null
+RXNORM:form_of:
+  delete: null
+RXNORM:has_dose_form:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
 RXNORM:has_doseformgroup:
-  rename: [has_dose_form, 'RXNORM:has_dose_form']
+  rename:
+  - subclass_of
+  - biolink:subclass_of
 RXNORM:has_form:
-  rename: [related_to, 'Biolink:related_to']
+  rename:
+  - related_to
+  - biolink:related_to
 RXNORM:has_ingredient:
-  invert: [part_of, 'BFO:0000050']
-RXNORM:has_ingredients: {delete: null}
+  invert:
+  - part_of
+  - biolink:part_of
+RXNORM:has_ingredients:
+  delete: null
 RXNORM:has_part:
-  invert: [part_of, 'BFO:0000050']
-RXNORM:has_precise_ingredient: {delete: null}
+  invert:
+  - part_of
+  - biolink:part_of
+RXNORM:has_precise_ingredient:
+  delete: null
 RXNORM:has_quantified_form:
-  rename: [close_match, 'skos:closeMatch']
+  rename:
+  - close_match
+  - skos:closeMatch
 RXNORM:has_tradename:
-  rename: [has_related_synonym, 'oboInOwl:hasRelatedSynonym']
+  rename:
+  - synonym
+  - biolink:synonym
 RXNORM:ingredient_of:
-  rename: [part_of, 'BFO:0000050']
+  rename:
+  - part_of
+  - biolink:part_of
 RXNORM:ingredients_of:
-  rename: [part_of, 'BFO:0000050']
+  rename:
+  - part_of
+  - biolink:part_of
 RXNORM:inverse_isa:
-  invert: [subclass_of, 'Biolink:subclass_of']
+  invert:
+  - subclass_of
+  - biolink:subclass_of
 RXNORM:isa:
-  rename: [subclass_of, 'Biolink:subclass_of']
+  rename:
+  - subclass_of
+  - biolink:subclass_of
 RXNORM:part_of:
-  rename: [part_of, 'BFO:0000050']
+  rename:
+  - part_of
+  - biolink:part_of
 RXNORM:precise_ingredient_of:
-  rename: [part_of, 'BFO:0000050']
-RXNORM:quantified_form_of: {delete: null}
+  rename:
+  - part_of
+  - biolink:part_of
+RXNORM:quantified_form_of:
+  delete: null
 RXNORM:reformulated_to:
-  rename: [reformulated_to, 'Biolink:related_to']
-RXNORM:reformulation_of: {delete: null}
-RXNORM:tradename_of: {delete: null}
+  rename:
+  - related_to
+  - biolink:related_to
+RXNORM:reformulation_of:
+  delete: null
+RXNORM:tradename_of:
+  delete: null
+SEMMEDDB:1532:
+  delete: null
 SEMMEDDB:administered_to:
-  rename: [administered_to, 'Biolink:affects']
+  rename:
+  - affects
+  - biolink:affects
 SEMMEDDB:affects:
-  rename: [affects, 'Biolink:affects']
+  rename:
+  - affects
+  - biolink:affects
 SEMMEDDB:associated_with:
-  rename: [related_to, 'Biolink:related_to']
+  rename:
+  - related_to
+  - biolink:related_to
 SEMMEDDB:augments:
-  rename: [increase, 'NCIT:C25533']
+  rename:
+  - positively_regulates
+  - biolink:positively_regulates
 SEMMEDDB:causes:
-  rename: [causes_or_contributes_to, 'RO:0003302']
+  rename:
+  - causes
+  - biolink:causes
 SEMMEDDB:coexists_with:
-  rename: [related_to, 'Biolink:related_to']
+  rename:
+  - coexists_with
+  - biolink:coexists_with
 SEMMEDDB:compared_with:
-  rename: [related_to, 'Biolink:related_to']
-SEMMEDDB:complicates: {keep: null}
+  rename:
+  - related_to
+  - biolink:related_to
+SEMMEDDB:complicates:
+  rename:
+  - interacts_with
+  - biolink:interacts_with
 SEMMEDDB:converts_to:
-  rename: [derives_into, 'Biolink:derives_into']
+  rename:
+  - derives_into
+  - biolink:derives_into
 SEMMEDDB:diagnoses:
-  rename: [diagnoses, 'NCIT:C15220']
-SEMMEDDB:different_from: {delete: null}
-SEMMEDDB:different_than: {delete: null}
+  rename:
+  - biomarker_for
+  - biolink:biomarker_for
 SEMMEDDB:disrupts:
-  rename: [disrupts, 'Biolink:disrupts']
+  rename:
+  - disrupts
+  - biolink:disrupts
 SEMMEDDB:higher_than:
-  rename: [related_to, 'Biolink:related_to']
+  rename:
+  - related_to
+  - biolink:related_to
 SEMMEDDB:inhibits:
-  rename: [inhibits, 'RO:0002408']
+  rename:
+  - negatively_regulates,_entity_to_entity
+  - biolink:negatively_regulates,_entity_to_entity
 SEMMEDDB:interacts_with:
-  rename: [interacts_with, 'RO:0002434']
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
 SEMMEDDB:isa:
-  rename: [subclass_of, 'Biolink:subclass_of']
+  rename:
+  - subclass_of
+  - biolink:subclass_of
 SEMMEDDB:location_of:
-  invert: [located_in, 'RO:0001025']
+  invert:
+  - located_in
+  - biolink:located_in
 SEMMEDDB:lower_than:
-  rename: [related_to, 'Biolink:related_to']
+  rename:
+  - related_to
+  - biolink:related_to
 SEMMEDDB:manifestation_of:
-  rename: [subclass_of, 'Biolink:subclass_of']
-SEMMEDDB:method_of: {delete: null}
+  rename:
+  - manifestation_of
+  - biolink:manifestation_of
+SEMMEDDB:measurement_of:
+  delete: null
+SEMMEDDB:measures:
+  rename:
+  - quantifier_qualifier
+  - biolink:quantifier_qualifier
+SEMMEDDB:method_of:
+  delete: null
+SEMMEDDB:nom:
+  delete: null
 SEMMEDDB:occurs_in:
-  rename: [occurs_in, 'BFO:0000066']
+  rename:
+  - occurs_in
+  - biolink:occurs_in
 SEMMEDDB:part_of:
-  rename: [part_of, 'BFO:0000050']
+  rename:
+  - part_of
+  - biolink:part_of
 SEMMEDDB:precedes:
-  rename: [precedes, 'BFO:0000063']
+  rename:
+  - precedes
+  - biolink:precedes
 SEMMEDDB:predisposes:
-  rename: [predisposes, 'MONDO:predisposes_towards']
+  rename:
+  - predisposes
+  - biolink:predisposes
+SEMMEDDB:prep:
+  delete: null
 SEMMEDDB:prevents:
-  rename: [capable_of_inhibiting_or_preventing_pathological_process, 'RO:0002599']
+  rename:
+  - prevents
+  - biolink:prevents
 SEMMEDDB:process_of:
-  rename: [occurs_in, 'Biolink:occurs_in']
+  rename:
+  - occurs_in
+  - biolink:occurs_in
 SEMMEDDB:produces:
-  rename: [produces, 'Biolink:produces']
+  rename:
+  - produces
+  - biolink:produces
 SEMMEDDB:same_as:
-  rename: [equivalent_to, 'skos:closeMatch']
+  rename:
+  - close_match
+  - skos:closeMatch
 SEMMEDDB:stimulates:
-  rename: [positively_regulates, 'Biolink:positively_regulates']
+  rename:
+  - positively_regulates,_entity_to_entity
+  - biolink:positively_regulates,_entity_to_entity
 SEMMEDDB:treats:
-  rename: [is_substance_that_treats, 'RO:0002606']
+  rename:
+  - treats
+  - biolink:treats
 SEMMEDDB:uses:
-  rename: [has_input, 'Biolink:has_input']
+  rename:
+  - has_input
+  - biolink:has_input
+SEMMEDDB:verb:
+  delete: null
 SIO:000658:
-  rename: [immediate_transformation_of, 'RO:0002495']
-SNOMEDCT:access_device_used_by: {delete: null}
-SNOMEDCT:access_of: {delete: null}
-SNOMEDCT:active_ingredient_of:
-  rename: [active_ingredient_of, 'RO:0002249']
-SNOMEDCT:associated_finding_of: {delete: null}
-SNOMEDCT:associated_morphology_of: {delete: null}
-SNOMEDCT:associated_procedure_of: {delete: null}
-SNOMEDCT:associated_with:
-  rename: [correlated_with_condition, 'RO:0003308']
-SNOMEDCT:basic_dose_form_of: {delete: null}
-SNOMEDCT:basis_of_strength_substance_of:
-  rename: [active_ingredient_of, 'RO:0002249']
-SNOMEDCT:causative_agent_of:
-  rename: [causes_or_contributes_to, 'RO:0003302']
-SNOMEDCT:cause_of:
-  rename: [causes_or_contributes_to, 'RO:0003302']
-SNOMEDCT:characterized_by:
-  rename: [has_phenotype, 'Biolink:has_phenotype']
-SNOMEDCT:characterizes: {delete: null}
-SNOMEDCT:clinical_course_of: {delete: null}
-SNOMEDCT:component_of:
-  rename: [part_of, 'BFO:0000050']
-SNOMEDCT:concentration_strength_denominator_unit_of: {delete: null}
-SNOMEDCT:concentration_strength_denominator_value_of: {delete: null}
-SNOMEDCT:concentration_strength_numerator_unit_of: {delete: null}
-SNOMEDCT:concentration_strength_numerator_value_of: {delete: null}
-SNOMEDCT:count_of_base_of_active_ingredient_of: {delete: null}
-SNOMEDCT:definitional_manifestation_of: {delete: null}
-SNOMEDCT:dependent_of: {delete: null}
-SNOMEDCT:device_used_by: {delete: null}
-SNOMEDCT:direct_device_of: {delete: null}
-SNOMEDCT:direct_morphology_of: {delete: null}
-SNOMEDCT:direct_procedure_site_of: {delete: null}
-SNOMEDCT:direct_site_of: {delete: null}
-SNOMEDCT:direct_substance_of:
-  rename: [part_of, 'BFO:0000050']
-SNOMEDCT:disposition_of: {delete: null}
-SNOMEDCT:dose_form_administration_method_of: {delete: null}
-SNOMEDCT:dose_form_intended_site_of: {delete: null}
-SNOMEDCT:dose_form_of: {delete: null}
-SNOMEDCT:dose_form_release_characteristic_of: {delete: null}
-SNOMEDCT:dose_form_transformation_of: {delete: null}
-SNOMEDCT:due_to: {delete: null}
-SNOMEDCT:during:
-  rename: [simultaneous_with, 'RO:0002082']
-SNOMEDCT:energy_used_by: {delete: null}
-SNOMEDCT:entire_anatomy_structure_of:
-  rename: [subclass_of, 'Biolink:subclass_of']
-SNOMEDCT:finding_context_of: {delete: null}
-SNOMEDCT:finding_informer_of: {delete: null}
-SNOMEDCT:finding_method_of: {delete: null}
-SNOMEDCT:finding_site_of: {delete: null}
-SNOMEDCT:focus_of:
-  rename: [part_of, 'BFO:0000050']
-SNOMEDCT:has_access:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SNOMEDCT:has_active_ingredient: {delete: null}
-SNOMEDCT:has_associated_finding:
-  rename: [correlated_with, 'RO:0002610']
-SNOMEDCT:has_associated_morphology:
-  rename: [related_to, 'Biolink:related_to']
-SNOMEDCT:has_associated_procedure:
-  rename: [related_to, 'Biolink:related_to']
-SNOMEDCT:has_basic_dose_form:
-  rename: [has_pharmaceutical_basic_dose_form, 'NCIT:A18']
-SNOMEDCT:has_basis_of_strength_substance: {delete: null}
-SNOMEDCT:has_causative_agent: {delete: null}
-SNOMEDCT:has_clinical_course:
-  rename: [disease_to_thing_association, 'Biolink:disease_to_thing_association']
-SNOMEDCT:has_component:
-  invert: [part_of, 'BFO:0000050']
-SNOMEDCT:has_concentration_strength_denominator_unit:
-  rename: [has_unit, 'Biolink:has_unit']
-SNOMEDCT:has_concentration_strength_denominator_value: {delete: null}
-SNOMEDCT:has_concentration_strength_numerator_unit:
-  rename: [has_unit, 'Biolink:has_unit']
-SNOMEDCT:has_concentration_strength_numerator_value:
-  rename: [has_quantitative_value, 'Biolink:has_quantitative_value']
-SNOMEDCT:has_count_of_base_of_active_ingredient:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SNOMEDCT:has_definitional_manifestation:
-  invert: [involved_in, 'RO:0002331']
-SNOMEDCT:has_dependent:
-  rename: [part_of, 'BFO:0000050']
-SNOMEDCT:has_direct_device:
-  rename: [has_participant, 'Biolink:has_participant']
-SNOMEDCT:has_direct_morphology:
-  rename: [related_to, 'Biolink:related_to']
-SNOMEDCT:has_direct_procedure_site:
-  rename: [occurs_in, 'Biolink:occurs_in']
-SNOMEDCT:has_direct_site:
-  rename: [occurs_in, 'Biolink:occurs_in']
-SNOMEDCT:has_direct_substance: {delete: null}
-SNOMEDCT:has_disposition:
-  rename: [related_to, 'Biolink:related_to']
-SNOMEDCT:has_dose_form:
-  rename: [has_dose_form, 'RXNORM:has_dose_form']
-SNOMEDCT:has_dose_form_administration_method:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SNOMEDCT:has_dose_form_intended_site:
-  rename: [has_route, 'Biolink:has_route']
-SNOMEDCT:has_dose_form_release_characteristic:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SNOMEDCT:has_dose_form_transformation:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SNOMEDCT:has_entire_anatomy_structure: {delete: null}
-SNOMEDCT:has_finding_context:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SNOMEDCT:has_finding_informer:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SNOMEDCT:has_finding_method:
-  rename: [has_input, 'Biolink:has_input']
-SNOMEDCT:has_finding_site:
-  rename: [located_in, 'RO:0001025']
-SNOMEDCT:has_focus: {delete: null}
-SNOMEDCT:has_indirect_device:
-  rename: [has_participant, 'Biolink:has_participant']
-SNOMEDCT:has_indirect_morphology:
-  rename: [related_to, 'Biolink:related_to']
-SNOMEDCT:has_indirect_procedure_site:
-  rename: [procedure_has_target_anatomy, 'NCIT:R163']
-SNOMEDCT:has_inherent_attribute:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SNOMEDCT:has_inherent_location:
-  rename: [located_in, 'RO:0001025']
-SNOMEDCT:has_intent:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SNOMEDCT:has_interpretation:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SNOMEDCT:has_laterality:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SNOMEDCT:has_measurement_method:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SNOMEDCT:has_method:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SNOMEDCT:has_modification:
-  rename: [related_to, 'Biolink:related_to']
-SNOMEDCT:has_occurrence:
-  rename: [has_occurrence, 'GO:has_occurrence']
-SNOMEDCT:has_part:
-  invert: [part_of, 'BFO:0000050']
-SNOMEDCT:has_part_anatomy_structure: {delete: null}
-SNOMEDCT:has_pathological_process:
-  rename: [affects, 'Biolink:affects']
-SNOMEDCT:has_precise_active_ingredient: {delete: null}
-SNOMEDCT:has_precondition:
-  rename: [has_input, 'Biolink:has_input']
-SNOMEDCT:has_presentation_strength_denominator_unit:
-  rename: [has_unit, 'Biolink:has_unit']
-SNOMEDCT:has_presentation_strength_denominator_value:
-  rename: [has_quantitative_value, 'Biolink:has_quantitative_value']
-SNOMEDCT:has_presentation_strength_numerator_unit:
-  rename: [has_unit, 'Biolink:has_unit']
-SNOMEDCT:has_presentation_strength_numerator_value:
-  rename: [has_quantitative_value, 'Biolink:has_quantitative_value']
-SNOMEDCT:has_priority:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SNOMEDCT:has_procedure_context:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SNOMEDCT:has_procedure_device:
-  rename: [has_participant, 'Biolink:has_participant']
-SNOMEDCT:has_procedure_morphology:
-  rename: [related_to, 'Biolink:related_to']
-SNOMEDCT:has_procedure_site:
-  rename: [occurs_in, 'Biolink:occurs_in']
-SNOMEDCT:has_process_output:
-  rename: [produces, 'Biolink:produces']
-SNOMEDCT:has_property:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SNOMEDCT:has_recipient_category:
-  rename: [has_participant, 'Biolink:has_participant']
-SNOMEDCT:has_revision_status:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SNOMEDCT:has_route_of_administration:
-  rename: [has_route, 'Biolink:has_route']
-SNOMEDCT:has_scale_type:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SNOMEDCT:has_severity:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SNOMEDCT:has_specimen:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SNOMEDCT:has_specimen_procedure: {delete: null}
-SNOMEDCT:has_specimen_source_identity:
-  rename: [has_input, 'Biolink:has_input']
-SNOMEDCT:has_specimen_source_morphology:
-  rename: [related_to, 'Biolink:related_to']
-SNOMEDCT:has_specimen_source_topography:
-  rename: [derives_from, 'RO:0001000']
-SNOMEDCT:has_specimen_substance:
-  rename: [has_input, 'Biolink:has_input']
-SNOMEDCT:has_state_of_matter:
-  rename: [has_pharmaceutical_state_of_matter, 'NCIT:A17']
-SNOMEDCT:has_subject_relationship_context:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SNOMEDCT:has_surgical_approach:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SNOMEDCT:has_technique:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SNOMEDCT:has_temporal_context:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SNOMEDCT:has_time_aspect:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SNOMEDCT:has_unit_of_presentation:
-  rename: [has_unit, 'Biolink:has_unit']
-SNOMEDCT:indirect_device_of: {delete: null}
-SNOMEDCT:indirect_morphology_of: {delete: null}
-SNOMEDCT:indirect_procedure_site_of: {delete: null}
-SNOMEDCT:inherent_location_of:
-  rename: [location_of, 'RO:0001015']
-SNOMEDCT:inheres_in:
-  rename: [inheres_in, 'RO:0000052']
-SNOMEDCT:intent_of: {delete: null}
-SNOMEDCT:interpretation_of: {delete: null}
-SNOMEDCT:interprets: {delete: null}
-SNOMEDCT:inverse_during: {delete: null}
-SNOMEDCT:is_interpreted_by:
-  rename: [related_to, 'Biolink:related_to']
-SNOMEDCT:is_modification_of: {delete: null}
-SNOMEDCT:laterality_of: {delete: null}
-SNOMEDCT:measurement_method_of: {delete: null}
-SNOMEDCT:method_of: {delete: null}
-SNOMEDCT:occurs_after: {delete: null}
-SNOMEDCT:occurs_before:
-  rename: [precedes, 'BFO:0000063']
-SNOMEDCT:occurs_in:
-  rename: [occurs_in, 'BFO:0000066']
-SNOMEDCT:part_anatomy_structure_of:
-  rename: [part_of, 'BFO:0000050']
-SNOMEDCT:part_of:
-  rename: [part_of, 'BFO:0000050']
-SNOMEDCT:part_referred_to_by: {delete: null}
-SNOMEDCT:pathological_process_of: {delete: null}
-SNOMEDCT:precise_active_ingredient_of:
-  rename: [active_ingredient_of, 'RO:0002249']
-SNOMEDCT:precondition_of: {delete: null}
-SNOMEDCT:presentation_strength_denominator_unit_of: {delete: null}
-SNOMEDCT:presentation_strength_denominator_value_of: {delete: null}
-SNOMEDCT:presentation_strength_numerator_unit_of: {delete: null}
-SNOMEDCT:presentation_strength_numerator_value_of: {delete: null}
-SNOMEDCT:priority_of: {delete: null}
-SNOMEDCT:procedure_context_of: {delete: null}
-SNOMEDCT:procedure_device_of: {delete: null}
-SNOMEDCT:procedure_morphology_of: {delete: null}
-SNOMEDCT:procedure_site_of: {delete: null}
-SNOMEDCT:process_output_of: {delete: null}
-SNOMEDCT:property_of: {delete: null}
-SNOMEDCT:recipient_category_of: {delete: null}
-SNOMEDCT:relative_to_part_of:
-  rename: [related_to, 'Biolink:related_to']
-SNOMEDCT:revision_status_of: {delete: null}
-SNOMEDCT:route_of_administration_of: {delete: null}
-SNOMEDCT:scale_type_of: {delete: null}
-SNOMEDCT:severity_of: {delete: null}
-SNOMEDCT:specimen_of: {delete: null}
-SNOMEDCT:specimen_procedure_of:
-  rename: [produces, 'Biolink:produces']
-SNOMEDCT:specimen_source_identity_of: {delete: null}
-SNOMEDCT:specimen_source_morphology_of: {delete: null}
-SNOMEDCT:specimen_source_topography_of: {delete: null}
-SNOMEDCT:specimen_substance_of: {delete: null}
-SNOMEDCT:state_of_matter_of: {delete: null}
-SNOMEDCT:subject_relationship_context_of: {delete: null}
-SNOMEDCT:substance_used_by: {delete: null}
-SNOMEDCT:surgical_approach_of: {delete: null}
-SNOMEDCT:technique_of: {delete: null}
-SNOMEDCT:temporal_context_of: {delete: null}
-SNOMEDCT:temporally_related_to:
-  rename: [temporally_related_to, 'RO:0002222']
-SNOMEDCT:time_aspect_of: {delete: null}
-SNOMEDCT:unit_of_presentation_of: {delete: null}
-SNOMEDCT:uses_access_device:
-  rename: [has_input, 'Biolink:has_input']
-SNOMEDCT:uses_device:
-  rename: [has_input, 'Biolink:has_input']
-SNOMEDCT:uses_energy:
-  rename: [has_input, 'Biolink:has_input']
-SNOMEDCT:uses_substance:
-  rename: [has_input, 'Biolink:has_input']
-SNOMEDCT_VET:active_ingredient_of:
-  rename: [active_ingredient_of, 'RO:0002249']
-SNOMEDCT_VET:associated_morphology_of: {delete: null}
-SNOMEDCT_VET:associated_with:
-  rename: [correlated_with_condition, 'RO:0003308']
-SNOMEDCT_VET:causative_agent_of:
-  rename: [causes_or_contributes_to, 'RO:0003302']
-SNOMEDCT_VET:cause_of:
-  rename: [causes_or_contributes_to, 'RO:0003302']
-SNOMEDCT_VET:component_of:
-  rename: [part_of, 'BFO:0000050']
-SNOMEDCT_VET:direct_procedure_site_of: {delete: null}
-SNOMEDCT_VET:due_to: {delete: null}
-SNOMEDCT_VET:finding_site_of: {delete: null}
-SNOMEDCT_VET:has_active_ingredient: {delete: null}
-SNOMEDCT_VET:has_associated_morphology:
-  rename: [related_to, 'Biolink:related_to']
-SNOMEDCT_VET:has_causative_agent: {delete: null}
-SNOMEDCT_VET:has_component:
-  invert: [part_of, 'BFO:0000050']
-SNOMEDCT_VET:has_direct_procedure_site:
-  rename: [occurs_in, 'Biolink:occurs_in']
-SNOMEDCT_VET:has_finding_site:
-  rename: [located_in, 'RO:0001025']
-SNOMEDCT_VET:has_indirect_procedure_site:
-  rename: [procedure_has_target_anatomy, 'NCIT:R163']
-SNOMEDCT_VET:has_life_circumstance:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SNOMEDCT_VET:has_part:
-  invert: [part_of, 'BFO:0000050']
-SNOMEDCT_VET:has_physiologic_state:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SNOMEDCT_VET:has_procedure_site:
-  rename: [occurs_in, 'Biolink:occurs_in']
-SNOMEDCT_VET:has_specimen_source_topography:
-  rename: [derives_from, 'RO:0001000']
-SNOMEDCT_VET:has_specimen_substance:
-  rename: [has_input, 'Biolink:has_input']
-SNOMEDCT_VET:includes_sub_specimen: {delete: null}
-SNOMEDCT_VET:indirect_procedure_site_of: {delete: null}
-SNOMEDCT_VET:interprets: {delete: null}
-SNOMEDCT_VET:is_interpreted_by:
-  rename: [related_to, 'Biolink:related_to']
-SNOMEDCT_VET:life_circumstance_of: {delete: null}
-SNOMEDCT_VET:occurs_after: {delete: null}
-SNOMEDCT_VET:occurs_before:
-  rename: [precedes, 'BFO:0000063']
-SNOMEDCT_VET:part_of:
-  rename: [part_of, 'BFO:0000050']
-SNOMEDCT_VET:physiologic_state_of: {delete: null}
-SNOMEDCT_VET:procedure_site_of: {delete: null}
-SNOMEDCT_VET:specimen_source_topography_of: {delete: null}
-SNOMEDCT_VET:specimen_substance_of: {delete: null}
-SNOMEDCT_VET:sub_specimen_included_by:
-  rename: [part_of, 'BFO:0000050']
+  invert:
+  - precedes
+  - biolink:precedes
+SNOMED:access_device_used_by:
+  delete: null
+SNOMED:access_of:
+  delete: null
+SNOMED:active_ingredient_of:
+  rename:
+  - part_of
+  - biolink:part_of
+SNOMED:associated_finding_of:
+  delete: null
+SNOMED:associated_morphology_of:
+  delete: null
+SNOMED:associated_procedure_of:
+  delete: null
+SNOMED:associated_with:
+  rename:
+  - correlated_with
+  - biolink:correlated_with
+SNOMED:basic_dose_form_of:
+  delete: null
+SNOMED:basis_of_strength_substance_of:
+  rename:
+  - part_of
+  - biolink:part_of
+SNOMED:causative_agent_of:
+  rename:
+  - causes
+  - biolink:causes
+SNOMED:cause_of:
+  rename:
+  - causes
+  - biolink:causes
+SNOMED:characterized_by:
+  rename:
+  - has_phenotype
+  - biolink:has_phenotype
+SNOMED:characterizes:
+  delete: null
+SNOMED:clinical_course_of:
+  delete: null
+SNOMED:component_of:
+  rename:
+  - part_of
+  - biolink:part_of
+SNOMED:concentration_strength_denominator_unit_of:
+  delete: null
+SNOMED:concentration_strength_denominator_value_of:
+  delete: null
+SNOMED:concentration_strength_numerator_unit_of:
+  delete: null
+SNOMED:concentration_strength_numerator_value_of:
+  delete: null
+SNOMED:count_of_base_of_active_ingredient_of:
+  delete: null
+SNOMED:definitional_manifestation_of:
+  delete: null
+SNOMED:dependent_of:
+  delete: null
+SNOMED:device_used_by:
+  delete: null
+SNOMED:direct_device_of:
+  delete: null
+SNOMED:direct_morphology_of:
+  delete: null
+SNOMED:direct_procedure_site_of:
+  delete: null
+SNOMED:direct_site_of:
+  delete: null
+SNOMED:direct_substance_of:
+  rename:
+  - part_of
+  - biolink:part_of
+SNOMED:disposition_of:
+  delete: null
+SNOMED:dose_form_administration_method_of:
+  delete: null
+SNOMED:dose_form_intended_site_of:
+  delete: null
+SNOMED:dose_form_of:
+  delete: null
+SNOMED:dose_form_release_characteristic_of:
+  delete: null
+SNOMED:dose_form_transformation_of:
+  delete: null
+SNOMED:due_to:
+  delete: null
+SNOMED:during:
+  rename:
+  - part_of
+  - biolink:part_of
+SNOMED:energy_used_by:
+  delete: null
+SNOMED:entire_anatomy_structure_of:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+SNOMED:finding_context_of:
+  delete: null
+SNOMED:finding_informer_of:
+  delete: null
+SNOMED:finding_method_of:
+  delete: null
+SNOMED:finding_site_of:
+  delete: null
+SNOMED:focus_of:
+  rename:
+  - part_of
+  - biolink:part_of
+SNOMED:has_access:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+SNOMED:has_active_ingredient:
+  delete: null
+SNOMED:has_associated_finding:
+  rename:
+  - correlated_with
+  - biolink:correlated_with
+SNOMED:has_associated_morphology:
+  rename:
+  - related_to
+  - biolink:related_to
+SNOMED:has_associated_procedure:
+  rename:
+  - related_to
+  - biolink:related_to
+SNOMED:has_basic_dose_form:
+  invert:
+  - subclass_of
+  - biolink:subclass_of
+SNOMED:has_basis_of_strength_substance:
+  delete: null
+SNOMED:has_causative_agent:
+  delete: null
+SNOMED:has_clinical_course:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+SNOMED:has_component:
+  invert:
+  - part_of
+  - biolink:part_of
+SNOMED:has_concentration_strength_denominator_unit:
+  rename:
+  - has_unit
+  - biolink:has_unit
+SNOMED:has_concentration_strength_denominator_value:
+  delete: null
+SNOMED:has_concentration_strength_numerator_unit:
+  rename:
+  - has_unit
+  - biolink:has_unit
+SNOMED:has_concentration_strength_numerator_value:
+  rename:
+  - has_quantitative_value
+  - biolink:has_quantitative_value
+SNOMED:has_count_of_base_of_active_ingredient:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+SNOMED:has_definitional_manifestation:
+  invert:
+  - manifestation_of
+  - biolink:manifestation_of
+SNOMED:has_dependent:
+  rename:
+  - part_of
+  - biolink:part_of
+SNOMED:has_direct_device:
+  invert:
+  - participates_in
+  - biolink:participates_in
+SNOMED:has_direct_morphology:
+  rename:
+  - related_to
+  - biolink:related_to
+SNOMED:has_direct_procedure_site:
+  rename:
+  - occurs_in
+  - biolink:occurs_in
+SNOMED:has_direct_site:
+  rename:
+  - occurs_in
+  - biolink:occurs_in
+SNOMED:has_direct_substance:
+  delete: null
+SNOMED:has_disposition:
+  rename:
+  - related_to
+  - biolink:related_to
+SNOMED:has_dose_form:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+SNOMED:has_dose_form_administration_method:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+SNOMED:has_dose_form_intended_site:
+  rename:
+  - has_route
+  - biolink:has_route
+SNOMED:has_dose_form_release_characteristic:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+SNOMED:has_dose_form_transformation:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+SNOMED:has_entire_anatomy_structure:
+  delete: null
+SNOMED:has_finding_context:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+SNOMED:has_finding_informer:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+SNOMED:has_finding_method:
+  rename:
+  - has_input
+  - biolink:has_input
+SNOMED:has_finding_site:
+  rename:
+  - located_in
+  - biolink:located_in
+SNOMED:has_focus:
+  delete: null
+SNOMED:has_indirect_device:
+  rename:
+  - has_participant
+  - biolink:has_participant
+SNOMED:has_indirect_morphology:
+  rename:
+  - related_to
+  - biolink:related_to
+SNOMED:has_indirect_procedure_site:
+  rename:
+  - located_in
+  - biolink:located_in
+SNOMED:has_inherent_attribute:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+SNOMED:has_inherent_location:
+  rename:
+  - located_in
+  - biolink:located_in
+SNOMED:has_intent:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+SNOMED:has_interpretation:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+SNOMED:has_laterality:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+SNOMED:has_measurement_method:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+SNOMED:has_method:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+SNOMED:has_modification:
+  rename:
+  - related_to
+  - biolink:related_to
+SNOMED:has_occurrence:
+  invert:
+  - occurs_in
+  - biolink:occurs_in
+SNOMED:has_part:
+  invert:
+  - part_of
+  - biolink:part_of
+SNOMED:has_part_anatomy_structure:
+  delete: null
+SNOMED:has_pathological_process:
+  rename:
+  - affects
+  - biolink:affects
+SNOMED:has_precise_active_ingredient:
+  delete: null
+SNOMED:has_precondition:
+  rename:
+  - has_input
+  - biolink:has_input
+SNOMED:has_presentation_strength_denominator_unit:
+  rename:
+  - has_unit
+  - biolink:has_unit
+SNOMED:has_presentation_strength_denominator_value:
+  rename:
+  - has_quantitative_value
+  - biolink:has_quantitative_value
+SNOMED:has_presentation_strength_numerator_unit:
+  rename:
+  - has_unit
+  - biolink:has_unit
+SNOMED:has_presentation_strength_numerator_value:
+  rename:
+  - has_quantitative_value
+  - biolink:has_quantitative_value
+SNOMED:has_priority:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+SNOMED:has_procedure_context:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+SNOMED:has_procedure_device:
+  rename:
+  - has_participant
+  - biolink:has_participant
+SNOMED:has_procedure_morphology:
+  rename:
+  - related_to
+  - biolink:related_to
+SNOMED:has_procedure_site:
+  rename:
+  - occurs_in
+  - biolink:occurs_in
+SNOMED:has_process_output:
+  rename:
+  - produces
+  - biolink:produces
+SNOMED:has_property:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+SNOMED:has_recipient_category:
+  rename:
+  - has_participant
+  - biolink:has_participant
+SNOMED:has_revision_status:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+SNOMED:has_route_of_administration:
+  rename:
+  - has_route
+  - biolink:has_route
+SNOMED:has_scale_type:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+SNOMED:has_severity:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+SNOMED:has_specimen:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+SNOMED:has_specimen_procedure:
+  delete: null
+SNOMED:has_specimen_source_identity:
+  rename:
+  - has_input
+  - biolink:has_input
+SNOMED:has_specimen_source_morphology:
+  rename:
+  - related_to
+  - biolink:related_to
+SNOMED:has_specimen_source_topography:
+  rename:
+  - derives_from
+  - biolink:derives_from
+SNOMED:has_specimen_substance:
+  rename:
+  - has_input
+  - biolink:has_input
+SNOMED:has_state_of_matter:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+SNOMED:has_subject_relationship_context:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+SNOMED:has_surgical_approach:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+SNOMED:has_technique:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+SNOMED:has_temporal_context:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+SNOMED:has_time_aspect:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+SNOMED:has_unit_of_presentation:
+  rename:
+  - has_unit
+  - biolink:has_unit
+SNOMED:indirect_device_of:
+  delete: null
+SNOMED:indirect_morphology_of:
+  delete: null
+SNOMED:indirect_procedure_site_of:
+  delete: null
+SNOMED:inherent_location_of:
+  rename:
+  - location_of
+  - biolink:location_of
+SNOMED:inheres_in:
+  rename:
+  - related_to
+  - biolink:related_to
+SNOMED:intent_of:
+  delete: null
+SNOMED:interpretation_of:
+  delete: null
+SNOMED:interprets:
+  delete: null
+SNOMED:inverse_during:
+  delete: null
+SNOMED:is_interpreted_by:
+  rename:
+  - related_to
+  - biolink:related_to
+SNOMED:is_modification_of:
+  delete: null
+SNOMED:laterality_of:
+  delete: null
+SNOMED:measurement_method_of:
+  delete: null
+SNOMED:method_of:
+  delete: null
+SNOMED:occurs_after:
+  delete: null
+SNOMED:occurs_before:
+  rename:
+  - precedes
+  - biolink:precedes
+SNOMED:occurs_in:
+  rename:
+  - occurs_in
+  - biolink:occurs_in
+SNOMED:part_anatomy_structure_of:
+  rename:
+  - part_of
+  - biolink:part_of
+SNOMED:part_of:
+  rename:
+  - part_of
+  - biolink:part_of
+SNOMED:part_referred_to_by:
+  delete: null
+SNOMED:pathological_process_of:
+  delete: null
+SNOMED:precise_active_ingredient_of:
+  rename:
+  - part_of
+  - biolink:part_of
+SNOMED:precondition_of:
+  delete: null
+SNOMED:presentation_strength_denominator_unit_of:
+  delete: null
+SNOMED:presentation_strength_denominator_value_of:
+  delete: null
+SNOMED:presentation_strength_numerator_unit_of:
+  delete: null
+SNOMED:presentation_strength_numerator_value_of:
+  delete: null
+SNOMED:priority_of:
+  delete: null
+SNOMED:procedure_context_of:
+  delete: null
+SNOMED:procedure_device_of:
+  delete: null
+SNOMED:procedure_morphology_of:
+  delete: null
+SNOMED:procedure_site_of:
+  delete: null
+SNOMED:process_output_of:
+  delete: null
+SNOMED:property_of:
+  delete: null
+SNOMED:recipient_category_of:
+  delete: null
+SNOMED:relative_to_part_of:
+  rename:
+  - related_to
+  - biolink:related_to
+SNOMED:revision_status_of:
+  delete: null
+SNOMED:route_of_administration_of:
+  delete: null
+SNOMED:scale_type_of:
+  delete: null
+SNOMED:severity_of:
+  delete: null
+SNOMED:specimen_of:
+  delete: null
+SNOMED:specimen_procedure_of:
+  rename:
+  - produces
+  - biolink:produces
+SNOMED:specimen_source_identity_of:
+  delete: null
+SNOMED:specimen_source_morphology_of:
+  delete: null
+SNOMED:specimen_source_topography_of:
+  delete: null
+SNOMED:specimen_substance_of:
+  delete: null
+SNOMED:state_of_matter_of:
+  delete: null
+SNOMED:subject_relationship_context_of:
+  delete: null
+SNOMED:substance_used_by:
+  delete: null
+SNOMED:surgical_approach_of:
+  delete: null
+SNOMED:technique_of:
+  delete: null
+SNOMED:temporal_context_of:
+  delete: null
+SNOMED:temporally_related_to:
+  rename:
+  - related_to
+  - biolink:related_to
+SNOMED:time_aspect_of:
+  delete: null
+SNOMED:unit_of_presentation_of:
+  delete: null
+SNOMED:uses_access_device:
+  rename:
+  - has_input
+  - biolink:has_input
+SNOMED:uses_device:
+  rename:
+  - has_input
+  - biolink:has_input
+SNOMED:uses_energy:
+  rename:
+  - has_input
+  - biolink:has_input
+SNOMED:uses_substance:
+  rename:
+  - has_input
+  - biolink:has_input
 SO:has_origin:
-  rename: [has_origin, 'FMA:has_origin']
-SOP:SIB: {delete: null}
-SRC:RO:
-  invert: [related_to, 'Biolink:related_to']
-SRC:has_translation:
-  rename: [related_to, 'Biolink:related_to']
-SRC:has_version:
-  rename: [has_attribute, 'Biolink:has_attribute']
-SRC:translation_of: {delete: null}
-SRC:version_of: {delete: null}
-UBERON:anastomoses_with: {keep: null}
-UBERON:anteriorly_connected_to: {keep: null}
-UBERON:channel_for: {keep: null}
-UBERON:channels_from: {keep: null}
-UBERON:channels_into: {keep: null}
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON:anastomoses_with:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON:anteriorly_connected_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON:channel_for:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON:channels_from:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON:channels_into:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
 UBERON:composed_primarily_of:
-  rename: [composed_primarily_of, 'RO:0002473']
-UBERON:conduit_for: {keep: null}
-UBERON:distally_connected_to: {keep: null}
-UBERON:existence_starts_and_ends_during: {keep: null}
-UBERON:extends_fibers_into: {keep: null}
-UBERON:filtered_through: {keep: null}
-UBERON:in_central_side_of: {keep: null}
-UBERON:in_innermost_side_of: {keep: null}
-UBERON:in_outermost_side_of: {keep: null}
-UBERON:indirectly_supplies: {keep: null}
-UBERON:posteriorly_connected_to: {keep: null}
-UBERON:protects: {keep: null}
-UBERON:proximally_connected_to: {keep: null}
-UBERON:sexually_homologous_to: {keep: null}
-UBERON:site_of: {keep: null}
-UBERON:subdivision_of: {keep: null}
+  rename:
+  - has_part
+  - biolink:has_part
+UBERON:conduit_for:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON:distally_connected_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON:existence_starts_and_ends_during:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON:extends_fibers_into:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON:filtered_through:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON:in_central_side_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON:in_innermost_side_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON:in_outermost_side_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON:indirectly_supplies:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON:posteriorly_connected_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON:protects:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON:proximally_connected_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON:sexually_homologous_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON:site_of:
+  invert:
+  - occurs_in
+  - biolink:occurs_in
+UBERON:subdivision_of:
+  rename:
+  - part_of
+  - biolink:part_of
 UBERON:synapsed_by:
-  rename: [synapsed_by, 'RO:0002103']
-#UMD:RB:
-#  invert: [subclass_of, 'Biolink:subclass_of']
-#UMD:RO:
-#  rename: [related_to, 'Biolink:related_to']
-#UMD:SIB: {delete: null}
-USPMG:SIB: {delete: null}
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:RB:
+  invert:
+  - subclass_of
+  - biolink:subclass_of
+UMLS:RO:
+  invert:
+  - related_to
+  - biolink:related_to
+UMLS:RQ:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:SIB:
+  delete: null
+UMLS:SY:
+  rename:
+  - close_match
+  - skos:closeMatch
+UMLS:class_code_classified_by:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:classifies_class_code:
+  delete: null
+UMLS:component_of:
+  rename:
+  - part_of
+  - biolink:part_of
+UMLS:context_binding_of:
+  delete: null
+UMLS:exhibited_by:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:exhibits:
+  delete: null
+UMLS:form_of:
+  delete: null
+UMLS:has_component:
+  invert:
+  - part_of
+  - biolink:part_of
+UMLS:has_context_binding:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:has_form:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:has_mapping_qualifier:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:has_owning_affiliate:
+  rename:
+  - part_of
+  - biolink:part_of
+UMLS:has_owning_section:
+  delete: null
+UMLS:has_owning_subsection:
+  delete: null
+UMLS:has_supported_concept_property:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+UMLS:has_supported_concept_relationship:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+UMLS:larger_than:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:mapped_from:
+  delete: null
+UMLS:mapped_to:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:may_be_qualified_by:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+UMLS:may_qualify:
+  delete: null
+UMLS:measured_by:
+  delete: null
+UMLS:measures:
+  rename:
+  - quantifier_qualifier
+  - biolink:quantifier_qualifier
+UMLS:owning_affiliate_of:
+  delete: null
+UMLS:owning_section_of:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:owning_subsection_of:
+  rename:
+  - part_of
+  - biolink:part_of
+UMLS:related_to:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:supported_concept_property_in:
+  delete: null
+UMLS:supported_concept_relationship_in:
+  delete: null
 VANDF:has_ingredient:
-  invert: [part_of, 'BFO:0000050']
+  invert:
+  - part_of
+  - biolink:part_of
 VANDF:ingredient_of:
-  rename: [part_of, 'BFO:0000050']
+  rename:
+  - part_of
+  - biolink:part_of
 VANDF:inverse_isa:
-  invert: [subclass_of, 'Biolink:subclass_of']
+  invert:
+  - subclass_of
+  - biolink:subclass_of
 VANDF:isa:
-  rename: [subclass_of, 'Biolink:subclass_of']
-#WHO:RB:
-#  invert: [subclass_of, 'Biolink:subclass_of']
-#WHO:SIB: {delete: null}
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+biolink:in_taxon:
+  keep: null
+biolink:subclass_of:
+  keep: null
 oboFormat:xref:
-  rename: [close_match, 'skos:closeMatch']
-owl:equivalentTo:
-  rename: [equivalent_to, 'owl:equivalentClass']
-owl:inverseOf: {keep: null}
-owl:sameAs: {keep: null}
-owl:subPropertyOf:
-  rename: [subclass_of, 'Biolink:subclass_of']
-owl:type:
-  rename: [subclass_of, 'Biolink:subclass_of']
+  rename:
+  - close_match
+  - skos:closeMatch
+owl:sameAs:
+  rename:
+  - same_as
+  - biolink:same_as
 rdfs:subClassOf:
-  rename: [subclass_of, 'Biolink:subclass_of']
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+rdfs:subPropertyOf:
+  rename:
+  - subclass_of
+  - biolink:subclass_of

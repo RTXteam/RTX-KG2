@@ -20,45 +20,45 @@ __status__ = 'Prototype'
 import argparse
 import json
 import kg2_util
-import prefixcommons
+import operator
 import requests
 import sys
 
 
 TIMEOUT_SEC = 600
 
-KG1_RELATION_CURIE_PREFIX = 'RTXKG1'
-KG1_RELATION_IRI_PREFIX = 'http://arax.rtx.ai'
+KG1_RELATION_CURIE_PREFIX = kg2_util.CURIE_PREFIX_RTX_KG1
+KG1_RELATION_IRI_PREFIX = kg2_util.BASE_URL_RTX_KG1
 
-KG1_PROVIDED_BY_TO_KG2_IRIS = {
-    'gene_ontology': "http://purl.obolibrary.org/obo/go-plus.owl",
-    'PC2': 'http://pathwaycommons.org/pc11',
-    'BioLink': 'http://w3id.org/biolink/vocab',
-    'KEGG;UniProtKB': 'https://www.uniprot.org',
-    'UniProtKB': 'https://www.uniprot.org',
-    'OMIM': 'http://purl.bioontology.org/ontology/OMIM',
-    'DisGeNet': 'http://www.disgenet.org',
-    'reactome': 'https://identifiers.org/reactome',
-    'DGIdb': 'http://www.dgidb.org',
-    'ChEMBL': 'https://www.ebi.ac.uk/chembl',
-    'Pharos': 'https://pharos.nih.gov',
-    'Monarch_SciGraph': 'https://scigraph-ontology.monarchinitiative.org/scigraph',
-    'DiseaseOntology': 'http://purl.obolibrary.org/obo/doid.owl',
-    'DOID': 'http://purl.obolibrary.org/obo/doid.owl',
-    'miRGate': 'http://mirgate.bioinfo.cnio.es',
-    'SIDER': 'http://sideeffects.embl.de',
-    'MyChem.info': 'http://mychem.info',
-    'GO': 'http://purl.obolibrary.org/ontology/go-plus.owl',
-    'REACT': 'https://identifiers.org/reactome',
-    'HP': 'http://purl.obolibrary.org/ontology/hp.obo',
-    'MONDO': 'http://purl.obolibrary.org/ontology/mondo.owl',
-    'UBERON': 'http://purl.obolibrary.org/ontology/uberon-ext.owl',
-    'CL': 'http://purl.obolibrary.org/ontology/cl.owl',
-    'KEGG': 'http://genome.jp/kegg',
-    'CHEMBL.COMPOUND': 'https://www.ebi.ac.uk/chembl',
-    'NCBIGene': 'https://www.ncbi.nlm.nih.gov/gene',
-    'AQTLTrait': 'http://purl.obolibrary.org/ontology/hp.obo',  # KG1 has a single AQTLTrait node, which has an HP uri
-    'GeneProf': 'http://www.geneprof.org/'
+KG1_PROVIDED_BY_TO_KG2_PROVIDED_BY_CURIE_IDS = {
+    'gene_ontology': "GO:go-plus.owl",
+    'PC2': 'PC2:',
+    'BioLink': 'monarch.biolink:',
+    'KEGG;UniProtKB': 'identifiers_org_registry:uniprot',
+    'UniProtKB': 'identifiers_org_registry:uniprot',
+    'OMIM': 'OMIM:',
+    'DisGeNet': 'DisGeNET:',
+    'reactome': 'identifiers_org_registry:reactome',
+    'DGIdb': 'DGIdb:',
+    'ChEMBL': 'identifiers_org_registry:chembl.compound',
+    'Pharos': 'pharos:',
+    'Monarch_SciGraph': 'monarch.scigraph:',
+    'DiseaseOntology': 'DOID:doid.owl',
+    'DOID': 'DOID:doid.owl',
+    'miRGate': 'miRGate:',
+    'SIDER': 'identifiers_org_registry:sider.effect',
+    'MyChem.info': 'MyChem:',
+    'GO': 'GO:go-plus.owl',
+    'REACT': 'identifiers_org_registry:reactome',
+    'HP': 'HP:hp.owl',
+    'MONDO': 'MONDO:mondo.owl',
+    'UBERON': 'UBERON:uberon-ext.owl',
+    'CL': 'CL:cl.owl',
+    'KEGG': 'identifiers_org_registry:kegg.compound',
+    'CHEMBL.COMPOUND': 'identifiers_org_registry:chembl.compound',
+    'NCBIGene': 'identifiers_org_registry:ncbigene',
+    'AQTLTrait': 'HP:hp.owl',  # KG1 has a single AQTLTrait node, which has an HP uri
+    'GeneProf': 'GeneProf:'  # I think these edges are gone
     }
 
 
@@ -92,17 +92,22 @@ def make_arg_parser():
     arg_parser.add_argument("-e", "--endpoint_uri", type=str, help="The neo4j HTTP URI (including port)",
                             default=None)
     arg_parser.add_argument('--test', dest='test', action='store_true', default=False)
+    arg_parser.add_argument('curiesToURLsMapFile', type=str)
     arg_parser.add_argument('outputFileName', type=str, help="The filename of the output JSON file")
     return arg_parser.parse_args()
 
 
 if __name__ == '__main__':
     args = make_arg_parser()
+    curies_to_urls_map_file_name = args.curiesToURLsMapFile
     test_mode = args.test
     output_file_name = args.outputFileName
-    config_file = args.configFile
-    if config_file is not None:
-        config_data = json.load(open(config_file, 'r'))
+    rtx_login_config_file = args.configFile
+
+    (expand, contract) = operator.itemgetter('expand', 'contract')(kg2_util.make_uri_curie_mappers(curies_to_urls_map_file_name))
+
+    if rtx_login_config_file is not None:
+        config_data = json.load(open(rtx_login_config_file, 'r'))
         neo4j_user = config_data['KG1']['neo4j']['username']
         neo4j_password = config_data['KG1']['neo4j']['password']
         if args.endpoint_uri is not None:
@@ -129,38 +134,52 @@ if __name__ == '__main__':
         del node_dict['UUID']
         del node_dict['seed_node_uuid']
         del node_dict['rtx_name']
-        assert node_dict.get('uri', None) is not None
+        assert 'uri' in node_dict
         iri = node_dict['uri']
         del node_dict['uri']
-        assert node_dict.get('id', None) is not None
+        assert 'id' in node_dict
         id = node_dict['id']
-        category_label = node_dict['category']
-        node_dict['category'] = kg2_util.convert_biolink_category_to_iri(category_label)
-        node_dict['category label'] = category_label
-        node_dict['iri'] = iri
+        curie_prefix = id.split(':')[0]
+        provided_by = KG1_PROVIDED_BY_TO_KG2_PROVIDED_BY_CURIE_IDS.get(curie_prefix, None)
+        if provided_by is None:
+            raise Exception("unable to get provider for CURIE prefix: " + curie_prefix)
+        iri = expand(id)
+        if iri is None:
+            kg2_util.log_message(message='Invalid CURIE ID that cannot be expanded to an IRI',
+                                 ontology_name=kg2_util.CURIE_PREFIX_RTX_KG1 + ':' + ';' + provided_by,
+                                 node_curie_id=id,
+                                 output_stream=sys.stderr)
         symbol = node_dict.get('symbol', None)
         synonym_list = []
         if symbol is not None:
             synonym_list.append(symbol)
             del node_dict['symbol']
+
+        category_label = node_dict['category'].replace('_', ' ')
+        if category_label == 'molecular function':
+            category_label = kg2_util.BIOLINK_CATEGORY_MOLECULAR_ACTIVITY
+        elif category_label == kg2_util.BIOLINK_CATEGORY_MICRORNA and id.startswith(kg2_util.CURIE_PREFIX_NCBI_GENE + ':'):
+            category_label = kg2_util.BIOLINK_CATEGORY_GENE
+            synonym_list.append('Biotype:microRNA')
+        elif category_label == kg2_util.BIOLINK_CATEGORY_DISEASE and id.startswith(kg2_util.CURIE_PREFIX_OMIM + ':'):
+            category_label = kg2_util.BIOLINK_CATEGORY_PHENOTYPIC_FEATURE
+        node_dict['category'] = kg2_util.convert_biolink_category_to_curie(category_label)
+        node_dict['category_label'] = category_label.replace(' ', '_')
+        node_dict['iri'] = iri
+        node_dict['description'] = node_dict.get('description', None)
         name = node_dict.get('name', None)
         if name is None:
             print("WARNING: node with NULL for the \'name\' field; id=" + id, file=sys.stderr)
             name = None
             node_dict['name'] = name
-        node_dict['full name'] = node_dict['name']
-        node_dict['description'] = node_dict.get('description', None)
+        node_dict['full_name'] = node_dict['name']
         node_dict['synonym'] = synonym_list
         node_dict['publications'] = []
-        node_dict['update date'] = None
-        node_dict['creation date'] = None
+        node_dict['update_date'] = None
+        node_dict['creation_date'] = None
         node_dict['deprecated'] = False
-        curie_prefix = id.split(':')[0]
-        provided_by = KG1_PROVIDED_BY_TO_KG2_IRIS.get(curie_prefix, None)
-        if provided_by is None:
-            raise Exception("unable to get provider for CURIE prefix: " + curie_prefix)
-        node_dict['replaced by'] = None
-        node_dict['provided by'] = provided_by
+        node_dict['replaced_by'] = None
+        node_dict['provided_by'] = provided_by
 #    pprint.pprint(nodes_list)
     query_statement = "MATCH (n)-[r]->(m) RETURN n.id, r, m.id"
     if test_mode:
@@ -179,16 +198,13 @@ if __name__ == '__main__':
         del edge_dict['source_node_uuid']
         del edge_dict['target_node_uuid']
         predicate_label = edge_dict['relation']
-        edge_dict['edge label'] = predicate_label
+        edge_dict['edge_label'] = predicate_label
         del edge_dict['relation']
-        [relation, relation_curie] = kg2_util.predicate_label_to_iri_and_curie(predicate_label,
-                                                                               KG1_RELATION_CURIE_PREFIX,
-                                                                               KG1_RELATION_IRI_PREFIX)
-        if relation_curie == 'BioLink:subclass_of':
-            relation_curie = 'rdfs:subClassOf'
-            relation = prefixcommons.expand_uri(relation_curie)
-        edge_dict['relation'] = relation
-        edge_dict['relation curie'] = relation_curie
+        relation_curie = kg2_util.predicate_label_to_curie(predicate_label,
+                                                           KG1_RELATION_CURIE_PREFIX)
+        if relation_curie == 'bioLink:subclass_of':
+            relation_curie = kg2_util.CURIE_ID_RDFS_SUBCLASS_OF
+        edge_dict['relation'] = relation_curie
         edge_dict['negated'] = False
         publications = edge_dict.get('publications', None)
         if publications is not None and publications != '':
@@ -196,16 +212,15 @@ if __name__ == '__main__':
         else:
             publications = []
         edge_dict['publications'] = publications
-        edge_dict['update date'] = None
+        edge_dict['update_date'] = None
         provided_by = edge_dict['provided_by']
         if provided_by.startswith('DGIdb;'):
             provided_by = 'DGIdb'
-        provided_by_kg2 = KG1_PROVIDED_BY_TO_KG2_IRIS.get(provided_by, None)
-        edge_dict['provided by'] = provided_by_kg2
+        provided_by_kg2 = KG1_PROVIDED_BY_TO_KG2_PROVIDED_BY_CURIE_IDS.get(provided_by, None)
+        edge_dict['provided_by'] = provided_by_kg2
         if provided_by_kg2 is None:
             print("Unable to find a KG2 provided IRI for this KG1 source: " + provided_by,
                   file=sys.stderr)
-        del edge_dict['provided_by']
         if edge_dict.get('predicate', None) is not None:
             del edge_dict['predicate']
         probability = edge_dict.get('probability', None)
@@ -218,7 +233,7 @@ if __name__ == '__main__':
             del edge_dict['probability']
         else:
             publications_info = {}
-        edge_dict['publications info'] = publications_info
+        edge_dict['publications_info'] = publications_info
     graph = {'nodes': nodes_list,
              'edges': edges_list}
     kg2_util.save_json(graph, output_file_name, test_mode)
