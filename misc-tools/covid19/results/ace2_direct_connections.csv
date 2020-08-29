@@ -1,0 +1,3 @@
+DRUGBANK,name,groups
+DB01611,Hydroxychloroquine,approved
+DB00608,Chloroquine,"approved,investigational,vet_approved"
