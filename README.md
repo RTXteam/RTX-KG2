@@ -468,6 +468,11 @@ installation (like on macOS Homebrew) doesn't require `sudo`, just omit
     
 Now follow the instructions for Build Option 1 above.
 
+## Possible failure modes for the KG2 build
+
+Occasionally a build will fail due to a connection error in attempting to
+cURL a file from one of the upstream sources (e.g., SMPDB).
+
 ## The output KG
 
 The `build-kg2.sh` script (run via one of the three methods shown above) creates
