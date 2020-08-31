@@ -1,0 +1,17 @@
+DRUGBANK,name,groups
+DB06290,Simeprevir,approved
+DB09102,Daclatasvir,"approved,investigational"
+DB09297,Paritaprevir,"approved,investigational"
+DB09296,Ombitasvir,"approved,investigational"
+DB09183,Dasabuvir,approved
+DB11574,Elbasvir,approved
+DB11575,Grazoprevir,approved
+DB00811,Ribavirin,approved
+DB00503,Ritonavir,"approved,investigational"
+DB00008,Peginterferon alfa-2a,"approved,investigational"
+DB00022,Peginterferon alfa-2b,approved
+DB08934,Sofosbuvir,approved
+DB09027,Ledipasvir,approved
+DB00091,Cyclosporine,"approved,investigational,vet_approved"
+DB01394,Colchicine,approved
+DB06756,Glycine betaine,"approved,nutraceutical"
