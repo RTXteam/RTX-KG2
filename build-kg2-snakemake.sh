@@ -127,6 +127,11 @@ echo 'include: "Snakefile-post-etl"' >> ${CODE_DIR}/Snakefile
 
 if [[ "${build_flag}" == "all" || "${build_flag}" == "alltest" ]]
 then
+    echo 'include: "Snakefile-semmeddb-extraction"' >> ${CODE_DIR}/Snakefile
+fi
+
+if [[ "${build_flag}" == "all" ]]
+then
     echo 'include: "Snakefile-extraction"' >> ${CODE_DIR}/Snakefile
 fi
 

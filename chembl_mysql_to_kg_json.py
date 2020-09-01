@@ -93,8 +93,8 @@ def make_node(id: str,
                                    update_date,
                                    CHEMBL_KB_CURIE_ID)
     node_dict['description'] = description
-    node_dict['synonym'] = synonym
-    node_dict['publications'] = publications
+    node_dict['synonym'] = sorted(synonym)
+    node_dict['publications'] = sorted(publications)
     return node_dict
 
 
@@ -191,6 +191,7 @@ if __name__ == '__main__':
         compound_synonyms = list(synonym_set)
         publications += list(publications_set)
         synonyms += compound_synonyms
+        synonyms = synonyms
         if pref_name is not None:
             description = pref_name
         else:

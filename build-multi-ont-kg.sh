@@ -45,6 +45,8 @@ mem_gb=`${CODE_DIR}/get-system-memory-gb.sh`
 export OWLTOOLS_MEMORY=${mem_gb}G
 export DEBUG=1  ## for owltools
 
+curl https://raw.githubusercontent.com/biolink/biolink-model/master/biolink-model.yaml -o ${BUILD_DIR}/biolink-model.yaml
+
 ## run the multi_ont_to_json_kg.py script
 cd ${BUILD_DIR} && ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/multi_ont_to_json_kg.py \
            ${test_arg} \

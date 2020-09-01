@@ -8,16 +8,6 @@ rule UMLS:
     shell:
         "bash -x " + config['CODE_DIR'] + "/extract-umls.sh " + config['BUILD_DIR'] + " > {log} 2>&1 && touch {output}" 
 
-rule SemMedDB:
-    input:
-        config['BUILD_DIR'] + "/validation-placeholder.empty"
-    output:
-        config['SEMMED_TUPLELIST_FILE']
-    log:
-        config['BUILD_DIR'] + "/extract-semmeddb.log"
-    shell:
-        "bash -x " + config['CODE_DIR'] + "/extract-semmeddb.sh {output} " + config['TEST_FLAG'] + " > {log} 2>&1"
-
 rule UniprotKB:
     input:
         config['BUILD_DIR'] + "/validation-placeholder.empty"
