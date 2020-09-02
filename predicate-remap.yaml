@@ -1196,14 +1196,6 @@ GOREL:0000040:
   rename:
   - causes
   - biolink:causes
-GOREL:0001006:
-  rename:
-  - affects
-  - biolink:affects
-GOREL:0001007:
-  invert:
-  - participates_in
-  - biolink:participates_in
 GOREL:0002003:
   rename:
   - affects_localization_of
@@ -1216,10 +1208,6 @@ GOREL:0002005:
   rename:
   - related_to
   - biolink:related_to
-GOREL:0002008:
-  invert:
-  - participates_in
-  - biolink:participates_in
 GOREL:0012006:
   rename:
   - related_to
@@ -1296,6 +1284,8 @@ LOINC:analyzes:
   - biolink:quantifier_qualifier
 LOINC:answer_to:
   delete: null
+LOINC:archetype_of:
+  delete: null
 LOINC:associated_with:
   rename:
   - correlated_with
@@ -1338,6 +1328,10 @@ LOINC:has_approach_guidance:
   rename:
   - has_attribute
   - biolink:has_attribute
+LOINC:has_archetype:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
 LOINC:has_challenge:
   rename:
   - related_to
@@ -1388,10 +1382,8 @@ LOINC:has_lateral_location_presence:
   rename:
   - has_attribute
   - biolink:has_attribute
-LOINC:has_maneuver_type:
-  rename:
-  - has_attribute_type
-  - biolink:has_attribute_type
+LOINC:has_loinc_number:
+  delete: null
 LOINC:has_member:
   invert:
   - part_of
@@ -1414,6 +1406,10 @@ LOINC:has_object_guidance:
   rename:
   - has_attribute
   - biolink:has_attribute
+LOINC:has_parent_group:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
 LOINC:has_pharmaceutical_route:
   rename:
   - has_route
@@ -1422,10 +1418,6 @@ LOINC:has_presence_guidance:
   delete: null
 LOINC:has_property:
   delete: null
-LOINC:has_quotient:
-  rename:
-  - has_attribute
-  - biolink:has_attribute
 LOINC:has_scale:
   rename:
   - has_attribute
@@ -1480,8 +1472,6 @@ LOINC:is_imaging_focus_of:
   delete: null
 LOINC:is_lateral_anatomic_location_of:
   delete: null
-LOINC:is_maneuver_type_for:
-  delete: null
 LOINC:is_modality_subtype_for:
   delete: null
 LOINC:is_modality_type_for:
@@ -1501,6 +1491,8 @@ LOINC:is_subject_of:
 LOINC:is_timing_for:
   delete: null
 LOINC:is_view_type_for:
+  delete: null
+LOINC:loinc_number_of:
   delete: null
 LOINC:mapped_from:
   delete: null
@@ -1530,12 +1522,12 @@ LOINC:multipart_of:
   rename:
   - part_of
   - biolink:part_of
+LOINC:parent_group_of:
+  delete: null
 LOINC:property_of:
   rename:
   - quantifier_qualifier
   - biolink:quantifier_qualifier
-LOINC:quotient_of:
-  delete: null
 LOINC:scale_of:
   delete: null
 LOINC:suffix_of:
@@ -1564,12 +1556,6 @@ MEDDRA:member_of:
   rename:
   - part_of
   - biolink:part_of
-MEDDRA:mth_british_form_of:
-  delete: null
-MEDDRA:mth_has_british_form:
-  rename:
-  - close_match
-  - skos:closeMatch
 MESH:AQ:
   delete: null
 MESH:QB:
@@ -1795,6 +1781,8 @@ NCIT:disease_excludes_abnormal_cell:
 NCIT:disease_excludes_cytogenetic_abnormality:
   delete: null
 NCIT:disease_excludes_finding:
+  delete: null
+NCIT:disease_excludes_metastatic_anatomic_site:
   delete: null
 NCIT:disease_excludes_molecular_abnormality:
   delete: null
@@ -2040,10 +2028,38 @@ NCIT:has_free_acid_or_base_form:
   delete: null
 NCIT:has_gene_product_element:
   delete: null
+NCIT:has_inc_parent:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
 NCIT:has_nichd_parent:
   rename:
   - subclass_of
   - biolink:subclass_of
+NCIT:has_pharmaceutical_administration_method_of:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+NCIT:has_pharmaceutical_basic_dose_form_of:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+NCIT:has_pharmaceutical_intended_site:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+NCIT:has_pharmaceutical_release_characteristics:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+NCIT:has_pharmaceutical_state_of_matter:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
+NCIT:has_pharmaceutical_transformation:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
 NCIT:has_physical_part_of_anatomic_structure:
   delete: null
 NCIT:has_salt_form:
@@ -2054,14 +2070,12 @@ NCIT:has_target:
   rename:
   - physically_interacts_with
   - biolink:physically_interacts_with
-NCIT:has_tradename:
-  rename:
-  - synonym
-  - biolink:synonym
 NCIT:human_disease_maps_to_eo_disease:
   rename:
   - related_to
   - biolink:related_to
+NCIT:inc_parent_of:
+  delete: null
 NCIT:imaged_anatomy_has_procedure:
   delete: null
 NCIT:is_abnormal_cell_of_disease:
@@ -2126,6 +2140,8 @@ NCIT:is_not_cytogenetic_abnormality_of_disease:
   delete: null
 NCIT:is_not_finding_of_disease:
   delete: null
+NCIT:is_not_metastatic_anatomic_site_of_disease:
+  delete: null
 NCIT:is_not_molecular_abnormality_of_disease:
   delete: null
 NCIT:is_not_normal_cell_origin_of_disease:
@@ -2164,10 +2180,6 @@ NCIT:kind_is_domain_of:
   delete: null
 NCIT:kind_is_range_of:
   delete: null
-NCIT:located_in:
-  rename:
-  - located_in
-  - biolink:located_in
 NCIT:may_be_abnormal_cell_of_disease:
   delete: null
 NCIT:may_be_associated_disease_of_disease:
@@ -2204,6 +2216,18 @@ NCIT:pathway_has_gene_element:
   invert:
   - participates_in
   - biolink:participates_in
+NCIT:pharmaceutical_administration_method_of:
+  delete: null
+NCIT:pharmaceutical_basic_dose_form_of:
+  delete: null
+NCIT:pharmaceutical_intended_site_of:
+  delete: null
+NCIT:pharmaceutical_release_characteristics_of:
+  delete: null
+NCIT:pharmaceutical_state_of_matter_of:
+  delete: null
+NCIT:pharmaceutical_transformation_of:
+  delete: null
 NCIT:procedure_has_completely_excised_anatomy:
   rename:
   - located_in
@@ -2284,10 +2308,6 @@ NCIT:target_anatomy_has_procedure:
   delete: null
 NCIT:tissue_is_expression_site_of_gene_product:
   delete: null
-NCIT:tradename_of:
-  delete: null
-NDDF:dose_form_of:
-  delete: null
 NDDF:has_dose_form:
   rename:
   - subclass_of
@@ -2300,112 +2320,6 @@ NDDF:ingredient_of:
   rename:
   - part_of
   - biolink:part_of
-NDFRT:active_metabolites_of:
-  rename:
-  - derives_from
-  - biolink:derives_from
-NDFRT:contraindicated_with_disease:
-  rename:
-  - contraindicated_for
-  - biolink:contraindicated_for
-NDFRT:contraindicating_class_of:
-  rename:
-  - contraindicated_for
-  - biolink:contraindicated_for
-NDFRT:contraindicating_mechanism_of_action_of:
-  delete: null
-NDFRT:contraindicating_physiologic_effect_of:
-  delete: null
-NDFRT:dose_form_of:
-  delete: null
-NDFRT:effect_may_be_inhibited_by:
-  delete: null
-NDFRT:has_active_metabolites:
-  delete: null
-NDFRT:has_contraindicated_drug:
-  delete: null
-NDFRT:has_contraindicating_class:
-  rename:
-  - contraindicated_for
-  - biolink:contraindicated_for
-NDFRT:has_contraindicating_mechanism_of_action:
-  rename:
-  - contraindicated_for
-  - biolink:contraindicated_for
-NDFRT:has_contraindicating_physiologic_effect:
-  rename:
-  - causes
-  - biolink:causes
-NDFRT:has_dose_form:
-  rename:
-  - subclass_of
-  - biolink:subclass_of
-NDFRT:has_ingredient:
-  invert:
-  - part_of
-  - biolink:part_of
-NDFRT:has_mechanism_of_action:
-  rename:
-  - affects
-  - biolink:affects
-NDFRT:has_pharmacokinetics:
-  rename:
-  - has_route
-  - biolink:has_route
-NDFRT:has_physiologic_effect:
-  rename:
-  - causes
-  - biolink:causes
-NDFRT:has_product_component:
-  delete: null
-NDFRT:induced_by:
-  delete: null
-NDFRT:induces:
-  rename:
-  - positively_regulates
-  - biolink:positively_regulates
-NDFRT:ingredient_of:
-  rename:
-  - part_of
-  - biolink:part_of
-NDFRT:may_be_diagnosed_by:
-  delete: null
-NDFRT:may_be_prevented_by:
-  delete: null
-NDFRT:may_be_treated_by:
-  delete: null
-NDFRT:may_diagnose:
-  rename:
-  - biomarker_for
-  - biolink:biomarker_for
-NDFRT:may_inhibit_effect_of:
-  rename:
-  - negatively_regulates
-  - biolink:negatively_regulates
-NDFRT:may_prevent:
-  rename:
-  - prevents
-  - biolink:prevents
-NDFRT:may_treat:
-  rename:
-  - treats
-  - biolink:treats
-NDFRT:mechanism_of_action_of:
-  delete: null
-NDFRT:metabolic_site_of:
-  delete: null
-NDFRT:pharmacokinetics_of:
-  delete: null
-NDFRT:physiologic_effect_of:
-  delete: null
-NDFRT:product_component_of:
-  rename:
-  - part_of
-  - biolink:part_of
-NDFRT:site_of_metabolism:
-  invert:
-  - increases_metabolic_processing_of
-  - biolink:increases_metabolic_processing_of
 OBI:0000293:
   invert:
   - participates_in
@@ -2422,10 +2336,6 @@ OBI:0001927:
   invert:
   - has_attribute
   - biolink:has_attribute
-OBO:disease_shares_features_of:
-  rename:
-  - related_to
-  - biolink:related_to
 OBO:INO_0000154:
   rename:
   - has_attribute
@@ -2680,10 +2590,6 @@ PathWhiz:in_species:
   rename:
   - occurs_in
   - biolink:occurs_in
-PathWhiz:uses_tissue:
-  rename:
-  - occurs_in
-  - biolink:occurs_in
 REPODB:clinically_tested_approved_unknown_phase:
   rename:
   - treats
@@ -2824,18 +2730,6 @@ RO:0002008:
   rename:
   - related_to
   - biolink:related_to
-RO:0002013:
-  rename:
-  - capable_of
-  - biolink:capable_of
-RO:0002015:
-  rename:
-  - capable_of
-  - biolink:capable_of
-RO:0002016:
-  rename:
-  - capable_of
-  - biolink:capable_of
 RO:0002082:
   rename:
   - related_to
@@ -2966,10 +2860,6 @@ RO:0002215:
   - biolink:capable_of
 RO:0002216:
   rename:
-  - participates_in
-  - biolink:participates_in
-RO:0002218:
-  invert:
   - participates_in
   - biolink:participates_in
 RO:0002219:
@@ -3258,10 +3148,6 @@ RO:0002505:
   - biolink:participates_in
 RO:0002507:
   invert:
-  - causes
-  - biolink:causes
-RO:0002508:
-  rename:
   - causes
   - biolink:causes
 RO:0002509:
@@ -3780,10 +3666,6 @@ SEMMEDDB:uses:
   - biolink:has_input
 SEMMEDDB:verb:
   delete: null
-SIO:000658:
-  invert:
-  - precedes
-  - biolink:precedes
 SNOMED:access_device_used_by:
   delete: null
 SNOMED:access_of:
@@ -4062,10 +3944,6 @@ SNOMED:has_occurrence:
   invert:
   - occurs_in
   - biolink:occurs_in
-SNOMED:has_part:
-  invert:
-  - part_of
-  - biolink:part_of
 SNOMED:has_part_anatomy_structure:
   delete: null
 SNOMED:has_pathological_process:
@@ -4114,6 +3992,10 @@ SNOMED:has_procedure_site:
   rename:
   - occurs_in
   - biolink:occurs_in
+SNOMED:has_process_duration:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
 SNOMED:has_process_output:
   rename:
   - produces
@@ -4122,6 +4004,10 @@ SNOMED:has_property:
   rename:
   - has_attribute
   - biolink:has_attribute
+SNOMED:has_realization:
+  rename:
+  - causes
+  - biolink:causes
 SNOMED:has_recipient_category:
   rename:
   - has_participant
@@ -4188,6 +4074,10 @@ SNOMED:has_time_aspect:
   rename:
   - has_attribute
   - biolink:has_attribute
+SNOMED:has_units:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
 SNOMED:has_unit_of_presentation:
   rename:
   - has_unit
@@ -4240,14 +4130,14 @@ SNOMED:part_anatomy_structure_of:
   rename:
   - part_of
   - biolink:part_of
-SNOMED:part_of:
-  rename:
-  - part_of
-  - biolink:part_of
 SNOMED:part_referred_to_by:
   delete: null
 SNOMED:pathological_process_of:
   delete: null
+SNOMED:plays_role:
+  rename:
+  - treats
+  - biolink:treats
 SNOMED:precise_active_ingredient_of:
   rename:
   - part_of
@@ -4272,9 +4162,13 @@ SNOMED:procedure_morphology_of:
   delete: null
 SNOMED:procedure_site_of:
   delete: null
+SNOMED:process_duration_of:
+  delete: null
 SNOMED:process_output_of:
   delete: null
 SNOMED:property_of:
+  delete: null
+SNOMED:realization_of:
   delete: null
 SNOMED:recipient_category_of:
   delete: null
@@ -4283,6 +4177,8 @@ SNOMED:relative_to_part_of:
   - related_to
   - biolink:related_to
 SNOMED:revision_status_of:
+  delete: null
+SNOMED:role_played_by:
   delete: null
 SNOMED:route_of_administration_of:
   delete: null
@@ -4324,6 +4220,8 @@ SNOMED:time_aspect_of:
   delete: null
 SNOMED:unit_of_presentation_of:
   delete: null
+SNOMED:units_of:
+  delete: null
 SNOMED:uses_access_device:
   rename:
   - has_input
@@ -4364,10 +4262,6 @@ UBERON:channels_into:
   rename:
   - coexists_with
   - biolink:coexists_with
-UBERON:composed_primarily_of:
-  rename:
-  - has_part
-  - biolink:has_part
 UBERON:conduit_for:
   rename:
   - coexists_with
@@ -4432,6 +4326,10 @@ UBERON:synapsed_by:
   rename:
   - related_to
   - biolink:related_to
+UMLS:has_physiologic_effect:
+  rename:
+  - causes
+  - biolink:causes
 UMLS:RB:
   invert:
   - subclass_of
@@ -4494,6 +4392,10 @@ UMLS:has_owning_section:
   delete: null
 UMLS:has_owning_subsection:
   delete: null
+UMLS:has_structural_class:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
 UMLS:has_supported_concept_property:
   rename:
   - has_attribute
