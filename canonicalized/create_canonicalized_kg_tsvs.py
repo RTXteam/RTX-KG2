@@ -163,8 +163,8 @@ def _remap_edges(edges: List[Dict[str, any]], curie_map: Dict[str, str]) -> List
                 new_merged_edge['provided_by'] = edge['provided_by']
                 new_merged_edge['publications'] = edge['publications']
                 new_merged_edge['simplified_edge_label_for_conversion'] = edge['simplified_edge_label']
-                new_merged_edge['subject_for_conversion'] = edge['subject']
-                new_merged_edge['object_for_conversion'] = edge['object']
+                new_merged_edge['subject_for_conversion'] = canonicalized_source_id
+                new_merged_edge['object_for_conversion'] = canonicalized_target_id
                 merged_edges[remapped_edge_key] = new_merged_edge
 
     # Convert array fields into the format neo4j wants
