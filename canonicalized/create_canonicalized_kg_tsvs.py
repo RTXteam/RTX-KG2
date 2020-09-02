@@ -13,7 +13,7 @@ import time
 import traceback
 
 from datetime import datetime
-from typing import List, Dict, Tuple
+from typing import List, Dict, Tuple, Union
 from neo4j import GraphDatabase
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/../../")  # code directory
@@ -51,6 +51,15 @@ def _merge_two_lists(list_a: List[any], list_b: List[any]) -> List[any]:
     return list(set(list_a + list_b))
 
 
+def _literal_eval_list(input_item: Union[str, List[any]]) -> List[any]:
+    try:
+        actual_list = ast.literal_eval(input_item)
+    except Exception:
+        return []
+    else:
+        return actual_list
+
+
 def _convert_strange_provided_by_field_to_list(provided_by_field):
     # Needed temporarily until kg2-2+ is rolled out to production
     provided_by_list = []
@@ -76,7 +85,7 @@ def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any
     for node in nodes:
         canonical_info = canonicalized_info.get(node['id'])
         canonicalized_curie = canonical_info.get('preferred_curie', node['id']) if canonical_info else node['id']
-        node['publications'] = ast.literal_eval(node['publications'])  # Only need to do this until kg2.2+ is rolled out
+        node['publications'] = _literal_eval_list(node['publications'])  # Only need to do this until kg2.2+ is rolled out
         if canonicalized_curie in canonicalized_nodes:
             existing_canonical_node = canonicalized_nodes[canonicalized_curie]
             existing_canonical_node['publications'] = _merge_two_lists(existing_canonical_node['publications'], node['publications'])
@@ -140,7 +149,7 @@ def _remap_edges(edges: List[Dict[str, any]], curie_map: Dict[str, str]) -> List
         edge_type = edge['simplified_edge_label']
         # Convert fields that should be lists to lists (only need to do this until kg2.2+ is rolled out to production)
         edge['provided_by'] = _convert_strange_provided_by_field_to_list(edge['provided_by'])
-        edge['publications'] = ast.literal_eval(edge['publications'])
+        edge['publications'] = _literal_eval_list(edge['publications'])
         if canonicalized_source_id != canonicalized_target_id or edge_type in allowed_self_edges:
             remapped_edge_key = f"{canonicalized_source_id}--{edge_type}--{canonicalized_target_id}"
             if remapped_edge_key in merged_edges:
