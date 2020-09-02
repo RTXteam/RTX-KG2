@@ -92,7 +92,7 @@ def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any
         else:
             if canonical_info:
                 canonicalized_node = {
-                    'id': canonical_info.get('preferred_curie', node['id']),
+                    'id': canonicalized_curie,
                     'name': canonical_info.get('preferred_name', node['name']),
                     'types': list(canonical_info.get('all_types')),
                     'preferred_type': canonical_info.get('preferred_type', node['category_label']),
@@ -100,14 +100,14 @@ def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any
                 }
             else:
                 canonicalized_node = {
-                    'id': node['id'],
+                    'id': canonicalized_curie,
                     'name': node['name'],
                     'types': [node['category_label']],
                     'preferred_type': node['category_label'],
                     'publications': node['publications']
                 }
-            curie_map[node['id']] = canonicalized_node['id']
             canonicalized_nodes[canonicalized_node['id']] = canonicalized_node
+        curie_map[node['id']] = canonicalized_curie  # Record this mapping for easy lookup later
 
     # Create a node containing information about this KG2C build
     new_build_node = {'id': 'RTX:KG2C',
