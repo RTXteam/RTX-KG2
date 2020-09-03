@@ -2036,11 +2036,11 @@ NCIT:has_nichd_parent:
   rename:
   - subclass_of
   - biolink:subclass_of
-NCIT:has_pharmaceutical_administration_method_of:
+NCIT:has_pharmaceutical_administration_method:
   rename:
   - has_attribute
   - biolink:has_attribute
-NCIT:has_pharmaceutical_basic_dose_form_of:
+NCIT:has_pharmaceutical_basic_dose_form:
   rename:
   - has_attribute
   - biolink:has_attribute
@@ -2307,6 +2307,8 @@ NCIT:subset_includes_concept:
 NCIT:target_anatomy_has_procedure:
   delete: null
 NCIT:tissue_is_expression_site_of_gene_product:
+  delete: null
+NDDF:dose_form_of:
   delete: null
 NDDF:has_dose_form:
   rename:
