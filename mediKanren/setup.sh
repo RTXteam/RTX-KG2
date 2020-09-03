@@ -21,6 +21,10 @@ git clone https://github.com/RTXteam/kgx.git
 
 # checkout the correct kgx branch
 cd kgx
+
+## Finn: We are using a specific commit of the source-sink branch that has been
+## edited to not rely on the external biolink yaml file to avoid issues when
+## the biolink-model.yaml file is changed in the future.
 git checkout source-sink
 
 # install python modules
