@@ -326,6 +326,11 @@ not persist for the next build. Note: if the build system happens to terminate
 unexpectedly while running `version.sh`, you should check what state the file
 `s3://rtx-kg2-public/kg2-version.txt` was left in.
 
+The version history for KG2 can be found [here](kg2-version.md).
+Before you release a new build of KG2, please update the aforementioned
+version history document with the new build version and the numbers of
+the GitHub issues that are addressed/implemented in the new KG2 version.
+
 #### Partial build of KG2
 
 In some circumstances, if there are no updates to any of the upstream source
