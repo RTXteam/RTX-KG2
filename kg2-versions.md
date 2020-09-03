@@ -15,3 +15,4 @@
 - Issue #1000
 - Issue #1006
 - Issue #1007
+- Issue #988
