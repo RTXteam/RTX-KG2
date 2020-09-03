@@ -327,9 +327,6 @@ unexpectedly while running `version.sh`, you should check what state the file
 `s3://rtx-kg2-public/kg2-version.txt` was left in.
 
 The version history for KG2 can be found [here](kg2-versions.md).
-Before you release a new build of KG2, please update the aforementioned
-version history document with the new build version and the numbers of
-the GitHub issues that are addressed/implemented in the new KG2 version.
 
 #### Partial build of KG2
 
@@ -586,9 +583,12 @@ Neo4j.
 
 # Post-setup tasks
 
-We typically define a DNS `CNAME` record for the KG2 Neo4j server hostname,
-of the form `kg2endpoint-kg2-X-Y.rtx.ai`, where `X` is the major version number
-and `Y` is the minor version number.
+We typically define a DNS `CNAME` record for the KG2 Neo4j server hostname, of
+the form `kg2endpoint-kg2-X-Y.rtx.ai`, where `X` is the major version number and
+`Y` is the minor version number.  Before you release a new build of KG2, please
+update the [version history markdown file](kg2-versions.md) with the new build
+version and the numbers of the GitHub issues that are addressed/implemented in
+the new KG2 version.
 
 # Structure of the JSON KG2
 
