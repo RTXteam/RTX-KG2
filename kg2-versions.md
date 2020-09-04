@@ -11,6 +11,7 @@ Edges: 53,589,306
 - Issue #1027(?)
 - Issue #931
 - Issue #999
+- Issue #762
 
 # 2.3.1 
 
