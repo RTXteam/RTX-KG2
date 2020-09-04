@@ -20,7 +20,6 @@ Nodes: 9,633,671
 
 Edges: 52,537,504
 
-
 - Issue #1031
 - Issue #1033
 - Issue #1019
