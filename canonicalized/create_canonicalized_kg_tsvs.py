@@ -164,6 +164,31 @@ def _canonicalize_edges(edges: List[Dict[str, any]], curie_map: Dict[str, str], 
     return canonicalized_edges
 
 
+def _add_edges_from_nodes_to_types(nodes_dict: Dict[str, Dict[str, any]], edges_dict: Dict[str, Dict[str, any]]):
+    # This function adds edges mapping nodes to each of their types (e.g., (PR:123)-[has_type]->(biolink:Protein)
+    all_node_ids = set(nodes_dict)
+    for node_id in all_node_ids:
+        node = nodes_dict[node_id]
+        for node_type in node['types']:
+            curie_for_node_type = _get_curie_for_node_type(node_type)
+            if curie_for_node_type not in nodes_dict:
+                node_type_node = _create_node(node_id=curie_for_node_type,
+                                              name=node_type,
+                                              types=["ontology_class"],
+                                              preferred_type="ontology_class",
+                                              equivalent_curies=[],
+                                              publications=[])
+                nodes_dict[node_type_node['id']] = node_type_node
+            edge_to_node_type = _create_edge(source=node['id'],
+                                             target=curie_for_node_type,
+                                             simplified_edge_label="has_type",
+                                             provided_by=["ARAX:NodeSynonymizer"],
+                                             publications=[])
+            edge_key = _get_edge_key(edge_to_node_type["subject"], edge_to_node_type["object"],
+                                     edge_to_node_type["simplified_edge_label"])
+            edges_dict[edge_key] = edge_to_node_type
+
+
 def _modify_column_headers_for_neo4j(plain_column_headers: List[str]) -> List[str]:
     modified_headers = []
     array_columns = ['provided_by', 'types', 'equivalent_curies', 'publications']
@@ -187,7 +212,7 @@ def _modify_column_headers_for_neo4j(plain_column_headers: List[str]) -> List[st
 def _create_node(node_id: str, name: str, types: List[str], preferred_type: str, equivalent_curies: List[str],
                  publications: List[str]) -> Dict[str, any]:
     assert isinstance(node_id, str)
-    assert isinstance(name, str)
+    assert isinstance(name, str) or name is None
     assert isinstance(types, list)
     assert isinstance(preferred_type, str)
     assert isinstance(equivalent_curies, list)
@@ -215,6 +240,19 @@ def _create_edge(source: str, target: str, simplified_edge_label: str, provided_
         "provided_by": provided_by,
         "publications": publications
     }
+
+
+def _write_list_to_tsv(input_list: List[Dict[str, any]], file_name_root: str, is_test: bool):
+    print(f"  Creating {file_name_root} header file..")
+    column_headers = list(input_list[0].keys())
+    modified_headers = _modify_column_headers_for_neo4j(column_headers)
+    with open(f"{'test_' if is_test else ''}{file_name_root}_header.tsv", "w+") as header_file:
+        dict_writer = csv.DictWriter(header_file, modified_headers, delimiter='\t')
+        dict_writer.writeheader()
+    print(f"  Creating {file_name_root} file..")
+    with open(f"{'test_' if is_test else ''}{file_name_root}.tsv", "w+") as data_file:
+        dict_writer = csv.DictWriter(data_file, column_headers, delimiter='\t')
+        dict_writer.writerows(input_list)
 
 
 def create_canonicalized_tsvs(is_test=False):
@@ -245,29 +283,9 @@ def create_canonicalized_tsvs(is_test=False):
 
     # Add edges from nodes to their types (for faster querying vs. the 'types' property on nodes)
     print(f" Adding edges from nodes to their node types..")
-    start_edge_count = len(canonicalized_edges_dict)
     start_node_count = len(canonicalized_nodes_dict)
-    canonicalized_node_ids = set(canonicalized_nodes_dict)
-    for node_id in canonicalized_node_ids:
-        node = canonicalized_nodes_dict[node_id]
-        for node_type in node['types']:
-            curie_for_node_type = _get_curie_for_node_type(node_type)
-            if curie_for_node_type not in canonicalized_nodes_dict:
-                node_type_node = _create_node(node_id=curie_for_node_type,
-                                              name=node_type,
-                                              types=["ontology_class"],
-                                              preferred_type="ontology_class",
-                                              equivalent_curies=[],
-                                              publications=[])
-                canonicalized_nodes_dict[node_type_node['id']] = node_type_node
-            edge_to_node_type = _create_edge(source=node['id'],
-                                             target=curie_for_node_type,
-                                             simplified_edge_label="has_type",
-                                             provided_by=["ARAX:NodeSynonymizer"],
-                                             publications=[])
-            edge_key = _get_edge_key(edge_to_node_type["subject"], edge_to_node_type["object"],
-                                     edge_to_node_type["simplified_edge_label"])
-            canonicalized_edges_dict[edge_key] = edge_to_node_type
+    start_edge_count = len(canonicalized_edges_dict)
+    _add_edges_from_nodes_to_types(canonicalized_nodes_dict, canonicalized_edges_dict)
     print(f"  Added {len(canonicalized_nodes_dict) - start_node_count} nodes representing node types")
     print(f"  Added {len(canonicalized_edges_dict) - start_edge_count} edges from nodes to their node types")
 
@@ -296,30 +314,10 @@ def create_canonicalized_tsvs(is_test=False):
         canonicalized_edge['subject_for_conversion'] = canonicalized_edge['subject']
         canonicalized_edge['object_for_conversion'] = canonicalized_edge['object']
 
-    # Save data to TSV files
+    # Finally dump all our nodes/edges into TSVs (formatted for neo4j)
     print(f" Saving data to TSVs..")
-    print(f"  Creating nodes header file..")
-    canonicalized_nodes_list = list(canonicalized_nodes_dict.values())
-    column_headers = list(canonicalized_nodes_list[0].keys())
-    modified_headers = _modify_column_headers_for_neo4j(column_headers)
-    with open(f"{'test_' if is_test else ''}nodes_c_header.tsv", "w+") as nodes_header_file:
-        dict_writer = csv.DictWriter(nodes_header_file, modified_headers, delimiter='\t')
-        dict_writer.writeheader()
-    print(f"  Creating nodes file..")
-    with open(f"{'test_' if is_test else ''}nodes_c.tsv", "w+") as nodes_file:
-        dict_writer = csv.DictWriter(nodes_file, column_headers, delimiter='\t')
-        dict_writer.writerows(canonicalized_nodes_list)
-    print(f"  Creating edges header file..")
-    canonicalized_edges_list = list(canonicalized_edges_dict.values())
-    column_headers = list(canonicalized_edges_list[0].keys())
-    modified_headers = _modify_column_headers_for_neo4j(column_headers)
-    with open(f"{'test_' if is_test else ''}edges_c_header.tsv", "w+") as edges_header_file:
-        dict_writer = csv.DictWriter(edges_header_file, modified_headers, delimiter='\t')
-        dict_writer.writeheader()
-    print(f"  Creating edges file..")
-    with open(f"{'test_' if is_test else ''}edges_c.tsv", "w+") as edges_file:
-        dict_writer = csv.DictWriter(edges_file, column_headers, delimiter='\t')
-        dict_writer.writerows(canonicalized_edges_list)
+    _write_list_to_tsv(list(canonicalized_nodes_dict.values()), "nodes_c", is_test)
+    _write_list_to_tsv(list(canonicalized_edges_dict.values()), "edges_c", is_test)
 
 
 def main():
