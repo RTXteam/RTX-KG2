@@ -98,9 +98,9 @@ def _convert_string_to_pascal_case(input_string: str) -> str:
 def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Dict[str, any]], Dict[str, str]]:
     synonymizer = NodeSynonymizer()
     node_ids = [node.get('id') for node in nodes if node.get('id')]
-    print(f"  Sending NodeSynonymizer.get_canonical_curies() a list of {len(node_ids)} curies..")
+    print(f"  Sending NodeSynonymizer.get_canonical_curies() {len(node_ids)} curies..")
     canonicalized_info = synonymizer.get_canonical_curies(curies=node_ids, return_all_types=True)
-    print(f"  Sending NodeSynonymizer.get_equivalent_nodes() a list of {len(node_ids)} curies..")
+    print(f"  Sending NodeSynonymizer.get_equivalent_nodes() {len(node_ids)} curies..")
     equivalent_curies_info = synonymizer.get_equivalent_nodes(node_ids)
     equivalent_curies_dict = {curie: list(equivalent_curies_info.get(curie, [])) for curie in equivalent_curies_info}
     print(f"  Creating canonicalized nodes..")
@@ -139,7 +139,7 @@ def _canonicalize_edges(edges: List[Dict[str, any]], curie_map: Dict[str, str], 
     for edge in edges:
         original_source_id = edge['subject']
         original_target_id = edge['object']
-        if not is_test:  # Make sure we don't wind up with any orphan edges
+        if not is_test:  # Make sure we have the mappings we expect
             assert original_source_id in curie_map
             assert original_target_id in curie_map
         canonicalized_source_id = curie_map.get(original_source_id, original_source_id)
@@ -287,6 +287,9 @@ def create_canonicalized_tsvs(is_test=False):
         canonicalized_node['equivalent_curies'] = _convert_list_to_neo4j_format(canonicalized_node['equivalent_curies'])
         canonicalized_node['preferred_type_for_conversion'] = canonicalized_node['preferred_type']
     for canonicalized_edge in canonicalized_edges_dict.values():
+        if not is_test:  # Make sure we don't have any orphan edges
+            assert canonicalized_edge['subject'] in canonicalized_nodes_dict
+            assert canonicalized_edge['object'] in canonicalized_nodes_dict
         canonicalized_edge['provided_by'] = _convert_list_to_neo4j_format(canonicalized_edge['provided_by'])
         canonicalized_edge['publications'] = _convert_list_to_neo4j_format(canonicalized_edge['publications'])
         canonicalized_edge['simplified_edge_label_for_conversion'] = canonicalized_edge['simplified_edge_label']
