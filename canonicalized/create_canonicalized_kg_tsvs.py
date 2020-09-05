@@ -102,7 +102,7 @@ def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Dict[str
     canonicalized_info = synonymizer.get_canonical_curies(curies=node_ids, return_all_types=True)
     print(f"  Sending NodeSynonymizer.get_equivalent_nodes() {len(node_ids)} curies..")
     equivalent_curies_info = synonymizer.get_equivalent_nodes(node_ids)
-    equivalent_curies_dict = {curie: list(equivalent_curies_info.get(curie, [])) for curie in equivalent_curies_info}
+    equivalent_curies_dict = {curie: list(equivalent_curies_info.get(curie, [])) for curie in equivalent_curies_info if equivalent_curies_info}
     print(f"  Creating canonicalized nodes..")
     curie_map = dict()
     canonicalized_nodes = dict()
@@ -120,14 +120,14 @@ def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Dict[str
                                                   types=list(canonical_info.get('all_types')),
                                                   preferred_type=canonical_info.get('preferred_type', node['category_label']),
                                                   publications=node['publications'],
-                                                  equivalent_curies=equivalent_curies_dict.get(node['id']))
+                                                  equivalent_curies=equivalent_curies_dict.get(node['id'], []))
             else:
                 canonicalized_node = _create_node(node_id=canonicalized_curie,
                                                   name=node['name'],
                                                   types=[node['category_label']],
                                                   preferred_type=node['category_label'],
                                                   publications=node['publications'],
-                                                  equivalent_curies=equivalent_curies_dict.get(node['id']))
+                                                  equivalent_curies=equivalent_curies_dict.get(node['id'], []))
             canonicalized_nodes[canonicalized_node['id']] = canonicalized_node
         curie_map[node['id']] = canonicalized_curie  # Record this mapping for easy lookup later
     return canonicalized_nodes, curie_map
@@ -325,7 +325,7 @@ def main():
     arg_parser.add_argument('--test', dest='test', action='store_true', default=False)
     args = arg_parser.parse_args()
 
-    print(f"Starting to create canonicalized KG TSV files..")
+    print(f"Starting to create canonicalized KG..")
     start = time.time()
     create_canonicalized_tsvs(args.test)
     print(f"Done! Took {round((time.time() - start) / 60, 2)} minutes.")
