@@ -102,7 +102,8 @@ def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Dict[str
     canonicalized_info = synonymizer.get_canonical_curies(curies=node_ids, return_all_types=True)
     print(f"  Sending NodeSynonymizer.get_equivalent_nodes() {len(node_ids)} curies..")
     equivalent_curies_info = synonymizer.get_equivalent_nodes(node_ids)
-    equivalent_curies_dict = {curie: list(equivalent_curies_info.get(curie, [])) for curie in equivalent_curies_info if equivalent_curies_info}
+    recognized_curies = {curie for curie in equivalent_curies_info if equivalent_curies_info.get(curie)}
+    equivalent_curies_dict = {curie: list(equivalent_curies_info.get(curie)) for curie in recognized_curies}
     print(f"  Creating canonicalized nodes..")
     curie_map = dict()
     canonicalized_nodes = dict()
