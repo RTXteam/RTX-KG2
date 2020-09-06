@@ -74,25 +74,8 @@ def _convert_strange_provided_by_field_to_list(provided_by_field: List[any]) -> 
     return provided_by_list
 
 
-def _get_curie_for_node_type(node_type: str) -> str:
-    return f"biolink:{_convert_string_to_pascal_case(node_type)}"
-
-
 def _get_edge_key(source: str, target: str, edge_type: str) -> str:
     return f"{source}--{edge_type}--{target}"
-
-
-def _convert_string_to_pascal_case(input_string: str) -> str:
-    # Converts a string like 'chemical_substance' or 'chemicalSubstance' to 'ChemicalSubstance'
-    if not input_string:
-        return ""
-    elif "_" in input_string:
-        words = input_string.split('_')
-        return "".join([word.capitalize() for word in words])
-    elif len(input_string) > 1:
-        return input_string[0].upper() + input_string[1:]
-    else:
-        return input_string.capitalize()
 
 
 def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Dict[str, any]], Dict[str, str]]:
@@ -163,31 +146,6 @@ def _canonicalize_edges(edges: List[Dict[str, any]], curie_map: Dict[str, str], 
                                                       publications=edge['publications'])
                 canonicalized_edges[canonicalized_edge_key] = new_canonicalized_edge
     return canonicalized_edges
-
-
-def _add_edges_from_nodes_to_types(nodes_dict: Dict[str, Dict[str, any]], edges_dict: Dict[str, Dict[str, any]]):
-    # This function adds edges mapping nodes to each of their types (e.g., (PR:123)-[has_type]->(biolink:Protein)
-    all_node_ids = set(nodes_dict)
-    for node_id in all_node_ids:
-        node = nodes_dict[node_id]
-        for node_type in node['types']:
-            curie_for_node_type = _get_curie_for_node_type(node_type)
-            if curie_for_node_type not in nodes_dict:
-                node_type_node = _create_node(node_id=curie_for_node_type,
-                                              name=node_type,
-                                              types=["ontology_class"],
-                                              preferred_type="ontology_class",
-                                              equivalent_curies=[],
-                                              publications=[])
-                nodes_dict[node_type_node['id']] = node_type_node
-            edge_to_node_type = _create_edge(source=node['id'],
-                                             target=curie_for_node_type,
-                                             simplified_edge_label="has_type",
-                                             provided_by=["ARAX:NodeSynonymizer"],
-                                             publications=[])
-            edge_key = _get_edge_key(edge_to_node_type["subject"], edge_to_node_type["object"],
-                                     edge_to_node_type["simplified_edge_label"])
-            edges_dict[edge_key] = edge_to_node_type
 
 
 def _modify_column_headers_for_neo4j(plain_column_headers: List[str]) -> List[str]:
@@ -281,14 +239,6 @@ def create_canonicalized_tsvs(is_test=False):
     else:
         print(f"ERROR: Couldn't get edge data from KG2 neo4j.")
         return
-
-    # Add edges from nodes to their types (for faster querying vs. the 'types' property on nodes)
-    print(f" Adding edges from nodes to their node types..")
-    start_node_count = len(canonicalized_nodes_dict)
-    start_edge_count = len(canonicalized_edges_dict)
-    _add_edges_from_nodes_to_types(canonicalized_nodes_dict, canonicalized_edges_dict)
-    print(f"  Added {len(canonicalized_nodes_dict) - start_node_count} nodes representing node types")
-    print(f"  Added {len(canonicalized_edges_dict) - start_edge_count} edges from nodes to their node types")
 
     # Create a node containing information about this KG2C build
     kg2c_build_node = _create_node(node_id="RTX:KG2C",
