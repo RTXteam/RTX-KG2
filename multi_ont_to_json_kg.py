@@ -703,12 +703,18 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                              ontology_name=iri_of_ontology,
                                              output_stream=sys.stderr)
                     else:
-                        node_tui_category_label = get_category_for_multiple_tui(biolink_category_tree, node_tui_list, mappings_to_categories)
-                        if node_category_label is None or node_curie_id.split(":")[0] == kg2_util.CURIE_PREFIX_UMLS:
-                            kg2_util.log_message(message='Node ' + node_curie_id + ' has CUI with multiple associated TUIs: ' + ', '.join(node_tui_list) + ' now has category ' + node_tui_category_label,
+                        try:
+                            node_tui_category_label = get_category_for_multiple_tui(biolink_category_tree, node_tui_list, mappings_to_categories)
+                            if node_category_label is None or node_curie_id.split(":")[0] == kg2_util.CURIE_PREFIX_UMLS:
+                                kg2_util.log_message(message='Node ' + node_curie_id + ' has CUI with multiple associated TUIs: ' + ', '.join(node_tui_list) + ' now has category ' + node_tui_category_label,
+                                                 ontology_name=iri_of_ontology,
+                                                 output_stream=sys.stderr)
+                                node_category_label = node_tui_category_label
+                        except KeyError:
+                            kg2_util.log_message(message='Node ' + node_curie_id + ' has CUI with multiple associated TUIs: ' + ', '.join(node_tui_list) + 'and could not be mapped',
                                              ontology_name=iri_of_ontology,
                                              output_stream=sys.stderr)
-                            node_category_label = node_tui_category_label
+                        
                 else:
                     if node_category_label is None:
                         node_category_label = node_tui_category_label  # override the node category_label if we have a TUI
