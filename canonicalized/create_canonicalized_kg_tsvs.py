@@ -5,7 +5,6 @@ created in the current working directory.
 Usage: python3 create_canonicalized_kg_tsvs.py [--test]
 """
 import argparse
-import ast
 import csv
 import os
 import sys
@@ -51,29 +50,6 @@ def _merge_two_lists(list_a: List[any], list_b: List[any]) -> List[any]:
     return list(set(list_a + list_b))
 
 
-def _literal_eval_list(input_item: Union[str, List[any]]) -> List[any]:
-    try:
-        actual_list = ast.literal_eval(input_item)
-    except Exception:
-        return []
-    else:
-        return actual_list
-
-
-def _convert_strange_provided_by_field_to_list(provided_by_field):
-    # Needed temporarily until kg2-2+ is rolled out to production
-    provided_by_list = []
-    for item in provided_by_field:
-        if "[" in item:
-            item = item.replace("[", "")
-        if "]" in item:
-            item = item.replace("]", "")
-        if "'" in item:
-            item = item.replace("'", "")
-        provided_by_list.append(item)
-    return provided_by_list
-
-
 def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any]], Dict[str, str]]:
     synonymizer = NodeSynonymizer()
     node_ids = [node.get('id') for node in nodes if node.get('id')]
@@ -85,7 +61,6 @@ def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any
     for node in nodes:
         canonical_info = canonicalized_info.get(node['id'])
         canonicalized_curie = canonical_info.get('preferred_curie', node['id']) if canonical_info else node['id']
-        node['publications'] = _literal_eval_list(node['publications'])  # Only need to do this until kg2.2+ is rolled out
         if canonicalized_curie in canonicalized_nodes:
             existing_canonical_node = canonicalized_nodes[canonicalized_curie]
             existing_canonical_node['publications'] = _merge_two_lists(existing_canonical_node['publications'], node['publications'])
@@ -149,9 +124,6 @@ def _remap_edges(edges: List[Dict[str, any]], curie_map: Dict[str, str], is_test
         canonicalized_source_id = curie_map.get(original_source_id, original_source_id)
         canonicalized_target_id = curie_map.get(original_target_id, original_target_id)
         edge_type = edge['simplified_edge_label']
-        # Convert fields that should be lists to lists (only need to do this until kg2.2+ is rolled out to production)
-        edge['provided_by'] = _convert_strange_provided_by_field_to_list(edge['provided_by'])
-        edge['publications'] = _literal_eval_list(edge['publications'])
         if canonicalized_source_id != canonicalized_target_id or edge_type in allowed_self_edges:
             remapped_edge_key = f"{canonicalized_source_id}--{edge_type}--{canonicalized_target_id}"
             if remapped_edge_key in merged_edges:
