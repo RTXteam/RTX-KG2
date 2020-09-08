@@ -688,11 +688,15 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
 
             if node_category_label is None:
                 node_category_label = 'named thing'
-                if not node_deprecated:
-                    kg2_util.log_message("Node with ontology_node_id " + ontology_node_id + " does not have a category",
-                                         ontology.id,
-                                         node_curie_id,
-                                         output_stream=sys.stderr)
+                try:
+                    if node_tui is not None:
+                        node_category_label = mappings_to_categories[node_tui]
+                        kg2_util.log_message(message="Node with ontology_node_id " + ontology_node_id + " now has category " + node_category_label,
+                                             output_stream=sys.stderr)
+                except KeyError:
+                    if not node_deprecated:
+                        kg2_util.log_message(message="Node with ontology_node_id " + ontology_node_id + " does not have a category",
+                                             output_stream=sys.stderr)
 
             if node_has_cui:
                 assert node_tui is not None or len(node_tui_list) > 0
