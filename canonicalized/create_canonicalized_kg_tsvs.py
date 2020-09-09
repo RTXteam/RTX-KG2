@@ -70,23 +70,24 @@ def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Dict[str
     for node in nodes:
         canonical_info = canonicalized_info.get(node['id'])
         canonicalized_curie = canonical_info.get('preferred_curie', node['id']) if canonical_info else node['id']
+        node_publications = node['publications'] if node.get('publications') else []
         if canonicalized_curie in canonicalized_nodes:
             existing_canonical_node = canonicalized_nodes[canonicalized_curie]
-            existing_canonical_node['publications'] = _merge_two_lists(existing_canonical_node['publications'], node['publications'])
+            existing_canonical_node['publications'] = _merge_two_lists(existing_canonical_node['publications'], node_publications)
         else:
             if canonical_info:
                 canonicalized_node = _create_node(node_id=canonicalized_curie,
-                                                  name=canonical_info.get('preferred_name', node['name']),
-                                                  types=list(canonical_info.get('all_types')),
-                                                  preferred_type=canonical_info.get('preferred_type', node['category_label']),
-                                                  publications=node['publications'],
+                                                  name=canonical_info['preferred_name'],
+                                                  types=list(canonical_info['all_types']),
+                                                  preferred_type=canonical_info['preferred_type'],
+                                                  publications=node_publications,
                                                   equivalent_curies=equivalent_curies_dict.get(canonicalized_curie, []))
             else:
                 canonicalized_node = _create_node(node_id=canonicalized_curie,
                                                   name=node['name'],
                                                   types=[node['category_label']],
                                                   preferred_type=node['category_label'],
-                                                  publications=node['publications'],
+                                                  publications=node_publications,
                                                   equivalent_curies=equivalent_curies_dict.get(canonicalized_curie, []))
             canonicalized_nodes[canonicalized_node['id']] = canonicalized_node
         curie_map[node['id']] = canonicalized_curie  # Record this mapping for easy lookup later
@@ -105,18 +106,20 @@ def _canonicalize_edges(edges: List[Dict[str, any]], curie_map: Dict[str, str], 
         canonicalized_source_id = curie_map.get(original_source_id, original_source_id)
         canonicalized_target_id = curie_map.get(original_target_id, original_target_id)
         edge_type = edge['simplified_edge_label']
+        edge_publications = edge['publications'] if edge.get('publications') else []
+        edge_provided_by = edge['provided_by'] if edge.get('provided_by') else []
         if canonicalized_source_id != canonicalized_target_id or edge_type in allowed_self_edges:
             canonicalized_edge_key = _get_edge_key(canonicalized_source_id, canonicalized_target_id, edge_type)
             if canonicalized_edge_key in canonicalized_edges:
                 canonicalized_edge = canonicalized_edges[canonicalized_edge_key]
-                canonicalized_edge['provided_by'] = _merge_two_lists(canonicalized_edge['provided_by'], edge['provided_by'])
-                canonicalized_edge['publications'] = _merge_two_lists(canonicalized_edge['publications'], edge['publications'])
+                canonicalized_edge['provided_by'] = _merge_two_lists(canonicalized_edge['provided_by'], edge_provided_by)
+                canonicalized_edge['publications'] = _merge_two_lists(canonicalized_edge['publications'], edge_publications)
             else:
                 new_canonicalized_edge = _create_edge(source=canonicalized_source_id,
                                                       target=canonicalized_target_id,
                                                       simplified_edge_label=edge['simplified_edge_label'],
-                                                      provided_by=edge['provided_by'],
-                                                      publications=edge['publications'])
+                                                      provided_by=edge_provided_by,
+                                                      publications=edge_publications)
                 canonicalized_edges[canonicalized_edge_key] = new_canonicalized_edge
     return canonicalized_edges
 
