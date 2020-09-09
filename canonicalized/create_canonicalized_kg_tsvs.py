@@ -50,11 +50,20 @@ def _merge_two_lists(list_a: List[any], list_b: List[any]) -> List[any]:
     return list(set(list_a + list_b))
 
 
-def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any]], Dict[str, str]]:
+def _get_edge_key(source: str, target: str, edge_type: str) -> str:
+    return f"{source}--{edge_type}--{target}"
+
+
+def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Dict[str, any]], Dict[str, str]]:
     synonymizer = NodeSynonymizer()
     node_ids = [node.get('id') for node in nodes if node.get('id')]
-    print(f"  Sending NodeSynonymizer.get_canonical_curies() a list of {len(node_ids)} curies..")
+    print(f"  Sending NodeSynonymizer.get_canonical_curies() {len(node_ids)} curies..")
     canonicalized_info = synonymizer.get_canonical_curies(curies=node_ids, return_all_types=True)
+    all_canonical_curies = {canonical_info['preferred_curie'] for canonical_info in canonicalized_info.values() if canonical_info}
+    print(f"  Sending NodeSynonymizer.get_equivalent_nodes() {len(all_canonical_curies)} curies..")
+    equivalent_curies_info = synonymizer.get_equivalent_nodes(all_canonical_curies)
+    recognized_curies = {curie for curie in equivalent_curies_info if equivalent_curies_info.get(curie)}
+    equivalent_curies_dict = {curie: list(equivalent_curies_info.get(curie)) for curie in recognized_curies}
     print(f"  Creating canonicalized nodes..")
     curie_map = dict()
     canonicalized_nodes = dict()
@@ -66,87 +75,50 @@ def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[List[Dict[str, any
             existing_canonical_node['publications'] = _merge_two_lists(existing_canonical_node['publications'], node['publications'])
         else:
             if canonical_info:
-                canonicalized_node = {
-                    'id': canonicalized_curie,
-                    'name': canonical_info.get('preferred_name', node['name']),
-                    'types': list(canonical_info.get('all_types')),
-                    'preferred_type': canonical_info.get('preferred_type', node['category_label']),
-                    'publications': node['publications']
-                }
+                canonicalized_node = _create_node(node_id=canonicalized_curie,
+                                                  name=canonical_info.get('preferred_name', node['name']),
+                                                  types=list(canonical_info.get('all_types')),
+                                                  preferred_type=canonical_info.get('preferred_type', node['category_label']),
+                                                  publications=node['publications'],
+                                                  equivalent_curies=equivalent_curies_dict.get(canonicalized_curie, []))
             else:
-                canonicalized_node = {
-                    'id': canonicalized_curie,
-                    'name': node['name'],
-                    'types': [node['category_label']],
-                    'preferred_type': node['category_label'],
-                    'publications': node['publications']
-                }
+                canonicalized_node = _create_node(node_id=canonicalized_curie,
+                                                  name=node['name'],
+                                                  types=[node['category_label']],
+                                                  preferred_type=node['category_label'],
+                                                  publications=node['publications'],
+                                                  equivalent_curies=equivalent_curies_dict.get(canonicalized_curie, []))
             canonicalized_nodes[canonicalized_node['id']] = canonicalized_node
         curie_map[node['id']] = canonicalized_curie  # Record this mapping for easy lookup later
-
-    # Create a node containing information about this KG2C build
-    new_build_node = {'id': 'RTX:KG2C',
-                      'name': f"KG2C:Build created on {datetime.now().strftime('%Y-%m-%d %H:%M')}",
-                      'types': ['data_file'],
-                      'preferred_type': 'data_file',
-                      'publications': []}
-    canonicalized_nodes[new_build_node['id']] = new_build_node
-
-    # Decorate nodes with equivalent curies
-    print(f"  Sending NodeSynonymizer.get_equivalent_nodes() a list of {len(canonicalized_nodes)} curies..")
-    equivalent_curies_dict = synonymizer.get_equivalent_nodes(list(canonicalized_nodes.keys()))
-    for curie, canonical_node in canonicalized_nodes.items():
-        equivalent_curies = []
-        equivalent_curies_dict_for_curie = equivalent_curies_dict.get(curie)
-        if equivalent_curies_dict_for_curie is not None:
-            for equivalent_curie in equivalent_curies_dict_for_curie:
-                equivalent_curies.append(equivalent_curie)
-        canonical_node['equivalent_curies'] = equivalent_curies
-
-    # Convert array fields into the format neo4j wants and do final processing
-    for canonicalized_node in canonicalized_nodes.values():
-        canonicalized_node['types'] = _convert_list_to_neo4j_format(canonicalized_node['types'])
-        canonicalized_node['publications'] = _convert_list_to_neo4j_format(canonicalized_node['publications'])
-        canonicalized_node['equivalent_curies'] = _convert_list_to_neo4j_format(canonicalized_node['equivalent_curies'])
-        canonicalized_node['preferred_type_for_conversion'] = canonicalized_node['preferred_type']
-    return list(canonicalized_nodes.values()), curie_map
+    return canonicalized_nodes, curie_map
 
 
-def _remap_edges(edges: List[Dict[str, any]], curie_map: Dict[str, str], is_test: bool) -> List[Dict[str, any]]:
+def _canonicalize_edges(edges: List[Dict[str, any]], curie_map: Dict[str, str], is_test: bool) -> Dict[str, Dict[str, any]]:
     allowed_self_edges = ['positively_regulates', 'interacts_with', 'increase']
-    merged_edges = dict()
+    canonicalized_edges = dict()
     for edge in edges:
         original_source_id = edge['subject']
         original_target_id = edge['object']
-        if not is_test:  # Make sure we don't wind up with any orphan edges
+        if not is_test:  # Make sure we have the mappings we expect
             assert original_source_id in curie_map
             assert original_target_id in curie_map
         canonicalized_source_id = curie_map.get(original_source_id, original_source_id)
         canonicalized_target_id = curie_map.get(original_target_id, original_target_id)
         edge_type = edge['simplified_edge_label']
         if canonicalized_source_id != canonicalized_target_id or edge_type in allowed_self_edges:
-            remapped_edge_key = f"{canonicalized_source_id}--{edge_type}--{canonicalized_target_id}"
-            if remapped_edge_key in merged_edges:
-                merged_edge = merged_edges[remapped_edge_key]
-                merged_edge['provided_by'] = _merge_two_lists(merged_edge['provided_by'], edge['provided_by'])
-                merged_edge['publications'] = _merge_two_lists(merged_edge['publications'], edge['publications'])
+            canonicalized_edge_key = _get_edge_key(canonicalized_source_id, canonicalized_target_id, edge_type)
+            if canonicalized_edge_key in canonicalized_edges:
+                canonicalized_edge = canonicalized_edges[canonicalized_edge_key]
+                canonicalized_edge['provided_by'] = _merge_two_lists(canonicalized_edge['provided_by'], edge['provided_by'])
+                canonicalized_edge['publications'] = _merge_two_lists(canonicalized_edge['publications'], edge['publications'])
             else:
-                new_remapped_edge = dict()
-                new_remapped_edge['subject'] = canonicalized_source_id
-                new_remapped_edge['object'] = canonicalized_target_id
-                new_remapped_edge['simplified_edge_label'] = edge['simplified_edge_label']
-                new_remapped_edge['provided_by'] = edge['provided_by']
-                new_remapped_edge['publications'] = edge['publications']
-                merged_edges[remapped_edge_key] = new_remapped_edge
-
-    # Convert array fields into the format neo4j wants and do final processing
-    for final_edge in merged_edges.values():
-        final_edge['provided_by'] = _convert_list_to_neo4j_format(final_edge['provided_by'])
-        final_edge['publications'] = _convert_list_to_neo4j_format(final_edge['publications'])
-        final_edge['simplified_edge_label_for_conversion'] = final_edge['simplified_edge_label']
-        final_edge['subject_for_conversion'] = final_edge['subject']
-        final_edge['object_for_conversion'] = final_edge['object']
-    return list(merged_edges.values())
+                new_canonicalized_edge = _create_edge(source=canonicalized_source_id,
+                                                      target=canonicalized_target_id,
+                                                      simplified_edge_label=edge['simplified_edge_label'],
+                                                      provided_by=edge['provided_by'],
+                                                      publications=edge['publications'])
+                canonicalized_edges[canonicalized_edge_key] = new_canonicalized_edge
+    return canonicalized_edges
 
 
 def _modify_column_headers_for_neo4j(plain_column_headers: List[str]) -> List[str]:
@@ -169,53 +141,107 @@ def _modify_column_headers_for_neo4j(plain_column_headers: List[str]) -> List[st
     return modified_headers
 
 
+def _create_node(node_id: str, name: str, types: List[str], preferred_type: str, equivalent_curies: List[str],
+                 publications: List[str]) -> Dict[str, any]:
+    assert isinstance(node_id, str)
+    assert isinstance(name, str) or name is None
+    assert isinstance(types, list)
+    assert isinstance(preferred_type, str)
+    assert isinstance(equivalent_curies, list)
+    assert isinstance(publications, list)
+    return {
+        "id": node_id,
+        "name": name,
+        "types": types,
+        "preferred_type": preferred_type,
+        "equivalent_curies": equivalent_curies,
+        "publications": publications
+    }
+
+
+def _create_edge(source: str, target: str, simplified_edge_label: str, provided_by: List[str], publications: List[str]) -> Dict[str, any]:
+    assert isinstance(source, str)
+    assert isinstance(target, str)
+    assert isinstance(simplified_edge_label, str)
+    assert isinstance(provided_by, list)
+    assert isinstance(publications, list)
+    return {
+        "subject": source,
+        "object": target,
+        "simplified_edge_label": simplified_edge_label,
+        "provided_by": provided_by,
+        "publications": publications
+    }
+
+
+def _write_list_to_tsv(input_list: List[Dict[str, any]], file_name_root: str, is_test: bool):
+    print(f"  Creating {file_name_root} header file..")
+    column_headers = list(input_list[0].keys())
+    modified_headers = _modify_column_headers_for_neo4j(column_headers)
+    with open(f"{'test_' if is_test else ''}{file_name_root}_header.tsv", "w+") as header_file:
+        dict_writer = csv.DictWriter(header_file, modified_headers, delimiter='\t')
+        dict_writer.writeheader()
+    print(f"  Creating {file_name_root} file..")
+    with open(f"{'test_' if is_test else ''}{file_name_root}.tsv", "w+") as data_file:
+        dict_writer = csv.DictWriter(data_file, column_headers, delimiter='\t')
+        dict_writer.writerows(input_list)
+
+
 def create_canonicalized_tsvs(is_test=False):
-    # Grab the node data from KG2 neo4j and load it into TSVs
-    print(f" Starting nodes..")
+    # Canonicalize nodes and edges from KG2
+    print(f" Extracting nodes from KG2..")
     nodes_query = f"match (n) return n.id as id, n.name as name, n.category_label as category_label, " \
                   f"n.publications as publications{' limit 20000' if is_test else ''}"
-    nodes = _run_cypher_query(nodes_query)
-    if nodes:
-        print(f"  Canonicalizing nodes..")
-        canonicalized_nodes, curie_map = _canonicalize_nodes(nodes)
-        print(f"  Canonicalized KG contains {len(canonicalized_nodes)} nodes ({round((len(canonicalized_nodes) / len(nodes)) * 100)}%)")
-        print(f"  Creating nodes header file..")
-        column_headers = list(canonicalized_nodes[0].keys())
-        modified_headers = _modify_column_headers_for_neo4j(column_headers)
-        with open(f"{'test_' if is_test else ''}nodes_c_header.tsv", "w+") as nodes_header_file:
-            dict_writer = csv.DictWriter(nodes_header_file, modified_headers, delimiter='\t')
-            dict_writer.writeheader()
-        print(f"  Creating nodes file..")
-        with open(f"{'test_' if is_test else ''}nodes_c.tsv", "w+") as nodes_file:
-            dict_writer = csv.DictWriter(nodes_file, column_headers, delimiter='\t')
-            dict_writer.writerows(canonicalized_nodes)
+    neo4j_nodes = _run_cypher_query(nodes_query)
+    if neo4j_nodes:
+        print(f" Canonicalizing nodes..")
+        canonicalized_nodes_dict, curie_map = _canonicalize_nodes(neo4j_nodes)
+        print(f"  Number of KG2 nodes was reduced to {len(canonicalized_nodes_dict)} ({round((len(canonicalized_nodes_dict) / len(neo4j_nodes)) * 100)}%)")
     else:
         print(f"ERROR: Couldn't get node data from KG2 neo4j.")
         return
-
-    # Grab the edge data from KG2 neo4j and load it into TSVs
-    print(f" Starting edges..")
+    print(f" Extracting edges from KG2..")
     edges_query = f"match (n)-[e]->(m) return n.id as subject, m.id as object, e.simplified_edge_label as " \
                   f"simplified_edge_label, e.provided_by as provided_by, e.publications as publications" \
                   f"{' limit 20000' if is_test else ''}"
-    edges = _run_cypher_query(edges_query)
-    if edges:
-        print(f"  Remapping edges..")
-        remapped_edges = _remap_edges(edges, curie_map, is_test)
-        print(f"  Canonicalized KG contains {len(remapped_edges)} edges ({round((len(remapped_edges) / len(edges)) * 100)}%)")
-        print(f"  Creating edges header file..")
-        column_headers = list(remapped_edges[0].keys())
-        modified_headers = _modify_column_headers_for_neo4j(column_headers)
-        with open(f"{'test_' if is_test else ''}edges_c_header.tsv", "w+") as edges_header_file:
-            dict_writer = csv.DictWriter(edges_header_file, modified_headers, delimiter='\t')
-            dict_writer.writeheader()
-        print(f"  Creating edges file..")
-        with open(f"{'test_' if is_test else ''}edges_c.tsv", "w+") as edges_file:
-            dict_writer = csv.DictWriter(edges_file, column_headers, delimiter='\t')
-            dict_writer.writerows(remapped_edges)
+    neo4j_edges = _run_cypher_query(edges_query)
+    if neo4j_edges:
+        print(f" Canonicalizing edges..")
+        canonicalized_edges_dict = _canonicalize_edges(neo4j_edges, curie_map, is_test)
+        print(f"  Number of KG2 edges was reduced to {len(canonicalized_edges_dict)} ({round((len(canonicalized_edges_dict) / len(neo4j_edges)) * 100)}%)")
     else:
         print(f"ERROR: Couldn't get edge data from KG2 neo4j.")
         return
+
+    # Create a node containing information about this KG2C build
+    kg2c_build_node = _create_node(node_id="RTX:KG2C",
+                                   name=f"KG2C:Build created on {datetime.now().strftime('%Y-%m-%d %H:%M')}",
+                                   types=["data_file"],
+                                   preferred_type="data_file",
+                                   equivalent_curies=[],
+                                   publications=[])
+    canonicalized_nodes_dict[kg2c_build_node['id']] = kg2c_build_node
+
+    # Convert array fields into the format neo4j wants and do final processing
+    for canonicalized_node in canonicalized_nodes_dict.values():
+        canonicalized_node['types'] = _convert_list_to_neo4j_format(canonicalized_node['types'])
+        canonicalized_node['publications'] = _convert_list_to_neo4j_format(canonicalized_node['publications'])
+        canonicalized_node['equivalent_curies'] = _convert_list_to_neo4j_format(canonicalized_node['equivalent_curies'])
+        canonicalized_node['preferred_type_for_conversion'] = canonicalized_node['preferred_type']
+    for canonicalized_edge in canonicalized_edges_dict.values():
+        if not is_test:  # Make sure we don't have any orphan edges
+            assert canonicalized_edge['subject'] in canonicalized_nodes_dict
+            assert canonicalized_edge['object'] in canonicalized_nodes_dict
+        canonicalized_edge['provided_by'] = _convert_list_to_neo4j_format(canonicalized_edge['provided_by'])
+        canonicalized_edge['publications'] = _convert_list_to_neo4j_format(canonicalized_edge['publications'])
+        canonicalized_edge['simplified_edge_label_for_conversion'] = canonicalized_edge['simplified_edge_label']
+        canonicalized_edge['subject_for_conversion'] = canonicalized_edge['subject']
+        canonicalized_edge['object_for_conversion'] = canonicalized_edge['object']
+
+    # Finally dump all our nodes/edges into TSVs (formatted for neo4j)
+    print(f" Saving data to TSVs..")
+    _write_list_to_tsv(list(canonicalized_nodes_dict.values()), "nodes_c", is_test)
+    _write_list_to_tsv(list(canonicalized_edges_dict.values()), "edges_c", is_test)
 
 
 def main():
@@ -223,7 +249,7 @@ def main():
     arg_parser.add_argument('--test', dest='test', action='store_true', default=False)
     args = arg_parser.parse_args()
 
-    print(f"Starting to create canonicalized KG TSV files..")
+    print(f"Starting to create canonicalized KG..")
     start = time.time()
     create_canonicalized_tsvs(args.test)
     print(f"Done! Took {round((time.time() - start) / 60, 2)} minutes.")
