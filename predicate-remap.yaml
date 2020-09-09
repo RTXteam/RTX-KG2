@@ -1599,9 +1599,9 @@ MONDO:disease_has_basis_in_development_of:
   - disease_has_basis_in
   - biolink:disease_has_basis_in
 MONDO:disease_has_major_feature:
-  rename:
-  - has_part
-  - biolink:has_part
+  invert:
+  - part_of
+  - biolink:part_of
 MONDO:disease_responds_to:
   invert:
   - treats
@@ -3337,9 +3337,9 @@ RTXKG1:capable_of_part_of:
   - causes
   - biolink:causes
 RTXKG1:composed_primarily_of:
-  rename:
-  - has_part
-  - biolink:has_part
+  invert:
+  - part_of
+  - biolink:part_of
 RTXKG1:contains_process:
   invert:
   - part_of
@@ -3393,9 +3393,9 @@ RTXKG1:has_phenotype:
   - has_phenotype
   - biolink:has_phenotype
 RTXKG1:has_plasma_membrane_part:
-  rename:
-  - has_part
-  - biolink:has_part
+  invert:
+  - part_of
+  - biolink:part_of
 RTXKG1:indicated_for:
   rename:
   - treats
