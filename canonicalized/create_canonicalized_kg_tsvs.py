@@ -105,14 +105,14 @@ def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Dict[str
                                                   types=list(canonical_info.get('all_types')),
                                                   preferred_type=canonical_info.get('preferred_type', node['category_label']),
                                                   publications=node['publications'],
-                                                  equivalent_curies=equivalent_curies_dict.get(node['id'], []))
+                                                  equivalent_curies=equivalent_curies_dict.get(canonicalized_curie, []))
             else:
                 canonicalized_node = _create_node(node_id=canonicalized_curie,
                                                   name=node['name'],
                                                   types=[node['category_label']],
                                                   preferred_type=node['category_label'],
                                                   publications=node['publications'],
-                                                  equivalent_curies=equivalent_curies_dict.get(node['id'], []))
+                                                  equivalent_curies=equivalent_curies_dict.get(canonicalized_curie, []))
             canonicalized_nodes[canonicalized_node['id']] = canonicalized_node
         curie_map[node['id']] = canonicalized_curie  # Record this mapping for easy lookup later
     return canonicalized_nodes, curie_map
