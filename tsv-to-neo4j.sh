@@ -83,12 +83,14 @@ sudo sed -i '/dbms.read_only/c\dbms.read_only=false' ${neo4j_config}
 sudo service neo4j start
 
 # wait while neo4j boots up
+echo "Sleeping for 1 minute, please do not SIGINT...."
 sleep 1m
 
 # add indexes and constraints to the graph database
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/create_indexes_constraints.py --configFile ${rtx_config_file_full}
 
 # wait for indexing to complete
+echo "Sleeping for 5 minutes, please do not SIGINT...."
 sleep 5m
 sudo service neo4j restart
 

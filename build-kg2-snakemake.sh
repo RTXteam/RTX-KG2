@@ -164,7 +164,8 @@ cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${CODE_DIR}/Snakefile \
      KG2_TSV_DIR="${kg2_tsv_dir}" KG2_TSV_TARBALL="${kg2_tsv_tarball}" \
      PREDICATE_MAPPING_FILE="${predicate_mapping_file}" \
      VENV_DIR="${VENV_DIR}" BUILD_DIR="${BUILD_DIR}" CODE_DIR="${CODE_DIR}" CURIES_TO_URLS_FILE="${curies_to_urls_file}" \
-     MYSQL_CONF="${mysql_conf}" S3_CP_CMD="${s3_cp_cmd}" VERSION_FILE="${version_file}"
+     MYSQL_CONF="${mysql_conf}" S3_CP_CMD="${s3_cp_cmd}" VERSION_FILE="${version_file}" \
+     S3_BUCKET="${s3_bucket}" S3_BUCKET_PUBLIC="${s3_bucket_public}" S3_BUCKET_VERSIONED="${s3_bucket_versioned}"
 
 date
 echo "================ script finished ============================"
