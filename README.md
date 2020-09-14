@@ -106,7 +106,7 @@ first-generation knowledge graph.
 ## General notes:
 
 The KG2 build system is designed only to run in an **Ubuntu 18.04** environment
-(i.e., either (i) an Ubuntu 18.04 host OS or (ii) Ubuntu 18.04 running in a
+(i.e., either (i)&nbsp;an Ubuntu 18.04 host OS or (ii)&nbsp;Ubuntu 18.04 running in a
 Docker container) as a non-root user which must have passwordless `sudo` enabled
 and should have `bash` as the default shell (the build commands in the
 instructions in this README page assume a `bash` shell). The build system will
