@@ -8,6 +8,7 @@
 import datetime
 import kg2_util
 import json
+import argparse
 
 
 __author__ = 'Erica Wood'
@@ -55,5 +56,5 @@ if __name__ == '__main__':
         if publication.startswith("PMID"):
             publications_list.append(publication)
 
-    with open(args.outputFile) as output_file:
+    with open(args.outputFile, 'w+') as output_file:
         output_file.write(json.dumps(publications_list))
