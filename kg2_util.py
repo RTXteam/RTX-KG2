@@ -195,6 +195,7 @@ IRI_OBO_FORMAT_XREF = BASE_URL_OBO_FORMAT + 'xref'
 IRI_OWL_SAME_AS = BASE_URL_OWL + 'sameAs'
 
 EDGE_LABEL_OWL_SAME_AS = 'same_as'
+EDGE_LABEL_BIOLINK_HAS_ATTRIBUTE = 'has_attribute'
 EDGE_LABEL_BIOLINK_HAS_GENE_PRODUCT = 'has_gene_product'
 EDGE_LABEL_BIOLINK_IN_TAXON = 'in_taxon'
 EDGE_LABEL_BIOLINK_PART_OF = 'part_of'
@@ -211,6 +212,7 @@ MONDO_EDGE_NAMES_SET = {'equivalentTo'}
 
 OBO_REL_CURIE_RE = re.compile(r'OBO:([^#]+)#([^#]+)')
 OBO_ONT_CURIE_RE = re.compile(r'OBO:([^\.]+)\.owl')
+LOWER_TO_UPPER_RE = re.compile(r'([a-z0-9])([A-Z][^A-Z])')
 
 
 class MLStripper(html.parser.HTMLParser):
@@ -346,6 +348,35 @@ def make_curies_to_uri_map(curies_to_uri_map_yaml_string: str, mapper_type: IDMa
                            typing.cast(list, yaml_data_structure_dict['use_for_expansion_only']))
     else:
         raise ValueError("Invalid mapper type: " + str(mapper_type))
+
+
+def get_biolink_category_tree(biolink_ontology: ontobio.ontol.Ontology):
+    queue = collections.deque([BASE_URL_BIOLINK_META + 'NamedThing'])
+    biolink_category_dict = dict()
+    biolink_category_tree = dict()
+
+    while len(queue) > 0:
+        node_id = queue.popleft()
+        biolink_category_dict[node_id] = []
+        for child_node_id in biolink_ontology.children(node_id, ['subClassOf']):
+            biolink_category_dict[node_id].append(child_node_id)
+            queue.append(child_node_id)
+
+    for parent, children in biolink_category_dict.items():
+        print(parent)
+        parent = convert_camel_case_to_snake_case(parent.replace(BASE_URL_BIOLINK_META, "")).replace("_", " ").replace("rna", "RNA")
+        if parent == "micro RNA":
+            parent = BIOLINK_CATEGORY_MICRORNA
+        for child in children:
+            if parent not in biolink_category_tree:
+                biolink_category_tree[parent] = []
+            child = convert_camel_case_to_snake_case(child.replace(BASE_URL_BIOLINK_META, "")).replace("_", " ").replace("rna", "RNA")
+            if child == "micro RNA":
+                child = BIOLINK_CATEGORY_MICRORNA
+            biolink_category_tree[parent].append(child)
+            biolink_category_tree[parent] = sorted(biolink_category_tree[parent])
+
+    return biolink_category_tree
 
 
 def get_depths_of_ontology_terms(ontology: ontobio.ontol.Ontology,
@@ -556,6 +587,19 @@ def convert_camel_case_to_snake_case(name: str):
     if converted[0].istitle():
         converted[0] = converted[0].lower()
     return converted.replace(' ', '_')
+
+
+def convert_camel_case_to_snake_case2(name: str):
+    # Currently not working
+    str_parts = LOWER_TO_UPPER_RE.sub(r'\1_\2', name).split('_')
+    if len(str_parts) > 1:
+        combined_str = '_'.join([str_part[0].lower() + str_part[1:] for str_part in str_parts])
+    else:
+        combined_str = str_parts[0]
+        if len(combined_str) > 1 and combined_str[1].islower():
+            combined_str = combined_str[0].lower() + combined_str[1:]
+
+    return combined_str
 
 
 def convert_biolink_category_to_curie(biolink_category_label: str):

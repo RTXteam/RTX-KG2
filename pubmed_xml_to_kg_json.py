@@ -99,8 +99,7 @@ def get_journal(article_citation: dict):
 
 
 def make_node_and_edges(article: dict,
-                        mesh_predicate_label: str,
-                        mesh_relation_curie: str):
+                        mesh_predicate_label: str):
     nodes = []
     edges = []
 
@@ -148,12 +147,11 @@ def make_node_and_edges(article: dict,
                                                ["MeshHeading"]):
                 mesh_id = kg2_util.CURIE_PREFIX_MESH + ":" + \
                           mesh_topic["DescriptorName"]["@UI"]
-                edge = kg2_util.make_edge(pmid,
-                                          mesh_id,
-                                          mesh_relation_curie,
-                                          mesh_predicate_label,
-                                          PMID_PROVIDED_BY_CURIE_ID,
-                                          update_date)
+                edge = kg2_util.make_edge_biolink(pmid,
+                                                  mesh_id,
+                                                  mesh_predicate_label,
+                                                  PMID_PROVIDED_BY_CURIE_ID,
+                                                  update_date)
                 edges.append(edge)
         except:
             mesh_id = None
@@ -171,9 +169,8 @@ if __name__ == '__main__':
     nodes = []
     edges = []
     latest_date = 0
-    mesh_predicate_label = "references"
-    mesh_relation_curie = kg2_util.predicate_label_to_curie(mesh_predicate_label,
-                                                            kg2_util.CURIE_PREFIX_PMID)
+    mesh_predicate_label = kg2_util.EDGE_LABEL_BIOLINK_HAS_ATTRIBUTE
+
     for filename in os.listdir(pubmed_dir):
         if ".gz" in filename:
             print("Starting Load of", filename, ":", date())
@@ -184,8 +181,7 @@ if __name__ == '__main__':
 
             for article in articles:
                 [data, update_date] = make_node_and_edges(article,
-                                                          mesh_predicate_label,
-                                                          mesh_relation_curie)
+                                                          mesh_predicate_label)
                 for node in data["nodes"]:
                     nodes.append(node)
                 for edge in data["edges"]:
@@ -209,4 +205,6 @@ if __name__ == '__main__':
                        args.outputFile,
                        args.test)
     print("Finished saving JSON:", date())
+    del nodes
+    del edges
     print("Script Finished:", date())
