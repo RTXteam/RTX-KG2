@@ -406,8 +406,9 @@ build, in Step (8) above, you would run:
 
     bash -x ~/kg2-code/build-kg2-snakemake.sh alltest
     
-In the case of a test build, the ontology log file names is changed:
+In the case of a test build, the a couple log file names are changed:
 
+    ~/kg2-build/build-kg2-snakemake-test.log
     ~/kg2-build/build-kg2-ont-test-stderr.log
 
 and all of the intermediate JSON and TSV files that the build system creates
