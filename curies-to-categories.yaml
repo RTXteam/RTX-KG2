@@ -236,17 +236,70 @@ term-mappings:
     TRANS:0000000: exposure event
     UBERON:0001062: anatomical entity
     UBERON:0000105: life stage
-    UMLS_STY:T017: gross anatomical structure
     UMLS_STY:T001: individual organism
+    UMLS_STY:T002: individual organism
+    UMLS_STY:T004: individual organism
+    UMLS_STY:T005: individual organism
+    UMLS_STY:T007: individual organism
+    UMLS_STY:T008: individual organism
+    UMLS_STY:T010: individual organism
+    UMLS_STY:T011: individual organism
+    UMLS_STY:T012: individual organism
+    UMLS_STY:T013: individual organism
+    UMLS_STY:T014: individual organism
+    UMLS_STY:T015: individual organism
+    UMLS_STY:T016: individual organism
+    UMLS_STY:T017: gross anatomical structure
+    UMLS_STY:T018: gross anatomical structure
+    UMLS_STY:T019: disease
+    UMLS_STY:T020: disease
+    UMLS_STY:T021: gross anatomical structure
+    UMLS_STY:T022: anatomical entity
+    UMLS_STY:T023: gross anatomical structure
+    UMLS_STY:T024: gross anatomical structure
+    UMLS_STY:T025: cell
+    UMLS_STY:T026: cellular component
     UMLS_STY:T028: genomic entity
+    UMLS_STY:T029: anatomical entity
+    UMLS_STY:T030: anatomical entity
+    UMLS_STY:T031: anatomical entity
     UMLS_STY:T032: physiological process
     UMLS_STY:T033: disease or phenotypic feature
+    UMLS_STY:T034: phenomenon
+    UMLS_STY:T037: disease
     UMLS_STY:T038: phenomenon
+    UMLS_STY:T039: physiological process
+    UMLS_STY:T040: physiological process
+    UMLS_STY:T041: physiological process
+    UMLS_STY:T042: physiological process
+    UMLS_STY:T043: physiological process
+    UMLS_STY:T044: molecular activity
+    UMLS_STY:T045: physiological process
+    UMLS_STY:T046: disease
     UMLS_STY:T047: disease
+    UMLS_STY:T048: disease
+    UMLS_STY:T049: disease
+    UMLS_STY:T050: biological entity
     UMLS_STY:T051: activity and behavior
     UMLS_STY:T052: activity and behavior
     UMLS_STY:T053: activity and behavior
+    UMLS_STY:T054: activity and behavior
+    UMLS_STY:T055: activity and behavior
+    UMLS_STY:T056: activity and behavior
+    UMLS_STY:T057: activity and behavior
+    UMLS_STY:T058: procedure
+    UMLS_STY:T059: procedure
+    UMLS_STY:T060: procedure
+    UMLS_STY:T061: procedure
+    UMLS_STY:T062: procedure
+    UMLS_STY:T063: procedure
+    UMLS_STY:T064: activity and behavior
+    UMLS_STY:T065: procedure
+    UMLS_STY:T066: activity and behavior
     UMLS_STY:T067: occurrent
+    UMLS_STY:T068: phenomenon
+    UMLS_STY:T069: phenomenon
+    UMLS_STY:T070: phenomenon
     UMLS_STY:T071: named thing
     UMLS_STY:T072: named thing
     UMLS_STY:T073: named thing
@@ -254,25 +307,61 @@ term-mappings:
     UMLS_STY:T075: device
     UMLS_STY:T077: information content entity
     UMLS_STY:T078: information content entity
+    UMLS_STY:T079: information content entity
+    UMLS_STY:T080: information content entity
+    UMLS_STY:T081: information content entity
+    UMLS_STY:T082: information content entity
+    UMLS_STY:T083: geographic location
+    UMLS_STY:T085: molecular entity
+    UMLS_STY:T086: genomic entity
+    UMLS_STY:T087: protein
+    UMLS_STY:T088: carbohydrate
+    UMLS_STY:T089: information content entity
     UMLS_STY:T090: individual organism
     UMLS_STY:T092: provider
+    UMLS_STY:T093: provider
+    UMLS_STY:T094: provider
+    UMLS_STY:T095: provider
     UMLS_STY:T096: individual organism
+    UMLS_STY:T097: individual organism
+    UMLS_STY:T098: population of individual organisms
+    UMLS_STY:T099: individual organism
+    UMLS_STY:T100: individual organism
+    UMLS_STY:T101: individual organism
     UMLS_STY:T102: information content entity
     UMLS_STY:T103: chemical substance
+    UMLS_STY:T104: chemical substance
+    UMLS_STY:T109: chemical substance
+    UMLS_STY:T114: chemical substance
     UMLS_STY:T116: protein
     UMLS_STY:T120: chemical substance
     UMLS_STY:T121: chemical substance
+    UMLS_STY:T122: chemical substance
     UMLS_STY:T123: chemical substance
     UMLS_STY:T125: chemical substance
     UMLS_STY:T126: chemical substance
+    UMLS_STY:T127: chemical substance
     UMLS_STY:T129: chemical substance
+    UMLS_STY:T130: chemical substance
     UMLS_STY:T131: chemical substance
     UMLS_STY:T167: chemical substance
+    UMLS_STY:T168: named thing
+    UMLS_STY:T169: information content entity
     UMLS_STY:T170: publication
     UMLS_STY:T171: information content entity
     UMLS_STY:T184: disease
+    UMLS_STY:T185: information content entity
+    UMLS_STY:T190: disease
+    UMLS_STY:T191: disease
+    UMLS_STY:T192: chemical substance
+    UMLS_STY:T194: individual organism
+    UMLS_STY:T195: chemical substance
     UMLS_STY:T196: chemical substance
+    UMLS_STY:T197: chemical substance
     UMLS_STY:T200: drug
+    UMLS_STY:T201: physiological process
+    UMLS_STY:T203: device
+    UMLS_STY:T204: individual organism
     UPHENO:0001001: phenotypic feature
     WD:Q28845870: biological entity
     WD:Q12136: disease
