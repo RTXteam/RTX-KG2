@@ -1,4 +1,4 @@
-# What is KG2?
+# KG2: the second-generation RTX knowledge graph
 
 KG2 is the second-generation knowledge graph for the
 [ARAX](https://github.com/RTXteam/RTX) biomedical reasoning system.  The GitHub
