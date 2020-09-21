@@ -343,33 +343,30 @@ def parse_umls_sver_date(umls_sver: str, sourcename: str):
 # are for addressing issue #762 regarding duplicate TUIs
 
 
-def generate_biolink_category_tree():
-    biolink_model = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string("biolink-model.yaml"))
+def generate_biolink_category_tree(biolink_ontology: ontobio.ontol.Ontology,
+                                   curies_to_categories: dict):
+    # Adapts biolink parent-child relationships into a tree format
+    # Format is {parent1: [child1, child2], parent2: [child3, child4]}
+    # Such that every parent is also a child of another with the exception
+    # of "named thing" and no child is a child of more than one parent
 
-    mappings_to_categories = {}
+    biolink_category_tree = kg2_util.get_biolink_category_tree(biolink_ontology)
 
-    biolink_category_dict = {}
-    biolink_category_tree = {}
-
-    classes = biolink_model["classes"].items()
-
-    for category, category_data in classes:
-        if "mappings" in category_data:
-            for mapping in category_data["mappings"]:
-                if mapping.startswith("UMLSSC"):
-                    mappings_to_categories[mapping.split(":")[1]] = category
-        if "is_a" in category_data:
-            biolink_category_dict[category] = category_data["is_a"]
-
-    for subclass, superclass in biolink_category_dict.items():
-        if superclass not in biolink_category_tree:
-            biolink_category_tree[superclass] = []
-        biolink_category_tree[superclass].append(subclass)
+    # Takes the TUI mappings from the curies-to-categories.yaml file
+    # and stores them for the later functions to use
+    mappings_to_categories = dict()
+    terms = curies_to_categories['term-mappings']
+    for term in terms:
+        if term.startswith(kg2_util.CURIE_PREFIX_UMLS_STY):
+            mappings_to_categories[term.split(':')[1]] = terms[term]
 
     return [biolink_category_tree, mappings_to_categories]
 
 
 def get_shorter_list_first(list1: list, list2: list):
+    # Returns the compared lists in the form [short_list, long_list]
+    # for use in comparing two lists of biolink category hierarchies
+
     len1 = len(list1)
     len2 = len(list2)
 
@@ -379,6 +376,11 @@ def get_shorter_list_first(list1: list, list2: list):
 
 
 def compare_two_lists_in_reverse(list1: list, list2: list):
+    # Returns most specific category that present in both lists.
+    # The most specific category of each list is in [0]
+    # So, by comparing them in reverse, once you get to a discrepancy,
+    # you go forward back to the last one where they were the same
+
     [shortlist, longlist] = get_shorter_list_first(list1, list2)
     for short_item in reversed(shortlist):
         if short_item not in longlist:
@@ -390,6 +392,14 @@ def get_path(tree_dict: dict,
              base_node: str,
              goal_node: str,
              return_list: list):
+    # Iterates through the biolink category tree until it gets to
+    # the goal category in one of the subclasses. Once it does that,
+    # it adds the superclass to the return list (which contains the
+    # category hierarchy for the goal category), and if the superclass
+    # isn't "named thing" (the base category), it recursively calls it again
+    # with the superclass as the goal category this time, continuing
+    # to add onto the return list until it hits the base category
+
     for superclass, subclasses in tree_dict.items():
         if goal_node in subclasses:
             return_list.append(superclass)
@@ -398,6 +408,12 @@ def get_path(tree_dict: dict,
 
 
 def split_into_chunks(fulllist: list):
+    # Takes a list of TUI categories and splits it into a list
+    # of pairs of TUI categories so that the multiple TUI categories can
+    # can be handled in pairs
+    # Ex. [molecular entity, chemical substance, chemical substance] -> 
+    # [[molecular entity, chemical substance], [chemical substance]]
+
     returnlist = []
     addtofullarray = True
 
@@ -413,6 +429,12 @@ def split_into_chunks(fulllist: list):
 
 
 def find_common_ancestor(tui_categories: list, biolink_category_tree: dict):
+    # Iterates through chunked TUI category list in pairs, such that
+    # the most specific common ancestor between the two categories is found
+    # and stored in the category list, which then gets re-chunked.
+    # This continues until there is only one category - the most specific common
+    # ancestory - left in the tui_categories list.
+
     tui_split = split_into_chunks(tui_categories)
 
     while len(tui_split) > 0:
@@ -439,10 +461,14 @@ def find_common_ancestor(tui_categories: list, biolink_category_tree: dict):
 def get_category_for_multiple_tui(biolink_category_tree: dict,
                                   tui_group: list,
                                   mappings_to_categories: dict):
+    # Takes the list of multiple TUIs and uses the mappings to categories
+    # dictionary to create a list of categories that can be used to find
+    # the most common ancestor between them
+
     tui_categories = []
-    for tui_full in tui_group:
-        tui = tui_full.split("---")[0]
-        tui_categories.append(mappings_to_categories[tui])
+    for tui in tui_group:
+        tui_category_snakecase = mappings_to_categories[tui]
+        tui_categories.append(tui_category_snakecase)
 
     return find_common_ancestor(tui_categories, biolink_category_tree)
 
@@ -454,10 +480,16 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
     ret_dict = dict()
     ontologies_iris_to_curies = dict()
 
+    tuis_not_in_mappings_but_in_kg2 = set()
+
     biolink_categories_ontology_depths = None
-    [biolink_category_tree, mappings_to_categories] = generate_biolink_category_tree()
+    
     first_ontology = ontology_info_list[0]['ontology']
+
     assert first_ontology.id == kg2_util.BASE_URL_BIOLINK_ONTOLOGY, "biolink needs to be first in ont-load-inventory.yaml"
+
+    [biolink_category_tree, mappings_to_categories] = generate_biolink_category_tree(first_ontology, curies_to_categories)
+
     biolink_categories_ontology_depths = kg2_util.get_biolink_categories_ontology_depths(first_ontology)
 
     convert_bpv_pred_to_curie_func = make_convert_bpv_predicate_to_curie(uri_to_curie_shortener,
@@ -691,12 +723,11 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                 try:
                     if node_tui is not None:
                         node_category_label = mappings_to_categories[node_tui]
-                        kg2_util.log_message(message="Node with ontology_node_id " + ontology_node_id + " now has category " + node_category_label,
-                                             output_stream=sys.stderr)
                 except KeyError:
                     if not node_deprecated:
-                        kg2_util.log_message(message="Node with ontology_node_id " + ontology_node_id + " does not have a category",
+                        kg2_util.log_message(message="Node with ontology_node_id " + ontology_node_id + " does not have a category and has tui " + node_tui,
                                              output_stream=sys.stderr)
+                        tuis_not_in_mappings_but_in_kg2.add(node_tui)
 
             if node_has_cui:
                 assert node_tui is not None or len(node_tui_list) > 0
@@ -708,14 +739,12 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                              output_stream=sys.stderr)
                     else:
                         try:
-                            node_tui_category_label = get_category_for_multiple_tui(biolink_category_tree, node_tui_list, mappings_to_categories)
-                            if node_category_label is None or node_curie_id.split(":")[0] == kg2_util.CURIE_PREFIX_UMLS:
-                                kg2_util.log_message(message='Node ' + node_curie_id + ' has CUI with multiple associated TUIs: ' + ', '.join(node_tui_list) + ' now has category ' + node_tui_category_label,
-                                                 ontology_name=iri_of_ontology,
-                                                 output_stream=sys.stderr)
+                            # POSSIBLY SHOULD REMOVE "or node_category_label == 'named thing'"
+                            if node_category_label is None or node_category_label == 'named thing' or node_curie_id.split(":")[0] == kg2_util.CURIE_PREFIX_UMLS:
+                                node_tui_category_label = get_category_for_multiple_tui(biolink_category_tree, node_tui_list, mappings_to_categories)
                                 node_category_label = node_tui_category_label
                         except KeyError:
-                            kg2_util.log_message(message='Node ' + node_curie_id + ' has CUI with multiple associated TUIs: ' + ', '.join(node_tui_list) + 'and could not be mapped',
+                            kg2_util.log_message(message='Node ' + node_curie_id + ' has CUI with multiple associated TUIs: ' + ', '.join(node_tui_list) + ' and could not be mapped',
                                              ontology_name=iri_of_ontology,
                                              output_stream=sys.stderr)
                         

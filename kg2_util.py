@@ -363,16 +363,11 @@ def get_biolink_category_tree(biolink_ontology: ontobio.ontol.Ontology):
             queue.append(child_node_id)
 
     for parent, children in biolink_category_dict.items():
-        print(parent)
-        parent = convert_camel_case_to_snake_case(parent.replace(BASE_URL_BIOLINK_META, "")).replace("_", " ").replace("rna", "RNA")
-        if parent == "micro RNA":
-            parent = BIOLINK_CATEGORY_MICRORNA
+        parent = biolink_ontology.node(parent)['lbl']
         for child in children:
             if parent not in biolink_category_tree:
                 biolink_category_tree[parent] = []
-            child = convert_camel_case_to_snake_case(child.replace(BASE_URL_BIOLINK_META, "")).replace("_", " ").replace("rna", "RNA")
-            if child == "micro RNA":
-                child = BIOLINK_CATEGORY_MICRORNA
+            child = biolink_ontology.node(child)['lbl']
             biolink_category_tree[parent].append(child)
             biolink_category_tree[parent] = sorted(biolink_category_tree[parent])
 
@@ -587,19 +582,6 @@ def convert_camel_case_to_snake_case(name: str):
     if converted[0].istitle():
         converted[0] = converted[0].lower()
     return converted.replace(' ', '_')
-
-
-def convert_camel_case_to_snake_case2(name: str):
-    # Currently not working
-    str_parts = LOWER_TO_UPPER_RE.sub(r'\1_\2', name).split('_')
-    if len(str_parts) > 1:
-        combined_str = '_'.join([str_part[0].lower() + str_part[1:] for str_part in str_parts])
-    else:
-        combined_str = str_parts[0]
-        if len(combined_str) > 1 and combined_str[1].islower():
-            combined_str = combined_str[0].lower() + combined_str[1:]
-
-    return combined_str
 
 
 def convert_biolink_category_to_curie(biolink_category_label: str):

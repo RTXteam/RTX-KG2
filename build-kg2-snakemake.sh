@@ -15,10 +15,6 @@ fi
 config_dir=`dirname "$0"`
 source ${config_dir}/master-config.shinc
 
-{
-echo "================= starting build-kg2-snakemake.sh =================="
-date
-
 build_flag=${1-""}
 
 if [[ "${build_flag}" == "test" || "${build_flag}" == "alltest" ]]
@@ -34,6 +30,10 @@ else
     test_suffix=""
     test_arg=""
 fi
+
+{
+echo "================= starting build-kg2-snakemake.sh =================="
+date
 
 semmed_tuplelist_file=${BUILD_DIR}/semmeddb/kg2-semmeddb${test_suffix}-tuplelist.json
 semmed_output_file=${BUILD_DIR}/kg2-semmeddb${test_suffix}-edges.json
@@ -169,4 +169,4 @@ cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${CODE_DIR}/Snakefile \
 
 date
 echo "================ script finished ============================"
-} >${BUILD_DIR}/build-kg2-snakemake.log 2>&1
+} >${BUILD_DIR}/build-kg2-snakemake${test_suffix}.log 2>&1
