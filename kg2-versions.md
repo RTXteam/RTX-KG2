@@ -13,6 +13,8 @@ Edges: 53,589,306
 - Issue #999
 - Issue #762
 
+Build host: `kg2steve.rtx.ai`.
+
 # 2.3.1 
 
 **Date: 2020.08.21**
@@ -30,4 +32,6 @@ Edges: 52,537,504
 - Issue #1006
 - Issue #1007
 - Issue #988
+
+Build host: `kg2dev.rtx.ai`.
 
