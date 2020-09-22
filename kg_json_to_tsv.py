@@ -96,12 +96,13 @@ def truncate_node_synonyms_if_too_large(node_synonym_field, node_id):
     """
     Truncates a node's list of synonyms if it's too large for Neo4j. (Neo4j apparently cannot 'read a field larger than
     buffer size 4194304' - see Github issue #460).
+    Replaces any newlines with spaces - see Github issue #1076.
     """
     if len(json.dumps(node_synonym_field)) > NEO4J_CHAR_LIMIT:
         print("warning: truncating 'synonym' field on node {} because it's too big for neo4j".format(node_id), file=sys.stderr)
-        return node_synonym_field[0:20]  # Only include the first 20 synonyms
+        return [synonym.replace("\n"," ") for synonym in node_synonym_field[0:20]]  # Only include the first 20 synonyms
     else:
-        return node_synonym_field
+        return [synonym.replace("\n"," ") for synonym in node_synonym_field]
 
 
 def shorten_description_if_too_large(node_description_field, node_id):
