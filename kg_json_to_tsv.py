@@ -108,12 +108,13 @@ def shorten_description_if_too_large(node_description_field, node_id):
     """
     Truncates a node's description if it's too large for Neo4j. (Neo4j apparently cannot 'read a field larger than
     buffer size 4194304' - see Github issue #460).
+    Also replaces newlines with spaces - see Github issue #1076.
     """
     if len(node_description_field) > NEO4J_CHAR_LIMIT:
         print("warning: truncating 'description field on node {} because it's too big for neo4j".format(node_id), file=sys.stderr)
-        return str(list(node_description_field)[0:NEO4J_CHAR_LIMIT]).replace("[", "").replace("]", "").replace("', '", "").replace("'", "")
+        return str(list(node_description_field)[0:NEO4J_CHAR_LIMIT]).replace("[", "").replace("]", "").replace("', '", "").replace("'", "").replace("\n"," ")
     else:
-        return node_description_field
+        return node_description_field.replace("\n"," ")
 
 
 def nodes(graph, output_file_location):
