@@ -153,6 +153,9 @@ def edges(edges_input, edges_output):
                     # - define an edge property "original_edge_label"
                     # which will contain the content of the "edge_label" field
                     # of the edge TSV input file for this script.
+                    # - rename the edge property "relation" to "original_relation",
+                    # for consistency with the naming of the "original_edge_label"
+                    # property defined in the previous bullet point
                     # - in the edge property "edge_label", put the content of the
                     # TSV file field "edge_label:TYPE"
                     if ':TYPE' not in propfull:
