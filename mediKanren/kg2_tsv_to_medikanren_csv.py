@@ -132,7 +132,15 @@ def edges(edges_input, edges_output):
                 if ":string[]" in propfull:
                     propvalue = make_csv_list(propvalue)
 
-                if len(prop) > 0 and len(propvalue) > 0 and ":TYPE" not in propfull:
+                if len(prop) > 0 and len(propvalue) > 0:
+                    if ':TYPE' not in propfull:
+                        # need to check if the prop is "edge_label", because if it is, we need to change it to "original_edge_label"
+                        if prop == 'edge_label':
+                            prop = 'original_edge_label'
+                    else:
+                        assert prop == 'edge_label'
+                        # ok, the field header is "edge_label:TYPE"; leave prop as "edge_label"
+
                     if "," in propvalue or '"' in propvalue or '\n' in propvalue:
                         propvalue = '"' + re.sub(r'\n+', '\n', propvalue.replace('"', "'")).strip() + '"'
                     proplist = str(line_id) + "," + prop + "," + propvalue + "\n"
