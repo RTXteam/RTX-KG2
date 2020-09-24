@@ -137,6 +137,8 @@ def edges(edges_input, edges_output):
                         # need to check if the prop is "edge_label", because if it is, we need to change it to "original_edge_label"
                         if prop == 'edge_label':
                             prop = 'original_edge_label'
+                        elif prop == 'relation':
+                            prop = 'original_relation'
                     else:
                         assert prop == 'edge_label'
                         # ok, the field header is "edge_label:TYPE"; leave prop as "edge_label"
