@@ -110,7 +110,6 @@ def edges(edges_input, edges_output):
 
     start_index = header.index(":START_ID")
     end_index = header.index(":END_ID")
-    print(header)
     with open(edges_input[0]) as edges:
         line_id = 0
         for line in csv.reader(edges, delimiter="\t"):
