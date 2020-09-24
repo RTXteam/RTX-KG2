@@ -133,6 +133,28 @@ def edges(edges_input, edges_output):
                     propvalue = make_csv_list(propvalue)
 
                 if len(prop) > 0 and len(propvalue) > 0:
+                    # ISSUE#1079: the following if/else block is a little hack
+                    # to make sure the CSV is in the format that the mediKanren
+                    # script `csv-graph-to-db.rkt` expects; eventually we might
+                    # want to see if we can update our JSON format (and thus the
+                    # TSV format) so that it is better aligned with biolink and
+                    # the format that mediKanren expects. For now, this is not
+                    # easy because the Biolink JSON specification (at
+                    # https://github.com/NCATS-Tangerine/kgx/blob/master/data-preparation.md)
+                    # specifies that the edge_label property should have the
+                    # "biolink:" prefix, like "biolink:treats". But mediKanren
+                    # expects the "edge_label" property to contain (in the
+                    # aforementioned case) "treats", not "biolink:treats". Also,
+                    # the KG2 JSON format has the original (upstream source)
+                    # relation label in the "edge_label" field, which in this
+                    # case would be "indicated_for", not "treats". So in the CSV
+                    # file that we are creating, we are going to do the
+                    # following:
+                    # - define an edge property "original_edge_label"
+                    # which will contain the content of the "edge_label" field
+                    # of the edge TSV input file for this script.
+                    # - in the edge property "edge_label", put the content of the
+                    # TSV file field "edge_label:TYPE"
                     if ':TYPE' not in propfull:
                         # need to check if the prop is "edge_label", because if it is, we need to change it to "original_edge_label"
                         if prop == 'edge_label':
