@@ -823,6 +823,11 @@ This section has some guidelines for the development team for the KG2 build syst
 - Please follow PEP8 formatting standards.
 - Please use type hints wherever possible.
 
+### File naming
+
+- For config files and shell scripts, use kabob-case
+- For python modules, use snake_case.
+
 # Credits
 
 Thank you to the many people who have contributed to the development of RTX KG2, as described
