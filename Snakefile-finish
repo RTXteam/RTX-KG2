@@ -1,30 +1,17 @@
 rule Finish:
     input:
-        stats_original = config['REPORT_FILE_FULL'],
-        nodes_original = config['OUTPUT_NODES_FILE_FULL'],
-        stats_simplify = config['SIMPLIFIED_REPORT_FILE_FULL'],
-        nodes_simplify = config['SIMPLIFIED_OUTPUT_NODES_FILE_FULL'],
-        kg_original = config['FINAL_OUTPUT_FILE_FULL'],
-        kg_simplify = config['SIMPLIFIED_OUTPUT_FILE_FULL'],
-        orphan = config['OUTPUT_FILE_ORPHAN_EDGES'],
-        slim = config['SLIM_OUTPUT_FILE_FULL'],
+        final_output_file_full = config['FINAL_OUTPUT_FILE_FULL'],
+        output_file_orphan_edges = config['OUTPUT_FILE_ORPHAN_EDGES'],
+        report_file_full = config['REPORT_FILE_FULL'],
+        output_nodes_file_full = config['OUTPUT_NODES_FILE_FULL'],
+        simplified_output_file_full = config['SIMPLIFIED_OUTPUT_FILE_FULL'],
+        simplified_report_file_full = config['SIMPLIFIED_REPORT_FILE_FULL'],
+        simplified_output_nodes_file_full = config['SIMPLIFIED_OUTPUT_NODES_FILE_FULL'],
+        slim_output_file_full = config['SLIM_OUTPUT_FILE_FULL'],
         placeholder = config['BUILD_DIR'] + "/tsv_placeholder.empty"
-    run:
-        shell("gzip -f {input.nodes_original}")
-        shell("gzip -f {input.nodes_simplify}")
-        shell("gzip -f {input.kg_original}")
-        shell("gzip -f {input.kg_simplify}")
-        shell("gzip -f {input.slim}")
-        shell("gzip -f {input.orphan}")
-        shell("tar -C " + config['KG2_TSV_DIR'] + " -czvf " + config['KG2_TSV_TARBALL'] + " nodes.tsv nodes_header.tsv edges.tsv edges_header.tsv")
+    log:
+        config['BUILD_DIR'] + "/finish-snakemake" + config['TEST_SUFFIX'] + ".log"
+    shell:
+        "bash -x " + config['CODE_DIR'] + "/finish-snakemake.sh {final_output_file_full} {output_file_orphan_edges} {report_file_full} {output_nodes_file_full} {simplified_output_file_full} {simplified_report_file_full} {simplified_output_nodes_file_full} {slim_output_file_full} " + config['KG2_TSV_DIR'] + " " + config['S3_CP_CMD'] + " " + config['KG2_TSV_TARBALL'] + " " + config['S3_BUCKET'] + " " + config['S3_BUCKET_PUBLIC'] + " " + config['OUTPUT_FILE_BASE'] + " " + config['ONT_LOAD_INVENTORY_FILE'] + " " + config['CODE_DIR'] + " " + config['S3_BUCKET_VERSIONED'] + " > {log} 2>&1"
 
-        shell(config['S3_CP_CMD'] + " {input.nodes_original}.gz s3://" + config['S3_BUCKET'] + "/")
-        shell(config['S3_CP_CMD'] + " {input.nodes_simplify}.gz s3://" + config['S3_BUCKET'] + "/")
-        shell(config['S3_CP_CMD'] + " {input.stats_original} s3://" + config['S3_BUCKET_PUBLIC'] + "/")
-        shell(config['S3_CP_CMD'] + " {input.kg_original}.gz s3://" + config['S3_BUCKET'] + "/")
-        shell(config['S3_CP_CMD'] + " {input.kg_simplify}.gz s3://" + config['S3_BUCKET'] + "/")
-        shell(config['S3_CP_CMD'] + " {input.slim}.gz s3://" + config['S3_BUCKET'] + "/")
-        shell(config['S3_CP_CMD'] + " {input.stats_simplify} s3://" + config['S3_BUCKET_PUBLIC'] + "/")
-        shell(config['S3_CP_CMD'] + " {input.orphan}.gz s3://" + config['S3_BUCKET_PUBLIC'] + "/")
-        shell(config['S3_CP_CMD'] + " " + config['KG2_TSV_TARBALL'] + " s3://" + config['S3_BUCKET'] + "/")
 

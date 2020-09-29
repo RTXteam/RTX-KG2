@@ -31,6 +31,8 @@ else
     test_arg=""
 fi
 
+build_kg2_log_file=${BUILD_DIR}/build-kg2-snakemake${test_suffix}.log
+
 {
 echo "================= starting build-kg2-snakemake.sh =================="
 date
@@ -162,11 +164,14 @@ cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${CODE_DIR}/Snakefile \
      GO_ANNOTATION_INPUT_FILE="${go_annotation_input_file}" GO_ANNOTATION_OUTPUT_FILE="${go_annotation_output_file}" \
      KG1_OUTPUT_FILE="${kg1_output_file}" RTX_CONFIG_FILE="${rtx_config_file}" \
      KG2_TSV_DIR="${kg2_tsv_dir}" KG2_TSV_TARBALL="${kg2_tsv_tarball}" \
-     PREDICATE_MAPPING_FILE="${predicate_mapping_file}" \
+     PREDICATE_MAPPING_FILE="${predicate_mapping_file}" ONT_LOAD_INVENTORY_FILE="${ont_load_inventory_file}" \
      VENV_DIR="${VENV_DIR}" BUILD_DIR="${BUILD_DIR}" CODE_DIR="${CODE_DIR}" CURIES_TO_URLS_FILE="${curies_to_urls_file}" \
      MYSQL_CONF="${mysql_conf}" S3_CP_CMD="${s3_cp_cmd}" VERSION_FILE="${version_file}" \
      S3_BUCKET="${s3_bucket}" S3_BUCKET_PUBLIC="${s3_bucket_public}" S3_BUCKET_VERSIONED="${s3_bucket_versioned}"
 
 date
 echo "================ script finished ============================"
-} >${BUILD_DIR}/build-kg2-snakemake${test_suffix}.log 2>&1
+} > ${build_kg2_log_file} 2>&1
+
+${s3_cp_cmd} ${build_kg2_log_file} s3://${s3_bucket_public}/
+${s3_cp_cmd} ${build_kg2_log_file} s3://${s3_bucket_versioned}/
