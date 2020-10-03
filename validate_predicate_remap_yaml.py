@@ -16,7 +16,6 @@ __status__ = 'Prototype'
 
 import argparse
 import kg2_util
-
 import yaml
 
 
