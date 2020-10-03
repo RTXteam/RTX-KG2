@@ -391,8 +391,7 @@ def get_depths_of_ontology_terms(ontology: ontobio.ontol.Ontology,
 
 
 def get_biolink_categories_ontology_depths(biolink_ontology: ontobio.ontol.Ontology):
-    url_depths = get_depths_of_ontology_terms(biolink_ontology,
-                                              BASE_URL_BIOLINK_META + 'NamedThing')
+    url_depths = get_depths_of_ontology_terms(biolink_ontology, CURIE_PREFIX_BIOLINK + ':NamedThing')
     ret_depths = {key.replace(BASE_URL_BIOLINK_META, ''): value for key, value in url_depths.items()}
     ret_depths['UnknownCategory'] = -1
     return ret_depths
@@ -679,6 +678,8 @@ def is_a_valid_http_url(id: str) -> bool:
 
 
 def load_ontology_from_owl_or_json_file(ontology_file_name: str):
+    if ontology_file_name.startswith('./'):
+        ontology_file_name = ontology_file_name[2:(len(ontology_file_name)+1)]
     ont_factory = ontobio.ontol_factory.OntologyFactory()
     return ont_factory.create(ontology_file_name, ignore_cache=True)
 
