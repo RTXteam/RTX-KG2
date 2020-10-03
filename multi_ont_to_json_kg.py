@@ -272,7 +272,8 @@ def get_biolink_category_for_node(ontology_node_id: str,
         if len(candidate_categories) == 1:
             ret_category = next(iter(candidate_categories))
         elif len(candidate_categories) > 1:
-            candidate_category_depths = {category: biolink_category_depths.get(kg2_util.convert_snake_case_to_camel_case(category.replace(' ', '_'),
+            candidate_category_depths = {category: biolink_category_depths.get(kg2_util.CURIE_PREFIX_BIOLINK + ':' +
+                                                                               kg2_util.convert_snake_case_to_camel_case(category.replace(' ', '_'),
                                                                                                                          uppercase_first_letter=True), None) for
                                          category in sorted(candidate_categories)}
             keys_remove = {k for k, v in candidate_category_depths.items() if v is None}
@@ -338,7 +339,7 @@ def parse_umls_sver_date(umls_sver: str, sourcename: str):
     return updated_date
 
 
-#===========================================
+# ===========================================
 # These next functions (until make_nodes_dict_from_ontologies_list)
 # are for addressing issue #762 regarding duplicate TUIs
 
@@ -411,7 +412,7 @@ def split_into_chunks(fulllist: list):
     # Takes a list of TUI categories and splits it into a list
     # of pairs of TUI categories so that the multiple TUI categories can
     # can be handled in pairs
-    # Ex. [molecular entity, chemical substance, chemical substance] -> 
+    # Ex. [molecular entity, chemical substance, chemical substance] ->
     # [[molecular entity, chemical substance], [chemical substance]]
 
     returnlist = []
@@ -483,7 +484,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
     tuis_not_in_mappings_but_in_kg2 = set()
 
     biolink_categories_ontology_depths = None
-    
+
     first_ontology = ontology_info_list[0]['ontology']
 
     assert first_ontology.id == kg2_util.BASE_URL_BIOLINK_ONTOLOGY, "biolink needs to be first in ont-load-inventory.yaml"
@@ -744,10 +745,10 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                 node_tui_category_label = get_category_for_multiple_tui(biolink_category_tree, node_tui_list, mappings_to_categories)
                                 node_category_label = node_tui_category_label
                         except KeyError:
-                            kg2_util.log_message(message='Node ' + node_curie_id + ' has CUI with multiple associated TUIs: ' + ', '.join(node_tui_list) + ' and could not be mapped',
-                                             ontology_name=iri_of_ontology,
-                                             output_stream=sys.stderr)
-                        
+                            kg2_util.log_message(message='Node ' + node_curie_id + ' has CUI with multiple associated TUIs: ' + ', '.join(node_tui_list) +
+                                                 ' and could not be mapped',
+                                                 ontology_name=iri_of_ontology,
+                                                 output_stream=sys.stderr)
                 else:
                     if node_category_label is None:
                         node_category_label = node_tui_category_label  # override the node category_label if we have a TUI
