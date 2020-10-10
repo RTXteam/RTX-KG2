@@ -351,7 +351,7 @@ def make_curies_to_uri_map(curies_to_uri_map_yaml_string: str, mapper_type: IDMa
 
 
 def get_biolink_category_tree(biolink_ontology: ontobio.ontol.Ontology):
-    queue = collections.deque([BASE_URL_BIOLINK_META + 'NamedThing'])
+    queue = collections.deque([CURIE_PREFIX_BIOLINK + ':' + 'NamedThing'])
     biolink_category_dict = dict()
     biolink_category_tree = dict()
 

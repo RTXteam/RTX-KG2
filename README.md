@@ -695,6 +695,12 @@ the form `kg2endpoint-kg2-X-Y.rtx.ai`, where `X` is the major version number and
 [version history markdown file](kg2-versions.md) with the new build version and
 the numbers of the GitHub issues that are addressed/implemented in the new KG2
 version.
+	- After a build has successfully completed, add a tag with the kg2 version number 
+	- Follow the format "KG2.X.Y", where X is the major version number and Y is the minor version number 
+	```
+	git tag -a KG2.X.Y -m "<name of build host used>"
+	git push --tags
+	```
 - Wherever possible we try to document the name of the build host (EC2 instance)
 used for the KG2 build in `kg2-versions.md` and we try to preserve the `kg2-build`
 directory and its contents on that host, until a new build has superseded the build.
