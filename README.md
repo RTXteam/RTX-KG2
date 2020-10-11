@@ -535,6 +535,10 @@ Occasionally a build will fail due to a connection error in attempting to
 cURL a file from one of the upstream sources (e.g., SMPDB, and less frequently, 
 UniChem).
 
+Another failure mode is the versioning of ChemBL. Once ChemBL upgrades their dataset, 
+old datasets may become unavailable. This will result in failure when downloading. To 
+fix this, change the version number in `extract-chembl.sh`.
+
 ## The output KG
 
 The `build-kg2.sh` script (run via one of the three methods shown above) creates
