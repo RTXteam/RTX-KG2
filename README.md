@@ -819,6 +819,23 @@ the following name/value pairs:
 - `kg2-slim.json`
 - `kg2-version.txt`
 
+# Troubleshooting (UNDER DEVELOPMENT)
+
+## Errors in `multi_ont_to_json_kg.py`
+
+### Errors in `convert_bpv_predicate_to_curie`
+
+- An error like the following:
+
+```
+File "/home/ubuntu/kg2-code/multi_ont_to_json_kg.py", line 1158, in convert_bpv_predicate_to_curie
+     raise ValueError('unable to expand CURIE: ' + bpv_pred)
+ValueError: unable to expand CURIE: MONARCH:cliqueLeader     
+```
+
+would indicate that the CURIE prefix (in this case, `MONARCH`) needs to be added to the
+`use_for_bidirectional_mapping` section of `curies-to-urls-map.yaml` config file.
+
 # For Developers
 
 This section has some guidelines for the development team for the KG2 build system.
