@@ -206,6 +206,8 @@ use_for_bidirectional_mapping:
   -
     MOD: http://purl.obolibrary.org/obo/MOD_
   -
+    MONARCH: https://monarchinitiative.org/MONARCH_
+  -
     monarch.biolink: https://api.monarchinitiative.org/api
   -
     monarch.scigraph: https://scigraph-ontology.monarchinitiative.org/scigraph
