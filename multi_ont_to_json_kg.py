@@ -722,6 +722,9 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             if node_category_label is None:
                 node_category_label = 'named thing'
                 try:
+                    # This is a fix for #891. It was supposed to be addressed on line 756 ("if node_category_label is None:") 
+                    # and 757 ("node_category_label = node_tui_category_label"), but due to the assignment of the label
+                    # 'named thing', that condition was never triggered. Instead, that is now handled here.
                     if node_tui is not None:
                         node_category_label = mappings_to_categories[node_tui]
                 except KeyError:

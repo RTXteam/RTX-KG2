@@ -3,6 +3,15 @@
 # Copyright 2020 Stephen A. Ramsey
 # Author Erica C. Wood
 
+
+# NOTE:
+# This file does not use source master-config.shinc.
+# This was a purposeful decision to minimize the different inputs.
+# All of the inputs come from Snakemake, through the system build-kg2-snakemake.sh->Snakefile->finish-snakemake.sh
+# This file is triggered last in the build system. By running it through this system, this ensures that the values 
+# passed into this file are the same as they were are the start of the build. In general, it means that there is one
+# streamlined input.
+
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
