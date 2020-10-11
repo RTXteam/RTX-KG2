@@ -1,4 +1,4 @@
-# What is KG2?
+# KG2: the second-generation RTX knowledge graph
 
 KG2 is the second-generation knowledge graph for the
 [ARAX](https://github.com/RTXteam/RTX) biomedical reasoning system.  The GitHub
@@ -226,7 +226,7 @@ Note: to follow the instructions for Option 3 and Option 4 below, in addition to
 the requirements as described above, you will need to be using the `bash` shell
 on your *local* computer.
 
-### Build Option 1: build KG2 serially (about 67 hours) directly on an Ubuntu system:
+### Build Option 1: build KG2 in parallel directly on an Ubuntu system:
 
 These instructions assume that you are logged into the target Ubuntu system, and
 that the Ubuntu system has *not* previously had `setup-kg2-build.sh` run (if it
@@ -288,17 +288,68 @@ this command:
 
 (8) Within the `screen` session, run:
 
-    bash -x ~/kg2-code/build-kg2.sh all
+    bash -x ~/kg2-code/build-kg2-snakemake.sh all
 
 Then exit screen (`ctrl-a d`). Note that there is no need to redirect `stdout`
-or `stderr` to a log file, when executing `build-kg2.sh`; this is because the
-script saves its own `stdout` and `stderr` to a log file `build-kg2.log`. You can 
+or `stderr` to a log file, when executing `build-kg2-snakemake.sh`; this is because the
+script saves its own `stdout` and `stderr` to a log file `build-kg2-snakemake.log`. You can 
 watch the progress of your KG2 build by using this command:
 
-    tail -f ~/kg2-build/build-kg2.log
+    tail -f ~/kg2-build/build-kg2-snakemake.log
     
-Note that the `build-multi-ont-kg.sh` script also saves `stderr` from running `multi_ont_to_json_kg.py`
-to a file `~/kg2-build/build-kg2-ont-stderr.log`.
+That file shows what has finished and what is still happening. If any line says
+
+`(exited with non-zero exit code)`
+
+the code has failed. However, since the code is 
+running in parallel, to minimize confusion, `stdout` and `stderr`
+for many of the scripts is piped into its own final, including:
+- `run-validation-tests.sh` -> `~/kg2-build/run-validation-tests.log`
+- `extract-umls.sh` -> `~/kg2-build/extract-umls.log`
+- `extract-semmeddb.sh` -> `~/kg2-build/extract-semmeddb.log`
+- `extract-uniprotkb.sh` -> `~/kg2-build/extract-uniprotkb.log`
+- `extract-ensembl.sh` -> `~/kg2-build/extract-ensembl.log`
+- `extract-unichem.sh` -> `~/kg2-build/extract-unichem.log`
+- `extract-chembl.sh` -> `~/kg2-build/extract-chembl.log`
+- `extract-ncbigene.sh` -> `~/kg2-build/extract-ncbigene.log`
+- `extract-dgidb.sh` -> `~/kg2-build/extract-dgidb.log`
+- `download-repodb-csv.sh` -> `~/kg2-build/download-repodb-csv.log`
+- `extract-smpdb.sh` -> `~/kg2-build/extract-smpdb.log`
+- `extract-drugbank.sh` -> `~/kg2-build/extract-drugbank.log`
+- `extract-hmdb.sh` -> `~/kg2-build/extract-hmdb.log`
+- `extract-go-annotations.sh` -> `~/kg2-build/extract-go-annotations.log`
+- `build-multi-ont-kg.sh` -> `~/kg2-build/build-multi-ont-kg.log`
+- `dgidb_tsv_to_kg_json.py` -> `~/kg2-build/dgidb/dgidb-tsv-to-kg-stderr.log`
+- `semmeddb_tuple_list_json_to_kg_json.py` -> `~/kg2-build/semmeddb-tuple-list-json-to-kg-json.log`
+- `smpdb_csv_to_kg_json.py` -> `~/kg2-build/smpdb/smpdb-csv-to-kg-json.log`
+- `drugbank_xml_to_kg_json.py` -> `~/kg2-build/drugbank-xml-to-kg-json.log`
+- `hmdb_xml_to_kg_json.py` -> `~/kg2-build/hmdb-xml-to-kg-json.log`
+- `go_gpa_to_kg_json.py` -> `~/kg2-build/go-gpa-to-kg-json.log`
+- `filter_kg_and_remap_predicates.py` -> `~/kg2-build/filter_kg_and_remap_predicates.log`
+
+If a build using Snakemake fails and the output file for the rule it failed on doesn't exist, you
+can continue the build such that it only reruns the rule(s) that don't already have an output file
+and all of the rules after that rule(s). For example, if a build fails on `multi_ont_to_json_kg.py`,
+wait for the build to completely fail (`build-kg2-snakemake.sh` won't be running at all), then
+change the following line in `build-kg2-snakemake.sh` to have it run `multi_ont_to_json_kg.py`, `merge_graphs.py`,
+etc.
+
+Normal Line:
+
+	cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${CODE_DIR}/Snakefile \
+     -F -j --config TEST_FLAG="${test_flag}" TEST_SUFFIX="${test_suffix}" \
+     ...
+
+New Line:
+
+	cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${CODE_DIR}/Snakefile \
+     -R Finish -j --config TEST_FLAG="${test_flag}" TEST_SUFFIX="${test_suffix}" \
+     ...
+
+Note the `-F`, which forces all rules that lead up to `Finish` -- the first rule in the Snakefile -- to run,
+regardless of the existence of output files,
+has changed to `-R Finish`, which only forces the rule that failed and the rules that depend on that rule's output
+to run.
 
 #### Note about versioning of KG2
 
@@ -338,10 +389,10 @@ downstream of that. This can be useful in cases where you are testing a change
 to one of the YAML configuration files for KG2, for example. To do a partial
 build, in Step (8) above, you would run
 
-    bash -x ~/kg2-code/build-kg2.sh
+    bash -x ~/kg2-code/build-kg2-snakemake.sh
 
-(note the absence of the `all` argument to `build-kg2.sh`). A partial build of KG2
-may take about 12 hours. Note, you have to have previously run an `all` build
+(note the absence of the `all` argument to `build-kg2-snakemake.sh`). A partial build of KG2
+may take about 31 hours. Note, you have to have previously run an `all` build
 of KG2, or else the partial build will not work.
 
 #### Test build of KG2
@@ -352,6 +403,60 @@ mode builds a smaller graph with a significantly reduced set of nodes and edges.
 Before you can do a test build, you must have previously done a full *non-test*
 build of KG2 (i.e., `build-kg2.sh all`) at least once. To execute a full *test*
 build, in Step (8) above, you would run:
+
+    bash -x ~/kg2-code/build-kg2-snakemake.sh alltest
+    
+In the case of a test build, the a couple log file names are changed:
+
+    ~/kg2-build/build-kg2-snakemake-test.log
+    ~/kg2-build/build-kg2-ont-test-stderr.log
+
+and all of the intermediate JSON and TSV files that the build system creates
+will have `-test` appended to the filename before the usual filename suffix
+(`.json`).
+
+#### Partial test build of KG2
+
+To run a partial build of KG2 in "test" mode, the command would be:
+
+    bash -x ~/kg2-code/build-kg2-snakemake.sh test
+
+This option is frequently used in testing/development. Note, you have to have
+previously run an `alltest` build, or else a `test` build will not work.
+
+
+### Build Option 2: build KG2 serially (about 67 hours) directly on an Ubuntu system:
+
+(1)-(7) Follow steps (1)-(7) in Build Option 1.
+
+(8) Within the `screen` session, run:
+
+    bash -x ~/kg2-code/build-kg2.sh all
+
+Then exit screen (`ctrl-a d`). Note that there is no need to redirect `stdout`
+or `stderr` to a log file, when executing `build-kg2.sh`; this is because the
+script saves its own `stdout` and `stderr` to a log file `build-kg2.log`. You can 
+watch the progress of your KG2 build by using this command:
+
+    tail -f ~/kg2-build/build-kg2.log
+    
+Note that the `build-multi-ont-kg.sh` script also saves `stderr` from running `multi_ont_to_json_kg.py`
+to a file `~/kg2-build/build-kg2-ont-stderr.log`.
+
+#### Partial build of KG2
+
+Like with the parallel build system, you can run a sequential partial build. To do a partial
+build, in Step (8) above, you would run
+
+    bash -x ~/kg2-code/build-kg2.sh
+
+(note the absence of the `all` argument to `build-kg2.sh`). A partial build of KG2
+may take about 40 hours. Note, you have to have previously run an `all` build
+of KG2, or else the partial build will not work.
+
+#### Test build of KG2
+
+To execute a sequential *test* build, in Step (8) above, you would run:
 
     bash -x ~/kg2-code/build-kg2.sh alltest
     
@@ -366,55 +471,9 @@ will have `-test` appended to the filename before the usual filename suffix
 
 #### Partial test build of KG2
 
-To run a partial build of KG2 in "test" mode, the command would be:
+To run a partial sequential build of KG2 in "test" mode, the command would be:
 
     bash -x ~/kg2-code/build-kg2.sh test
-
-This option is frequently used in testing/development. Note, you have to have
-previously run an `alltest` build, or else a `test` build will not work.
-
-### Build Option 2: build KG2 in parallel (about 54 hours) directly on an Ubuntu system: (NOT CURRENTLY WORKING, see Issue 694)
-
-<!-- (1)-(5) Follow steps (1) through (5) from Option 1 -->
-
-<!-- (6) Initiate a `screen` session to provide a stable pseudo-tty: -->
-
-<!--     screen -->
-
-<!-- (7) Within the `screen` session, run: -->
-
-<!--     ~/kg2-code/build-kg2-snakemake.sh -->
-
-<!-- to generate the full size knowledge graph. Then exit screen (using `ctrl-a d`). Note that there is  -->
-<!-- no need to redirect `stdout` or `stderr` to a log file when executing `build-kg2-snakemake.sh`;  -->
-<!-- this is because the script saves its own `stdout` and `stderr` to a log file  -->
-<!-- (`build-kg2-snakemake.log`, located in the build directory). If you don't want to see all of the  -->
-<!-- printouts, but want to know which files have finished, you can look at the log file in `.snakemake/log/`  -->
-<!-- (if you have run snakemake before, choose the file named with the date you started the build). -->
-
-<!-- If you want to create a test size graph (about 31 hours), run: -->
-
-<!--     ~/kg2-code/build-kg2-snakemake.sh test -->
-
-<!-- You can watch the progress of your KG2 build by using this command: -->
-
-<!--     tail -f ~/kg2-build/build-kg2-snakemake.log -->
-    
-<!-- Note that the `build-multi-ont-kg.sh` script also saves `stderr` from running `multi_ont_to_json_kg.py` -->
-<!-- to a file `~/kg2-build/build-kg2-ont-stderr.log`. -->
-
-<!-- (8) When the build is complete, look for the following line (the 2nd line from -->
-<!--     the bottom) in `build-kg2-snakemake.log` and `.snakemake/log/` file (you only need -->
-<!--     to check one): -->
-
-<!--     22 of 22 steps (100%) done -->
-
-<!-- If that line is present the Snakefile completed successfully (as more databases are added, 22 could grow to  -->
-<!-- a larger number. The important piece is 100%). If any line says: -->
-
-<!--     (exited with non-zero exit code) -->
-
-<!-- the code failed. -->
 
 ### Build Option 3: setup ssh key exchange so you can build KG2 in a remote EC2 instance
 
@@ -476,6 +535,10 @@ Occasionally a build will fail due to a connection error in attempting to
 cURL a file from one of the upstream sources (e.g., SMPDB, and less frequently, 
 UniChem).
 
+Another failure mode is the versioning of ChemBL. Once ChemBL upgrades their dataset, 
+old datasets may become unavailable. This will result in failure when downloading. To 
+fix this, change the version number in `extract-chembl.sh`.
+
 ## The output KG
 
 The `build-kg2.sh` script (run via one of the three methods shown above) creates
@@ -498,6 +561,52 @@ can be found in the `build` slot of the `kg2-simplified.json` file and it can be
 found in the node with ID `RTX:KG2` in the Neo4j KG2 database. Due to the size of KG2,
 we are not currently archiving old builds of KG2 and that is why `kg2-simplified.json`
 and the related large KG2 JSON files are stored in a *non-versioned* S3 bucket.
+
+## Optional KG2 PubMed Build
+
+To add PubMed ID nodes and Pubmed->MeSH edges to your KG2, you can add those for every
+PubMed ID referenced in KG2 (whether in an edge - `publications`, `publications_info` - 
+or node - `publications`). This process isn't currently optimized.
+
+(1) Build KG2 up through the merge step (`merge_graphs.py`).
+
+(2) Generate a list of PMIDs referenced in KG2 in a screen session:
+
+    ~/kg2-venv/bin/python3 ~/kg2-code/extract_kg2_pmids.py ~/kg2-build/kg2.json ~/kg2-build/pmids-in-kg2.json
+
+(3) Potentially at the same time as step 2 -- this step doesn't take much memory --
+download the PubMed XML files.
+
+    bash -x ~/kg2-code/extract-pubmed.sh
+
+(4) On an `r5a.16xlarge` (or instance with comparable memory) instance with the
+PubMed XML files and the list of PMIDs in KG2 as a JSON file, build your KG2 JSON
+file for PubMed. This json file will be approximately `66GB` large.
+
+    ~/kg2-venv/bin/python3 ~/kg2-code/pubmed_xml_to_kg_json.py ~/kg2-build/pubmed ~/kg2-build/pmids-in-kg2.json ~/kg2-build/kg2-pubmed.json
+
+(5) The format of `kg2-pubmed.json` matches `kg2.json` but not `kg2-simplified.json`.
+For this reason, at this time, we have to merge `kg2-pubmed.json` into `kg2.json`.
+Then, a `kg2-simplified.json` can be make from the output. Eventually, it might be
+preferred to have `kg2-pubmed.json` generated to match the format of `kg2-simplified.json`,
+especially since its predicates do not have to go through the predicate remap process and
+loading `kg2-pubmed.json` into memory takes a lot of memory. UNTESTED.
+
+    ~/kg2-venv/bin/python3 ~/kg2-code/merge_graphs.py --kgFiles ~/kg2-build/kg2.json ~/kg2-build/kg2-pubmed.json --kgFileOrphanEdges ~/kg2-build/kg2-pubmed-merge-orphan-edges.json ~/kg2-build/kg2-with-pubmed.json
+
+(6) Run the `filter_kg_and_remap_predicates.py` script on this new JSON file (and optionally
+`get_nodes_json_from_kg_json.py` and `report_stats_on_json_kg.py` -- you can't run these in
+parallel due to memory considerations, so be aware of what is absolutely necessary to generate).
+UNTESTED
+
+    ~/kg2-venv/bin/python3 ~/kg2-code/filter_kg_and_remap_predicates.py ~/kg2-code/predicate-remap.yaml ~/kg2-build/kg2-with-pubmed.json ~/kg2-build/kg2-with-pubmed-simplified.json
+
+(7) Generate TSV (files for the new, simplified JSON file (and optionally run `get_nodes_json_from_kg_json.py` and `report_stats_on_json_kg.py` on the simplified JSON file). UNTESTED
+
+	rm -rf ~/kg2-build/PubMedKG2TSV/
+	mkdir -p ~/kg2-build/PubMedKG2TSV/
+	~/kg2-venv/bin/python3 ~/kg2-code/kg_json_to_tsv.py ~/kg2-code/kg2-with-pubmed-simplified.json ~/kg2-code/PubMedKG2TSV
+
 
 ## Updating the installed KG2 build system software
 
@@ -590,6 +699,17 @@ the form `kg2endpoint-kg2-X-Y.rtx.ai`, where `X` is the major version number and
 [version history markdown file](kg2-versions.md) with the new build version and
 the numbers of the GitHub issues that are addressed/implemented in the new KG2
 version.
+	- After a build has successfully completed, add a tag with the kg2 version number 
+	- Follow the format "KG2.X.Y", where X is the major version number and Y is the minor version number 
+	```
+	git tag -a KG2.X.Y -m "<name of build host used>"
+	git push --tags
+	```
+- Wherever possible we try to document the name of the build host (EC2 instance)
+used for the KG2 build in `kg2-versions.md` and we try to preserve the `kg2-build`
+directory and its contents on that host, until a new build has superseded the build.
+Having the build directory available on the actual build host is very useful for
+tracking down the source of an unexpected relationship or node property.
 
 # Structure of the JSON KG2
 
@@ -712,6 +832,11 @@ This section has some guidelines for the development team for the KG2 build syst
 - Only python3 is allowed.
 - Please follow PEP8 formatting standards.
 - Please use type hints wherever possible.
+
+### File naming
+
+- For config files and shell scripts, use kabob-case
+- For python modules, use snake_case.
 
 # Credits
 

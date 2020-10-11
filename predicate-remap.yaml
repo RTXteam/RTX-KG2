@@ -216,32 +216,32 @@ BTO:related_to:
   - biolink:related_to
 CHEBI:has_functional_parent:
   rename:
-  - derives_from
-  - biolink:derives_from
+  - chemically_similar_to
+  - biolink:chemically_similar_to
 CHEBI:has_parent_hydride:
   rename:
-  - subclass_of
-  - biolink:subclass_of
+  - chemically_similar_to
+  - biolink:chemically_similar_to
 CHEBI:is_conjugate_acid_of:
   rename:
-  - related_to
-  - biolink:related_to
+  - chemically_similar_to
+  - biolink:chemically_similar_to
 CHEBI:is_conjugate_base_of:
   rename:
-  - related_to
-  - biolink:related_to
+  - chemically_similar_to
+  - biolink:chemically_similar_to
 CHEBI:is_enantiomer_of:
   rename:
-  - close_match
-  - skos:closeMatch
+  - chemically_similar_to
+  - biolink:chemically_similar_to
 CHEBI:is_substituent_group_from:
   rename:
   - part_of
   - biolink:part_of
 CHEBI:is_tautomer_of:
   rename:
-  - close_match
-  - skos:closeMatch
+  - chemically_similar_to
+  - biolink:chemically_similar_to
 CHEMBL.MECHANISM:activator:
   rename:
   - positively_regulates
@@ -2833,9 +2833,9 @@ RO:0002200:
   - has_phenotype
   - biolink:has_phenotype
 RO:0002202:
-  invert:
-  - related_to
-  - biolink:related_to
+  rename:
+  - develops_from
+  - biolink:develops_from
 RO:0002203:
   rename:
   - related_to

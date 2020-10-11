@@ -351,7 +351,7 @@ def make_curies_to_uri_map(curies_to_uri_map_yaml_string: str, mapper_type: IDMa
 
 
 def get_biolink_category_tree(biolink_ontology: ontobio.ontol.Ontology):
-    queue = collections.deque([BASE_URL_BIOLINK_META + 'NamedThing'])
+    queue = collections.deque([CURIE_PREFIX_BIOLINK + ':' + 'NamedThing'])
     biolink_category_dict = dict()
     biolink_category_tree = dict()
 
@@ -363,16 +363,11 @@ def get_biolink_category_tree(biolink_ontology: ontobio.ontol.Ontology):
             queue.append(child_node_id)
 
     for parent, children in biolink_category_dict.items():
-        print(parent)
-        parent = convert_camel_case_to_snake_case(parent.replace(BASE_URL_BIOLINK_META, "")).replace("_", " ").replace("rna", "RNA")
-        if parent == "micro RNA":
-            parent = BIOLINK_CATEGORY_MICRORNA
+        parent = biolink_ontology.node(parent)['lbl']
         for child in children:
             if parent not in biolink_category_tree:
                 biolink_category_tree[parent] = []
-            child = convert_camel_case_to_snake_case(child.replace(BASE_URL_BIOLINK_META, "")).replace("_", " ").replace("rna", "RNA")
-            if child == "micro RNA":
-                child = BIOLINK_CATEGORY_MICRORNA
+            child = biolink_ontology.node(child)['lbl']
             biolink_category_tree[parent].append(child)
             biolink_category_tree[parent] = sorted(biolink_category_tree[parent])
 
@@ -396,8 +391,7 @@ def get_depths_of_ontology_terms(ontology: ontobio.ontol.Ontology,
 
 
 def get_biolink_categories_ontology_depths(biolink_ontology: ontobio.ontol.Ontology):
-    url_depths = get_depths_of_ontology_terms(biolink_ontology,
-                                              BASE_URL_BIOLINK_META + 'NamedThing')
+    url_depths = get_depths_of_ontology_terms(biolink_ontology, CURIE_PREFIX_BIOLINK + ':NamedThing')
     ret_depths = {key.replace(BASE_URL_BIOLINK_META, ''): value for key, value in url_depths.items()}
     ret_depths['UnknownCategory'] = -1
     return ret_depths
@@ -589,19 +583,6 @@ def convert_camel_case_to_snake_case(name: str):
     return converted.replace(' ', '_')
 
 
-def convert_camel_case_to_snake_case2(name: str):
-    # Currently not working
-    str_parts = LOWER_TO_UPPER_RE.sub(r'\1_\2', name).split('_')
-    if len(str_parts) > 1:
-        combined_str = '_'.join([str_part[0].lower() + str_part[1:] for str_part in str_parts])
-    else:
-        combined_str = str_parts[0]
-        if len(combined_str) > 1 and combined_str[1].islower():
-            combined_str = combined_str[0].lower() + combined_str[1:]
-
-    return combined_str
-
-
 def convert_biolink_category_to_curie(biolink_category_label: str):
     if '_' in biolink_category_label:
         raise ValueError("invalid category_label: " + biolink_category_label)
@@ -697,6 +678,8 @@ def is_a_valid_http_url(id: str) -> bool:
 
 
 def load_ontology_from_owl_or_json_file(ontology_file_name: str):
+    if ontology_file_name.startswith('./'):
+        ontology_file_name = ontology_file_name[2:(len(ontology_file_name)+1)]
     ont_factory = ontobio.ontol_factory.OntologyFactory()
     return ont_factory.create(ontology_file_name, ignore_cache=True)
 

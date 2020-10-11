@@ -1,11 +1,11 @@
-# What is KG2Canonicalized?
+# What is KG2canonicalized?
 
-KG2Canonicalized (KG2C) is a lightweight version of KG2 in which synonymous nodes have been collapsed into one. It is built from the 'production' KG2 Neo4j endpoint and uses the [ARAX NodeSynonymizer](https://github.com/RTXteam/RTX/tree/master/code/ARAX/NodeSynonymizer) to determine which nodes are equivalent. 
+KG2canonicalized (KG2c) is a lightweight version of KG2 in which synonymous nodes have been collapsed into one. It is built from the 'production' KG2 Neo4j endpoint and uses the [ARAX NodeSynonymizer](https://github.com/RTXteam/RTX/tree/master/code/ARAX/NodeSynonymizer) to determine which nodes are equivalent. 
 
-The Neo4j endpoint for KG2C is accessible at http://kg2canonicalized.rtx.ai:7474/browser/ (contact the maintainer for username and password).
+The Neo4j endpoint for KG2c is accessible at http://kg2canonicalized.rtx.ai:7474/browser/ (contact the maintainer for username and password).
 
 ### Schema
-Example KG2C node (all nodes have these same properties):
+Example KG2c node (all nodes have these same properties):
 ```
 {
   "id": "CHEBI:134827",
@@ -28,9 +28,9 @@ Example KG2C node (all nodes have these same properties):
   ]
 }
 ```
-The node `id` is the 'preferred' curie for the group of synonymous nodes this KG2C node represents (according to the ARAX `NodeSynonymizer`).
+The node `id` is the 'preferred' curie for the group of synonymous nodes this KG2c node represents (according to the ARAX `NodeSynonymizer`).
 
-Example KG2C edge (all edges have these same properties):
+Example KG2c edge (all edges have these same properties):
 ```
 {
   "subject": "CHEBI:24433",
@@ -44,11 +44,11 @@ Example KG2C edge (all edges have these same properties):
   ]
 }
 ```
-In creating KG2C, edges from the regular KG2 are remapped to use only 'preferred' curies for their `subject` and `object`; edges with the same `subject`, `object`, and `simplified_edge_label` are then merged.
+In creating KG2c, edges from the regular KG2 are remapped to use only 'preferred' curies for their `subject` and `object`; edges with the same `subject`, `object`, and `simplified_edge_label` are then merged.
 
 # How to create it
 
-### Build KG2Canonicalized
+### Build KG2canonicalized
 
 (1) Clone the GitHub repository into your home directory:
 ```
@@ -64,14 +64,14 @@ sudo apt-get install -y awscli
 aws configure
 ```
 
-(4) Build KG2Canonicalized (should take less than 2 hours):
+(4) Build KG2canonicalized (should take less than 2 hours):
 ```
 cd ~/RTX/code/kg2/canonicalized/
 bash -x build-kg2-canonicalized.sh
 ```
 This produces TSV files containing the data (formatted for Neo4j import) and uploads them to the KG2 S3 bucket.
 
-### Host KG2Canonicalized in Neo4j
+### Host KG2canonicalized in Neo4j
 
 These instructions assume Neo4j is not already installed and that you are hosting Neo4j on an AWS instance.
 
@@ -86,7 +86,7 @@ git clone https://github.com/RTXteam/RTX.git
 bash -x RTX/code/kg2/setup-kg2-neo4j.sh
 ```
 
-(3) Load the latest KG2Canonicalized into Neo4j
+(3) Load the latest KG2canonicalized into Neo4j
 ```
 bash -x RTX/code/kg2/canonicalized/tsv-to-neo4j-canonicalized.sh
 ```
