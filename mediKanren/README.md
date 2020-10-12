@@ -95,6 +95,22 @@ The the above should return:
 
 Verify that the above information returned looks correct.
 
+### Upload the indexes and csvs
+
+Navigate to the `RTX/code/kg2/mediKanren/mediKanren/biolink/data/rtx_kg2` subdirectory.
+
+Compress the csvs into one tar.gz file:
+```
+tar -zcvf kg2-medikanren-csvs-<yyyymmdd>.tar.gz *.csv
+```
+And compress the index files into another:
+
+```
+tar --exclude='*.csv' -zcvf kg2-medikanren-indexes-<yyyymmdd>.tar.gz .
+```
+
+Upload both tarballs to the public s3 bucket.
+
 ## 2) Run mediKanren localy from pregenerated indexes
 
 ### Setup the enviroment
