@@ -99,13 +99,18 @@ Verify that the above information returned looks correct.
 
 ### Setup the enviroment
 
-If you are just trying to run mediKanren and not download and process a new graph you just need to install racket and git then run `git clone https://github.com/webyrd/mediKanren.git` to clone the mediKanren repository.
+First, install git and racket. Then, clone the RTX repository if you have not already:
+```
+git clone https://github.com/RTXteam/RTX.git
+```
+
+Next, navigate to the repository subdirectory `RTX/code/kg2/mediKanren` and run `git clone https://github.com/webyrd/mediKanren.git` to clone the mediKanren repository.
 
 ### Download the index files.
 
-First make sure that you have created the following directory in the mediKanren repository:
+First make sure that you have created the following directory in the mediKanren repository by running the following from the `RTX/code/kg2/mediKanren` subdirectory:
 ```
-<path to repository>/mediKanren/biolink/data/rtx_kg2/
+mkdir -p mediKanren/biolink/data/rtx_kg2
 ```
 
 Next, download the indexes from [here](https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2_indexes.tar.gz) and extract the files into the above mentioned `mediKanren/biolink/data/rtx_kg2` directory.
