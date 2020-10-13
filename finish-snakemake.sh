@@ -18,7 +18,7 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     echo Usage: "$0 [final_output_file_full] [output_file_orphan_edges] [report_file_full] [output_nodes_file_full] [simplified_output_file_full] [simplified_report_file_full]"
     echo "[simplified_output_nodes_file_full] [slim_output_file_full] [kg2_tsv_dir] [s3_cp_cmd]"
     echo "[kg2_tsv_tarball] [s3_bucket] [s3_bucket_public] [output_file_base] [ont_load_inventory_file]"
-    echo "[CODE_DIR] [s3_bucket_versioned]"
+    echo "[CODE_DIR] [s3_bucket_versioned] [BUILD_DIR]"
     exit 2
 fi
 
@@ -39,12 +39,13 @@ output_file_base=${14}
 ont_load_inventory_file=${15}
 CODE_DIR=${16}
 s3_bucket_versioned=${17}
+BUILD_DIR=${18}
 
 echo "================= starting finish-snakemake.sh =================="
 date
 
 gzip -f ${final_output_file_full}
-tar -C ${kg2_tsv_dir} -czvf ${kg2_tsv_dir} nodes.tsv nodes_header.tsv edges.tsv edges_header.tsv
+tar -C ${kg2_tsv_dir} -czvf ${kg2_tsv_tarball} nodes.tsv nodes_header.tsv edges.tsv edges_header.tsv
 ${s3_cp_cmd} ${kg2_tsv_tarball} s3://${s3_bucket}/
 
 gzip -f ${simplified_output_file_full}
