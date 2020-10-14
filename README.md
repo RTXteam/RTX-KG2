@@ -351,6 +351,16 @@ regardless of the existence of output files,
 has changed to `-R Finish`, which only forces the rule that failed and the rules that depend on that rule's output
 to run.
 
+At the end of the build process, you should inspect the logfile
+`~/kg2-build/filter_kg_and_remap_predicates.log` to see if there are warnings
+like ``` relation curie is missing from the YAML config file:
+CURIEPREFIX:some_predicate ``` where `CURIEPREFIX` could be any CURIE prefix in
+`curies-to-urls-map.yaml` and `some_predicate` is a snake-case predicate label
+(or in the case of Relation Ontology, a numeric identifier). Any warnings of the
+above format in `filter_kg_and_remap_predicates.log` probably indicates that an
+addition needs to be made to the file `predicate-remap.yaml`, followed by a
+partial rebuild starting with `filter_kg_and_remap_predicates.py`.
+
 #### Note about versioning of KG2
 
 KG2 has semantic versioning with a graph/major/minor release system:
