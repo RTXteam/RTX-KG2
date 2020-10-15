@@ -2,20 +2,34 @@
 
 NOTE: This was tested on Ubuntu 18.04 system and requires a user with passwordless sudo setup
 
-## Generate mediKanren file
+## 1) Generate mediKanren file
 
 ### Setup the enviroment
 
-To download and install everything you need to run kg2 into mediKanren simply run the `setup.sh` script on a unpriveliged user with passwordless sudo enabled like so:
+First, install git and clone the RTX repository if you have not already:
+```
+git clone https://github.com/RTXteam/RTX.git
+```
+
+Then, navigate to the repository subdirectory `RTX/code/kg2/mediKanren`. To download and install everything you need to run kg2 into mediKanren simply run the `setup.sh` script on a unpriveliged user with passwordless sudo enabled like so:
 ```
 bash -x ./setup.sh > setup.log 2>&1
 ```
 
-Alternatively, if you are just trying to run mediKanren and not download and process a new graph you just need to install racket (and git if you do not have it) then run `git clone https://github.com/webyrd/mediKanren.git` to clone the mediKanren repository.
+### Generating new graph csvs from kg2 tsv file
 
-### Downloading a new graph version and generate index files
+**Note:** This is the prefered method as it is much faster to generate the csvs locally than going through neo4j. The alternative method that uses kgx is also listed below.
 
-If you wish to download a new graph version and generate the indexes yourself from that then do the following:
+From the `RTX/code/kg2/mediKanren` subdirectory run the following: (entering in the path to the kg2 tsv file)
+```
+mkdir -p mediKanren/biolink/data/rtx_kg2
+python3.7 kg2_tsv_to_medikanren_csv.py /path/to/kg2/tsv/files mediKanren/biolink/data/rtx_kg2
+```
+
+### Downloading graph csvs from neo4j using KGX
+
+**NOTE:** Skip this section if you generated the csvs from the kg2 tsv using the instuctions above
+
 1) Edit `config.yml` so that it has the correct url, username, and password for the kg2 instance you want to download.
   e.g.
   ```
@@ -25,10 +39,13 @@ If you wish to download a new graph version and generate the indexes yourself fr
     password: your_pass
     host: http://your.url.here:7474
   ```
-2) run `bash -x ./setup.sh > setup.log 2>&1`
-3) run `bash -x ./download-graph.sh > download-graph.log 2>&1`
-4) run `bash -x ./create-index.sh > create-index.log 2>&1` (This could take a few days and require between 64 and 128 GB of ram)
-5) Follow the the avove steps starting from Run MediKanren onward
+2) run `bash -x ./download-graph.sh > download-graph.log 2>&1`
+
+### Generate index files
+
+From the `RTX/code/kg2/mediKanren` subdirectory run the following:
+
+run `bash -x ./create-index.sh > create-index.log 2>&1` (This could take a few days and require between 64 and 128 GB of ram)
 
 ### Run mediKanren to test indexes
 
@@ -78,22 +95,38 @@ The the above should return:
 
 Verify that the above information returned looks correct.
 
-## Run mediKanren localy from pregenerated indexes
+### Upload the indexes and csvs
+
+Navigate to the `RTX/code/kg2/mediKanren/mediKanren/biolink/data/rtx_kg2` subdirectory.
+
+Compress the csvs into one tar.gz file:
+```
+tar -zcvf kg2-medikanren-csvs-<yyyymmdd>.tar.gz *.csv
+```
+And compress the index files into another:
+
+```
+tar --exclude='*.csv' -zcvf kg2-medikanren-indexes-<yyyymmdd>.tar.gz .
+```
+
+Upload both tarballs to the public s3 bucket.
+
+## 2) Run mediKanren localy from pregenerated indexes
 
 ### Setup the enviroment
 
-To download and install everything you need to run kg2 into mediKanren simply run the `setup.sh` script on a unpriveliged user with passwordless sudo enabled like so:
+First, install git and racket. Then, clone the RTX repository if you have not already:
 ```
-bash -x ./setup.sh > setup.log 2>&1
+git clone https://github.com/RTXteam/RTX.git
 ```
 
-Alternatively, if you are just trying to run mediKanren and not download and process a new graph you just need to install racket (and git if you do not have it) then run `git clone https://github.com/webyrd/mediKanren.git` to clone the mediKanren repository.
+Next, navigate to the repository subdirectory `RTX/code/kg2/mediKanren` and run `git clone https://github.com/webyrd/mediKanren.git` to clone the mediKanren repository.
 
 ### Download the index files.
 
-First make sure that you have created the following directory in the mediKanren repository:
+First make sure that you have created the following directory in the mediKanren repository by running the following from the `RTX/code/kg2/mediKanren` subdirectory:
 ```
-<path to repository>/mediKanren/biolink/data/rtx_kg2/
+mkdir -p mediKanren/biolink/data/rtx_kg2
 ```
 
 Next, download the indexes from [here](https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2_indexes.tar.gz) and extract the files into the above mentioned `mediKanren/biolink/data/rtx_kg2` directory.
