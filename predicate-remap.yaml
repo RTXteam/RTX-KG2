@@ -207,7 +207,7 @@ BSPO:0015202:
   - located_in
   - biolink:located_in
 BTO:develops_from:
-  invert:
+  rename:
   - related_to
   - biolink:related_to
 BTO:related_to:
@@ -427,7 +427,7 @@ CPT:panel_element_of_possibly_included:
   - part_of
   - biolink:part_of
 DDANAT:develops_from:
-  invert:
+  rename:
   - related_to
   - biolink:related_to
 DGIdb:activator:
@@ -679,7 +679,7 @@ FMA:developmental_stage_of:
   - coexists_with
   - biolink:coexists_with
 FMA:develops_from:
-  invert:
+  rename:
   - related_to
   - biolink:related_to
 FMA:develops_into:
@@ -1561,7 +1561,7 @@ MESH:AQ:
 MESH:QB:
   delete: null
 MESH:RO:
-  invert:
+  rename:
   - related_to
   - biolink:related_to
 MESH:SIB:
@@ -4337,7 +4337,7 @@ UMLS:RB:
   - subclass_of
   - biolink:subclass_of
 UMLS:RO:
-  invert:
+  rename:
   - related_to
   - biolink:related_to
 UMLS:RQ:
