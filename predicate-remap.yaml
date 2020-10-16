@@ -2370,6 +2370,10 @@ OBO:envo#has_increased_levels_of:
   rename:
   - related_to
   - biolink:related_to
+OBO:exo.obo#interacts_with:
+  rename:
+  - interacts_with
+  - biolink:interacts_with
 OBO:hancestro_0308:
   rename:
   - has_attribute
@@ -3116,6 +3120,10 @@ RO:0002489:
   rename:
   - related_to
   - biolink:related_to
+RO:0002491:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
 RO:0002492:
   rename:
   - related_to
@@ -4240,10 +4248,34 @@ SNOMED:uses_substance:
   rename:
   - has_input
   - biolink:has_input
+SO:adjacent_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+SO:contains:
+  invert:
+  - part_of
+  - biolink:part_of
+SO:derives_from:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
 SO:has_origin:
   rename:
   - coexists_with
   - biolink:coexists_with
+SO:has_part:
+  invert:
+  - part_of
+  - biolink:part_of
+SO:member_of:
+  rename:
+  - part_of
+  - biolink:part_of
+SO:overlaps:
+  rename:
+  - overlaps
+  - biolink:overlaps
 UBERON:anastomoses_with:
   rename:
   - coexists_with
