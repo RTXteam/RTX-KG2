@@ -44,15 +44,15 @@ BUILD_DIR=${18}
 echo "================= starting finish-snakemake.sh =================="
 date
 
-gzip -f ${final_output_file_full}
+gzip -fk ${final_output_file_full}
 tar -C ${kg2_tsv_dir} -czvf ${kg2_tsv_tarball} nodes.tsv nodes_header.tsv edges.tsv edges_header.tsv
 ${s3_cp_cmd} ${kg2_tsv_tarball} s3://${s3_bucket}/
 
-gzip -f ${simplified_output_file_full}
-gzip -f ${simplified_output_nodes_file_full}
-gzip -f ${output_nodes_file_full}
-gzip -f ${output_file_orphan_edges}
-gzip -f ${slim_output_file_full}
+gzip -fk ${simplified_output_file_full}
+gzip -fk ${simplified_output_nodes_file_full}
+gzip -fk ${output_nodes_file_full}
+gzip -fk ${output_file_orphan_edges}
+gzip -fk ${slim_output_file_full}
 
 ${s3_cp_cmd} ${final_output_file_full}.gz s3://${s3_bucket}/
 ${s3_cp_cmd} ${simplified_output_file_full}.gz s3://${s3_bucket}/
