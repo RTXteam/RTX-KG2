@@ -1618,6 +1618,10 @@ MONDO:equivalentTo:
   rename:
   - same_as
   - biolink:same_as
+MONDO:has_onset:
+  rename:
+  - related_to
+  - biolink:related_to
 MONDO:part_of_progression_of_disease:
   rename:
   - part_of
@@ -2374,6 +2378,14 @@ OBO:exo.obo#interacts_with:
   rename:
   - interacts_with
   - biolink:interacts_with
+OBO:exo.obo#interacts_with_an_exposure_stressor_via:
+  rename:
+  - interacts_with
+  - biolink:interacts_with
+OBO:exo.obo#interacts_with_an_exposure_receptor_via:
+  rename:
+  - interacts_with
+  - biolink:interacts_with
 OBO:hancestro_0308:
   rename:
   - has_attribute
@@ -2960,6 +2972,10 @@ RO:0002303:
   rename:
   - located_in
   - biolink:located_in
+RO:0002309:
+  rename:
+  - related_to
+  - biolink:related_to
 RO:0002313:
   rename:
   - affects_transport_of
@@ -4260,6 +4276,10 @@ SO:derives_from:
   rename:
   - coexists_with
   - biolink:coexists_with
+SO:guided_by:
+  rename:
+  - related_to
+  - biolink:related_to
 SO:has_origin:
   rename:
   - coexists_with
@@ -4268,6 +4288,14 @@ SO:has_part:
   invert:
   - part_of
   - biolink:part_of
+SO:has_quality:
+  rename:
+  - related_to
+  - biolink:related_to
+SO:non_functional_homolog_of:
+  rename:
+  - homologous_to
+  - biolink:homologous_to
 SO:member_of:
   rename:
   - part_of
@@ -4276,6 +4304,14 @@ SO:overlaps:
   rename:
   - overlaps
   - biolink:overlaps
+SO:transcribed_from:
+  invert:
+  - has_gene_product
+  - biolink:has_gene_product
+SO:transcribed_to:
+  rename:
+  - has_gene_product
+  - biolink:has_gene_product
 UBERON:anastomoses_with:
   rename:
   - coexists_with
