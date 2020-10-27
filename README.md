@@ -22,6 +22,7 @@ biomedical reasoning system.
 - Stephen Ramsey, Oregon State University (stephen.ramsey@oregonstate.edu)
 - Amy Glen, Oregon State University (glena@oregonstate.edu)
 - Erica Wood, Crescent Valley High School
+- Lindsey Kvarfordt, Oregon State University (kvarforl@oregonstate.edu)
 
 ## Bug reports
 
