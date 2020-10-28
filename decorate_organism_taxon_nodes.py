@@ -17,9 +17,10 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/..")
 #sys.path.append(os.getcwd()+"/..")
 from RTXConfiguration import RTXConfiguration
 
-__author__ = 'Erica Wood'
+# adapted from Erica and Steve's index code
+__author__ = 'Finn Womack'
 __copyright__ = 'Oregon State University'
-__credits__ = ['Stephen Ramsey', 'Erica Wood']
+__credits__ = ['Stephen Ramsey', 'Erica Wood', 'Finn Womack']
 __license__ = 'MIT'
 __version__ = '0.1.0'
 __maintainer__ = ''
@@ -115,6 +116,6 @@ if __name__ == '__main__':
     decorator = DecorateOTNodes(arguments.user, arguments.password, arguments.bolt, arguments.live, arguments.taxslim)
 
     if decorator.test_read_only():
-        print("WARNING: neo4j database is set to read-only and thus nodes will not update", file=sys.stderr)
+        print("WARNING: neo4j database is set to be read-only and thus, nodes can not be updated. Please turn read-only off in neo4j.conf and try again.", file=sys.stderr)
     else:
         decorator.decorate_organisms(arguments.batch)
