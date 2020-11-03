@@ -4,7 +4,7 @@ rule SemMedDB:
     output:
         config['SEMMED_TUPLELIST_FILE']
     log:
-        config['BUILD_DIR'] + "/extract-semmeddb.log"
+        config['BUILD_DIR'] + "/extract-semmeddb" + config['TEST_SUFFIX'] + ".log"
     shell:
         "bash -x " + config['CODE_DIR'] + "/extract-semmeddb.sh {output} " + config['TEST_FLAG'] + " > {log} 2>&1"
 

@@ -4,7 +4,7 @@ rule UMLS:
     output:
         config['BUILD_DIR'] + "/umls-placeholder.empty"
     log:
-        config['BUILD_DIR'] + "/extract-umls.log"
+        config['BUILD_DIR'] + "/extract-umls" + config['TEST_SUFFIX'] + ".log"
     shell:
         "bash -x " + config['CODE_DIR'] + "/extract-umls.sh " + config['BUILD_DIR'] + " > {log} 2>&1 && touch {output}" 
 
@@ -14,7 +14,7 @@ rule UniprotKB:
     output:
         config['UNIPROTKB_DAT_FILE']
     log:
-        config['BUILD_DIR'] + "/extract-uniprotkb.log"
+        config['BUILD_DIR'] + "/extract-uniprotkb" + config['TEST_SUFFIX'] + ".log"
     shell:
         "bash -x " + config['CODE_DIR'] + "/extract-uniprotkb.sh {output} > {log} 2>&1"
 
@@ -24,7 +24,7 @@ rule Ensembl:
     output:
         config['ENSEMBL_SOURCE_JSON_FILE']
     log:
-        config['BUILD_DIR'] + "/extract-ensembl.log"
+        config['BUILD_DIR'] + "/extract-ensembl" + config['TEST_SUFFIX'] + ".log"
     shell:
         "bash -x " + config['CODE_DIR'] + "/extract-ensembl.sh > {log} 2>&1"
 
@@ -34,7 +34,7 @@ rule UniChem:
     output:
         config['UNICHEM_OUTPUT_TSV_FILE']
     log:
-        config['BUILD_DIR'] + "/extract-unichem.log"
+        config['BUILD_DIR'] + "/extract-unichem" + config['TEST_SUFFIX'] + ".log"
     shell:
         "bash -x " + config['CODE_DIR'] + "/extract-unichem.sh {output} > {log} 2>&1"
 
@@ -44,7 +44,7 @@ rule ChemBL:
     output:
         placeholder = config['BUILD_DIR'] + "/chembl-placeholder.empty"
     log:
-        config['BUILD_DIR'] + "/extract-chembl.log"
+        config['BUILD_DIR'] + "/extract-chembl" + config['TEST_SUFFIX'] + ".log"
     shell:
         "bash -x " + config['CODE_DIR'] + "/extract-chembl.sh " + config['CHEMBL_MYSQL_DBNAME'] +" > {log} 2>&1 && touch {output.placeholder}"
 
@@ -54,7 +54,7 @@ rule NCBIGene:
     output:
         config['NCBI_GENE_TSV_FILE']
     log:
-        config['BUILD_DIR'] + "/extract-ncbigene.log"
+        config['BUILD_DIR'] + "/extract-ncbigene" + config['TEST_SUFFIX'] + ".log"
     shell:
         "bash -x " + config['CODE_DIR'] + "/extract-ncbigene.sh {output} > {log} 2>&1"
 
@@ -64,7 +64,7 @@ rule DGIDB:
     output:
         config['DGIDB_DIR'] + "/interactions.tsv"
     log:
-        config['BUILD_DIR'] + "/extract-dgidb.log"
+        config['BUILD_DIR'] + "/extract-dgidb" + config['TEST_SUFFIX'] + ".log"
     shell:
         "bash -x " + config['CODE_DIR'] + "/extract-dgidb.sh " + config['DGIDB_DIR'] + " > {log} 2>&1"
 
@@ -74,7 +74,7 @@ rule RepoDB:
     output:
         config['REPODB_INPUT_FILE']
     log:
-        config['BUILD_DIR'] + "/download-repodb-csv.log"
+        config['BUILD_DIR'] + "/download-repodb-csv" + config['TEST_SUFFIX'] + ".log"
     shell:
         "bash -x " + config['CODE_DIR'] + "/download-repodb-csv.sh " + config['REPODB_DIR'] + " > {log} 2>&1"
 
@@ -84,7 +84,7 @@ rule SMPDB:
     output:
         config['SMPDB_INPUT_FILE']
     log:
-        config['BUILD_DIR'] + "/extract-smpdb.log"
+        config['BUILD_DIR'] + "/extract-smpdb" + config['TEST_SUFFIX'] + ".log"
     shell:
         "bash -x " + config['CODE_DIR'] + "/extract-smpdb.sh " + config['SMPDB_DIR'] + " > {log} 2>&1"
 
@@ -94,7 +94,7 @@ rule DrugBank:
     output:
         config['DRUGBANK_INPUT_FILE']
     log:
-        config['BUILD_DIR'] + "/extract-drugbank.log"
+        config['BUILD_DIR'] + "/extract-drugbank" + config['TEST_SUFFIX'] + ".log"
     shell:
         "bash -x " + config['CODE_DIR'] + "/extract-drugbank.sh {output} > {log} 2>&1"
 
@@ -104,7 +104,7 @@ rule HMDB:
     output:
         config['HMDB_INPUT_FILE']
     log:
-        config['BUILD_DIR'] + "/extract-hmdb.log"
+        config['BUILD_DIR'] + "/extract-hmdb" + config['TEST_SUFFIX'] + ".log"
     shell:
         "bash -x " + config['CODE_DIR'] + "/extract-hmdb.sh > {log} 2>&1"
 
@@ -114,6 +114,6 @@ rule GO_Annotations:
     output:
         config['GO_ANNOTATION_INPUT_FILE']
     log:
-        config['BUILD_DIR'] + "/extract-go-annotations.log"
+        config['BUILD_DIR'] + "/extract-go-annotations" + config['TEST_SUFFIX'] + ".log"
     shell:
         "bash -x " + config['CODE_DIR'] + "/extract-go-annotations.sh {output} > {log} 2>&1"
