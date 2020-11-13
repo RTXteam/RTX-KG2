@@ -14,7 +14,7 @@ rule Ontologies_and_TTL:
     output:
         config['OUTPUT_FILE_FULL']
     log:
-        config['BUILD_DIR'] + "/build-multi-ont-kg.log"
+        config['BUILD_DIR'] + "/build-multi-ont-kg" + config['TEST_SUFFIX'] + ".log"
     shell:
         "bash -x " + config['CODE_DIR'] + "/build-multi-ont-kg.sh {output} " + config['TEST_FLAG'] + " > {log} 2>&1" 
 
@@ -34,7 +34,7 @@ rule DGIDB_Conversion:
     output:
         config['DGIDB_OUTPUT_FILE']
     log:
-        config['DGIDB_DIR'] + "/dgidb-tsv-to-kg-json-stderr.log"
+        config['DGIDB_DIR'] + "/dgidb-tsv-to-kg-json-stderr" + config['TEST_SUFFIX'] + ".log"
     shell:
         config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/dgidb_tsv_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output}" + " > {log} 2>&1"
 
@@ -73,7 +73,7 @@ rule SemMed_Conversion:
     output:
         config['SEMMED_OUTPUT_FILE']
     log:
-        config['BUILD_DIR'] + "/semmeddb-tuple-list-json-to-kg-json.log"
+        config['BUILD_DIR'] + "/semmeddb-tuple-list-json-to-kg-json" + config['TEST_SUFFIX'] + ".log"
     shell:
         config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/semmeddb_tuple_list_json_to_kg_json.py " + config['TEST_ARG'] + " --mrcuiFile ~/kg2-build/umls/META/MRCUI.RRF {input.real} {output} > {log} 2>&1"
 
@@ -102,7 +102,7 @@ rule SMPDB_Conversion:
     output:
         config['SMPDB_OUTPUT_FILE']
     log:
-        config['SMPDB_DIR'] + "/smpdb-csv-to-kg-json.log"
+        config['SMPDB_DIR'] + "/smpdb-csv-to-kg-json" + config['TEST_SUFFIX'] + ".log"
     shell:
         config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/smpdb_csv_to_kg_json.py " + config['TEST_ARG'] + " " + config['SMPDB_DIR'] + " {output} > {log} 2>&1"
 
@@ -113,7 +113,7 @@ rule DrugBank_Conversion:
     output:
         config['DRUGBANK_OUTPUT_FILE']
     log:
-        config['BUILD_DIR'] + "/drugbank-xml-to-kg-json.log"
+        config['BUILD_DIR'] + "/drugbank-xml-to-kg-json" + config['TEST_SUFFIX'] + ".log"
     shell:
         config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/drugbank_xml_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output} > {log} 2>&1"
 
@@ -124,7 +124,7 @@ rule HMDB_Conversion:
     output:
         config['HMDB_OUTPUT_FILE']
     log:
-        config['BUILD_DIR'] + "/hmdb-xml-to-kg-json.log"
+        config['BUILD_DIR'] + "/hmdb-xml-to-kg-json" + config['TEST_SUFFIX'] + ".log"
     shell:
         config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/hmdb_xml_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output} > {log} 2>&1"
 
@@ -135,6 +135,6 @@ rule GO_Annotations_Conversion:
     output:
         config['GO_ANNOTATION_OUTPUT_FILE']
     log:
-        config['BUILD_DIR'] + "/go-gpa-to-kg-json.log"
+        config['BUILD_DIR'] + "/go-gpa-to-kg-json" + config['TEST_SUFFIX'] + ".log"
     shell:
         config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/go_gpa_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output} > {log} 2>&1"
