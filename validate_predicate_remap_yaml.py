@@ -34,24 +34,20 @@ def create_biolink_to_external_mappings(biolink_model: dict, mapping_heirarchy: 
     # biolink_to_external[biolink relation][mapterm]= list([externals])
     biolink_to_external_mappings = dict()
     for relation, relation_info in biolink_model['slots'].items():
-        biolink_to_external_mappings['biolink:' +
-                                     relation.replace(' ', '_')] = dict()
+        if biolink_to_external_mappings.get('biolink:' + relation.replace(' ', '_'), None) is None:
+            biolink_to_external_mappings['biolink:' + relation.replace(' ', '_')] = defaultdict(lambda: [] )
         for mapping_term in mapping_hierarchy:
-            mappings = list(
-                map(lambda x: x.lower(), relation_info.get(mapping_term, [])))
+            mappings = list(map(lambda x: x.lower(), relation_info.get(mapping_term, [])))
+            biolink_to_external_mappings['biolink:' + relation.replace(' ', '_')][mapping_term] += mappings
             inverted_relation = relation_info.get('inverse', None)
             if inverted_relation is not None and len(mappings) is not 0:
                 biolink_curie = 'biolink:' + \
                     inverted_relation.replace(' ', '_')
-                existing_mappings = biolink_to_external_mappings.get(
-                    biolink_curie, dict())
-                existing_list = existing_mappings.get(mapping_term, [])
-                if len(existing_list) is 0:
-                    biolink_to_external_mappings[biolink_curie] = dict()
+                if biolink_to_external_mappings.get(biolink_curie, None) is None:
+                    biolink_to_external_mappings[biolink_curie] = defaultdict(lambda: [])
+                existing_list = biolink_to_external_mappings[biolink_curie][mapping_term]
                 existing_list += list(map(lambda x: x.lower(), mappings))
                 biolink_to_external_mappings[biolink_curie][mapping_term] = existing_list
-            biolink_to_external_mappings['biolink:' +
-                                         relation.replace(' ', '_')][mapping_term] = mappings
     return biolink_to_external_mappings
 
 
@@ -72,7 +68,7 @@ kg2_util.download_file_if_not_exist_locally(
 biolink_model = kg2_util.safe_load_yaml_from_string(
     kg2_util.read_file_to_string(biolink_model_file_name))
 
-mapping_hierarchy = ["exact_mappings", "close_mappings"] # TODO: determine correct order of mappings
+mapping_hierarchy = ["exact_mappings", "close_mappings", "narrow_mappings", "broad_mappings", "related_mappings"] # TODO: determine correct order of mappings
 
 biolink_to_external_mappings = create_biolink_to_external_mappings(
     biolink_model, mapping_hierarchy)
@@ -82,11 +78,9 @@ external_to_biolink_mappings = dict()
 for biolink_curie, mappings in biolink_to_external_mappings.items():
     for mapping_term, external_curies in mappings.items():
         for external_curie in external_curies:
-            external_to_biolink_mappings[external_curie] = defaultdict(
-                lambda: set())
-            external_to_biolink_mappings[external_curie][mapping_term].add(
-                biolink_curie)
-
+            if external_to_biolink_mappings.get(external_curie, None) is None:
+                external_to_biolink_mappings[external_curie] = defaultdict(lambda: set()) 
+            external_to_biolink_mappings[external_curie][mapping_term].add(biolink_curie)
 
 pred_info = yaml.safe_load(open(predicate_remap_file_name, 'r'))
 
@@ -125,7 +119,7 @@ for relation, instruction_dict in pred_info.items():
                 break
         if len(allowed_biolink_curies_set) != 0:
             assert subinfo[1] in allowed_biolink_curies_set, (
-                relation, mapping_term_used)
+                relation, mapping_term_used, allowed_biolink_curies_set)
 
     else:
         assert command == 'keep' or command == 'delete'
