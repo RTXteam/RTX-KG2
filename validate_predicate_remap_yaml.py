@@ -118,8 +118,8 @@ for relation, instruction_dict in pred_info.items():
                 mapping_term_used = mapping_term
                 break
         if len(allowed_biolink_curies_set) != 0:
-            assert subinfo[1] in allowed_biolink_curies_set, (
-                relation, mapping_term_used, allowed_biolink_curies_set)
+            err_str = "%s should map to %s (%s)" % (relation,allowed_biolink_curies_set, mapping_term_used.split("_")[0])
+            assert subinfo[1] in allowed_biolink_curies_set, err_str
 
     else:
         assert command == 'keep' or command == 'delete'
