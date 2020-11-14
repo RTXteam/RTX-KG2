@@ -48,6 +48,7 @@ def create_biolink_to_external_mappings(biolink_model: dict, mapping_heirarchy: 
                 existing_list = biolink_to_external_mappings[biolink_curie][mapping_term]
                 existing_list += list(map(lambda x: x.lower(), mappings))
                 biolink_to_external_mappings[biolink_curie][mapping_term] = existing_list
+    biolink_to_external_mappings['skos:closeMatch'] = defaultdict(lambda: [])
     return biolink_to_external_mappings
 
 
@@ -73,7 +74,6 @@ mapping_hierarchy = ["exact_mappings", "close_mappings", "narrow_mappings", "bro
 biolink_to_external_mappings = create_biolink_to_external_mappings(
     biolink_model, mapping_hierarchy)
 
-# biolink_to_external_mappings['skos:closeMatch'] = [] #TODO: figure out what to do with this line
 external_to_biolink_mappings = dict()
 for biolink_curie, mappings in biolink_to_external_mappings.items():
     for mapping_term, external_curies in mappings.items():
@@ -106,20 +106,21 @@ for relation, instruction_dict in pred_info.items():
             else:
                 assert False
     if subinfo is not None:
-        assert subinfo[1] in biolink_to_external_mappings, relation
+        assert subinfo[1] in biolink_to_external_mappings, (relation, subinfo[1])
 
         allowed_biolink_curies_set = set()
         biolink_term_externals = external_to_biolink_mappings.get(
             relation.lower(), None)
-        mapping_term_used = "none"
-        for mapping_term in mapping_hierarchy:
-            allowed_biolink_curies_set = biolink_term_externals[mapping_term]
+        if biolink_term_externals is not None:
+            mapping_term_used = "none"
+            for mapping_term in mapping_hierarchy:
+                allowed_biolink_curies_set = biolink_term_externals[mapping_term]
+                if len(allowed_biolink_curies_set) != 0:
+                    mapping_term_used = mapping_term
+                    break
             if len(allowed_biolink_curies_set) != 0:
-                mapping_term_used = mapping_term
-                break
-        if len(allowed_biolink_curies_set) != 0:
-            err_str = "%s should map to %s (%s)" % (relation,allowed_biolink_curies_set, mapping_term_used.split("_")[0])
-            assert subinfo[1] in allowed_biolink_curies_set, err_str
+                err_str = "%s should map to %s (%s)" % (relation,allowed_biolink_curies_set, mapping_term_used.split("_")[0])
+                assert subinfo[1] in allowed_biolink_curies_set, err_str
 
     else:
         assert command == 'keep' or command == 'delete'
