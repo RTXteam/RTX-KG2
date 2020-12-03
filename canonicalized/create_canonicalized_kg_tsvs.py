@@ -73,20 +73,20 @@ def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Dict[str
         canonical_info = canonicalized_info.get(node['id'])
         canonicalized_curie = canonical_info.get('preferred_curie', node['id']) if canonical_info else node['id']
         publications = node['publications'] if node.get('publications') else []
+        description_in_list = [node['description']] if node.get('description') else []
         if canonicalized_curie in canonicalized_nodes:
             existing_canonical_node = canonicalized_nodes[canonicalized_curie]
             existing_canonical_node['publications'] = _merge_two_lists(existing_canonical_node['publications'], publications)
             existing_canonical_node['all_names'] = _merge_two_lists(existing_canonical_node['all_names'], [node['name']])
-            # Add the IRI and description for the 'preferred' curie, if we've found that node
+            existing_canonical_node['description'] = _merge_two_lists(existing_canonical_node['description'], description_in_list)
+            # Add the IRI for the 'preferred' curie, if we've found that node
             if node['id'] == canonicalized_curie:
                 existing_canonical_node['iri'] = node.get('iri')
-                existing_canonical_node['description'] = node.get('description')
         else:
             name = canonical_info['preferred_name'] if canonical_info else node['name']
             preferred_type = canonical_info['preferred_type'] if canonical_info else node['category_label']
             types = list(canonical_info['all_types']) if canonical_info else [node['category_label']]
             iri = node['iri'] if node['id'] == canonicalized_curie else None
-            description = node['description'] if node['id'] == canonicalized_curie else None
             all_names = [node['name']]
             canonicalized_node = _create_node(node_id=canonicalized_curie,
                                               name=name,
@@ -95,7 +95,7 @@ def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Dict[str
                                               publications=publications,
                                               equivalent_curies=equivalent_curies_dict.get(canonicalized_curie, []),
                                               iri=iri,
-                                              description=description,
+                                              description=description_in_list,
                                               all_names=all_names)
 
             canonicalized_nodes[canonicalized_node['id']] = canonicalized_node
@@ -154,7 +154,7 @@ def _modify_column_headers_for_neo4j(plain_column_headers: List[str]) -> List[st
 
 
 def _create_node(node_id: str, name: str, preferred_type: str, types: List[str], equivalent_curies: List[str],
-                 publications: List[str], all_names: List[str], iri: str, description: str) -> Dict[str, any]:
+                 publications: List[str], all_names: List[str], iri: str, description: Union[str, List[str]]) -> Dict[str, any]:
     assert isinstance(node_id, str)
     assert isinstance(name, str) or name is None
     assert isinstance(types, list)
@@ -244,14 +244,20 @@ def create_canonicalized_tsvs(is_test=False):
                                    publications=[],
                                    iri="http://rtx.ai/identifiers#KG2c",
                                    all_names=[build_node_name],
-                                   description=f"This KG2c build was created from {regular_kg2_version} on {current_date}.")
+                                   description=[f"This KG2c build was created from {regular_kg2_version} on {current_date}."])
     canonicalized_nodes_dict[kg2c_build_node['id']] = kg2c_build_node
 
-    # Convert array fields into the format neo4j wants and do final processing
+    # Convert array fields into the format neo4j wants and do some final processing
     for canonicalized_node in canonicalized_nodes_dict.values():
         for list_node_property in ARRAY_NODE_PROPERTIES:
             canonicalized_node[list_node_property] = _convert_list_to_neo4j_format(canonicalized_node[list_node_property])
         canonicalized_node['preferred_type_for_conversion'] = canonicalized_node['preferred_type']
+        # Grab the five longest descriptions and join them into one string
+        sorted_description_list = sorted(canonicalized_node['description'], key=len, reverse=True)
+        # Get rid of any redundant descriptions (e.g., duplicate 'UMLS Semantic Type: UMLS_STY:T060')
+        filtered_description_list = [description for description in sorted_description_list if not any(description in other_description
+                                     for other_description in sorted_description_list if description != other_description)]
+        canonicalized_node['description'] = " --- ".join(filtered_description_list[:5])
     for canonicalized_edge in canonicalized_edges_dict.values():
         if not is_test:  # Make sure we don't have any orphan edges
             assert canonicalized_edge['subject'] in canonicalized_nodes_dict
