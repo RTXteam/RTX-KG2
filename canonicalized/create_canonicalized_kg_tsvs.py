@@ -20,6 +20,9 @@ from RTXConfiguration import RTXConfiguration
 sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/../../ARAX/NodeSynonymizer/")
 from node_synonymizer import NodeSynonymizer
 
+ARRAY_NODE_PROPERTIES = ["types", "publications", "equivalent_curies", "all_names"]
+ARRAY_EDGE_PROPERTIES = ["provided_by", "publications"]
+
 
 def _run_kg2_cypher_query(cypher_query: str) -> List[Dict[str, any]]:
     # This function sends a cypher query to the KG2 neo4j specified in config.json and returns the results
@@ -69,25 +72,32 @@ def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Dict[str
     for node in nodes:
         canonical_info = canonicalized_info.get(node['id'])
         canonicalized_curie = canonical_info.get('preferred_curie', node['id']) if canonical_info else node['id']
-        node_publications = node['publications'] if node.get('publications') else []
+        publications = node['publications'] if node.get('publications') else []
         if canonicalized_curie in canonicalized_nodes:
             existing_canonical_node = canonicalized_nodes[canonicalized_curie]
-            existing_canonical_node['publications'] = _merge_two_lists(existing_canonical_node['publications'], node_publications)
+            existing_canonical_node['publications'] = _merge_two_lists(existing_canonical_node['publications'], publications)
+            existing_canonical_node['all_names'] = _merge_two_lists(existing_canonical_node['all_names'], [node['name']])
+            # Add the IRI and description for the 'preferred' curie, if we've found that node
+            if node['id'] == canonicalized_curie:
+                existing_canonical_node['iri'] = node.get('iri')
+                existing_canonical_node['description'] = node.get('description')
         else:
-            if canonical_info:
-                canonicalized_node = _create_node(node_id=canonicalized_curie,
-                                                  name=canonical_info['preferred_name'],
-                                                  types=list(canonical_info['all_types']),
-                                                  preferred_type=canonical_info['preferred_type'],
-                                                  publications=node_publications,
-                                                  equivalent_curies=equivalent_curies_dict.get(canonicalized_curie, []))
-            else:
-                canonicalized_node = _create_node(node_id=canonicalized_curie,
-                                                  name=node['name'],
-                                                  types=[node['category_label']],
-                                                  preferred_type=node['category_label'],
-                                                  publications=node_publications,
-                                                  equivalent_curies=equivalent_curies_dict.get(canonicalized_curie, []))
+            name = canonical_info['preferred_name'] if canonical_info else node['name']
+            preferred_type = canonical_info['preferred_type'] if canonical_info else node['category_label']
+            types = list(canonical_info['all_types']) if canonical_info else [node['category_label']]
+            iri = node['iri'] if node['id'] == canonicalized_curie else None
+            description = node['description'] if node['id'] == canonicalized_curie else None
+            all_names = [node['name']]
+            canonicalized_node = _create_node(node_id=canonicalized_curie,
+                                              name=name,
+                                              preferred_type=preferred_type,
+                                              types=types,
+                                              publications=publications,
+                                              equivalent_curies=equivalent_curies_dict.get(canonicalized_curie, []),
+                                              iri=iri,
+                                              description=description,
+                                              all_names=all_names)
+
             canonicalized_nodes[canonicalized_node['id']] = canonicalized_node
         curie_map[node['id']] = canonicalized_curie  # Record this mapping for easy lookup later
     return canonicalized_nodes, curie_map
@@ -125,9 +135,9 @@ def _canonicalize_edges(edges: List[Dict[str, any]], curie_map: Dict[str, str], 
 
 def _modify_column_headers_for_neo4j(plain_column_headers: List[str]) -> List[str]:
     modified_headers = []
-    array_columns = ['provided_by', 'types', 'equivalent_curies', 'publications']
+    all_array_column_names = ARRAY_NODE_PROPERTIES + ARRAY_EDGE_PROPERTIES
     for header in plain_column_headers:
-        if header in array_columns:
+        if header in all_array_column_names:
             header = f"{header}:string[]"
         elif header == 'id':
             header = f"{header}:ID"
@@ -143,8 +153,8 @@ def _modify_column_headers_for_neo4j(plain_column_headers: List[str]) -> List[st
     return modified_headers
 
 
-def _create_node(node_id: str, name: str, types: List[str], preferred_type: str, equivalent_curies: List[str],
-                 publications: List[str]) -> Dict[str, any]:
+def _create_node(node_id: str, name: str, preferred_type: str, types: List[str], equivalent_curies: List[str],
+                 publications: List[str], all_names: List[str], iri: str, description: str) -> Dict[str, any]:
     assert isinstance(node_id, str)
     assert isinstance(name, str) or name is None
     assert isinstance(types, list)
@@ -154,9 +164,12 @@ def _create_node(node_id: str, name: str, types: List[str], preferred_type: str,
     return {
         "id": node_id,
         "name": name,
-        "types": types,
         "preferred_type": preferred_type,
+        "iri": iri,
+        "description": description,
+        "types": types,
         "equivalent_curies": equivalent_curies,
+        "all_names": all_names,
         "publications": publications
     }
 
@@ -176,7 +189,7 @@ def _create_edge(source: str, target: str, simplified_edge_label: str, provided_
     }
 
 
-def _write_list_to_tsv(input_list: List[Dict[str, any]], file_name_root: str, is_test: bool):
+def _write_list_to_neo4j_ready_tsv(input_list: List[Dict[str, any]], file_name_root: str, is_test: bool):
     print(f"  Creating {file_name_root} header file..")
     column_headers = list(input_list[0].keys())
     modified_headers = _modify_column_headers_for_neo4j(column_headers)
@@ -190,10 +203,14 @@ def _write_list_to_tsv(input_list: List[Dict[str, any]], file_name_root: str, is
 
 
 def create_canonicalized_tsvs(is_test=False):
-    # Canonicalize nodes and edges from KG2
+    """
+    This function extracts all nodes/edges from the regular KG2 Neo4j endpoint (specified in your config.json),
+    canonicalizes the nodes, merges edges (based on subject, object, predicate), and saves the resulting canonicalized
+    graph in two tsv files (nodes_c.tsv and edges_c.tsv) that are ready for import into Neo4j.
+    """
     print(f" Extracting nodes from KG2..")
     nodes_query = f"match (n) return n.id as id, n.name as name, n.category_label as category_label, " \
-                  f"n.publications as publications{' limit 20000' if is_test else ''}"
+                  f"n.publications as publications, n.iri as iri, n.description as description{' limit 20000' if is_test else ''}"
     neo4j_nodes = _run_kg2_cypher_query(nodes_query)
     if neo4j_nodes:
         print(f" Canonicalizing nodes..")
@@ -216,34 +233,39 @@ def create_canonicalized_tsvs(is_test=False):
         return
 
     # Create a node containing information about this KG2C build
-    kg2c_build_node = _create_node(node_id="RTX:KG2C",
-                                   name=f"KG2C:Build created on {datetime.now().strftime('%Y-%m-%d %H:%M')}",
+    regular_kg2_version = canonicalized_nodes_dict['RTX:KG2']['name'] if 'RTX:KG2' in canonicalized_nodes_dict else 'unknown KG2 version'
+    current_date = datetime.now().strftime('%Y-%m-%d %H:%M')
+    build_node_name = f"RTX KG2c, {current_date}"
+    kg2c_build_node = _create_node(node_id="RTX:KG2c",
+                                   name=build_node_name,
                                    types=["data_file"],
                                    preferred_type="data_file",
                                    equivalent_curies=[],
-                                   publications=[])
+                                   publications=[],
+                                   iri="http://rtx.ai/identifiers#KG2c",
+                                   all_names=[build_node_name],
+                                   description=f"This KG2c build was created from {regular_kg2_version} on {current_date}.")
     canonicalized_nodes_dict[kg2c_build_node['id']] = kg2c_build_node
 
     # Convert array fields into the format neo4j wants and do final processing
     for canonicalized_node in canonicalized_nodes_dict.values():
-        canonicalized_node['types'] = _convert_list_to_neo4j_format(canonicalized_node['types'])
-        canonicalized_node['publications'] = _convert_list_to_neo4j_format(canonicalized_node['publications'])
-        canonicalized_node['equivalent_curies'] = _convert_list_to_neo4j_format(canonicalized_node['equivalent_curies'])
+        for list_node_property in ARRAY_NODE_PROPERTIES:
+            canonicalized_node[list_node_property] = _convert_list_to_neo4j_format(canonicalized_node[list_node_property])
         canonicalized_node['preferred_type_for_conversion'] = canonicalized_node['preferred_type']
     for canonicalized_edge in canonicalized_edges_dict.values():
         if not is_test:  # Make sure we don't have any orphan edges
             assert canonicalized_edge['subject'] in canonicalized_nodes_dict
             assert canonicalized_edge['object'] in canonicalized_nodes_dict
-        canonicalized_edge['provided_by'] = _convert_list_to_neo4j_format(canonicalized_edge['provided_by'])
-        canonicalized_edge['publications'] = _convert_list_to_neo4j_format(canonicalized_edge['publications'])
+        for list_edge_property in ARRAY_EDGE_PROPERTIES:
+            canonicalized_edge[list_edge_property] = _convert_list_to_neo4j_format(canonicalized_edge[list_edge_property])
         canonicalized_edge['simplified_edge_label_for_conversion'] = canonicalized_edge['simplified_edge_label']
         canonicalized_edge['subject_for_conversion'] = canonicalized_edge['subject']
         canonicalized_edge['object_for_conversion'] = canonicalized_edge['object']
 
     # Finally dump all our nodes/edges into TSVs (formatted for neo4j)
     print(f" Saving data to TSVs..")
-    _write_list_to_tsv(list(canonicalized_nodes_dict.values()), "nodes_c", is_test)
-    _write_list_to_tsv(list(canonicalized_edges_dict.values()), "edges_c", is_test)
+    _write_list_to_neo4j_ready_tsv(list(canonicalized_nodes_dict.values()), "nodes_c", is_test)
+    _write_list_to_neo4j_ready_tsv(list(canonicalized_edges_dict.values()), "edges_c", is_test)
 
 
 def main():
