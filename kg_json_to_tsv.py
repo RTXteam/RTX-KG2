@@ -193,7 +193,7 @@ def nodes(graph, output_file_location):
             nodekeys = no_space('id', nodekeys, 'id:ID')
             nodekeys = no_space('publications', nodekeys, "publications:string[]")
             nodekeys = no_space('synonym', nodekeys, "synonym:string[]")
-            nodekeys = no_space('category_label', nodekeys, ':LABEL')
+            nodekeys = no_space('category', nodekeys, ':LABEL')
             tsvwrite_h.writerow(nodekeys)
         tsvwrite.writerow(vallist)
 
@@ -283,7 +283,7 @@ def edges(graph, output_file_location):
         # But only for the first edge
         if loop == 1:
             edgekeys = no_space('provided_by', edgekeys, 'provided_by:string[]')
-            edgekeys = no_space('simplified_edge_label', edgekeys, 'edge_label:TYPE')
+            edgekeys = no_space('simplified_relation', edgekeys, 'edge_label:TYPE')
             edgekeys = no_space('subject', edgekeys, ':START_ID')
             edgekeys = no_space('object', edgekeys, ':END_ID')
             edgekeys = no_space('publications', edgekeys, "publications:string[]")
