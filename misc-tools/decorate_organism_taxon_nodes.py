@@ -13,18 +13,41 @@ import json
 import ontobio
 
 
-sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/..")
-#sys.path.append(os.getcwd()+"/..")
+pathlist = os.path.realpath(__file__).split(os.path.sep)
+RTXindex = pathlist.index("RTX")
+sys.path.append(os.path.sep.join([*pathlist[:(RTXindex + 1)], 'code']))
+
+# sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/..")
+# print(os.path.dirname(os.path.abspath(__file__))+"/../../")
+# sys.path.append(os.getcwd()+"/..")
 from RTXConfiguration import RTXConfiguration
 
-__author__ = 'Erica Wood'
+__author__ = 'Finn Womack'
 __copyright__ = 'Oregon State University'
-__credits__ = ['Stephen Ramsey', 'Erica Wood']
+__credits__ = ['Stephen Ramsey', 'Erica Wood', 'Finn Womack']
 __license__ = 'MIT'
 __version__ = '0.1.0'
 __maintainer__ = ''
 __email__ = ''
 __status__ = 'Prototype'
+
+laymen_names = {
+"Cryptophyceae":"microbial",
+"Sar":"microbial",
+"Amoebozoa":"microbial",
+"Metamonada":"microbial",
+"Glaucocystophyceae":"microbial",
+"Discoba":"microbial",
+"Viridiplantae":"plant",
+"Fungi":"fungi",
+"Choanoflagellata":"microbial",
+"Filasterea":"microbial",
+"Metazoa":"animal",
+"Opisthokonta incertae sedis":"microbial",
+"Ichthyosporea":"microbial",
+"Haptista":"microbial",
+"Rhodophyta":"microbial"
+}
 
 
 def query_partition(node_id_list, batch_size, organism):
@@ -71,18 +94,18 @@ class DecorateOTNodes:
     def label_microbes(self, batch):
         # Create a list of dictionaries where each key is "labels(n)"
         # and each value is a list containing a node label
-        node_ids = set()
         microbe_node_ansestors = {
-            "Bacteria":"NCBITaxon:2",
-            "Archaea":"NCBITaxon:2157",
-            "Viruses":"NCBITaxon:10239",
+            "bacteria":"NCBITaxon:2",
+            "archaea":"NCBITaxon:2157",
+            "virus":"NCBITaxon:10239",
         }
-        for ansestor_id in microbe_node_ansestors.values():
+        for ansestor, ansestor_id in microbe_node_ansestors.items():
+            node_ids = set()
             node_ids = node_ids.union(set(self.ont.descendants(ansestor_id)))
             node_ids.add(ansestor_id)
-        node_ids = list(node_ids)
-        for query in query_partition(node_ids, batch, 'microbial'):
-            self.run_query(query)
+            node_ids = list(node_ids)
+            for query in query_partition(node_ids, batch, ansestor):
+                self.run_query(query)
 
     def label_vertibrates(self, batch):
         # Create a list of dictionaries where each key is "labels(n)"
@@ -98,9 +121,28 @@ class DecorateOTNodes:
         for query in query_partition(node_ids, batch, 'vertebrate'):
             self.run_query(query)
 
+    def label_eukaryotes(self, batch):
+        eukaryote_node_ansestors = {}
+        for child in self.ont.children("NCBITaxon:2759"):
+            if child not in ["NCBITaxon:33154"]:
+                eukaryote_node_ansestors[self.ont.label(child)]=child
+            else:
+                for grandchild in self.ont.children(child):
+                    eukaryote_node_ansestors[self.ont.label(grandchild)]=grandchild
+        for ansestor, ansestor_id in eukaryote_node_ansestors.items():
+            node_ids = set()
+            node_ids = node_ids.union(set(self.ont.descendants(ansestor_id)))
+            node_ids.add(ansestor_id)
+            node_ids = list(node_ids)
+            for query in query_partition(node_ids, batch, laymen_names[ansestor]):
+                self.run_query(query)
+
+
+
     def decorate_organisms(self, batch):
+        self.label_eukaryotes(batch)
         self.label_microbes(batch)
-        self.label_vertibrates(batch)
+        #self.label_vertibrates(batch)
 
 
 if __name__ == '__main__':

@@ -18,13 +18,38 @@ bash -x ./setup.sh > setup.log 2>&1
 
 ### Generating new graph csvs from kg2 tsv file
 
-**Note:** This is the prefered method as it is much faster to generate the csvs locally than going through neo4j. The alternative method that uses kgx is also listed below.
+**Note:** This is the prefered method as it is much faster to generate the csvs locally than going through neo4j. The alternative method that uses kgx is also listed below. This script takes about an hour to run.
 
 From the `RTX/code/kg2/mediKanren` subdirectory run the following: (entering in the path to the kg2 tsv file)
 ```
 mkdir -p mediKanren/biolink/data/rtx_kg2
 python3.7 kg2_tsv_to_medikanren_csv.py /path/to/kg2/tsv/files mediKanren/biolink/data/rtx_kg2
 ```
+This script generates four csv files formatted as follows:
+  * rtx_kg2.edges.csv
+    ```
+    :ID,:START,:END
+    0,biolink:MacromolecularComplex,biolink:MacromolecularMachine
+    ```
+  * rtx_kg2.edgeprop.csv
+    ```
+    :ID,propname,value
+    0,original_edge_label,subclass_of
+    0,negated,False
+    ```
+  * rtx_kg2.node.csv
+    ```
+    :ID
+    biolink_download_source:biolink-model.owl
+    biolink:PhenotypicSex
+    biolink:sequence_variant_qualifier
+    ```
+    * rtx_kg2.nodeprop.csv
+    ```
+    :ID,propname,value
+    biolink_download_source:biolink-model.owl,category,biolink:DataFile
+    biolink_download_source:biolink-model.owl,deprecated,False
+    ```
 
 ### Downloading graph csvs from neo4j using KGX
 

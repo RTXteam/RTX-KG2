@@ -21,22 +21,21 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/../../ARAX/NodeSyno
 from node_synonymizer import NodeSynonymizer
 
 
-def _run_cypher_query(cypher_query: str, kg="KG2") -> List[Dict[str, any]]:
-    # This function sends a cypher query to neo4j (either KG1 or KG2) and returns results
+def _run_kg2_cypher_query(cypher_query: str) -> List[Dict[str, any]]:
+    # This function sends a cypher query to the KG2 neo4j specified in config.json and returns the results
     rtxc = RTXConfiguration()
-    if kg == "KG2":
-        rtxc.live = "KG2"
+    rtxc.live = "KG2"
     try:
         driver = GraphDatabase.driver(rtxc.neo4j_bolt, auth=(rtxc.neo4j_username, rtxc.neo4j_password))
         with driver.session() as session:
-            print(f"  Sending cypher query to {kg} neo4j..")
+            print(f"  Sending cypher query to KG2 neo4j..")
             query_results = session.run(cypher_query).data()
             print(f"  Got {len(query_results)} results back from neo4j")
         driver.close()
     except Exception:
         tb = traceback.format_exc()
         error_type, error, _ = sys.exc_info()
-        print(f"ERROR: Encountered a problem interacting with {kg} neo4j. {tb}")
+        print(f"ERROR: Encountered a problem interacting with {rtxc.neo4j_bolt}. {tb}")
         return []
     else:
         return query_results
@@ -195,7 +194,7 @@ def create_canonicalized_tsvs(is_test=False):
     print(f" Extracting nodes from KG2..")
     nodes_query = f"match (n) return n.id as id, n.name as name, n.category_label as category_label, " \
                   f"n.publications as publications{' limit 20000' if is_test else ''}"
-    neo4j_nodes = _run_cypher_query(nodes_query)
+    neo4j_nodes = _run_kg2_cypher_query(nodes_query)
     if neo4j_nodes:
         print(f" Canonicalizing nodes..")
         canonicalized_nodes_dict, curie_map = _canonicalize_nodes(neo4j_nodes)
@@ -207,7 +206,7 @@ def create_canonicalized_tsvs(is_test=False):
     edges_query = f"match (n)-[e]->(m) return n.id as subject, m.id as object, e.simplified_edge_label as " \
                   f"simplified_edge_label, e.provided_by as provided_by, e.publications as publications" \
                   f"{' limit 20000' if is_test else ''}"
-    neo4j_edges = _run_cypher_query(edges_query)
+    neo4j_edges = _run_kg2_cypher_query(edges_query)
     if neo4j_edges:
         print(f" Canonicalizing edges..")
         canonicalized_edges_dict = _canonicalize_edges(neo4j_edges, curie_map, is_test)
