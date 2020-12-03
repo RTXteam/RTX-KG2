@@ -97,7 +97,7 @@ def count_edges_by_predicate_curie(edges: list):
 
 
 def count_edges_by_predicate_type(edges: list):
-    label_field = 'edge_label' if not args.use_simplified_predicates else 'simplified_edge_label'
+    label_field = 'predicate' if not args.use_simplified_predicates else 'simplified_predicate'
     return collections.Counter([edge[label_field] for edge in edges])
 
 
@@ -115,7 +115,7 @@ def count_predicates_by_predicate_curie_prefix(edges: list):
 def count_types_of_pairs_of_curies_for_xrefs(edges: list):
     prefix_pairs_list = list()
     for edge in edges:
-        if edge['edge_label'] == 'xref' or edge['edge_label'] == 'close_match':
+        if edge['predicate'] == 'xref' or edge['predicate'] == 'close_match':
             subject_curie = edge['subject']
             subject_prefix = get_prefix_from_curie_id(subject_curie)
             object_curie = edge['object']
@@ -128,7 +128,7 @@ def count_types_of_pairs_of_curies_for_xrefs(edges: list):
 def count_types_of_pairs_of_curies_for_equivs(edges: list):
     prefix_pairs_list = list()
     for edge in edges:
-        if edge['edge_label'] == kg2_util.EDGE_LABEL_OWL_SAME_AS:
+        if edge['predicate'] == kg2_util.EDGE_LABEL_OWL_SAME_AS:
             subject_curie = edge['subject']
             subject_prefix = get_prefix_from_curie_id(subject_curie)
             object_curie = edge['object']
