@@ -18,7 +18,7 @@ date
 
 biolink_raw_base_url=https://raw.githubusercontent.com/biolink/biolink-model/master/
 biolink_url_context_jsonld=${biolink_raw_base_url}context.jsonld
-biolink_model_owl=biolink-model.owl
+biolink_model_owl=biolink-model.owl.ttl
 biolink_model_owl_local_file=${BUILD_DIR}/${biolink_model_owl}
 biolink_model_owl_url=${biolink_raw_base_url}${biolink_model_owl}
 biolink_model_yaml=biolink-model.yaml

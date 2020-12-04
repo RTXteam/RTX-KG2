@@ -43,7 +43,7 @@ term-mappings:
     OIO:hasExactSynonym: relationship type
     OIO:hasDbXref: relationship type
     OIO:hasOBOFormatVersion: relationship type
-    OIO:SubsetProperty: abstract entity
+    OIO:SubsetProperty: named thing
     OIO:shorthand: relationship type
     owl:topObjectProperty: attribute
     OBO:ro/subsets#ro-eco: relationship type
@@ -138,8 +138,8 @@ term-mappings:
     MESH:D001523: disease
     MESH:D003933: procedure
     MESH:D004864: device
-    MESH:D005159: provider
-    MESH:D006281: provider
+    MESH:D005159: agent
+    MESH:D006281: agent
     MESH:D008919: procedure
     MESH:D011579: phenomenon
     MESH:D013514: procedure
@@ -169,7 +169,7 @@ term-mappings:
     NCIT:C20130: gene family
     NCIT:C12913: cell
     NCIT:C25218: clinical intervention
-    NCIT:C42645: abstract entity
+    NCIT:C42645: named thing
     NCIT:C16203: activity and behavior
     NCIT:C12219: anatomical entity
     NCIT:C20633: pathway
@@ -193,7 +193,7 @@ term-mappings:
     NCIT:C14250: organism taxon
     NCIT:C3910: phenotypic feature
     NCIT:C48187: material sample
-    NCIT:C20181: abstract entity
+    NCIT:C20181: named thing
     OBI:0000427: protein
     ORPHANET:410298: gene
     ORPHANET:410299: gene product
@@ -216,7 +216,7 @@ term-mappings:
     SNOMED:123037004: anatomical entity
     SNOMED:123038009: material sample
     SNOMED:125676002: individual organism
-    SNOMED:138875005: abstract entity
+    SNOMED:138875005: named thing
     SNOMED:243796009: phenomenon
     SNOMED:246061005: attribute
     SNOMED:254291000: clinical modifier
@@ -318,10 +318,10 @@ term-mappings:
     UMLS_STY:T088: carbohydrate
     UMLS_STY:T089: information content entity
     UMLS_STY:T090: individual organism
-    UMLS_STY:T092: provider
-    UMLS_STY:T093: provider
-    UMLS_STY:T094: provider
-    UMLS_STY:T095: provider
+    UMLS_STY:T092: agent
+    UMLS_STY:T093: agent
+    UMLS_STY:T094: agent
+    UMLS_STY:T095: agent
     UMLS_STY:T096: individual organism
     UMLS_STY:T097: individual organism
     UMLS_STY:T098: population of individual organisms
