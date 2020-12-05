@@ -1,5 +1,5 @@
 - # maps to CURIE prefix: biolink
-  url: https://raw.githubusercontent.com/biolink/biolink-model/master/biolink-model.owl
+  url: https://raw.githubusercontent.com/biolink/biolink-model/master/biolink-model.owl.ttl
   file: biolink-model.owl
   download: true
   title: Biolink meta-model

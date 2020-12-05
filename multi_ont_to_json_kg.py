@@ -126,6 +126,7 @@ def make_kg2(curies_to_categories: dict,
     for ont_source_info_dict in ont_urls_and_files:
         if ont_source_info_dict['download']:
             # get the OWL file onto the local file system and get a full path to it
+            print(ont_source_info_dict["url"])
             local_file_name = kg2_util.download_file_if_not_exist_locally(ont_source_info_dict['url'],
                                                                           ont_source_info_dict['file'])
         else:
