@@ -71,6 +71,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
              drug_claim_primary_name,
              drug_name,
              drug_chembl_id,
+             _, #12.5.2020 new field in tsv: interaction group score
              PMIDs] = fields
             if entrez_id != "":
                 object_curie_id = kg2_util.CURIE_PREFIX_NCBI_GENE + ':' + entrez_id
