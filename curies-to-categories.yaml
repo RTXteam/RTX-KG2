@@ -280,7 +280,11 @@ term-mappings:
     UMLS_STY:T048: disease
     UMLS_STY:T049: disease
     UMLS_STY:T050: biological entity
-    UMLS_STY:T051: activity and behavior
+    # The following terms (51-57) were all `activity and behavior` until that
+    # biolink category became a mixin class which cannot inherit from `named
+    # thing`, so we are going with `named thing` for now, until a more specific
+    # subclass of `named thing` is available See also #1148:
+    UMLS_STY:T051: activity and behavior 
     UMLS_STY:T052: activity and behavior
     UMLS_STY:T053: activity and behavior
     UMLS_STY:T054: activity and behavior
