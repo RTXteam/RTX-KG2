@@ -1,6 +1,6 @@
 - # maps to CURIE prefix: biolink
   url: https://raw.githubusercontent.com/biolink/biolink-model/master/biolink-model.owl.ttl
-  file: biolink-model.owl
+  file: biolink-model.owl.ttl
   download: true
   title: Biolink meta-model
 - # maps to CURIE prefix: UMLSSC
