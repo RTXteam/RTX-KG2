@@ -382,7 +382,6 @@ def compare_two_lists_in_reverse(list1: list, list2: list):
     # The most specific category of each list is in [0]
     # So, by comparing them in reverse, once you get to a discrepancy,
     # you go forward back to the last one where they were the same
-
     [shortlist, longlist] = get_shorter_list_first(list1, list2)
     for short_item in reversed(shortlist):
         if short_item not in longlist:
@@ -452,6 +451,7 @@ def find_common_ancestor(tui_categories: list, biolink_category_tree: dict):
                 path_list2 = []
                 path_list2.append(pair[1])
                 get_path(biolink_category_tree, "named thing", pair[1], path_list2)
+                print(f"list1: {path_list1!s} list2: {path_list2!s}", file=sys.stderr)
                 tui_split[tui_split.index(pair)] = compare_two_lists_in_reverse(path_list1,
                                                                                 path_list2)
 
