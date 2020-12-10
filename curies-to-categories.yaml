@@ -306,9 +306,9 @@ term-mappings:
     # subclass of `named thing` is available See also #1148:
     UMLS_STY:T051: named thing 
     UMLS_STY:T052: named thing
-    UMLS_STY:T053: named thing
-    UMLS_STY:T054: named thing
-    UMLS_STY:T055: named thing
+    UMLS_STY:T053: phenomenon
+    UMLS_STY:T054: phenomenon
+    UMLS_STY:T055: phenomenon
     UMLS_STY:T056: named thing
     UMLS_STY:T057: named thing
     UMLS_STY:T058: procedure
