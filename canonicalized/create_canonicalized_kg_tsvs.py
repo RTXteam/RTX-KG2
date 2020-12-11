@@ -45,7 +45,8 @@ def _run_kg2_cypher_query(cypher_query: str) -> List[Dict[str, any]]:
 
 
 def _convert_list_to_neo4j_format(input_list: List[any]) -> str:
-    return str(input_list).strip("[").strip("]").replace("'", "")
+    filtered_list = [item for item in input_list if item]  # Get rid of any None items
+    return "||".join(filtered_list)  # Need to use a delimiter that does not appear in any list items
 
 
 def _merge_two_lists(list_a: List[any], list_b: List[any]) -> List[any]:
