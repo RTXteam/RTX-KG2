@@ -1,3 +1,15 @@
+# 2.4.0 
+
+**Date: 2020.12.11**
+
+Nodes: 10,533,792
+
+Edges: 53,415,986
+
+- Issues TBD
+
+Build host: `kg2lindsey.rtx.ai` `~/kg2-build/`
+
 # 2.3.5 
 
 **Date: 2020.10.26**
@@ -18,7 +30,7 @@ Edges: 53,456,505
 - Issue #931
 - Issue #891
 
-Build host: `kg2lindsey.rtx.ai`.
+Build host: `kg2lindsey.rtx.ai` `~/kg2-build-3.5/`
 
 # 2.3.4 
 
