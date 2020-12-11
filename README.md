@@ -847,6 +847,14 @@ ValueError: unable to expand CURIE: MONARCH:cliqueLeader
 would indicate that the CURIE prefix (in this case, `MONARCH`) needs to be added to the
 `use_for_bidirectional_mapping` section of `curies-to-urls-map.yaml` config file.
 
+## Authentication Error in `tsv-to-neo4j.sh`
+Soemtimes, when hosting KG2 in a Neo4j server on a new AWS instance, the initial password does not get set correctly, which will lead to an Authentication Error in `tsv-to-neo4j.sh`. To fix this, do the following:
+1. Start up Neo4 (sudo service neo4j start)
+2. Wait one minute, then confirm Neo4j is running (sudo service neo4j status)
+3. Use a browser to connect to Neo4j via HTTP on port 7474. You should see a username/password authentication form.
+4. Fill in "neo4j" and "neo4j" for username and password, respectively, and submit the form. You should be immediately prompted to set a new password. At that 	time, type in our "usual" Neo4j password (you'll have to enter it twice).
+5. When you submit the form, Neo4j should be running and it should now have the correct password set.
+
 # For Developers
 
 This section has some guidelines for the development team for the KG2 build system.
