@@ -150,7 +150,7 @@ def nodes(graph, output_file_location):
         single_loop += 1
         if single_loop == 1:
             nodekeys_official = list(sorted(node.keys()))
-            nodekeys_official.append("category_label")
+            nodekeys_official.append("category")
 
     for node in nodes:
         # Inrease node counter by one each loop
@@ -158,7 +158,7 @@ def nodes(graph, output_file_location):
 
         # Add all node property labels to a list in the same order
         nodekeys = list(sorted(node.keys()))
-        nodekeys.append("category_label")
+        nodekeys.append("category")
 
         # Create list for values of node properties to be added to
         vallist = []
@@ -258,7 +258,7 @@ def edges(graph, output_file_location):
 
         # Add an extra property of "predicate" to the list so that predicates
         # can be a property and a label
-        edgekeys.append('simplified_predicate')
+        edgekeys.append('simplified_relation')
         edgekeys.append('subject')
         edgekeys.append('object')
 
