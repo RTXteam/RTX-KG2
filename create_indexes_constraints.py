@@ -55,8 +55,7 @@ def create_index(label_list, property_name):
     # For every label in the label list, create an index
     # on the given property name
     for label in label_list:
-        if label.find(":") < 0:  # CREATE INDEX ON :BFO:0000050 (predicate) gives error
-            index_query = "CREATE INDEX ON :" + label + " (" + property_name + ")"
+        index_query = "CREATE INDEX ON :`" + label + "` (" + property_name + ")"
         run_query(index_query)
 
 
