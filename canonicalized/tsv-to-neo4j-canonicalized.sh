@@ -78,7 +78,7 @@ mem_gb=`${CODE_DIR}/get-system-memory-gb.sh`
 sudo -u neo4j neo4j-admin import --nodes "${tsv_dir}/${test_prefix}nodes_c_header.tsv,${tsv_dir}/${test_prefix}nodes_c.tsv" \
     --relationships "${tsv_dir}/${test_prefix}edges_c_header.tsv,${tsv_dir}/${test_prefix}edges_c.tsv" \
     --max-memory=${mem_gb}G --multiline-fields=true --delimiter "\009" \
-    --array-delimiter="," --report-file="${tsv_dir}/import.report" \
+    --array-delimiter="ǂ" --report-file="${tsv_dir}/import.report" \
     --database=${database} --ignore-missing-nodes=true
 
 # change read only to false so that indexes and constraints can be added
