@@ -6,7 +6,10 @@ Nodes: 10,533,792
 
 Edges: 53,415,986
 
-- Issues TBD
+- Issue #1161
+- Issue #1126
+- Issue #1123
+- Issue # 1142
 
 Build host: `kg2lindsey.rtx.ai` `~/kg2-build/`
 
