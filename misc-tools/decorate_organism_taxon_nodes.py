@@ -52,7 +52,7 @@ laymen_names = {
 
 def query_partition(node_id_list, batch_size, organism):
     for i in range(0, len(node_id_list), batch_size):
-        yield f"MATCH (n:organism_taxon) where n.id in {node_id_list[i:i + batch_size]} SET n.organism_type = '"+organism+"' RETURN n.organism_type"
+        yield f"MATCH (n:`biolink:OrganismTaxon`) where n.id in {node_id_list[i:i + batch_size]} SET n.organism_type = '"+organism+"' RETURN n.organism_type"
         #yield " union ".join([f"MATCH (n:organism_taxon {{ id: '{node_id}' }}) SET n.organism_type = '"+organism+"' RETURN n.organism_type" for node_id in node_id_list[i:i + batch_size]])
 
 class DecorateOTNodes:
@@ -152,9 +152,27 @@ if __name__ == '__main__':
     parser.add_argument("-b", "--bolt", help="Neo4j bolt address", type=str, default=None, required=False)
     parser.add_argument("-t", "--taxslim", type=str, help="The path to the taxslim owl file", default=None, required=True)
     parser.add_argument("-l", "--live", type=str, help="Live parameter for RTXConfiguration", default="local", required=False)
+    parser.add_argument("-c", "--config", type=str, help="config.json file location. If included will read from this as opposed to using RTXConfiguration.", default=None, required=False)
     parser.add_argument("--batch", type=int, help="The batch size for neo4j set querries", default=500, required=False)
     arguments = parser.parse_args()
     
+    if arguments.config is not None:
+        #print(arguments.config)
+        with open(arguments.config, 'r') as fid:
+            config_data = json.load(fid)
+        if 'Contextual' in config_data:
+            config_data_kg2_neo4j = config_data['Contextual']['KG2']['neo4j']
+            neo4j_user = config_data_kg2_neo4j['username']
+            neo4j_password = config_data_kg2_neo4j['password']
+        else:
+            config_data_kg2_neo4j = config_data['KG2']['neo4j']
+            neo4j_user = config_data_kg2_neo4j['username']
+            neo4j_password = config_data_kg2_neo4j['password']
+        if arguments.password is None:
+            arguments.password = neo4j_password
+        if arguments.user is None:
+            arguments.user = neo4j_user
+
     decorator = DecorateOTNodes(arguments.user, arguments.password, arguments.bolt, arguments.live, arguments.taxslim)
 
     if decorator.test_read_only():
