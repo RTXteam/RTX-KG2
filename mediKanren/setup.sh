@@ -16,11 +16,15 @@ sudo apt-get update
 sudo apt-get install -y python3.7
 
 # Clone the repositories for kgx and mediKanren
-git clone https://github.com/webyrd/mediKanren.git
-git clone https://github.com/NCATS-Tangerine/kgx.git
+git clone https://github.com/RTXteam/mediKanren.git
+git clone https://github.com/RTXteam/kgx.git
 
 # checkout the correct kgx branch
 cd kgx
+
+## Finn: We are using a specific commit of the source-sink branch that has been
+## edited to not rely on the external biolink yaml file to avoid issues when
+## the biolink-model.yaml file is changed in the future.
 git checkout source-sink
 
 # install python modules

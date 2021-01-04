@@ -1,0 +1,608 @@
+# KG2 preferred order for identifier registries: (highest priority is first)
+# 1. purl.obolibrary.org for ontologies in the OBO namespace: 
+# 2. identifiers.org
+# 3. w3id.org
+use_for_bidirectional_mapping:
+  -
+    AEO: http://purl.obolibrary.org/obo/AEO_
+  -
+    AIR: https://identifiers.org/umls/AIR/
+  -
+    AraPort: http://purl.uniprot.org/araport/
+  -
+    ARG: http://purl.obolibrary.org/obo/ARG_
+  -
+    ARO: http://purl.obolibrary.org/obo/ARO_
+  -
+    ATC: http://purl.bioontology.org/ontology/ATC/
+  -
+    BAO: http://purl.bioontology.org/ontology/BAO/
+  -
+    BFO: http://purl.obolibrary.org/obo/BFO_
+  -
+    bibo: http://purl.org/ontology/bibo/
+  -
+    biolink: https://w3id.org/biolink/vocab/
+  -
+    biolink_download_source: https://raw.githubusercontent.com/biolink/biolink-model/master/
+  -
+    BRO: http://bioontology.org/ontologies/BiomedicalResourceOntology.owl#
+  -
+    BSPO: http://purl.obolibrary.org/obo/BSPO_
+  -
+    BTO: http://purl.obolibrary.org/obo/BTO_
+  -
+    CARO: http://purl.obolibrary.org/obo/CARO_
+  -
+    CEPH: http://purl.obolibrary.org/obo/CEPH_
+  -
+    CGNC: "http://birdgenenames.org/cgnc/GeneReport?id="
+  -
+    CHEBI: http://purl.obolibrary.org/obo/CHEBI_
+  - # the CHEMBL.MECHANISM CURIE prefix is used only for predicates (we use identifiers.org for compounds and targets):
+    CHEMBL.MECHANISM: https://www.ebi.ac.uk/chembl#
+  - # biolink uses the capitalized CURIE prefix:
+    CHEMBL.COMPOUND: "https://identifiers.org/chembl.compound:"
+  - # biolink uses the capitalized CURIE prefix:
+    CHEMBL.TARGET: "https://identifiers.org/chembl.target:"
+  -
+    CHMO: http://purl.obolibrary.org/obo/CHMO_
+  -
+    CL: http://purl.obolibrary.org/obo/CL_
+  -
+    clinicaltrials: "https://identifiers.org/clinicaltrials:"
+  -
+    CLO: http://purl.obolibrary.org/obo/CLO_
+  -
+    CP: http://purl.obolibrary.org/obo/CP_
+  -
+    CPT: http://purl.bioontology.org/ontology/CPT/
+  -
+    CVDO: http://purl.obolibrary.org/obo/CVDO_
+  -
+    dbpedia: http://dbpedia.org/resource/
+  -
+    dc: http://purl.org/dc/elements/1.1/
+  -
+    dcterms: http://purl.org/dc/terms/
+  -
+    DDANAT: http://purl.obolibrary.org/obo/DDANAT_
+  -
+    DGIdb: http://www.dgidb.org/
+  -
+    dictybase.gene: "https://identifiers.org/dictybase.gene:"
+  -
+    DisGeNET: "http://www.disgenet.org"
+  -
+    doap: http://usefulinc.com/ns/doap#
+  -
+    DOID: http://purl.obolibrary.org/obo/DOID_
+  -
+    DRUGBANK: "https://identifiers.org/drugbank:"
+  -
+    ECO: http://purl.obolibrary.org/obo/ECO_
+  -
+    ECOCORE: http://purl.obolibrary.org/obo/ECOCORE_
+  -
+    ecogene: "https://identifiers.org/ecogene:"
+  -
+    ECTO: http://purl.obolibrary.org/obo/ECTO_
+  -
+    EDAM: http://purl.bioontology.org/ontology/edam/
+  -
+    EFO: http://purl.bioontology.org/ontology/EFO/
+  -
+    EHDAA2: "http://purl.obolibrary.org/obo/EHDAA2_"
+  -
+    ENSEMBL: "https://identifiers.org/ensembl:"
+  -
+    EnsemblGenomes: http://www.ensemblgenomes.org/id/
+  -
+    ENVO: http://purl.obolibrary.org/obo/ENVO_
+  -
+    EO: http://purl.obolibrary.org/obo/EO_
+  -
+    EPO: http://purl.obolibrary.org/obo/EPO_
+  -
+    ERO: http://purl.obolibrary.org/obo/ERO_
+  -
+    ExO: http://purl.obolibrary.org/obo/ExO_
+  -
+    FAO: http://purl.obolibrary.org/obo/FAO_
+  -
+    FBbt: http://purl.obolibrary.org/obo/FBbt_
+  -
+    FBdv: http://purl.obolibrary.org/obo/FBdv_
+  -
+    FBgn: "https://identifiers.org/fb:FBgn"
+  -
+    FBrf: https://flybase.org/reports/FBrf
+  -
+    FIX: http://purl.obolibrary.org/obo/FIX_
+  -
+    FLU: http://purl.obolibrary.org/obo/FLU_
+  -
+    FMA: http://purl.obolibrary.org/obo/FMA_
+  -
+    foaf: http://xmlns.com/foaf/0.1/
+  -
+    FOODON: http://purl.obolibrary.org/obo/FOODON_
+  -
+    GARD: http://purl.obolibrary.org/obo/GARD_
+  -
+    GAZ: http://purl.obolibrary.org/obo/GAZ_
+  -
+    GENEPIO: http://purl.obolibrary.org/obo/GENEPIO_
+  -
+    GeneProf: http://geneprof.org/
+  -
+    GENO: http://purl.obolibrary.org/obo/GENO_
+  -
+    GEO: http://purl.obolibrary.org/obo/GEO_
+  -
+    GO: http://purl.obolibrary.org/obo/GO_
+  -
+    GOREL: http://purl.obolibrary.org/obo/GOREL_
+  -
+    GO_REF: "https://identifiers.org/GO_REF:"
+  -
+    GTPI: https://www.guidetopharmacology.org/GRAC/LigandDisplayForward?ligandId=
+  -
+    GTPI_source: https://www.guidetopharmacology.org/
+  -
+    HANCESTRO: http://purl.obolibrary.org/obo/HANCESTRO_
+  -
+    HCPCS: http://purl.bioontology.org/ontology/HCPCS/
+  -
+    HGNC: "https://identifiers.org/hgnc:"
+  -
+    HMDB: "https://identifiers.org/hmdb:"
+  -
+    HP: http://purl.obolibrary.org/obo/HP_
+  -
+    IAO: http://purl.obolibrary.org/obo/IAO_
+  -
+    ICD10: http://purl.bioontology.org/ontology/ICD10/
+  -
+    ICD10PCS: http://purl.bioontology.org/ontology/ICD10PCS/
+  -
+    ICD9: http://purl.bioontology.org/ontology/ICD9CM/
+  -
+    ICO: http://purl.obolibrary.org/obo/ICO_
+  -
+    identifiers_org_registry: "https://registry.identifiers.org/registry/"
+  -
+    IDO: http://purl.obolibrary.org/obo/IDO_
+  -
+    ISBN: https://isbnsearch.org/isbn/
+  -
+    KEGG: "https://www.genome.jp/dbget-bin/www_bget?"
+  -
+    KEGG_source: "https://www.genome.jp"
+  -
+    LOINC: http://purl.bioontology.org/ontology/LNC/
+  -
+    MA: http://purl.obolibrary.org/obo/MA_
+  -
+    MEDDRA: http://purl.bioontology.org/ontology/MEDDRA/
+  -
+    medgen: "https://identifiers.org/medgen:"
+  -
+    MESH: http://purl.bioontology.org/ontology/MESH/
+  -
+    MF: http://purl.obolibrary.org/obo/MF_
+  -
+    MFOEM: http://purl.obolibrary.org/obo/MFOEM_
+  -
+    MFOMD: http://purl.obolibrary.org/obo/MFOMD_
+  -
+    MGI: "https://identifiers.org/MGI:"
+  -
+    MI: http://purl.obolibrary.org/obo/MI_
+  -
+    miRGate: http://mirgate.bioinfo.cnio.es
+  -
+    MMO: http://purl.obolibrary.org/obo/MMO_
+  -
+    MOD: http://purl.obolibrary.org/obo/MOD_
+  -
+    MONARCH: https://monarchinitiative.org/MONARCH_
+  -
+    monarch.biolink: https://api.monarchinitiative.org/api
+  -
+    monarch.scigraph: https://scigraph-ontology.monarchinitiative.org/scigraph
+  -
+    MONDO: http://purl.obolibrary.org/obo/MONDO_
+  -
+    MP: http://purl.obolibrary.org/obo/MP_
+  -
+    MPATH: http://purl.obolibrary.org/obo/MPATH_
+  -
+    MyChem: http://mychem.info
+  -
+    NBO: http://purl.obolibrary.org/obo/NBO_
+  -
+    NCBIGene: "https://identifiers.org/ncbigene:"
+  -
+    NCIT: "https://identifiers.org/ncit:"
+  -
+    NCRO: http://purl.obolibrary.org/obo/NCRO_
+  -
+    NDDF: http://purl.bioontology.org/ontology/NDDF/
+  -
+    NDFRT: http://purl.bioontology.org/ontology/NDFRT/
+  -
+    NPO: http://purl.obolibrary.org/obo/NPO_
+  -
+    OAE: http://purl.obolibrary.org/obo/OAE_
+  -
+    OBA: http://purl.obolibrary.org/obo/OBA_
+  -
+    OBAN: http://purl.org/oban/
+  -
+    OBI: http://purl.obolibrary.org/obo/OBI_
+  -
+    OBO: http://purl.obolibrary.org/obo/
+  -
+    oboFormat: http://purl.org/obo/owl/oboFormat#oboFormat_
+  -
+    OBOREL: "http://purl.org/obo/owl/OBO_REL#"
+  -
+    OCRe: http://purl.org/net/OCRe/
+  -
+    OGG: http://purl.obolibrary.org/obo/OGG_
+  -
+    OGMS: http://purl.obolibrary.org/obo/OGMS_
+  -
+    OIO: http://www.geneontology.org/formats/oboInOwl#
+  -
+    OMIABIS: http://purl.obolibrary.org/obo/OMIABIS_
+  -
+    OMIM: http://purl.obolibrary.org/obo/OMIM_
+  -
+    OMIMDiseaseCluster: http://purl.obolibrary.org/obo/DC_
+  -
+    OMIMPS: http://purl.obolibrary.org/obo/OMIMPS_
+  -
+    OMIT: http://purl.obolibrary.org/obo/OMIT_
+  -
+    OMOP: https://athena.ohdsi.org/search-terms/terms/
+  -
+    OMP: http://purl.obolibrary.org/obo/OMP_
+  -
+    OMRSE: http://purl.obolibrary.org/obo/OMRSE_
+  -
+    OncoTree: http://purl.obolibrary.org/obo/ONCOTREE_
+  -
+    OPL: http://purl.obolibrary.org/obo/OPL_
+  -
+    ORPHANET: http://purl.bioontology.org/ontology/ORDO/
+  -
+    owl: http://www.w3.org/2002/07/owl#
+  -
+    PathWhiz.Bound: https://pathbank.org/lims#/bounds/
+  -
+    PathWhiz.Compound: https://pathbank.org/lims#/compounds/
+  -
+    PathWhiz.ElementCollection: https://pathbank.org/lims#/element_collections/
+  -
+    PathWhiz.NucleicAcid: https://pathbank.org/lims#/nucleic_acids/
+  -
+    PathWhiz.ProteinComplex: https://pathbank.org/lims#/protein_complexes/
+  -
+    PathWhiz.Reaction: https://pathbank.org/lims#/reactions/
+  -
+    PathWhiz: https://smpdb.ca/pathwhiz/pathways/
+  -
+    PATO: http://purl.obolibrary.org/obo/PATO_
+  -
+    PC2: http://pathwaycommons.org/pc11
+  -
+    PCO: http://purl.obolibrary.org/obo/PCO_
+  -
+    PDQ: http://purl.bioontology.org/ontology/PDQ/
+  -
+    PECO: http://purl.obolibrary.org/obo/PECO_
+  -
+    pharos: http://pharos.nih.gov
+  -
+    PMID: http://www.ncbi.nlm.nih.gov/pubmed/
+  -
+    PO: http://purl.obolibrary.org/obo/PO_
+  -
+    PomBase: "https://identifiers.org/pombase:"
+  -
+    PR: http://purl.obolibrary.org/obo/PR_
+  -
+    PW: http://purl.obolibrary.org/obo/PW_
+  -
+    rdf: https://www.w3.org/TR/2004/REC-owl-guide-20040210/#
+  -
+    rdfs: http://www.w3.org/2000/01/rdf-schema#
+  -
+    REACT: "https://identifiers.org/reactome:"
+  -
+    REPODB: http://apps.chiragjpgroup.org/repoDB
+  -
+    RGD: "https://identifiers.org/rgd:"
+  -
+    RHEA: "https://www.rhea-db.org/reaction?id="
+  -
+    RHEA.COMP: "https://www.rhea-db.org/searchresults?q=RHEA-COMP%"
+  -
+    RO: http://purl.obolibrary.org/obo/RO_
+  -
+    RTX: http://rtx.ai/identifiers#
+  -
+    RTXKG1: http://arax.rtx.ai/
+  -
+    RXNORM: http://purl.bioontology.org/ontology/RXNORM/
+  -
+    SEMMEDDB: https://skr3.nlm.nih.gov/SemMedDB
+  -
+    sgd: "https://identifiers.org/sgd:"
+  -
+    SIO: http://semanticscience.org/resource/SIO_
+  -
+    skos: http://www.w3.org/2004/02/skos/core#
+  -
+    SMPDB: "https://identifiers.org/smpdb:"
+  -
+    SNOMED: http://purl.bioontology.org/ontology/SNOMEDCT/
+  -
+    SO: http://purl.obolibrary.org/obo/SO_
+  -
+    STATO: http://purl.obolibrary.org/obo/STATO_
+  -
+    SWO: http://www.ebi.ac.uk/swo/
+  -
+    SYMP: http://purl.obolibrary.org/obo/SYMP_
+  -
+    NCBITaxon: http://purl.obolibrary.org/obo/NCBITaxon_
+  -
+    TO: http://purl.obolibrary.org/obo/TO_
+  -
+    TRANS: http://purl.obolibrary.org/obo/TRANS_
+  -
+    ttd.drug: "https://identifiers.org/ttd.drug:"
+  -
+    ttd.target: "https://identifiers.org/ttd.target:"
+  -
+    TypOn: http://purl.phyloviz.net/ontology/typon#
+  -
+    UBERON: http://purl.obolibrary.org/obo/UBERON_
+  -
+    UBPROP: http://purl.obolibrary.org/obo/UBPROP_
+  -
+    UMLS: "https://identifiers.org/umls:"
+  -
+    umls_source: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/
+  -
+    UMLS_STY: http://purl.bioontology.org/ontology/STY/
+  -
+    UNICHEM_source: "https://www.ebi.ac.uk/unichem/"
+  -
+    UniProtKB: "https://identifiers.org/uniprot:"
+  -
+    UO: http://purl.obolibrary.org/obo/UO_
+  -
+    UPHENO: http://purl.obolibrary.org/obo/UPHENO_
+  -
+    VANDF: http://purl.bioontology.org/ontology/VANDF/
+  -
+    VCARD: http://www.w3.org/2006/vcard/
+  - # there seems to be no PURL provider for the "VIVO" ontology:
+    VIVO: http://vivoweb.org/ontology/core#
+  -
+    VT: http://purl.obolibrary.org/obo/VT_
+  -
+    wb: "https://identifiers.org/wb:"
+  -
+    WD: "https://identifiers.org/wikidata:"
+  -
+    XCO: http://purl.obolibrary.org/obo/XCO_
+  -
+    ZEA: http://purl.obolibrary.org/obo/ZEA_
+  -
+    ZFA: http://purl.obolibrary.org/obo/ZFA_
+  -
+    ZFIN: "https://identifiers.org/zfin:"
+##########################################3
+use_for_contraction_only:
+  -
+    AraPort: https://www.araport.org/locus/
+  -
+    BAO: http://www.bioassayontology.org/bao#
+  -
+    BFO: http://www.ifomis.org/bfo/1.1/snap#
+  -
+    BFO: http://www.ifomis.org/bfo/1.1/span#
+  -
+    biolink: https://w3id.org/biolink/biolinkml/meta/
+  -
+    biolink: https://w3id.org/biolink/biolink-model
+  -
+    BTO: http://purl.obolibrary.org/obo/bto#
+  -
+    CHEBI: http://purl.obolibrary.org/obo/chebi/
+  -
+    CHEBI: http://purl.obolibrary.org/obo/chebi#
+  -
+    CHEMBL.COMPOUND: https://www.ebi.ac.uk/chembl/compound/inspect/
+  -
+    CL: http://purl.obolibrary.org/obo/cl#
+  -
+    CPT: http://purl.bioontology.org/ontology/HCPT/
+  -
+    DDANAT: http://purl.obolibrary.org/obo/ddanat#
+  -
+    DRUGBANK: http://purl.bioontology.org/ontology/DRUGBANK/
+  -
+    ecogene: http://www.ecogene.org/gene/
+  -
+    EDAM: http://edamontology.org/
+  -
+    EFO: http://www.ebi.ac.uk/efo/EFO_
+  -
+    EFO: http://www.ebi.ac.uk/efo/
+  -
+    EFO: http://www.ebi.ac.uk/efoIri
+  -
+    ENSEMBL: http://www.ensembl.org/id/
+  -
+    FBgn: https://flybase.org/reports/FBgn
+  -
+    FMA: http://purl.obolibrary.org/obo/fma#
+  -
+    FMA: http://purl.bioontology.org/ontology/FMA/
+  -
+    GO: "http://purl.bioontology.org/ontology/GO/GO%3A"
+  -
+    GO: http://purl.bioontology.org/ontology/GO/
+  -
+    HANCESTRO: http://www.ebi.ac.uk/ancestro/ancestro_
+  -
+    HCPCS: https://hcpcs.codes/a-codes/
+  -
+    HGNC: "http://www.genenames.org/cgi-bin/gene_symbol_report?hgnc_id="
+  -
+    HGNC: "http://purl.bioontology.org/ontology/HGNC/HGNC%3A"
+  -
+    HGNC: "http://identifiers.org/hgnc/"
+  -
+    HGNC: http://purl.bioontology.org/ontology/HGNC/
+  -
+    HP: "http://purl.bioontology.org/ontology/HPO/HP%3A"
+  -
+    HP: http://purl.bioontology.org/ontology/HPO/
+  -
+    ICD10: http://purl.obolibrary.org/obo/ICD10_
+  -
+    ICD10: http://purl.obolibrary.org/obo/ICD10AE_
+  -
+    ICD10: http://purl.obolibrary.org/obo/ICD10CM_
+  -
+    ICD10: http://purl.bioontology.org/ontology/ICD10AE/
+  -
+    ICD10: http://purl.bioontology.org/ontology/ICD10CM/
+  -
+    ICD9: http://purl.obolibrary.org/obo/ICD9_
+  -
+    KEGG: http://purl.obolibrary.org/obo/KEGG_
+  -
+    MEDDRA: http://purl.obolibrary.org/obo/MedDRA_
+  -
+    MEDDRA: http://identifiers.org/meddra/
+  -
+    medgen: http://purl.obolibrary.org/obo/MEDGEN_
+  -
+    medgen: http://identifiers.org/medgen/
+  -
+    MESH: http://purl.bioontology.org/ontology/MSH/
+  -
+    MESH: http://identifiers.org/mesh/
+  -
+    MGI: "http://www.informatics.jax.org/marker/MGI:"
+  -
+    MONDO: http://purl.obolibrary.org/obo/mondo#
+  -
+    NCBIGene: http://www.ncbi.nlm.nih.gov/gene/
+  -
+    NCBITaxon: http://purl.bioontology.org/ontology/NCBITAXON/
+  -
+    NCIT: http://purl.bioontology.org/ontology/NCI/
+  -
+    NCIT: http://purl.bioontology.org/ontology/NCI_BioC/
+  -
+    NCIT: http://purl.bioontology.org/ontology/NCI_BRIDG/
+  -
+    NCIT: http://purl.bioontology.org/ontology/NCI_CareLex/
+  -
+    NCIT: http://purl.bioontology.org/ontology/NCI_CDISC-GLOSS/
+  -
+    NCIT: http://purl.bioontology.org/ontology/NCI_CRCH/
+  -
+    NCIT: http://purl.bioontology.org/ontology/NCI_CTCAE_5/
+  -
+    NCIT: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#
+  -
+    OBO: http://purl.obolibrary.org/obo#
+  -
+    OCRe: http://purl.org/net/OCRe/research.owl#
+  -
+    OMIM: http://purl.bioontology.org/ontology/OMIM/
+  -
+    OMIM: http://identifiers.org/omim/
+  -
+    OMOP: http://purl.obolibrary.org/obo/COHD_
+  -
+    ORPHANET: http://www.orpha.net/ORDO/Orphanet_
+  -
+    ORPHANET: http://data.bioontology.org/ontologies/ORDO/submissions/15/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
+  -
+    PATO: http://purl.obolibrary.org/obo/pato#
+  -
+    PomBase: http://www.pombase.org/spombe/result/
+  -
+    PR: http://purl.obolibrary.org/obo/pr#
+  -
+    RO: http://www.obofoundry.org/ro/ro.owl#
+  -
+    sgd: http://www.yeastgenome.org/cgi-bin/locus.fpl?dbid=
+  -
+    skos: http://www.w3.org/2008/05/skos#
+  -
+    SNOMED: http://snomed.info/id/
+  -
+    SNOMED: http://snomed.info/sct/
+  -
+    SNOMED: http://purl.obolibrary.org/obo/SCTID_
+  -
+    SNOMED: http://identifiers.org/snomedct/
+  -
+    SO: http://purl.obolibrary.org/obo/so#
+  -
+    NCBITaxon: http://purl.obolibrary.org/obo/ncbitaxon#
+  -
+    UBERON: http://purl.obolibrary.org/obo/uberon/insect-anatomy#
+  -
+    UBERON: http://purl.obolibrary.org/obo/uberon/core#
+  -
+    UBERON: http://purl.obolibrary.org/obo/uberon#
+  -
+    UMLS: http://purl.obolibrary.org/obo/UMLS_
+  -
+    UMLS: http://purl.bioontology.org/ontology/MTH/
+  -
+    UMLS: http://linkedlifedata.com/resource/umls/id/
+  -
+    UMLS: https://identifiers.org/umls/
+  -
+    UMLS: http://purl.bioontology.org/ontology/HL7/
+  -
+    UMLS: http://purl.bioontology.org/ontology/MED-RT/
+  -
+    UMLS: http://purl.bioontology.org/ontology/MEDLINEPLUS/
+  -
+    UniProtKB: "http://identifiers.org/uniprot/"
+  -
+    wb: http://www.wormbase.org/species/c_elegans/gene/
+  -
+    WD: http://purl.obolibrary.org/obo/Wikidata_
+  -
+    ZFIN: "http://zfin.org/action/marker/view/"
+############################################
+use_for_expansion_only:
+  -
+    dictyBase: "https://identifiers.org/dictybase.gene:"
+  -
+    DATA: http://purl.bioontology.org/ontology/edam/data_
+  -
+    FlyBase: https://flybase.org/reports/
+  -
+    Orphanet: http://purl.bioontology.org/ontology/ORDO/
+  -
+    oboInOwl: http://www.geneontology.org/formats/oboInOwl#
+  -
+    RXCUI: http://purl.bioontology.org/ontology/RXNORM/
+

@@ -1,0 +1,19 @@
+# this shell script is meant to be run with "source" assuming that you have already sourced "master.shinc"
+
+sudo apt-get update
+sudo apt-get install -y python3.7 python3.7-dev python3.7-venv
+
+# some shenanigans required in order to install pip into python3.7 (not into python3.6!)
+curl -s https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py
+apt-get download python3-distutils
+mv python3-distutils_3.6.9-1~18.04_all.deb /tmp
+sudo dpkg-deb -x /tmp/python3-distutils_3.6.9-1~18.04_all.deb /
+sudo python3.7 /tmp/get-pip.py
+
+## create a virtualenv for building KG2
+python3.7 -m venv ${VENV_DIR}
+
+## Install python3 packages that we will need (Note: we are not using pymongo
+## directly, but installing it silences a runtime warning from ontobio):
+## (maybe we should eventually move this to a requirements.txt file?)
+${VENV_DIR}/bin/pip3 install wheel

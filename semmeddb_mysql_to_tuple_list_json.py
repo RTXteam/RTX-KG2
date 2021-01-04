@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 '''semmeddb_mysql_to_tuple_list_json.py: extracts all the predicate triples from SemMedDB, in a JSON tuple list
 
-   Usage: semmeddb_mysql_to_tuple_list_json.py [--test] --mysqlConfigFile <mysqlConfigFile> 
-                                               --mysqlDBName <mysqlDBName> --outputFile <outputFile.json>
+   Usage: semmeddb_mysql_to_tuple_list_json.py [--test] <mysqlConfigFile> <mysqlDBName> <outputFile.json>
 '''
 
 __author__ = 'Stephen Ramsey'
@@ -21,23 +20,23 @@ import pymysql
 import re
 
 
-SEMMEDDB_IRI = 'https://skr3.nlm.nih.gov/SemMedDB'
 NEG_REGEX = re.compile('^NEG_', re.M)
 
 
 def make_arg_parser():
-    arg_parser = argparse.ArgumentParser(description='semmeddb_mysql_to_tuple_list_json.py: extracts all the predicate triples from SemMedDB, as a list of tuples')
+    arg_parser = argparse.ArgumentParser(description='semmeddb_mysql_to_tuple_list_json.py: extracts all the predicate triples from SemMedDB, ' +
+                                         'as a list of tuples')
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
-    arg_parser.add_argument('--mysqlConfigFile', type=str, nargs=1)
-    arg_parser.add_argument('--mysqlDBName', type=str, nargs=1)
-    arg_parser.add_argument('--outputFile', type=str, nargs=1)
+    arg_parser.add_argument('mysqlConfigFile', type=str)
+    arg_parser.add_argument('mysqlDBName', type=str)
+    arg_parser.add_argument('outputFile', type=str)
     return arg_parser
 
 
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
-    mysql_config_file = args.mysqlConfigFile[0]
-    mysql_db_name = args.mysqlDBName[0]
+    mysql_config_file = args.mysqlConfigFile
+    mysql_db_name = args.mysqlDBName
     test_mode = args.test
     connection = pymysql.connect(read_default_file=mysql_config_file, db=mysql_db_name)
     preds_dict = dict()
@@ -60,5 +59,5 @@ if __name__ == '__main__':
         cursor.execute(sql_statement)
         results['rows'] = cursor.fetchall()
     connection.close()
-    output_file_name = args.outputFile[0]
+    output_file_name = args.outputFile
     kg2_util.save_json(results, output_file_name, test_mode)

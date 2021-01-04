@@ -3,7 +3,7 @@
 
    Usage: merge_graphs.py --kgFiles <kgFile1> ... <kgFile>
                          [--kgFileOrphanEdges <kgFileOrphanEdges>]
-                         --outputFile <output.json>
+                         <output.json>
 '''
 
 __author__ = 'Stephen Ramsey'
@@ -26,7 +26,7 @@ def make_arg_parser():
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
     arg_parser.add_argument('--kgFiles', type=str, nargs='+')
     arg_parser.add_argument('--kgFileOrphanEdges', type=str, nargs='?', default=None)
-    arg_parser.add_argument('--outputFile', type=str, nargs=1)
+    arg_parser.add_argument('outputFile', type=str)
     return arg_parser
 
 
@@ -34,8 +34,8 @@ if __name__ == '__main__':
     args = make_arg_parser().parse_args()
     kg_file_names = args.kgFiles
     test_mode = args.test
-    output_file_name = args.outputFile[0]
-    kg_orphan_edges = {'edges': []}
+    output_file_name = args.outputFile
+    kg_orphan_edges = {'nodes': [], 'edges': []}
     nodes = dict()
     rels = dict()
     for kg_file_name in kg_file_names:
@@ -88,6 +88,7 @@ if __name__ == '__main__':
         last_orphan_edges = len(kg_orphan_edges['edges'])
     kg = {'nodes': [node for node in nodes.values()],
           'edges': edges}
+    del nodes
     kg2_util.save_json(kg, output_file_name, test_mode)
     kg_file_orphan_edges = args.kgFileOrphanEdges
     if kg_file_orphan_edges is not None:

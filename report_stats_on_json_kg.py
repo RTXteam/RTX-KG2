@@ -2,7 +2,7 @@
 
 '''Prints a JSON overview report of a JSON knowledge graph in Biolink format, to STDOUT.
 
-   Usage: report_stats_on_json_kg.py --inputFile <inputKGFile.json> --outputFile <outputKGFile.json>
+   Usage: report_stats_on_json_kg.py [--useSimplifiedPredicates] <inputKGFile.json> <outputKGFile.json>
    The input file can be optionally gzipped (specify with the .gz extension).
 '''
 
@@ -21,6 +21,7 @@ import collections
 import datetime
 import gzip
 import json
+import kg2_util
 import shutil
 import sys
 import tempfile
@@ -28,8 +29,9 @@ import tempfile
 
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='build-kg2: builds the KG2 knowledge graph for the RTX system')
-    arg_parser.add_argument('--inputFile', type=str, nargs=1)
-    arg_parser.add_argument('--outputFile', type=str, nargs=1)
+    arg_parser.add_argument('inputFile', type=str)
+    arg_parser.add_argument('outputFile', type=str)
+    arg_parser.add_argument('--useSimplifiedPredicates', dest='use_simplified_predicates', action='store_true', default=False)
     return arg_parser
 
 
@@ -40,7 +42,7 @@ def get_prefix_from_curie_id(curie_id: str):
 
 def get_nodes_with_none_category(nodes: list):
     return [node for node in nodes if
-            node['category label'] is None or node['category label'] == 'unknown category']
+            node['category_label'] is None or node['category_label'] == 'unknown category']
 
 
 def count_nodes_by_curie_prefix(nodes: list):
@@ -52,23 +54,23 @@ def count_nodes_by_curie_prefix_given_no_category(nodes: list):
 
 
 def count_nodes_by_category(nodes: list):
-    return collections.Counter([node['category label'] for node in nodes])
+    return collections.Counter([node['category_label'] for node in nodes])
 
 
 def count_nodes_by_source(nodes: list):
-    return collections.Counter([node['provided by'] for node in nodes])
+    return collections.Counter([node['provided_by'] for node in nodes])
 
 
 def count_number_of_nodes_by_source_and_category(nodes: list):
     fulldict = {}
-    sourcedict = collections.Counter([node['provided by'] for node in nodes])
+    sourcedict = collections.Counter([node['provided_by'] for node in nodes])
     sourcecatdict = {}
     categorylist = []
     for source in sourcedict:
         categorylist = []
         for node in nodes:
-            if node['provided by'] == source:
-                categorylist.append(node['category label'])
+            if node['provided_by'] == source:
+                categorylist.append(node['category_label'])
         sourcecatdict.update({source: categorylist})
     for defintion in sourcecatdict:
         sourcecount = collections.Counter(sourcecatdict.get(defintion))
@@ -78,38 +80,42 @@ def count_number_of_nodes_by_source_and_category(nodes: list):
 
 def count_edges_by_source(edges: list):
     ret_data = None
-    if type(edges[0]['provided by']) == str:
-        ret_data = collections.Counter([edge['provided by'] for edge in edges])
+    if type(edges[0]['provided_by']) == str:
+        ret_data = collections.Counter([edge['provided_by'] for edge in edges])
     else:
-        assert type(edges[0]['provided by'] == list)
+        assert type(edges[0]['provided_by'] == list)
         provby_list = []
         for edge in edges:
-            provby_list += edge['provided by']
+            provby_list += edge['provided_by']
         ret_data = collections.Counter(provby_list)
     return ret_data
 
 
 def count_edges_by_predicate_curie(edges: list):
-    return collections.Counter([edge['relation curie'] for edge in edges])
+    curie_field = 'relation' if not args.use_simplified_predicates else 'simplified_relation'
+    return collections.Counter([edge[curie_field] for edge in edges])
 
 
 def count_edges_by_predicate_type(edges: list):
-    return collections.Counter([edge['edge label'] for edge in edges])
+    label_field = 'predicate' if not args.use_simplified_predicates else 'simplified_predicate'
+    return collections.Counter([edge[label_field] for edge in edges])
 
 
 def count_edges_by_predicate_curie_prefix(edges: list):
-    return collections.Counter([get_prefix_from_curie_id(edge['relation curie']) for edge in edges])
+    curie_field = 'relation' if not args.use_simplified_predicates else 'simplified_relation'
+    return collections.Counter([get_prefix_from_curie_id(edge[curie_field]) for edge in edges])
 
 
 def count_predicates_by_predicate_curie_prefix(edges: list):
-    unique_relation_curies = set([edge['relation curie'] for edge in edges])
+    curie_field = 'relation' if not args.use_simplified_predicates else 'simplified_relation'
+    unique_relation_curies = set([edge[curie_field] for edge in edges])
     return collections.Counter([get_prefix_from_curie_id(curie) for curie in unique_relation_curies])
 
 
 def count_types_of_pairs_of_curies_for_xrefs(edges: list):
     prefix_pairs_list = list()
     for edge in edges:
-        if edge['edge label'] == 'xref':
+        if edge['predicate'] == 'xref' or edge['predicate'] == 'close_match':
             subject_curie = edge['subject']
             subject_prefix = get_prefix_from_curie_id(subject_curie)
             object_curie = edge['object']
@@ -122,7 +128,7 @@ def count_types_of_pairs_of_curies_for_xrefs(edges: list):
 def count_types_of_pairs_of_curies_for_equivs(edges: list):
     prefix_pairs_list = list()
     for edge in edges:
-        if edge['edge label'] == 'equivalent_to':
+        if edge['predicate'] == kg2_util.EDGE_LABEL_OWL_SAME_AS:
             subject_curie = edge['subject']
             subject_prefix = get_prefix_from_curie_id(subject_curie)
             object_curie = edge['object']
@@ -134,7 +140,7 @@ def count_types_of_pairs_of_curies_for_equivs(edges: list):
 
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
-    input_file_name = args.inputFile[0]
+    input_file_name = args.inputFile
     if not input_file_name.endswith('.gz'):
         input_file = open(input_file_name, 'r')
         graph = json.load(input_file)
@@ -145,6 +151,11 @@ if __name__ == '__main__':
     if 'nodes' not in graph:
         print("WARNING: 'nodes' property is missing from the input JSON.", file=sys.stderr)
     nodes = graph.get('nodes', [])
+    nodes = graph.get('nodes', [])
+    for n in nodes[::-1]:  # search for build info node starting at end
+        if n["name"] == "KG2:Build":  # should be the first node accessed
+            nodes.remove(n) # remove it so stats aren't reported
+            break
     if 'edges' not in graph:
         print("WARNING: 'edges' property is missing from the input JSON.", file=sys.stderr)
     edges = graph.get('edges', [])
@@ -168,4 +179,4 @@ if __name__ == '__main__':
     temp_output_file = tempfile.mkstemp(prefix='kg2-')[1]
     with open(temp_output_file, 'w') as outfile:
         json.dump(stats, outfile, indent=4, sort_keys=True)
-    shutil.move(temp_output_file, args.outputFile[0])
+    shutil.move(temp_output_file, args.outputFile)

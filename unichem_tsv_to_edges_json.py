@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 '''unichem_tsv_to_edges_json.py: loads TSV ChEMBL-CHEBI mappings and converts into RTX KG2 JSON format
 
-   Usage: unichem_tsv_to_edges_json.py --inputFile <inputFile.tsv> --outputFile <outputFile.json>
+   Usage: unichem_tsv_to_edges_json.py <inputFile.tsv> <outputFile.json>
 '''
 
 __author__ = 'Stephen Ramsey'
@@ -18,17 +18,17 @@ import argparse
 import kg2_util
 
 
-UNICHEM_KB_IRI = 'https://www.ebi.ac.uk/unichem/'
+UNICHEM_KB_CURIE = kg2_util.CURIE_ID_UNICHEM
+
 
 def make_xref(subject: str,
               object: str,
               update_date: str):
     edge_dict = kg2_util.make_edge(subject,
                                    object,
-                                   kg2_util.IRI_OWL_SAME_AS,
-                                   kg2_util.CURIE_OWL_SAME_AS,
-                                   'equivalent_to',
-                                   UNICHEM_KB_IRI,
+                                   kg2_util.CURIE_ID_OWL_SAME_AS,
+                                   kg2_util.EDGE_LABEL_OWL_SAME_AS,
+                                   UNICHEM_KB_CURIE,
                                    update_date)
     return edge_dict
 
@@ -36,15 +36,15 @@ def make_xref(subject: str,
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='unichem_tsv_to_edges_json.py: loads TSV ChEMBL-CURIE mappings and converts into RTX KG2 JSON format')
     arg_parser.add_argument('--test', dest='test', action='store_true', default=False)
-    arg_parser.add_argument('--inputFile', type=str, nargs=1)
-    arg_parser.add_argument('--outputFile', type=str, nargs=1)
+    arg_parser.add_argument('inputFile', type=str)
+    arg_parser.add_argument('outputFile', type=str)
     return arg_parser
 
 
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
-    input_file_name = args.inputFile[0]
-    output_file_name = args.outputFile[0]
+    input_file_name = args.inputFile
+    output_file_name = args.outputFile
     test_mode = args.test
     edges = []
     nodes = []
@@ -61,6 +61,5 @@ if __name__ == '__main__':
             (chembl_curie_id, equiv_curie_id) = line.rstrip().split('\t')
             edges.append(make_xref(chembl_curie_id, equiv_curie_id, update_date))
 
-    output_file_name = args.outputFile[0]
     out_graph = {'edges': edges, 'nodes': nodes}
     kg2_util.save_json(out_graph, output_file_name, test_mode)

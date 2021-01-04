@@ -4,25 +4,26 @@
     <h2>Software for building KG2</h2>
     <a href="https://github.com/RTXteam/RTX/tree/master/code/kg2">RTX KG2-building software site on GitHub</a>
     
-    <h2>Latest KG2 build:</h2>
+    <h2>Latest KG2 build:</h2> Since KG2 includes UMLS and SNOMED CT, you need
+    to contact the KG2 maintainer in order to demonstrate that you have accepted
+    the license terms for these two knowledge-bases, in order to get access to download KG2. Once you
+    have access, you would obtain them via S3 using the AWS CLI as follows:
     <ul>
-      <li><a href="https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2.json.gz"><code>kg2.json.gz</code></a> (the full knowledge graph, 8.3 GB)</li>
+      <li>KG2, before predicate-remapping and filtering: <code>aws s3 cp --region us-west-2 s3://rtx-kg2/kg2.json.gz .</code></li>
+      <li>KG2, nodes only, before predicate-remapping and filtering: <code>aws s3 cp --region us-west-2 s3://rtx-kg2/kg2-nodes.json.gz .</code></li>
+      <li>KG2, after predicate-remapping and filtering: <code>aws s3 cp --region us-west-2 s3://rtx-kg2/kg2-simplified.json.gz .</code></li>
     </ul>
 
     <h2>Additional information</h2>
+    This information is mostly helpful in debugging:
     <ul>
-      <li><a href="https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2-nodes.json.gz"><code>kg2-nodes.json.gz</code></a> (just the nodes in the KG2 knowledge graph, 1.8 GB)</li>
       <li><a href="https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2-report.json"><code>kg2-report.json</code></a> (summary report on the KG2, in JSON format, 174 kB)</li>
       <li><a href="https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2-simplified-report.json"><code>kg2-simplified-report.json</code></a> (summary report on the simplified KG2, in JSON format, 174 kB)</li>
-      <li><a href="https://s3-us-west-2.amazonaws.com/rtx-kg2-public/build-kg2-stdout.log"><code>build-kg2.log</code></a></li>
+      <li><a href="https://s3-us-west-2.amazonaws.com/rtx-kg2-public/build-kg2.log"><code>build-kg2.log</code></a></li>
       <li><a href="https://s3-us-west-2.amazonaws.com/rtx-kg2-public/build-kg2-stderr.log"><code>build-kg2-owl-stderr.log</code></a></li>
       <li><a href="https://s3-us-west-2.amazonaws.com/rtx-kg2-public/owl-load-inventory.yaml"><code>owl-load-inventory.yaml</code></a> (the inventory of KSs that were integrated into KG2)</li>
       <li><a href="https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2-orphans-edges.json.gz"><code>kg2-orphans-edges.json.gz</code> (a JSON KG edges file containing "orphan" edges that had no corresponding nodes in the KG</a></li>
     </ul>
     
-    <h2>Small "test" KG</h2>
-    <ul>
-      <li><a href="https://s3-us-west-2.amazonaws.com/rtx-kg2-public/kg2-test.json.gz"><code>kg2-test.json.gz</code></a> A small example file showing the format of the KG2 JSON file (16 MB)</li>
-    </ul>
   </body>
 </html>

@@ -1,22 +1,35 @@
 ---
 prefix-mappings:
+    biolink: ontology class
     BSPO: relationship type
     CL: anatomical entity
+    CPT: procedure
     DOID: disease
+    DDANAT: anatomical entity
+    DRUGBANK: drug
+    EHDAA2: anatomical entity
+    FAO: anatomical entity
+    GAZ: geographic location
     GOREL: relationship type
+    HCPCS: procedure
     HGNC: gene
-    HP: phenotypic feature
-    IAO: information entity type
+    IAO: information content entity
+    ICD10: disease
+    LOINC: procedure
     MGI: gene
     NCBIGene: gene
     NCBITaxon: organism taxon
+    OBO: relationship type
     OMIM: phenotypic feature
+    PATO: phenotypic feature
     PR: protein
+    PW: pathway
     RGD: gene
     RO: relationship type
-    SGD: gene
+    RXNORM: drug
+    sgd: gene
     SIO: relationship type
-    STY: semantic type
+    skos: ontology class
     SYMP: phenotypic feature
     UBERON: anatomical entity
     UBPROP: attribute
@@ -24,21 +37,20 @@ prefix-mappings:
 term-mappings:
     rdfs:isDefinedBy: relationship type
     OIO:inSubset: relationship type
-    OIO:ObsoleteClass: information entity type
+    OIO:ObsoleteClass: ontology class
     OIO:hasRelatedSynonym: relationship type
     OIO:hasBroadSynonym: relationship type
     OIO:hasExactSynonym: relationship type
     OIO:hasDbXref: relationship type
     OIO:hasOBOFormatVersion: relationship type
-    OIO:SubsetProperty: information entity type
+    OIO:SubsetProperty: named thing
     OIO:shorthand: relationship type
     owl:topObjectProperty: attribute
     OBO:ro/subsets#ro-eco: relationship type
-    BFO:0000001: entity
-    BFO:0000002: continuant
-    BFO:0000003: occurrent
+    BFO:0000001: named thing
     BFO:0000050: relationship type
     BFO:0000051: relationship type
+    BFO:0000053: relationship type
     BFO:0000054: relationship type
     BFO:0000055: relationship type
     BFO:0000056: relationship type
@@ -49,192 +61,339 @@ term-mappings:
     BFO:0000063: relationship type
     BFO:0000066: relationship type
     BFO:0000067: relationship type
-    BFO:0000134: information entity type
-    BFO:0000179: information entity type
-    BFO:0000180: information entity type
+    BFO:0000068: relationship type
+    BFO:0000069: relationship type
     CARO:0000003: anatomical entity
+    CHEBI:2709: chemical substance
     CHEBI:23888: drug
     CHEBI:24431: chemical substance
-    CHEBI:24432: biological role
+    CHEBI:24432: biological entity
     CHEBI:25212: metabolite
-    CHEBI:33232: application
-    CHEBI:33697: RNA
-    CHEBI:36342: subatomic particle
-    CHEBI:51086: chemical role
-    CHEBI:78295: biological food component
+    CHEBI:33232: chemical substance
+    CHEBI:33697: gene product
+    CHEBI:36342: chemical substance
+    CHEBI:51086: chemical substance
+    CHEBI:78295: biological entity
     CHEBI:50906: biological process
     CL:0000000: anatomical entity
-    DDANAT:0000002: organism taxon
-    GO:0005575: cellular component
-    GO:0008150: biological process
-    GO:0003674: molecular function
-    GOCHEREL:0000001: relationship type
-    EFO:0000324: cell type
-    EFO:0005066: material
-    EFO:0001434: material
+    EFO:0000324: cell
+    EFO:0005066: material sample
+    EFO:0001434: material sample
     EFO:0000635: anatomical entity
     EFO:0000408: disease
     EFO:0004423: exon
-    EFO:0004446: biological molecular complex
+    EFO:0004446: macromolecular complex
     ENVO:02500000: environmental process
     ENVO:00002297: environmental feature
     FMA:29733: anatomical entity
     FMA:62955: anatomical entity
-    FMA:50592: dimensional entity
-    FMA:85802: attribute entity
-    FMA:87205: biological molecule
-    FMA:85620: biological molecular complex
-    FOODON:00002403: biological food component
-    FOODON:00002451: food transformation process
-    HsapDv:0000000: life stage
+    FMA:50592: physical entity
+    FMA:85802: attribute
+    FMA:87205: biological entity
+    FMA:85620: biological entity
+    FMA:85972: relationship type
+    FMA:86003: anatomical entity
+    FOODON:00002403: biological entity
+    FOODON:00002451: biological process
+    GO:0005575: cellular component
+    GO:0008150: biological process
+    GO:0003674: molecular activity
+    HP:0031797: phenotypic feature
+    HP:0012823: phenotypic feature
+    HP:0032223: phenotypic feature
+    HP:0040279: quantity value
+    HP:0000005: phenotypic feature
+    HP:0000118: phenotypic feature
+    HP:0032443: information content entity
+    MEDDRA:10005329: disease
+    MEDDRA:10007541: disease
+    MEDDRA:10010331: disease
+    MEDDRA:10013993: disease
+    MEDDRA:10014698: disease
+    MEDDRA:10015919: disease
+    MEDDRA:10017947: disease
+    MEDDRA:10018065: disease
+    MEDDRA:10019805: disease
+    MEDDRA:10021428: disease
+    MEDDRA:10021881: disease
+    MEDDRA:10022117: phenomenon
+    MEDDRA:10022891: phenomenon
+    MEDDRA:10027433: disease
+    MEDDRA:10028395: disease
+    MEDDRA:10029104: disease
+    MEDDRA:10029205: disease
+    MEDDRA:10036585: disease
+    MEDDRA:10077536: phenomenon
+    MEDDRA:10037175: disease
+    MEDDRA:10038359: disease
+    MEDDRA:10038604: disease
+    MEDDRA:10038738: disease
+    MEDDRA:10040785: disease
+    MEDDRA:10041244: phenomenon
+    MEDDRA:10042613: procedure
+    MEDDRA:10047065: disease
+    MESH:D000715: anatomical entity
+    MESH:D000760: procedure
+    # The following term (MESH:D001520) was `activity and behavior` until that
+    # biolink category became a mixin class which cannot inherit from `named
+    # thing`, so we are going with `named thing` for now, until a more specific
+    # subclass of `named thing` is available See also #1148:
+    MESH:D001520: named thing
+    MESH:D001523: disease
+    MESH:D003933: procedure
+    MESH:D004864: device
+    MESH:D005159: agent
+    MESH:D006281: agent
+    MESH:D008919: procedure
+    MESH:D011579: phenomenon
+    MESH:D013514: procedure
+    MESH:D013812: procedure
+    MESH:D019602: biological entity
+    MESH:U000002: anatomical entity
+    MESH:U000004: phenomenon
+    MESH:U000005: chemical substance
+    MESH:U000006: disease
+    MESH:U000012: organism taxon
+    MESH:U000022: geographic location
     MONDO:0000001: disease
-    MONDO:0021125: disease characteristic
-    MONDO:0042489: disease susceptibility
+    MONDO:0001227: disease
+    MONDO:0020420: disease
+    MONDO:0021125: phenotypic feature
+    MONDO:0042489: phenotypic feature
     MONDO:0021007: disease
-    MPATH:0: pathological entity
-    NBO:0000313: behavior
+    MPATH:0: biological entity
+    # The following term (NBO:0000313) was `activity and behavior` until that
+    # biolink category became a mixin class which cannot inherit from `named
+    # thing`, so we are going with `named thing` for now, until a more specific
+    # subclass of `named thing` is available See also #1148:
+    NBO:0000313: named thing
     NBO:0000243: phenotypic feature
     NCBITaxon:1: organism taxon
+    NCIT:C1909: drug
+    NCIT:C1913: drug
     NCIT:C22187: disease
     NCIT:C20189: attribute
     NCIT:C2991: disease
     NCIT:C20130: gene family
-    NCIT:C12913: cell type
-    NCIT:C42645: information entity type
-    NCIT:C105551: activity
+    NCIT:C12913: cell
+    NCIT:C25218: clinical intervention
+    NCIT:C42645: named thing
+    # The following term (NCIT:C16203) was `activity and behavior` until that
+    # biolink category became a mixin class which cannot inherit from `named
+    # thing`, so we are going with `named thing` for now, until a more specific
+    # subclass of `named thing` is available See also #1148:
+    NCIT:C16203: named thing
     NCIT:C12219: anatomical entity
     NCIT:C20633: pathway
     NCIT:C17828: biological process
-    NCIT:C12218: therapy
-    NCIT:C16326: behavior
-    NCIT:C43431: activity
-    NCIT:C20047: diagnostic or prognostic factor
-    NCIT:C7057: finding
+    NCIT:C12218: treatment
+    # The following terms (NCIT:C16326, NCIT:C43431) were `activity and behavior` until that
+    # biolink category became a mixin class which cannot inherit from `named
+    # thing`, so we are going with `named thing` for now, until a more specific
+    # subclass of `named thing` is available See also #1148:
+    NCIT:C16326: named thing
+    NCIT:C43431: named thing
+    NCIT:C20047: phenotypic feature
+    NCIT:C7057: phenotypic feature
     NCIT:C22188: anatomical entity
-    NCIT:C1908: substance
-    NCIT:C71460: method
-    NCIT:C16612: gene set
-    NCIT:C813: RNA
-    NCIT:C111298: RNA
+    NCIT:C16338: material sample
+    NCIT:C71460: procedure
+    NCIT:C16612: gene grouping
+    NCIT:C813: gene product
+    NCIT:C111298: gene product
     NCIT:C17021: protein
     NCIT:C28566: protein
-    NCIT:C21176: biological molecular complex
-    NCIT:C26549: RNA
-    NCIT:C28454: RNA
+    NCIT:C21176: macromolecular complex
+    NCIT:C26549: gene product
+    NCIT:C28454: gene product
     NCIT:C14250: organism taxon
     NCIT:C3910: phenotypic feature
-    NCIT:C48187: material
-    NCIT:C20181: conceptual entity
+    NCIT:C48187: material sample
+    NCIT:C20181: named thing
     OBI:0000427: protein
-    Orphanet:410298: gene
-    Orphanet:410299: RNA
-    Orphanet:410297: locus
-    Orphanet:C023: life stage
-    Orphanet:C001: disease
-    Orphanet:C009: location
-    Orphanet:409967: incidence
-    Orphanet:C004: prevalence
-    Orphanet:409973: prevalence
-    Orphanet:C005: inheritance
+    ORPHANET:410298: gene
+    ORPHANET:410299: gene product
+    ORPHANET:410297: genomic entity
+    ORPHANET:C023: life stage
+    ORPHANET:C001: disease
+    ORPHANET:409967: frequency value
+    ORPHANET:C004: frequency value
+    ORPHANET:409973: frequency value
+    ORPHANET:C005: phenotypic feature
     owl:Thing: named thing
-    PATO:0000001: phenotypic quality
     PR:000000001: protein
-    skos:altLabel: attribute
-    skos:exactMatch: relationship type
-    skos:hiddenLabel: attribute
-    skos:note: attribute
-    skos:broaderTransitive: relationship type
-    skos:related: relationship type
-    skos:mappingRelation: relationship type
-    skos:broader: relationship type
-    skos:narrowMatch: relationship type
-    skos:Collection: information entity type
-    skos:Concept: conceptual entity
-    skos:ConceptScheme: conceptual entity
-    skos:hasTopConcept: relationship type
-    skos:inScheme: relationship type
-    skos:memberList: relationship type
-    skos:definition: attribute
-    skos:scopeNote: attribute
-    skos:historyNote: attribute
-    skos:narrowerTransitive: relationship type
-    skos:narrower: relationship type
-    skos:broadMatch: relationship type
-    skos:notation: attribute
-    skos:editorialNote: attribute
-    skos:topConceptOf: relationship type
-    skos:member: relationship type
-    skos:changeNote: attribute
-    skos:closeMatch: relationship type
-    skos:example: attribute
-    skos:semanticRelation: relationship type
-    skos:relatedMatch: relationship type
-    skos:prefLabel: attribute
-    SNOMEDCT_US:48176007: social context
-    SNOMEDCT_US:64572001: disease
-    SNOMEDCT_US:71388002: procedure
-    SNOMEDCT_US:78621006: physical force
-    SNOMEDCT_US:91723000: anatomical entity
-    SNOMEDCT_US:105590001: substance
-    SNOMEDCT_US:123037004: body structure
-    SNOMEDCT_US:123038009: specimen
-    SNOMEDCT_US:125676002: person
-    SNOMEDCT_US:138875005: concept
-    SNOMEDCT_US:243796009: situation
-    SNOMEDCT_US:246061005: attribute
-    SNOMEDCT_US:254291000: staging and scales
-    SNOMEDCT_US:260787004: physical object
-    SNOMEDCT_US:272379006: event
-    SNOMEDCT_US:308916002: location
-    SNOMEDCT_US:362981000: qualifier value
-    SNOMEDCT_US:363787002: observable entity  ## could this mapped to some other entity category in Biolink?
-    SNOMEDCT_US:370115009: special concept
-    SNOMEDCT_US:373873005: product
-    SNOMEDCT_US:404684003: finding
-    SNOMEDCT_US:410607006: organism taxon
-    SNOMEDCT_US:410942007: drug
-    SNOMEDCT_US:419891008: information entity
-    SNOMEDCT_US:900000000000441003: information entity
-    SO:0000704: gene set
-    TRANS:0000000: transmission type
-    TUI:T017: anatomical entity
-    TUI:T001: organism taxon
-    TUI:T028: gene set
-    TUI:T032: attribute
-    TUI:T033: finding
-    TUI:T038: biological process
-    TUI:T047: disease
-    TUI:T051: event
-    TUI:T052: activity
-    TUI:T053: behavior
-    TUI:T067: phenomenon or process
-    TUI:T071: entity
-    TUI:T072: physical object
-    TUI:T073: product
-    TUI:T074: device
-    TUI:T075: device
-    TUI:T077: conceptual entity
-    TUI:T078: concept
-    TUI:T090: occupation
-    TUI:T092: organization
-    TUI:T096: group of people
-    TUI:T102: attribute
-    TUI:T103: chemical substance
-    TUI:T121: drug
-    TUI:T123: biological substance
-    TUI:T125: protein
-    TUI:T126: protein
-    TUI:T126: biological food component
-    TUI:T129: protein
-    TUI:T131: hazardous substance
-    TUI:T167: substance
-    TUI:T170: product
-    TUI:T171: language
-    TUI:T184: phenotypic feature
-    TUI:T200: drug
+    SO:0001217: gene
+    # The following term (SNOMED:48176007) was `activity and behavior` until that
+    # biolink category became a mixin class which cannot inherit from `named
+    # thing`, so we are going with `named thing` for now, until a more specific
+    # subclass of `named thing` is available See also #1148:
+    SNOMED:48176007: named thing
+    SNOMED:64572001: disease
+    SNOMED:71388002: clinical intervention
+    SNOMED:78621006: phenomenon
+    SNOMED:91723000: anatomical entity
+    SNOMED:105590001: chemical substance
+    SNOMED:123037004: anatomical entity
+    SNOMED:123038009: material sample
+    SNOMED:125676002: individual organism
+    SNOMED:138875005: named thing
+    SNOMED:243796009: phenomenon
+    SNOMED:246061005: attribute
+    SNOMED:254291000: clinical modifier
+    SNOMED:260787004: physical entity
+    SNOMED:272379006: phenomenon
+    SNOMED:308916002: geographic location
+    SNOMED:362981000: quantity value
+    SNOMED:363787002: physical entity
+    SNOMED:370115009: named thing
+    SNOMED:373873005: drug
+    SNOMED:404684003: phenotypic feature
+    SNOMED:410607006: organism taxon
+    SNOMED:410942007: drug
+    SNOMED:419891008: information content entity
+    SNOMED:900000000000441003: data file
+    SO:0000704: gene grouping
+    TRANS:0000000: exposure event
     UBERON:0001062: anatomical entity
     UBERON:0000105: life stage
-    UMLS:hasSTY: relationship type
+    UMLS_STY:T001: individual organism
+    UMLS_STY:T002: individual organism
+    UMLS_STY:T004: individual organism
+    UMLS_STY:T005: individual organism
+    UMLS_STY:T007: individual organism
+    UMLS_STY:T008: individual organism
+    UMLS_STY:T010: individual organism
+    UMLS_STY:T011: individual organism
+    UMLS_STY:T012: individual organism
+    UMLS_STY:T013: individual organism
+    UMLS_STY:T014: individual organism
+    UMLS_STY:T015: individual organism
+    UMLS_STY:T016: individual organism
+    UMLS_STY:T017: gross anatomical structure
+    UMLS_STY:T018: gross anatomical structure
+    UMLS_STY:T019: disease
+    UMLS_STY:T020: disease
+    UMLS_STY:T021: gross anatomical structure
+    UMLS_STY:T022: anatomical entity
+    UMLS_STY:T023: gross anatomical structure
+    UMLS_STY:T024: gross anatomical structure
+    UMLS_STY:T025: cell
+    UMLS_STY:T026: cellular component
+    UMLS_STY:T028: genomic entity
+    UMLS_STY:T029: anatomical entity
+    UMLS_STY:T030: anatomical entity
+    UMLS_STY:T031: anatomical entity
+    UMLS_STY:T032: physiological process
+    UMLS_STY:T033: disease or phenotypic feature
+    UMLS_STY:T034: phenomenon
+    UMLS_STY:T037: disease
+    UMLS_STY:T038: phenomenon
+    UMLS_STY:T039: physiological process
+    UMLS_STY:T040: physiological process
+    UMLS_STY:T041: physiological process
+    UMLS_STY:T042: physiological process
+    UMLS_STY:T043: physiological process
+    UMLS_STY:T044: molecular activity
+    UMLS_STY:T045: physiological process
+    UMLS_STY:T046: disease
+    UMLS_STY:T047: disease
+    UMLS_STY:T048: disease
+    UMLS_STY:T049: disease
+    UMLS_STY:T050: biological entity
+    # The following terms (51-57) were all `activity and behavior` until that
+    # biolink category became a mixin class which cannot inherit from `named
+    # thing`, so we are going with `named thing` for now, until a more specific
+    # subclass of `named thing` is available See also #1148:
+    UMLS_STY:T051: named thing 
+    UMLS_STY:T052: named thing
+    UMLS_STY:T053: phenomenon
+    UMLS_STY:T054: phenomenon
+    UMLS_STY:T055: phenomenon
+    UMLS_STY:T056: named thing
+    UMLS_STY:T057: named thing
+    UMLS_STY:T058: procedure
+    UMLS_STY:T059: procedure
+    UMLS_STY:T060: procedure
+    UMLS_STY:T061: procedure
+    UMLS_STY:T062: procedure
+    UMLS_STY:T063: procedure
+    # The following terms (64, 66) were all `activity and behavior` until that
+    # biolink category became a mixin class which cannot inherit from `named
+    # thing`, so we are going with `named thing` for now, until a more specific
+    # subclass of `named thing` is available See also #1148:
+    UMLS_STY:T064: named thing
+    UMLS_STY:T065: procedure
+    UMLS_STY:T066: named thing
+    # The following term (67) was `occurent` until that
+    # biolink category became a mixin class which cannot inherit from `named
+    # thing`, so we are going with `named thing` for now, until a more specific
+    # subclass of `named thing` is available See also #1148:
+    UMLS_STY:T067: named thing
+    UMLS_STY:T068: phenomenon
+    UMLS_STY:T069: phenomenon
+    UMLS_STY:T070: phenomenon
+    UMLS_STY:T071: named thing
+    UMLS_STY:T072: named thing
+    UMLS_STY:T073: named thing
+    UMLS_STY:T074: device
+    UMLS_STY:T075: device
+    UMLS_STY:T077: information content entity
+    UMLS_STY:T078: information content entity
+    UMLS_STY:T079: information content entity
+    UMLS_STY:T080: information content entity
+    UMLS_STY:T081: information content entity
+    UMLS_STY:T082: information content entity
+    UMLS_STY:T083: geographic location
+    UMLS_STY:T085: molecular entity
+    UMLS_STY:T086: genomic entity
+    UMLS_STY:T087: protein
+    UMLS_STY:T088: carbohydrate
+    UMLS_STY:T089: information content entity
+    UMLS_STY:T090: individual organism
+    UMLS_STY:T092: agent
+    UMLS_STY:T093: agent
+    UMLS_STY:T094: agent
+    UMLS_STY:T095: agent
+    UMLS_STY:T096: individual organism
+    UMLS_STY:T097: individual organism
+    UMLS_STY:T098: population of individual organisms
+    UMLS_STY:T099: individual organism
+    UMLS_STY:T100: individual organism
+    UMLS_STY:T101: individual organism
+    UMLS_STY:T102: information content entity
+    UMLS_STY:T103: chemical substance
+    UMLS_STY:T104: chemical substance
+    UMLS_STY:T109: chemical substance
+    UMLS_STY:T114: chemical substance
+    UMLS_STY:T116: protein
+    UMLS_STY:T120: chemical substance
+    UMLS_STY:T121: chemical substance
+    UMLS_STY:T122: chemical substance
+    UMLS_STY:T123: chemical substance
+    UMLS_STY:T125: chemical substance
+    UMLS_STY:T126: chemical substance
+    UMLS_STY:T127: chemical substance
+    UMLS_STY:T129: chemical substance
+    UMLS_STY:T130: chemical substance
+    UMLS_STY:T131: chemical substance
+    UMLS_STY:T167: chemical substance
+    UMLS_STY:T168: named thing
+    UMLS_STY:T169: information content entity
+    UMLS_STY:T170: publication
+    UMLS_STY:T171: information content entity
+    UMLS_STY:T184: disease
+    UMLS_STY:T185: information content entity
+    UMLS_STY:T190: disease
+    UMLS_STY:T191: disease
+    UMLS_STY:T192: chemical substance
+    UMLS_STY:T194: individual organism
+    UMLS_STY:T195: chemical substance
+    UMLS_STY:T196: chemical substance
+    UMLS_STY:T197: chemical substance
+    UMLS_STY:T200: drug
+    UMLS_STY:T201: physiological process
+    UMLS_STY:T203: device
+    UMLS_STY:T204: individual organism
     UPHENO:0001001: phenotypic feature
     WD:Q28845870: biological entity
     WD:Q12136: disease

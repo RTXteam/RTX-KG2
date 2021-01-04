@@ -9,38 +9,38 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     exit 2
 fi
 
-echo "================= starting build-unichem.sh ================="
+echo "================= starting extract-unichem.sh ================="
 date
 
-CONFIG_DIR=`dirname "$0"`
-source ${CONFIG_DIR}/master-config.shinc
-OUTPUT_TSV_FILE=${1:-"${BUILD_DIR}/unichem/chembl-to-curies.tsv"}
-UNICHEM_DIR=${BUILD_DIR}/unichem
-UNICHEM_OUTPUT_DIR=`dirname ${OUTPUT_TSV_FILE}`
-UNICHEM_VER=232
-UNICHEM_FTP_SITE=ftp://ftp.ebi.ac.uk/pub/databases/chembl/UniChem/data
+config_dir=`dirname "$0"`
+source ${config_dir}/master-config.shinc
+output_tsv_file=${1:-"${BUILD_DIR}/unichem/chembl-to-curies.tsv"}
+unichem_dir=${BUILD_DIR}/unichem
+unichem_output_dir=`dirname ${output_tsv_file}`
+unichem_ver=280
+unichem_ftp_site=ftp://ftp.ebi.ac.uk/pub/databases/chembl/UniChem/data
 
-rm -r -f ${UNICHEM_DIR}
-mkdir -p ${UNICHEM_DIR}
-mkdir -p ${UNICHEM_OUTPUT_DIR}
+rm -r -f ${unichem_dir}
+mkdir -p ${unichem_dir}
+mkdir -p ${unichem_output_dir}
 
-${CURL_GET} ${UNICHEM_FTP_SITE}/oracleDumps/UDRI${UNICHEM_VER}/UC_XREF.txt.gz > ${UNICHEM_DIR}/UC_XREF.txt.gz
-${CURL_GET} ${UNICHEM_FTP_SITE}/oracleDumps/UDRI${UNICHEM_VER}/UC_SOURCE.txt.gz > ${UNICHEM_DIR}/UC_SOURCE.txt.gz
-${CURL_GET} ${UNICHEM_FTP_SITE}/oracleDumps/UDRI${UNICHEM_VER}/UC_RELEASE.txt.gz > ${UNICHEM_DIR}/UC_RELEASE.txt.gz
+${curl_get} ${unichem_ftp_site}/oracleDumps/UDRI${unichem_ver}/UC_XREF.txt.gz > ${unichem_dir}/UC_XREF.txt.gz
+${curl_get} ${unichem_ftp_site}/oracleDumps/UDRI${unichem_ver}/UC_SOURCE.txt.gz > ${unichem_dir}/UC_SOURCE.txt.gz
+${curl_get} ${unichem_ftp_site}/oracleDumps/UDRI${unichem_ver}/UC_RELEASE.txt.gz > ${unichem_dir}/UC_RELEASE.txt.gz
 
-CHEMBL_SRC_ID=`zcat ${UNICHEM_DIR}/UC_SOURCE.txt.gz | awk '{if ($2 == "chembl") {printf "%s", $1}}'`
-CHEBI_SRC_ID=`zcat ${UNICHEM_DIR}/UC_SOURCE.txt.gz | awk '{if ($2 == "chebi") {printf "%s", $1}}'`
-DRUGBANK_SRC_ID=`zcat ${UNICHEM_DIR}/UC_SOURCE.txt.gz | awk '{if ($2 == "drugbank") {printf "%s", $1}}'`
+chembl_src_id=`zcat ${unichem_dir}/UC_SOURCE.txt.gz | awk '{if ($2 == "chembl") {printf "%s", $1}}'`
+chebi_src_id=`zcat ${unichem_dir}/UC_SOURCE.txt.gz | awk '{if ($2 == "chebi") {printf "%s", $1}}'`
+drugbank_src_id=`zcat ${unichem_dir}/UC_SOURCE.txt.gz | awk '{if ($2 == "drugbank") {printf "%s", $1}}'`
 
-UPDATE_DATE=`zcat ${UNICHEM_DIR}/UC_RELEASE.txt.gz | tail -1 | cut -f3`
-echo "# ${UPDATE_DATE}" > ${OUTPUT_TSV_FILE}
+update_date=`zcat ${unichem_dir}/UC_RELEASE.txt.gz | tail -1 | cut -f3`
+echo "# ${update_date}" > ${output_tsv_file}
 
-zcat ${UNICHEM_DIR}/UC_XREF.txt.gz | awk '{if ($2 == '${CHEBI_SRC_ID}') {print $1 "\tCHEBI:" $3}}' | sort -k1 > ${UNICHEM_DIR}/chebi.txt
-zcat ${UNICHEM_DIR}/UC_XREF.txt.gz | awk '{if ($2 == '${CHEMBL_SRC_ID}') {print $1 "\tCHEMBL.COMPOUND:" $3}}' | sort -k1 > ${UNICHEM_DIR}/chembl.txt
-zcat ${UNICHEM_DIR}/UC_XREF.txt.gz | awk '{if ($2 == '${DRUGBANK_SRC_ID}') {print $1 "\tDRUGBANK:" $3}}' | sort -k1 > ${UNICHEM_DIR}/drugbank.txt
+zcat ${unichem_dir}/UC_XREF.txt.gz | awk '{if ($2 == '${chebi_src_id}') {print $1 "\tCHEBI:" $3}}' | sort -k1 > ${unichem_dir}/chebi.txt
+zcat ${unichem_dir}/UC_XREF.txt.gz | awk '{if ($2 == '${chembl_src_id}') {print $1 "\tCHEMBL.COMPOUND:" $3}}' | sort -k1 > ${unichem_dir}/chembl.txt
+zcat ${unichem_dir}/UC_XREF.txt.gz | awk '{if ($2 == '${drugbank_src_id}') {print $1 "\tDRUGBANK:" $3}}' | sort -k1 > ${unichem_dir}/drugbank.txt
 
-join ${UNICHEM_DIR}/chembl.txt ${UNICHEM_DIR}/chebi.txt | sed 's/ /\t/g' | cut -f2-3 >> ${OUTPUT_TSV_FILE}
-join ${UNICHEM_DIR}/chembl.txt ${UNICHEM_DIR}/drugbank.txt | sed 's/ /\t/g' | cut -f2-3 >> ${OUTPUT_TSV_FILE}
+join ${unichem_dir}/chembl.txt ${unichem_dir}/chebi.txt | sed 's/ /\t/g' | cut -f2-3 >> ${output_tsv_file}
+join ${unichem_dir}/chembl.txt ${unichem_dir}/drugbank.txt | sed 's/ /\t/g' | cut -f2-3 >> ${output_tsv_file}
 
 date
-echo "================= script finished ================="
+echo "================= finished extract-unichem.sh ================="

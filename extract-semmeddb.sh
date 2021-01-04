@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# build-semmeddb.sh: download the SemMedDB release and convert it to a tuple-list JSON file
+# extract-semmeddb.sh: download the SemMedDB release and convert it to a tuple-list JSON file
 # Copyright 2019 Stephen A. Ramsey <stephen.ramsey@oregonstate.edu>
 
 set -o nounset -o pipefail -o errexit
@@ -9,60 +9,59 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     exit 2
 fi
 
-# Usage: build-semmeddb.sh <output_file.json>
+# Usage: extract-semmeddb.sh <output_file.json>
 
-echo "================= starting build-semmeddb.sh ================="
+echo "================= starting extract-semmeddb.sh ================="
 date
 
-CONFIG_DIR=`dirname "$0"`
-source ${CONFIG_DIR}/master-config.shinc
+config_dir=`dirname "$0"`
+source ${config_dir}/master-config.shinc
 
-SEMMED_OUTPUT_FILE=${1:-"${BUILD_DIR}/kg2-semmeddb-tuplelist.json"}
+semmed_output_file=${1:-"${BUILD_DIR}/kg2-semmeddb-tuplelist.json"}
 
-## supply a default value for the BUILD_FLAG string
-BUILD_FLAG=${2:-""}
+## supply a default value for the build_flag string
+build_flag=${2:-""}
 
-SEMMED_VER=VER31
-SEMMED_DATE=06302018
-SEMMED_DIR=${BUILD_DIR}/semmeddb
-SEMMED_OUTPUT_DIR=`dirname "${SEMMED_OUTPUT_FILE}"`
-SEMMED_SQL_FILE=semmed${SEMMED_VER}_R_WHOLEDB_${SEMMED_DATE}.sql
-MYSQL_DBNAME=semmeddb
+semmed_ver=VER42
+semmed_year=2020
+semmed_dir=${BUILD_DIR}/semmeddb
+semmed_output_dir=`dirname "${semmed_output_file}"`
+semmed_sql_file=semmed${semmed_ver}_${semmed_year}_R_WHOLEDB.sql
+mysql_dbname=semmeddb
 
-rm -r -f ${SEMMED_DIR}
-mkdir -p ${SEMMED_DIR}
-mkdir -p ${SEMMED_OUTPUT_DIR}
+mkdir -p ${semmed_dir}
+mkdir -p ${semmed_output_dir}
 
 ## estimate amount of system ram, in GB
-MEM_GB=`${CODE_DIR}/get-system-memory-gb.sh`
+mem_gb=`${CODE_DIR}/get-system-memory-gb.sh`
 
-aws s3 cp --no-progress --region ${S3_REGION} s3://${S3_BUCKET}/${SEMMED_SQL_FILE}.gz ${SEMMED_DIR}/
+${s3_cp_cmd} s3://${s3_bucket}/${semmed_sql_file}.gz ${semmed_dir}/
 
 ## if a "semmeddb" database already exists, delete it
-    mysql --defaults-extra-file=${MYSQL_CONF} \
-          -e "DROP DATABASE IF EXISTS ${MYSQL_DBNAME}"
+    mysql --defaults-extra-file=${mysql_conf} \
+          -e "DROP DATABASE IF EXISTS ${mysql_dbname}"
     
 ## create the "semmeddb" database
-    mysql --defaults-extra-file=${MYSQL_CONF} \
-          -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DBNAME} CHARACTER SET utf8 COLLATE utf8_unicode_ci"
+    mysql --defaults-extra-file=${mysql_conf} \
+          -e "CREATE DATABASE IF NOT EXISTS ${mysql_dbname} CHARACTER SET utf8 COLLATE utf8_unicode_ci"
 	
-zcat ${SEMMED_DIR}/${SEMMED_SQL_FILE}.gz | mysql --defaults-extra-file=${MYSQL_CONF} --database=${MYSQL_DBNAME}
+zcat ${semmed_dir}/${semmed_sql_file}.gz | mysql --defaults-extra-file=${mysql_conf} --database=${mysql_dbname}
 
-if [[ "${BUILD_FLAG}" == "test" ]]
+if [[ "${build_flag}" == "test" || "${build_flag}" == 'alltest' ]]
 then
-   TEST_ARG=" --test"
+   test_arg=" --test"
 else
-   TEST_ARG=""
+   test_arg=""
 fi
 
 
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/semmeddb_mysql_to_tuple_list_json.py \
-           ${TEST_ARG} \
-	   --mysqlConfigFile ${MYSQL_CONF} \
-	   --mysqlDBName ${MYSQL_DBNAME} \
-	   --outputFile ${SEMMED_OUTPUT_FILE}
+           ${test_arg} \
+	   ${mysql_conf} \
+	   ${mysql_dbname} \
+	   ${semmed_output_file}
 
 date
-echo "================= script finished ================="
+echo "================= finished extract-semmeddb.sh ================="
 
 

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-
 ''' Creates Neo4j index and constraints for KG2
 
-    Usage: create_indexes_constraints.py --user <Neo4j Username>
-                          [--password <Neo4j Password>]
+    Usage: create_indexes_constraints.py [--passwordFile=<password-file-name>] <Neo4j Username> [<Neo4j Password>]
 '''
+
 import argparse
+import json
 import neo4j
 import getpass
 import sys
@@ -55,8 +55,7 @@ def create_index(label_list, property_name):
     # For every label in the label list, create an index
     # on the given property name
     for label in label_list:
-        if label.find(":") < 0:  # CREATE INDEX ON :BFO:0000050 (edge_label) gives error
-            index_query = "CREATE INDEX ON :" + label + " (" + property_name + ")"
+        index_query = "CREATE INDEX ON :`" + label + "` (" + property_name + ")"
         run_query(index_query)
 
 
@@ -72,22 +71,41 @@ def constraint(label_list):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--user", type=str, help="Neo4j Username",
-                        nargs=1, required=True)
-    parser.add_argument("--password", help="Neo4j Password",
-                        type=str, nargs=1, required=False)
+    parser.add_argument("-c", "--configFile", type=str, help="RTXConfiguration JSON file containing the password", required=False, default=None)
+    parser.add_argument("-u", "--user", type=str, help="Neo4j Username", default=None, required=False)
+    parser.add_argument("-p", "--password", help="Neo4j Password", type=str, default=None, required=False)
     arguments = parser.parse_args()
-    username = arguments.user[0]
-    password = arguments.password
-    if password is not None:
-        password = password[0]
-    else:
-        password = getpass.getpass("Please enter the Neo4j database password: ")
+    config_file_name = arguments.configFile
+    if arguments.password is not None and arguments.configFile is not None:
+        print("Not allowed to specify both password_file and password command-line options", file=sys.stderr)
+        sys.exit()
+    if arguments.user is None and arguments.configFile is None:
+        print("Must specify a username on the command-line or via the RTXConfiguration config file", file=sys.stderr)
+        sys.exit()
+    if arguments.user is not None and arguments.configFile is not None:
+        print("Cannot specify the username on both the command-line and the RTXConfiguration config file", file=sys.stderr)
+        sys.exit()
+    password = None
+    neo4j_password = None
+    neo4j_user = None
+    if config_file_name is not None:
+        print(config_file_name)
+        config_data = json.load(open(config_file_name, 'r'))
+        config_data_kg2_neo4j = config_data['KG2']['neo4j']
+        neo4j_user = config_data_kg2_neo4j['username']
+        neo4j_password = config_data_kg2_neo4j['password']
+    if neo4j_password is None:
+        neo4j_password = arguments.password
+    if neo4j_password is None:
+        neo4j_password = getpass.getpass("Please enter the Neo4j database password: ")
+    if arguments.user is not None:
+        neo4j_user = arguments.user
     bolt = 'bolt://127.0.0.1:7687'
-    driver = neo4j.GraphDatabase.driver(bolt, auth=(username, password))
+    driver = neo4j.GraphDatabase.driver(bolt, auth=(neo4j_user, neo4j_password))
     node_label_list = node_labels() + ['Base']
 
-    print("NOTE: Please make sure that the Neo4j database is not set to read-only", file=sys.stderr)
+    print("NOTE: If you are running create_indexes_constraints.py standalone and not via tsv-to-neo4j.sh, please make sure to re-set the read-only status of" +
+          " the Neo4j database to TRUE", file=sys.stderr)
 
     # Create Indexes on Node Properties
     create_index(node_label_list, "category")

@@ -2,15 +2,14 @@
 
 ''' Creates a set of tsv files for importing into Neo4j from KG2 JSON
 
-    Usage: kg_json_to_tsv.py --inputFile <inputKGfile.json>
-                             --outputFileLocation <directory>
+    Usage: kg_json_to_tsv.py  <inputKGfile.json> <outputFileLocationDirectory>
 '''
 
 import json
 import csv as tsv
-import collections
 import datetime
 import argparse
+import sys
 
 __author__ = 'Erica Wood'
 __copyright__ = 'Oregon State University'
@@ -20,6 +19,8 @@ __version__ = '0.1.0'
 __maintainer__ = ''
 __email__ = ''
 __status__ = 'Prototype'
+
+NEO4J_CHAR_LIMIT = 3000000
 
 
 def no_space(original_str, keyslist, replace_str):
@@ -75,14 +76,46 @@ def check_all_edges_have_same_set(edgekeys_list):
     :param edgekeys_list: A list containing keys for an edge
     """
     # Supported_ls is a list of properties that edges can have
-    supported_ls = ["edge label", "negated", "object", "provided by",
-                    "publications", "publications info",
-                    "relation", "relation curie", "subject", "update date",
-                    "simplified relation curie","simplified relation",
-                    "simplified edge label"]
+    supported_ls = ["predicate",
+                    "negated",
+                    "object",
+                    "provided_by",
+                    "publications",
+                    "publications_info",
+                    "relation",
+                    "subject",
+                    "update_date",
+                    "simplified_relation",
+                    "simplified_predicate"]
     for edgelabel in edgekeys_list:
         if edgelabel not in supported_ls:
-            raise ValueError("edge label not in supported list: " + edgelabel)
+            raise ValueError("predicate not in supported list: " + edgelabel)
+
+
+def truncate_node_synonyms_if_too_large(node_synonym_field, node_id):
+    """
+    Truncates a node's list of synonyms if it's too large for Neo4j. (Neo4j apparently cannot 'read a field larger than
+    buffer size 4194304' - see Github issue #460).
+    Replaces any newlines with spaces - see Github issue #1076.
+    """
+    if len(json.dumps(node_synonym_field)) > NEO4J_CHAR_LIMIT:
+        print("warning: truncating 'synonym' field on node {} because it's too big for neo4j".format(node_id), file=sys.stderr)
+        return [synonym.replace("\n"," ") for synonym in node_synonym_field[0:20]]  # Only include the first 20 synonyms
+    else:
+        return [synonym.replace("\n"," ") for synonym in node_synonym_field]
+
+
+def shorten_description_if_too_large(node_description_field, node_id):
+    """
+    Truncates a node's description if it's too large for Neo4j. (Neo4j apparently cannot 'read a field larger than
+    buffer size 4194304' - see Github issue #460).
+    Also replaces newlines with spaces - see Github issue #1076.
+    """
+    if len(node_description_field) > NEO4J_CHAR_LIMIT:
+        print("warning: truncating 'description field on node {} because it's too big for neo4j".format(node_id), file=sys.stderr)
+        return str(list(node_description_field)[0:NEO4J_CHAR_LIMIT]).replace("[", "").replace("]", "").replace("', '", "").replace("'", "").replace("\n"," ")
+    else:
+        return node_description_field.replace("\n"," ")
 
 
 def nodes(graph, output_file_location):
@@ -117,7 +150,7 @@ def nodes(graph, output_file_location):
         single_loop += 1
         if single_loop == 1:
             nodekeys_official = list(sorted(node.keys()))
-            nodekeys_official.append("category label")
+            nodekeys_official.append("category")
 
     for node in nodes:
         # Inrease node counter by one each loop
@@ -125,7 +158,7 @@ def nodes(graph, output_file_location):
 
         # Add all node property labels to a list in the same order
         nodekeys = list(sorted(node.keys()))
-        nodekeys.append("category label")
+        nodekeys.append("category")
 
         # Create list for values of node properties to be added to
         vallist = []
@@ -138,10 +171,16 @@ def nodes(graph, output_file_location):
                 # if it doesn't exist and make the value for that property " "
                 nodekeys.insert(key_count, nodekeys_official[key_count])
                 value = " "
+            elif key == "synonym":
+                value = truncate_node_synonyms_if_too_large(node[key], node['id'])
+                value = str(value).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
+            elif key == "publications":
+                value = str(node[key]).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
+            elif key == "description" and node[key] is not None:
+                value = shorten_description_if_too_large(node[key], node['id'])
             else:
                 # If the property does exist, assign the property value
                 value = node[key]
-
             # Add the value of the property to the property value list
             vallist.append(value)
 
@@ -151,14 +190,10 @@ def nodes(graph, output_file_location):
         # Add the edge property labels to the edge header TSV file
         # But only for the first edge
         if loop == 1:
-            nodekeys = no_space('provided by', nodekeys, 'provided_by')
-            nodekeys = no_space('replaced by', nodekeys, 'replaced_by')
-            nodekeys = no_space('creation date', nodekeys, 'creation_date')
-            nodekeys = no_space('full name', nodekeys, 'full_name')
-            nodekeys = no_space('update date', nodekeys, 'update_date')
-            nodekeys = no_space('category label', nodekeys, ':LABEL')
-            nodekeys = no_space('category label', nodekeys, 'category_label')
             nodekeys = no_space('id', nodekeys, 'id:ID')
+            nodekeys = no_space('publications', nodekeys, "publications:string[]")
+            nodekeys = no_space('synonym', nodekeys, "synonym:string[]")
+            nodekeys = no_space('category', nodekeys, ':LABEL')
             tsvwrite_h.writerow(nodekeys)
         tsvwrite.writerow(vallist)
 
@@ -170,14 +205,14 @@ def nodes(graph, output_file_location):
 def limit_publication_info_size(key, pub_inf_dict):
     """
     :param key: A list containing keys for an edge
-    :param pub_inf_dict: A dictionary containing the publications info fields
+    :param pub_inf_dict: A dictionary containing the publications_info fields
     """
     new_pub_inf_dict = {}
 
-    # Dump the publications info dictionary into a string
+    # Dump the publications_info dictionary into a string
     value_string = json.dumps(pub_inf_dict)
 
-    # If the publications info dictionary is longer than 300000 characters
+    # If the publications_info dictionary is longer than 300000 characters
     # Limit the dicitionary to 6 pieces of publication info
     if len(value_string) > 300000:
         loop = 0
@@ -221,9 +256,9 @@ def edges(graph, output_file_location):
         edgekeys = list(sorted(edge.keys()))
         check_all_edges_have_same_set(edgekeys)
 
-        # Add an extra property of "edge label" to the list so that edge_labels
+        # Add an extra property of "predicate" to the list so that predicates
         # can be a property and a label
-        edgekeys.append('simplified edge label')
+        edgekeys.append('simplified_relation')
         edgekeys.append('subject')
         edgekeys.append('object')
 
@@ -231,30 +266,27 @@ def edges(graph, output_file_location):
         vallist = []
         for key in edgekeys:
             # Add the value for each edge property to the value list
-            # and limit the size of the publications info dictionary
+            # and limit the size of the publications_info dictionary
             # to avoid Neo4j buffer size error
             value = edge[key]
-            if key == "publications info":
+            if key == "publications_info":
                 value = limit_publication_info_size(key, value)
-            elif key == 'edge label':  # fix for issue number 473 (hyphens in edge labels)
+            elif key == 'provided_by':
+                value = str(value).replace("', '", "; ").replace("['", "").replace("']", "")
+            elif key == 'predicate':  # fix for issue number 473 (hyphens in predicates)
                 value = value.replace('-', '_').replace('(', '').replace(')', '')
+            elif key == 'publications':
+                value = str(value).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
             vallist.append(value)
 
         # Add the edge property labels to the edge header TSV file
         # But only for the first edge
         if loop == 1:
-            edgekeys = no_space('publications info', edgekeys,
-                                'publications_info')
-            edgekeys = no_space('provided by', edgekeys, 'provided_by')
-            edgekeys = no_space('relation curie', edgekeys, 'relation_curie')
-            edgekeys = no_space('update date', edgekeys, 'update_date')
-            edgekeys = no_space('simplified relation curie', edgekeys, 'simplified_relation_curie')
-            edgekeys = no_space('simplified relation', edgekeys, 'simplified_relation')
-            edgekeys = no_space('simplified edge label', edgekeys, 'simplified_edge_label')
-            edgekeys = no_space('simplified edge label', edgekeys, 'edge_label:TYPE')
-            edgekeys = no_space('edge label', edgekeys, 'edge_label')
+            edgekeys = no_space('provided_by', edgekeys, 'provided_by:string[]')
+            edgekeys = no_space('simplified_relation', edgekeys, 'predicate:TYPE')
             edgekeys = no_space('subject', edgekeys, ':START_ID')
             edgekeys = no_space('object', edgekeys, ':END_ID')
+            edgekeys = no_space('publications', edgekeys, "publications:string[]")
             tsvwrite_h.writerow(edgekeys)
         tsvwrite.writerow(vallist)
 
@@ -266,21 +298,21 @@ def edges(graph, output_file_location):
 if __name__ == '__main__':
     print("Start time: ", date())
     parser = argparse.ArgumentParser()
-    parser.add_argument("--inputFile", type=str, help="Path to Knowledge Graph \
-                        JSON File to Import",
-                        nargs=1, required=True)
-    parser.add_argument("--outputFileLocation", help="Path to Directory for Output\
-                        TSV Files to Go", type=str, nargs=1, required=True)
+    parser.add_argument("inputFile", type=str, help="Path to Knowledge Graph \
+                        JSON File to Import")
+    parser.add_argument("outputFileLocation", help="Path to Directory for Output\
+                        TSV Files to Go", type=str)
     arguments = parser.parse_args()
     print("Start load: ", date())
-    with open(arguments.inputFile[0]) as json_file:
+    with open(arguments.inputFile) as json_file:
         graph = json.load(json_file)
         print("End load: ", date())
         print("Start nodes: ", date())
-        nodes(graph, arguments.outputFileLocation[0])
+        output_file_location = arguments.outputFileLocation
+        nodes(graph, output_file_location)
         print("Finish nodes: ", date())
         print("Start edges: ", date())
-        edges(graph, arguments.outputFileLocation[0])
+        edges(graph, output_file_location)
         print("Finish edges: ", date())
         json_file.close()
         print("Finish time: ", date())

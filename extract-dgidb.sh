@@ -9,21 +9,27 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     exit 2
 fi
 
-echo "================= starting build-unichem.sh ================="
+echo "================= starting extract-dgidb.sh ================="
 date
 
-CONFIG_DIR=`dirname "$0"`
-source ${CONFIG_DIR}/master-config.shinc
+config_dir=`dirname "$0"`
+source ${config_dir}/master-config.shinc
 
-DGIDB_DIR=${1:-"${BUILD_DIR}/dgidb/"}
-DGIDB_FILE=interactions.tsv
+dgidb_dir=${1:-"${BUILD_DIR}/dgidb/"}
+dgidb_file=interactions.tsv
+dgidb_base_url="https://www.dgidb.org/"
+mkdir -p ${dgidb_dir}
 
-mkdir -p ${DGIDB_DIR}
+# not the most future proof, but finds the first table entry of interactions.tsv and grabs url from href
+dgidb_path=`${curl_get} http://www.dgidb.org/downloads | grep -m 1 'interactions.tsv' | sed 's:<td><a href="\(.*\)">.*</a></td>:\1:'`
+update_date=`echo ${dgidb_path} | grep -i -o -E '[0-9]{4}-[a-z]{3}'`
+dgidb_url="${dgidb_base_url}${dgidb_path}"
 
-${CURL_GET} http://www.dgidb.org/data/${DGIDB_FILE} > /tmp/${DGIDB_FILE}
-UPDATE_DATE=`${CURL_GET} http://www.dgidb.org/downloads | grep 'Last updated' | sed 's/Last updated //g'`
-echo "#${UPDATE_DATE}" > ${DGIDB_DIR}/${DGIDB_FILE}
-cat /tmp/${DGIDB_FILE} >> ${DGIDB_DIR}/${DGIDB_FILE}
+${curl_get} ${dgidb_url} > /tmp/${dgidb_file}
+
+echo ${update_date}
+echo "#${update_date}" > ${dgidb_dir}/${dgidb_file}
+cat /tmp/${dgidb_file} >> ${dgidb_dir}/${dgidb_file}
 
 date
-echo "================= script finished ================="
+echo "================= finished extract-dgidb.sh ================="

@@ -1,0 +1,140 @@
+rule KG_One:
+    input:
+        config['BUILD_DIR'] + "/validation-placeholder.empty"
+    output:
+        config['KG1_OUTPUT_FILE']
+    run:
+        shell(config['S3_CP_CMD'] + " s3://rtx-kg2/" + config['RTX_CONFIG_FILE'] + " " + config['BUILD_DIR'] + "/" + config['RTX_CONFIG_FILE'])
+        shell(config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/rtx_kg1_neo4j_to_kg_json.py " + config['TEST_ARG'] + " --configFile " + config['BUILD_DIR'] + "/" + config['RTX_CONFIG_FILE'] + " " + config['CURIES_TO_URLS_FILE'] + " {output}")
+
+rule Ontologies_and_TTL:
+    input:
+        real = config['BUILD_DIR'] + "/umls-placeholder.empty",
+        validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
+    output:
+        config['OUTPUT_FILE_FULL']
+    log:
+        config['BUILD_DIR'] + "/build-multi-ont-kg" + config['TEST_SUFFIX'] + ".log"
+    shell:
+        "bash -x " + config['CODE_DIR'] + "/build-multi-ont-kg.sh {output} " + config['TEST_FLAG'] + " > {log} 2>&1" 
+
+rule NCBIGene_Conversion:
+    input:
+        real = config['NCBI_GENE_TSV_FILE'],
+        validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
+    output:
+        config['NCBI_GENE_OUTPUT_FILE']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/ncbigene_tsv_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output}"
+
+rule DGIDB_Conversion:
+    input:
+        real = config['DGIDB_DIR'] + "/interactions.tsv",
+        validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
+    output:
+        config['DGIDB_OUTPUT_FILE']
+    log:
+        config['DGIDB_DIR'] + "/dgidb-tsv-to-kg-json-stderr" + config['TEST_SUFFIX'] + ".log"
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/dgidb_tsv_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output}" + " > {log} 2>&1"
+
+rule ChemBL_Conversion:
+    input:
+        placeholder = config['BUILD_DIR'] + "/chembl-placeholder.empty",
+        validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
+    output:
+        config['CHEMBL_OUTPUT_FILE']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/chembl_mysql_to_kg_json.py " + config['TEST_ARG'] + " " + config['MYSQL_CONF'] + " " + config['CHEMBL_MYSQL_DBNAME'] + " {output}"
+
+rule UniChem_Conversion:
+    input:
+        real = config['UNICHEM_OUTPUT_TSV_FILE'],
+        validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
+    output:
+        config['UNICHEM_OUTPUT_FILE']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/unichem_tsv_to_edges_json.py " + config['TEST_ARG'] + " {input.real} {output}"
+
+rule Ensembl_Conversion:
+    input:
+        real = config['ENSEMBL_SOURCE_JSON_FILE'],
+        validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
+    output:
+        config['ENSEMBL_OUTPUT_FILE']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/ensembl_json_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output}"
+
+rule SemMed_Conversion:
+    input:
+        real = config['SEMMED_TUPLELIST_FILE'],
+        mrcui_req = config['BUILD_DIR'] + "/umls-placeholder.empty",
+        validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
+    output:
+        config['SEMMED_OUTPUT_FILE']
+    log:
+        config['BUILD_DIR'] + "/semmeddb-tuple-list-json-to-kg-json" + config['TEST_SUFFIX'] + ".log"
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/semmeddb_tuple_list_json_to_kg_json.py " + config['TEST_ARG'] + " --mrcuiFile ~/kg2-build/umls/META/MRCUI.RRF {input.real} {output} > {log} 2>&1"
+
+rule Uniprot_Conversion:
+    input:
+        real = config['UNIPROTKB_DAT_FILE'],
+        validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
+    output:
+        config['UNIPROTKB_OUTPUT_FILE']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/uniprotkb_dat_to_json.py " + config['TEST_ARG'] + " {input.real} {output}"
+
+rule RepoDB_Conversion:
+    input:
+        real = config['REPODB_INPUT_FILE'],
+        validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
+    output:
+        config['REPODB_OUTPUT_FILE']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/repodb_csv_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output}"
+
+rule SMPDB_Conversion:
+    input:
+        real = config['SMPDB_INPUT_FILE'],
+        validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
+    output:
+        config['SMPDB_OUTPUT_FILE']
+    log:
+        config['SMPDB_DIR'] + "/smpdb-csv-to-kg-json" + config['TEST_SUFFIX'] + ".log"
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/smpdb_csv_to_kg_json.py " + config['TEST_ARG'] + " " + config['SMPDB_DIR'] + " {output} > {log} 2>&1"
+
+rule DrugBank_Conversion:
+    input:
+        real = config['DRUGBANK_INPUT_FILE'],
+        validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
+    output:
+        config['DRUGBANK_OUTPUT_FILE']
+    log:
+        config['BUILD_DIR'] + "/drugbank-xml-to-kg-json" + config['TEST_SUFFIX'] + ".log"
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/drugbank_xml_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output} > {log} 2>&1"
+
+rule HMDB_Conversion:
+    input:
+        real = config['HMDB_INPUT_FILE'],
+        validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
+    output:
+        config['HMDB_OUTPUT_FILE']
+    log:
+        config['BUILD_DIR'] + "/hmdb-xml-to-kg-json" + config['TEST_SUFFIX'] + ".log"
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/hmdb_xml_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output} > {log} 2>&1"
+
+rule GO_Annotations_Conversion:
+    input:
+        real = config['GO_ANNOTATION_INPUT_FILE'],
+        validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
+    output:
+        config['GO_ANNOTATION_OUTPUT_FILE']
+    log:
+        config['BUILD_DIR'] + "/go-gpa-to-kg-json" + config['TEST_SUFFIX'] + ".log"
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/go_gpa_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output} > {log} 2>&1"
