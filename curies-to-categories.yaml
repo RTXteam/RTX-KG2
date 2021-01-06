@@ -134,11 +134,7 @@ term-mappings:
     MEDDRA:10047065: disease
     MESH:D000715: anatomical entity
     MESH:D000760: procedure
-    # The following term (MESH:D001520) was `activity and behavior` until that
-    # biolink category became a mixin class which cannot inherit from `named
-    # thing`, so we are going with `named thing` for now, until a more specific
-    # subclass of `named thing` is available See also #1148:
-    MESH:D001520: named thing
+    MESH:D001520: activity
     MESH:D001523: disease
     MESH:D003933: procedure
     MESH:D004864: device
@@ -162,11 +158,7 @@ term-mappings:
     MONDO:0042489: phenotypic feature
     MONDO:0021007: disease
     MPATH:0: biological entity
-    # The following term (NBO:0000313) was `activity and behavior` until that
-    # biolink category became a mixin class which cannot inherit from `named
-    # thing`, so we are going with `named thing` for now, until a more specific
-    # subclass of `named thing` is available See also #1148:
-    NBO:0000313: named thing
+    NBO:0000313: activity
     NBO:0000243: phenotypic feature
     NCBITaxon:1: organism taxon
     NCIT:C1909: drug
@@ -178,21 +170,13 @@ term-mappings:
     NCIT:C12913: cell
     NCIT:C25218: clinical intervention
     NCIT:C42645: named thing
-    # The following term (NCIT:C16203) was `activity and behavior` until that
-    # biolink category became a mixin class which cannot inherit from `named
-    # thing`, so we are going with `named thing` for now, until a more specific
-    # subclass of `named thing` is available See also #1148:
-    NCIT:C16203: named thing
+    NCIT:C16203: activity
     NCIT:C12219: anatomical entity
     NCIT:C20633: pathway
     NCIT:C17828: biological process
     NCIT:C12218: treatment
-    # The following terms (NCIT:C16326, NCIT:C43431) were `activity and behavior` until that
-    # biolink category became a mixin class which cannot inherit from `named
-    # thing`, so we are going with `named thing` for now, until a more specific
-    # subclass of `named thing` is available See also #1148:
-    NCIT:C16326: named thing
-    NCIT:C43431: named thing
+    NCIT:C16326: activity
+    NCIT:C43431: activity
     NCIT:C20047: phenotypic feature
     NCIT:C7057: phenotypic feature
     NCIT:C22188: anatomical entity
@@ -223,11 +207,7 @@ term-mappings:
     owl:Thing: named thing
     PR:000000001: protein
     SO:0001217: gene
-    # The following term (SNOMED:48176007) was `activity and behavior` until that
-    # biolink category became a mixin class which cannot inherit from `named
-    # thing`, so we are going with `named thing` for now, until a more specific
-    # subclass of `named thing` is available See also #1148:
-    SNOMED:48176007: named thing
+    SNOMED:48176007: activity
     SNOMED:64572001: disease
     SNOMED:71388002: clinical intervention
     SNOMED:78621006: phenomenon
@@ -300,30 +280,22 @@ term-mappings:
     UMLS_STY:T048: disease
     UMLS_STY:T049: disease
     UMLS_STY:T050: biological entity
-    # The following terms (51-57) were all `activity and behavior` until that
-    # biolink category became a mixin class which cannot inherit from `named
-    # thing`, so we are going with `named thing` for now, until a more specific
-    # subclass of `named thing` is available See also #1148:
-    UMLS_STY:T051: named thing 
-    UMLS_STY:T052: named thing
-    UMLS_STY:T053: phenomenon
-    UMLS_STY:T054: phenomenon
-    UMLS_STY:T055: phenomenon
-    UMLS_STY:T056: named thing
-    UMLS_STY:T057: named thing
+    UMLS_STY:T051: activity 
+    UMLS_STY:T052: activity
+    UMLS_STY:T053: activity
+    UMLS_STY:T054: activity
+    UMLS_STY:T055: activity
+    UMLS_STY:T056: activity
+    UMLS_STY:T057: activity 
     UMLS_STY:T058: procedure
     UMLS_STY:T059: procedure
     UMLS_STY:T060: procedure
     UMLS_STY:T061: procedure
     UMLS_STY:T062: procedure
     UMLS_STY:T063: procedure
-    # The following terms (64, 66) were all `activity and behavior` until that
-    # biolink category became a mixin class which cannot inherit from `named
-    # thing`, so we are going with `named thing` for now, until a more specific
-    # subclass of `named thing` is available See also #1148:
-    UMLS_STY:T064: named thing
+    UMLS_STY:T064: activity 
     UMLS_STY:T065: procedure
-    UMLS_STY:T066: named thing
+    UMLS_STY:T066: activity
     # The following term (67) was `occurent` until that
     # biolink category became a mixin class which cannot inherit from `named
     # thing`, so we are going with `named thing` for now, until a more specific
