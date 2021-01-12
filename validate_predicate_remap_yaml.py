@@ -96,11 +96,11 @@ for relation, instruction_dict in pred_info.items():
             command = 'rename'
             subinfo = ['coexists_with', 'biolink:coexists_with']
     if subinfo is not None:
-        simplified_relation = subinfo[1]
-        if not simplified_relation.startswith('biolink:') and not simplified_relation.startswith('skos:closeMatch'):
-            if simplified_relation.startswith('FMA:') or \
-               simplified_relation.startswith('BSPO:') or \
-               simplified_relation.startswith('UBERON:'):
+        predicate = subinfo[1]
+        if not predicate.startswith('biolink:') and not predicate.startswith('skos:closeMatch'):
+            if predicate.startswith('FMA:') or \
+               predicate.startswith('BSPO:') or \
+               predicate.startswith('UBERON:'):
                 command = 'rename'
                 subinfo = ['coexists_with', 'biolink:coexists_with']
             else:
