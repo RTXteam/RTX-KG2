@@ -76,7 +76,7 @@ def check_all_edges_have_same_set(edgekeys_list):
     :param edgekeys_list: A list containing keys for an edge
     """
     # Supported_ls is a list of properties that edges can have
-    supported_ls = ["predicate",
+    supported_ls = ["relation_label",
                     "negated",
                     "object",
                     "provided_by",
@@ -85,11 +85,11 @@ def check_all_edges_have_same_set(edgekeys_list):
                     "relation",
                     "subject",
                     "update_date",
-                    "simplified_relation",
-                    "simplified_predicate"]
+                    "predicate",
+                    "predicate_label"]
     for edgelabel in edgekeys_list:
         if edgelabel not in supported_ls:
-            raise ValueError("predicate not in supported list: " + edgelabel)
+            raise ValueError("relation_label not in supported list: " + edgelabel)
 
 
 def truncate_node_synonyms_if_too_large(node_synonym_field, node_id):
@@ -258,7 +258,7 @@ def edges(graph, output_file_location):
 
         # Add an extra property of "predicate" to the list so that predicates
         # can be a property and a label
-        edgekeys.append('simplified_relation')
+        edgekeys.append('predicate')
         edgekeys.append('subject')
         edgekeys.append('object')
 
@@ -273,7 +273,7 @@ def edges(graph, output_file_location):
                 value = limit_publication_info_size(key, value)
             elif key == 'provided_by':
                 value = str(value).replace("', '", "; ").replace("['", "").replace("']", "")
-            elif key == 'predicate':  # fix for issue number 473 (hyphens in predicates)
+            elif key == 'relation_label':  # fix for issue number 473 (hyphens in relation_labels)
                 value = value.replace('-', '_').replace('(', '').replace(')', '')
             elif key == 'publications':
                 value = str(value).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
@@ -283,7 +283,7 @@ def edges(graph, output_file_location):
         # But only for the first edge
         if loop == 1:
             edgekeys = no_space('provided_by', edgekeys, 'provided_by:string[]')
-            edgekeys = no_space('simplified_relation', edgekeys, 'predicate:TYPE')
+            edgekeys = no_space('predicate', edgekeys, 'predicate:TYPE')
             edgekeys = no_space('subject', edgekeys, ':START_ID')
             edgekeys = no_space('object', edgekeys, ':END_ID')
             edgekeys = no_space('publications', edgekeys, "publications:string[]")

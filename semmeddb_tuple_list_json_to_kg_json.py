@@ -214,10 +214,10 @@ if __name__ == '__main__':
         for rel_to_make in get_rels_to_make_for_row(subject_cui_str, object_cui_str, predicate, remapped_cuis):
             subject_curie = rel_to_make[0]
             object_curie = rel_to_make[1]
-            edge_label = rel_to_make[2]
+            relation_label = rel_to_make[2]
             # Exclude self-edges for certain types of predicates
-            if subject_curie != object_curie or edge_label.lower() not in EDGE_LABELS_EXCLUDE_FOR_LOOPS:
-                make_rel(edges_dict, subject_curie, object_curie, edge_label, pmid, pub_date, sentence,
+            if subject_curie != object_curie or relation_label.lower() not in EDGE_LABELS_EXCLUDE_FOR_LOOPS:
+                make_rel(edges_dict, subject_curie, object_curie, relation_label, pmid, pub_date, sentence,
                          subject_score, object_score, negated)
 
         if predicate not in nodes_dict:

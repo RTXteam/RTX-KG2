@@ -19,14 +19,15 @@ import pprint
 import sys
 from datetime import datetime
 
-# - check for any input predicates that occur twice in the predicate-remap.yaml file
+# - check for any input relation_labels that occur twice in the predicate-remap.yaml file
+# - rename script something like "filter_kg_and_remap_relation_labels.py"
 # - need to detect the command "keep" in the YAML file
 # - drop edges with 'NEGATION' ?
 # - *don't* merge two edges if at least one of them has nonempty publication_info
 # - change 'xref' to skos:closeMatch (skos)
 # - drop any edge if it is in between two SnoMedCT nodes (optionally; use command-line option)
 # - programmatically generate list of "keep" lines to add to the YAML file so all 1,100
-#   distinct predicates are represented in the file
+#   distinct relation_labels are represented in the file
 # - note (somehow) if a relationship has been inverted, in the "orig_relation_curie" field
 
 
@@ -76,10 +77,10 @@ if __name__ == '__main__':
             print('processing edge ' + str(edge_ctr) + ' out of ' + str(len(graph['edges'])))
         if drop_negated and edge_dict['negated']:
             continue
-        predicate = edge_dict['predicate']
-        simplified_predicate = predicate
+        relation_label = edge_dict['relation_label']
+        predicate_label = relation_label
         relation_curie = edge_dict['relation']
-        simplified_relation_curie = relation_curie
+        predicate_curie = relation_curie
         if record_of_relation_curie_occurrences.get(relation_curie, None) is not None:
             record_of_relation_curie_occurrences[relation_curie] = True
             pred_remap_info = predicate_remap_config.get(relation_curie, None)
@@ -106,26 +107,26 @@ if __name__ == '__main__':
                 else:
                     get_new_rel_info = True
         if get_new_rel_info:
-            simplified_predicate = remap_subinfo[0]
-            simplified_relation_curie = remap_subinfo[1]
+            predicate_label = remap_subinfo[0]
+            predicate_curie = remap_subinfo[1]
         if invert:
-            edge_dict['predicate'] = 'INVERTED:' + predicate
+            edge_dict['relation_label'] = 'INVERTED:' + relation_label
             new_object = edge_dict['subject']
             edge_dict['subject'] = edge_dict['object']
             edge_dict['object'] = new_object
-        edge_dict['simplified_predicate'] = simplified_predicate
+        edge_dict['predicate_label'] = predicate_label
         if drop_self_edges_except is not None and \
            edge_dict['subject'] == edge_dict['object'] and \
-           simplified_predicate not in drop_self_edges_except:
+           predicate_label not in drop_self_edges_except:
             continue  # see issue 743
-        edge_dict['simplified_relation'] = simplified_relation_curie
-        if simplified_relation_curie not in nodes_dict:
-            simplified_relation_curie_prefix = simplified_relation_curie.split(':')[0]
-            simplified_relation_uri_prefix = curie_to_uri_expander(simplified_relation_curie_prefix + ':')
-            if simplified_relation_uri_prefix == simplified_relation_curie_prefix:
-                relation_curies_not_in_nodes.add(simplified_relation_curie)
+        edge_dict['predicate'] = predicate_curie
+        if predicate_curie not in nodes_dict:
+            predicate_curie_prefix = predicate_curie.split(':')[0]
+            predicate_uri_prefix = curie_to_uri_expander(predicate_curie_prefix + ':')
+            if predicate_uri_prefix == predicate_curie_prefix:
+                relation_curies_not_in_nodes.add(predicate_curie)
         edge_dict['provided_by'] = [edge_dict['provided_by']]
-        edge_key = edge_dict['subject'] + ' /// ' + simplified_predicate + ' /// ' + edge_dict['object']
+        edge_key = edge_dict['subject'] + ' /// ' + predicate_label + ' /// ' + edge_dict['object']
         existing_edge = new_edges.get(edge_key, None)
         if existing_edge is not None:
             existing_edge['provided_by'] = sorted(list(set(existing_edge['provided_by'] + edge_dict['provided_by'])))
