@@ -26,7 +26,7 @@ UNIPROTKB_IDENTIFIER_BASE_IRI = kg2_util.BASE_URL_UNIPROTKB
 UNIPROT_KB_URL = kg2_util.BASE_URL_IDENTIFIERS_ORG_REGISTRY + 'uniprot'
 
 RE_ORGANISM_TAXID = re.compile(r'NCBI_TaxID=(\d+)')
-FIELD_CODES_USE_STRING = ['ID', 'SQ', 'RA', 'RX', 'RT', 'KW', 'CC', 'GN']
+FIELD_CODES_USE_STRING = ['ID', 'SQ', 'RA', 'RX', 'RT', 'KW', 'CC', 'GN', 'OS']
 FIELD_CODES_DO_NOT_STRIP_NEWLINE = ['SQ']
 FIELD_CODES_DO_NOT_STRIP_RIGHT_SEMICOLON = {'RX', 'CC'}
 REGEX_PUBLICATIONS = re.compile(r'((?:(?:PMID)|(?:PubMed)):\d+)')
@@ -36,6 +36,7 @@ REGEX_HGNC = re.compile(r'^HGNC; (HGNC:\d+)')
 REGEX_NCBIGeneID = re.compile(r'^GeneID; (\d+)')
 REGEX_XREF = re.compile(r'Xref=([^\;]+)\;')
 REGEX_EC_XREF = re.compile(r'EC=([\d\.]+)')
+REGEX_SEPARATE_EVIDENCE_CODES =  re.compile(r'(.*?)(\{(.*?)\})')
 
 DESIRED_SPECIES_INTS = set([kg2_util.NCBI_TAXON_ID_HUMAN])
 
@@ -261,6 +262,15 @@ def make_nodes(records: list):
                 name = gene_symbol
             else:
                 name = full_name
+        # move evidence codes from name to description (issue #1171)
+        match = REGEX_SEPARATE_EVIDENCE_CODES.match(name)
+        if match is not None:
+            name, ev_codes, _ = match.groups()
+            description += f"Evidence Codes from Name: {ev_codes} "
+        # append species name to name if not human (issue #1171)
+        species = record_dict.get('OS', 'unknown species').rstrip(".")
+        if not "human" in species.lower():
+            name += f" ({species})"
         node_curie = kg2_util.CURIE_PREFIX_UNIPROT + ':' + accession
         iri = UNIPROTKB_IDENTIFIER_BASE_IRI + accession
         category_label = kg2_util.BIOLINK_CATEGORY_PROTEIN
@@ -293,6 +303,7 @@ if __name__ == '__main__':
      update_date] = parse_records_from_uniprot_dat(input_file_name,
                                                    DESIRED_SPECIES_INTS,
                                                    test_mode)
+
     nodes_dict = make_nodes(uniprot_records)
     ontology_curie_id = UNIPROTKB_PROVIDED_BY_CURIE_ID
     ont_node = kg2_util.make_node(ontology_curie_id,

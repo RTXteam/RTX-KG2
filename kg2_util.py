@@ -629,7 +629,7 @@ def make_edge(subject_id: str,
 
     return {'subject': subject_id,
             'object': object_id,
-            'predicate': predicate_label,
+            'relation_label': predicate_label,
             'relation': relation_curie,
             'negated': False,
             'publications': [],

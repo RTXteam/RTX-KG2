@@ -776,7 +776,7 @@ the following keys:
 
 ## `edges` slot
 - `edges`: a list of edge objects. Each edge object has the following keys:
-  - `edge_label`: a `snake_case` representation of the plain English label for
+  - `relation_label`: a `snake_case` representation of the plain English label for
     the original predicate for the edge provided by the upstream source database
     (see the `relation` field)
   - `negated`: a Boolean field indicating whether or not the edge relationship
@@ -794,10 +794,10 @@ the following keys:
   `publications` field, and whose values are described in the next subsection ("publication_info")
   - `relation`: a CURIE ID for the relation as reported by the upstream
     database source.
-  - `simplified_edge_label`: a `snake_case` representation of the plain English
-    label for the simplified predicate (see the `simplified relation`
+  - `predicate_label`: a `snake_case` representation of the plain English
+    label for the simplified predicate (see the `predicate`
     field); in most cases this is a predicate type from the Biolink model.
-  - `simplified_relation`: a CURIE ID for the simplified relation
+  - `predicate`: a CURIE ID for the simplified relation
   - `subject`: the CURIE ID (`id`) for the KG2 node that is the subject of the
     edge
   - `update_date`: a string identifier of the date in which the information for
