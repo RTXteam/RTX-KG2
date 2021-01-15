@@ -115,7 +115,7 @@ def _canonicalize_edges(edges: List[Dict[str, any]], curie_map: Dict[str, str], 
             assert original_target_id in curie_map
         canonicalized_source_id = curie_map.get(original_source_id, original_source_id)
         canonicalized_target_id = curie_map.get(original_target_id, original_target_id)
-        edge_type = edge['simplified_relation']
+        edge_type = edge['predicate']
         edge_publications = edge['publications'] if edge.get('publications') else []
         edge_provided_by = edge['provided_by'] if edge.get('provided_by') else []
         if canonicalized_source_id != canonicalized_target_id or edge_type in allowed_self_edges:
@@ -127,7 +127,7 @@ def _canonicalize_edges(edges: List[Dict[str, any]], curie_map: Dict[str, str], 
             else:
                 new_canonicalized_edge = _create_edge(source=canonicalized_source_id,
                                                       target=canonicalized_target_id,
-                                                      simplified_relation=edge['simplified_relation'],
+                                                      predicate=edge['predicate'],
                                                       provided_by=edge_provided_by,
                                                       publications=edge_publications)
                 canonicalized_edges[canonicalized_edge_key] = new_canonicalized_edge
@@ -148,7 +148,7 @@ def _modify_column_headers_for_neo4j(plain_column_headers: List[str]) -> List[st
             header = ":START_ID"
         elif header == 'object_for_conversion':
             header = ":END_ID"
-        elif header == 'simplified_relation_for_conversion':
+        elif header == 'predicate_for_conversion':
             header = ":TYPE"
         modified_headers.append(header)
     return modified_headers
@@ -175,16 +175,16 @@ def _create_node(node_id: str, name: str, preferred_type: str, types: List[str],
     }
 
 
-def _create_edge(source: str, target: str, simplified_relation: str, provided_by: List[str], publications: List[str]) -> Dict[str, any]:
+def _create_edge(source: str, target: str, predicate: str, provided_by: List[str], publications: List[str]) -> Dict[str, any]:
     assert isinstance(source, str)
     assert isinstance(target, str)
-    assert isinstance(simplified_relation, str)
+    assert isinstance(predicate, str)
     assert isinstance(provided_by, list)
     assert isinstance(publications, list)
     return {
         "subject": source,
         "object": target,
-        "simplified_relation": simplified_relation,
+        "predicate": predicate,
         "provided_by": provided_by,
         "publications": publications
     }
@@ -221,8 +221,8 @@ def create_canonicalized_tsvs(is_test=False):
         print(f"ERROR: Couldn't get node data from KG2 neo4j.")
         return
     print(f" Extracting edges from KG2..")
-    edges_query = f"match (n)-[e]->(m) return n.id as subject, m.id as object, e.simplified_relation as " \
-                  f"simplified_relation, e.provided_by as provided_by, e.publications as publications" \
+    edges_query = f"match (n)-[e]->(m) return n.id as subject, m.id as object, e.predicate as " \
+                  f"predicate, e.provided_by as provided_by, e.publications as publications" \
                   f"{' limit 20000' if is_test else ''}"
     neo4j_edges = _run_kg2_cypher_query(edges_query)
     if neo4j_edges:
@@ -265,7 +265,7 @@ def create_canonicalized_tsvs(is_test=False):
             assert canonicalized_edge['object'] in canonicalized_nodes_dict
         for list_edge_property in ARRAY_EDGE_PROPERTIES:
             canonicalized_edge[list_edge_property] = _convert_list_to_neo4j_format(canonicalized_edge[list_edge_property])
-        canonicalized_edge['simplified_relation_for_conversion'] = canonicalized_edge['simplified_relation']
+        canonicalized_edge['predicate_for_conversion'] = canonicalized_edge['predicate']
         canonicalized_edge['subject_for_conversion'] = canonicalized_edge['subject']
         canonicalized_edge['object_for_conversion'] = canonicalized_edge['object']
 
