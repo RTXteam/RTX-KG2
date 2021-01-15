@@ -198,6 +198,7 @@ if __name__ == '__main__':
         del edge_dict['source_node_uuid']
         del edge_dict['target_node_uuid']
         predicate_label = edge_dict['relation']
+        edge_dict['relation_label'] = predicate_label
         del edge_dict['relation']
         relation_curie = kg2_util.predicate_label_to_curie(predicate_label,
                                                            KG1_RELATION_CURIE_PREFIX)
@@ -222,7 +223,6 @@ if __name__ == '__main__':
                   file=sys.stderr)
         if edge_dict.get('predicate', None) is not None:
             del edge_dict['predicate']
-        edge_dict['predicate'] = predicate_label
         probability = edge_dict.get('probability', None)
         if probability is not None:
             publication_info_dict = {'publication date': None,

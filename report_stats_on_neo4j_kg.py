@@ -115,8 +115,8 @@ def count_edges_by_predicate_curie(session):
 
 
 def count_edges_by_predicate_type(session):
-    res = session.run('MATCH (n)-[r]->() RETURN r.predicate AS PredicateType,\
-    count(r) AS NumberofRelationships ORDER BY r.predicate')
+    res = session.run('MATCH (n)-[r]->() RETURN r.relation_label AS PredicateType,\
+    count(r) AS NumberofRelationships ORDER BY r.relation_label')
     return {record[0]: record[1] for record in res.records()}
 
 
@@ -129,7 +129,7 @@ def count_edges_by_predicate_curie_prefix(session):
 
 def count_predicates_by_predicate_curie_prefix(session):
     res = session.run('MATCH (n)-[r]->() WITH split(r.relation, ":")[0]\
-    AS CuriePrefix, count(DISTINCT r.predicate) AS Count RETURN DISTINCT\
+    AS CuriePrefix, count(DISTINCT r.relation_label) AS Count RETURN DISTINCT\
     CuriePrefix, Count')
     return {record[0]: record[1] for record in res.records()}
 
