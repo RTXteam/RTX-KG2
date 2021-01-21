@@ -70,13 +70,18 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
              drug_claim_name,
              drug_claim_primary_name,
              drug_name,
-             drug_chembl_id,
+             drug_concept_id,
              _, #12.5.2020 new field in tsv: interaction group score
              PMIDs] = fields
             if entrez_id != "":
                 object_curie_id = kg2_util.CURIE_PREFIX_NCBI_GENE + ':' + entrez_id
-                if drug_chembl_id != "":
-                    subject_curie_id = kg2_util.CURIE_PREFIX_CHEMBL_COMPOUND + ':' + drug_chembl_id
+                if drug_concept_id != "":   
+                    if "chembl" in drug_concept_id:
+                        _, chembl_id = drug_concept_id.split(":")                    
+                        subject_curie_id = kg2_util.CURIE_PREFIX_CHEMBL_COMPOUND + ':' + chembl_id
+                    else:
+                        print(f"DGIDB: Skipping row with drug concept id {drug_concept_id}", file=sys.stderr)
+                        continue #skipping over wikidata nodes, see #1185
                 else:
                     if drug_claim_name != "":
                         node_pubs_list = []
@@ -110,6 +115,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                           "; source DB: " + interaction_claim_source, file=sys.stderr)
                     continue
                 if interaction_types == "":
+                    print("DGIDB: interaction type was empty. Setting to 'affects'.", file=sys.stderr)
                     interaction_types = "affects"
                 pmids_list = []
                 if PMIDs.strip() != "":
