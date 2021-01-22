@@ -66,14 +66,14 @@ term-mappings:
     CARO:0000003: anatomical entity
     CHEBI:2709: chemical substance
     CHEBI:23888: drug
-    CHEBI:24431: chemical substance
+    CHEBI:24431: molecular entity 
     CHEBI:24432: biological entity
     CHEBI:25212: metabolite
     CHEBI:33232: chemical substance
     CHEBI:33697: gene product
     CHEBI:36342: chemical substance
     CHEBI:51086: chemical substance
-    CHEBI:78295: biological entity
+    CHEBI:78295: food component 
     CHEBI:50906: biological process
     CL:0000000: anatomical entity
     EFO:0000324: cell
@@ -159,7 +159,7 @@ term-mappings:
     MONDO:0021007: disease
     MPATH:0: biological entity
     NBO:0000313: activity
-    NBO:0000243: phenotypic feature
+    NBO:0000243: behavioral feature
     NCBITaxon:1: organism taxon
     NCIT:C1909: drug
     NCIT:C1913: drug
@@ -205,6 +205,7 @@ term-mappings:
     ORPHANET:409973: frequency value
     ORPHANET:C005: phenotypic feature
     owl:Thing: named thing
+    PATO:0000001: phenotypic quality
     PR:000000001: protein
     SO:0001217: gene
     SNOMED:48176007: activity

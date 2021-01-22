@@ -269,7 +269,7 @@ def make_nodes(records: list):
             description += f"Evidence Codes from Name: {ev_codes} "
         # append species name to name if not human (issue #1171)
         species = record_dict.get('OS', 'unknown species').rstrip(".")
-        if not "human" in species.lower():
+        if not "homo sapiens (human)" in species.lower():
             name += f" ({species})"
         node_curie = kg2_util.CURIE_PREFIX_UNIPROT + ':' + accession
         iri = UNIPROTKB_IDENTIFIER_BASE_IRI + accession
