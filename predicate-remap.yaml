@@ -434,6 +434,10 @@ DGIdb:activator:
   rename:
   - positively_regulates
   - biolink:positively_regulates
+DGIdb:adduct:
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
 DGIdb:affects:
   rename:
   - affects
@@ -474,6 +478,14 @@ DGIdb:channel_blocker:
   rename:
   - decreases_activity_of
   - biolink:decreases_activity_of
+DGIdb:chaperone:
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+DGIdb:cleavage:
+  rename:
+  - affects_degradation_of
+  - biolink:affects_degradation_of
 DGIdb:cofactor:
   rename:
   - directly_interacts_with
@@ -498,10 +510,18 @@ DGIdb:inverse_agonist:
   rename:
   - decreases_activity_of
   - biolink:decreases_activity_of
+DGIdb:ligand:
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
 DGIdb:modulator:
   rename:
   - affects_activity_of
   - biolink:affects_activity_of
+DGIdb:multitarget:
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
 DGIdb:negative_modulator:
   rename:
   - decreases_activity_of
@@ -510,7 +530,19 @@ DGIdb:partial_agonist:
   rename:
   - increases_activity_of
   - biolink:increases_activity_of
+DGIdb:partial_antagonist:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
 DGIdb:positive_allosteric_modulator:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DGIdb:positive_modulator:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DGIdb:potentiator:
   rename:
   - increases_activity_of
   - biolink:increases_activity_of
@@ -518,6 +550,14 @@ DGIdb:stimulator:
   rename:
   - increases_activity_of
   - biolink:increases_activity_of
+DGIdb:substrate:
+  rename:
+  - increases_degradation_of
+  - biolink:increases_degradation_of
+DGIdb:suppressor:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
 DGIdb:vaccine:
   rename:
   - decreases_activity_of
