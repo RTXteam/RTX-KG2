@@ -546,6 +546,10 @@ DGIdb:potentiator:
   rename:
   - increases_activity_of
   - biolink:increases_activity_of
+DGIdb:product_of:
+  rename:
+  - derives_from
+  - biolink:derives_from
 DGIdb:stimulator:
   rename:
   - increases_activity_of
