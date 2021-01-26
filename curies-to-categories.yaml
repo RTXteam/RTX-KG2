@@ -70,7 +70,7 @@ term-mappings:
     CHEBI:24432: biological entity
     CHEBI:25212: metabolite
     CHEBI:33232: chemical substance
-    CHEBI:33697: gene product
+    CHEBI:33697: RNA product
     CHEBI:36342: chemical substance
     CHEBI:51086: chemical substance
     CHEBI:78295: food component 
@@ -82,7 +82,7 @@ term-mappings:
     EFO:0000635: anatomical entity
     EFO:0000408: disease
     EFO:0004423: exon
-    EFO:0004446: macromolecular complex
+    EFO:0004446: molecular entity
     ENVO:02500000: environmental process
     ENVO:00002297: environmental feature
     FMA:29733: anatomical entity
@@ -183,20 +183,20 @@ term-mappings:
     NCIT:C16338: material sample
     NCIT:C71460: procedure
     NCIT:C16612: genomic entity
-    NCIT:C813: gene product
-    NCIT:C111298: gene product
+    NCIT:C813: transcript 
+    NCIT:C111298: transcript
     NCIT:C17021: protein
     NCIT:C28566: protein
-    NCIT:C21176: macromolecular complex
-    NCIT:C26549: gene product
-    NCIT:C28454: gene product
+    NCIT:C21176: molecular entity
+    NCIT:C26549: noncoding RNA product
+    NCIT:C28454: transcript
     NCIT:C14250: organism taxon
     NCIT:C3910: phenotypic feature
     NCIT:C48187: material sample
     NCIT:C20181: named thing
     OBI:0000427: protein
     ORPHANET:410298: gene
-    ORPHANET:410299: gene product
+    ORPHANET:410299: noncoding RNA product
     ORPHANET:410297: genomic entity
     ORPHANET:C023: life stage
     ORPHANET:C001: disease
@@ -232,7 +232,8 @@ term-mappings:
     SNOMED:410607006: organism taxon
     SNOMED:410942007: drug
     SNOMED:419891008: information content entity
-    SNOMED:900000000000441003: data file
+    SNOMED:900000000000441003: information content entity
+
     SO:0000704: genomic entity
     TRANS:0000000: exposure event
     UBERON:0001062: anatomical entity
