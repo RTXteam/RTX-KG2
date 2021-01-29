@@ -282,3 +282,8 @@
   file: genepio.owl
   download: true
   title: Genomic Epidemiology Ontology
+- # maps to CURIE prefix: MI
+  url: http://purl.obolibrary.org/obo/mi.owl
+  file: mi.owl
+  download: true
+  title: Molecular Interactions Controlled Vocabulary

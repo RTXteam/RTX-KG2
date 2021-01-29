@@ -578,6 +578,10 @@ DRUGBANK:external-identifier:
   rename:
   - same_as
   - biolink:same_as
+DRUGBANK:group:
+  rename:
+  - has_attribute
+  - biolink:has_attribute
 DRUGBANK:pathway:
   rename:
   - participates_in
