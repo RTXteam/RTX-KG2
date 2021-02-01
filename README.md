@@ -725,7 +725,9 @@ version.
 used for the KG2 build in `kg2-versions.md` and we try to preserve the `kg2-build`
 directory and its contents on that host, until a new build has superseded the build.
 Having the build directory available on the actual build host is very useful for
-tracking down the source of an unexpected relationship or node property.
+tracking down the source of an unexpected relationship or node property. 
+*Any new data sources in the build or major updates* (e.g., DrugBank, UMLS, or ChEMBL)
+should also be noted in the `kg2-versions.md` file.
 
 # Structure of the JSON KG2
 
@@ -869,6 +871,7 @@ We emphasize knowledge souces that
 1. Are available in a flat-file download (e.g., TSV, XML, JSON, DAT, or SQL dump)
 2. Are being maintained and updated periodically
 3. Provide content/knowledge that complements (does not duplicate) what is already in KG2.
+4. Knowledge based on human curation favored over computational text-mining.
 
 # Troubleshooting (UNDER DEVELOPMENT)
 
