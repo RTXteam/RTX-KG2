@@ -233,7 +233,6 @@ term-mappings:
     SNOMED:410942007: drug
     SNOMED:419891008: information content entity
     SNOMED:900000000000441003: information content entity
-
     SO:0000704: genomic entity
     TRANS:0000000: exposure event
     UBERON:0001062: anatomical entity
