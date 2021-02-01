@@ -141,7 +141,12 @@ the directory `tempfile.tempdir` (as referenced in the `tempfile` python module)
 resides, then the file moving operations that are performed by the KG2 build
 software will not be atomic and interruption of `build-kg2.sh` or its
 subprocesses could then leave a source data file in a half-downloaded (i.e.,
-broken) state.
+broken) state. 
+
+**Build Frequency:** Per the discussion in [#1118](/RTXteam/RTX/issues/1118), we
+are currently aiming to build KG2 approximately once per month, to keep it as
+current as feasible given the cost to build and validate KG2 from its upstream
+sources.
 
 ## Setup your computing environment
 
