@@ -62,7 +62,6 @@ def parse_records_from_uniprot_dat(uniprot_dat_file_name: str,
                 # end of a record
                 organism_host_list = record.get('organism_host', None)
                 organism = record.get('organism', None)
-                assert organism is not None
                 if (organism is not None and organism in desired_species_ints) or \
                    (organism_host_list is not None and len(set(organism_host_list) & desired_species_ints) > 0):
                     record_list.append(record)
