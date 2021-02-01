@@ -2468,8 +2468,8 @@ OBO:uo#is_unit_of:
   - biolink:has_unit
 OBO:xref:
   rename:
-  - related_to
-  - biolink:related_to
+  - close_match
+  - biolink:close_match
 OBOREL:bearer_of:
   rename:
   - related_to
