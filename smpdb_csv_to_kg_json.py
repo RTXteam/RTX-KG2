@@ -11,7 +11,7 @@ import kg2_util
 import os
 import xmltodict
 import argparse
-import datetime
+
 
 __author__ = 'Erica Wood'
 __copyright__ = 'Oregon State University'
@@ -51,14 +51,6 @@ def get_args():
     arg_parser.add_argument('inputDirectory', type=str)
     arg_parser.add_argument('outputFile', type=str)
     return arg_parser.parse_args()
-
-
-def date():
-    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-
-def convert_date(time):
-    return datetime.datetime.fromtimestamp(time).strftime('%Y-%m-%d %H:%M:%S')
 
 
 def make_smpdb_node(smpdb_id: str,
@@ -1358,8 +1350,8 @@ def make_nodes_and_edges(context,
 
 
 def make_kg2_graph(smpdb_dir: str, test_mode: bool):
-    csv_update_date = convert_date(os.path.getmtime(smpdb_dir +
-                                                    "pathbank_pathways.csv"))
+    csv_update_date = kg2_util.convert_date(os.path.getmtime(smpdb_dir +
+                                                             "pathbank_pathways.csv"))
     smpdb = csv.reader(open(smpdb_dir + "pathbank_pathways.csv"),
                        delimiter=",",
                        quotechar='"')
@@ -1386,7 +1378,7 @@ def make_kg2_graph(smpdb_dir: str, test_mode: bool):
     for filename in os.listdir(smpdb_dir):
         count += 1
         if count % 1000 == 0:
-            print(count, " files have been read by ", date())
+            print(count, " files have been read by ", kg2_util.date())
         if count == 2000 and test_mode:
             break
         if ".pwml" in filename:
@@ -1409,8 +1401,8 @@ def make_kg2_graph(smpdb_dir: str, test_mode: bool):
                              ["pathway-visualization-context"]
                              ["pathway-visualization"])
                 pathway_id = pw["super-pathway-visualization"]["pw-id"]
-                pwml_update_date = convert_date(os.path.getmtime(smpdb_dir +
-                                                                 filename))
+                pwml_update_date = kg2_util.convert_date(os.path.getmtime(smpdb_dir +
+                                                                          filename))
                 data = make_nodes_and_edges(context,
                                             pathway_id,
                                             smpdb_data[pathway_id],
@@ -1431,8 +1423,8 @@ def make_kg2_graph(smpdb_dir: str, test_mode: bool):
                 contexts = (pw["super-pathway-visualization"]
                               ["pathway-visualization-contexts"]
                               ["pathway-visualization-context"])
-                pwml_update_date = convert_date(os.path.getmtime(smpdb_dir +
-                                                                 filename))
+                pwml_update_date = kg2_util.convert_date(os.path.getmtime(smpdb_dir +
+                                                                          filename))
                 for context in contexts:
                     context = context["pathway-visualization"]
                     data = make_nodes_and_edges(context,
@@ -1461,15 +1453,15 @@ def check_dirname(dirname: str):
 
 
 if __name__ == '__main__':
-    print("Start time: ", date())
+    print("Start time: ", kg2_util.date())
     args = get_args()
     smpdb_dir = check_dirname(args.inputDirectory)
     test_mode = args.test
     output_file_name = args.outputFile
-    print("Starting build: ", date())
+    print("Starting build: ", kg2_util.date())
     graph = make_kg2_graph(smpdb_dir,  test_mode)
-    print("Finishing build: ", date())
-    print("Start saving JSON: ", date())
+    print("Finishing build: ", kg2_util.date())
+    print("Start saving JSON: ", kg2_util.date())
     kg2_util.save_json(graph, output_file_name, test_mode)
-    print("Finish saving JSON: ", date())
-    print("Finish time: ", date())
+    print("Finish saving JSON: ", kg2_util.date())
+    print("Finish time: ", kg2_util.date())
