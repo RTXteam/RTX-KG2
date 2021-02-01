@@ -803,9 +803,9 @@ FMA:has_connection_type:
   - coexists_with
   - biolink:coexists_with
 FMA:has_constitutional_part:
-  rename:
-  - has_part
-  - biolink:has_part
+  invert:
+  - part_of
+  - biolink:part_of
 FMA:has_continuation_branch:
   rename:
   - coexists_with
@@ -2027,9 +2027,9 @@ NCIT:gene_product_has_organism_source:
   - in_taxon
   - biolink:in_taxon
 NCIT:gene_product_has_structural_domain_or_motif:
-  rename:
-  - has_part
-  - biolink:has_part
+  invert:
+  - part_of
+  - biolink:part_of
 NCIT:gene_product_is_biomarker_of:
   rename:
   - biomarker_for
