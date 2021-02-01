@@ -871,7 +871,8 @@ We emphasize knowledge souces that
 1. Are available in a flat-file download (e.g., TSV, XML, JSON, DAT, or SQL dump)
 2. Are being maintained and updated periodically
 3. Provide content/knowledge that complements (does not duplicate) what is already in KG2.
-4. Knowledge based on human curation favored over computational text-mining.
+4. Connect concept identifiers that are already in KG2.
+5. Ideally, provide knowledge based on human curation (favored over computational text-mining).
 
 # Troubleshooting (UNDER DEVELOPMENT)
 
