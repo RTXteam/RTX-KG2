@@ -90,7 +90,7 @@ ensembl_output_file=${BUILD_DIR}/kg2-ensembl${test_suffix}.json
 chembl_output_file=${BUILD_DIR}/kg2-chembl${test_suffix}.json
 chembl_mysql_dbname=chembl
 
-unichem_output_tsv_file=${BUILD_DIR}/unichem/chembl-to-curies.tsv
+unichem_output_tsv_file=${BUILD_DIR}/unichem/unichem-mappings.tsv
 unichem_output_file=${BUILD_DIR}/kg2-unichem${test_suffix}.json
 
 ncbi_tsv_gene_file=${BUILD_DIR}/ncbigene/Homo_sapiens_gene_info.tsv

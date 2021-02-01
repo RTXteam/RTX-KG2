@@ -14,7 +14,7 @@ date
 
 config_dir=`dirname "$0"`
 source ${config_dir}/master-config.shinc
-output_tsv_file=${1:-"${BUILD_DIR}/unichem/chembl-to-curies.tsv"}
+output_tsv_file=${1:-"${BUILD_DIR}/unichem/unichem-mappings.tsv"}
 unichem_dir=${BUILD_DIR}/unichem
 unichem_output_dir=`dirname ${output_tsv_file}`
 unichem_ver=280
@@ -41,6 +41,7 @@ zcat ${unichem_dir}/UC_XREF.txt.gz | awk '{if ($2 == '${drugbank_src_id}') {prin
 
 join ${unichem_dir}/chembl.txt ${unichem_dir}/chebi.txt | sed 's/ /\t/g' | cut -f2-3 >> ${output_tsv_file}
 join ${unichem_dir}/chembl.txt ${unichem_dir}/drugbank.txt | sed 's/ /\t/g' | cut -f2-3 >> ${output_tsv_file}
+join ${unichem_dir}/chebi.txt ${unichem_dir}/drugbank.txt | sed 's/ /\t/g' | cut -f2-3 >> ${output_tsv_file}
 
 date
 echo "================= finished extract-unichem.sh ================="
