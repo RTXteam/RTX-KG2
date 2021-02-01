@@ -862,6 +862,14 @@ various licenses (e.g., UMLS) that prevent its redistribution.
 
 Yes; please check back during Spring 2021.
 
+## What criteria do you use to select sources to include in KG2?
+
+We emphasize knowledge souces that
+
+1. Are available in a flat-file download (e.g., TSV, XML, JSON, DAT, or SQL dump)
+2. Are being maintained and updated periodically
+3. Provide content/knowledge that complements (does not duplicate) what is already in KG2.
+
 # Troubleshooting (UNDER DEVELOPMENT)
 
 ## Errors in `multi_ont_to_json_kg.py`
