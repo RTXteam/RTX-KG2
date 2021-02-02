@@ -451,7 +451,7 @@ def find_common_ancestor(tui_categories: list, biolink_category_tree: dict):
                 path_list2 = []
                 path_list2.append(pair[1])
                 get_path(biolink_category_tree, "named thing", pair[1], path_list2)
-                print(f"list1: {path_list1!s} list2: {path_list2!s}", file=sys.stderr)
+#                print(f"list1: {path_list1!s} list2: {path_list2!s}", file=sys.stderr)
                 tui_split[tui_split.index(pair)] = compare_two_lists_in_reverse(path_list1,
                                                                                 path_list2)
 
