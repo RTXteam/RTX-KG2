@@ -143,6 +143,11 @@
   file: umls-pdq.ttl
   title: Physician Data Query
   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/PDQ
+- # maps to CURIE prefix PSY
+  download: false
+  file: umls-psy.ttl
+  title: Psychological Index Terms
+  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/PSY
 - # maps to CURIE prefix RXNORM
   download: false
   file: umls-rxnorm.ttl
