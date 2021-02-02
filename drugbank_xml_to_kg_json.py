@@ -32,7 +32,9 @@ NUTRACEUTICAL_DRUG_NODE_ID = "MI:2102"
 ILLICIT_DRUG_NODE_ID = "MI:2150"
 INVESTIGATIONAL_DRUG_NODE_ID = "MI:2148"
 WITHDRAWN_DRUG_NODE_ID = "MI:2149"
-EXPERIMENTAL_DRUG_NODE_ID = "MI:2100MI:2100"
+EXPERIMENTAL_DRUG_NODE_ID = "MI:2100"
+TYPE_SMALL_MOLECULE = "small molecule"
+TYPE_BIOTECH = "biotech"
 
 
 def get_args():
@@ -113,6 +115,15 @@ def get_publications(references: list):
 def make_node(drug: dict):
     drugbank_id = get_drugbank_id(drug)
     synonyms = []
+    drug_type = drug["@type"]
+    if drug_type == TYPE_SMALL_MOLECULE:
+        category = kg2_util.BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE
+    elif drug_type == TYPE_BIOTECH:
+        category = kg2_util.BIOLINK_CATEGORY_DRUG
+    else:
+        print(f"Unknown type: {drug_type} for drug ID: {drugbank_id}; treating as chemical substance",
+              file=sys.stderr)
+        category = kg2_util.BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE
     if drug["synonyms"] is not None:
         if drug["synonyms"]["synonym"] is not None:
             for synonym in drug["synonyms"]["synonym"]:
@@ -127,7 +138,7 @@ def make_node(drug: dict):
                            update_date=drug["@updated"],
                            synonyms=synonyms,
                            publications=publications,
-                           category_label=kg2_util.BIOLINK_CATEGORY_DRUG,
+                           category_label=category,
                            creation_date=drug["@created"])
         ''' For description, also consider "drug["description"]" --
             might be a good question for Steve
@@ -316,6 +327,7 @@ def make_target_edge(drug: dict):
 
     return target_edges
 
+
 def get_status_groups(drug: dict):
     groups = ""
     if isinstance(drug["groups"]["group"], list):
@@ -337,21 +349,23 @@ def make_group_edges(drug: dict):
             object_id = APPROVED_DRUG_NODE_ID
         elif group.lower() == "withdrawn":
             object_id = WITHDRAWN_DRUG_NODE_ID
-        elif group.lower()== "nutraceutical":
+        elif group.lower() == "nutraceutical":
             object_id = NUTRACEUTICAL_DRUG_NODE_ID
-        elif group.lower()== "illicit":
+        elif group.lower() == "illicit":
             object_id = ILLICIT_DRUG_NODE_ID
-        elif group.lower()== "investigational":
+        elif group.lower() == "investigational":
             object_id = INVESTIGATIONAL_DRUG_NODE_ID
-        elif group.lower()== "experimental":
+        elif group.lower() == "experimental":
             object_id = EXPERIMENTAL_DRUG_NODE_ID
+        elif group.lower() == "vet_approved":
+            object_id = APPROVED_DRUG_NODE_ID
         if object_id == "":
             print(f"Unknown group: {group} for {subject_id}. Skipping.", file=sys.stderr)
             continue
         edge = format_edge(subject_id,
-                            object_id,
-                            predicate_label,
-                            None)
+                           object_id,
+                           predicate_label,
+                           None)
         group_edges.append(edge)
     return group_edges
 
@@ -385,8 +399,8 @@ def make_edges(drug: dict):
 
     group_edges = make_group_edges(drug)
     if group_edges is not None:
-       for group_edge in group_edges:
-            edges.append(group_edge)    
+        for group_edge in group_edges:
+            edges.append(group_edge)
 
     return edges
 
