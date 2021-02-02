@@ -48,6 +48,8 @@ term-mappings:
     owl:topObjectProperty: attribute
     OBO:ro/subsets#ro-eco: relationship type
     BFO:0000001: named thing
+    BFO:0000030: physical entity
+    BFO:0000040: physical entity
     BFO:0000050: relationship type
     BFO:0000051: relationship type
     BFO:0000053: relationship type
@@ -195,6 +197,8 @@ term-mappings:
     NCIT:C48187: material sample
     NCIT:C20181: named thing
     OBI:0000427: protein
+    OGMS:0000060: physiological process
+    OGMS:0000087: individual organism
     ORPHANET:410298: gene
     ORPHANET:410299: noncoding RNA product
     ORPHANET:410297: genomic entity
