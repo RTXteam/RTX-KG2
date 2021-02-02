@@ -1012,7 +1012,7 @@ def per_bound_nodes_and_edges(bound: dict,
     pwb_id = bound["id"]["#text"]
     name = None
     iri = PW_BASE_BOUNDS_IRI + pwb_id
-    category_label = kg2_util.BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE
+    category_label = kg2_util.BIOLINK_CATEGORY_MOLECULAR_ENTITY
     node_curie = kg2_util.CURIE_PREFIX_PATHWHIZ_BOUND + ":" + pwb_id
     node = kg2_util.make_node(node_curie,
                               iri,
@@ -1120,7 +1120,7 @@ def per_element_collection_nodes_and_edges(ec: dict, pw_id: str, date):
     iri = PW_BASE_ELEMENT_COLLECTION_IRI + pwec_id
     node_curie = kg2_util.CURIE_PREFIX_PATHWHIZ_ELEMENT_COLLECTION + \
         ":" + pwec_id
-    category_label = kg2_util.BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE
+    category_label = kg2_util.BIOLINK_CATEGORY_MOLECULAR_ENTITY
     node = kg2_util.make_node(node_curie,
                               iri,
                               name,

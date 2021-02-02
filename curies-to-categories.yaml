@@ -6,7 +6,6 @@ prefix-mappings:
     CPT: procedure
     DOID: disease
     DDANAT: anatomical entity
-    DRUGBANK: named thing
     EHDAA2: anatomical entity
     FAO: anatomical entity
     GAZ: geographic location
@@ -353,7 +352,7 @@ term-mappings:
     UMLS_STY:T167: chemical substance
     UMLS_STY:T168: named thing
     UMLS_STY:T169: information content entity
-    UMLS_STY:T170: publication
+    UMLS_STY:T170: information content entity
     UMLS_STY:T171: information content entity
     UMLS_STY:T184: disease
     UMLS_STY:T185: information content entity
