@@ -17,6 +17,7 @@ prefix-mappings:
     ICD10: disease
     LOINC: procedure
     MGI: gene
+    MI: information content entity
     NCBIGene: gene
     NCBITaxon: organism taxon
     OBO: relationship type
