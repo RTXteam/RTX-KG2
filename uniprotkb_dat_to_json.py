@@ -29,6 +29,7 @@ RE_ORGANISM_TAXID = re.compile(r'NCBI_TaxID=(\d+)')
 FIELD_CODES_USE_STRING = ['ID', 'SQ', 'RA', 'RX', 'RT', 'KW', 'CC', 'GN', 'OS']
 FIELD_CODES_DO_NOT_STRIP_NEWLINE = ['SQ']
 FIELD_CODES_DO_NOT_STRIP_RIGHT_SEMICOLON = {'RX', 'CC'}
+FIELD_CODES_ADD_SPACE = {'CC'}
 REGEX_PUBLICATIONS = re.compile(r'((?:(?:PMID)|(?:PubMed)):\d+)')
 REGEX_GENE_NAME = re.compile(r'^Name=([^ \;]+)')
 REGEX_GENE_SYNONYMS = re.compile(r'Synonyms=([^\;]+)')
@@ -75,6 +76,8 @@ def parse_records_from_uniprot_dat(uniprot_dat_file_name: str,
                     field_value = field_value.rstrip('\n')
                 if field_code not in FIELD_CODES_DO_NOT_STRIP_RIGHT_SEMICOLON:
                     field_value = field_value.rstrip(';')
+                if field_code in FIELD_CODES_ADD_SPACE:
+                    field_value += ' '
                 if record.get(field_code, None) is None:
                     if field_code not in FIELD_CODES_USE_STRING:
                         if field_code != 'AC':
