@@ -6,7 +6,6 @@ prefix-mappings:
     CPT: procedure
     DOID: disease
     DDANAT: anatomical entity
-    DRUGBANK: named thing
     EHDAA2: anatomical entity
     FAO: anatomical entity
     GAZ: geographic location
