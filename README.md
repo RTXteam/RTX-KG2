@@ -608,7 +608,7 @@ preferred to have `kg2-pubmed.json` generated to match the format of `kg2-simpli
 especially since its predicates do not have to go through the predicate remap process and
 loading `kg2-pubmed.json` into memory takes a lot of memory. UNTESTED.
 
-    ~/kg2-venv/bin/python3 ~/kg2-code/merge_graphs.py --kgFiles ~/kg2-build/kg2.json ~/kg2-build/kg2-pubmed.json --kgFileOrphanEdges ~/kg2-build/kg2-pubmed-merge-orphan-edges.json ~/kg2-build/kg2-with-pubmed.json
+    ~/kg2-venv/bin/python3 ~/kg2-code/merge_graphs.py --kgFileOrphanEdges ~/kg2-build/kg2-pubmed-merge-orphan-edges.json --outputFile ~/kg2-build/kg2-with-pubmed.json ~/kg2-build/kg2.json ~/kg2-build/kg2-pubmed.json
 
 (6) Run the `filter_kg_and_remap_predicates.py` script on this new JSON file (and optionally
 `get_nodes_json_from_kg_json.py` and `report_stats_on_json_kg.py` -- you can't run these in
