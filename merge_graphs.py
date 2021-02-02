@@ -24,9 +24,9 @@ import sys
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='merge_graphs.py: merge two or more JSON KG files')
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
-    arg_parser.add_argument('--kgFiles', type=str, nargs='+')
     arg_parser.add_argument('--kgFileOrphanEdges', type=str, nargs='?', default=None)
-    arg_parser.add_argument('outputFile', type=str)
+    arg_parser.add_argument('--outputFile', type=str, nargs='?', default=None)
+    arg_parser.add_argument('kgFiles', type=str, nargs='+')
     return arg_parser
 
 
