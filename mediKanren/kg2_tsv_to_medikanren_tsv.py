@@ -71,8 +71,6 @@ def nodes(nodes_input, nodes_output):
     with open(nodes_input[0]) as nodes:
         for line in csv.reader(nodes, delimiter="\t"):
             id = line[id_index]
-            if '\t' in id:
-                id = '"' + id + '"'
             output_nodes.writerow([id])
 
             index = 0
@@ -115,10 +113,6 @@ def edges(edges_input, edges_output):
         for line in csv.reader(edges, delimiter="\t"):
             source_id = line[start_index]
             target_id = line[end_index]
-            if "\t" in source_id:
-                target_id = '"' + source_id + '"'
-            if "\t" in source_id:
-                target_id = '"' + target_id + '"'
             output_edges.writerow([line_id,
                                    source_id,
                                    target_id])
