@@ -32,7 +32,7 @@ def output_file_names(directory: str):
 
 
 def input_file_names(directory: str):
-    directory = directory.strip("/") + "/" + "mock_"
+    directory = directory.strip("/") + "/"
 
     return {"nodes": [directory + "nodes.tsv", directory + "nodes_header.tsv"],
             "edges": [directory + "edges.tsv", directory + "edges_header.tsv"]}
