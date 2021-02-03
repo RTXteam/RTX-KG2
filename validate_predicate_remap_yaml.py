@@ -30,19 +30,23 @@ def make_arg_parser():
     return arg_parser
 
 
+def convert_biolink_yaml_association_to_predicate(association: str) -> str:
+    return 'biolink:' + association.replace(',', '').replace(' ', '_')
+
+
 def create_biolink_to_external_mappings(biolink_model: dict, mapping_heirarchy: list) -> dict:
     # biolink_to_external[biolink relation][mapterm]= list([externals])
     biolink_to_external_mappings = dict()
     for relation, relation_info in biolink_model['slots'].items():
-        if biolink_to_external_mappings.get('biolink:' + relation.replace(' ', '_'), None) is None:
-            biolink_to_external_mappings['biolink:' + relation.replace(' ', '_')] = defaultdict(lambda: [])
+        predicate_str = convert_biolink_yaml_association_to_predicate(relation)
+        if biolink_to_external_mappings.get(predicate_str, None) is None:
+            biolink_to_external_mappings[predicate_str] = defaultdict(lambda: [])
         for mapping_term in mapping_hierarchy:
             mappings = list(map(lambda x: x.lower(), relation_info.get(mapping_term, [])))
-            biolink_to_external_mappings['biolink:' + relation.replace(' ', '_')][mapping_term] += mappings
+            biolink_to_external_mappings[predicate_str][mapping_term] += mappings
             inverted_relation = relation_info.get('inverse', None)
             if inverted_relation is not None and len(mappings) != 0:
-                biolink_curie = 'biolink:' + \
-                    inverted_relation.replace(' ', '_')
+                biolink_curie = convert_biolink_yaml_association_to_predicate(inverted_relation)
                 if biolink_to_external_mappings.get(biolink_curie, None) is None:
                     biolink_to_external_mappings[biolink_curie] = defaultdict(lambda: [])
                 existing_list = biolink_to_external_mappings[biolink_curie][mapping_term]

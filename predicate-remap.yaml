@@ -2910,16 +2910,16 @@ RO:0002207:
   - biolink:develops_from
 RO:0002211:
   rename:
-  - regulates,_process_to_process
-  - biolink:regulates,_process_to_process
+  - regulates_process_to_process
+  - biolink:regulates_process_to_process
 RO:0002212:
   rename:
-  - negatively_regulates,_process_to_process
-  - biolink:negatively_regulates,_process_to_process
+  - negatively_regulates_process_to_process
+  - biolink:negatively_regulates_process_to_process
 RO:0002213:
   rename:
-  - positively_regulates,_process_to_process
-  - biolink:positively_regulates,_process_to_process
+  - positively_regulates_process_to_process
+  - biolink:positively_regulates_process_to_process
 RO:0002215:
   rename:
   - capable_of
@@ -3660,8 +3660,8 @@ SEMMEDDB:higher_than:
   - biolink:related_to
 SEMMEDDB:inhibits:
   rename:
-  - negatively_regulates,_entity_to_entity
-  - biolink:negatively_regulates,_entity_to_entity
+  - negatively_regulates_entity_to_entity
+  - biolink:negatively_regulates_entity_to_entity
 SEMMEDDB:interacts_with:
   rename:
   - physically_interacts_with
@@ -3728,8 +3728,8 @@ SEMMEDDB:same_as:
   - biolink:close_match
 SEMMEDDB:stimulates:
   rename:
-  - positively_regulates,_entity_to_entity
-  - biolink:positively_regulates,_entity_to_entity
+  - positively_regulates_entity_to_entity
+  - biolink:positively_regulates_entity_to_entity
 SEMMEDDB:treats:
   rename:
   - treats
