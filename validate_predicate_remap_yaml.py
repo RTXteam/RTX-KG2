@@ -79,7 +79,7 @@ for biolink_curie, mappings in biolink_to_external_mappings.items():
     for mapping_term, external_curies in mappings.items():
         for external_curie in external_curies:
             if external_to_biolink_mappings.get(external_curie, None) is None:
-                external_to_biolink_mappings[external_curie] = defaultdict(lambda: set()) 
+                external_to_biolink_mappings[external_curie] = defaultdict(lambda: set())
             external_to_biolink_mappings[external_curie][mapping_term].add(biolink_curie)
 
 pred_info = yaml.safe_load(open(predicate_remap_file_name, 'r'))
