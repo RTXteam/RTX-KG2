@@ -790,12 +790,13 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                 node_name = kg2_util.allcaps_to_only_first_letter_capitalized(node_name)
 
             if node_name is not None:
-                if node_name.lower().startswith('obsolete:'):
-                    continue
+                if node_name.lower().startswith('obsolete:') or \
+                   (node_curie_id.startswith(kg2_util.CURIE_PREFIX_GO + ':') and node_name.lower().startswith('obsolete ')):
+                    node_deprecated = True
 
             if node_description is not None:
                 if node_description.lower().startswith('obsolete:') or node_description.lower().startswith('obsolete.'):
-                    continue
+                    node_deprecated = True
 
             provided_by = ontology_curie_id
             if node_category_label == kg2_util.BIOLINK_CATEGORY_ATTRIBUTE:
