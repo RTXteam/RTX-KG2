@@ -35,8 +35,9 @@ def make_node(ncbi_gene_id: str,
               full_name: str,
               gene_symbol: str,
               update_date: str,
-              other_synonyms: list = None):
-    category_label = kg2_util.BIOLINK_CATEGORY_GENE
+              category_label: str,
+              other_synonyms: list = None) -> dict:
+
     if other_synonyms is None:
         other_synonyms = []
     node_curie = kg2_util.CURIE_PREFIX_NCBI_GENE + ':' + ncbi_gene_id
@@ -106,10 +107,17 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
             full_name = full_name_auth
             if full_name is None:
                 full_name = description
+            if type_of_gene != "unknown" or (db_xrefs is None) or (not db_xrefs.startswith("MIM:")) or \
+               nomenc_status is not None:
+                category_label = kg2_util.BIOLINK_CATEGORY_GENE
+            else:
+                full_name = 'Genetic locus for ' + full_name
+                category_label = kg2_util.BIOLINK_CATEGORY_GENOMIC_ENTITY
             node_dict = make_node(ncbi_gene_id,
                                   full_name,
                                   gene_symbol,
                                   modify_date,
+                                  category_label,
                                   node_synonyms)
             node_curie_id = node_dict['id']
             type_str = 'Type:'+type_of_gene
@@ -117,12 +125,12 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
             if description is not None and description != full_name_auth:
                 node_description = description + '; '
             node_description += type_str
-            if map_location is not None:
-                node_description += '; Locus:' + map_location
             if nomenc_status is not None:
                 nomenc_tag = 'official'
             else:
                 nomenc_tag = 'unofficial'
+            if map_location is not None:
+                node_description += '; Locus:' + map_location
             node_description += '; NameStatus:' + nomenc_tag
             node_dict['description'] = node_description
             nodes.append(node_dict)
