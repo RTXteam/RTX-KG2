@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-''' Parses KG2 TSV files to the mediKanren CSV format
-    Usage: tsv-to-medikanren-csv.py  <inputDir> <outputDir>
+''' Parses KG2 TSV files to the mediKanren TSV format
+    Usage: tsv-to-medikanren-tsv.py  <inputDir> <outputDir>
 '''
 
 import csv
