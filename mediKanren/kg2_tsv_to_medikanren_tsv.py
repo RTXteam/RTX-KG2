@@ -73,6 +73,9 @@ def nodes(nodes_input, nodes_output):
             id = line[id_index]
             output_nodes.writerow([id])
 
+            if "\t" in id:
+                id = '"' + id + '"'
+
             index = 0
 
             for propvalue in line:
