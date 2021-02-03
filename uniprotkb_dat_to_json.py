@@ -17,7 +17,6 @@ __status__ = 'Prototype'
 import argparse
 import kg2_util
 import os
-import pprint
 import re
 import sys
 
@@ -204,7 +203,7 @@ def make_nodes(records: list):
             synonyms += accession_list[1:(len(accession_list)+1)]
         description_list = record_dict['DE']
         full_name = None
-        name = None
+        short_name = None
         desc_ctr = 0
         description = record_dict.get('CC', '')
         for description_str in description_list:
@@ -214,8 +213,9 @@ def make_nodes(records: list):
                 if desc_ctr < len(description_list) - 1:
                     next_desc = description_list[desc_ctr + 1].lstrip()
                     if next_desc.startswith('Short='):
-                        name = next_desc.replace('Short=', '')
-                        continue
+                        short_name = next_desc.replace('Short=', '')
+                        synonyms += [short_name]
+#                        continue
             elif description_str.startswith('AltName: Full='):
                 synonyms.append(description_str.replace('AltName: Full=', ''))
             elif description_str.startswith('AltName: CD_antigen='):
@@ -264,9 +264,11 @@ def make_nodes(records: list):
                     gene_synonyms_match = REGEX_GENE_SYNONYMS.match(gene_names_str)
                     if gene_synonyms_match is not None:
                         synonyms += [syn.strip() for syn in gene_synonyms_match[1].split(',')]
-        if name is None:
-            if gene_symbol is not None:
-                name = gene_symbol
+        if gene_symbol is not None:
+            name = gene_symbol
+        else:
+            if short_name is not None:
+                name = short_name
             else:
                 name = full_name
         # move evidence codes from name to description (issue #1171)
@@ -293,6 +295,8 @@ def make_nodes(records: list):
         description += record_dict['SQ']
         description = description.replace(LICENSE_TEXT, '')
         node_dict['description'] = description
+        if len(synonyms) > 0:
+            synonyms = [synonyms[0]] + list(set(synonyms) - {synonyms[0]})
         node_dict['synonym'] = synonyms
         node_dict['publications'] = publications
         node_dict['creation_date'] = creation_date
