@@ -17,6 +17,7 @@ __status__ = 'Prototype'
 import argparse
 import kg2_util
 import os
+import pprint
 import re
 import sys
 
@@ -26,8 +27,8 @@ UNIPROTKB_IDENTIFIER_BASE_IRI = kg2_util.BASE_URL_UNIPROTKB
 UNIPROT_KB_URL = kg2_util.BASE_URL_IDENTIFIERS_ORG_REGISTRY + 'uniprot'
 
 RE_ORGANISM_TAXID = re.compile(r'NCBI_TaxID=(\d+)')
-FIELD_CODES_USE_STRING = ['ID', 'SQ', 'RA', 'RX', 'RT', 'KW', 'CC', 'GN', 'OS']
-FIELD_CODES_DO_NOT_STRIP_NEWLINE = ['SQ']
+FIELD_CODES_USE_STRING = {'ID', 'SQ', 'RA', 'RX', 'RT', 'KW', 'CC', 'GN', 'OS'}
+FIELD_CODES_DO_NOT_STRIP_NEWLINE = {}
 FIELD_CODES_DO_NOT_STRIP_RIGHT_SEMICOLON = {'RX', 'CC'}
 FIELD_CODES_ADD_SPACE = {'CC'}
 REGEX_PUBLICATIONS = re.compile(r'((?:(?:PMID)|(?:PubMed)):\d+)')
@@ -37,7 +38,11 @@ REGEX_HGNC = re.compile(r'^HGNC; (HGNC:\d+)')
 REGEX_NCBIGeneID = re.compile(r'^GeneID; (\d+)')
 REGEX_XREF = re.compile(r'Xref=([^\;]+)\;')
 REGEX_EC_XREF = re.compile(r'EC=([\d\.]+)')
-REGEX_SEPARATE_EVIDENCE_CODES =  re.compile(r'(.*?)(\{(.*?)\})')
+REGEX_SEPARATE_EVIDENCE_CODES = re.compile(r'(.*?)(\{(.*?)\})')
+LICENSE_TEXT = '---------------------------------------------------------------------------' \
+               'Copyrighted by the UniProt Consortium, see https://www.uniprot.org/terms Di' \
+               'stributed under the Creative Commons Attribution (CC BY 4.0) License ------' \
+               '---------------------------------------------------------------------'
 
 DESIRED_SPECIES_INTS = set([kg2_util.NCBI_TAXON_ID_HUMAN])
 
@@ -76,7 +81,7 @@ def parse_records_from_uniprot_dat(uniprot_dat_file_name: str,
                     field_value = field_value.rstrip('\n')
                 if field_code not in FIELD_CODES_DO_NOT_STRIP_RIGHT_SEMICOLON:
                     field_value = field_value.rstrip(';')
-                if field_code in FIELD_CODES_ADD_SPACE:
+                if field_code in FIELD_CODES_ADD_SPACE and not (field_value.endswith('-')):
                     field_value += ' '
                 if record.get(field_code, None) is None:
                     if field_code not in FIELD_CODES_USE_STRING:
@@ -192,9 +197,9 @@ def make_nodes(records: list):
                     xref_match_res = REGEX_XREF.search(comment_str)
                     if xref_match_res is not None:
                         xrefs |= set(filter(None, map(fix_xref, xref_match_res[1].split(','))))
-        synonyms = [record_dict['SQ']]
         accession_list = record_dict['AC']
         accession = accession_list[0]
+        synonyms = []
         if len(accession_list) > 1:
             synonyms += accession_list[1:(len(accession_list)+1)]
         description_list = record_dict['DE']
@@ -271,7 +276,7 @@ def make_nodes(records: list):
             description += f"Evidence Codes from Name: {ev_codes} "
         # append species name to name if not human (issue #1171)
         species = record_dict.get('OS', 'unknown species').rstrip(".")
-        if not "homo sapiens (human)" in species.lower():
+        if "homo sapiens (human)" not in species.lower():
             name += f" ({species})"
         node_curie = kg2_util.CURIE_PREFIX_UNIPROT + ':' + accession
         iri = UNIPROTKB_IDENTIFIER_BASE_IRI + accession
@@ -283,6 +288,10 @@ def make_nodes(records: list):
                                        update_date,
                                        UNIPROTKB_PROVIDED_BY_CURIE_ID)
         node_dict['full_name'] = full_name
+        if not description.endswith(' '):
+            description += ' '
+        description += record_dict['SQ']
+        description = description.replace(LICENSE_TEXT, '')
         node_dict['description'] = description
         node_dict['synonym'] = synonyms
         node_dict['publications'] = publications
