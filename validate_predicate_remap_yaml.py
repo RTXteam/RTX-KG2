@@ -35,12 +35,12 @@ def create_biolink_to_external_mappings(biolink_model: dict, mapping_heirarchy: 
     biolink_to_external_mappings = dict()
     for relation, relation_info in biolink_model['slots'].items():
         if biolink_to_external_mappings.get('biolink:' + relation.replace(' ', '_'), None) is None:
-            biolink_to_external_mappings['biolink:' + relation.replace(' ', '_')] = defaultdict(lambda: [] )
+            biolink_to_external_mappings['biolink:' + relation.replace(' ', '_')] = defaultdict(lambda: [])
         for mapping_term in mapping_hierarchy:
             mappings = list(map(lambda x: x.lower(), relation_info.get(mapping_term, [])))
             biolink_to_external_mappings['biolink:' + relation.replace(' ', '_')][mapping_term] += mappings
             inverted_relation = relation_info.get('inverse', None)
-            if inverted_relation is not None and len(mappings) is not 0:
+            if inverted_relation is not None and len(mappings) != 0:
                 biolink_curie = 'biolink:' + \
                     inverted_relation.replace(' ', '_')
                 if biolink_to_external_mappings.get(biolink_curie, None) is None:
@@ -69,7 +69,7 @@ kg2_util.download_file_if_not_exist_locally(
 biolink_model = kg2_util.safe_load_yaml_from_string(
     kg2_util.read_file_to_string(biolink_model_file_name))
 
-mapping_hierarchy = ["exact_mappings", "close_mappings", "narrow_mappings", "broad_mappings", "related_mappings"] # TODO: determine correct order of mappings
+mapping_hierarchy = ["exact_mappings", "close_mappings", "narrow_mappings", "broad_mappings", "related_mappings"]  # TODO: determine correct order of mappings
 
 biolink_to_external_mappings = create_biolink_to_external_mappings(
     biolink_model, mapping_hierarchy)
@@ -119,7 +119,7 @@ for relation, instruction_dict in pred_info.items():
                     mapping_term_used = mapping_term
                     break
             if len(allowed_biolink_curies_set) != 0:
-                err_str = "%s should map to %s (%s)" % (relation,allowed_biolink_curies_set, mapping_term_used.split("_")[0])
+                err_str = "%s should map to %s (%s)" % (relation, allowed_biolink_curies_set, mapping_term_used.split("_")[0])
                 assert subinfo[1] in allowed_biolink_curies_set, err_str
 
     else:
