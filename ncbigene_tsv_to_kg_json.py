@@ -111,7 +111,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                nomenc_status is not None:
                 category_label = kg2_util.BIOLINK_CATEGORY_GENE
             else:
-                full_name = 'Genetic locus for ' + full_name
+                full_name = 'Genetic locus associated with ' + full_name
                 category_label = kg2_util.BIOLINK_CATEGORY_GENOMIC_ENTITY
             node_dict = make_node(ncbi_gene_id,
                                   full_name,
