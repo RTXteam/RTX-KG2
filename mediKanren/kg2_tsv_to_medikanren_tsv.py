@@ -8,10 +8,11 @@ import csv
 import sys
 import argparse
 import re
+import json
 
 __author__ = 'Erica Wood'
 __copyright__ = 'Oregon State University'
-__credits__ = ['Stephen Ramsey', 'Erica Wood']
+__credits__ = ['Stephen Ramsey', 'Erica Wood', 'Lindsey Kvarfordt']
 __license__ = 'MIT'
 __version__ = '0.1.0'
 __maintainer__ = ''
@@ -86,8 +87,9 @@ def nodes(nodes_input, nodes_output):
                     propvalue = make_tsv_list(propvalue)
 
                 if len(prop) > 0 and len(propvalue) > 0:
-                    if "\t" in propvalue or '"' in propvalue or '\n' in propvalue:
-                        propvalue = '"' + re.sub(r'\n+', '\n', propvalue.replace('"', "'")).strip() + '"'
+                    propvalue = propvalue.replace("\n", " ")
+                    if "\t" in propvalue or '"' in propvalue:
+                        propvalue = json.dumps(propvalue)
                     proplist = id + "\t" + prop + "\t" + propvalue + "\n"
                     nodes_prop_o.write(proplist)
                 index += 1
@@ -129,9 +131,12 @@ def edges(edges_input, edges_output):
                     propvalue = make_tsv_list(propvalue)
 
                 if len(prop) > 0 and len(propvalue) > 0:
-                    if "\t" in propvalue or '"' in propvalue or '\n' in propvalue:
-                        propvalue = '"' + re.sub(r'\n+', '\n', propvalue.replace('"', "'")).strip() + '"'
-                    proplist = str(line_id) + "\t" + prop + "\t" + propvalue + "\n"
+                    propvalue = propvalue.replace("\n", " ")
+                    if "\t" in propvalue or '"' in propvalue:
+                        # stringifies and handles the escaping of extra quotes
+                        propvalue = json.dumps(propvalue)
+                    proplist = str(line_id) + "\t" + prop + \
+                        "\t" + propvalue + "\n"
                     edges_prop_o.write(proplist)
                 index += 1
 
