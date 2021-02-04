@@ -56,6 +56,8 @@ This script generates four csv files formatted as follows:
 
 **NOTE:** Skip this section if you generated the csvs from the kg2 tsv using the instuctions above
 
+ **This method takes alot of memory! For KG2 versions 3.5 and above, this script won't complete on typical r5a.8xlarge EC2 instance used for kg2 builds.** 
+
 1) Edit `config.yml` so that it has the correct url, username, and password for the kg2 instance you want to download.
   e.g.
   ```
