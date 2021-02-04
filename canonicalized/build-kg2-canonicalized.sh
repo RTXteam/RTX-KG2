@@ -14,7 +14,7 @@ cd ${rtx_dir}/code/ARAX/NodeSynonymizer
 python3 sri_node_normalizer.py --build
 python3 node_synonymizer.py --build --kg_name=both
 
-# Create the canonicalized KG2 from the KG2 at the endpoint specified under the "KG2" slot in RTX/code/config.json
+# Create the canonicalized KG from the KG2 at the endpoint specified under the "KG2" slot in RTX/code/config.json
 cd ${rtx_dir}/code/kg2/canonicalized
 python3 -u create_canonicalized_kg_tsvs.py
 
