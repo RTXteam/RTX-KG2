@@ -33,7 +33,7 @@ else
     test_prefix=""
 fi
 
-tsv_tarball_base=kg2-canonicalized-tsv${test_arg}.tar.gz
+tsv_tarball_base=kg2c-tsv${test_arg}.tar.gz
 tsv_tarball=${tsv_dir}/${tsv_tarball_base}
 
 echo "copying RTX Configuration JSON file from S3"

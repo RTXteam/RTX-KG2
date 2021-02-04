@@ -69,7 +69,7 @@ aws configure
 (4) Build KG2c (should take less than 2 hours):
 ```
 cd ~/RTX/code/kg2/canonicalized/
-bash -x build-kg2-canonicalized.sh
+bash -x build-kg2c.sh
 ```
 This produces TSV files containing the KG (formatted for Neo4j import) and uploads them to the KG2 S3 bucket. It requires a bit more than 64GB of RAM.
 
