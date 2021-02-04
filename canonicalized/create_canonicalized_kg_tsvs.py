@@ -12,7 +12,7 @@ import time
 import traceback
 
 from datetime import datetime
-from typing import List, Dict, Tuple, Union
+from typing import List, Dict, Tuple, Union, Optional
 from neo4j import GraphDatabase
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/../../")  # code directory
@@ -20,7 +20,7 @@ from RTXConfiguration import RTXConfiguration
 sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/../../ARAX/NodeSynonymizer/")
 from node_synonymizer import NodeSynonymizer
 
-ARRAY_NODE_PROPERTIES = ["types", "publications", "equivalent_curies", "all_names"]
+ARRAY_NODE_PROPERTIES = ["all_categories", "publications", "equivalent_curies", "all_names"]
 ARRAY_EDGE_PROPERTIES = ["provided_by", "publications"]
 
 
@@ -53,13 +53,13 @@ def _merge_two_lists(list_a: List[any], list_b: List[any]) -> List[any]:
     return list(set(list_a + list_b))
 
 
-def _get_edge_key(source: str, target: str, edge_type: str) -> str:
-    return f"{source}--{edge_type}--{target}"
+def _get_edge_key(subject: str, object: str, predicate: str) -> str:
+    return f"{subject}--{predicate}--{object}"
 
 
-def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Dict[str, any]], Dict[str, str]]:
+def _canonicalize_nodes(neo4j_nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Dict[str, any]], Dict[str, str]]:
     synonymizer = NodeSynonymizer()
-    node_ids = [node.get('id') for node in nodes if node.get('id')]
+    node_ids = [node.get('id') for node in neo4j_nodes if node.get('id')]
     print(f"  Sending NodeSynonymizer.get_canonical_curies() {len(node_ids)} curies..")
     canonicalized_info = synonymizer.get_canonical_curies(curies=node_ids, return_all_types=True)
     all_canonical_curies = {canonical_info['preferred_curie'] for canonical_info in canonicalized_info.values() if canonical_info}
@@ -70,64 +70,71 @@ def _canonicalize_nodes(nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Dict[str
     print(f"  Creating canonicalized nodes..")
     curie_map = dict()
     canonicalized_nodes = dict()
-    for node in nodes:
-        canonical_info = canonicalized_info.get(node['id'])
-        canonicalized_curie = canonical_info.get('preferred_curie', node['id']) if canonical_info else node['id']
-        publications = node['publications'] if node.get('publications') else []
-        description_in_list = [node['description']] if node.get('description') else []
+    for neo4j_node in neo4j_nodes:
+        canonical_info = canonicalized_info.get(neo4j_node['id'])
+        canonicalized_curie = canonical_info.get('preferred_curie', neo4j_node['id']) if canonical_info else neo4j_node['id']
+        publications = neo4j_node['publications'] if neo4j_node.get('publications') else []
+        description_in_list = [neo4j_node['description']] if neo4j_node.get('description') else []
         if canonicalized_curie in canonicalized_nodes:
+            # Merge this node into its corresponding canonical node
             existing_canonical_node = canonicalized_nodes[canonicalized_curie]
             existing_canonical_node['publications'] = _merge_two_lists(existing_canonical_node['publications'], publications)
-            existing_canonical_node['all_names'] = _merge_two_lists(existing_canonical_node['all_names'], [node['name']])
+            existing_canonical_node['all_names'] = _merge_two_lists(existing_canonical_node['all_names'], [neo4j_node['name']])
             existing_canonical_node['description'] = _merge_two_lists(existing_canonical_node['description'], description_in_list)
+            # Make sure any nodes subject to #1074-like problems still appear in equivalent curies
+            existing_canonical_node['equivalent_curies'] = _merge_two_lists(existing_canonical_node['equivalent_curies'], [neo4j_node['id']])
             # Add the IRI for the 'preferred' curie, if we've found that node
-            if node['id'] == canonicalized_curie:
-                existing_canonical_node['iri'] = node.get('iri')
+            if neo4j_node['id'] == canonicalized_curie:
+                existing_canonical_node['iri'] = neo4j_node.get('iri')
         else:
-            name = canonical_info['preferred_name'] if canonical_info else node['name']
-            preferred_type = canonical_info['preferred_type'] if canonical_info else node['category']
-            types = list(canonical_info['all_types']) if canonical_info else [node['category']]
-            iri = node['iri'] if node['id'] == canonicalized_curie else None
-            all_names = [node['name']]
-            canonicalized_node = _create_node(node_id=canonicalized_curie,
+            # Initiate the canonical node for this synonym group
+            name = canonical_info['preferred_name'] if canonical_info else neo4j_node['name']
+            category = canonical_info['preferred_type'] if canonical_info else neo4j_node['category']
+            if not category.startswith("biolink:"):
+                print(f"  WARNING: Preferred category for {canonicalized_curie} doesn't start with 'biolink:': {category}")
+            all_categories = list(canonical_info['all_types']) if canonical_info else [neo4j_node['category']]
+            if not all(category.startswith("biolink:") for category in all_categories):
+                print(f" WARNING: Categories for {canonicalized_curie} contain non 'biolink:' items: {all_categories}")
+            iri = neo4j_node['iri'] if neo4j_node['id'] == canonicalized_curie else None
+            all_names = [neo4j_node['name']]
+            canonicalized_node = _create_node(preferred_curie=canonicalized_curie,
                                               name=name,
-                                              preferred_type=preferred_type,
-                                              types=types,
+                                              category=category,
+                                              all_categories=all_categories,
                                               publications=publications,
-                                              equivalent_curies=equivalent_curies_dict.get(canonicalized_curie, []),
+                                              equivalent_curies=equivalent_curies_dict.get(canonicalized_curie, [canonicalized_curie]),
                                               iri=iri,
                                               description=description_in_list,
                                               all_names=all_names)
 
             canonicalized_nodes[canonicalized_node['id']] = canonicalized_node
-        curie_map[node['id']] = canonicalized_curie  # Record this mapping for easy lookup later
+        curie_map[neo4j_node['id']] = canonicalized_curie  # Record this mapping for easy lookup later
     return canonicalized_nodes, curie_map
 
 
-def _canonicalize_edges(edges: List[Dict[str, any]], curie_map: Dict[str, str], is_test: bool) -> Dict[str, Dict[str, any]]:
+def _canonicalize_edges(neo4j_edges: List[Dict[str, any]], curie_map: Dict[str, str], is_test: bool) -> Dict[str, Dict[str, any]]:
     allowed_self_edges = ['positively_regulates', 'interacts_with', 'increase']
     canonicalized_edges = dict()
-    for edge in edges:
-        original_source_id = edge['subject']
-        original_target_id = edge['object']
+    for neo4j_edge in neo4j_edges:
+        original_subject = neo4j_edge['subject']
+        original_object = neo4j_edge['object']
         if not is_test:  # Make sure we have the mappings we expect
-            assert original_source_id in curie_map
-            assert original_target_id in curie_map
-        canonicalized_source_id = curie_map.get(original_source_id, original_source_id)
-        canonicalized_target_id = curie_map.get(original_target_id, original_target_id)
-        edge_type = edge['predicate']
-        edge_publications = edge['publications'] if edge.get('publications') else []
-        edge_provided_by = edge['provided_by'] if edge.get('provided_by') else []
-        if canonicalized_source_id != canonicalized_target_id or edge_type in allowed_self_edges:
-            canonicalized_edge_key = _get_edge_key(canonicalized_source_id, canonicalized_target_id, edge_type)
+            assert original_subject in curie_map
+            assert original_object in curie_map
+        canonicalized_subject = curie_map.get(original_subject, original_subject)
+        canonicalized_object = curie_map.get(original_object, original_object)
+        edge_publications = neo4j_edge['publications'] if neo4j_edge.get('publications') else []
+        edge_provided_by = neo4j_edge['provided_by'] if neo4j_edge.get('provided_by') else []
+        if canonicalized_subject != canonicalized_object or neo4j_edge['predicate'] in allowed_self_edges:
+            canonicalized_edge_key = _get_edge_key(canonicalized_subject, canonicalized_object, neo4j_edge['predicate'])
             if canonicalized_edge_key in canonicalized_edges:
                 canonicalized_edge = canonicalized_edges[canonicalized_edge_key]
                 canonicalized_edge['provided_by'] = _merge_two_lists(canonicalized_edge['provided_by'], edge_provided_by)
                 canonicalized_edge['publications'] = _merge_two_lists(canonicalized_edge['publications'], edge_publications)
             else:
-                new_canonicalized_edge = _create_edge(source=canonicalized_source_id,
-                                                      target=canonicalized_target_id,
-                                                      predicate=edge['predicate'],
+                new_canonicalized_edge = _create_edge(subject=canonicalized_subject,
+                                                      object=canonicalized_object,
+                                                      predicate=neo4j_edge['predicate'],
                                                       provided_by=edge_provided_by,
                                                       publications=edge_publications)
                 canonicalized_edges[canonicalized_edge_key] = new_canonicalized_edge
@@ -142,7 +149,7 @@ def _modify_column_headers_for_neo4j(plain_column_headers: List[str]) -> List[st
             header = f"{header}:string[]"
         elif header == 'id':
             header = f"{header}:ID"
-        elif header == 'preferred_type_for_conversion':
+        elif header == 'category_for_conversion':
             header = ":LABEL"
         elif header == 'subject_for_conversion':
             header = ":START_ID"
@@ -154,36 +161,37 @@ def _modify_column_headers_for_neo4j(plain_column_headers: List[str]) -> List[st
     return modified_headers
 
 
-def _create_node(node_id: str, name: str, preferred_type: str, types: List[str], equivalent_curies: List[str],
-                 publications: List[str], all_names: List[str], iri: str, description: Union[str, List[str]]) -> Dict[str, any]:
-    assert isinstance(node_id, str)
+def _create_node(preferred_curie: str, name: Optional[str], category: str, all_categories: List[str], equivalent_curies: List[str],
+                 publications: List[str], all_names: List[str], iri: Optional[str], description: Union[str, List[str]]) -> Dict[str, any]:
+    assert isinstance(preferred_curie, str)
     assert isinstance(name, str) or name is None
-    assert isinstance(types, list)
-    assert isinstance(preferred_type, str)
+    assert isinstance(category, str)
+    assert isinstance(all_names, list)
+    assert isinstance(all_categories, list)
     assert isinstance(equivalent_curies, list)
     assert isinstance(publications, list)
     return {
-        "id": node_id,
+        "id": preferred_curie,
         "name": name,
-        "preferred_type": preferred_type,
+        "category": category,
+        "all_names": all_names,
+        "all_categories": all_categories,
         "iri": iri,
         "description": description,
-        "types": types,
         "equivalent_curies": equivalent_curies,
-        "all_names": all_names,
         "publications": publications
     }
 
 
-def _create_edge(source: str, target: str, predicate: str, provided_by: List[str], publications: List[str]) -> Dict[str, any]:
-    assert isinstance(source, str)
-    assert isinstance(target, str)
+def _create_edge(subject: str, object: str, predicate: str, provided_by: List[str], publications: List[str]) -> Dict[str, any]:
+    assert isinstance(subject, str)
+    assert isinstance(object, str)
     assert isinstance(predicate, str)
     assert isinstance(provided_by, list)
     assert isinstance(publications, list)
     return {
-        "subject": source,
-        "object": target,
+        "subject": subject,
+        "object": object,
         "predicate": predicate,
         "provided_by": provided_by,
         "publications": publications
@@ -234,31 +242,34 @@ def create_canonicalized_tsvs(is_test=False):
         return
 
     # Create a node containing information about this KG2C build
-    regular_kg2_version = canonicalized_nodes_dict['RTX:KG2']['name'] if 'RTX:KG2' in canonicalized_nodes_dict else 'unknown KG2 version'
-    current_date = datetime.now().strftime('%Y-%m-%d %H:%M')
-    build_node_name = f"RTX KG2c, {current_date}"
-    kg2c_build_node = _create_node(node_id="RTX:KG2c",
-                                   name=build_node_name,
-                                   types=["data_file"],
-                                   preferred_type="data_file",
-                                   equivalent_curies=[],
-                                   publications=[],
-                                   iri="http://rtx.ai/identifiers#KG2c",
-                                   all_names=[build_node_name],
-                                   description=[f"This KG2c build was created from {regular_kg2_version} on {current_date}."])
-    canonicalized_nodes_dict[kg2c_build_node['id']] = kg2c_build_node
+    kg2_build_node = canonicalized_nodes_dict.get('RTX:KG2')
+    if kg2_build_node:
+        kg2_version = kg2_build_node['name']
+        kg2c_build_node = _create_node(preferred_curie=f"{kg2_build_node['id']}c",
+                                       name=f"{kg2_version}c",
+                                       all_categories=[kg2_build_node['all_categories']],
+                                       category=kg2_build_node['category'],
+                                       equivalent_curies=[],
+                                       publications=[],
+                                       iri=f"{kg2_build_node['iri']}c",
+                                       all_names=[f"{kg2_version}c"],
+                                       description=[f"This KG2c build was created from {kg2_version} on "
+                                                    f"{datetime.now().strftime('%Y-%m-%d %H:%M')}."])
+        canonicalized_nodes_dict[kg2c_build_node['id']] = kg2c_build_node
+    else:
+        print(f"  WARNING: No build node detected in the regular KG2, so I'm not creating a KG2c build node.")
 
     # Convert array fields into the format neo4j wants and do some final processing
     for canonicalized_node in canonicalized_nodes_dict.values():
         for list_node_property in ARRAY_NODE_PROPERTIES:
             canonicalized_node[list_node_property] = _convert_list_to_neo4j_format(canonicalized_node[list_node_property])
-        canonicalized_node['preferred_type_for_conversion'] = canonicalized_node['preferred_type']
         # Grab the five longest descriptions and join them into one string
         sorted_description_list = sorted(canonicalized_node['description'], key=len, reverse=True)
         # Get rid of any redundant descriptions (e.g., duplicate 'UMLS Semantic Type: UMLS_STY:T060')
         filtered_description_list = [description for description in sorted_description_list if not any(description in other_description
                                      for other_description in sorted_description_list if description != other_description)]
         canonicalized_node['description'] = " --- ".join(filtered_description_list[:5])
+        canonicalized_node['preferred_category_for_conversion'] = canonicalized_node['category']
     for canonicalized_edge in canonicalized_edges_dict.values():
         if not is_test:  # Make sure we don't have any orphan edges
             assert canonicalized_edge['subject'] in canonicalized_nodes_dict
