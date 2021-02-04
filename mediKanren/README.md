@@ -136,6 +136,16 @@ tar --exclude='*.csv' -zcvf kg2-medikanren-indexes-<yyyymmdd>.tar.gz .
 
 Upload both tarballs to the public s3 bucket.
 
+The tarballs should look something like this, in terms of S3 URLs:
+
+- `s3://rtx-kg2-public/kg2-medikanren-tsvs-YYYYMMDD.tar.gz
+- `s3://rtx-kg2-public/kg2-medikanren-tsvs-YYYYMMDD.tar.gz
+
+But make sure to provide downloadable HTTP links to the mediKanren team, like this:
+
+- `http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/kg2-medikanren-indexes-YYYYMMDD.tar.gz`
+- `http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/kg2-medikanren-tsvs-YYYYMMDD.tar.gz`
+
 ## 2) Run mediKanren localy from pregenerated indexes
 
 ### Setup the enviroment
