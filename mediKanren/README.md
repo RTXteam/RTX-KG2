@@ -141,8 +141,8 @@ Upload both tarballs to the public s3 bucket.
 
 The tarballs should look something like this, in terms of S3 URLs:
 
-- `s3://rtx-kg2-public/kg2-medikanren-tsvs-YYYYMMDD.tar.gz
-- `s3://rtx-kg2-public/kg2-medikanren-tsvs-YYYYMMDD.tar.gz
+- `s3://rtx-kg2-public/kg2-medikanren-tsvs-YYYYMMDD.tar.gz`
+- `s3://rtx-kg2-public/kg2-medikanren-tsvs-YYYYMMDD.tar.gz`
 
 But make sure to provide downloadable HTTP links to the mediKanren team, like this:
 
