@@ -87,7 +87,9 @@ def nodes(nodes_input, nodes_output):
 
                 if len(prop) > 0 and len(propvalue) > 0:
                     if "\t" in propvalue or '"' in propvalue or '\n' in propvalue:
+                        print(propvalue)
                         propvalue = '"' + re.sub(r'\n+', '\n', propvalue.replace('"', "'")).strip() + '"'
+                        propvalue = propvalue.replace("\n", " ")
                     proplist = id + "\t" + prop + "\t" + propvalue + "\n"
                     nodes_prop_o.write(proplist)
                 index += 1
@@ -131,6 +133,7 @@ def edges(edges_input, edges_output):
                 if len(prop) > 0 and len(propvalue) > 0:
                     if "\t" in propvalue or '"' in propvalue or '\n' in propvalue:
                         propvalue = '"' + re.sub(r'\n+', '\n', propvalue.replace('"', "'")).strip() + '"'
+                        propvalue = propvalue.replace("\n", " ")
                     proplist = str(line_id) + "\t" + prop + "\t" + propvalue + "\n"
                     edges_prop_o.write(proplist)
                 index += 1
