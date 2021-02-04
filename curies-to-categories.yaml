@@ -6,7 +6,6 @@ prefix-mappings:
     CPT: procedure
     DOID: disease
     DDANAT: anatomical entity
-    DRUGBANK: drug
     EHDAA2: anatomical entity
     FAO: anatomical entity
     GAZ: geographic location
@@ -17,6 +16,7 @@ prefix-mappings:
     ICD10: disease
     LOINC: procedure
     MGI: gene
+    MI: information content entity
     NCBIGene: gene
     NCBITaxon: organism taxon
     OBO: relationship type
@@ -48,6 +48,8 @@ term-mappings:
     owl:topObjectProperty: attribute
     OBO:ro/subsets#ro-eco: relationship type
     BFO:0000001: named thing
+    BFO:0000030: physical entity
+    BFO:0000040: physical entity
     BFO:0000050: relationship type
     BFO:0000051: relationship type
     BFO:0000053: relationship type
@@ -66,14 +68,14 @@ term-mappings:
     CARO:0000003: anatomical entity
     CHEBI:2709: chemical substance
     CHEBI:23888: drug
-    CHEBI:24431: chemical substance
+    CHEBI:24431: molecular entity 
     CHEBI:24432: biological entity
     CHEBI:25212: metabolite
     CHEBI:33232: chemical substance
-    CHEBI:33697: gene product
+    CHEBI:33697: RNA product
     CHEBI:36342: chemical substance
     CHEBI:51086: chemical substance
-    CHEBI:78295: biological entity
+    CHEBI:78295: food component 
     CHEBI:50906: biological process
     CL:0000000: anatomical entity
     EFO:0000324: cell
@@ -82,7 +84,7 @@ term-mappings:
     EFO:0000635: anatomical entity
     EFO:0000408: disease
     EFO:0004423: exon
-    EFO:0004446: macromolecular complex
+    EFO:0004446: molecular entity
     ENVO:02500000: environmental process
     ENVO:00002297: environmental feature
     FMA:29733: anatomical entity
@@ -159,7 +161,7 @@ term-mappings:
     MONDO:0021007: disease
     MPATH:0: biological entity
     NBO:0000313: activity
-    NBO:0000243: phenotypic feature
+    NBO:0000243: behavioral feature
     NCBITaxon:1: organism taxon
     NCIT:C1909: drug
     NCIT:C1913: drug
@@ -183,20 +185,22 @@ term-mappings:
     NCIT:C16338: material sample
     NCIT:C71460: procedure
     NCIT:C16612: genomic entity
-    NCIT:C813: gene product
-    NCIT:C111298: gene product
+    NCIT:C813: transcript 
+    NCIT:C111298: transcript
     NCIT:C17021: protein
     NCIT:C28566: protein
-    NCIT:C21176: macromolecular complex
-    NCIT:C26549: gene product
-    NCIT:C28454: gene product
+    NCIT:C21176: molecular entity
+    NCIT:C26549: noncoding RNA product
+    NCIT:C28454: transcript
     NCIT:C14250: organism taxon
     NCIT:C3910: phenotypic feature
     NCIT:C48187: material sample
     NCIT:C20181: named thing
     OBI:0000427: protein
+    OGMS:0000060: physiological process
+    OGMS:0000087: individual organism
     ORPHANET:410298: gene
-    ORPHANET:410299: gene product
+    ORPHANET:410299: noncoding RNA product
     ORPHANET:410297: genomic entity
     ORPHANET:C023: life stage
     ORPHANET:C001: disease
@@ -205,6 +209,7 @@ term-mappings:
     ORPHANET:409973: frequency value
     ORPHANET:C005: phenotypic feature
     owl:Thing: named thing
+    PATO:0000001: phenotypic quality
     PR:000000001: protein
     SO:0001217: gene
     SNOMED:48176007: activity
@@ -231,7 +236,7 @@ term-mappings:
     SNOMED:410607006: organism taxon
     SNOMED:410942007: drug
     SNOMED:419891008: information content entity
-    SNOMED:900000000000441003: data file
+    SNOMED:900000000000441003: information content entity
     SO:0000704: genomic entity
     TRANS:0000000: exposure event
     UBERON:0001062: anatomical entity
@@ -351,7 +356,7 @@ term-mappings:
     UMLS_STY:T167: chemical substance
     UMLS_STY:T168: named thing
     UMLS_STY:T169: information content entity
-    UMLS_STY:T170: publication
+    UMLS_STY:T170: information content entity
     UMLS_STY:T171: information content entity
     UMLS_STY:T184: disease
     UMLS_STY:T185: information content entity

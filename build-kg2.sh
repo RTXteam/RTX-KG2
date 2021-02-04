@@ -90,7 +90,7 @@ ensembl_output_file=${BUILD_DIR}/kg2-ensembl${test_suffix}.json
 chembl_output_file=${BUILD_DIR}/kg2-chembl${test_suffix}.json
 chembl_mysql_dbname=chembl
 
-unichem_output_tsv_file=${BUILD_DIR}/unichem/chembl-to-curies.tsv
+unichem_output_tsv_file=${BUILD_DIR}/unichem/unichem-mappings.tsv
 unichem_output_file=${BUILD_DIR}/kg2-unichem${test_suffix}.json
 
 ncbi_tsv_gene_file=${BUILD_DIR}/ncbigene/Homo_sapiens_gene_info.tsv
@@ -322,22 +322,22 @@ echo "running merge_graphs.py"
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/merge_graphs.py \
            ${test_arg} \
-           --kgFiles ${output_file_full} \
-                     ${semmed_output_file} \
-                     ${uniprotkb_output_file} \
-                     ${ensembl_output_file} \
-                     ${unichem_output_file} \
-                     ${chembl_output_file} \
-                     ${ncbi_gene_output_file} \
-                     ${dgidb_output_file} \
-                     ${repodb_output_file} \
-                     ${smpdb_output_file} \
-                     ${drugbank_output_file} \
-                     ${hmdb_output_file} \
-                     ${go_annotation_output_file} \
-                     ${kg1_output_file} \
            --kgFileOrphanEdges ${output_file_orphan_edges} \
-           ${final_output_file_full}
+           --outputFile ${final_output_file_full} \
+           ${output_file_full} \
+           ${semmed_output_file} \
+           ${uniprotkb_output_file} \
+           ${ensembl_output_file} \
+           ${unichem_output_file} \
+           ${chembl_output_file} \
+           ${ncbi_gene_output_file} \
+           ${dgidb_output_file} \
+           ${repodb_output_file} \
+           ${smpdb_output_file} \
+           ${drugbank_output_file} \
+           ${hmdb_output_file} \
+           ${go_annotation_output_file} \
+           ${kg1_output_file}
 
 echo "running get_nodes_json_from_kg_json.py"
 

@@ -77,7 +77,7 @@ owl_load_inventory_file=${CODE_DIR}/ont-load-inventory${test_suffix}.yaml
 
 chembl_mysql_dbname=chembl
 
-unichem_output_tsv_file=${BUILD_DIR}/unichem/chembl-to-curies.tsv
+unichem_output_tsv_file=${BUILD_DIR}/unichem/unichem-mappings.tsv
 unichem_output_file=${BUILD_DIR}/kg2-unichem${test_suffix}.json
 
 ncbi_gene_tsv_file=${BUILD_DIR}/ncbigene/Homo_sapiens_gene_info.tsv

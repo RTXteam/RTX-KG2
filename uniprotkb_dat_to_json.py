@@ -26,9 +26,10 @@ UNIPROTKB_IDENTIFIER_BASE_IRI = kg2_util.BASE_URL_UNIPROTKB
 UNIPROT_KB_URL = kg2_util.BASE_URL_IDENTIFIERS_ORG_REGISTRY + 'uniprot'
 
 RE_ORGANISM_TAXID = re.compile(r'NCBI_TaxID=(\d+)')
-FIELD_CODES_USE_STRING = ['ID', 'SQ', 'RA', 'RX', 'RT', 'KW', 'CC', 'GN', 'OS']
-FIELD_CODES_DO_NOT_STRIP_NEWLINE = ['SQ']
+FIELD_CODES_USE_STRING = {'ID', 'SQ', 'RA', 'RX', 'RT', 'KW', 'CC', 'GN', 'OS'}
+FIELD_CODES_DO_NOT_STRIP_NEWLINE = {}
 FIELD_CODES_DO_NOT_STRIP_RIGHT_SEMICOLON = {'RX', 'CC'}
+FIELD_CODES_ADD_SPACE = {'CC'}
 REGEX_PUBLICATIONS = re.compile(r'((?:(?:PMID)|(?:PubMed)):\d+)')
 REGEX_GENE_NAME = re.compile(r'^Name=([^ \;]+)')
 REGEX_GENE_SYNONYMS = re.compile(r'Synonyms=([^\;]+)')
@@ -36,7 +37,11 @@ REGEX_HGNC = re.compile(r'^HGNC; (HGNC:\d+)')
 REGEX_NCBIGeneID = re.compile(r'^GeneID; (\d+)')
 REGEX_XREF = re.compile(r'Xref=([^\;]+)\;')
 REGEX_EC_XREF = re.compile(r'EC=([\d\.]+)')
-REGEX_SEPARATE_EVIDENCE_CODES =  re.compile(r'(.*?)(\{(.*?)\})')
+REGEX_SEPARATE_EVIDENCE_CODES = re.compile(r'(.*?)(\{(.*?)\})')
+LICENSE_TEXT = '---------------------------------------------------------------------------' \
+               'Copyrighted by the UniProt Consortium, see https://www.uniprot.org/terms Di' \
+               'stributed under the Creative Commons Attribution (CC BY 4.0) License ------' \
+               '---------------------------------------------------------------------'
 
 DESIRED_SPECIES_INTS = set([kg2_util.NCBI_TAXON_ID_HUMAN])
 
@@ -62,7 +67,6 @@ def parse_records_from_uniprot_dat(uniprot_dat_file_name: str,
                 # end of a record
                 organism_host_list = record.get('organism_host', None)
                 organism = record.get('organism', None)
-                assert organism is not None
                 if (organism is not None and organism in desired_species_ints) or \
                    (organism_host_list is not None and len(set(organism_host_list) & desired_species_ints) > 0):
                     record_list.append(record)
@@ -76,6 +80,8 @@ def parse_records_from_uniprot_dat(uniprot_dat_file_name: str,
                     field_value = field_value.rstrip('\n')
                 if field_code not in FIELD_CODES_DO_NOT_STRIP_RIGHT_SEMICOLON:
                     field_value = field_value.rstrip(';')
+                if field_code in FIELD_CODES_ADD_SPACE and not (field_value.endswith('-')):
+                    field_value += ' '
                 if record.get(field_code, None) is None:
                     if field_code not in FIELD_CODES_USE_STRING:
                         if field_code != 'AC':
@@ -190,14 +196,14 @@ def make_nodes(records: list):
                     xref_match_res = REGEX_XREF.search(comment_str)
                     if xref_match_res is not None:
                         xrefs |= set(filter(None, map(fix_xref, xref_match_res[1].split(','))))
-        synonyms = [record_dict['SQ']]
         accession_list = record_dict['AC']
         accession = accession_list[0]
+        synonyms = []
         if len(accession_list) > 1:
             synonyms += accession_list[1:(len(accession_list)+1)]
         description_list = record_dict['DE']
         full_name = None
-        name = None
+        short_name = None
         desc_ctr = 0
         description = record_dict.get('CC', '')
         for description_str in description_list:
@@ -207,8 +213,9 @@ def make_nodes(records: list):
                 if desc_ctr < len(description_list) - 1:
                     next_desc = description_list[desc_ctr + 1].lstrip()
                     if next_desc.startswith('Short='):
-                        name = next_desc.replace('Short=', '')
-                        continue
+                        short_name = next_desc.replace('Short=', '')
+                        synonyms += [short_name]
+#                        continue
             elif description_str.startswith('AltName: Full='):
                 synonyms.append(description_str.replace('AltName: Full=', ''))
             elif description_str.startswith('AltName: CD_antigen='):
@@ -257,9 +264,11 @@ def make_nodes(records: list):
                     gene_synonyms_match = REGEX_GENE_SYNONYMS.match(gene_names_str)
                     if gene_synonyms_match is not None:
                         synonyms += [syn.strip() for syn in gene_synonyms_match[1].split(',')]
-        if name is None:
-            if gene_symbol is not None:
-                name = gene_symbol
+        if gene_symbol is not None:
+            name = gene_symbol
+        else:
+            if short_name is not None:
+                name = short_name
             else:
                 name = full_name
         # move evidence codes from name to description (issue #1171)
@@ -269,7 +278,7 @@ def make_nodes(records: list):
             description += f"Evidence Codes from Name: {ev_codes} "
         # append species name to name if not human (issue #1171)
         species = record_dict.get('OS', 'unknown species').rstrip(".")
-        if not "homo sapiens (human)" in species.lower():
+        if "homo sapiens (human)" not in species.lower():
             name += f" ({species})"
         node_curie = kg2_util.CURIE_PREFIX_UNIPROT + ':' + accession
         iri = UNIPROTKB_IDENTIFIER_BASE_IRI + accession
@@ -281,7 +290,13 @@ def make_nodes(records: list):
                                        update_date,
                                        UNIPROTKB_PROVIDED_BY_CURIE_ID)
         node_dict['full_name'] = full_name
+        if not description.endswith(' '):
+            description += ' '
+        description += record_dict['SQ']
+        description = description.replace(LICENSE_TEXT, '')
         node_dict['description'] = description
+        if len(synonyms) > 0:
+            synonyms = [synonyms[0]] + list(set(synonyms) - {synonyms[0]})
         node_dict['synonym'] = synonyms
         node_dict['publications'] = publications
         node_dict['creation_date'] = creation_date

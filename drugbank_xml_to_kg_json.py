@@ -10,10 +10,11 @@ import kg2_util as kg2_util
 import argparse
 import xmltodict
 import datetime
+import sys
 
 __author__ = 'Erica Wood'
 __copyright__ = 'Oregon State University'
-__credits__ = ['Stephen Ramsey', 'Erica Wood']
+__credits__ = ['Stephen Ramsey', 'Erica Wood', 'Lindsey Kvarfordt']
 __license__ = 'MIT'
 __version__ = '0.1.0'
 __maintainer__ = ''
@@ -25,6 +26,15 @@ DRUGBANK_KB_CURIE_ID = kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY \
                                 + ":drugbank"
 DRUGBANK_RELATION_CURIE_PREFIX = kg2_util.CURIE_PREFIX_DRUGBANK
 DRUGBANK_KB_IRI = kg2_util.BASE_URL_IDENTIFIERS_ORG_REGISTRY + 'drugbank'
+
+APPROVED_DRUG_NODE_ID = "MI:2099"
+NUTRACEUTICAL_DRUG_NODE_ID = "MI:2102"
+ILLICIT_DRUG_NODE_ID = "MI:2150"
+INVESTIGATIONAL_DRUG_NODE_ID = "MI:2148"
+WITHDRAWN_DRUG_NODE_ID = "MI:2149"
+EXPERIMENTAL_DRUG_NODE_ID = "MI:2100"
+TYPE_SMALL_MOLECULE = "small molecule"
+TYPE_BIOTECH = "biotech"
 
 
 def get_args():
@@ -105,6 +115,15 @@ def get_publications(references: list):
 def make_node(drug: dict):
     drugbank_id = get_drugbank_id(drug)
     synonyms = []
+    drug_type = drug["@type"]
+    if drug_type == TYPE_SMALL_MOLECULE:
+        category = kg2_util.BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE
+    elif drug_type == TYPE_BIOTECH:
+        category = kg2_util.BIOLINK_CATEGORY_MOLECULAR_ENTITY
+    else:
+        print(f"Unknown type: {drug_type} for drug ID: {drugbank_id}; treating as chemical substance",
+              file=sys.stderr)
+        category = kg2_util.BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE
     if drug["synonyms"] is not None:
         if drug["synonyms"]["synonym"] is not None:
             for synonym in drug["synonyms"]["synonym"]:
@@ -119,7 +138,7 @@ def make_node(drug: dict):
                            update_date=drug["@updated"],
                            synonyms=synonyms,
                            publications=publications,
-                           category_label=kg2_util.BIOLINK_CATEGORY_DRUG,
+                           category_label=category,
                            creation_date=drug["@created"])
         ''' For description, also consider "drug["description"]" --
             might be a good question for Steve
@@ -309,6 +328,48 @@ def make_target_edge(drug: dict):
     return target_edges
 
 
+def get_status_groups(drug: dict):
+    groups = ""
+    if isinstance(drug["groups"]["group"], list):
+        groups = drug["groups"]["group"]
+    elif isinstance(drug["groups"]["group"], str):
+        groups = [drug["groups"]["group"]]
+    return groups
+
+
+# addresses issue 1050, and adds edges connecting drugs to their approval status
+def make_group_edges(drug: dict):
+    group_edges = []
+    subject_id = kg2_util.CURIE_PREFIX_DRUGBANK + ":" + get_drugbank_id(drug)
+    predicate_label = "group"
+    groups = get_status_groups(drug)
+    for group in groups:
+        object_id = ""
+        if group.lower() == "approved":
+            object_id = APPROVED_DRUG_NODE_ID
+        elif group.lower() == "withdrawn":
+            object_id = WITHDRAWN_DRUG_NODE_ID
+        elif group.lower() == "nutraceutical":
+            object_id = NUTRACEUTICAL_DRUG_NODE_ID
+        elif group.lower() == "illicit":
+            object_id = ILLICIT_DRUG_NODE_ID
+        elif group.lower() == "investigational":
+            object_id = INVESTIGATIONAL_DRUG_NODE_ID
+        elif group.lower() == "experimental":
+            object_id = EXPERIMENTAL_DRUG_NODE_ID
+        elif group.lower() == "vet_approved":
+            object_id = APPROVED_DRUG_NODE_ID
+        if object_id == "":
+            print(f"Unknown group: {group} for {subject_id}. Skipping.", file=sys.stderr)
+            continue
+        edge = format_edge(subject_id,
+                           object_id,
+                           predicate_label,
+                           None)
+        group_edges.append(edge)
+    return group_edges
+
+
 def make_edges(drug: dict):
     edges = []
     category_edges = make_category_edges(drug)
@@ -335,6 +396,11 @@ def make_edges(drug: dict):
     if target_edges is not None:
         for target_edge in target_edges:
             edges.append(target_edge)
+
+    group_edges = make_group_edges(drug)
+    if group_edges is not None:
+        for group_edge in group_edges:
+            edges.append(group_edge)
 
     return edges
 

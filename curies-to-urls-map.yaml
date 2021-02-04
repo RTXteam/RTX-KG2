@@ -314,6 +314,8 @@ use_for_bidirectional_mapping:
   -
     PR: http://purl.obolibrary.org/obo/PR_
   -
+    PSY: http://purl.bioontology.org/ontology/PSY/
+  -
     PW: http://purl.obolibrary.org/obo/PW_
   -
     rdf: https://www.w3.org/TR/2004/REC-owl-guide-20040210/#

@@ -16,6 +16,7 @@ __status__ = 'Prototype'
 
 import collections
 import copy
+import datetime
 import enum
 import gzip
 import html.parser
@@ -142,6 +143,7 @@ BASE_URL_SMPDB = BASE_BASE_URL_IDENTIFIERS_ORG + 'smpdb:'
 BASE_URL_TTD_TARGET = BASE_BASE_URL_IDENTIFIERS_ORG + CURIE_PREFIX_TTD_TARGET + ':'
 BASE_URL_UMLS = BASE_BASE_URL_IDENTIFIERS_ORG + 'umls:'
 BASE_URL_UMLS_STY = 'http://purl.bioontology.org/ontology/STY/'
+BASE_URL_UNICHEM = 'https://www.ebi.ac.uk/unichem/'
 BASE_URL_UNIPROTKB = BASE_BASE_URL_IDENTIFIERS_ORG + 'uniprot:'
 
 BIOLINK_CATEGORY_ANATOMICAL_ENTITY = 'anatomical entity'
@@ -154,6 +156,7 @@ BIOLINK_CATEGORY_DISEASE = 'disease'
 BIOLINK_CATEGORY_DRUG = 'drug'
 BIOLINK_CATEGORY_GENE = 'gene'
 BIOLINK_CATEGORY_GENE_FAMILY = 'gene family'
+BIOLINK_CATEGORY_GENOMIC_ENTITY = 'genomic entity'
 BIOLINK_CATEGORY_MACROMOLECULAR_COMPLEX = 'macromolecular complex'
 BIOLINK_CATEGORY_METABOLITE = 'metabolite'
 BIOLINK_CATEGORY_MICRORNA = 'microRNA'
@@ -213,6 +216,14 @@ MONDO_EDGE_NAMES_SET = {'equivalentTo'}
 OBO_REL_CURIE_RE = re.compile(r'OBO:([^#]+)#([^#]+)')
 OBO_ONT_CURIE_RE = re.compile(r'OBO:([^\.]+)\.owl')
 LOWER_TO_UPPER_RE = re.compile(r'([a-z0-9])([A-Z][^A-Z])')
+
+
+def convert_date(time):
+    return datetime.datetime.fromtimestamp(time).strftime('%Y-%m-%d %H:%M:%S')
+
+
+def date():
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 class MLStripper(html.parser.HTMLParser):
