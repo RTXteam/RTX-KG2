@@ -1,6 +1,6 @@
 # What is KG2canonicalized?
 
-KG2canonicalized (KG2c) is a lightweight version of KG2 in which synonymous nodes have been collapsed into one. It is built from the 'production' KG2 Neo4j endpoint and uses the [ARAX NodeSynonymizer](https://github.com/RTXteam/RTX/tree/master/code/ARAX/NodeSynonymizer) to determine which nodes are equivalent. 
+KG2canonicalized (KG2c) is a lightweight version of KG2 in which synonymous nodes have been merged. It is built from the regular KG2's Neo4j endpoint and uses the [ARAX NodeSynonymizer](https://github.com/RTXteam/RTX/tree/master/code/ARAX/NodeSynonymizer) to determine which nodes are equivalent. 
 
 The Neo4j endpoint for KG2c is accessible at http://kg2canonicalized2.rtx.ai:7474/browser/ (contact the maintainer for username and password).
 
