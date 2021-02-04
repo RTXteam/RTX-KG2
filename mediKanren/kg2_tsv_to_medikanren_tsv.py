@@ -89,8 +89,9 @@ def nodes(nodes_input, nodes_output):
                 if len(prop) > 0 and len(propvalue) > 0:
                     propvalue = propvalue.replace("\n", " ")
                     if "\t" in propvalue or '"' in propvalue:
+                        # stringifies and handles the escaping of extra quotes
                         propvalue = json.dumps(propvalue)
-                    proplist = id + "\t" + prop + "\t" + propvalue + "\n"
+                   proplist = id + "\t" + prop + "\t" + propvalue + "\n"
                     nodes_prop_o.write(proplist)
                 index += 1
 
@@ -135,9 +136,8 @@ def edges(edges_input, edges_output):
                     if "\t" in propvalue or '"' in propvalue:
                         # stringifies and handles the escaping of extra quotes
                         propvalue = json.dumps(propvalue)
-                    proplist = str(line_id) + "\t" + prop + \
-                        "\t" + propvalue + "\n"
-                    edges_prop_o.write(proplist)
+                    proplist = str(line_id) + "\t" + prop + "\t" + propvalue + "\n"
+                   edges_prop_o.write(proplist)
                 index += 1
 
             line_id += 1

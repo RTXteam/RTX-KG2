@@ -17,7 +17,7 @@ source ${config_dir}/master-config.shinc
 output_tsv_file=${1:-"${BUILD_DIR}/unichem/unichem-mappings.tsv"}
 unichem_dir=${BUILD_DIR}/unichem
 unichem_output_dir=`dirname ${output_tsv_file}`
-unichem_ver=280
+unichem_ver=335
 unichem_ftp_site=ftp://ftp.ebi.ac.uk/pub/databases/chembl/UniChem/data
 
 rm -r -f ${unichem_dir}
@@ -31,6 +31,7 @@ ${curl_get} ${unichem_ftp_site}/oracleDumps/UDRI${unichem_ver}/UC_RELEASE.txt.gz
 chembl_src_id=`zcat ${unichem_dir}/UC_SOURCE.txt.gz | awk '{if ($2 == "chembl") {printf "%s", $1}}'`
 chebi_src_id=`zcat ${unichem_dir}/UC_SOURCE.txt.gz | awk '{if ($2 == "chebi") {printf "%s", $1}}'`
 drugbank_src_id=`zcat ${unichem_dir}/UC_SOURCE.txt.gz | awk '{if ($2 == "drugbank") {printf "%s", $1}}'`
+rxnorm_src_id=`zcat ${unichem_dir}/UC_SOURCE.txt.gz | awk '{if ($2 == "rxnorm") {printf "%s", $1}}'`
 
 update_date=`zcat ${unichem_dir}/UC_RELEASE.txt.gz | tail -1 | cut -f3`
 echo "# ${update_date}" > ${output_tsv_file}
@@ -38,10 +39,14 @@ echo "# ${update_date}" > ${output_tsv_file}
 zcat ${unichem_dir}/UC_XREF.txt.gz | awk '{if ($2 == '${chebi_src_id}') {print $1 "\tCHEBI:" $3}}' | sort -k1 > ${unichem_dir}/chebi.txt
 zcat ${unichem_dir}/UC_XREF.txt.gz | awk '{if ($2 == '${chembl_src_id}') {print $1 "\tCHEMBL.COMPOUND:" $3}}' | sort -k1 > ${unichem_dir}/chembl.txt
 zcat ${unichem_dir}/UC_XREF.txt.gz | awk '{if ($2 == '${drugbank_src_id}') {print $1 "\tDRUGBANK:" $3}}' | sort -k1 > ${unichem_dir}/drugbank.txt
+zcat ${unichem_dir}/UC_XREF.txt.gz | awk '{if ($2 == '${rxnorm_src_id}') {print $1 "\tRXNORM:" $3}}' | sort -k1 > ${unichem_dir}/rxnorm.txt
 
 join ${unichem_dir}/chembl.txt ${unichem_dir}/chebi.txt | sed 's/ /\t/g' | cut -f2-3 >> ${output_tsv_file}
 join ${unichem_dir}/chembl.txt ${unichem_dir}/drugbank.txt | sed 's/ /\t/g' | cut -f2-3 >> ${output_tsv_file}
 join ${unichem_dir}/chebi.txt ${unichem_dir}/drugbank.txt | sed 's/ /\t/g' | cut -f2-3 >> ${output_tsv_file}
+join ${unichem_dir}/chembl.txt ${unichem_dir}/rxnorm.txt | sed 's/ /\t/g' | cut -f2-3 >> ${output_tsv_file}
+join ${unichem_dir}/chebi.txt ${unichem_dir}/rxnorm.txt | sed 's/ /\t/g' | cut -f2-3 >> ${output_tsv_file}
+join ${unichem_dir}/drugbank.txt ${unichem_dir}/rxnorm.txt | sed 's/ /\t/g' | cut -f2-3 >> ${output_tsv_file}
 
 date
 echo "================= finished extract-unichem.sh ================="
