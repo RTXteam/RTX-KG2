@@ -15,7 +15,8 @@ Then, navigate to the repository subdirectory `RTX/code/kg2/mediKanren`. To down
 ```
 bash -x ./setup.sh > setup.log 2>&1
 ```
-
+On successful completion, the log file should end with "======== Script Finished ========".
+ 
 ### Generating new graph csvs from kg2 tsv file
 
 **Note:** This is the prefered method as it is much faster to generate the csvs locally than going through neo4j. The alternative method that uses kgx is also listed below. This script takes about an hour to run.
@@ -54,6 +55,8 @@ This script generates four csv files formatted as follows:
 ### Downloading graph csvs from neo4j using KGX
 
 **NOTE:** Skip this section if you generated the csvs from the kg2 tsv using the instuctions above
+
+ **This method takes alot of memory! For KG2 versions 3.5 and above, this script won't complete on typical r5a.8xlarge EC2 instance used for kg2 builds.** 
 
 1) Edit `config.yml` so that it has the correct url, username, and password for the kg2 instance you want to download.
   e.g.
@@ -136,6 +139,16 @@ tar --exclude='*.csv' -zcvf kg2-medikanren-indexes-<yyyymmdd>.tar.gz .
 
 Upload both tarballs to the public s3 bucket.
 
+The tarballs should look something like this, in terms of S3 URLs:
+
+- `s3://rtx-kg2-public/kg2-medikanren-tsvs-YYYYMMDD.tar.gz`
+- `s3://rtx-kg2-public/kg2-medikanren-tsvs-YYYYMMDD.tar.gz`
+
+But make sure to provide downloadable HTTP links to the mediKanren team, like this:
+
+- `http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/kg2-medikanren-indexes-YYYYMMDD.tar.gz`
+- `http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/kg2-medikanren-tsvs-YYYYMMDD.tar.gz`
+
 ## 2) Run mediKanren localy from pregenerated indexes
 
 ### Setup the enviroment
@@ -204,4 +217,11 @@ The the above should return:
 
 Verify that the above information returned looks correct.
 
+## Updating Dependent Repositories
+The code in this directory relies on two forks of external repositories, `kgx` and `mediKanren`. If you wish to sync these forks with the original upstream repositories, do the following from the directory you want to update:
 
+```
+git fetch upstream
+git checkout master
+git merge upstream/master
+```
