@@ -44,9 +44,13 @@ def _run_kg2_cypher_query(cypher_query: str) -> List[Dict[str, any]]:
         return query_results
 
 
-def _convert_list_to_neo4j_format(input_list: List[any]) -> str:
+def _convert_list_to_neo4j_format(input_list: List[str]) -> str:
     filtered_list = [item for item in input_list if item]  # Get rid of any None items
-    return "ǂ".join(filtered_list)  # Need to use a delimiter that does not appear in any list items
+    non_str_items = [item for item in filtered_list if not isinstance(item, str)]
+    if non_str_items:
+        print(f"  WARNING: List contains non-str items (this is unexpected): {non_str_items}")
+    str_items = [item for item in filtered_list if isinstance(item, str)]
+    return "ǂ".join(str_items)  # Need to use a delimiter that does not appear in any list items
 
 
 def _merge_two_lists(list_a: List[any], list_b: List[any]) -> List[any]:
@@ -123,8 +127,8 @@ def _canonicalize_edges(neo4j_edges: List[Dict[str, any]], curie_map: Dict[str, 
             assert original_object in curie_map
         canonicalized_subject = curie_map.get(original_subject, original_subject)
         canonicalized_object = curie_map.get(original_object, original_object)
-        edge_publications = neo4j_edge['publications'] if neo4j_edge.get('publications') else []
-        edge_provided_by = neo4j_edge['provided_by'] if neo4j_edge.get('provided_by') else []
+        edge_publications = neo4j_edge.get('publications', [])
+        edge_provided_by = neo4j_edge.get('provided_by', [])
         if canonicalized_subject != canonicalized_object or neo4j_edge['predicate'] in allowed_self_edges:
             canonicalized_edge_key = _get_edge_key(canonicalized_subject, canonicalized_object, neo4j_edge['predicate'])
             if canonicalized_edge_key in canonicalized_edges:
@@ -262,6 +266,9 @@ def create_canonicalized_tsvs(is_test=False):
     # Convert array fields into the format neo4j wants and do some final processing
     for canonicalized_node in canonicalized_nodes_dict.values():
         for list_node_property in ARRAY_NODE_PROPERTIES:
+            if any(item for item in canonicalized_node[list_node_property] if not isinstance(item, str)):
+                print(f"  ERROR: Node {canonicalized_node['id']} {list_node_property} contains non-string items: "
+                      f"{[item for item in canonicalized_node[list_node_property] if not isinstance(item, str)]}")
             canonicalized_node[list_node_property] = _convert_list_to_neo4j_format(canonicalized_node[list_node_property])
         # Grab the five longest descriptions and join them into one string
         sorted_description_list = sorted(canonicalized_node['description'], key=len, reverse=True)
