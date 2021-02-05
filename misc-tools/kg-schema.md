@@ -38,11 +38,11 @@
 ## Properties
 
 
-- **`subject`** *(string)*: connects an association to the subject of the association. For example, in a gene-to-phenotype association, the gene is subject and phenotype is object.; semantic URI: rdf:subject; **required: True**.
+- **`subject`** *(node-curie-id)*: connects an association to the subject of the association. For example, in a gene-to-phenotype association, the gene is subject and phenotype is object.; semantic URI: rdf:subject; **required: True**.
 
-- **`predicate`** *(string)*: A high-level grouping for the relationship type. AKA minimal predicate. This is analogous to category for nodes.; semantic URI: rdf:predicate; **required: True**.
+- **`predicate`** *(uriorcurie)*: A high-level grouping for the relationship type. AKA minimal predicate. This is analogous to category for nodes.; semantic URI: rdf:predicate; **required: True**.
 
-- **`object`** *(string)*: connects an association to the object of the association. For example, in a gene-to-phenotype association, the gene is subject and phenotype is object.; semantic URI: rdf:object; **required: True**.
+- **`object`** *(node-curie-id)*: connects an association to the object of the association. For example, in a gene-to-phenotype association, the gene is subject and phenotype is object.; semantic URI: rdf:object; **required: True**.
 
 - **`relation`** *(uriorcurie)*: The relation which describes an association between a subject and an object in a more granular manner. Usually this is a term from Relation Ontology, but it can be any edge CURIE.; **required: True**.
 

@@ -80,24 +80,26 @@ def handle_slots(schema_info: dict,
         multivalued = slot_info.get('multivalued', False)
         required = slot_info.get('required', False)
         if slot_info.get('identifier', False):
-            slot_range_type_print = "uriorcurie"
-        elif slot_uri is not None:
-            slot_range_type_print = "string"
-        else:
+            slot_type = "uriorcurie"
+        elif slot_info.get('range', None) is not None:
             slot_range_type = slot_info['range']
             if top_types.get(slot_range_type, None) is not None:
-                slot_range_type_print = top_types[slot_range_type]['typeof']
+                slot_type = top_types[slot_range_type]['typeof']
             elif classes_info.get(slot_range_type, None) is not None:
                 if classes_info[slot_range_type].get('values_from', None) is not None:
-                    slot_range_type_print = classes_info[slot_range_type]['values_from']
+                    slot_type = classes_info[slot_range_type]['values_from']
                 else:
-                    slot_range_type_print = slot_range_type
+                    slot_type = slot_range_type
             else:
-                slot_range_type_print = slot_range_type
-        if multivalued:
-            type_arrayified = [slot_range_type_print]
+                slot_type = slot_range_type
+        elif slot_uri is not None:
+            slot_type = "string"
         else:
-            type_arrayified = slot_range_type_print
+            slot_type = 'unknown'
+        if slot_type == 'named thing':
+            slot_type = 'node-curie-id'
+        if multivalued:
+            slot_type = [slot_type]
         name = slot_name.replace(' ', '_')
         if slot_uri is not None:
             description += '; semantic URI: ' + slot_uri
@@ -107,7 +109,7 @@ def handle_slots(schema_info: dict,
         description += 'required: ' + str(required)
         if required:
             description += '**'
-        properties[name] = {'type': type_arrayified,
+        properties[name] = {'type': slot_type,
                             'description': description}
         if required:
             node_required.append(name)
