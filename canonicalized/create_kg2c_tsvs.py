@@ -48,7 +48,7 @@ def _convert_list_to_neo4j_format(input_list: List[str]) -> str:
     filtered_list = [item for item in input_list if item]  # Get rid of any None items
     non_str_items = [item for item in filtered_list if not isinstance(item, str)]
     if non_str_items:
-        print(f"  WARNING: List contains non-str items (this is unexpected): {non_str_items}")
+        print(f"  WARNING: List contains non-str items (this is unexpected; I'll exclude them): {non_str_items}")
     str_items = [item for item in filtered_list if isinstance(item, str)]
     return "ǂ".join(str_items)  # Need to use a delimiter that does not appear in any list items
 
@@ -248,16 +248,15 @@ def create_canonicalized_tsvs(is_test=False):
     # Create a node containing information about this KG2C build
     kg2_build_node = canonicalized_nodes_dict.get('RTX:KG2')
     if kg2_build_node:
-        kg2_version = kg2_build_node['name']
         kg2c_build_node = _create_node(preferred_curie=f"{kg2_build_node['id']}c",
-                                       name=f"{kg2_version}c",
-                                       all_categories=[kg2_build_node['all_categories']],
+                                       name=f"{kg2_build_node['name']}c",
+                                       all_categories=kg2_build_node['all_categories'],
                                        category=kg2_build_node['category'],
                                        equivalent_curies=[],
                                        publications=[],
                                        iri=f"{kg2_build_node['iri']}c",
-                                       all_names=[f"{kg2_version}c"],
-                                       description=[f"This KG2c build was created from {kg2_version} on "
+                                       all_names=[f"{kg2_build_node['name']}c"],
+                                       description=[f"This KG2c build was created from {kg2_build_node['name']} on "
                                                     f"{datetime.now().strftime('%Y-%m-%d %H:%M')}."])
         canonicalized_nodes_dict[kg2c_build_node['id']] = kg2c_build_node
     else:
@@ -266,9 +265,6 @@ def create_canonicalized_tsvs(is_test=False):
     # Convert array fields into the format neo4j wants and do some final processing
     for canonicalized_node in canonicalized_nodes_dict.values():
         for list_node_property in ARRAY_NODE_PROPERTIES:
-            if any(item for item in canonicalized_node[list_node_property] if not isinstance(item, str)):
-                print(f"  ERROR: Node {canonicalized_node['id']} {list_node_property} contains non-string items: "
-                      f"{[item for item in canonicalized_node[list_node_property] if not isinstance(item, str)]}")
             canonicalized_node[list_node_property] = _convert_list_to_neo4j_format(canonicalized_node[list_node_property])
         # Grab the five longest descriptions and join them into one string
         sorted_description_list = sorted(canonicalized_node['description'], key=len, reverse=True)
