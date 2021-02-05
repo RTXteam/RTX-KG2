@@ -272,7 +272,7 @@ def create_canonicalized_tsvs(is_test=False):
         filtered_description_list = [description for description in sorted_description_list if not any(description in other_description
                                      for other_description in sorted_description_list if description != other_description)]
         canonicalized_node['description'] = " --- ".join(filtered_description_list[:5])
-        canonicalized_node['preferred_category_for_conversion'] = canonicalized_node['category']
+        canonicalized_node['category_for_conversion'] = canonicalized_node['category']
     for canonicalized_edge in canonicalized_edges_dict.values():
         if not is_test:  # Make sure we don't have any orphan edges
             assert canonicalized_edge['subject'] in canonicalized_nodes_dict
