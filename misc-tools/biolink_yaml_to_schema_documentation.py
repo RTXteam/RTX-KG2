@@ -17,7 +17,6 @@ __status__ = 'Prototype'
 import argparse
 import io
 import jsonschema2md
-import pprint
 import yaml
 
 
