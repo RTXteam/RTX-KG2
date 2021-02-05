@@ -109,6 +109,7 @@ def get_properties(slot_names: str, class_info: dict) -> dict:
         if multivalued:
             slot_type = [slot_type]
         name = slot_name.replace(' ', '_')
+        description.replace('bl:', 'biolink:')  # this is a workaround for a bug in the biolink-model.yaml file
         if slot_uri is not None:
             description += '; semantic URI: ' + slot_uri
         description += '; '
