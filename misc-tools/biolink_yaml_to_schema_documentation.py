@@ -93,7 +93,7 @@ def handle_slots(schema_info: dict,
                 else:
                     slot_range_type_print = slot_range_type
             else:
-                slot_range_type_print = 'unknown'
+                slot_range_type_print = slot_range_type
         if multivalued:
             type_arrayified = [slot_range_type_print]
         else:
