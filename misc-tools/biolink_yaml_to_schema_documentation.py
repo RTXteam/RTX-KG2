@@ -16,7 +16,6 @@ __status__ = 'Prototype'
 
 import argparse
 import io
-import json
 import jsonschema2md
 import yaml
 
@@ -102,8 +101,14 @@ def handle_slots(schema_info: dict,
         name = slot_name.replace(' ', '_')
         if slot_uri is not None:
             description += '; semantic URI: ' + slot_uri
+        description += '; '
+        if required:
+            description += '**'
+        description += 'required: ' + str(required)
+        if required:
+            description += '**'
         properties[name] = {'type': type_arrayified,
-                            'description': description + '; **required: ' + str(required) + '**'}
+                            'description': description}
         if required:
             node_required.append(name)
     return schema_info
