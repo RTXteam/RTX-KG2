@@ -46,9 +46,12 @@ output_file_name = args.outputFile
 
 biolink_model = safe_load_yaml_from_string(read_file_to_string(biolink_model_file_name))
 classes_info = biolink_model['classes']
-entity_slot_names = classes_info['entity']['slots']
-association_slot_names = classes_info['association']['slots']
-named_thing_slot_names = list(classes_info['named thing']['slot_usage'].keys())
+entity_class_info = classes_info['entity']
+entity_slot_names = entity_class_info['slots']
+association_class_info = classes_info['association']
+association_slot_names = association_class_info['slots']
+named_thing_class_info = classes_info['named thing']
+named_thing_slot_names = list(named_thing_class_info['slot_usage'].keys())
 top_types = biolink_model['types']
 
 master_schema = "http://json-schema.org/draft-07/schema#"
@@ -71,7 +74,7 @@ schema_edges = {'$schema': master_schema,
 js2md_parser = jsonschema2md.Parser()
 
 
-def get_properties(slot_names: str) -> dict:
+def get_properties(slot_names: str, class_info: dict) -> dict:
     properties = dict()
     slot_info_all = biolink_model['slots']
     for slot_name in slot_names:
@@ -80,10 +83,11 @@ def get_properties(slot_names: str) -> dict:
         slot_uri = slot_info.get('slot_uri', None)
         multivalued = slot_info.get('multivalued', False)
         required = slot_info.get('required', False)
-#        if slot_name == 'category':
-            # Fixing a bug because slots are annotated on `entity` but
-            # `NamedThing` is where `category` is annotated as required.
-#            required = True
+        slot_usage_info = class_info.get('slot_usage', {})
+        if slot_name in slot_usage_info:
+            slot_usage_info_individual = slot_usage_info[slot_name]
+            if 'required' in slot_usage_info_individual:
+                required = slot_usage_info_individual
         if slot_info.get('identifier', False):
             slot_type = "uriorcurie"
         elif slot_info.get('range', None) is not None:
@@ -120,16 +124,15 @@ def get_properties(slot_names: str) -> dict:
     return properties
 
 
-entity_properties = get_properties(entity_slot_names)
-named_thing_properties = get_properties(named_thing_slot_names)
+entity_properties = get_properties(entity_slot_names, entity_class_info)
+named_thing_properties = get_properties(named_thing_slot_names, named_thing_class_info)
 node_properties = entity_properties.copy()
 node_properties.update(named_thing_properties)
-association_properties = get_properties(association_slot_names)
+association_properties = get_properties(association_slot_names, association_class_info)
 edge_properties = entity_properties.copy()
 edge_properties.update(association_properties)
 
 schema_nodes['properties'] = node_properties
-pprint.pprint(node_properties)
 schema_nodes['required'] = list(set([property_name for property_name, property_dict in node_properties.items() if property_dict['required']]))
 
 nodes_md = js2md_parser.parse_schema(schema_nodes)
