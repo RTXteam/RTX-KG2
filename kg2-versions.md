@@ -8,6 +8,9 @@ Edges: 53,474,162
 
 - Issue #1185
 - Issue #1171 (tentative)
+- Issue #1122
+- Issue #1200
+- Issue #1079
 
 Build host: `kg2lindsey.rtx.ai` `~/kg2-build/`
 
