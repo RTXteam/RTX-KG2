@@ -70,7 +70,7 @@ js2md_parser = jsonschema2md.Parser()
 slot_info_all = biolink_model['slots']
 for node_slot_name in node_slot_names:
     slot_info = slot_info_all[node_slot_name]
-    description = slot_info.get('description', '')
+    description = slot_info.get('description', '').replace('\n * ', '')
     slot_uri = slot_info.get('slot_uri', "")
     multivalued = slot_info.get('multivalued', False)
     required = slot_info.get('required', False)
