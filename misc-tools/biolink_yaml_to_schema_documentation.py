@@ -95,8 +95,8 @@ for node_slot_name in node_slot_names:
         type_arrayified = slot_range_type_print
     name = node_slot_name.replace(' ', '_')
     node_properties[name] = {'type': type_arrayified,
-                             'description': description + '; required: ' + str(required)}
+                             'description': description + '; **required: ' + str(required) + '**'}
     if required:
         node_required.append(name)
 
-json.dump(schema_nodes, open('node-schema.json', 'w'))
+json.dump(schema_nodes, open('kg-schema.json', 'w'))
