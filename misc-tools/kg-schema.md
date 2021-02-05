@@ -70,5 +70,5 @@
 
 - **`publications`** *(['publication'])*: connects an association to publications supporting the association; required: False.
 
-# Postscript
+# JSON Example
 To see an example JSON serialization of a simple KG, refer to the document [KGX Format](https://github.com/biolink/kgx/blob/master/specification/kgx-format.md).
