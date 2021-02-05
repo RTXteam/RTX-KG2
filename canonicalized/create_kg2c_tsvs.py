@@ -127,8 +127,8 @@ def _canonicalize_edges(neo4j_edges: List[Dict[str, any]], curie_map: Dict[str, 
             assert original_object in curie_map
         canonicalized_subject = curie_map.get(original_subject, original_subject)
         canonicalized_object = curie_map.get(original_object, original_object)
-        edge_publications = neo4j_edge.get('publications', [])
-        edge_provided_by = neo4j_edge.get('provided_by', [])
+        edge_publications = neo4j_edge['publications'] if neo4j_edge.get('publications') else []
+        edge_provided_by = neo4j_edge['provided_by'] if neo4j_edge.get('provided_by') else []
         if canonicalized_subject != canonicalized_object or neo4j_edge['predicate'] in allowed_self_edges:
             canonicalized_edge_key = _get_edge_key(canonicalized_subject, canonicalized_object, neo4j_edge['predicate'])
             if canonicalized_edge_key in canonicalized_edges:
