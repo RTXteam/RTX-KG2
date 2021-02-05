@@ -148,3 +148,7 @@ with open(output_file_name, 'w') as output_file:
           file=output_file)
     for line in nodes_md + edges_md:
         print(line, file=output_file)
+    print(('# Postscript\n'
+           'To see an example JSON serialization of a simple KG, refer to the '
+           '[`kgx-format.md` document](https://github.com/biolink/kgx/blob/master/specification/kgx-format.md)'),
+          file=output_file)
