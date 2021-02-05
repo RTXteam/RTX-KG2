@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 '''Generates markdown documentation of the Translator Knowledge Graph from the Biolink model
 
-   Usage:  ./biolink_yaml_to_schema_documentation.py biolink-model.yaml (NOT FINISHED YET)
+   Usage:  ./biolink_yaml_to_schema_documentation.py biolink-model.yaml output.md
 '''
 
 __author__ = 'Stephen Ramsey'
