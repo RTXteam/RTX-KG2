@@ -86,7 +86,7 @@ def get_properties(slot_names: str, class_info: dict) -> dict:
         if slot_name in slot_usage_info:
             slot_usage_info_individual = slot_usage_info[slot_name]
             if 'required' in slot_usage_info_individual:
-                required = slot_usage_info_individual
+                required = slot_usage_info_individual['required']
         if slot_info.get('identifier', False):
             slot_type = "uriorcurie"
         elif slot_info.get('range', None) is not None:
