@@ -67,36 +67,46 @@ schema_edges = {'$schema': master_schema,
 
 js2md_parser = jsonschema2md.Parser()
 
-slot_info_all = biolink_model['slots']
-for node_slot_name in node_slot_names:
-    slot_info = slot_info_all[node_slot_name]
-    description = slot_info.get('description', '').replace('\n', '').repalce(' * ', '')
-    slot_uri = slot_info.get('slot_uri', "")
-    multivalued = slot_info.get('multivalued', False)
-    required = slot_info.get('required', False)
-    if slot_info.get('identifier', False):
-        slot_range_type_print = "uriorcurie"
-    elif slot_info.get('slot_uri', None) is not None:
-        slot_range_type_print = "string"
-    else:
-        slot_range_type = slot_info['range']
-        if top_types.get(slot_range_type, None) is not None:
-            slot_range_type_print = top_types[slot_range_type]['typeof']
-        elif classes_info.get(slot_range_type, None) is not None:
-            if classes_info[slot_range_type].get('values_from', None) is not None:
-                slot_range_type_print = classes_info[slot_range_type]['values_from']
-            else:
-                slot_range_type_print = slot_range_type
-        else:
-            slot_range_type_print = 'unknown'
-    if multivalued:
-        type_arrayified = [slot_range_type_print]
-    else:
-        type_arrayified = slot_range_type_print
-    name = node_slot_name.replace(' ', '_')
-    node_properties[name] = {'type': type_arrayified,
-                             'description': description + '; **required: ' + str(required) + '**'}
-    if required:
-        node_required.append(name)
 
+def handle_slots(schema_info: dict,
+                 slot_names: str) -> dict:
+    slot_info_all = biolink_model['slots']
+    properties = schema_info['properties']
+    for slot_name in slot_names:
+        slot_info = slot_info_all[slot_name]
+        description = slot_info.get('description', '').replace('\n', '').replace(' * ', '')
+        slot_uri = slot_info.get('slot_uri', None)
+        multivalued = slot_info.get('multivalued', False)
+        required = slot_info.get('required', False)
+        if slot_info.get('identifier', False):
+            slot_range_type_print = "uriorcurie"
+        elif slot_uri is not None:
+            slot_range_type_print = "string"
+        else:
+            slot_range_type = slot_info['range']
+            if top_types.get(slot_range_type, None) is not None:
+                slot_range_type_print = top_types[slot_range_type]['typeof']
+            elif classes_info.get(slot_range_type, None) is not None:
+                if classes_info[slot_range_type].get('values_from', None) is not None:
+                    slot_range_type_print = classes_info[slot_range_type]['values_from']
+                else:
+                    slot_range_type_print = slot_range_type
+            else:
+                slot_range_type_print = 'unknown'
+        if multivalued:
+            type_arrayified = [slot_range_type_print]
+        else:
+            type_arrayified = slot_range_type_print
+        name = slot_name.replace(' ', '_')
+        if slot_uri is not None:
+            description += '; semantic URI: ' + slot_uri
+        properties[name] = {'type': type_arrayified,
+                            'description': description + '; **required: ' + str(required) + '**'}
+        if required:
+            node_required.append(name)
+    return schema_info
+
+
+schema_nodes = handle_slots(schema_nodes,
+                            node_slot_names)
 json.dump(schema_nodes, open('kg-schema.json', 'w'))
