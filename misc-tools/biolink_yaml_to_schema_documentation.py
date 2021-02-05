@@ -78,7 +78,11 @@ def handle_slots(schema_info: dict,
         description = slot_info.get('description', '').replace('\n', '').replace(' * ', '')
         slot_uri = slot_info.get('slot_uri', None)
         multivalued = slot_info.get('multivalued', False)
-        required = slot_info.get('required', False)
+        required = slot_info.get('required', None)
+        if slot_name == 'category':
+            # Fixing a bug because slots are annotated on `entity` but
+            # `NamedThing` is where `category` is annotated as required.
+            required = True
         if slot_info.get('identifier', False):
             slot_type = "uriorcurie"
         elif slot_info.get('range', None) is not None:
