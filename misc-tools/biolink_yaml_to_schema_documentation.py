@@ -97,7 +97,7 @@ def handle_slots(schema_info: dict,
         else:
             slot_type = 'unknown'
         if slot_type == 'named thing':
-            slot_type = 'node-curie-id'
+            slot_type = 'node-id'
         if multivalued:
             slot_type = [slot_type]
         name = slot_name.replace(' ', '_')
