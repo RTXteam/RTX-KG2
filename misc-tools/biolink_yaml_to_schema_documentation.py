@@ -123,5 +123,9 @@ schema_edges = handle_slots(schema_edges,
 edges_md = js2md_parser.parse_schema(schema_edges)
 
 with open(output_file_name, 'w') as output_file:
+    print(('# Translator Project knowledge graph schema\n'
+           '## Generated from the Biolink model version ' + biolink_model['version'] + '\n'
+           '## by the script `biolink_yaml_to_schema_documentation.py`' + '\n'),
+          file=output_file)
     for line in nodes_md + edges_md:
         print(line, file=output_file)

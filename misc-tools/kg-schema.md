@@ -1,3 +1,7 @@
+# Translator Project knowledge graph schema
+## Generated from the Biolink model version 1.4.0
+## by the script `biolink_yaml_to_schema_documentation.py`
+
 # Node
 
 
