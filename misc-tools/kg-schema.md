@@ -40,9 +40,9 @@
 
 - **`object`** *(string)*: connects an association to the object of the association. For example, in a gene-to-phenotype association, the gene is subject and phenotype is object.; semantic URI: rdf:object; **required: True**.
 
-- **`relation`** *(unknown)*: The relation which describes an association between a subject and an object in a more granular manner. Usually this is a term from Relation Ontology, but it can be any edge CURIE.; **required: True**.
+- **`relation`** *(uriorcurie)*: The relation which describes an association between a subject and an object in a more granular manner. Usually this is a term from Relation Ontology, but it can be any edge CURIE.; **required: True**.
 
-- **`negated`** *(unknown)*: if set to true, then the association is negated i.e. is not true; required: False.
+- **`negated`** *(boolean)*: if set to true, then the association is negated i.e. is not true; required: False.
 
 - **`qualifiers`** *(['ontology class'])*: connects an association to qualifiers that modify or qualify the meaning of that association; required: False.
 
