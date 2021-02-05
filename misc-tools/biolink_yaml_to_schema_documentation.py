@@ -25,6 +25,7 @@ def make_arg_parser():
     arg_parser = argparse.ArgumentParser(
         description='biolink_yaml_to_schema_documentation.py: analyzes the biolink-model.yaml file to generate a JSON representation of the Biolink KG schema.')
     arg_parser.add_argument('biolinkModelYamlLocalFile', type=str)
+    arg_parser.add_argument('outputFile', type=str)
     return arg_parser
 
 
@@ -41,6 +42,7 @@ def safe_load_yaml_from_string(yaml_string: str):
 
 args = make_arg_parser().parse_args()
 biolink_model_file_name = args.biolinkModelYamlLocalFile
+output_file_name = args.outputFile
 
 biolink_model = safe_load_yaml_from_string(read_file_to_string(biolink_model_file_name))
 classes_info = biolink_model['classes']
@@ -109,4 +111,12 @@ def handle_slots(schema_info: dict,
 
 schema_nodes = handle_slots(schema_nodes,
                             node_slot_names)
-json.dump(schema_nodes, open('kg-schema.json', 'w'))
+nodes_md = js2md_parser.parse_schema(schema_nodes)
+
+schema_edges = handle_slots(schema_edges,
+                            edge_slot_names)
+edges_md = js2md_parser.parse_schema(schema_edges)
+
+with open(output_file_name, 'w') as output_file:
+    for line in nodes_md + edges_md:
+        print(line, file=output_file)
