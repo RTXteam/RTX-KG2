@@ -66,12 +66,12 @@ sudo apt-get install -y awscli
 aws configure
 ```
 
-(4) Build KG2c (should take less than 2 hours):
+(4) Build KG2c (should take around 4 hours):
 ```
 cd ~/RTX/code/kg2/canonicalized/
 bash -x build-kg2c.sh
 ```
-This produces TSV files containing the KG (formatted for Neo4j import) and uploads them to the KG2 S3 bucket. It requires a bit more than 64GB of RAM.
+This produces TSV files containing the KG (formatted for Neo4j import) and uploads them to the KG2 S3 bucket. It requires around 80GB of RAM.
 
 ### Host KG2canonicalized in Neo4j
 
