@@ -204,8 +204,8 @@ file `RTXConfiguration-config-EXAMPLE.json` in this repository code directory
 server types in the RTX system; those are not shown in the example file in this
 code directory). The KG1 Neo4j endpoint need not (and in general, won't be)
 hosted in the same EC2 instance that hosts the KG2 build system. Currently, the
-KG1 Neo4j endpoint is hosted in the instance `arax.rtx.ai`; the URI of its Neo4j
-REST HTTP interface is: `http://arax.rtx.ai:7474`.
+KG1 Neo4j endpoint is hosted in the instance `arax.ncats.io`; the URI of its Neo4j
+REST HTTP interface is: `http://arax.ncats.io:7474`.
 
 ## Typical EC2 instance type used for building KG2
 
