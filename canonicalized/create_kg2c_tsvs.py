@@ -50,6 +50,7 @@ def _convert_list_to_neo4j_format(input_list: List[str]) -> str:
     if non_str_items:
         print(f"  WARNING: List contains non-str items (this is unexpected; I'll exclude them): {non_str_items}")
     str_items = [item for item in filtered_list if isinstance(item, str)]
+    str_items.sort()
     return "ǂ".join(str_items)  # Need to use a delimiter that does not appear in any list items
 
 
@@ -110,7 +111,6 @@ def _canonicalize_nodes(neo4j_nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Di
                                               iri=iri,
                                               description=description_in_list,
                                               all_names=all_names)
-
             canonicalized_nodes[canonicalized_node['id']] = canonicalized_node
         curie_map[neo4j_node['id']] = canonicalized_curie  # Record this mapping for easy lookup later
     return canonicalized_nodes, curie_map
