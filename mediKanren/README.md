@@ -2,7 +2,7 @@
 
 NOTE: This was tested on Ubuntu 18.04 system and requires a user with passwordless sudo setup
 
-## 1) Generate mediKanren file
+## 1) Generate mediKanren files and indexes from KG2 tsv files
 
 ### Setup the enviroment
 
@@ -17,91 +17,48 @@ bash -x ./setup.sh > setup.log 2>&1
 ```
 On successful completion, the log file should end with "======== Script Finished ========".
  
-### Generating new graph csvs from kg2 tsv file
+### Generate new graph tsvs from kg2 tsv file
 
-**Note:** This is the prefered method as it is much faster to generate the csvs locally than going through neo4j. The alternative method that uses kgx is also listed below. This script takes about an hour to run.
+**NOTE:** This is the prefered method as it is much faster to generate the tsvs locally than going through neo4j. The alternative method that uses kgx is also listed below. This script takes about an hour to run.
+
+
+**Currently, only the tsv conversion script `kg2_tsv_to_medikanren_tsv.py` is supported.**
 
 From the `RTX/code/kg2/mediKanren` subdirectory run the following: (entering in the path to the kg2 tsv file)
 ```
 mkdir -p mediKanren/biolink/data/rtx_kg2
-python3.7 kg2_tsv_to_medikanren_csv.py /path/to/kg2/tsv/files mediKanren/biolink/data/rtx_kg2
+python3.7 kg2_tsv_to_medikanren_tsv.py /path/to/kg2/tsv/files mediKanren/biolink/data/rtx_kg2
 ```
-This script generates four csv files formatted as follows:
-  * rtx_kg2.edges.csv
-    ```
-    :ID,:START,:END
-    0,biolink:MacromolecularComplex,biolink:MacromolecularMachine
-    ```
-  * rtx_kg2.edgeprop.csv
-    ```
-    :ID,propname,value
-    0,original_edge_label,subclass_of
-    0,negated,False
-    ```
-  * rtx_kg2.node.csv
-    ```
-    :ID
-    biolink_download_source:biolink-model.owl
-    biolink:PhenotypicSex
-    biolink:sequence_variant_qualifier
-    ```
-    * rtx_kg2.nodeprop.csv
-    ```
-    :ID,propname,value
-    biolink_download_source:biolink-model.owl,category,biolink:DataFile
-    biolink_download_source:biolink-model.owl,deprecated,False
-    ```
 
-### Downloading graph csvs from neo4j using KGX
+### Download graph csvs from neo4j using KGX
 
-**NOTE:** Skip this section if you generated the csvs from the kg2 tsv using the instuctions above
+**NOTE:** Skip this section if you generated the tsvs or csvs from the kg2 tsv using the instuctions above
 
  **This method takes alot of memory! For KG2 versions 3.5 and above, this script won't complete on typical r5a.8xlarge EC2 instance used for kg2 builds.** 
 
+<details>
+ <summary> Click to view instructions </summary>
+
 1) Edit `config.yml` so that it has the correct url, username, and password for the kg2 instance you want to download.
   e.g.
+
   ```
-  neo4j:
-    outputname: rtx_kg2
-    username: neo4j
-    password: your_pass
-    host: http://your.url.here:7474
+    neo4j:
+      outputname: rtx_kg2
+      username: neo4j
+      password: your_pass
+      host: http://your.url.here:7474
   ```
+
 2) run `bash -x ./download-graph.sh > download-graph.log 2>&1`
+
+</details>
 
 ### Generate index files
 
 From the `RTX/code/kg2/mediKanren` subdirectory run the following:
 
 run `bash -x ./create-index.sh > create-index.log 2>&1` (This could take a few days and require between 64 and 128 GB of ram)
-
-### Run mediKanren to test indexes
-
-Navigate back to `/mediKanren/biolink` and make a copy of the `config.defaults.scm` named `config.scm` so that we don't edit `config.defaults.scm` as per the warning message at the top of the file.
-
-In `config.scm` at the top there will be a few lines (starting at line 3) adding the databases:
-```
-((databases . (
-               semmed
-               orange
-               robokop
-               rtx
-               ))
-```
-Add "rtx_kg2" under "rtx" so that this now becomes:
-```
-((databases . (
-               semmed
-               orange
-               robokop
-               rtx
-               rtx_kg2
-               ))
-```
-
-While still in `mediKanren/biolink` run the command `racket gui-simple-v2.rkt` (this may take a little time to load the graph into ram)
-The gui should pop up after it loads everything.
-
 
 ### Testing the Indexes
 
@@ -149,7 +106,9 @@ But make sure to provide downloadable HTTP links to the mediKanren team, like th
 - `http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/kg2-medikanren-indexes-YYYYMMDD.tar.gz`
 - `http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/kg2-medikanren-tsvs-YYYYMMDD.tar.gz`
 
-## 2) Run mediKanren localy from pregenerated indexes
+---
+
+## 2) Run mediKanren locally from pregenerated indexes
 
 ### Setup the enviroment
 
@@ -217,7 +176,44 @@ The the above should return:
 
 Verify that the above information returned looks correct.
 
-## Updating Dependent Repositories
+---
+
+## Additional Information 
+
+### Output File Format
+
+The conversion scripts should create four files with the following logical format:
+  * rtx_kg2.edges.tsv
+    ```
+    :ID,:START,:END
+    0,biolink:MacromolecularComplex,biolink:MacromolecularMachine
+    ```
+  * rtx_kg2.edgeprop.tsv
+    ```
+    :ID,propname,value
+    0,original_edge_label,subclass_of
+    0,negated,False
+    ```
+  * rtx_kg2.node.tsv
+    ```
+    :ID
+    biolink_download_source:biolink-model.owl
+    biolink:PhenotypicSex
+    biolink:sequence_variant_qualifier
+    ```
+    * rtx_kg2.nodeprop.tsv
+    ```
+    :ID,propname,value
+    biolink_download_source:biolink-model.owl,category,biolink:DataFile
+    biolink_download_source:biolink-model.owl,deprecated,False
+    ```
+ If the third field of the `*prop` files resembles json, it is interpreted as json by the racket code.
+ As such, using the `json.dumps()` function is a necessary way of converting property values with problematic characters ("\t" for tsvs, "," for csvs, and double quotes for either) to strings with those characters escaped.
+
+### Debugging
+Sometimes, `create-index.sh` will appear to fail silently. This is because the racket error messages do not neccessarily end up at the bottom of the log file. Search through the file manually, or for the string "context" to find a more relevant error message.
+
+### Updating Dependent Repositories
 The code in this directory relies on two forks of external repositories, `kgx` and `mediKanren`. If you wish to sync these forks with the original upstream repositories, do the following from the directory you want to update:
 
 ```
