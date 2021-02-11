@@ -271,7 +271,7 @@ term-mappings:
     UMLS_STY:T032: physiological process
     UMLS_STY:T033: disease or phenotypic feature
     UMLS_STY:T034: phenomenon
-    UMLS_STY:T037: disease
+    UMLS_STY:T037: pathological process
     UMLS_STY:T038: phenomenon
     UMLS_STY:T039: physiological process
     UMLS_STY:T040: physiological process
@@ -280,7 +280,7 @@ term-mappings:
     UMLS_STY:T043: physiological process
     UMLS_STY:T044: molecular activity
     UMLS_STY:T045: physiological process
-    UMLS_STY:T046: disease
+    UMLS_STY:T046: pathological process
     UMLS_STY:T047: disease
     UMLS_STY:T048: disease
     UMLS_STY:T049: disease
