@@ -21,7 +21,7 @@ output_dir=${1:-${BUILD_DIR}}
 
 umls_ver=2020AA
 umls_file_base=${umls_ver}-metathesaurus
-umls2rdf_release=rtx-2.1
+umls2rdf_release=rtx-2.2
 umls2rdf_pkgname=umls2rdf-${umls2rdf_release}
 umls2rdf_dir=${umls_dir}/${umls2rdf_pkgname}
 config_file=${umls_dir}/config.prop
