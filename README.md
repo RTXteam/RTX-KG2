@@ -729,6 +729,10 @@ tracking down the source of an unexpected relationship or node property.
 *Any new data sources in the build or major updates* (e.g., DrugBank, UMLS, or ChEMBL)
 should also be noted in the `kg2-versions.md` file.
 
+- One of the key build artifacts that should be inspected in order to assess the
+build quality is the JSON report
+[kg-simplified-report.json](https://rtx-kg2-public.s3-us-west-2.amazonaws.com/kg2-simplified-report.json).
+
 # Schema of the JSON KG2
 
 The file `kg2.json` is an intermediate file that is probably only of use to KG2
