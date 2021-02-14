@@ -732,6 +732,7 @@ should also be noted in the `kg2-versions.md` file.
 - One of the key build artifacts that should be inspected in order to assess the
 build quality is the JSON report
 [kg-simplified-report.json](https://rtx-kg2-public.s3-us-west-2.amazonaws.com/kg2-simplified-report.json).
+This file should be inspected as a part of the post-build quality assessment process.
 
 # Schema of the JSON KG2
 
