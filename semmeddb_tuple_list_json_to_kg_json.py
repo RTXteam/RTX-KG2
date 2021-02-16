@@ -71,10 +71,7 @@ def make_rel(preds_dict: dict,
         'object score': object_score}
     if key_val is None:
         relation_type = predicate.lower()
-        if relation_type != 'xref':
-            relation_curie = SEMMEDDB_CURIE_PREFIX + ':' + relation_type
-        else:
-            relation_curie = 'OBO:xref'
+        relation_curie = SEMMEDDB_CURIE_PREFIX + ':' + relation_type
         edge_dict = kg2_util.make_edge(subject_curie,
                                        object_curie,
                                        relation_curie,
@@ -82,7 +79,8 @@ def make_rel(preds_dict: dict,
                                        SEMMEDDB_CURIE_PREFIX + ':',
                                        curr_timestamp)
         edge_dict['publications'] = [publication_curie]
-        edge_dict['publications_info'] = {publication_curie: publication_info_dict}
+        edge_dict['publications_info'] = {publication_curie:
+                                          publication_info_dict}
         edge_dict['negated'] = negated
         preds_dict[key] = edge_dict
     else:
