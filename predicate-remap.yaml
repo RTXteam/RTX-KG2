@@ -3740,6 +3740,10 @@ SEMMEDDB:uses:
   - biolink:has_input
 SEMMEDDB:verb:
   delete: null
+SEMMEDDB:xref:
+  rename:
+  - related_to
+  - biolink:related_to
 SNOMED:access_device_used_by:
   delete: null
 SNOMED:access_of:
