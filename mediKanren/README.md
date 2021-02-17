@@ -80,31 +80,36 @@ The the above should return:
 
 Verify that the above information returned looks correct.
 
-### Upload the indexes and csvs
+### Upload the indexes and TSV files
 
 Navigate to the `RTX/code/kg2/mediKanren/mediKanren/biolink/data/rtx_kg2` subdirectory.
 
-Compress the csvs into one tar.gz file:
+Compress the TSV files into one tar.gz file:
 ```
-tar -zcvf kg2-medikanren-csvs-<yyyymmdd>.tar.gz *.csv
+tar -zcvf kg2-tsvs.tar.gz *.tsv
 ```
 And compress the index files into another:
 
 ```
-tar --exclude='*.csv' -zcvf kg2-medikanren-indexes-<yyyymmdd>.tar.gz .
+tar --exclude='*.tsv' -zcvf kg2-medikanren-indexes.tar.gz .
 ```
 
-Upload both tarballs to the public s3 bucket.
+Upload both tarballs to the public s3 bucket
+```
+aws s3 cp kg2-tsvs.tar.gz s3://rtx-kg2-public/
+aws s3 cp kg2-medikanren-indexes.tar.gz s3://rtx-kg2-public/
+
+```
 
 The tarballs should look something like this, in terms of S3 URLs:
 
-- `s3://rtx-kg2-public/kg2-medikanren-tsvs-YYYYMMDD.tar.gz`
-- `s3://rtx-kg2-public/kg2-medikanren-tsvs-YYYYMMDD.tar.gz`
+- `s3://rtx-kg2-public/kg2-tsvs.tar.gz`
+- `s3://rtx-kg2-public/kg2-medikanren-indexes.tar.gz`
 
 But make sure to provide downloadable HTTP links to the mediKanren team, like this:
 
-- `http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/kg2-medikanren-indexes-YYYYMMDD.tar.gz`
-- `http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/kg2-medikanren-tsvs-YYYYMMDD.tar.gz`
+- `http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/kg2-tsvs.tar.gz`
+- `http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/kg2-medikanren-indexes.tar.gz`
 
 ---
 
@@ -208,7 +213,7 @@ The conversion scripts should create four files with the following logical forma
     biolink_download_source:biolink-model.owl,deprecated,False
     ```
  If the third field of the `*prop` files resembles json, it is interpreted as json by the racket code.
- As such, using the `json.dumps()` function is a necessary way of converting property values with problematic characters ("\t" for tsvs, "," for csvs, and double quotes for either) to strings with those characters escaped.
+ As such, using the `json.dumps()` function is a necessary way of converting property values with problematic characters ("\t" for tsvs, "," for CSV files, and double quotes for either) to strings with those characters escaped.
 
 ### Debugging
 Sometimes, `create-index.sh` will appear to fail silently. This is because the racket error messages do not neccessarily end up at the bottom of the log file. Search through the file manually, or for the string "context" to find a more relevant error message.
