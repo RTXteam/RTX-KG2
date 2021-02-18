@@ -327,6 +327,9 @@ term-mappings:
     UMLS_STY:T088: carbohydrate
     UMLS_STY:T089: information content entity
     UMLS_STY:T090: individual organism
+    # UMLS_STY:T091 is not in the Biolink model, but this
+    # is a fix per #1266.
+    UMLS_STY:T091: individual organism
     UMLS_STY:T092: agent
     UMLS_STY:T093: agent
     UMLS_STY:T094: agent
