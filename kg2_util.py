@@ -147,7 +147,7 @@ BASE_URL_UNICHEM = 'https://www.ebi.ac.uk/unichem/'
 BASE_URL_UNIPROTKB = BASE_BASE_URL_IDENTIFIERS_ORG + 'uniprot:'
 
 BIOLINK_CATEGORY_ANATOMICAL_ENTITY = 'anatomical entity'
-BIOLINK_CATEGORY_ATTRIBUTE = 'attribute'
+BIOLINK_CATEGORY_ATTRIBUTE = 'information content entity'
 BIOLINK_CATEGORY_CELL = 'cell'
 BIOLINK_CATEGORY_CELLULAR_COMPONENT = 'cellular component'
 BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE = 'chemical substance'
