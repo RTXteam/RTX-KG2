@@ -32,7 +32,7 @@ prefix-mappings:
     skos: ontology class
     SYMP: phenotypic feature
     UBERON: anatomical entity
-    UBPROP: attribute
+    UBPROP: information content entity
     UniProtKB: protein
 term-mappings:
     rdfs:isDefinedBy: relationship type
@@ -45,7 +45,7 @@ term-mappings:
     OIO:hasOBOFormatVersion: relationship type
     OIO:SubsetProperty: named thing
     OIO:shorthand: relationship type
-    owl:topObjectProperty: attribute
+    owl:topObjectProperty: information content entity
     OBO:ro/subsets#ro-eco: relationship type
     BFO:0000001: named thing
     BFO:0000030: physical entity
@@ -90,7 +90,7 @@ term-mappings:
     FMA:29733: anatomical entity
     FMA:62955: anatomical entity
     FMA:50592: physical entity
-    FMA:85802: attribute
+    FMA:85802: information content entity
     FMA:87205: biological entity
     FMA:85620: biological entity
     FMA:85972: relationship type
@@ -166,7 +166,7 @@ term-mappings:
     NCIT:C1909: drug
     NCIT:C1913: drug
     NCIT:C22187: disease
-    NCIT:C20189: attribute
+    NCIT:C20189: information content entity
     NCIT:C2991: disease
     NCIT:C20130: gene family
     NCIT:C12913: cell
@@ -223,7 +223,7 @@ term-mappings:
     SNOMED:125676002: individual organism
     SNOMED:138875005: named thing
     SNOMED:243796009: phenomenon
-    SNOMED:246061005: attribute
+    SNOMED:246061005: information content entity
     SNOMED:254291000: clinical modifier
     SNOMED:260787004: physical entity
     SNOMED:272379006: phenomenon
@@ -327,6 +327,9 @@ term-mappings:
     UMLS_STY:T088: carbohydrate
     UMLS_STY:T089: information content entity
     UMLS_STY:T090: individual organism
+    # UMLS_STY:T091 is not in the Biolink model, but this
+    # is a fix per #1266.
+    UMLS_STY:T091: individual organism
     UMLS_STY:T092: agent
     UMLS_STY:T093: agent
     UMLS_STY:T094: agent

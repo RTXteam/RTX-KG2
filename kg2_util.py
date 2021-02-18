@@ -147,17 +147,17 @@ BASE_URL_UNICHEM = 'https://www.ebi.ac.uk/unichem/'
 BASE_URL_UNIPROTKB = BASE_BASE_URL_IDENTIFIERS_ORG + 'uniprot:'
 
 BIOLINK_CATEGORY_ANATOMICAL_ENTITY = 'anatomical entity'
-BIOLINK_CATEGORY_ATTRIBUTE = 'attribute'
+BIOLINK_CATEGORY_ATTRIBUTE = 'information content entity'
 BIOLINK_CATEGORY_CELL = 'cell'
 BIOLINK_CATEGORY_CELLULAR_COMPONENT = 'cellular component'
 BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE = 'chemical substance'
-BIOLINK_CATEGORY_DATA_FILE = 'data file'
+BIOLINK_CATEGORY_DATA_FILE = 'information content entity'
 BIOLINK_CATEGORY_DISEASE = 'disease'
 BIOLINK_CATEGORY_DRUG = 'drug'
 BIOLINK_CATEGORY_GENE = 'gene'
 BIOLINK_CATEGORY_GENE_FAMILY = 'gene family'
 BIOLINK_CATEGORY_GENOMIC_ENTITY = 'genomic entity'
-BIOLINK_CATEGORY_MACROMOLECULAR_COMPLEX = 'macromolecular complex'
+BIOLINK_CATEGORY_MACROMOLECULAR_COMPLEX = 'molecular entity'
 BIOLINK_CATEGORY_METABOLITE = 'metabolite'
 BIOLINK_CATEGORY_MICRORNA = 'microRNA'
 BIOLINK_CATEGORY_MOLECULAR_ACTIVITY = 'molecular activity'
@@ -461,8 +461,8 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                                 ret_dict[key] = value
                         elif key == 'category_label':
                             if biolink_depth_getter is not None:
-                                depth_x = biolink_depth_getter(convert_snake_case_to_camel_case(stored_value, uppercase_first_letter=True))
-                                depth_y = biolink_depth_getter(convert_snake_case_to_camel_case(value, uppercase_first_letter=True))
+                                depth_x = biolink_depth_getter(CURIE_PREFIX_BIOLINK + ':' + convert_snake_case_to_camel_case(stored_value, uppercase_first_letter=True))
+                                depth_y = biolink_depth_getter(CURIE_PREFIX_BIOLINK + ':' + convert_snake_case_to_camel_case(value, uppercase_first_letter=True))
                                 if depth_y is not None:
                                     if depth_x is not None:
                                         if depth_y > depth_x:
@@ -482,10 +482,8 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                                 continue
                         elif key == 'category':
                             if biolink_depth_getter is not None:
-                                value_category = value.replace(CURIE_PREFIX_BIOLINK + ':', '')
-                                stored_value_category = stored_value.replace(CURIE_PREFIX_BIOLINK + ':', '')
-                                depth_x = biolink_depth_getter(stored_value_category)
-                                depth_y = biolink_depth_getter(value_category)
+                                depth_x = biolink_depth_getter(stored_value)
+                                depth_y = biolink_depth_getter(value)
                                 if depth_y is not None:
                                     if depth_x is not None:
                                         if depth_y > depth_x:
