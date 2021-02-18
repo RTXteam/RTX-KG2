@@ -67,6 +67,6 @@ go_annotation_output_file: ${BUILD_DIR}/kg2-go-annotation${test_suffix}.json
 kg1_output_file: ${BUILD_DIR}/kg2-rtx-kg1${test_suffix}.json
 
 kg2_tsv_dir: ${BUILD_DIR}/TSV
-kg2_tsv_tarball: ${BUILD_DIR}/kg2-tsv${test_suffix}.tar.gz
+kg2_tsv_tarball: ${BUILD_DIR}/kg2-tsv-for-neo4j${test_suffix}.tar.gz
 
 version_file: ${BUILD_DIR}/kg2-version.txt
