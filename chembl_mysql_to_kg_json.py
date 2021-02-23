@@ -430,6 +430,13 @@ if __name__ == '__main__':
                                                 predicate_label,
                                                 CHEMBL_KB_CURIE_ID,
                                                 update_date))
+    nodes.append(make_node(CHEMBL_KB_CURIE_ID,
+                           kg2_util.BASE_URL_IDENTIFIERS_ORG_REGISTRY +
+                           'chembl',
+                           'ChEMBL',
+                           kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                           update_date,
+                           CHEMBL_KB_CURIE_ID))
 
     kg2_util.save_json({'nodes': nodes, 'edges': edges},
                        output_file_name,
