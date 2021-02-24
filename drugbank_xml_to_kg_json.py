@@ -107,7 +107,8 @@ def get_publications(references: list):
                 for publication in references["articles"]["article"]:
                     if isinstance(publication, dict) and \
                        publication["pubmed-id"] is not None:
-                        publications.append("PMID" + publication["pubmed-id"])
+                        publications.append(kg2_util.CURIE_PREFIX_PMID +
+                                            ':' + publication["pubmed-id"])
 
     return publications
 
