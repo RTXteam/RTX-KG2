@@ -519,6 +519,8 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                                 if stored_desc is not None and new_desc is not None:
                                     if len(new_desc) > len(stored_desc):
                                         ret_dict[key] = value
+                                elif new_desc is not None:
+                                    ret_dict[key] = value
                         else:
                             log_message("warning:  for key: " + key + ", dropping second value: " + value + '; keeping first value: ' + stored_value,
                                         output_stream=sys.stderr)
