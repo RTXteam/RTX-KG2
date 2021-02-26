@@ -113,6 +113,19 @@ def get_publications(references: list):
     return publications
 
 
+def get_SMILES(calculated_properties: dict):
+    if calculated_properties is not None and isinstance(calculated_properties, dict):
+        properties = calculated_properties['property']
+        if properties is not None:
+            if isinstance(properties, list):
+                for property in properties:
+                    if property['kind'] == "SMILES":
+                        return property['value']
+            if isinstance(properties, dict):
+                if properties['kind'] == "SMILES":
+                    return properties['value']
+
+
 def make_node(drug: dict):
     drugbank_id = get_drugbank_id(drug)
     synonyms = []
@@ -131,6 +144,7 @@ def make_node(drug: dict):
                 if isinstance(synonym, dict):
                     synonyms.append(synonym["#text"])
     publications = get_publications(drug["general-references"])
+    #smiles = get_SMILES(drug.get('calculated-properties', None)) # Per Issue #1273, if desired down the road
     node = None
     if len(drugbank_id) > 0:
         node = format_node(drugbank_id=drugbank_id,
@@ -141,9 +155,6 @@ def make_node(drug: dict):
                            publications=publications,
                            category_label=category,
                            creation_date=drug["@created"])
-        ''' For description, also consider "drug["description"]" --
-            might be a good question for Steve
-        '''
     return node
 
 
