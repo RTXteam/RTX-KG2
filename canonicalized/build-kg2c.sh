@@ -16,7 +16,7 @@ python3 node_synonymizer.py --build --kg_name=both
 
 # Create the canonicalized KG from the KG2 at the endpoint specified under the "KG2" slot in RTX/code/config.json
 cd ${rtx_dir}/code/kg2/canonicalized
-python3 -u create_kg2c_tsvs.py
+python3 -u create_kg2c_files.py
 
 # Upload the generated TSV files to S3
 tarball_name=kg2c-tsv.tar.gz

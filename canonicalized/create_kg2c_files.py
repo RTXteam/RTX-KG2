@@ -2,10 +2,11 @@
 """
 This script creates a canonicalized version of KG2 stored in TSV files, ready for import into neo4j. The TSVs are
 created in the current working directory.
-Usage: python3 create_kg2c_tsvs.py [--test]
+Usage: python3 create_kg2c_files.py [--test]
 """
 import argparse
 import csv
+import json
 import os
 import sys
 import time
@@ -203,6 +204,7 @@ def _create_edge(subject: str, object: str, predicate: str, provided_by: List[st
 
 
 def _write_list_to_neo4j_ready_tsv(input_list: List[Dict[str, any]], file_name_root: str, is_test: bool):
+    # Converts a list into the specific format Neo4j wants (string with delimiter)
     print(f"  Creating {file_name_root} header file..")
     column_headers = list(input_list[0].keys())
     modified_headers = _modify_column_headers_for_neo4j(column_headers)
@@ -215,11 +217,49 @@ def _write_list_to_neo4j_ready_tsv(input_list: List[Dict[str, any]], file_name_r
         dict_writer.writerows(input_list)
 
 
-def create_canonicalized_tsvs(is_test=False):
+def create_kg2c_json_file(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
+                          canonicalized_edges_dict: Dict[str, Dict[str, any]], is_test: bool):
+    kgx_format_json = {"nodes": list(canonicalized_nodes_dict.values()),
+                       "edges": list(canonicalized_edges_dict.values())}
+    print(f" Saving data to JSON file..")
+    with open(f"kg2c{'_test' if is_test else ''}.json", "w+") as output_file:
+        json.dump(kgx_format_json, output_file)
+
+
+def create_kg2c_tsv_files(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
+                          canonicalized_edges_dict: Dict[str, Dict[str, any]], is_test: bool):
+    # Convert array fields into the format neo4j wants and do some final processing
+    for canonicalized_node in canonicalized_nodes_dict.values():
+        for list_node_property in ARRAY_NODE_PROPERTIES:
+            canonicalized_node[list_node_property] = _convert_list_to_neo4j_format(canonicalized_node[list_node_property])
+        # Grab the five longest descriptions and join them into one string
+        sorted_description_list = sorted(canonicalized_node['description'], key=len, reverse=True)
+        # Get rid of any redundant descriptions (e.g., duplicate 'UMLS Semantic Type: UMLS_STY:T060')
+        filtered_description_list = [description for description in sorted_description_list if not any(description in other_description
+                                     for other_description in sorted_description_list if description != other_description)]
+        canonicalized_node['description'] = " --- ".join(filtered_description_list[:5])
+        canonicalized_node['category_for_conversion'] = canonicalized_node['category']
+    for canonicalized_edge in canonicalized_edges_dict.values():
+        if not is_test:  # Make sure we don't have any orphan edges
+            assert canonicalized_edge['subject'] in canonicalized_nodes_dict
+            assert canonicalized_edge['object'] in canonicalized_nodes_dict
+        for list_edge_property in ARRAY_EDGE_PROPERTIES:
+            canonicalized_edge[list_edge_property] = _convert_list_to_neo4j_format(canonicalized_edge[list_edge_property])
+        canonicalized_edge['predicate_for_conversion'] = canonicalized_edge['predicate']
+        canonicalized_edge['subject_for_conversion'] = canonicalized_edge['subject']
+        canonicalized_edge['object_for_conversion'] = canonicalized_edge['object']
+
+    # Finally dump all our nodes/edges into TSVs (formatted for neo4j)
+    print(f" Saving data to TSVs..")
+    _write_list_to_neo4j_ready_tsv(list(canonicalized_nodes_dict.values()), "nodes_c", is_test)
+    _write_list_to_neo4j_ready_tsv(list(canonicalized_edges_dict.values()), "edges_c", is_test)
+
+
+def create_kg2c_files(is_test=False):
     """
     This function extracts all nodes/edges from the regular KG2 Neo4j endpoint (specified in your config.json),
     canonicalizes the nodes, merges edges (based on subject, object, predicate), and saves the resulting canonicalized
-    graph in two tsv files (nodes_c.tsv and edges_c.tsv) that are ready for import into Neo4j.
+    graph in two file formats: JSON (kgx format) and TSV (ready for import into Neo4j).
     """
     print(f" Extracting nodes from KG2..")
     nodes_query = f"match (n) return n.id as id, n.name as name, n.category as category, " \
@@ -262,41 +302,18 @@ def create_canonicalized_tsvs(is_test=False):
     else:
         print(f"  WARNING: No build node detected in the regular KG2, so I'm not creating a KG2c build node.")
 
-    # Convert array fields into the format neo4j wants and do some final processing
-    for canonicalized_node in canonicalized_nodes_dict.values():
-        for list_node_property in ARRAY_NODE_PROPERTIES:
-            canonicalized_node[list_node_property] = _convert_list_to_neo4j_format(canonicalized_node[list_node_property])
-        # Grab the five longest descriptions and join them into one string
-        sorted_description_list = sorted(canonicalized_node['description'], key=len, reverse=True)
-        # Get rid of any redundant descriptions (e.g., duplicate 'UMLS Semantic Type: UMLS_STY:T060')
-        filtered_description_list = [description for description in sorted_description_list if not any(description in other_description
-                                     for other_description in sorted_description_list if description != other_description)]
-        canonicalized_node['description'] = " --- ".join(filtered_description_list[:5])
-        canonicalized_node['category_for_conversion'] = canonicalized_node['category']
-    for canonicalized_edge in canonicalized_edges_dict.values():
-        if not is_test:  # Make sure we don't have any orphan edges
-            assert canonicalized_edge['subject'] in canonicalized_nodes_dict
-            assert canonicalized_edge['object'] in canonicalized_nodes_dict
-        for list_edge_property in ARRAY_EDGE_PROPERTIES:
-            canonicalized_edge[list_edge_property] = _convert_list_to_neo4j_format(canonicalized_edge[list_edge_property])
-        canonicalized_edge['predicate_for_conversion'] = canonicalized_edge['predicate']
-        canonicalized_edge['subject_for_conversion'] = canonicalized_edge['subject']
-        canonicalized_edge['object_for_conversion'] = canonicalized_edge['object']
-
-    # Finally dump all our nodes/edges into TSVs (formatted for neo4j)
-    print(f" Saving data to TSVs..")
-    _write_list_to_neo4j_ready_tsv(list(canonicalized_nodes_dict.values()), "nodes_c", is_test)
-    _write_list_to_neo4j_ready_tsv(list(canonicalized_edges_dict.values()), "edges_c", is_test)
+    create_kg2c_json_file(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
+    create_kg2c_tsv_files(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
 
 
 def main():
-    arg_parser = argparse.ArgumentParser(description="Creates a canonicalized KG2, stored in TSV files")
+    arg_parser = argparse.ArgumentParser()
     arg_parser.add_argument('--test', dest='test', action='store_true', default=False)
     args = arg_parser.parse_args()
 
-    print(f"Starting to create canonicalized KG..")
+    print(f"Starting to create KG2canonicalized..")
     start = time.time()
-    create_canonicalized_tsvs(args.test)
+    create_kg2c_files(args.test)
     print(f"Done! Took {round((time.time() - start) / 60, 2)} minutes.")
 
 
