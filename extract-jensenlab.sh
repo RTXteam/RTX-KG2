@@ -29,21 +29,6 @@ ${curl_get} https://download.jensenlab.org/human_disease_textmining_filtered.tsv
 ${curl_get}  http://download.jensenlab.org/human_dictionary.tar.gz > ${local_dictionary_tarball}
 # unzip into directory
 tar -xf ${local_dictionary_tarball} --directory ${local_human_dictionary_dir}
-# get / use Ensembl, UniProt, or HGNC ids
-# probably in human_names.tsv
-
-# HGNC is easy to grep
-# uniprot needs regex: best progress on that so far:
-# cut -f2 human_names.tsv | grep "^[P,Q,O][0-9][A-Z0-9][A-Z0-9][A-Z0-9][0-9]$"
-
-
-
-# ensembl_json_file=${1:-"${BUILD_DIR}/ensembl/ensembl_genes_homo_sapiens.json"}
-# output_dir=`dirname ${ensembl_json_file}`
-
-# mkdir -p ${output_dir}
-
-# ${curl_get} ftp://ftp.ensembl.org/pub/release-${ensembl_release}/json/homo_sapiens/homo_sapiens.json > ${ensembl_json_file}
 
 date
 echo "================= finished extract-jensenlab.sh ================="
