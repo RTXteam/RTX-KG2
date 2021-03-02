@@ -302,6 +302,10 @@ def create_kg2c_files(is_test=False):
     else:
         print(f"  WARNING: No build node detected in the regular KG2, so I'm not creating a KG2c build node.")
 
+    # Add edge IDs as actual properties on the edges
+    for edge_id, edge in canonicalized_edges_dict.items():
+        edge["id"] = edge_id
+
     create_kg2c_json_file(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
     create_kg2c_tsv_files(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
 
