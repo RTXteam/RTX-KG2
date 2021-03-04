@@ -927,10 +927,15 @@ This section has some guidelines for the development team for the KG2 build syst
 - Please follow PEP8 formatting standards.
 - Please use type hints wherever possible.
 
+# Shell coding standards for KG2
+
+- Use lower-case for variable names
+- The flags `nounset`, `pipefail`, *and* `errexit` should be set.
+
 ### File naming
 
-- For config files and shell scripts, use kabob-case
-- For python modules, use snake_case.
+- For config files and shell scripts, use `kabob-case`
+- For python modules, use `snake_case`.
 
 # Credits
 
