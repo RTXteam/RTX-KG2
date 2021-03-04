@@ -929,7 +929,7 @@ This section has some guidelines for the development team for the KG2 build syst
 
 # Shell coding standards for KG2
 
-- Use lower-case for variable names
+- Use lower-case for variable names except for environment variables.
 - The flags `nounset`, `pipefail`, *and* `errexit` should be set.
 
 ### File naming
