@@ -142,7 +142,7 @@ def _modify_column_headers_for_neo4j(plain_column_headers: List[str]) -> List[st
             header = f"{header}:string[]"
         elif header == 'id':
             header = f"{header}:ID"
-        elif header == 'preferred_type_for_conversion':
+        elif header == 'node_labels':
             header = ":LABEL"
         elif header == 'subject_for_conversion':
             header = ":START_ID"
@@ -252,7 +252,7 @@ def create_canonicalized_tsvs(is_test=False):
     for canonicalized_node in canonicalized_nodes_dict.values():
         for list_node_property in ARRAY_NODE_PROPERTIES:
             canonicalized_node[list_node_property] = _convert_list_to_neo4j_format(canonicalized_node[list_node_property])
-        canonicalized_node['preferred_type_for_conversion'] = canonicalized_node['preferred_type']
+        canonicalized_node['node_labels'] = canonicalized_node['types']
         # Grab the five longest descriptions and join them into one string
         sorted_description_list = sorted(canonicalized_node['description'], key=len, reverse=True)
         # Get rid of any redundant descriptions (e.g., duplicate 'UMLS Semantic Type: UMLS_STY:T060')
