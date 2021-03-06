@@ -1,3 +1,14 @@
+# 2.5.2 
+
+**Date: 2021.3.6**
+
+Nodes: 10,546,338
+Edges: 53,739,675
+
+- Issues TBD
+
+Build host: `kg2steve.rtx.ai` `~/kg2-build/`
+
 # 2.5.1 
 
 **Date: 2021.1.24**
