@@ -55,7 +55,7 @@ gzip -fk ${output_file_orphan_edges}
 gzip -fk ${slim_output_file_full}
 
 ${s3_cp_cmd} ${final_output_file_full}.gz s3://${s3_bucket}/
-${s3_cp_cmd} ${simplified_output_file_full}.gz s3://${s3_bucket}/
+${s3_cp_cmd} ${simplified_output_file_full}.gz s3://${s3_bucket_public}/
 ${s3_cp_cmd} ${output_nodes_file_full}.gz s3://${s3_bucket}/
 ${s3_cp_cmd} ${report_file_full} s3://${s3_bucket_public}/
 ${s3_cp_cmd} ${simplified_report_file_full} s3://${s3_bucket_public}/

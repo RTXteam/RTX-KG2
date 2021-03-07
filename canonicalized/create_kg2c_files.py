@@ -154,7 +154,7 @@ def _modify_column_headers_for_neo4j(plain_column_headers: List[str]) -> List[st
             header = f"{header}:string[]"
         elif header == 'id':
             header = f"{header}:ID"
-        elif header == 'category_for_conversion':
+        elif header == 'node_labels':
             header = ":LABEL"
         elif header == 'subject_for_conversion':
             header = ":START_ID"
@@ -238,7 +238,7 @@ def create_kg2c_tsv_files(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
         filtered_description_list = [description for description in sorted_description_list if not any(description in other_description
                                      for other_description in sorted_description_list if description != other_description)]
         canonicalized_node['description'] = " --- ".join(filtered_description_list[:5])
-        canonicalized_node['category_for_conversion'] = canonicalized_node['category']
+        canonicalized_node['node_labels'] = canonicalized_node['category']
     for canonicalized_edge in canonicalized_edges_dict.values():
         if not is_test:  # Make sure we don't have any orphan edges
             assert canonicalized_edge['subject'] in canonicalized_nodes_dict

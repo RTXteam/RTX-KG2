@@ -1208,6 +1208,10 @@ GO:isa:
   rename:
   - subclass_of
   - biolink:subclass_of
+GO:located_in:
+  rename:
+  - located_in
+  - biolink:located_in
 GO:negatively_regulated_by:
   invert:
   - negatively_regulates
@@ -2604,6 +2608,22 @@ PR:non-covalently_bound_to:
   rename:
   - physically_interacts_with
   - biolink:physically_interacts_with
+PSY:RO:
+  rename:
+  - related_to
+  - biolink:related_to
+PSY:RB:
+  invert:
+  - subclass_of
+  - biolink:subclass_of
+PSY:use:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+PSY:used_for: 
+  invert:
+  - has_input
+  - biolink:has_input
 PathWhiz:has_bound:
   invert:
   - participates_in
@@ -3740,6 +3760,10 @@ SEMMEDDB:uses:
   - biolink:has_input
 SEMMEDDB:verb:
   delete: null
+SEMMEDDB:xref:
+  rename:
+  - related_to
+  - biolink:related_to
 SNOMED:access_device_used_by:
   delete: null
 SNOMED:access_of:

@@ -109,6 +109,8 @@ CURIE_PREFIXES_RELATIONS_USE_CAMELCASE = {'owl', 'rdfs', 'skos'}
 
 BASE_BASE_URL_IDENTIFIERS_ORG = 'https://identifiers.org/'
 
+BASE_URL_IDENTIFIERS_ORG_REGISTRY = \
+    'https://registry.identifiers.org/registry/'
 BASE_URL_BIOLINK_CONCEPTS = 'https://w3id.org/biolink/vocab/'
 BASE_URL_BIOLINK_ONTOLOGY = 'https://w3id.org/biolink/biolink-model'
 BASE_URL_BIOLINK_META = 'https://w3id.org/biolink/biolinkml/meta/'
@@ -120,16 +122,18 @@ BASE_URL_DGIDB = 'http://www.dgidb.org/'
 BASE_URL_DRUGBANK = BASE_BASE_URL_IDENTIFIERS_ORG + 'drugbank:'
 BASE_URL_ENSEMBL = BASE_BASE_URL_IDENTIFIERS_ORG + 'ensembl:'
 BASE_URL_GO = 'http://purl.obolibrary.org/obo/GO_'
-BASE_URL_GTPI = 'https://www.guidetopharmacology.org/GRAC/LigandDisplayForward?ligandId='
+BASE_URL_GTPI = \
+    'https://www.guidetopharmacology.org/GRAC/LigandDisplayForward?ligandId='
 BASE_URL_GTPI_SOURCE = 'https://www.guidetopharmacology.org/'
-BASE_URL_IDENTIFIERS_ORG_REGISTRY = 'https://registry.identifiers.org/registry/'
 BASE_URL_KEGG = 'https://www.genome.jp/dbget-bin/www_bget?'
 BASE_URL_NCBIGENE = BASE_BASE_URL_IDENTIFIERS_ORG + 'ncbigene:'
 BASE_URL_OBO_FORMAT = 'http://purl.org/obo/owl/oboFormat#oboFormat_'
 BASE_URL_OWL = 'http://www.w3.org/2002/07/owl#'
 BASE_URL_PATHWHIZ = 'https://smpdb.ca/pathwhiz/pathways/'
-BASE_URL_PATHWHIZ_PROTEIN_COMPLEX = 'https://pathbank.org/lims#/protein_complexes/'
-BASE_URL_PATHWHIZ_ELEMENT_COLLECTION = 'https://pathbank.org/lims#/element_collections/'
+BASE_URL_PATHWHIZ_PROTEIN_COMPLEX = \
+    'https://pathbank.org/lims#/protein_complexes/'
+BASE_URL_PATHWHIZ_ELEMENT_COLLECTION = \
+    'https://pathbank.org/lims#/element_collections/'
 BASE_URL_PATHWHIZ_NUCLEIC_ACID = 'https://pathbank.org/lims#/nucleic_acids/'
 BASE_URL_PATHWHIZ_COMPOUND = 'https://pathbank.org/lims#/compounds/'
 BASE_URL_PATHWHIZ_REACTION = 'https://pathbank.org/lims#/reactions/'
@@ -140,24 +144,25 @@ BASE_URL_RTX = 'http://rtx.ai/identifiers#'
 BASE_URL_RTX_KG1 = 'http://arax.rtx.ai/'
 BASE_URL_SEMMEDDB = 'https://skr3.nlm.nih.gov/SemMedDB'
 BASE_URL_SMPDB = BASE_BASE_URL_IDENTIFIERS_ORG + 'smpdb:'
-BASE_URL_TTD_TARGET = BASE_BASE_URL_IDENTIFIERS_ORG + CURIE_PREFIX_TTD_TARGET + ':'
+BASE_URL_TTD_TARGET = BASE_BASE_URL_IDENTIFIERS_ORG + \
+    CURIE_PREFIX_TTD_TARGET + ':'
 BASE_URL_UMLS = BASE_BASE_URL_IDENTIFIERS_ORG + 'umls:'
 BASE_URL_UMLS_STY = 'http://purl.bioontology.org/ontology/STY/'
 BASE_URL_UNICHEM = 'https://www.ebi.ac.uk/unichem/'
 BASE_URL_UNIPROTKB = BASE_BASE_URL_IDENTIFIERS_ORG + 'uniprot:'
 
 BIOLINK_CATEGORY_ANATOMICAL_ENTITY = 'anatomical entity'
-BIOLINK_CATEGORY_ATTRIBUTE = 'attribute'
+BIOLINK_CATEGORY_ATTRIBUTE = 'information content entity'
 BIOLINK_CATEGORY_CELL = 'cell'
 BIOLINK_CATEGORY_CELLULAR_COMPONENT = 'cellular component'
 BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE = 'chemical substance'
-BIOLINK_CATEGORY_DATA_FILE = 'data file'
+BIOLINK_CATEGORY_DATA_FILE = 'information content entity'
 BIOLINK_CATEGORY_DISEASE = 'disease'
 BIOLINK_CATEGORY_DRUG = 'drug'
 BIOLINK_CATEGORY_GENE = 'gene'
 BIOLINK_CATEGORY_GENE_FAMILY = 'gene family'
 BIOLINK_CATEGORY_GENOMIC_ENTITY = 'genomic entity'
-BIOLINK_CATEGORY_MACROMOLECULAR_COMPLEX = 'macromolecular complex'
+BIOLINK_CATEGORY_MACROMOLECULAR_COMPLEX = 'molecular entity'
 BIOLINK_CATEGORY_METABOLITE = 'metabolite'
 BIOLINK_CATEGORY_MICRORNA = 'microRNA'
 BIOLINK_CATEGORY_MOLECULAR_ACTIVITY = 'molecular activity'
@@ -171,7 +176,8 @@ BIOLINK_CATEGORY_RELATIONSHIP_TYPE = 'relationship type'
 
 CURIE_ID_DCTERMS_ISSUED = CURIE_PREFIX_DCTERMS + ':' + 'issued'
 CURIE_ID_HGNC_DATE_CREATED = CURIE_PREFIX_HGNC + ':' + 'DATE_CREATED'
-CURIE_ID_HGNC_DATE_LAST_MODIFIED = CURIE_PREFIX_HGNC + ':' + 'DATE_LAST_MODIFIED'
+CURIE_ID_HGNC_DATE_LAST_MODIFIED = CURIE_PREFIX_HGNC + ':' + \
+    'DATE_LAST_MODIFIED'
 CURIE_ID_HGNC_ENTREZ_GENE_ID = CURIE_PREFIX_HGNC + ':' + 'ENTREZGENE_ID'
 CURIE_ID_HGNC_GENE_SYMBOL = CURIE_PREFIX_HGNC + ':' + 'GENESYMBOL'
 CURIE_ID_IAO_TERM_REPLACED_BY = CURIE_PREFIX_IAO + ':' + '0100001'
@@ -210,7 +216,8 @@ EDGE_LABEL_BIOLINK_SUBCLASS_OF = 'subclass_of'
 EDGE_LABEL_BIOLINK_TREATS = 'treats'
 
 RDFS_EDGE_NAMES_SET = {'subClassOf', 'subPropertyOf'}
-OWL_EDGE_NAMES_SET = {'equivalentClass', 'equivalentProperty', 'sameAs', 'differentFrom'}
+OWL_EDGE_NAMES_SET = {'equivalentClass', 'equivalentProperty', 'sameAs',
+                      'differentFrom'}
 MONDO_EDGE_NAMES_SET = {'equivalentTo'}
 
 OBO_REL_CURIE_RE = re.compile(r'OBO:([^#]+)#([^#]+)')
@@ -259,10 +266,12 @@ def save_json(data, output_file_name: str, test_mode: bool = False):
     temp_output_file_name = tempfile.mkstemp(prefix='kg2-')[1]
     if not output_file_name.endswith('.gz'):
         temp_output_file = open(temp_output_file_name, 'w')
-        json.dump(data, temp_output_file, indent=indent_num, sort_keys=sort_keys)
+        json.dump(data, temp_output_file, indent=indent_num,
+                  sort_keys=sort_keys)
     else:
         temp_output_file = gzip.GzipFile(temp_output_file_name, 'w')
-        temp_output_file.write(json.dumps(data, indent=indent_num, sort_keys=sort_keys).encode('utf-8'))
+        temp_output_file.write(json.dumps(data, indent=indent_num,
+                                          sort_keys=sort_keys).encode('utf-8'))
     shutil.move(temp_output_file_name, output_file_name)
 
 
@@ -311,7 +320,9 @@ def shorten_iri_to_curie(iri: str, curie_to_iri_map: list) -> str:
     if len(curie_list) == 1:
         curie_id = curie_list[0]
     else:
-        assert False, "somehow got a list after calling prefixcommons.contract on URI: " + iri + "; list is: " + str(curie_list)
+        assert False, \
+            "somehow got a list after calling prefixcommons.contract: " + \
+            iri + "; list is: " + str(curie_list)
         curie_id = None
 
     # if curie_id is not None:
@@ -461,8 +472,8 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                                 ret_dict[key] = value
                         elif key == 'category_label':
                             if biolink_depth_getter is not None:
-                                depth_x = biolink_depth_getter(convert_snake_case_to_camel_case(stored_value, uppercase_first_letter=True))
-                                depth_y = biolink_depth_getter(convert_snake_case_to_camel_case(value, uppercase_first_letter=True))
+                                depth_x = biolink_depth_getter(CURIE_PREFIX_BIOLINK + ':' + convert_snake_case_to_camel_case(stored_value, uppercase_first_letter=True))
+                                depth_y = biolink_depth_getter(CURIE_PREFIX_BIOLINK + ':' + convert_snake_case_to_camel_case(value, uppercase_first_letter=True))
                                 if depth_y is not None:
                                     if depth_x is not None:
                                         if depth_y > depth_x:
@@ -482,10 +493,8 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                                 continue
                         elif key == 'category':
                             if biolink_depth_getter is not None:
-                                value_category = value.replace(CURIE_PREFIX_BIOLINK + ':', '')
-                                stored_value_category = stored_value.replace(CURIE_PREFIX_BIOLINK + ':', '')
-                                depth_x = biolink_depth_getter(stored_value_category)
-                                depth_y = biolink_depth_getter(value_category)
+                                depth_x = biolink_depth_getter(stored_value)
+                                depth_y = biolink_depth_getter(value)
                                 if depth_y is not None:
                                     if depth_x is not None:
                                         if depth_y > depth_x:
@@ -510,6 +519,8 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                                 if stored_desc is not None and new_desc is not None:
                                     if len(new_desc) > len(stored_desc):
                                         ret_dict[key] = value
+                                elif new_desc is not None:
+                                    ret_dict[key] = value
                         else:
                             log_message("warning:  for key: " + key + ", dropping second value: " + value + '; keeping first value: ' + stored_value,
                                         output_stream=sys.stderr)

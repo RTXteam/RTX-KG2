@@ -441,16 +441,19 @@ This option is frequently used in testing/development. Note, you have to have
 previously run an `alltest` build, or else a `test` build will not work.
 
 
-### Build Option 2: build KG2 serially (about 67 hours) directly on an Ubuntu system:
+### Build Option 2: build KG2 serially (about 67 hours) directly on an Ubuntu system (DEPRECATED):
 
+<details>
+	<summary> This method is deprecated. Click here to view steps anyway. </summary>
+	
 (1)-(7) Follow steps (1)-(7) in Build Option 1.
 
 (8) Within the `screen` session, run:
 
-    bash -x ~/kg2-code/build-kg2.sh all
+    bash -x ~/kg2-code/build-kg2-DEPRECATED.sh all
 
 Then exit screen (`ctrl-a d`). Note that there is no need to redirect `stdout`
-or `stderr` to a log file, when executing `build-kg2.sh`; this is because the
+or `stderr` to a log file, when executing `build-kg2-DEPRECATED.sh`; this is because the
 script saves its own `stdout` and `stderr` to a log file `build-kg2.log`. You can 
 watch the progress of your KG2 build by using this command:
 
@@ -464,9 +467,9 @@ to a file `~/kg2-build/build-kg2-ont-stderr.log`.
 Like with the parallel build system, you can run a sequential partial build. To do a partial
 build, in Step (8) above, you would run
 
-    bash -x ~/kg2-code/build-kg2.sh
+    bash -x ~/kg2-code/build-kg2-DEPRECATED.sh
 
-(note the absence of the `all` argument to `build-kg2.sh`). A partial build of KG2
+(note the absence of the `all` argument to `build-kg2-DEPRECATED.sh`). A partial build of KG2
 may take about 40 hours. Note, you have to have previously run an `all` build
 of KG2, or else the partial build will not work.
 
@@ -474,7 +477,7 @@ of KG2, or else the partial build will not work.
 
 To execute a sequential *test* build, in Step (8) above, you would run:
 
-    bash -x ~/kg2-code/build-kg2.sh alltest
+    bash -x ~/kg2-code/build-kg2-DEPRECATED.sh alltest
     
 In the case of a test build, the build log file names are changed:
 
@@ -489,7 +492,9 @@ will have `-test` appended to the filename before the usual filename suffix
 
 To run a partial sequential build of KG2 in "test" mode, the command would be:
 
-    bash -x ~/kg2-code/build-kg2.sh test
+    bash -x ~/kg2-code/build-kg2-DEPRECATED.sh test
+    
+</details>
 
 ### Build Option 3: setup ssh key exchange so you can build KG2 in a remote EC2 instance
 
@@ -729,6 +734,11 @@ tracking down the source of an unexpected relationship or node property.
 *Any new data sources in the build or major updates* (e.g., DrugBank, UMLS, or ChEMBL)
 should also be noted in the `kg2-versions.md` file.
 
+- One of the key build artifacts that should be inspected in order to assess the
+build quality is the JSON report
+[kg-simplified-report.json](https://rtx-kg2-public.s3-us-west-2.amazonaws.com/kg2-simplified-report.json).
+This file should be inspected as a part of the post-build quality assessment process.
+
 # Schema of the JSON KG2
 
 The file `kg2.json` is an intermediate file that is probably only of use to KG2
@@ -917,10 +927,15 @@ This section has some guidelines for the development team for the KG2 build syst
 - Please follow PEP8 formatting standards.
 - Please use type hints wherever possible.
 
+# Shell coding standards for KG2
+
+- Use lower-case for variable names except for environment variables.
+- The flags `nounset`, `pipefail`, *and* `errexit` should be set.
+
 ### File naming
 
-- For config files and shell scripts, use kabob-case
-- For python modules, use snake_case.
+- For config files and shell scripts, use `kabob-case`
+- For python modules, use `snake_case`.
 
 # Credits
 

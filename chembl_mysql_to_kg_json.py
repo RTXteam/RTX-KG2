@@ -21,7 +21,9 @@ import pymysql
 CHEMBL_CURIE_BASE_COMPOUND = kg2_util.CURIE_PREFIX_CHEMBL_COMPOUND
 CHEMBL_CURIE_BASE_TARGET = kg2_util.CURIE_PREFIX_CHEMBL_TARGET
 CHEMBL_CURIE_BASE_MECHANISM = kg2_util.CURIE_PREFIX_CHEMBL_MECHANISM
-CHEMBL_KB_CURIE_ID = kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY + ':' + 'chembl'
+CHEMBL_KB_CURIE_ID = kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY + \
+    ':' + 'chembl.compound'
+CHEMBL_KB_URL = kg2_util.BASE_URL_IDENTIFIERS_ORG_REGISTRY + 'chembl.compound'
 CHEMBL_BASE_IRI_COMPOUND = kg2_util.BASE_URL_CHEMBL_COMPOUND
 CHEMBL_BASE_IRI_TARGET = kg2_util.BASE_URL_CHEMBL_TARGET
 CHEMBL_BASE_IRI_PREDICATE = kg2_util.BASE_URL_CHEMBL_MECHANISM
@@ -53,8 +55,11 @@ TARGET_TYPE_TO_CATEGORY = {
 
 
 def get_args():
-    arg_parser = argparse.ArgumentParser(description='ensembl_json_to_kg2_json.py: builds a KG2 JSON representation for Ensembl genes')
-    arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
+    arg_parser = argparse.ArgumentParser(
+        description='ensembl_json_to_kg2_json.py: builds a KG2 JSON ' +
+        'representation for Ensembl genes')
+    arg_parser.add_argument('--test', dest='test', action="store_true",
+                            default=False)
     arg_parser.add_argument('mysqlConfigFile', type=str)
     arg_parser.add_argument('mysqlDBName', type=str)
     arg_parser.add_argument('outputFile', type=str)
@@ -66,7 +71,8 @@ def make_edge(subject_id: str,
               predicate_label: str,
               update_date: str = None,
               publications: list = None):
-    relation_curie = kg2_util.CURIE_PREFIX_CHEMBL_MECHANISM + ':' + predicate_label
+    relation_curie = kg2_util.CURIE_PREFIX_CHEMBL_MECHANISM + ':' + \
+        predicate_label
     edge = kg2_util.make_edge(subject_id,
                               object_id,
                               relation_curie,
@@ -430,6 +436,12 @@ if __name__ == '__main__':
                                                 predicate_label,
                                                 CHEMBL_KB_CURIE_ID,
                                                 update_date))
+    nodes.append(kg2_util.make_node(CHEMBL_KB_CURIE_ID,
+                           CHEMBL_KB_URL,
+                           'ChEMBL',
+                           kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                           update_date,
+                           CHEMBL_KB_CURIE_ID))
 
     kg2_util.save_json({'nodes': nodes, 'edges': edges},
                        output_file_name,

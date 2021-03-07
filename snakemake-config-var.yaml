@@ -1,0 +1,72 @@
+semmed_tuplelist_file: ${BUILD_DIR}/semmeddb/kg2-semmeddb${test_suffix}-tuplelist.json
+semmed_output_file: ${BUILD_DIR}/kg2-semmeddb${test_suffix}-edges.json
+
+uniprotkb_dat_file: ${BUILD_DIR}/uniprotkb/uniprot_sprot.dat
+uniprotkb_output_file: ${BUILD_DIR}/kg2-uniprotkb${test_suffix}.json
+
+output_file_base: kg2-ont${test_suffix}.json
+output_file_full: ${BUILD_DIR}/${output_file_base}
+
+output_file_orphan_edges: ${BUILD_DIR}/kg2-orphans${test_suffix}-edges.json
+
+final_output_file_base: kg2${test_suffix}.json
+final_output_file_full: ${BUILD_DIR}/${final_output_file_base}
+
+simplified_output_file_base: kg2-simplified${test_suffix}.json
+simplified_output_file_full: ${BUILD_DIR}/${simplified_output_file_base}
+
+simplified_output_nodes_file_base: kg2-simplified${test_suffix}-nodes.json
+simplified_output_nodes_file_full: ${BUILD_DIR}/${simplified_output_nodes_file_base}
+
+output_nodes_file_base: kg2${test_suffix}-nodes.json
+output_nodes_file_full: ${BUILD_DIR}/${output_nodes_file_base}
+
+report_file_base: kg2-report${test_suffix}.json
+report_file_full: ${BUILD_DIR}/${report_file_base}
+
+simplified_report_file_base: kg2-simplified-report${test_suffix}.json
+simplified_report_file_full: ${BUILD_DIR}/${simplified_report_file_base}
+
+slim_output_file_full: ${BUILD_DIR}/kg2-slim${test_suffix}.json
+
+ensembl_source_json_file: ${BUILD_DIR}/ensembl/ensembl_genes_homo_sapiens.json
+ensembl_output_file: ${BUILD_DIR}/kg2-ensembl${test_suffix}.json
+
+chembl_output_file: ${BUILD_DIR}/kg2-chembl${test_suffix}.json
+
+owl_load_inventory_file: ${CODE_DIR}/ont-load-inventory${test_suffix}.yaml
+
+chembl_mysql_dbname: chembl
+
+unichem_output_tsv_file: ${BUILD_DIR}/unichem/unichem-mappings.tsv
+unichem_output_file: ${BUILD_DIR}/kg2-unichem${test_suffix}.json
+
+ncbi_gene_tsv_file: ${BUILD_DIR}/ncbigene/Homo_sapiens_gene_info.tsv
+ncbi_gene_output_file: ${BUILD_DIR}/kg2-ncbigene${test_suffix}.json
+
+dgidb_dir: ${BUILD_DIR}/dgidb
+dgidb_output_file: ${BUILD_DIR}/kg2-dgidb${test_suffix}.json
+
+repodb_dir: ${BUILD_DIR}/repodb
+repodb_input_file: ${BUILD_DIR}/repodb/repodb.csv
+repodb_output_file: ${BUILD_DIR}/kg2-repodb${test_suffix}.json
+
+smpdb_dir: ${BUILD_DIR}/smpdb
+smpdb_input_file: ${smpdb_dir}/pathbank_pathways.csv
+smpdb_output_file: ${BUILD_DIR}/kg2-smpdb${test_suffix}.json
+
+drugbank_input_file: ${BUILD_DIR}/drugbank.xml
+drugbank_output_file: ${BUILD_DIR}/kg2-drugbank${test_suffix}.json
+
+hmdb_input_file: ${BUILD_DIR}/hmdb_metabolites.xml
+hmdb_output_file: ${BUILD_DIR}/kg2-hmdb${test_suffix}.json
+
+go_annotation_input_file: ${BUILD_DIR}/goa_human.gpa
+go_annotation_output_file: ${BUILD_DIR}/kg2-go-annotation${test_suffix}.json
+
+kg1_output_file: ${BUILD_DIR}/kg2-rtx-kg1${test_suffix}.json
+
+kg2_tsv_dir: ${BUILD_DIR}/TSV
+kg2_tsv_tarball: ${BUILD_DIR}/kg2-tsv-for-neo4j${test_suffix}.tar.gz
+
+version_file: ${BUILD_DIR}/kg2-version.txt
