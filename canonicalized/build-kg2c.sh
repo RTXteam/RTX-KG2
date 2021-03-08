@@ -8,11 +8,10 @@ set -e
 rtx_dir=${1:-~/RTX}
 
 # Rebuild the NodeSynonymizer using the KG2 endpoint specified under the "KG2" slot in RTX/code/config.json
-cd ${rtx_dir}/data/KGmetadata
-python3 dumpdata.py
 cd ${rtx_dir}/code/ARAX/NodeSynonymizer
-python3 sri_node_normalizer.py --build
-python3 node_synonymizer.py --build --kg_name=both
+python3 -u dump_kg2_node_data.py
+python3 -u sri_node_normalizer.py --build
+python3 -u node_synonymizer.py --build --kg_name=both
 
 # Create the canonicalized KG from the KG2 at the endpoint specified under the "KG2" slot in RTX/code/config.json
 cd ${rtx_dir}/code/kg2/canonicalized
