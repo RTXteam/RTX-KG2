@@ -46,6 +46,8 @@ def get_args():
                                          Reactome')
     arg_parser.add_argument('--test', dest='test',
                             action="store_true", default=False)
+    arg_parser.add_argument('mysqlConfigFile', type=str)
+    arg_parser.add_argument('mysqlDBName', type=str)
     arg_parser.add_argument('outputFile', type=str)
     return arg_parser.parse_args()
 
@@ -63,6 +65,12 @@ def run_sql(sql: str, connection):
 def format_edge(subject_id: str, object_id: str, predicate_label: str):
     relation_curie = kg2_util.predicate_label_to_curie(predicate_label,
                                                        REACTOME_RELATION_CURIE_PREFIX)
+    if predicate_label == kg2_util.EDGE_LABEL_BIOLINK_SAME_AS:
+        return kg2_util.make_edge_biolink(subject_id,
+                                          object_id,
+                                          predicate_label,
+                                          REACTOME_KB_CURIE_ID,
+                                          None)
     return kg2_util.make_edge(subject_id,
                               object_id,
                               relation_curie,
@@ -487,7 +495,7 @@ def get_event_characteristics(connection, test):
                                     'NegativeRegulation': 'negatively_regulates',
                                     'PositiveGeneExpressionRegulation': 'positively_regulates_gene_expression',
                                     'NegativeGeneExpressionRegulation': 'negatively_regulates_gene_expression',
-                                    'Requirement': 'requires'}
+                                    'Requirement': 'is_requirement_for'}
         predicate = regulation_to_edge_label[regulated_by_class]
         publications = result[5]
         edge = format_edge(subject_id, object_id, predicate)
@@ -768,7 +776,7 @@ def get_edges(connection, test):
 if __name__ == '__main__':
     args = get_args()
 
-    connection = pymysql.connect(user="root", password="1337", db="reactome")
+    connection = pymysql.connect(read_default_file=args.mysqlConfigFile, db=args.mysqlDBName)
 
     run_sql("SET SESSION group_concat_max_len=35000", connection)
     run_sql("SET SESSION sort_buffer_size=256000000", connection)
