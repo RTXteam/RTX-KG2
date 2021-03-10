@@ -6,6 +6,7 @@
     <outputFile.json>
 '''
 import csv
+import sys
 import re
 #import kg2_util
 # import os
@@ -23,6 +24,8 @@ __maintainer__ = ''
 __email__ = ''
 __status__ = 'Prototype'
 
+csv.field_size_limit(sys.maxsize)
+
 #SMPDB_BASE_IRI = kg2_util.BASE_URL_SMPDB
 #SMPDB_KB_IRI = kg2_util.BASE_URL_IDENTIFIERS_ORG_REGISTRY + "smpdb"
 #SMPDB_PROVIDED_BY_CURIE_ID = kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY \
@@ -30,6 +33,8 @@ __status__ = 'Prototype'
 
 #regex from https://www.uniprot.org/help/accession_numbers
 REGEX_UNIPROT_ID = re.compile(r'^[P,Q,O][0-9][A-Z0-9][A-Z0-9][A-Z0-9][0-9]$')
+#regex from multi_ont_to_kg_json.py
+REGEX_ENSEMBL_ID = re.compile('ENS[A-Z]{0,3}([PG])[0-9]{11}')
 
 def get_args():
     arg_parser = argparse.ArgumentParser(description='jensenlab_tsv_to_kg_json.py: \
@@ -63,13 +68,40 @@ def make_gene_id_dictionary(human_names_file:str, human_entities_file:str):
             gene_id_dict[k] = _human_names_dict[v]
     return gene_id_dict
 
+def make_gene_pmids_dict(gene_ids:set, filename:str):
+    gene_pmids_dict = dict()
+    with open(filename, 'r') as inp:
+        tsvin = csv.reader(inp, delimiter="\t")
+        for row in tsvin:
+            gene_id, pmidlist = row
+            if gene_id not in gene_ids:
+                continue
+            pmidlist = ["PMID:"+idnum for idnum in pmidlist.split(' ')]
+            gene_pmids_dict[gene_id] = pmidlist
+    return gene_pmids_dict
+
+def make_disease_pmids_dict(filename:str):
+    disease_pmids_dict = dict()
+    with open(filename, 'r') as inp:
+        tsvin = csv.reader(inp, delimiter="\t")
+        for row in tsvin:
+            disease_id, pmidlist = row
+            if "DOID" not in disease_id:
+                continue
+            pmidlist = ["PMID:"+idnum for idnum in pmidlist.split(' ')]
+            disease_pmids_dict[disease_id] = pmidlist
+    return disease_pmids_dict
+
+
 def _reformat_id(id:str):
     if "HGNC" in id:
         return id; # HGNC ids are already formatted the same as KG2 nodes
     uniprot_match = REGEX_UNIPROT_ID.match(id)
     if uniprot_match is not None:
         return "UniProtKB:"+id
-    # need to add matching for ENSEMBL ids
+    ensembl_match = REGEX_ENSEMBL_ID.match(id)
+    if ensembl_match is not None:
+        return "ENSEMBL:"+id
     return None 
     
 def make_edges(input_tsv:str, gene_id_dict:dict):
@@ -106,8 +138,12 @@ if __name__ == '__main__':
     args = get_args()
     human_names_file = f"{args.inputDirectory}/human_dictionary/human_names.tsv" 
     human_entities_file = f"{args.inputDirectory}/human_dictionary/human_entities.tsv" 
-    edges_tsv_file = f"{args.inputDirectory}human_disease_text_mining_filtered.tsv"
+    edges_tsv_file = f"{args.inputDirectory}human_disease_textmining_full.tsv"
+    gene_publications_file = f"{args.inputDirectory}gene_pmids.tsv"
+    disease_publications_file = f"{args.inputDirectory}disease_pmids.tsv"
     gene_id_dict = make_gene_id_dictionary(human_names_file, human_entities_file)
+    gene_pmids_dict = make_gene_pmids_dict(set(gene_id_dict.keys()), gene_publications_file)
+    disease_pmids_dict = make_disease_pmids_dict(disease_publications_file)
     
     make_edges(edges_tsv_file, gene_id_dict)
     
