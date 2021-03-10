@@ -126,4 +126,4 @@ rule Reactome:
     log:
         config['BUILD_DIR'] + "/extract-reactome" + config['TEST_SUFFIX'] + ".log"
     shell:
-        "bash -x " + config['CODE_DIR'] + "/extract-chembl.sh " + config['REACTOME_MYSQL_DBNAME'] +" > {log} 2>&1 && touch {output.placeholder}"
+        "bash -x " + config['CODE_DIR'] + "/extract-reactome.sh " + config['REACTOME_MYSQL_DBNAME'] +" > {log} 2>&1 && touch {output.placeholder}"
