@@ -2676,6 +2676,62 @@ PathWhiz:in_species:
   rename:
   - occurs_in
   - biolink:occurs_in
+REACT:has_element:
+  invert:
+  - part_of
+  - biolink:part_of
+REACT:has_event:
+  invert:
+  - participates_in
+  - biolink:participates_in
+REACT:has_input:
+  rename:
+  - has_input 
+  - biolink:has_input
+REACT:has_member:
+  invert:
+  - part_of
+  - biolink:part_of
+REACT:has_output:
+  rename:
+  - has_output
+  - biolink:has_output
+REACT:in_location:
+  rename:
+  - occurs_in
+  - biolink:occurs_in
+REACT:in_species:
+  rename:
+  - occurs_in
+  - biolink:occurs_in
+REACT:linked_to_disease:
+  rename:
+  - related_to
+  - biolink:related_to
+REACT:negatively_regulates:
+  rename:
+  - negatively_regulates
+  - biolink:negatively_regulates
+REACT:negatively_regulates_gene_expression:
+  rename:
+  - negatively_regulates
+  - biolink:negatively_regulates
+REACT:positively_regulates:
+  rename:
+  - positively_regulates
+  - biolink:positively_regulates
+REACT:positively_regulates_gene_expression:
+  rename:
+  - positively_regulates
+  - biolink:positively_regulates
+REACT:related_to:
+  rename:
+  - related_to
+  - biolink:related_to
+REACT:is_requirement_for:
+  rename:
+  - regulates
+  - biolink:regulates
 REPODB:clinically_tested_approved_unknown_phase:
   rename:
   - treats
