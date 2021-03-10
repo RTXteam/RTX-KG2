@@ -2696,7 +2696,7 @@ REACT:has_output:
   rename:
   - has_output
   - biolink:has_output
-REACT:in_location:
+REACT:in_compartment:
   rename:
   - occurs_in
   - biolink:occurs_in
