@@ -5,7 +5,30 @@
 Nodes: 10,546,338
 Edges: 53,739,675
 
-- Issues TBD
+- Issue #1283
+- Issue #1271
+- Issue #1270
+- Issue #1267
+- Issue #1266
+- Issue #1264
+- Issue #1263
+- Issue #1259
+- Issue #1253
+- Issue #1249
+- Issue #1243
+- Issue #1230
+- Issue #1219
+- Issue #1216
+- Issue #1214
+- Issue #1175
+- Issue #1171
+- Issue #1160
+- Issue #1128
+- Issue #1114
+- Issue #1050
+- Issue #1025
+- Issue #964
+- Issue #762
 
 Build host: `kg2steve.rtx.ai` `~/kg2-build/`
 
