@@ -6,7 +6,7 @@
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0 <output_file.json> [test]"
+    echo Usage: "$0 <mysql_dbname>"
     exit 2
 fi
 
@@ -18,7 +18,7 @@ date
 config_dir=`dirname $0`
 source ${config_dir}/master-config.shinc
 
-mysql_dbname=reactome
+mysql_dbname=${1:-"reactome"}
 mysql_file=reactome.sql.gz
 
 ${curl_get} https://reactome.org/download/current/databases/gk_current.sql.gz \
