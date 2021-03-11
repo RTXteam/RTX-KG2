@@ -8,6 +8,7 @@ import argparse
 import csv
 import json
 import os
+import sqlite3
 import sys
 import time
 import traceback
@@ -67,7 +68,7 @@ def _canonicalize_nodes(neo4j_nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Di
     synonymizer = NodeSynonymizer()
     node_ids = [node.get('id') for node in neo4j_nodes if node.get('id')]
     print(f"  Sending NodeSynonymizer.get_canonical_curies() {len(node_ids)} curies..")
-    canonicalized_info = synonymizer.get_canonical_curies(curies=node_ids, return_all_types=True)
+    canonicalized_info = synonymizer.get_canonical_curies(curies=node_ids, return_all_categories=True)
     all_canonical_curies = {canonical_info['preferred_curie'] for canonical_info in canonicalized_info.values() if canonical_info}
     print(f"  Sending NodeSynonymizer.get_equivalent_nodes() {len(all_canonical_curies)} curies..")
     equivalent_curies_info = synonymizer.get_equivalent_nodes(all_canonical_curies)
@@ -95,10 +96,10 @@ def _canonicalize_nodes(neo4j_nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Di
         else:
             # Initiate the canonical node for this synonym group
             name = canonical_info['preferred_name'] if canonical_info else neo4j_node['name']
-            category = canonical_info['preferred_type'] if canonical_info else neo4j_node['category']
+            category = canonical_info['preferred_category'] if canonical_info else neo4j_node['category']
             if not category.startswith("biolink:"):
                 print(f"  WARNING: Preferred category for {canonicalized_curie} doesn't start with 'biolink:': {category}")
-            all_categories = list(canonical_info['all_types']) if canonical_info else [neo4j_node['category']]
+            all_categories = list(canonical_info['all_categories']) if canonical_info else [neo4j_node['category']]
             if not all(category.startswith("biolink:") for category in all_categories):
                 print(f" WARNING: Categories for {canonicalized_curie} contain non 'biolink:' items: {all_categories}")
             iri = neo4j_node['iri'] if neo4j_node['id'] == canonicalized_curie else None
@@ -219,11 +220,59 @@ def _write_list_to_neo4j_ready_tsv(input_list: List[Dict[str, any]], file_name_r
 
 def create_kg2c_json_file(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
                           canonicalized_edges_dict: Dict[str, Dict[str, any]], is_test: bool):
+    print(f" Creating KG2c JSON file..")
     kgx_format_json = {"nodes": list(canonicalized_nodes_dict.values()),
                        "edges": list(canonicalized_edges_dict.values())}
-    print(f" Saving data to JSON file..")
     with open(f"kg2c{'_test' if is_test else ''}.json", "w+") as output_file:
         json.dump(kgx_format_json, output_file)
+
+
+def create_kg2c_lite_json_file(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
+                               canonicalized_edges_dict: Dict[str, Dict[str, any]], is_test: bool):
+    print(f" Creating KG2c lite JSON file..")
+    # Filter out all except these properties so we create a lightweight KG
+    node_lite_properties = ["id", "all_categories"]
+    edge_lite_properties = ["id", "predicate", "subject", "object"]
+    lite_kg = {"nodes": [], "edges": []}
+    for node in canonicalized_nodes_dict.values():
+        lite_node = dict()
+        for lite_property in node_lite_properties:
+            lite_node[lite_property] = node[lite_property]
+        lite_kg["nodes"].append(lite_node)
+    for edge in canonicalized_edges_dict.values():
+        lite_edge = dict()
+        for lite_property in edge_lite_properties:
+            lite_edge[lite_property] = edge[lite_property]
+        lite_kg["edges"].append(lite_edge)
+    # Save this lite KG to a JSON file
+    with open(f"kg2c_lite{'_test' if is_test else ''}.json", "w+") as output_file:
+        json.dump(lite_kg, output_file)
+
+
+def create_sqlite_db(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
+                     canonicalized_edges_dict: Dict[str, Dict[str, any]], is_test: bool):
+    print(" Creating KG2c sqlite database..")
+    db_name = f"kg2c{'_test' if is_test else ''}.sqlite"
+    # Remove any preexisting version of this database
+    if os.path.exists(db_name):
+        os.remove(db_name)
+    connection = sqlite3.connect(db_name)
+    # Add all nodes (node object is dumped into a JSON string)
+    connection.execute("CREATE TABLE nodes (id TEXT, node TEXT)")
+    node_rows = [(node["id"], json.dumps(node)) for node in canonicalized_nodes_dict.values()]
+    connection.executemany(f"INSERT INTO nodes (id, node) VALUES (?, ?)", node_rows)
+    connection.execute("CREATE UNIQUE INDEX node_id ON nodes (id)")
+    cursor = connection.execute(f"SELECT COUNT(*) FROM nodes")
+    print(f"  Done creating nodes table; contains {cursor.fetchone()[0]} rows.")
+    cursor.close()
+    # Add all edges (edge object is dumped into a JSON string)
+    connection.execute("CREATE TABLE edges (id TEXT, edge TEXT)")
+    edge_rows = [(edge["id"], json.dumps(edge)) for edge in canonicalized_edges_dict.values()]
+    connection.executemany(f"INSERT INTO edges (id, edge) VALUES (?, ?)", edge_rows)
+    connection.execute("CREATE UNIQUE INDEX edge_id on edges (id)")
+    cursor = connection.execute(f"SELECT COUNT(*) FROM edges")
+    print(f"  Done creating edges table; contains {cursor.fetchone()[0]} rows.")
+    cursor.close()
 
 
 def create_kg2c_tsv_files(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
@@ -250,7 +299,7 @@ def create_kg2c_tsv_files(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
         canonicalized_edge['object_for_conversion'] = canonicalized_edge['object']
 
     # Finally dump all our nodes/edges into TSVs (formatted for neo4j)
-    print(f" Saving data to TSVs..")
+    print(f" Creating TSVs for Neo4j..")
     _write_list_to_neo4j_ready_tsv(list(canonicalized_nodes_dict.values()), "nodes_c", is_test)
     _write_list_to_neo4j_ready_tsv(list(canonicalized_edges_dict.values()), "edges_c", is_test)
 
@@ -302,11 +351,15 @@ def create_kg2c_files(is_test=False):
     else:
         print(f"  WARNING: No build node detected in the regular KG2, so I'm not creating a KG2c build node.")
 
-    # Add edge IDs as actual properties on the edges
+    # Convert our edge IDs to integers (to save space) and add them as actual properties on the edges
+    edge_num = 1
     for edge_id, edge in canonicalized_edges_dict.items():
-        edge["id"] = edge_id
+        edge["id"] = edge_num
+        edge_num += 1
 
+    create_kg2c_lite_json_file(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
     create_kg2c_json_file(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
+    create_sqlite_db(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
     create_kg2c_tsv_files(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
 
 
