@@ -271,6 +271,7 @@ def create_sqlite_db(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
     cursor = connection.execute(f"SELECT COUNT(*) FROM edges")
     print(f"  Done creating edges table; contains {cursor.fetchone()[0]} rows.")
     cursor.close()
+    connection.close()
 
 
 def create_kg2c_tsv_files(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
