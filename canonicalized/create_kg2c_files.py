@@ -261,6 +261,7 @@ def create_sqlite_db(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
     connection.execute("CREATE TABLE nodes (id TEXT PRIMARY KEY, node TEXT)")
     node_rows = [(node["id"], json.dumps(node)) for node in canonicalized_nodes_dict.values()]
     connection.executemany(f"INSERT INTO nodes (id, node) VALUES (?, ?)", node_rows)
+    connection.commit()
     cursor = connection.execute(f"SELECT COUNT(*) FROM nodes")
     print(f"  Done creating nodes table; contains {cursor.fetchone()[0]} rows.")
     cursor.close()
@@ -268,6 +269,7 @@ def create_sqlite_db(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
     connection.execute("CREATE TABLE edges (id INT PRIMARY KEY, edge TEXT)")
     edge_rows = [(edge["id"], json.dumps(edge)) for edge in canonicalized_edges_dict.values()]
     connection.executemany(f"INSERT INTO edges (id, edge) VALUES (?, ?)", edge_rows)
+    connection.commit()
     cursor = connection.execute(f"SELECT COUNT(*) FROM edges")
     print(f"  Done creating edges table; contains {cursor.fetchone()[0]} rows.")
     cursor.close()
