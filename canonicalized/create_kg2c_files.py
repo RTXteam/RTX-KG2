@@ -249,8 +249,8 @@ def create_kg2c_lite_json_file(canonicalized_nodes_dict: Dict[str, Dict[str, any
         json.dump(lite_kg, output_file)
 
 
-def create_sqlite_db(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
-                     canonicalized_edges_dict: Dict[str, Dict[str, any]], is_test: bool):
+def create_kg2c_sqlite_db(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
+                          canonicalized_edges_dict: Dict[str, Dict[str, any]], is_test: bool):
     print(" Creating KG2c sqlite database..")
     db_name = f"kg2c{'_test' if is_test else ''}.sqlite"
     # Remove any preexisting version of this database
@@ -258,9 +258,10 @@ def create_sqlite_db(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
         os.remove(db_name)
     connection = sqlite3.connect(db_name)
     # Add all nodes (node object is dumped into a JSON string)
-    connection.execute("CREATE TABLE nodes (id TEXT PRIMARY KEY, node TEXT)")
+    connection.execute("CREATE TABLE nodes (id TEXT, node TEXT)")
     node_rows = [(node["id"], json.dumps(node)) for node in canonicalized_nodes_dict.values()]
     connection.executemany(f"INSERT INTO nodes (id, node) VALUES (?, ?)", node_rows)
+    connection.execute("CREATE UNIQUE INDEX node_id_index ON nodes (id)")
     connection.commit()
     cursor = connection.execute(f"SELECT COUNT(*) FROM nodes")
     print(f"  Done creating nodes table; contains {cursor.fetchone()[0]} rows.")
@@ -360,7 +361,7 @@ def create_kg2c_files(is_test=False):
 
     create_kg2c_lite_json_file(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
     create_kg2c_json_file(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
-    create_sqlite_db(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
+    create_kg2c_sqlite_db(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
     create_kg2c_tsv_files(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
 
 
