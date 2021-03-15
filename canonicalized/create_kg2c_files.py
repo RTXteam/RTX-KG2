@@ -22,7 +22,7 @@ from RTXConfiguration import RTXConfiguration
 sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/../../ARAX/NodeSynonymizer/")
 from node_synonymizer import NodeSynonymizer
 
-ARRAY_NODE_PROPERTIES = ["all_categories", "publications", "equivalent_curies", "all_names"]
+ARRAY_NODE_PROPERTIES = ["all_categories", "publications", "equivalent_curies", "all_names", "expanded_categories"]
 ARRAY_EDGE_PROPERTIES = ["provided_by", "publications"]
 
 
@@ -100,14 +100,23 @@ def _canonicalize_nodes(neo4j_nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Di
             if not category.startswith("biolink:"):
                 print(f"  WARNING: Preferred category for {canonicalized_curie} doesn't start with 'biolink:': {category}")
             all_categories = list(canonical_info['all_categories']) if canonical_info else [neo4j_node['category']]
-            if not all(category.startswith("biolink:") for category in all_categories):
-                print(f" WARNING: Categories for {canonicalized_curie} contain non 'biolink:' items: {all_categories}")
+            expanded_categories = list(canonical_info['expanded_categories']) if canonical_info else [neo4j_node['category']]
             iri = neo4j_node['iri'] if neo4j_node['id'] == canonicalized_curie else None
             all_names = [neo4j_node['name']]
+
+            # Check for bug where not all categories in synonymizer were of "biolink:PascalCase" format
+            if not all(category.startswith("biolink:") for category in all_categories):
+                print(f" WARNING: all_categories for {canonicalized_curie} contain non 'biolink:PascalCase' "
+                      f"items: {all_categories}")
+            if not all(category.startswith("biolink:") for category in expanded_categories):
+                print(f" WARNING: expanded_categories for {canonicalized_curie} contain non 'biolink:PascalCase' "
+                      f"items: {expanded_categories}")
+
             canonicalized_node = _create_node(preferred_curie=canonicalized_curie,
                                               name=name,
                                               category=category,
                                               all_categories=all_categories,
+                                              expanded_categories=expanded_categories,
                                               publications=publications,
                                               equivalent_curies=equivalent_curies_dict.get(canonicalized_curie, [canonicalized_curie]),
                                               iri=iri,
@@ -119,7 +128,6 @@ def _canonicalize_nodes(neo4j_nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Di
 
 
 def _canonicalize_edges(neo4j_edges: List[Dict[str, any]], curie_map: Dict[str, str], is_test: bool) -> Dict[str, Dict[str, any]]:
-    allowed_self_edges = ['positively_regulates', 'interacts_with', 'increase']
     canonicalized_edges = dict()
     for neo4j_edge in neo4j_edges:
         original_subject = neo4j_edge['subject']
@@ -131,7 +139,7 @@ def _canonicalize_edges(neo4j_edges: List[Dict[str, any]], curie_map: Dict[str, 
         canonicalized_object = curie_map.get(original_object, original_object)
         edge_publications = neo4j_edge['publications'] if neo4j_edge.get('publications') else []
         edge_provided_by = neo4j_edge['provided_by'] if neo4j_edge.get('provided_by') else []
-        if canonicalized_subject != canonicalized_object or neo4j_edge['predicate'] in allowed_self_edges:
+        if canonicalized_subject != canonicalized_object:  # Don't allow self-edges
             canonicalized_edge_key = _get_edge_key(canonicalized_subject, canonicalized_object, neo4j_edge['predicate'])
             if canonicalized_edge_key in canonicalized_edges:
                 canonicalized_edge = canonicalized_edges[canonicalized_edge_key]
@@ -167,13 +175,15 @@ def _modify_column_headers_for_neo4j(plain_column_headers: List[str]) -> List[st
     return modified_headers
 
 
-def _create_node(preferred_curie: str, name: Optional[str], category: str, all_categories: List[str], equivalent_curies: List[str],
-                 publications: List[str], all_names: List[str], iri: Optional[str], description: Union[str, List[str]]) -> Dict[str, any]:
+def _create_node(preferred_curie: str, name: Optional[str], category: str, all_categories: List[str], expanded_categories: List[str],
+                 equivalent_curies: List[str], publications: List[str], all_names: List[str], iri: Optional[str],
+                 description: Union[str, List[str]]) -> Dict[str, any]:
     assert isinstance(preferred_curie, str)
     assert isinstance(name, str) or name is None
     assert isinstance(category, str)
     assert isinstance(all_names, list)
     assert isinstance(all_categories, list)
+    assert isinstance(expanded_categories, list)
     assert isinstance(equivalent_curies, list)
     assert isinstance(publications, list)
     return {
@@ -182,6 +192,7 @@ def _create_node(preferred_curie: str, name: Optional[str], category: str, all_c
         "category": category,
         "all_names": all_names,
         "all_categories": all_categories,
+        "expanded_categories": expanded_categories,
         "iri": iri,
         "description": description,
         "equivalent_curies": equivalent_curies,
@@ -231,7 +242,7 @@ def create_kg2c_lite_json_file(canonicalized_nodes_dict: Dict[str, Dict[str, any
                                canonicalized_edges_dict: Dict[str, Dict[str, any]], is_test: bool):
     print(f" Creating KG2c lite JSON file..")
     # Filter out all except these properties so we create a lightweight KG
-    node_lite_properties = ["id", "all_categories"]
+    node_lite_properties = ["id", "expanded_categories"]
     edge_lite_properties = ["id", "predicate", "subject", "object"]
     lite_kg = {"nodes": [], "edges": []}
     for node in canonicalized_nodes_dict.values():
@@ -283,13 +294,13 @@ def create_kg2c_tsv_files(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
     for canonicalized_node in canonicalized_nodes_dict.values():
         for list_node_property in ARRAY_NODE_PROPERTIES:
             canonicalized_node[list_node_property] = _convert_list_to_neo4j_format(canonicalized_node[list_node_property])
-        # Grab the five longest descriptions and join them into one string
+        # Grab the longest few descriptions and join them into one string
         sorted_description_list = sorted(canonicalized_node['description'], key=len, reverse=True)
         # Get rid of any redundant descriptions (e.g., duplicate 'UMLS Semantic Type: UMLS_STY:T060')
         filtered_description_list = [description for description in sorted_description_list if not any(description in other_description
                                      for other_description in sorted_description_list if description != other_description)]
-        canonicalized_node['description'] = " --- ".join(filtered_description_list[:5])
-        canonicalized_node['node_labels'] = canonicalized_node['category']
+        canonicalized_node['description'] = " --- ".join(filtered_description_list[:3])
+        canonicalized_node['node_labels'] = canonicalized_node['expanded_categories']
     for canonicalized_edge in canonicalized_edges_dict.values():
         if not is_test:  # Make sure we don't have any orphan edges
             assert canonicalized_edge['subject'] in canonicalized_nodes_dict
@@ -310,7 +321,7 @@ def create_kg2c_files(is_test=False):
     """
     This function extracts all nodes/edges from the regular KG2 Neo4j endpoint (specified in your config.json),
     canonicalizes the nodes, merges edges (based on subject, object, predicate), and saves the resulting canonicalized
-    graph in two file formats: JSON (kgx format) and TSV (ready for import into Neo4j).
+    graph in multiple file formats: JSON, sqlite, and TSV (ready for import into Neo4j).
     """
     print(f" Extracting nodes from KG2..")
     nodes_query = f"match (n) return n.id as id, n.name as name, n.category as category, " \
@@ -342,6 +353,7 @@ def create_kg2c_files(is_test=False):
         kg2c_build_node = _create_node(preferred_curie=f"{kg2_build_node['id']}c",
                                        name=f"{kg2_build_node['name']}c",
                                        all_categories=kg2_build_node['all_categories'],
+                                       expanded_categories=kg2_build_node['expanded_categories'],
                                        category=kg2_build_node['category'],
                                        equivalent_curies=[],
                                        publications=[],
@@ -353,12 +365,13 @@ def create_kg2c_files(is_test=False):
     else:
         print(f"  WARNING: No build node detected in the regular KG2, so I'm not creating a KG2c build node.")
 
-    # Convert our edge IDs to integers (to save space) and add them as actual properties on the edges
+    # Convert our edge IDs to integers (to save space downstream) and add them as actual properties on the edges
     edge_num = 1
-    for edge_id, edge in canonicalized_edges_dict.items():
+    for edge_id, edge in sorted(canonicalized_edges_dict.items()):
         edge["id"] = edge_num
         edge_num += 1
 
+    # Actually create all of our output files (different formats for storing KG2c)
     create_kg2c_lite_json_file(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
     create_kg2c_json_file(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
     create_kg2c_sqlite_db(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
@@ -373,7 +386,7 @@ def main():
     print(f"Starting to create KG2canonicalized..")
     start = time.time()
     create_kg2c_files(args.test)
-    print(f"Done! Took {round((time.time() - start) / 60, 2)} minutes.")
+    print(f"Done! Took {round(((time.time() - start) / 60) / 60, 2)} hours.")
 
 
 if __name__ == "__main__":
