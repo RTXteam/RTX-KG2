@@ -155,13 +155,13 @@ def _canonicalize_edges(neo4j_edges: List[Dict[str, any]], curie_map: Dict[str, 
     return canonicalized_edges
 
 
-def _modify_column_headers_for_neo4j(plain_column_headers: List[str]) -> List[str]:
+def _modify_column_headers_for_neo4j(plain_column_headers: List[str], file_name_root: str) -> List[str]:
     modified_headers = []
     all_array_column_names = ARRAY_NODE_PROPERTIES + ARRAY_EDGE_PROPERTIES
     for header in plain_column_headers:
         if header in all_array_column_names:
             header = f"{header}:string[]"
-        elif header == 'id':
+        elif header == 'id' and "node" in file_name_root:  # Skip setting ID for edges
             header = f"{header}:ID"
         elif header == 'node_labels':
             header = ":LABEL"
@@ -219,7 +219,7 @@ def _write_list_to_neo4j_ready_tsv(input_list: List[Dict[str, any]], file_name_r
     # Converts a list into the specific format Neo4j wants (string with delimiter)
     print(f"  Creating {file_name_root} header file..")
     column_headers = list(input_list[0].keys())
-    modified_headers = _modify_column_headers_for_neo4j(column_headers)
+    modified_headers = _modify_column_headers_for_neo4j(column_headers, file_name_root)
     with open(f"{'test_' if is_test else ''}{file_name_root}_header.tsv", "w+") as header_file:
         dict_writer = csv.DictWriter(header_file, modified_headers, delimiter='\t')
         dict_writer.writeheader()
