@@ -8,9 +8,8 @@
 import csv
 import sys
 import re
-#import kg2_util
+import kg2_util
 # import os
-# import xmltodict
 import argparse
 from collections import defaultdict
 
@@ -31,6 +30,8 @@ csv.field_size_limit(sys.maxsize)
 #SMPDB_PROVIDED_BY_CURIE_ID = kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY \
 #                                + ":smpdb"
 
+JENSEN_LAB_PROVIDED_BY_CURIE_ID = "JensenLab:"
+
 #regex from https://www.uniprot.org/help/accession_numbers
 REGEX_UNIPROT_ID = re.compile(r'^[P,Q,O][0-9][A-Z0-9][A-Z0-9][A-Z0-9][0-9]$')
 #regex from multi_ont_to_kg_json.py
@@ -48,7 +49,7 @@ def get_args():
     arg_parser.add_argument('outputFile', type=str)
     return arg_parser.parse_args()
 
-def make_gene_id_dictionary(human_names_file:str, human_entities_file:str):
+def make_gene_id_dictionary(human_names_file:str, human_entities_file:str) -> Dict[str, list]:
     _human_entities_dict = dict(); # string_id: dictionary_serial_no
     _human_names_dict = defaultdict(lambda: list()) # dictionary_serial_no: [external_idsinkg2]
     with open(human_entities_file, 'r') as tsvin:
@@ -58,7 +59,6 @@ def make_gene_id_dictionary(human_names_file:str, human_entities_file:str):
     with open(human_names_file, "r") as tsvin:
         tsvin = csv.reader(tsvin, delimiter="\t")
         for row in tsvin:
-            # probably filter and edit to be HGNC or UniProt or Ensembl id here
             identifier = _reformat_id(row[1])
             if identifier is not None:
                 _human_names_dict[row[0]].append(identifier)
@@ -68,7 +68,7 @@ def make_gene_id_dictionary(human_names_file:str, human_entities_file:str):
             gene_id_dict[k] = _human_names_dict[v]
     return gene_id_dict
 
-def make_gene_pmids_dict(gene_ids:set, filename:str):
+def make_gene_pmids_dict(gene_ids:set, filename:str) -> Dict[str, set]:
     gene_pmids_dict = dict()
     with open(filename, 'r') as inp:
         tsvin = csv.reader(inp, delimiter="\t")
@@ -77,10 +77,10 @@ def make_gene_pmids_dict(gene_ids:set, filename:str):
             if gene_id not in gene_ids:
                 continue
             pmidlist = ["PMID:"+idnum for idnum in pmidlist.split(' ')]
-            gene_pmids_dict[gene_id] = pmidlist
+            gene_pmids_dict[gene_id] = set(pmidlist)
     return gene_pmids_dict
 
-def make_disease_pmids_dict(filename:str):
+def make_disease_pmids_dict(filename:str) -> Dict[str,set]:
     disease_pmids_dict = dict()
     with open(filename, 'r') as inp:
         tsvin = csv.reader(inp, delimiter="\t")
@@ -89,7 +89,7 @@ def make_disease_pmids_dict(filename:str):
             if "DOID" not in disease_id:
                 continue
             pmidlist = ["PMID:"+idnum for idnum in pmidlist.split(' ')]
-            disease_pmids_dict[disease_id] = pmidlist
+            disease_pmids_dict[disease_id] = set(pmidlist)
     return disease_pmids_dict
 
 
@@ -104,8 +104,9 @@ def _reformat_id(id:str):
         return "ENSEMBL:"+id
     return None 
     
-def make_edges(input_tsv:str, gene_id_dict:dict):
+def make_edges(input_tsv:str, gene_id_dict:Dict[str,list], pmids_dict:Dict[str,Dict[str,set]] -> list):
     gene_ids_actually_used = set()
+    update_date = datetime.datetime.now().replace(microsecond=0).isoformat()
     with open(input_tsv) as inp:
         tsvin = csv.reader(inp, delimiter="\t")
         for row in tsvin:
@@ -123,16 +124,30 @@ def make_edges(input_tsv:str, gene_id_dict:dict):
                 print(f"Missing kg2 equivalent gene ids for {gene_id}. Skipping")
                 continue
             for kg2_gene_id in kg2_gene_id_list:
-                placeholder = "need to decide where everything goes"
-                #edge = kg2_util.make_edge(kg2_gene_id,
-                #                          disease_id,
-                #                          "JensenLab:associated_with",
-                #                          "associated_with",
-                                          
+                if pmids['disease'].get(disease_id, None) is None:
+                    print(f"Disease id {disease_id} is not DOID. Skipping.")
+                    continue
+                publications_list = list(pmids_dict['gene'][gene_id].intersection(pmids_dict['disease'][disease_id]))
+                edge = kg2_util.make_edge(kg2_gene_id,
+                                          disease_id,
+                                          "JensenLab:associated_with",
+                                          "associated_with",
+                                          JENSEN_LAB_PROVIDED_BY_CURIE_ID,
+                                          update_date)
+                # seems hacky, but following example in rtx_kg1_neo4j_to_kg_json.py
+                publication_info_dict = {'publication date': None,
+                                         'sentence': None,
+                                         'subject score': None,
+                                         'object score': str(z_score)}
+                publications_info = {edge['object']: publication_info_dict}
+                edge["publications"] = publications_list
+                edge["publications_info"] = publications_info
+                edges.append(edge)
         
     used_genes_missing_ids = gene_ids_actually_used - set(gene_id_dict.keys())
     print(f"Skipped {len(used_genes_missing_ids)} rows for lack of kg2 gene ids.")
     print(f"Found {len(gene_ids_actually_used - used_genes_missing_ids)} used kg2 gene ids.")
+    return edges
 
 if __name__ == '__main__':
     args = get_args()
@@ -144,6 +159,11 @@ if __name__ == '__main__':
     gene_id_dict = make_gene_id_dictionary(human_names_file, human_entities_file)
     gene_pmids_dict = make_gene_pmids_dict(set(gene_id_dict.keys()), gene_publications_file)
     disease_pmids_dict = make_disease_pmids_dict(disease_publications_file)
-    
-    make_edges(edges_tsv_file, gene_id_dict)
-    
+    pmids_dict = { "gene": gene_pmids_dict,
+                   "disease" : disease_pmids_dict }    
+
+    edge_list = make_edges(edges_tsv_file, gene_id_dict, pmids_dict)
+    print(f"Added {len(edge_list) edges.")
+    graph = {'nodes': [],
+             'edges': edge_list}
+    kg2_util.save_json(graph, args.outputFile, test_args.test)
