@@ -27,6 +27,6 @@ aws s3 cp --no-progress --region us-west-2 ${tarball_name} s3://rtx-kg2/
 gzip -f ${json_file_name}
 gzip -f ${json_lite_file_name}
 gzip -f ${sqlite_file_name}
-aws s3 cp --no-progress --region us-west-2 ${json_file_name} s3://rtx-kg2/
-aws s3 cp --no-progress --region us-west-2 ${json_lite_file_name} s3://rtx-kg2/
-aws s3 cp --no-progress --region us-west-2 ${sqlite_file_name} s3://rtx-kg2/
+aws s3 cp --no-progress --region us-west-2 ${json_file_name}.gz s3://rtx-kg2/
+aws s3 cp --no-progress --region us-west-2 ${json_lite_file_name}.gz s3://rtx-kg2/
+aws s3 cp --no-progress --region us-west-2 ${sqlite_file_name}.gz s3://rtx-kg2/
