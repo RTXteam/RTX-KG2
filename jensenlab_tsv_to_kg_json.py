@@ -11,8 +11,9 @@ import re
 import kg2_util
 # import os
 import argparse
+import datetime
 from collections import defaultdict
-
+from typing import *
 
 __author__ = 'Lindsey Kvarfordt'
 __copyright__ = 'Oregon State University'
@@ -104,11 +105,12 @@ def _reformat_id(id:str):
         return "ENSEMBL:"+id
     return None 
     
-def make_edges(input_tsv:str, gene_id_dict:Dict[str,list], pmids_dict:Dict[str,Dict[str,set]] -> list):
+def make_edges(input_tsv:str, gene_id_dict:Dict[str,list], pmids_dict:Dict[str,Dict[str,set]]) -> list:
     gene_ids_actually_used = set()
     update_date = datetime.datetime.now().replace(microsecond=0).isoformat()
     with open(input_tsv) as inp:
         tsvin = csv.reader(inp, delimiter="\t")
+        edges = list()
         for row in tsvin:
             [gene_id,
             gene_name,
@@ -118,14 +120,13 @@ def make_edges(input_tsv:str, gene_id_dict:Dict[str,list], pmids_dict:Dict[str,D
             _,
             source_url] = row
             gene_ids_actually_used.add(gene_id)
-            edges = list()
             kg2_gene_id_list = gene_id_dict.get(gene_id, None)
             if kg2_gene_id_list is None:
                 print(f"Missing kg2 equivalent gene ids for {gene_id}. Skipping")
                 continue
             for kg2_gene_id in kg2_gene_id_list:
-                if pmids['disease'].get(disease_id, None) is None:
-                    print(f"Disease id {disease_id} is not DOID. Skipping.")
+                if pmids_dict['disease'].get(disease_id, None) is None:
+                    # print(f"Disease id {disease_id} is not DOID. Skipping.")
                     continue
                 publications_list = list(pmids_dict['gene'][gene_id].intersection(pmids_dict['disease'][disease_id]))
                 edge = kg2_util.make_edge(kg2_gene_id,
@@ -163,7 +164,7 @@ if __name__ == '__main__':
                    "disease" : disease_pmids_dict }    
 
     edge_list = make_edges(edges_tsv_file, gene_id_dict, pmids_dict)
-    print(f"Added {len(edge_list) edges.")
+    print(f"Added {len(edge_list)} edges.")
     graph = {'nodes': [],
              'edges': edge_list}
-    kg2_util.save_json(graph, args.outputFile, test_args.test)
+    kg2_util.save_json(graph, args.outputFile, args.test)
