@@ -49,7 +49,7 @@ def make_node(ncbi_gene_id: str,
                                    update_date,
                                    NCBI_KB_CURIE_ID)
     node_dict['synonym'] = [gene_symbol] + sorted(list(set(other_synonyms)))
-    node_dict['name'] = gene_symbol
+    node_dict['name'] = "Genetic locus associated with " + gene_symbol
     return node_dict
 
 
