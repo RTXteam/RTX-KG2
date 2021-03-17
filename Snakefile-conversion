@@ -147,3 +147,12 @@ rule Reactome_Conversion:
         config['REACTOME_OUTPUT_FILE']
     shell:
         config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/reactome_mysql_to_kg_json.py " + config['TEST_ARG'] + " " + config['MYSQL_CONF'] + " " + config['REACTOME_MYSQL_DBNAME'] + " {output}"
+
+rule miRBase_Conversion:
+    input:
+        real = config['MIRBASE_INPUT_FILE'],
+        validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
+    output:
+        config['MIRBASE_OUTPUT_FILE']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/mirbase_dat_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output}"
