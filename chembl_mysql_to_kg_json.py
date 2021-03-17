@@ -436,7 +436,7 @@ if __name__ == '__main__':
                                                 predicate_label,
                                                 CHEMBL_KB_CURIE_ID,
                                                 update_date))
-    nodes.append(make_node(CHEMBL_KB_CURIE_ID,
+    nodes.append(kg2_util.make_node(CHEMBL_KB_CURIE_ID,
                            CHEMBL_KB_URL,
                            'ChEMBL',
                            kg2_util.BIOLINK_CATEGORY_DATA_FILE,

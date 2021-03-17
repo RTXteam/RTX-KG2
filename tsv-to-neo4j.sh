@@ -31,7 +31,7 @@ else
     test_arg=""
 fi
 
-tsv_tarball=${tsv_dir}/kg2-tsv${test_arg}.tar.gz
+tsv_tarball=${tsv_dir}/kg2-tsv-for-neo4j${test_arg}.tar.gz
 
 echo "copying RTX Configuration JSON file from S3"
 
@@ -52,7 +52,7 @@ rm -r -f ${tsv_dir}
 mkdir -p ${tsv_dir}
 
 # download the latest TSV files from the S3 Bucket
-${s3_cp_cmd} s3://${s3_bucket}/kg2-tsv${test_arg}.tar.gz ${tsv_tarball}
+${s3_cp_cmd} s3://${s3_bucket}/kg2-tsv-for-neo4j${test_arg}.tar.gz ${tsv_tarball}
 
 # unpack the TSV tarball
 tar -xvzf ${tsv_tarball} -C ${tsv_dir}
