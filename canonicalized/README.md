@@ -8,24 +8,34 @@ The Neo4j endpoint for KG2c is accessible at http://kg2canonicalized2.rtx.ai:747
 Example KG2c node:
 ```
 {
-  "id": "MONDO:0009433",
-  "name": "hypoplastic left heart syndrome 1",
+  "id": "MONDO:0000710",
+  "name": "gastroduodenal Crohn disease",
   "category": "biolink:Disease",
-  "iri": "http://purl.obolibrary.org/obo/MONDO_0009433",
-  "description": "Hypoplastic left heart syndrome results from defective development of the aorta proximal to the entrance of the ductus arteriosus...",
-  "all_categories": [
+  "iri": "http://purl.obolibrary.org/obo/MONDO_0000710",
+  "description": "An inflammatory bowel disease characterized by inflammation located_in stomach and located_in duodenum, has_symptom nausea, has_symptom vomiting, has_symptom weight loss and has_symptom loss of appetite.",
+    "all_categories": [
+    "biolink:Disease"
+  ],
+  "expanded_categories": [
+    "biolink:BiologicalEntity",
     "biolink:Disease",
+    "biolink:DiseaseOrPhenotypicFeature",
+    "biolink:NamedThing",
     "biolink:PhenotypicFeature"
   ],
-  "all_names": [
-    "hypoplastic left heart syndrome 1",
-    "HYPOPLASTIC LEFT HEART SYNDROME 1; HLHS1",
-    "Hypoplastic left heart syndrome 1"
-  ],
   "equivalent_curies": [
-    "UMLS:C4551854",
-    "OMIM:241550",
-    "MONDO:0009433"
+    "DOID:0060191",
+    "MONDO:0000710"
+  ],
+  "all_names": [
+    "gastroduodenal Crohn disease",
+    "gastroduodenal Crohn's disease"
+  ],
+  "publications": [
+    "PMID:12769447",
+    "http://en.wikipedia.org/wiki/crohn%27s_disease",
+    "http://www.bidmc.org/centers-and-departments/departments/digestive-disease-center/inflammatory-bowel-disease-program/crohns-disease/what-are-the-types-of-crohns-disease.aspx",
+    "http://www.ccfa.org/what-are-crohns-and-colitis/what-is-crohns-disease/types-of-crohns-disease.htm"
   ]
 }
 ```
