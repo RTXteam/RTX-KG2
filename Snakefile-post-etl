@@ -14,12 +14,13 @@ rule Merge:
         smpdb = config['SMPDB_OUTPUT_FILE'],
         hmdb = config['HMDB_OUTPUT_FILE'],
         go_annotations = config['GO_ANNOTATION_OUTPUT_FILE'],
-        reactome = config['REACTOME_OUTPUT_FILE']
+        reactome = config['REACTOME_OUTPUT_FILE'],
+        mirbase = config['MIRBASE_OUTPUT_FILE']
     output:
         full = config['FINAL_OUTPUT_FILE_FULL'],
         orph = config['OUTPUT_FILE_ORPHAN_EDGES']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/merge_graphs.py " + config['TEST_ARG'] + " --kgFileOrphanEdges {output.orph} --outputFile {output.full} {input.ont} {input.semmeddb} {input.uniprot} {input.ensembl} {input.unichem} {input.chembl} {input.ncbigene} {input.dgidb} {input.repodb} {input.smpdb} {input.drugbank} {input.hmdb} {input.go_annotations} {input.reactome} {input.kg_one}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/merge_graphs.py " + config['TEST_ARG'] + " --kgFileOrphanEdges {output.orph} --outputFile {output.full} {input.ont} {input.semmeddb} {input.uniprot} {input.ensembl} {input.unichem} {input.chembl} {input.ncbigene} {input.dgidb} {input.repodb} {input.smpdb} {input.drugbank} {input.hmdb} {input.go_annotations} {input.reactome} {input.mirbase} {input.kg_one}"
 
 rule Nodes:
     input:

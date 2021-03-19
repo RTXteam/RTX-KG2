@@ -200,6 +200,8 @@ use_for_bidirectional_mapping:
   -
     MI: http://purl.obolibrary.org/obo/MI_
   -
+    miRBase: "https://identifiers.org/mirbase:"
+  -
     miRGate: http://mirgate.bioinfo.cnio.es
   -
     MMO: http://purl.obolibrary.org/obo/MMO_
