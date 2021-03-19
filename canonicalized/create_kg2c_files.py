@@ -78,21 +78,23 @@ def _canonicalize_nodes(neo4j_nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Di
     curie_map = dict()
     canonicalized_nodes = dict()
     for neo4j_node in neo4j_nodes:
+        # Grab relevant info for this node and its canonical version
         canonical_info = canonicalized_info.get(neo4j_node['id'])
         canonicalized_curie = canonical_info.get('preferred_curie', neo4j_node['id']) if canonical_info else neo4j_node['id']
         publications = neo4j_node['publications'] if neo4j_node.get('publications') else []
-        description_in_list = [neo4j_node['description']] if neo4j_node.get('description') else []
+        descriptions_list = [neo4j_node['description']] if neo4j_node.get('description') else []
         if canonicalized_curie in canonicalized_nodes:
             # Merge this node into its corresponding canonical node
             existing_canonical_node = canonicalized_nodes[canonicalized_curie]
             existing_canonical_node['publications'] = _merge_two_lists(existing_canonical_node['publications'], publications)
             existing_canonical_node['all_names'] = _merge_two_lists(existing_canonical_node['all_names'], [neo4j_node['name']])
-            existing_canonical_node['description'] = _merge_two_lists(existing_canonical_node['description'], description_in_list)
+            existing_canonical_node['descriptions_list'] = _merge_two_lists(existing_canonical_node['descriptions_list'], descriptions_list)
             # Make sure any nodes subject to #1074-like problems still appear in equivalent curies
             existing_canonical_node['equivalent_curies'] = _merge_two_lists(existing_canonical_node['equivalent_curies'], [neo4j_node['id']])
-            # Add the IRI for the 'preferred' curie, if we've found that node
+            # Add the IRI and description for the 'preferred' curie, if we've found that node
             if neo4j_node['id'] == canonicalized_curie:
                 existing_canonical_node['iri'] = neo4j_node.get('iri')
+                existing_canonical_node['description'] = neo4j_node.get('description')
         else:
             # Initiate the canonical node for this synonym group
             name = canonical_info['preferred_name'] if canonical_info else neo4j_node['name']
@@ -102,6 +104,7 @@ def _canonicalize_nodes(neo4j_nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Di
             all_categories = list(canonical_info['all_categories']) if canonical_info else [neo4j_node['category']]
             expanded_categories = list(canonical_info['expanded_categories']) if canonical_info else [neo4j_node['category']]
             iri = neo4j_node['iri'] if neo4j_node['id'] == canonicalized_curie else None
+            description = neo4j_node.get('description') if neo4j_node['id'] == canonicalized_curie else None
             all_names = [neo4j_node['name']]
 
             # Check for bug where not all categories in synonymizer were of "biolink:PascalCase" format
@@ -120,7 +123,8 @@ def _canonicalize_nodes(neo4j_nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Di
                                               publications=publications,
                                               equivalent_curies=equivalent_curies_dict.get(canonicalized_curie, [canonicalized_curie]),
                                               iri=iri,
-                                              description=description_in_list,
+                                              description=description,
+                                              descriptions_list=descriptions_list,
                                               all_names=all_names)
             canonicalized_nodes[canonicalized_node['id']] = canonicalized_node
         curie_map[neo4j_node['id']] = canonicalized_curie  # Record this mapping for easy lookup later
@@ -177,7 +181,7 @@ def _modify_column_headers_for_neo4j(plain_column_headers: List[str], file_name_
 
 def _create_node(preferred_curie: str, name: Optional[str], category: str, all_categories: List[str], expanded_categories: List[str],
                  equivalent_curies: List[str], publications: List[str], all_names: List[str], iri: Optional[str],
-                 description: Union[str, List[str]]) -> Dict[str, any]:
+                 description: str, descriptions_list: List[str]) -> Dict[str, any]:
     assert isinstance(preferred_curie, str)
     assert isinstance(name, str) or name is None
     assert isinstance(category, str)
@@ -195,6 +199,7 @@ def _create_node(preferred_curie: str, name: Optional[str], category: str, all_c
         "expanded_categories": expanded_categories,
         "iri": iri,
         "description": description,
+        "descriptions_list": descriptions_list,
         "equivalent_curies": equivalent_curies,
         "publications": publications
     }
@@ -294,12 +299,6 @@ def create_kg2c_tsv_files(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
     for canonicalized_node in canonicalized_nodes_dict.values():
         for list_node_property in ARRAY_NODE_PROPERTIES:
             canonicalized_node[list_node_property] = _convert_list_to_neo4j_format(canonicalized_node[list_node_property])
-        # Grab the longest few descriptions and join them into one string
-        sorted_description_list = sorted(canonicalized_node['description'], key=len, reverse=True)
-        # Get rid of any redundant descriptions (e.g., duplicate 'UMLS Semantic Type: UMLS_STY:T060')
-        filtered_description_list = [description for description in sorted_description_list if not any(description in other_description
-                                     for other_description in sorted_description_list if description != other_description)]
-        canonicalized_node['description'] = " --- ".join(filtered_description_list[:3])
         canonicalized_node['node_labels'] = canonicalized_node['expanded_categories']
     for canonicalized_edge in canonicalized_edges_dict.values():
         if not is_test:  # Make sure we don't have any orphan edges
@@ -359,12 +358,22 @@ def create_kg2c_files(is_test=False):
                                        publications=[],
                                        iri=f"{kg2_build_node['iri']}c",
                                        all_names=[f"{kg2_build_node['name']}c"],
-                                       description=[f"This KG2c build was created from {kg2_build_node['name']} on "
-                                                    f"{datetime.now().strftime('%Y-%m-%d %H:%M')}."])
+                                       description=f"This KG2c build was created from {kg2_build_node['name']} on "
+                                                   f"{datetime.now().strftime('%Y-%m-%d %H:%M')}.",
+                                       descriptions_list=[])
         canonicalized_nodes_dict[kg2c_build_node['id']] = kg2c_build_node
     else:
         print(f"  WARNING: No build node detected in the regular KG2, so I'm not creating a KG2c build node.")
 
+    # Do some clean up of nodes/edges, now that all merging of nodes/edges id done
+    # Use one of the coalesced nodes' descriptions as the description if the 'preferred' curie didn't have one
+    for node_id, node in canonicalized_nodes_dict.items():
+        if not node['description']:
+            sorted_description_list = sorted(node['descriptions_list'], key=len, reverse=True)
+            # Cut out any super long descriptions
+            filtered_description_list = [description for description in sorted_description_list if len(description) < 10000]
+            node['description'] = filtered_description_list[0] if filtered_description_list else None
+        del node['descriptions_list']  # Don't need this anymore since we've now chosen the 'best' description
     # Convert our edge IDs to integers (to save space downstream) and add them as actual properties on the edges
     edge_num = 1
     for edge_id, edge in sorted(canonicalized_edges_dict.items()):
