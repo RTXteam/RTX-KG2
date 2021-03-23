@@ -15,7 +15,7 @@
       "password": "THIS_IS_NOT_A_VALID_PASSWORD"
     }
   },
-  "KG2C": {
+  "KG2c": {
     "neo4j": {
       "bolt": "bolt://kg2canonicalized.rtx.ai:7687",
       "database": "kg2canonicalized.rtx.ai:7474/db/data",

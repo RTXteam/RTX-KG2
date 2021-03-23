@@ -1,50 +1,62 @@
 # What is KG2canonicalized?
 
-KG2canonicalized (KG2c) is a lightweight version of KG2 in which synonymous nodes have been collapsed into one. It is built from the 'production' KG2 Neo4j endpoint and uses the [ARAX NodeSynonymizer](https://github.com/RTXteam/RTX/tree/master/code/ARAX/NodeSynonymizer) to determine which nodes are equivalent. 
+KG2canonicalized (KG2c) is a lightweight version of KG2 in which synonymous nodes have been merged. It is built from the regular KG2's Neo4j endpoint and uses the [ARAX NodeSynonymizer](https://github.com/RTXteam/RTX/tree/master/code/ARAX/NodeSynonymizer) to determine which nodes are equivalent. 
 
-The Neo4j endpoint for KG2c is accessible at http://kg2canonicalized.rtx.ai:7474/browser/ (contact the maintainer for username and password).
+The Neo4j endpoint for KG2c is accessible at http://kg2canonicalized2.rtx.ai:7474/browser/ (contact the maintainer for username and password).
 
 ### Schema
-Example KG2c node (all nodes have these same properties):
+Example KG2c node:
 ```
 {
-  "id": "CHEBI:134827",
-  "name": "apronal",
-  "preferred_type": "chemical_substance",
-  "types": [
-    "unknown_category",
-    "named_thing",
-    "chemical_substance"
+  "id": "MONDO:0000710",
+  "name": "gastroduodenal Crohn disease",
+  "category": "biolink:Disease",
+  "iri": "http://purl.obolibrary.org/obo/MONDO_0000710",
+  "description": "An inflammatory bowel disease characterized by inflammation located_in stomach and located_in duodenum, has_symptom nausea, has_symptom vomiting, has_symptom weight loss and has_symptom loss of appetite.",
+    "all_categories": [
+    "biolink:Disease"
+  ],
+  "expanded_categories": [
+    "biolink:BiologicalEntity",
+    "biolink:Disease",
+    "biolink:DiseaseOrPhenotypicFeature",
+    "biolink:NamedThing",
+    "biolink:PhenotypicFeature"
   ],
   "equivalent_curies": [
-    "CUI:C3652934",
-    "ATC:N05CM12",
-    "CHEBI:134827",
-    "CHEMBL.COMPOUND:CHEMBL509282"
+    "DOID:0060191",
+    "MONDO:0000710"
+  ],
+  "all_names": [
+    "gastroduodenal Crohn disease",
+    "gastroduodenal Crohn's disease"
   ],
   "publications": [
-    "PMID:18834112",
-    "PMID:15646539"
+    "PMID:12769447",
+    "http://en.wikipedia.org/wiki/crohn%27s_disease",
+    "http://www.bidmc.org/centers-and-departments/departments/digestive-disease-center/inflammatory-bowel-disease-program/crohns-disease/what-are-the-types-of-crohns-disease.aspx",
+    "http://www.ccfa.org/what-are-crohns-and-colitis/what-is-crohns-disease/types-of-crohns-disease.htm"
   ]
 }
 ```
-The node `id` is the 'preferred' curie for the group of synonymous nodes this KG2c node represents (according to the ARAX `NodeSynonymizer`).
+The node `id` is the 'preferred' curie for the group of synonymous nodes this KG2c node represents (according to the ARAX `NodeSynonymizer`). Similarly, the node `category` and `name` are the 'preferred' category/name, according to the `NodeSynonymizer`.
 
-Example KG2c edge (all edges have these same properties):
+Example KG2c edge:
 ```
 {
-  "subject": "CHEBI:24433",
-  "object": "CUI:C0599078",
-  "simplified_edge_label": "has_input",
+  "subject": "UMLS:C0180600",
+  "object": "MONDO:0000001",
+  "predicate": "treats",
   "provided_by": [
-    "https://skr3.nlm.nih.gov/SemMedDB"
+    "SEMMEDDB:"
   ],
   "publications": [
-    "PMID:3798018"
+    "PMID:14477543",
+    "PMID:4266234"
   ]
 }
 ```
-In creating KG2c, edges from the regular KG2 are remapped to use only 'preferred' curies for their `subject` and `object`; edges with the same `subject`, `object`, and `simplified_edge_label` are then merged.
+In creating KG2c, edges from the regular KG2 are remapped to use only 'preferred' curies for their `subject` and `object`; edges with the same `subject`, `object`, and `predicate` are then merged.
 
 # How to create it
 
@@ -64,12 +76,12 @@ sudo apt-get install -y awscli
 aws configure
 ```
 
-(4) Build KG2canonicalized (should take less than 2 hours):
+(4) Build KG2c (should take around 4 hours):
 ```
 cd ~/RTX/code/kg2/canonicalized/
-bash -x build-kg2-canonicalized.sh
+bash -x build-kg2c.sh
 ```
-This produces TSV files containing the data (formatted for Neo4j import) and uploads them to the KG2 S3 bucket.
+This produces TSV files containing the KG (formatted for Neo4j import) and uploads them to the KG2 S3 bucket. It requires around 80GB of RAM.
 
 ### Host KG2canonicalized in Neo4j
 
@@ -86,7 +98,7 @@ git clone https://github.com/RTXteam/RTX.git
 bash -x RTX/code/kg2/setup-kg2-neo4j.sh
 ```
 
-(3) Load the latest KG2canonicalized into Neo4j
+(3) Load the latest KG2c into Neo4j
 ```
 bash -x RTX/code/kg2/canonicalized/tsv-to-neo4j-canonicalized.sh
 ```
