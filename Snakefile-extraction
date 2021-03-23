@@ -1,6 +1,6 @@
 rule UMLS:
     input:
-        config['BUILD_DIR'] + "/validation-placeholder.empty"
+        config['VALIDATION_PLACEHOLDER']
     output:
         config['BUILD_DIR'] + "/umls-placeholder.empty"
     log:
@@ -10,7 +10,7 @@ rule UMLS:
 
 rule UniprotKB:
     input:
-        config['BUILD_DIR'] + "/validation-placeholder.empty"
+        config['VALIDATION_PLACEHOLDER']
     output:
         config['UNIPROTKB_DAT_FILE']
     log:
@@ -20,7 +20,7 @@ rule UniprotKB:
 
 rule Ensembl:
     input:
-        config['BUILD_DIR'] + "/validation-placeholder.empty"
+        config['VALIDATION_PLACEHOLDER']
     output:
         config['ENSEMBL_SOURCE_JSON_FILE']
     log:
@@ -30,7 +30,7 @@ rule Ensembl:
 
 rule UniChem:
     input:
-        config['BUILD_DIR'] + "/validation-placeholder.empty"
+        config['VALIDATION_PLACEHOLDER']
     output:
         config['UNICHEM_OUTPUT_TSV_FILE']
     log:
@@ -40,7 +40,7 @@ rule UniChem:
 
 rule ChemBL:
     input:
-        config['BUILD_DIR'] + "/validation-placeholder.empty"
+        config['VALIDATION_PLACEHOLDER']
     output:
         placeholder = config['BUILD_DIR'] + "/chembl-placeholder.empty"
     log:
@@ -50,7 +50,7 @@ rule ChemBL:
 
 rule NCBIGene:
     input:
-        config['BUILD_DIR'] + "/validation-placeholder.empty"
+        config['VALIDATION_PLACEHOLDER']
     output:
         config['NCBI_GENE_TSV_FILE']
     log:
@@ -60,7 +60,7 @@ rule NCBIGene:
 
 rule DGIDB:
     input:
-        config['BUILD_DIR'] + "/validation-placeholder.empty"
+        config['VALIDATION_PLACEHOLDER']
     output:
         config['DGIDB_DIR'] + "/interactions.tsv"
     log:
@@ -70,7 +70,7 @@ rule DGIDB:
 
 rule RepoDB:
     input:
-        config['BUILD_DIR'] + "/validation-placeholder.empty"
+        config['VALIDATION_PLACEHOLDER']
     output:
         config['REPODB_INPUT_FILE']
     log:
@@ -80,7 +80,7 @@ rule RepoDB:
 
 rule SMPDB:
     input:
-        config['BUILD_DIR'] + "/validation-placeholder.empty"
+        config['VALIDATION_PLACEHOLDER']
     output:
         config['SMPDB_INPUT_FILE']
     log:
@@ -90,7 +90,7 @@ rule SMPDB:
 
 rule DrugBank:
     input:
-        config['BUILD_DIR'] + "/validation-placeholder.empty"
+        config['VALIDATION_PLACEHOLDER']
     output:
         config['DRUGBANK_INPUT_FILE']
     log:
@@ -100,7 +100,7 @@ rule DrugBank:
 
 rule HMDB:
     input:
-        config['BUILD_DIR'] + "/validation-placeholder.empty"
+        config['VALIDATION_PLACEHOLDER']
     output:
         config['HMDB_INPUT_FILE']
     log:
@@ -110,7 +110,7 @@ rule HMDB:
 
 rule GO_Annotations:
     input:
-        config['BUILD_DIR'] + "/validation-placeholder.empty"
+        config['VALIDATION_PLACEHOLDER']
     output:
         config['GO_ANNOTATION_INPUT_FILE']
     log:
@@ -120,7 +120,7 @@ rule GO_Annotations:
 
 rule Reactome:
     input:
-        config['BUILD_DIR'] + "/validation-placeholder.empty"
+        config['VALIDATION_PLACEHOLDER']
     output:
         placeholder = config['BUILD_DIR'] + "/reactome-placeholder.empty"
     log:
@@ -130,7 +130,7 @@ rule Reactome:
 
 rule miRBase:
     input:
-        config['BUILD_DIR'] + "/validation-placeholder.empty"
+        config['VALIDATION_PLACEHOLDER']
     output:
         config['MIRBASE_INPUT_FILE']
     log:
