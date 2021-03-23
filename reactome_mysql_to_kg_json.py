@@ -111,7 +111,7 @@ def match_name_to_prefix(name: str):
                         'ComplexPortal': None,
                         'EC': None,
                         'ClinGen': None,
-                        'miRBase': 'miRBase',
+                        'miRBase': kg2_util.CURIE_PREFIX_MIRBASE,
                         'PRF': None,
                         'IUPHAR': None,
                         'PubChem': None,
