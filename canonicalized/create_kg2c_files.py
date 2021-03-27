@@ -52,7 +52,6 @@ def _convert_list_to_neo4j_format(input_list: List[str]) -> str:
     if non_str_items:
         print(f"  WARNING: List contains non-str items (this is unexpected; I'll exclude them): {non_str_items}")
     str_items = [item for item in filtered_list if isinstance(item, str)]
-    str_items.sort()
     return "ǂ".join(str_items)  # Need to use a delimiter that does not appear in any list items
 
 
@@ -374,11 +373,17 @@ def create_kg2c_files(is_test=False):
             filtered_description_list = [description for description in sorted_description_list if len(description) < 10000]
             node['description'] = filtered_description_list[0] if filtered_description_list else None
         del node['descriptions_list']  # Don't need this anymore since we've now chosen the 'best' description
+        # Sort all of our list properties (nicer for users that way)
+        for array_property_name in ARRAY_NODE_PROPERTIES:
+            node[array_property_name].sort()
     # Convert our edge IDs to integers (to save space downstream) and add them as actual properties on the edges
     edge_num = 1
     for edge_id, edge in sorted(canonicalized_edges_dict.items()):
         edge["id"] = edge_num
         edge_num += 1
+        # Sort all of our list properties (nicer for users that way)
+        for array_property_name in ARRAY_EDGE_PROPERTIES:
+            edge[array_property_name].sort()
 
     # Actually create all of our output files (different formats for storing KG2c)
     create_kg2c_lite_json_file(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
