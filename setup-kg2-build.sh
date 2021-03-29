@@ -19,6 +19,8 @@ source ${config_dir}/master-config.shinc
 mysql_user=ubuntu
 mysql_password=1337
 
+psql_user=ubuntu
+
 mkdir -p ${BUILD_DIR}
 setup_log_file=${BUILD_DIR}/setup-kg2-build.log
 
@@ -124,6 +126,14 @@ EOF
 ## set mysql server variable to allow loading data from a local file
 mysql --defaults-extra-file=${mysql_conf} \
       -e "set global local_infile=1"
+
+## setup PostGreSQL
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo apt-get update
+sudo apt-get -y install postgresql
+sudo -u postgres createuser ${psql_user}
+sudo -u postgres -c "ALTER USER ${psql_user} WITH password null"
 
 date
 
