@@ -1326,6 +1326,10 @@ IDO:0000664:
   invert:
   - contributes_to
   - biolink:contributes_to
+JensenLab:associated_with:
+  rename:
+  - gene_associated_with_condition
+  - biolink:gene_associated_with_condition
 LOINC:adjustment_of:
   delete: null
 LOINC:analyzed_by:

@@ -65,10 +65,13 @@ go_annotation_input_file: ${BUILD_DIR}/goa_human.gpa
 go_annotation_output_file: ${BUILD_DIR}/kg2-go-annotation${test_suffix}.json
 
 reactome_mysql_dbname: reactome
-reactome_input_file: ${BUILD_DIR}/kg2-reactome.json
+reactome_output_file: ${BUILD_DIR}/kg2-reactome.json
 
 mirbase_input_file: ${BUILD_DIR}/miRNA.dat
 mirbase_output_file: ${BUILD_DIR}/kg2-mirbase${test_suffix}.json
+
+jensenlab_dir: ${BUILD_DIR}/jensenlab/
+jensenlab_output_file: ${BUILD_DIR}/kg2-jensenlab${test_suffix}.json
 
 kg1_output_file: ${BUILD_DIR}/kg2-rtx-kg1${test_suffix}.json
 

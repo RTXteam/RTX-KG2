@@ -137,3 +137,13 @@ rule miRBase:
         config['BUILD_DIR'] + "/extract-mirbase" + config['TEST_SUFFIX'] + ".log"
     shell:
         "bash -x " + config['CODE_DIR'] + "/extract-mirbase.sh {output} > {log} 2>&1"
+
+rule JensenLab:
+    input:
+        config['BUILD_DIR'] + "/validation-placeholder.empty"
+    output:
+        placeholder = config['BUILD_DIR'] + "/jensenlab-placeholder.empty"
+    log:
+        config['BUILD_DIR'] + "/extract-jensenlab" + config['TEST_SUFFIX'] + ".log"
+    shell:
+        "bash -x " + config['CODE_DIR'] + "/extract-jensenlab.sh > {log} 2>&1 && touch {output.placeholder}"

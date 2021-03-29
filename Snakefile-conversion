@@ -156,3 +156,12 @@ rule miRBase_Conversion:
         config['MIRBASE_OUTPUT_FILE']
     shell:
         config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/mirbase_dat_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output}"
+
+rule Jensenlab_Conversion:
+    input:
+        real = config['JENSENLAB_DIR'],
+        placeholder = config['BUILD_DIR'] + "/jensenlab-placeholder.empty"
+    output:
+        config['JENSENLAB_OUTPUT_FILE']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/jensenlab_tsv_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output}"

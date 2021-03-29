@@ -26,17 +26,11 @@ __status__ = 'Prototype'
 
 csv.field_size_limit(sys.maxsize)
 
-#SMPDB_BASE_IRI = kg2_util.BASE_URL_SMPDB
-#SMPDB_KB_IRI = kg2_util.BASE_URL_IDENTIFIERS_ORG_REGISTRY + "smpdb"
-#SMPDB_PROVIDED_BY_CURIE_ID = kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY \
-#                                + ":smpdb"
-
-JENSEN_LAB_PROVIDED_BY_CURIE_ID = "JensenLab:"
-
-#regex from https://www.uniprot.org/help/accession_numbers
-REGEX_UNIPROT_ID = re.compile(r'^[P,Q,O][0-9][A-Z0-9][A-Z0-9][A-Z0-9][0-9]$')
-#regex from multi_ont_to_kg_json.py
-REGEX_ENSEMBL_ID = re.compile('ENS[A-Z]{0,3}([PG])[0-9]{11}')
+# for now, just using HGNC gene ids to keep the size of this etl managable.
+# regex from https://www.uniprot.org/help/accession_numbers
+# REGEX_UNIPROT_ID = re.compile(r'^[P,Q,O][0-9][A-Z0-9][A-Z0-9][A-Z0-9][0-9]$')
+# regex from multi_ont_to_kg_json.py
+# REGEX_ENSEMBL_ID = re.compile('ENS[A-Z]{0,3}([PG])[0-9]{11}')
 
 def get_args():
     arg_parser = argparse.ArgumentParser(description='jensenlab_tsv_to_kg_json.py: \
@@ -97,6 +91,7 @@ def make_disease_pmids_dict(filename:str) -> Dict[str,set]:
 def _reformat_id(id:str):
     if "HGNC" in id:
         return id; # HGNC ids are already formatted the same as KG2 nodes
+    # for now, just using HGNC gene ids to keep the size of this etl managable.
     #uniprot_match = REGEX_UNIPROT_ID.match(id)
     #if uniprot_match is not None:
     #    return "UniProtKB:"+id
@@ -169,6 +164,16 @@ if __name__ == '__main__':
 
     edge_list = make_edges(edges_tsv_file, gene_id_dict, pmids_dict, args.test)
     print(f"Added {len(edge_list)} edges.")
-    graph = {'nodes': [],
+    nodes = []
+    update_date = datetime.datetime.now().replace(microsecond=0).isoformat()
+    jensen_lab_source_node = kg2_util.make_node(kg2_util.CURIE_ID_JENSENLAB,
+                                                kg2_util.BASE_URL_JENSENLAB,
+                                                "Jensen Lab Disease Gene Associations",
+                                                kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                                                update_date,
+                                                kg2_util.CURIE_ID_JENSENLAB)
+                                        
+    nodes.append(jensen_lab_source_node)
+    graph = {'nodes': nodes,
              'edges': edge_list}
     kg2_util.save_json(graph, args.outputFile, args.test)
