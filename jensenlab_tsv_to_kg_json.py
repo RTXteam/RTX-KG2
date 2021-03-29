@@ -97,15 +97,15 @@ def make_disease_pmids_dict(filename:str) -> Dict[str,set]:
 def _reformat_id(id:str):
     if "HGNC" in id:
         return id; # HGNC ids are already formatted the same as KG2 nodes
-    uniprot_match = REGEX_UNIPROT_ID.match(id)
-    if uniprot_match is not None:
-        return "UniProtKB:"+id
-    ensembl_match = REGEX_ENSEMBL_ID.match(id)
-    if ensembl_match is not None:
-        return "ENSEMBL:"+id
+    #uniprot_match = REGEX_UNIPROT_ID.match(id)
+    #if uniprot_match is not None:
+    #    return "UniProtKB:"+id
+    #ensembl_match = REGEX_ENSEMBL_ID.match(id)
+    #if ensembl_match is not None:
+    #    return "ENSEMBL:"+id
     return None 
     
-def make_edges(input_tsv:str, gene_id_dict:Dict[str,list], pmids_dict:Dict[str,Dict[str,set]]) -> list:
+def make_edges(input_tsv:str, gene_id_dict:Dict[str,list], pmids_dict:Dict[str,Dict[str,set]], test_mode: bool) -> list:
     gene_ids_actually_used = set()
     update_date = datetime.datetime.now().replace(microsecond=0).isoformat()
     with open(input_tsv) as inp:
@@ -122,7 +122,9 @@ def make_edges(input_tsv:str, gene_id_dict:Dict[str,list], pmids_dict:Dict[str,D
             gene_ids_actually_used.add(gene_id)
             kg2_gene_id_list = gene_id_dict.get(gene_id, None)
             if kg2_gene_id_list is None:
-                print(f"Missing kg2 equivalent gene ids for {gene_id}. Skipping")
+                # print(f"Missing kg2 equivalent gene ids for {gene_id}. Skipping")
+                continue
+            if float(z_score) < 2.0:
                 continue
             for kg2_gene_id in kg2_gene_id_list:
                 if pmids_dict['disease'].get(disease_id, None) is None:
@@ -144,6 +146,8 @@ def make_edges(input_tsv:str, gene_id_dict:Dict[str,list], pmids_dict:Dict[str,D
                 edge["publications"] = publications_list
                 edge["publications_info"] = publications_info
                 edges.append(edge)
+            if test_mode and len(gene_ids_actually_used) > 1000:
+                break
         
     used_genes_missing_ids = gene_ids_actually_used - set(gene_id_dict.keys())
     print(f"Skipped {len(used_genes_missing_ids)} rows for lack of kg2 gene ids.")
@@ -163,7 +167,7 @@ if __name__ == '__main__':
     pmids_dict = { "gene": gene_pmids_dict,
                    "disease" : disease_pmids_dict }    
 
-    edge_list = make_edges(edges_tsv_file, gene_id_dict, pmids_dict)
+    edge_list = make_edges(edges_tsv_file, gene_id_dict, pmids_dict, args.test)
     print(f"Added {len(edge_list)} edges.")
     graph = {'nodes': [],
              'edges': edge_list}
