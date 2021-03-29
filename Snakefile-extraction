@@ -137,3 +137,13 @@ rule miRBase:
         config['BUILD_DIR'] + "/extract-mirbase" + config['TEST_SUFFIX'] + ".log"
     shell:
         "bash -x " + config['CODE_DIR'] + "/extract-mirbase.sh {output} > {log} 2>&1"
+
+rule DrugCentral:
+    input:
+        config['VALIDATION_PLACEHOLDER']
+    output:
+        config['DRUGCENTRAL_INPUT_FILE']
+    log:
+        config['BUILD_DIR'] + "/extract-drugcentral" + config['TEST_SUFFIX'] + ".log"
+    shell:
+        "bash -x " + config['CODE_DIR'] + "/extract-drugcentral.sh {output} " + config['DRUGCENTRAL_DIR'] + " > {log} 2>&1"
