@@ -75,8 +75,9 @@ git clone https://github.com/RTXteam/RTX.git
 sudo apt-get install -y awscli
 aws configure
 ```
+(4) Make sure that the `KG2` slot in your local copy of `configv2.json` is pointing to the correct KG2 Neo4j endpoint that you want to build this KG2c from (e.g., `http://kg2endpoint-kg2-5-2.rtx.ai/`)
 
-(4) Build KG2c (should take around 4 hours):
+(5) Build KG2c (should take around 4 hours):
 ```
 cd ~/RTX/code/kg2/canonicalized/
 bash -x build-kg2c.sh

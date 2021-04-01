@@ -114,7 +114,6 @@ def format_xref(xref: str):
     return None
 
 
-
 def make_nodes(entries, test_mode):
     nodes = []
     all_xrefs = dict()
@@ -156,13 +155,14 @@ def make_nodes(entries, test_mode):
 
 def make_edges(xrefs, nodes_to_species, test_mode):
     edges = []
-    edge_count = 0  
+    edge_count = 0
     for node_id in xrefs:
         edge_count += 1
         if test_mode and edge_count > 1000:
             break
         for xref_id in xrefs[node_id]:
-            if xref_id.startswith(CURIE_PREFIX_HGNC) or xref_id.startswith(CURIE_PREFIX_NCBI_GENE):
+            if xref_id.startswith(CURIE_PREFIX_HGNC) or \
+               xref_id.startswith(CURIE_PREFIX_NCBI_GENE):
                 edge = kg2_util.make_edge_biolink(node_id,
                                                   xref_id,
                                                   kg2_util.EDGE_LABEL_BIOLINK_SAME_AS,
