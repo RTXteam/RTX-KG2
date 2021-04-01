@@ -636,8 +636,8 @@ DrugCentral:contraindication:
   - biolink:contraindicated_for
 DrugCentral:diagnosis: # A drug that helps diagnose a condition
   rename:
-  -
-  -
+  - related_to
+  - biolink:related_to
 DrugCentral:gating_inhibitor:
   rename:
   - decreases_activity_of
