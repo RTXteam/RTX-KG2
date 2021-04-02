@@ -590,6 +590,130 @@ DRUGBANK:target:
   rename:
   - physically_interacts_with
   - biolink:physically_interacts_with
+DrugCentral:PA: # PA stands for "Pharmacological Action"
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+DrugCentral:activator:
+  rename:
+  - positively_regulates
+  - biolink:positively_regulates
+DrugCentral:agonist:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DrugCentral:allosteric_antagonist:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DrugCentral:allosteric_modulator:
+  rename:
+  - affects_activity_of
+  - biolink:affects_activity_of
+DrugCentral:antagonist:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DrugCentral:antibody_binding:
+  rename:
+  - molecularly_interacts_with
+  - biolink:molecularly_interacts_with
+DrugCentral:antisense_inhibitor:
+  rename:
+  - decreases_expression_of
+  - biolink:decreases_expression_of
+DrugCentral:binding_agent:
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+DrugCentral:blocker:
+  rename:
+  - negatively_regulates
+  - biolink:negatively_regulates
+DrugCentral:contraindication:
+  rename:
+  - contraindicated_for
+  - biolink:contraindicated_for
+DrugCentral:diagnosis: # A drug that helps diagnose a condition
+  rename:
+  - related_to
+  - biolink:related_to
+DrugCentral:gating_inhibitor:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DrugCentral:has_faers:
+  rename:
+  - causes_adverse_event
+  - biolink:causes_adverse_event
+DrugCentral:has_role:
+  rename:
+  - related_to
+  - biolink:related_to
+DrugCentral:indication:
+  rename:
+  - treats
+  - biolink:treats
+DrugCentral:inhibitor:
+  rename:
+  - negatively_regulates
+  - biolink:negatively_regulates
+DrugCentral:inverse_agonist:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DrugCentral:modulator:
+  rename:
+  - regulates
+  - biolink:regulates
+DrugCentral:negative_allosteric_modulator:
+  rename:
+  - negatively_regulates
+  - biolink:negatively_regulates
+DrugCentral:negative_modulator:
+  rename:
+  - negatively_regulates
+  - biolink:negatively_regulates
+DrugCentral:off-label_use:
+  rename:
+  - treats
+  - biolink:treats
+DrugCentral:opener:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DrugCentral:partial_agonist:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DrugCentral:pharmacological_chaperone:
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+DrugCentral:positive_allosteric_modulator:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DrugCentral:postive_modulator:
+  rename:
+  - positively_regulates
+  - biolink:positively_regulates
+DrugCentral:reduce_risk:
+  rename:
+  - prevents
+  - biolink:prevents
+DrugCentral:releasing_agent:
+  rename:
+  - increases_expression_of
+  - biolink:increases_expression_of
+DrugCentral:substrate:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+DrugCentral:symptomatic_treatment:
+  rename:
+  - treats
+  - biolink:treats
 EFO:0000784:
   rename:
   - located_in

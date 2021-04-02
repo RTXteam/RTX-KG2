@@ -33,7 +33,7 @@ else
     test_prefix=""
 fi
 
-tsv_tarball_base=kg2-canonicalized-tsv${test_arg}.tar.gz
+tsv_tarball_base=kg2c-tsv${test_arg}.tar.gz
 tsv_tarball=${tsv_dir}/${tsv_tarball_base}
 
 echo "copying RTX Configuration JSON file from S3"
@@ -99,6 +99,12 @@ sudo service neo4j restart
 sudo sed -i '/dbms.read_only/c\dbms.read_only=true' ${neo4j_config}
 
 sudo service neo4j restart
+
+# create a neo4j dump file for use downstream in building the DTD database
+sudo service neo4j stop
+dump_name=kg2c.dump
+sudo neo4j-admin dump --database=graph.db --to=${BUILD_DIR}/${dump_name}
+sudo service neo4j start
 
 date
 echo "================ script finished ============================"

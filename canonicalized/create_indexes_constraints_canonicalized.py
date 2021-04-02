@@ -107,7 +107,7 @@ if __name__ == '__main__':
 
     # Create Indexes on Node Properties
     create_index(node_label_list, "name")
-    create_index(node_label_list, "preferred_type")
+    create_index(node_label_list, "category")
 
     constraint(node_label_list)
     driver.close()
