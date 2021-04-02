@@ -9,7 +9,6 @@ import csv
 import sys
 import re
 import kg2_util
-# import os
 import argparse
 import datetime
 from collections import defaultdict
@@ -153,9 +152,9 @@ if __name__ == '__main__':
     args = get_args()
     human_names_file = f"{args.inputDirectory}/human_dictionary/human_names.tsv" 
     human_entities_file = f"{args.inputDirectory}/human_dictionary/human_entities.tsv" 
-    edges_tsv_file = f"{args.inputDirectory}human_disease_textmining_full.tsv"
-    gene_publications_file = f"{args.inputDirectory}gene_pmids.tsv"
-    disease_publications_file = f"{args.inputDirectory}disease_pmids.tsv"
+    edges_tsv_file = f"{args.inputDirectory}/human_disease_textmining_full.tsv"
+    gene_publications_file = f"{args.inputDirectory}/gene_pmids.tsv"
+    disease_publications_file = f"{args.inputDirectory}/disease_pmids.tsv"
     gene_id_dict = make_gene_id_dictionary(human_names_file, human_entities_file)
     gene_pmids_dict = make_gene_pmids_dict(set(gene_id_dict.keys()), gene_publications_file)
     disease_pmids_dict = make_disease_pmids_dict(disease_publications_file)
