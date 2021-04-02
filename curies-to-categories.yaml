@@ -14,7 +14,6 @@ prefix-mappings:
     HGNC: gene
     IAO: information content entity
     ICD10: disease
-    LOINC: procedure
     MGI: gene
     MI: information content entity
     NCBIGene: gene
@@ -347,7 +346,7 @@ term-mappings:
     UMLS_STY:T114: chemical substance
     UMLS_STY:T116: protein
     UMLS_STY:T120: chemical substance
-    UMLS_STY:T121: chemical substance
+    UMLS_STY:T121: drug
     UMLS_STY:T122: chemical substance
     UMLS_STY:T123: chemical substance
     UMLS_STY:T125: chemical substance
