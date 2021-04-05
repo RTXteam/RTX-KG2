@@ -146,9 +146,12 @@ def make_node(drug: dict):
     publications = get_publications(drug["general-references"])
     #smiles = get_SMILES(drug.get('calculated-properties', None)) # Per Issue #1273, if desired down the road
     node = None
+    description = drug["description"]
+    if description is not None:
+        description = description.replace('\n', ' ').replace('\r', ' ')
     if len(drugbank_id) > 0:
         node = format_node(drugbank_id=drugbank_id,
-                           description=drug["description"],
+                           description=description,
                            name=drug["name"],
                            update_date=drug["@updated"],
                            synonyms=synonyms,
