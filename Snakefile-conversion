@@ -174,3 +174,12 @@ rule DrugCentral_Conversion:
         config['DRUGCENTRAL_OUTPUT_FILE']
     shell:
         config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/drugcentral_json_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output}"
+
+rule IntAct_Conversion:
+    input:
+        real = config['INTACT_INPUT_FILE'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['INTACT_OUTPUT_FILE']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/intact_tsv_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output}"
