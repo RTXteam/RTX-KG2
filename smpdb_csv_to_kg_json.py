@@ -381,7 +381,7 @@ def per_nucleic_acid_nodes_and_edges(nucl_acid: dict, pw_id: str, date):
     edges = []
 
     name = nucl_acid["name"]
-    category_label = kg2_util.BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE
+    category_label = kg2_util.BIOLINK_CATEGORY_GENOMIC_ENTITY
     iri = PW_BASE_NUCLEIC_ACIDS_IRI + pwna_id
     node_curie = kg2_util.CURIE_PREFIX_PATHWHIZ_NUCLEIC_ACID + ":" + pwna_id
     node = kg2_util.make_node(node_curie,

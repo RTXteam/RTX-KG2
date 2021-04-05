@@ -80,6 +80,8 @@ use_for_bidirectional_mapping:
   -
     DRUGBANK: "https://identifiers.org/drugbank:"
   -
+    DrugCentral: https://drugcentral.org/drugcard/
+  -
     ECO: http://purl.obolibrary.org/obo/ECO_
   -
     ECOCORE: http://purl.obolibrary.org/obo/ECOCORE_
@@ -175,6 +177,8 @@ use_for_bidirectional_mapping:
     IDO: http://purl.obolibrary.org/obo/IDO_
   -
     ISBN: https://isbnsearch.org/isbn/
+  -
+    JensenLab: "https://diseases.jensenlab.org/"
   -
     KEGG: "https://www.genome.jp/dbget-bin/www_bget?"
   -

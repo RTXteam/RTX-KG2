@@ -65,10 +65,17 @@ go_annotation_input_file: ${BUILD_DIR}/goa_human.gpa
 go_annotation_output_file: ${BUILD_DIR}/kg2-go-annotation${test_suffix}.json
 
 reactome_mysql_dbname: reactome
-reactome_input_file: ${BUILD_DIR}/kg2-reactome.json
+reactome_output_file: ${BUILD_DIR}/kg2-reactome.json
 
 mirbase_input_file: ${BUILD_DIR}/miRNA.dat
 mirbase_output_file: ${BUILD_DIR}/kg2-mirbase${test_suffix}.json
+
+jensenlab_dir: ${BUILD_DIR}/jensenlab
+jensenlab_output_file: ${BUILD_DIR}/kg2-jensenlab${test_suffix}.json
+
+drugcentral_dir: ${BUILD_DIR}/drugcentral
+drugcentral_input_file: ${drugcentral_dir}/drugcentral_psql_json.json
+drugcentral_output_file: ${BUILD_DIR}/kg2-drugcentral${test_suffix}.json
 
 kg1_output_file: ${BUILD_DIR}/kg2-rtx-kg1${test_suffix}.json
 
@@ -76,3 +83,5 @@ kg2_tsv_dir: ${BUILD_DIR}/TSV
 kg2_tsv_tarball: ${BUILD_DIR}/kg2-tsv-for-neo4j${test_suffix}.tar.gz
 
 version_file: ${BUILD_DIR}/kg2-version.txt
+
+validation_placeholder: ${BUILD_DIR}/validation-placeholder.empty

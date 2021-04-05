@@ -111,7 +111,7 @@ def match_name_to_prefix(name: str):
                         'ComplexPortal': None,
                         'EC': None,
                         'ClinGen': None,
-                        'miRBase': 'miRBase',
+                        'miRBase': kg2_util.CURIE_PREFIX_MIRBASE,
                         'PRF': None,
                         'IUPHAR': None,
                         'PubChem': None,
@@ -930,6 +930,14 @@ if __name__ == '__main__':
 
     nodes = get_nodes(connection, args.test)
     edges = get_edges(connection, args.test)
+
+    kp_node = kg2_util.make_node(REACTOME_KB_CURIE_ID,
+                                 REACTOME_KB_IRI,
+                                 'Reactome',
+                                 kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                                 None,
+                                 REACTOME_KB_CURIE_ID)
+    nodes.append(kp_node)
 
     graph = {'nodes': nodes,
              'edges': edges}
