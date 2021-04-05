@@ -744,7 +744,9 @@ This file should be inspected as a part of the post-build quality assessment pro
 The file `kg2.json` is an intermediate file that is probably only of use to KG2
 developers.  The file `kg2-simplified.json` is a key artifact of the build
 process that feeds into several downstream artifacts and may be of direct use to
-application developers. The `kg2-simplified.json` JSON data structure is a
+application developers. Newlines, carriage returns, linefeed characters, or hard
+tabs are not allowed in any string property or in any string scalar within a
+list property in KG2. The `kg2-simplified.json` JSON data structure is a
 name-value pair object (i.e., dictionary) with the following keys:
 
 ## `build` slot
