@@ -161,10 +161,11 @@ running **Ubuntu 18.04**.  Your build environment should have the following
 
 ## The KG2 build system assumes there is no MySQL database already present
 
-The target Ubuntu system in which you will run the KG2 build should *not* have MySQL
-installed; if MySQL is installed, you will need to delete it using the following
-`bash` command, which requires `curl`: (WARNING! Please don't run this command
-without first making a backup image of your system, such as an AMI):
+The target Ubuntu system in which you will run the KG2 build should *not* have
+MySQL installed; if MySQL is already installed, you will need to delete it,
+which you can do using the following `bash` command, which requires `curl`:
+(WARNING! Please don't run this command without first making a backup image of
+your system, such as an AMI):
 
     source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/delete-mysql-ubuntu.sh)
 
