@@ -1766,6 +1766,166 @@ MESH:mapped_to:
   - biolink:related_to
 MESH:mapping_qualifier_of:
   delete: null
+MI:0192: # acetylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0194: # cleavage reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0195: # covalent bonding
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0197: # deacetylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0203: # dephosphorylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0204: # deubiquitination reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0210: # hydroxylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0211: # lipid addition
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0212: # lipoprotein cleavage reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0213: # methylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0214: # myristoylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0216: # palmitoylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0217: # phosphorylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0220: # ubiquitination reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0403: # colocalization
+  rename:
+  - colocalizes_with
+  - biolink:colocalizes_with
+MI:0407: # direct interaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0408: # disulfide bond
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0414: # enzymatic reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0556: # transglutamination reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0557: # adp_ribosylation_reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0559: # glycosylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0566: # sumoylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0567: # neddylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0569: # deneddylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0570: # protein cleavage
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0572: # dna cleavage
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0844: # phosphotransfer reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0871: # demethylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0882: # atpase reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0883: # gtpase reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0902: # rna reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0914: # association
+  rename:
+  - interacts_with
+  - biolink:interacts_with
+MI:0915: # physical associaiton
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+MI:0945: # oxidoreductase activity electron transfer reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:1126: # self interaction
+  rename:
+  - interacts_with
+  - biolink:interacts_with
+MI:1127: # putative self interaction
+  rename:
+  - interacts_with
+  - biolink:interacts_with
+MI:1148: # ampylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:1237: # proline isomerization reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:1310: # de-ADP-ribosylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:2364: # proximity
+  rename:
+  - colocalizes_with
+  - biolink:colocalizes_with
 MONDO:disease_causes_feature:
   rename:
   - causes
