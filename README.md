@@ -788,7 +788,12 @@ the following keys:
   - `synonym`: a list of strings with synonyms for the node; if the node is a
   gene, the first entry in the list should be the official gene symbol; other
   types of information can for certain node types be found in this list, such as
-  protein sequence information for UniProt protein nodes.
+  protein sequence information for UniProt protein nodes. The entries in the
+  node synonym property (which is of type list) are not guaranteed to be `id`
+  fields of actual nodes in KG2. Also, they are not comprehensive; if node Y is
+  related to node X by a `biolink:same_as` relation type, there is no guarantee
+  that Y will be in the synonym property list for X (in most cases, it won't
+  be). 
   - `update date`: a string identifier of the date in which the information for
   this node object was last updated in the upstream source database; it has (at
   present) no consitent format, unfortunately; it is usually not `null`.
