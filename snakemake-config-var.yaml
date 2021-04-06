@@ -77,6 +77,9 @@ drugcentral_dir: ${BUILD_DIR}/drugcentral
 drugcentral_input_file: ${drugcentral_dir}/drugcentral_psql_json.json
 drugcentral_output_file: ${BUILD_DIR}/kg2-drugcentral${test_suffix}.json
 
+intact_input_file: ${BUILD_DIR}/intact.txt
+intact_output_file: ${BUILD_DIR}/kg2-intact${test_suffix}.json
+
 kg1_output_file: ${BUILD_DIR}/kg2-rtx-kg1${test_suffix}.json
 
 kg2_tsv_dir: ${BUILD_DIR}/TSV
