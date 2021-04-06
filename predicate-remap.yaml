@@ -1394,8 +1394,8 @@ HANCESTRO:0301:
   - biolink:related_to
 HANCESTRO:0330:
   rename:
-  - synonym
-  - biolink:synonym
+  - related_to
+  - biolink:related_to
 HCPCS:mapped_from:
   delete: null
 HCPCS:mapped_to:
@@ -1438,8 +1438,8 @@ IAO:0000136:
   - biolink:related_to
 IAO:0000219:
   rename:
-  - synonym
-  - biolink:synonym
+  - related_to
+  - biolink:related_to
 ICD10:SIB:
   delete: null
 ICD10PCS:SIB:
@@ -3936,8 +3936,8 @@ RXNORM:has_quantified_form:
   - biolink:close_match
 RXNORM:has_tradename:
   rename:
-  - synonym
-  - biolink:synonym
+  - same_as
+  - biolink:same_as
 RXNORM:ingredient_of:
   rename:
   - part_of
