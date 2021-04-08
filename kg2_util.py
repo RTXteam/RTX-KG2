@@ -652,21 +652,21 @@ def make_node(id: str,
 
 def make_edge_key(edge_dict: dict):
     return edge_dict['subject'] + '---' + \
-           edge_dict['object'] + '---' + \
            edge_dict['relation'] + '---' + \
+           edge_dict['object'] + '---' + \
            edge_dict['provided_by']
 
 
 def make_edge(subject_id: str,
               object_id: str,
               relation_curie: str,
-              predicate_label: str,
+              relation_label: str,
               provided_by: str,
               update_date: str = None):
 
     return {'subject': subject_id,
             'object': object_id,
-            'relation_label': predicate_label,
+            'relation_label': relation_label,
             'relation': relation_curie,
             'negated': False,
             'publications': [],
