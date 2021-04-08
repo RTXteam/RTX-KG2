@@ -86,7 +86,8 @@ def check_all_edges_have_same_set(edgekeys_list):
                     "subject",
                     "update_date",
                     "predicate",
-                    "predicate_label"]
+                    "predicate_label",
+                    "id"]
     for edgelabel in edgekeys_list:
         if edgelabel not in supported_ls:
             raise ValueError("relation_label not in supported list: " + edgelabel)
