@@ -70,10 +70,8 @@ if __name__ == '__main__':
             object_curie = rel_dict['object']
             if subject_curie in nodes and object_curie in nodes:
                 ctr_edges_added += 1
-                edge_key = kg2_util.make_edge_key(rel_dict)
                 if edge_key not in edge_keys:
                     edge_keys.add(edge_key)
-                    rel_dict["id"] = edge_key 
                     edges.append(rel_dict)
             else:
                 kg_orphan_edges_new.append(rel_dict)
