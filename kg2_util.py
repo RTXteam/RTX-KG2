@@ -655,27 +655,30 @@ def make_node(id: str,
 
 def make_edge_key(edge_dict: dict):
     return edge_dict['subject'] + '---' + \
-           edge_dict['object'] + '---' + \
            edge_dict['relation'] + '---' + \
+           edge_dict['object'] + '---' + \
            edge_dict['provided_by']
 
 
 def make_edge(subject_id: str,
               object_id: str,
               relation_curie: str,
-              predicate_label: str,
+              relation_label: str,
               provided_by: str,
               update_date: str = None):
 
-    return {'subject': subject_id,
+    edge = {'subject': subject_id,
             'object': object_id,
-            'relation_label': predicate_label,
+            'relation_label': relation_label,
             'relation': relation_curie,
             'negated': False,
             'publications': [],
             'publications_info': {},
             'update_date': update_date,
             'provided_by': provided_by}
+    edge_id = make_edge_key(edge)
+    edge["id"] = edge_id
+    return edge
 
 
 def predicate_label_to_curie(predicate_label: str,
