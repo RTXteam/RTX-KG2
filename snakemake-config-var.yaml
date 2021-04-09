@@ -80,6 +80,9 @@ drugcentral_output_file: ${BUILD_DIR}/kg2-drugcentral${test_suffix}.json
 intact_input_file: ${BUILD_DIR}/intact.txt
 intact_output_file: ${BUILD_DIR}/kg2-intact${test_suffix}.json
 
+disgenet_input_file: ${BUILD_DIR}/all_gene_disease_pmid_associations.tsv
+disgenet_output_file: ${BUILD_DIR}/kg2-disgenet${test_suffix}.json
+
 kg1_output_file: ${BUILD_DIR}/kg2-rtx-kg1${test_suffix}.json
 
 kg2_tsv_dir: ${BUILD_DIR}/TSV

@@ -568,8 +568,8 @@ DGIdb:vaccine:
   - biolink:decreases_activity_of
 DRUGBANK:category:
   rename:
-  - related_to
-  - biolink:related_to
+  - subclass_of
+  - biolink:subclass_of
 DRUGBANK:drug-interaction:
   rename:
   - physically_interacts_with

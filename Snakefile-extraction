@@ -167,3 +167,13 @@ rule IntAct:
         config['BUILD_DIR'] + "/extract-intact" + config['TEST_SUFFIX'] + ".log"
     shell:
         "bash -x " + config['CODE_DIR'] + "/extract-intact.sh {output} > {log} 2>&1"
+
+rule DisGeNET:
+    input:
+        config['VALIDATION_PLACEHOLDER']
+    output:
+        config['DISGENET_INPUT_FILE']
+    log:
+        config['BUILD_DIR'] + "/extract-disgenet" + config['TEST_SUFFIX'] + ".log"
+    shell:
+        "bash -x " + config['CODE_DIR'] + "/extract-disgenet.sh {output} > {log} 2>&1"
