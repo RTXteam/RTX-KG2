@@ -56,8 +56,8 @@ TARGET_TYPE_TO_CATEGORY = {
 
 def get_args():
     arg_parser = argparse.ArgumentParser(
-        description='ensembl_json_to_kg2_json.py: builds a KG2 JSON ' +
-        'representation for Ensembl genes')
+        description='chembl_mysql_to_kg_json.py: Extracts a KG in JSON ' +
+        'format from the ChEMBL mysql database')
     arg_parser.add_argument('--test', dest='test', action="store_true",
                             default=False)
     arg_parser.add_argument('mysqlConfigFile', type=str)
@@ -91,7 +91,8 @@ def make_node(id: str,
               description: str,
               synonym: list,
               publications: list,
-              update_date: str):
+              update_date: str,
+              canonical_smiles: str = None):
     node_dict = kg2_util.make_node(id,
                                    iri,
                                    name,
@@ -101,6 +102,7 @@ def make_node(id: str,
     node_dict['description'] = description
     node_dict['synonym'] = sorted(synonym)
     node_dict['publications'] = sorted(publications)
+    node_dict['has_biological_sequence'] = canonical_smiles
     return node_dict
 
 
@@ -164,6 +166,7 @@ if __name__ == '__main__':
             synonyms.append(standard_inchi_key)
         if canonical_smiles is not None:
             synonyms.append(canonical_smiles)
+        sequence = canonical_smiles
 
         curie_id = 'CHEMBL.COMPOUND:' + chembl_id
         category_label = kg2_util.BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE
@@ -215,7 +218,8 @@ if __name__ == '__main__':
                               description,
                               synonyms,
                               publications,
-                              update_date)
+                              update_date,
+                              canonical_smiles)
         nodes.append(node_dict)
 
 # create node objects for ChEMBL targets

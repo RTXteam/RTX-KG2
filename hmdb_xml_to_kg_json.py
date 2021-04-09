@@ -96,6 +96,8 @@ def make_node(metabolite: dict, hmdb_id: str):
     general_references = pull_out_references(metabolite["general_references"])
     publications = [reference for reference in general_references.keys()]
 
+    sequence = metabolite.get("smiles", None)
+
     node = kg2_util.make_node(CURIE_PREFIX_HMDB + ":" + hmdb_id,
                               iri,
                               name,
@@ -106,6 +108,7 @@ def make_node(metabolite: dict, hmdb_id: str):
     node["synonym"] = synonyms
     node["creation_date"] = creation_date
     node["publications"] = publications
+    node["has_biological_sequence"] = sequence
 
     return node
 

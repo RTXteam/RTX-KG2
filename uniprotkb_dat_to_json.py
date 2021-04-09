@@ -320,7 +320,8 @@ def make_nodes(records: list):
         node_dict['full_name'] = full_name
         if not description.endswith(' '):
             description += ' '
-        description += record_dict.get('SQ', '')
+        sequence = record_dict.get('SQ', '').strip('SEQUENCE   ')
+        node_dict['has_biological_sequence'] = sequence
         description = description.replace(LICENSE_TEXT, '')
         node_dict['description'] = description
         if len(synonyms) > 0:

@@ -59,7 +59,8 @@ def format_node(drugbank_id: str,
                 synonyms: list,
                 publications: list,
                 category_label: str,
-                creation_date: str):
+                creation_date: str,
+                sequence: str):
     iri = DRUGBANK_BASE_IRI + drugbank_id
     node_curie = kg2_util.CURIE_PREFIX_DRUGBANK + ":" + drugbank_id
     node_dict = kg2_util.make_node(node_curie,
@@ -72,6 +73,7 @@ def format_node(drugbank_id: str,
     node_dict["creation_date"] = creation_date
     node_dict["description"] = description
     node_dict["publications"] = publications
+    node_dict["has_biological_sequence"] = sequence
     return node_dict
 
 
@@ -144,7 +146,7 @@ def make_node(drug: dict):
                 if isinstance(synonym, dict):
                     synonyms.append(synonym["#text"])
     publications = get_publications(drug["general-references"])
-    #smiles = get_SMILES(drug.get('calculated-properties', None)) # Per Issue #1273, if desired down the road
+    smiles = get_SMILES(drug.get('calculated-properties', None)) # Per Issue #1273, if desired down the road
     node = None
     description = drug["description"]
     if description is not None:
@@ -157,7 +159,8 @@ def make_node(drug: dict):
                            synonyms=synonyms,
                            publications=publications,
                            category_label=category,
-                           creation_date=drug["@created"])
+                           creation_date=drug["@created"],
+                           sequence=smiles)
     return node
 
 

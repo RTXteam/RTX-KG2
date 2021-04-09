@@ -539,6 +539,9 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                                         ret_dict[key] = value
                                 elif new_desc is not None:
                                     ret_dict[key] = value
+                        elif key == 'has_biological_sequence':
+                            if stored_value is None and value is not None:
+                                ret_dict[key] = value
                         else:
                             log_message("warning:  for key: " + key + ", dropping second value: " + value + '; keeping first value: ' + stored_value,
                                         output_stream=sys.stderr)
@@ -650,7 +653,8 @@ def make_node(id: str,
             'update_date': update_date,
             'deprecated': False,
             'replaced_by': None,
-            'provided_by': provided_by}
+            'provided_by': provided_by,
+            'has_biological_sequence': None}
 
 
 def make_edge_key(edge_dict: dict):

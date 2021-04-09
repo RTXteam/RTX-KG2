@@ -132,7 +132,7 @@ def make_nodes(entries, test_mode):
         node_category = kg2_util.BIOLINK_CATEGORY_MICRORNA
         node_name = entry['DE'].strip()
         description = entry.get('CC', '').replace('\t', ' ').replace('  ', ' ')
-        description += entry.get('SQ', '').replace('\t', ' ')
+        sequence = entry.get('SQ', '').replace('\t', ' ')
         publications = entry.get('RX', None)
         xrefs = entry.get('DR', None)
         if xrefs is not None:
@@ -148,6 +148,7 @@ def make_nodes(entries, test_mode):
                                   MIRBASE_KB_CURIE_ID)
         node['description'] = description
         node['publications'] = publications
+        node['has_biological_sequence'] = sequence.strip('Sequence ')
         nodes.append(node)
         nodes_to_species[node_id] = species_id
     return [nodes, all_xrefs, nodes_to_species]
