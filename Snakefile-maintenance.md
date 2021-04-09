@@ -32,7 +32,7 @@ Erica Wood (Crescent Valley High School) by logging a GitHub issue and assigning
 
 # Understanding Snakemake
 
-![Overview of Snakemake Build System](https://user-images.githubusercontent.com/36611732/90065568-5a3cc980-dca1-11ea-87ea-d32f8f6b6bd8.png)
+![Overview of Snakemake Build System](https://user-images.githubusercontent.com/36611732/114226788-ea163e80-9928-11eb-808d-5d77e633d278.png)
 
 The Snakemake build system relies on two files to work:
 `build-kg2-snakemake.sh` and
