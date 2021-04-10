@@ -722,10 +722,9 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                     else:
                         node_description = comments_str
 
-            if node_category_label is None:
-                node_type = onto_node_dict.get('type', None)
-                if node_type is not None and node_type == 'PROPERTY':
-                    node_category_label = kg2_util.BIOLINK_CATEGORY_ATTRIBUTE
+            node_type = onto_node_dict.get('type', None)
+            if node_type is not None and node_type == 'PROPERTY':
+                node_category_label = kg2_util.BIOLINK_CATEGORY_ATTRIBUTE
 
             if node_category_label is None:
                 node_category_label = 'named thing'
@@ -802,8 +801,6 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                     node_deprecated = True
 
             provided_by = ontology_curie_id
-            if node_category_label == kg2_util.BIOLINK_CATEGORY_ATTRIBUTE:
-                provided_by = kg2_util.CURIE_ID_UMLS_STY
 
             if node_name is None:
                 if node_gene_symbol is not None:
