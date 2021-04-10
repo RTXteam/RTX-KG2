@@ -101,9 +101,9 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                             node_iri = GTPI_BASE_URL + drug_claim_name
                             provided_by = GTPI_KB_CURIE
                         elif interaction_claim_source == INTERACTION_CLAIM_SOURCE_TTD:
-                            subject_curie_id = TTD_CURIE_PREFIX + ':' + drug_claim_name
+                            subject_curie_id = TTD_CURIE_PREFIX + ':' + drug_claim_name.replace(" ","_")
                             node_name = drug_claim_primary_name
-                            node_iri = TTD_IRI_BASE + drug_claim_name
+                            node_iri = TTD_IRI_BASE + drug_claim_name.replace(" ", "_")
                             provided_by = TTD_KB_CURIE
                         elif interaction_claim_source == INTERACTION_CLAIM_SOURCE_DRUGBANK:
                             subject_curie_id = kg2_util.CURIE_PREFIX_DRUGBANK + ':' + drug_claim_name
