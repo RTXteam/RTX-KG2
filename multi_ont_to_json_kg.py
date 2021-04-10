@@ -27,6 +27,7 @@ import sys
 import urllib.parse
 import urllib.request
 from typing import Dict
+import json # temporary addition for Ontobio Issue #507
 
 # -------------- define globals here ---------------
 
@@ -117,6 +118,7 @@ def make_kg2(curies_to_categories: dict,
              curie_to_uri_expander: callable,
              ont_urls_and_files: tuple,
              output_file_name: str,
+             node_datatype_properties_file: str, # temporary addition for Ontobio Issue #507
              test_mode: bool = False,
              save_pickle: bool = False):
 
@@ -142,10 +144,16 @@ def make_kg2(curies_to_categories: dict,
 
     kg2_util.log_message('Calling make_nodes_dict_from_ontologies_list')
 
+    # Temporary addition for addressing Ontobio Issue #507
+    select_datatype_properties = dict()
+    with open(node_datatype_properties_file, 'r') as node_properties:
+        select_datatype_properties = json.load(node_properties)
+
     nodes_dict = make_nodes_dict_from_ontologies_list(ont_file_information_dict_list,
                                                       curies_to_categories,
                                                       uri_to_curie_shortener,
-                                                      curie_to_uri_expander)
+                                                      curie_to_uri_expander,
+                                                      select_datatype_properties) # temporary addition for Ontobio Issue #507
 
     kg2_util.log_message('Calling make_map_of_node_ontology_ids_to_curie_ids')
 
@@ -478,7 +486,8 @@ def get_category_for_multiple_tui(biolink_category_tree: dict,
 def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                          curies_to_categories: dict,
                                          uri_to_curie_shortener: callable,
-                                         curie_to_uri_expander: callable) -> Dict[str, dict]:
+                                         curie_to_uri_expander: callable,
+                                         select_datatype_properties: dict) -> Dict[str, dict]: # temporary addition for Ontobio Issue #507
     ret_dict = dict()
     ontologies_iris_to_curies = dict()
 
@@ -805,6 +814,25 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             if node_name is None:
                 if node_gene_symbol is not None:
                     node_name = node_gene_symbol
+
+            # Temporary code to address Ontobio Issue #507
+            if ontology_info_dict['file'] in select_datatype_properties:
+                filename = ontology_info_dict['file']
+                if filename == 'umls-omim.ttl':
+                    mimtype = select_datatype_properties[filename].get(node_curie_id, {}).get('MIMTYPE', None)
+                    if mimtype is not None:
+                        # 0, 3, 5 are phenotypes
+                        # 1, 4 are genes
+                        # There isn't a 2 anymore
+                        if mimtype == "1" or mimtype == "4":
+                            node_category_label = kg2_util.BIOLINK_CATEGORY_GENE
+                        else:
+                            node_name += " related phenotypic feature"
+                if filename == 'umls-hgnc.ttl':
+                    locus_group = select_datatype_properties[filename].get(node_curie_id, {}).get('LOCUS_GROUP', None)
+                    if locus_group is not None:
+                        if locus_group == "phenotype":
+                            continue
 
             node_dict = kg2_util.make_node(node_curie_id,
                                            iri,
@@ -1189,6 +1217,7 @@ def make_arg_parser():
     arg_parser.add_argument('curiesToURIFile', type=str)
     arg_parser.add_argument('ontLoadInventoryFile', type=str)
     arg_parser.add_argument('outputFile', type=str)
+    arg_parser.add_argument('nodeDatatypePropertiesFile', type=str) # temporary addition for Ontobio Issue #507
     return arg_parser
 
 
@@ -1201,6 +1230,7 @@ if __name__ == '__main__':
     curies_to_uri_file_name = args.curiesToURIFile
     ont_load_inventory_file = args.ontLoadInventoryFile
     output_file = args.outputFile
+    node_datatype_properties_file = args.nodeDatatypePropertiesFile # temporary addition for Ontobio Issue #507
     save_pickle = args.save_pickle
     test_mode = args.test
     curies_to_categories = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_categories_file_name))
@@ -1214,5 +1244,6 @@ if __name__ == '__main__':
              curie_to_uri_expander,
              ont_urls_and_files,
              output_file,
+             node_datatype_properties_file, # temporary addition for Ontobio Issue #507
              test_mode,
              save_pickle)
