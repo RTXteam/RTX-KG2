@@ -24,6 +24,8 @@ use_for_bidirectional_mapping:
   -
     biolink: https://w3id.org/biolink/vocab/
   -
+    biolink: https://w3id.org/linkml/
+  -
     biolink_download_source: https://raw.githubusercontent.com/biolink/biolink-model/master/
   -
     BRO: http://bioontology.org/ontologies/BiomedicalResourceOntology.owl#
