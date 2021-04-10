@@ -21,8 +21,8 @@ use_for_bidirectional_mapping:
     BFO: http://purl.obolibrary.org/obo/BFO_
   -
     bibo: http://purl.org/ontology/bibo/
-  -
-    biolink: https://w3id.org/biolink/vocab/
+#  -
+#    biolink: https://w3id.org/biolink/vocab/
   -
     biolink: https://w3id.org/linkml/
   -

@@ -44,8 +44,8 @@ kg2_util.download_file_if_not_exist_locally(biolink_model_url, biolink_model_fil
 biolink_ont = kg2_util.make_ontology_from_local_file(biolink_model_file_name)
 biolink_categories_ontology_depths = kg2_util.get_biolink_categories_ontology_depths(biolink_ont)
 
-biolink_edge_labels = {url.replace(kg2_util.BASE_URL_BIOLINK_META, '') for url in
-                       biolink_ont.children(kg2_util.BASE_URL_BIOLINK_META + 'SlotDefinition')}
+biolink_edge_labels = {url.replace(kg2_util.BASE_URL_BIOLINK_CONCEPTS, '') for url in
+                       biolink_ont.children(kg2_util.BASE_URL_BIOLINK_CONCEPTS + 'SlotDefinition')}
 
 for variable_name in dir(kg2_util):
     variable_value = getattr(kg2_util, variable_name)

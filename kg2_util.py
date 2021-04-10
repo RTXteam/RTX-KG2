@@ -118,7 +118,7 @@ BASE_BASE_URL_IDENTIFIERS_ORG = 'https://identifiers.org/'
 
 BASE_URL_IDENTIFIERS_ORG_REGISTRY = \
     'https://registry.identifiers.org/registry/'
-BASE_URL_BIOLINK_CONCEPTS = 'https://w3id.org/biolink/vocab/'
+BASE_URL_BIOLINK_CONCEPTS = 'https://w3id.org/linkml/'
 BASE_URL_BIOLINK_ONTOLOGY = 'https://w3id.org/biolink/biolink-model'
 BASE_URL_BIOLINK_META = 'https://w3id.org/biolink/biolinkml/meta/'
 BASE_URL_CHEMBL_COMPOUND = BASE_BASE_URL_IDENTIFIERS_ORG + 'chembl.compound:'
