@@ -19,6 +19,10 @@ import kg2_util
 import yaml
 from collections import defaultdict
 
+BIOLINK_SLOT_TYPES_SKIP = {"biolink:has_attribute",
+                           "biolink:synonym",
+                           "biolink:has_attribute_type"}
+
 
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(
@@ -84,7 +88,8 @@ for biolink_curie, mappings in biolink_to_external_mappings.items():
         for external_curie in external_curies:
             if external_to_biolink_mappings.get(external_curie, None) is None:
                 external_to_biolink_mappings[external_curie] = defaultdict(lambda: set())
-            external_to_biolink_mappings[external_curie][mapping_term].add(biolink_curie)
+            if biolink_curie not in BIOLINK_SLOT_TYPES_SKIP:
+                external_to_biolink_mappings[external_curie][mapping_term].add(biolink_curie)
 
 pred_info = yaml.safe_load(open(predicate_remap_file_name, 'r'))
 
