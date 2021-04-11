@@ -3274,16 +3274,16 @@ RO:0002207:
   - biolink:develops_from
 RO:0002211:
   rename:
-  - regulates_process_to_process
-  - biolink:regulates_process_to_process
+  - process_regulates_process
+  - biolink:process_regulates_process
 RO:0002212:
   rename:
-  - negatively_regulates_process_to_process
-  - biolink:negatively_regulates_process_to_process
+  - process_negatively_regulates_process
+  - biolink:process_negatively_regulates_process
 RO:0002213:
   rename:
-  - positively_regulates_process_to_process
-  - biolink:positively_regulates_process_to_process
+  - process_positively_regulates_process
+  - biolink:process_positively_regulates_process
 RO:0002215:
   rename:
   - capable_of
@@ -3756,134 +3756,6 @@ RO:participates_in:
   rename:
   - participates_in
   - biolink:participates_in
-RTXKG1:affects:
-  rename:
-  - affects
-  - biolink:affects
-RTXKG1:associated_with_disease:
-  rename:
-  - correlated_with
-  - biolink:correlated_with
-RTXKG1:capable_of:
-  rename:
-  - capable_of
-  - biolink:capable_of
-RTXKG1:capable_of_part_of:
-  rename:
-  - causes
-  - biolink:causes
-RTXKG1:composed_primarily_of:
-  invert:
-  - part_of
-  - biolink:part_of
-RTXKG1:contains_process:
-  invert:
-  - part_of
-  - biolink:part_of
-RTXKG1:contraindicated_for:
-  rename:
-  - contraindicated_for
-  - biolink:contraindicated_for
-RTXKG1:disease_caused_by_disruption_of:
-  invert:
-  - causes
-  - biolink:causes
-RTXKG1:disease_causes_disruption_of:
-  rename:
-  - disrupts
-  - biolink:disrupts
-RTXKG1:disease_has_basis_in_dysfunction_of:
-  rename:
-  - causes
-  - biolink:causes
-RTXKG1:disease_has_location:
-  rename:
-  - located_in
-  - biolink:located_in
-RTXKG1:expressed_in:
-  rename:
-  - expressed_in
-  - biolink:expressed_in
-RTXKG1:functionally_related_to:
-  rename:
-  - related_to
-  - biolink:related_to
-RTXKG1:gene_associated_with_condition:
-  rename:
-  - gene_associated_with_condition
-  - biolink:gene_associated_with_condition
-RTXKG1:gene_mutations_contribute_to:
-  rename:
-  - causes
-  - biolink:causes
-RTXKG1:has_completed:
-  rename:
-  - has_completed
-  - biolink:has_completed
-RTXKG1:has_part:
-  invert:
-  - part_of
-  - biolink:part_of
-RTXKG1:has_phenotype:
-  rename:
-  - has_phenotype
-  - biolink:has_phenotype
-RTXKG1:has_plasma_membrane_part:
-  invert:
-  - part_of
-  - biolink:part_of
-RTXKG1:indicated_for:
-  rename:
-  - treats
-  - biolink:treats
-RTXKG1:involved_in:
-  rename:
-  - actively_involved_in
-  - biolink:actively_involved_in
-RTXKG1:lacks_part:
-  rename:
-  - lacks_part
-  - biolink:lacks_part
-RTXKG1:output_of:
-  invert:
-  - has_output
-  - biolink:has_output
-RTXKG1:participates_in:
-  rename:
-  - participates_in
-  - biolink:participates_in
-RTXKG1:physically_interacts_with:
-  rename:
-  - physically_interacts_with
-  - biolink:physically_interacts_with
-RTXKG1:realized_in_response_to:
-  rename:
-  - causes
-  - biolink:causes
-RTXKG1:realized_in_response_to_stimulus:
-  rename:
-  - causes
-  - biolink:causes
-RTXKG1:regulates_activity_of:
-  rename:
-  - regulates
-  - biolink:regulates
-RTXKG1:regulates_expression_of:
-  rename:
-  - regulates
-  - biolink:regulates
-RTXKG1:site_of:
-  invert:
-  - located_in
-  - biolink:located_in
-RTXKG1:subclass_of:
-  rename:
-  - subclass_of
-  - biolink:subclass_of
-RTXKG1:targets:
-  rename:
-  - molecularly_interacts_with
-  - biolink:molecularly_interacts_with
 RXNORM:consists_of:
   invert:
   - part_of
@@ -4024,8 +3896,8 @@ SEMMEDDB:higher_than:
   - biolink:related_to
 SEMMEDDB:inhibits:
   rename:
-  - negatively_regulates_entity_to_entity
-  - biolink:negatively_regulates_entity_to_entity
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
 SEMMEDDB:interacts_with:
   rename:
   - physically_interacts_with
@@ -4092,8 +3964,8 @@ SEMMEDDB:same_as:
   - biolink:close_match
 SEMMEDDB:stimulates:
   rename:
-  - positively_regulates_entity_to_entity
-  - biolink:positively_regulates_entity_to_entity
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
 SEMMEDDB:treats:
   rename:
   - treats

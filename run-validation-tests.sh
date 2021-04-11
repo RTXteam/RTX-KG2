@@ -35,9 +35,6 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_curies_to_urls_map_yaml.py \
            ${curies_to_urls_file} \
            ${biolink_url_context_jsonld}
 
-${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_rtx_kg1_curie_mappings.py \
-           ${curies_to_urls_file}
-
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_kg2_util_curies_urls_categories.py \
            ${curies_to_urls_file} \
            ${biolink_model_owl_url} \

@@ -21,8 +21,8 @@ use_for_bidirectional_mapping:
     BFO: http://purl.obolibrary.org/obo/BFO_
   -
     bibo: http://purl.org/ontology/bibo/
-  -
-    biolink: https://w3id.org/biolink/vocab/
+#  -
+#    biolink: https://w3id.org/biolink/vocab/
   -
     biolink: https://w3id.org/linkml/
   -
@@ -345,8 +345,6 @@ use_for_bidirectional_mapping:
     RO: http://purl.obolibrary.org/obo/RO_
   -
     RTX: http://rtx.ai/identifiers#
-  -
-    RTXKG1: http://arax.rtx.ai/
   -
     RXNORM: http://purl.bioontology.org/ontology/RXNORM/
   -

@@ -9,9 +9,7 @@ rule Finish:
         simplified_output_nodes_file_full = config['SIMPLIFIED_OUTPUT_NODES_FILE_FULL'],
         slim_output_file_full = config['SLIM_OUTPUT_FILE_FULL'],
         placeholder = config['BUILD_DIR'] + "/tsv_placeholder.empty"
-    log:
-        config['BUILD_DIR'] + "/finish-snakemake" + config['TEST_SUFFIX'] + ".log"
     shell:
-        "bash -x " + config['CODE_DIR'] + "/finish-snakemake.sh {input.final_output_file_full} {input.output_file_orphan_edges} {input.report_file_full} {input.output_nodes_file_full} {input.simplified_output_file_full} {input.simplified_report_file_full} {input.simplified_output_nodes_file_full} {input.slim_output_file_full} " + config['KG2_TSV_DIR'] + " \"" + config['S3_CP_CMD'] + "\" " + config['KG2_TSV_TARBALL'] + " " + config['S3_BUCKET'] + " " + config['S3_BUCKET_PUBLIC'] + " " + config['OUTPUT_FILE_BASE'] + " " + config['ONT_LOAD_INVENTORY_FILE'] + " " + config['CODE_DIR'] + " " + config['S3_BUCKET_VERSIONED'] + " " + config['BUILD_DIR'] + " > {log} 2>&1"
+        "bash -x " + config['CODE_DIR'] + "/finish-snakemake.sh {input.final_output_file_full} {input.output_file_orphan_edges} {input.report_file_full} {input.output_nodes_file_full} {input.simplified_output_file_full} {input.simplified_report_file_full} {input.simplified_output_nodes_file_full} {input.slim_output_file_full} " + config['KG2_TSV_DIR'] + " \"" + config['S3_CP_CMD'] + "\" " + config['KG2_TSV_TARBALL'] + " " + config['S3_BUCKET'] + " " + config['S3_BUCKET_PUBLIC'] + " " + config['OUTPUT_FILE_BASE'] + " " + config['ONT_LOAD_INVENTORY_FILE'] + " " + config['CODE_DIR'] + " " + config['S3_BUCKET_VERSIONED'] + " " + config['BUILD_DIR'] + " " + config['SIMPLIFIED_REPORT_FILE_BASE'] + " " + config['VENV_DIR']
 
 

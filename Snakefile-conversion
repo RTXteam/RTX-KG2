@@ -1,12 +1,3 @@
-rule KG_One:
-    input:
-        config['VALIDATION_PLACEHOLDER']
-    output:
-        config['KG1_OUTPUT_FILE']
-    run:
-        shell(config['S3_CP_CMD'] + " s3://rtx-kg2/" + config['RTX_CONFIG_FILE'] + " " + config['BUILD_DIR'] + "/" + config['RTX_CONFIG_FILE'])
-        shell(config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/rtx_kg1_neo4j_to_kg_json.py " + config['TEST_ARG'] + " --configFile " + config['BUILD_DIR'] + "/" + config['RTX_CONFIG_FILE'] + " " + config['CURIES_TO_URLS_FILE'] + " {output}")
-
 rule Ontologies_and_TTL:
     input:
         real = config['BUILD_DIR'] + "/umls-placeholder.empty",
