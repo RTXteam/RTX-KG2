@@ -352,6 +352,10 @@ CHEMBL.MECHANISM:releasing_agent:
   rename:
   - increases_expression_of
   - biolink:increases_expression_of
+CHEMBL.MECHANISM:rnai_inhibitor:
+  rename:
+  - negatively_regulates
+  - biolink:negatively_regulates
 CHEMBL.MECHANISM:sequestering_agent:
   rename:
   - physically_interacts_with
