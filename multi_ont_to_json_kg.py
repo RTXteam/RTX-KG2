@@ -828,6 +828,8 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                             node_category_label = kg2_util.BIOLINK_CATEGORY_GENE
                         else:
                             node_name += " related phenotypic feature"
+                    else:
+                        node_category_label = kg2_util.BIOLINK_CATEGORY_NAMED_THING
                 if filename == 'umls-hgnc.ttl':
                     locus_group = select_datatype_properties[filename].get(node_curie_id, {}).get('LOCUS_GROUP', None)
                     if locus_group is not None:
