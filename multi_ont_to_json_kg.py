@@ -596,6 +596,14 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             if curie_prefix == kg2_util.CURIE_PREFIX_UMLS_STY and node_curie_id.split(':')[1].startswith('T') and ontology.id != kg2_util.BASE_URL_UMLS_STY:
                 # this is a UMLS semantic type TUI node from a non-STY UMLS source, ignore it
                 continue
+            # to address issue #1361
+            if curie_prefix == kg2_util.CURIE_PREFIX_ENSEMBL and REGEX_ENSEMBL.match(node_curie_id.replace(curie_prefix + ':', '')) is None:
+                node_curie_id = node_curie_id.replace(kg2_util.CURIE_PREFIX_ENSEMBL, kg2_util.CURIE_PREFIX_ENSEMBL_GENOMES)
+                iri = curie_to_uri_expander(node_curie_id)
+                kg2_util.log_message(message="Switching Ensembl: prefix to EnsemblGenomes:",
+                                     ontology_name=iri_of_ontology,
+                                     node_curie_id=node_curie_id,
+                                     output_stream=sys.stderr)
 
             [node_category_label, node_with_category] = get_biolink_category_for_node(ontology_node_id,
                                                                                       node_curie_id,
