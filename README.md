@@ -194,15 +194,15 @@ need to be configured so that variables `s3_bucket`, `s3_bucket_public`, and
 
 ## AWS authentication
 
-For the KG2 build system that we (the creators of KG2) use on Team Expander
-Agent, the authentication key pair is associated with an IAM account with
-username `kg2-builder`; if you are setting up the KG2 build system somewhere
-else, you will need to obtain your own AWS authentication key pair that connects
-to an IAM account (or root AWS account, if you want to live dangerously) that
-has S3 privileges to read from and write to the S3 buckets that are configured
-in your local copy of `master-config.shinc`. When you run the KG2 setup script,
-you will be asked (by the AWS Command-line Interface, CLI) to provide an
-authentication key pair.  and it uploads the final output file
+For the KG2 build system that we (the creators of KG2) have set up for use by
+Team Expander Agent, the authentication key pair is associated with an IAM
+account with username `kg2-builder`; if you are setting up the KG2 build system
+somewhere else, you will need to obtain your own AWS authentication key pair
+that connects to an IAM account (or root AWS account, if you want to live
+dangerously) that has S3 privileges to read from and write to the S3 buckets
+that are configured in your local copy of `master-config.shinc`. When you run
+the KG2 setup script, you will be asked (by the AWS Command-line Interface, CLI)
+to provide an authentication key pair.  and it uploads the final output file
 `kg2-simplified.json.gz` to the buckets identified by the shell variables
 `s3_bucket` defined in `master-config.shinc` (for the KG2 creators, that bucket
 is `s3://rtx-kg2`). Alternatively, you can set up your own S3 bucket to which to
