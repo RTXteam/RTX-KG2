@@ -26,7 +26,10 @@ ${curl_get} ${intact_link} > ${intact_output_file}.zip
 
 unzip -o ${intact_output_file}.zip -d ${BUILD_DIR}
 
-mv ${BUILD_DIR}/intact.txt ${intact_output_file}
+if [[ "${BUILD_DIR}/intact.txt" != "${intact_output_file}" ]]
+then
+	mv ${BUILD_DIR}/intact.txt ${intact_output_file}
+fi
 
 date
 echo "================= finishing extract-intact.sh =================="
