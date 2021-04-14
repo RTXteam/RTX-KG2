@@ -35,7 +35,7 @@ def get_args():
 
 def format_header(query: str):
     select_statement = query.split('from')[0]
-    columns = query.replace('select', '').replace('distinct', '').strip()
+    columns = select_statement.replace('select', '').replace('distinct', '').strip()
     return [column.strip() for column in columns.split(',')]
 
 
