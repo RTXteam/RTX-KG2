@@ -440,6 +440,39 @@ if __name__ == '__main__':
                                                 predicate_label,
                                                 CHEMBL_KB_CURIE_ID,
                                                 update_date))
+# get metabolism information
+
+    sql = '''select m1.chembl_id as drug_id,
+             m2.chembl_id as compound_id,
+             m3.chembl_id as metabolite_id
+             from metabolism as met
+             inner join compound_records as c1
+             on met.drug_record_id = c1.record_id
+             inner join molecule_dictionary as m1
+             on c1.molregno = m1.molregno
+             inner join compound_records as c2
+             on met.substrate_record_id = c2.record_id
+             inner join molecule_dictionary as m2
+             on c2.molregno = m2.molregno
+             inner join compound_records as c3
+             on met.metabolite_record_id = c3.record_id
+             inner join molecule_dictionary as m3
+             on c3.molregno = m3.molregno'''
+    if test_mode:
+        sql += str_sql_row_limit_test_mode
+    with connection.cursor() as cursor:
+        cursor.execute(sql)
+        results = cursor.fetchall()
+    for (drug_id, compound_id, metabolite_id) in results:
+        subject_curie_id = CHEMBL_CURIE_BASE_COMPOUND + ':' + compound_id
+        object_curie_id = CHEMBL_CURIE_BASE_COMPOUND + ':' + metabolite_id
+        predicate_label = kg2_util.EDGE_LABEL_BIOLINK_HAS_METABOLITE
+        edges.append(kg2_util.make_edge_biolink(subject_curie_id,
+                                                object_curie_id,
+                                                predicate_label,
+                                                CHEMBL_KB_CURIE_ID,
+                                                update_date))
+
     nodes.append(kg2_util.make_node(CHEMBL_KB_CURIE_ID,
                            CHEMBL_KB_URL,
                            'ChEMBL',

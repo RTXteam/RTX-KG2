@@ -18,7 +18,7 @@ config_dir=`dirname "$0"`
 source ${config_dir}/master-config.shinc
 
 chembl_dir=${BUILD_DIR}/chembl
-chembl_version=25
+chembl_version=27
 chembl_db_tarball=chembl_${chembl_version}_mysql.tar.gz
 chembl_sql_file=${chembl_dir}/chembl_${chembl_version}/chembl_${chembl_version}_mysql/chembl_${chembl_version}_mysql.dmp
 

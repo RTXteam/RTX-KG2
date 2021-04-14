@@ -173,40 +173,58 @@ The KG2 build system has been tested *only* under Ubuntu 18.04. If you want to
 build KG2 but don't have a native installation of Ubuntu 18.04 available, your
 best bet would be to use Docker (see Option 3 below). 
 
-## AWS authentication key and AWS buckets
+## AWS buckets
 
-In order to be able to build KG2, you'll need to have an AWS authentication key
-pair that is configured to be able to read from the `s3://rtx-kg2` S3 bucket
-(ask the KG2 maintainer to set this up), so that the build script can download a
-copy of the full Unified Medical Language System (UMLS) distribution.  You will
-be asked (by the AWS Command-line Interface, CLI) to provide this authentication
-key when you run the KG2 setup script. Your configured AWS CLI will also need to
-be able to programmatically write to the (publicly readable) S3 bucket
-`s3://rtx-kg2-public` (both buckets are in the `us-west-2` AWS region). The KG2
-build script downloads the UMLS distribution (including SNOMED CT) from the
-private S3 bucket `rtx-kg2` (IANAL, but it appears that the UMLS is encumbered
-by a license preventing redistribution so I have not hosted them on a public
-server for download; but you can get it for free at the
+In order to be able to build KG2, you'll need to have at least one AWS S3 bucket
+set up (or use an existing bucket; for the KG2 creators, we use S3 three
+buckets, `s3://rtx-kg2`, `s3://rtx-kg2-public`, and `s3://rtx-kg2-versioned`,
+which are in the `us-west-2` AWS region) and you will need to have an AWS
+authentication key pair that is configured to be able to read from (and write
+to) the bucket(s), so that the build script can download a copy of the full
+Unified Medical Language System (UMLS) distribution. The full UMLS distribution
+(including SNOMED CT) (`umls-2020AA-metathesaurus.zip`; IANAL, but it appears
+that the UMLS is encumbered by a license preventing redistribution so I have not
+hosted them on a public server for download; but you can get it for free at the
 [UMLS website](https://www.nlm.nih.gov/research/umls/) if you agree to the UMLS
-license terms) and it uploads the final output file `kg2.json.gz` to the public
-S3 bucket `rtx-kg2-public`. Alternatively, you can set up your own S3 bucket to
-which to copy the gzipped KG2 JSON file (which you would specify in the
-configuration file `master-config.shinc`), or in the file `build-kg2.sh`, you
-can comment out the line that copies the final gzipped JSON file to the S3
-bucket. You will also need to edit and place a file
-`RTXConfiguration-config.json` in the S3 bucket `s3://rtx-kg2/`; this file
-provides credentials [username, password, and HTTP URI for Neo4j Representational
-State Transfer (REST) Application Programming Interface (API)
-server] for accessing a RTX KG1 Neo4j endpoint; the KG2 build system will dump
-the KG1 graph from that endpoint and will merge that graph into KG2. As a
-minimal example of the data format for `RTXConfiguration-config.json`, see the
-file `RTXConfiguration-config-EXAMPLE.json` in this repository code directory
-(note: that config file can contain authentication information for additional
-server types in the RTX system; those are not shown in the example file in this
-code directory). The KG1 Neo4j endpoint need not (and in general, won't be)
-hosted in the same EC2 instance that hosts the KG2 build system. Currently, the
-KG1 Neo4j endpoint is hosted in the instance `arax.ncats.io`; the URI of its Neo4j
-REST HTTP interface is: `http://arax.ncats.io:7474`.
+license terms)) and the DrugBank distribution (`drugbank.xml.gz`) will need to
+be pre-placed in the S3 bucket and the local copy of `master-config.shinc` will
+need to be configured so that variables `s3_bucket`, `s3_bucket_public`, and
+`s3_bucket_versioned` point to the S3 bucket(s) and so that the shell variable
+`s3_region` identifies the AWS region in which the bucket(s) reside(s).
+
+## AWS authentication
+
+For the KG2 build system that we (the creators of KG2) have set up for use by
+Team Expander Agent, the authentication key pair is associated with an IAM
+account with username `kg2-builder`; if you are setting up the KG2 build system
+somewhere else, you will need to obtain your own AWS authentication key pair
+that connects to an IAM account (or root AWS account, if you want to live
+dangerously) that has S3 privileges to read from and write to the S3 buckets
+that are configured in your local copy of `master-config.shinc`. When you run
+the KG2 setup script, you will be asked (by the AWS Command-line Interface, CLI)
+to provide an authentication key pair.  and it uploads the final output file
+`kg2-simplified.json.gz` to the buckets identified by the shell variables
+`s3_bucket` defined in `master-config.shinc` (for the KG2 creators, that bucket
+is `s3://rtx-kg2`). Alternatively, you can set up your own S3 bucket to which to
+copy the gzipped KG2 JSON file (which you would specify in the configuration
+file `master-config.shinc`), or in the file `finish-snakemake.sh`, you can
+comment out the line that copies the final gzipped JSON file to the S3
+bucket. You will also need to edit (to fill in the correct Neo4j password) and
+place a file `RTXConfiguration-config.json` (template is in the KG2 source code
+directory) into the S3 bucket identified by the shell variable `s3_bucket` in
+`master-config.shinc` (for the KG2 creators, that bucket is `s3://rtx-kg2/`);
+the `RTXConfiguration-config.json` file file provides credentials
+[username, password, and HTTP URI for Neo4j Representational State Transfer (REST) Application Programming Interface (API) server]
+for accessing a RTX KG1 Neo4j endpoint; the KG2 build system will dump the KG1
+graph from that endpoint and will merge that graph into KG2. As a minimal
+example of the data format for `RTXConfiguration-config.json`, see the file
+`RTXConfiguration-config-EXAMPLE.json` in this repository code directory (note:
+that config file can contain authentication information for additional server
+types in the RTX system; those are not shown in the example file in this code
+directory). The KG1 Neo4j endpoint need not (and in general, won't be) hosted in
+the same EC2 instance that hosts the KG2 build system. Currently, the KG1 Neo4j
+endpoint is hosted in the instance `arax.ncats.io`; the URI of its Neo4j REST
+HTTP interface is: `http://arax.ncats.io:7474`.
 
 ## Typical EC2 instance type used for building KG2
 
