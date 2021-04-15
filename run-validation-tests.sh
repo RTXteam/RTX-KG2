@@ -22,6 +22,7 @@ date
 biolink_base_url_no_version=https://raw.githubusercontent.com/biolink/biolink-model/
 biolink_raw_base_url=${biolink_base_url_no_version}${biolink_model_version}/
 curies_urls_map_replace_string="\    biolink_download_source: ${biolink_raw_base_url}"
+ont_load_inventory_replace_string="\  url: ${biolink_raw_base_url}"
 biolink_url_context_jsonld=${biolink_raw_base_url}context.jsonld
 biolink_model_owl=biolink-model.owl.ttl
 biolink_model_owl_local_file=${BUILD_DIR}/${biolink_model_owl}
@@ -32,6 +33,10 @@ biolink_model_yaml_local_file=${BUILD_DIR}/${biolink_model_yaml}
 
 sed -i "\@${biolink_base_url_no_version}@c${curies_urls_map_replace_string}" \
         ${curies_to_urls_file}
+
+sed -i "\@${biolink_base_url_no_version}@c${ont_load_inventory_replace_string}" \
+        ${ont_load_inventory_file}
+
 
 if [[ ${build_flag} != "travisci" ]]
 then
