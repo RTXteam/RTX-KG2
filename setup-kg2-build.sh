@@ -36,7 +36,12 @@ echo `hostname`
 
 ## sym-link into RTX/code/kg2
 if [ ! -L ${CODE_DIR} ]; then
-    ln -sf ~/RTX/code/kg2 ${CODE_DIR}
+    if [[ "${build_flag}" == "travisci" ]]
+    then
+        ln -sf ./code/kg2 ${CODE_DIR}
+    else
+        ln -sf ~/RTX/code/kg2 ${CODE_DIR}
+    fi
 fi
 
 ## install the Linux distro packages that we need (python3-minimal is for docker installations)
