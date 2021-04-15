@@ -16,7 +16,9 @@ source ${config_dir}/master-config.shinc
 echo "================= starting run-validation-tests.sh ================="
 date
 
-biolink_raw_base_url=https://raw.githubusercontent.com/biolink/biolink-model/master/
+biolink_base_url_no_version=https://raw.githubusercontent.com/biolink/biolink-model/
+biolink_raw_base_url=${biolink_base_url_no_version}${biolink_model_version}/
+curies_urls_map_replace_string="\    biolink_download_source: ${biolink_raw_base_url}"
 biolink_url_context_jsonld=${biolink_raw_base_url}context.jsonld
 biolink_model_owl=biolink-model.owl.ttl
 biolink_model_owl_local_file=${BUILD_DIR}/${biolink_model_owl}
@@ -24,6 +26,9 @@ biolink_model_owl_url=${biolink_raw_base_url}${biolink_model_owl}
 biolink_model_yaml=biolink-model.yaml
 biolink_model_yaml_url=${biolink_raw_base_url}${biolink_model_yaml}
 biolink_model_yaml_local_file=${BUILD_DIR}/${biolink_model_yaml}
+
+sed -i "\@${biolink_base_url_no_version}@c${curies_urls_map_replace_string}" \
+        ${curies_to_urls_file}
 
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/validate_curies_to_categories_yaml.py \
            ${curies_to_categories_file} \
