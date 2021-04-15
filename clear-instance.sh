@@ -29,6 +29,9 @@ then
     rm -r -f ~/.cache
     rm -r -f ~/*.log
     rm -r -f ~/.aws
+
+    # This will ask for confirmation to remove directories
+    sudo apt purge postgresql*
 fi
 
 echo "================= script finished ================="

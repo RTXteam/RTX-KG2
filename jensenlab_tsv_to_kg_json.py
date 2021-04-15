@@ -129,7 +129,7 @@ def make_edges(input_tsv:str, gene_id_dict:Dict[str,list], pmids_dict:Dict[str,D
                                           disease_id,
                                           "JensenLab:associated_with",
                                           "associated_with",
-                                          JENSEN_LAB_PROVIDED_BY_CURIE_ID,
+                                          kg2_util.CURIE_ID_JENSENLAB,
                                           update_date)
                 # seems hacky, but following example in rtx_kg1_neo4j_to_kg_json.py
                 publication_info_dict = {'publication date': None,
