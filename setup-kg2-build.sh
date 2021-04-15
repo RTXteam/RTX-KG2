@@ -15,13 +15,16 @@ build_flag=${1:-""}
 
 ## setup the shell variables for various directories
 config_dir=`dirname "$0"`
+if [[ "${build_flag}" == "travisci" ]]
+then
+    sed "\@CODE_DIR=~/kg2-code@cCODE_DIR=/home/travis/build/RTXteam/RTX/code/kg2" master-config.shinc
+fi
 source ${config_dir}/master-config.shinc
 
 mysql_user=ubuntu
 mysql_password=1337
 if [[ "${build_flag}" != "travisci" ]]
 then
-
     psql_user=ubuntu
 fi
 
@@ -36,10 +39,8 @@ echo `hostname`
 
 ## sym-link into RTX/code/kg2
 if [ ! -L ${CODE_DIR} ]; then
-    if [[ "${build_flag}" == "travisci" ]]
+    if [[ "${build_flag}" != "travisci" ]]
     then
-        ln -sf ./code/kg2 ${CODE_DIR}
-    else
         ln -sf ~/RTX/code/kg2 ${CODE_DIR}
     fi
 fi
