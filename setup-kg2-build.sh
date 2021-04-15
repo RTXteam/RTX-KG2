@@ -17,7 +17,7 @@ build_flag=${1:-""}
 config_dir=`dirname "$0"`
 if [[ "${build_flag}" == "travisci" ]]
 then
-    sed "\@CODE_DIR=~/kg2-code@cCODE_DIR=/home/travis/build/RTXteam/RTX/code/kg2" ${config_dir}/master-config.shinc
+    sed -i "\@CODE_DIR=~/kg2-code@cCODE_DIR=/home/travis/build/RTXteam/RTX/code/kg2" ${config_dir}/master-config.shinc
 fi
 source ${config_dir}/master-config.shinc
 
