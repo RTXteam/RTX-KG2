@@ -90,8 +90,7 @@ then
     source ${CODE_DIR}/setup-python37-in-ubuntu18.shinc
     ${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
 else
-    python3.7 -m venv ${VENV_DIR}
-    ${VENV_DIR}/bin/pip install -r ${CODE_DIR}/requirements-kg2-build.txt
+    pip install -r ${CODE_DIR}/requirements-kg2-build.txt
 fi
 
 
