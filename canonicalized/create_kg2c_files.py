@@ -152,7 +152,7 @@ def create_kg2c_lite_json_file(canonicalized_nodes_dict: Dict[str, Dict[str, any
     print(f" Creating KG2c lite JSON file..")
     # Filter out all except these properties so we create a lightweight KG
     node_lite_properties = ["id", "expanded_categories"]
-    edge_lite_properties = ["id", "predicate", "subject", "object"]
+    edge_lite_properties = ["id", "predicate", "subject", "object", "provided_by", "publications"]
     lite_kg = {"nodes": [], "edges": []}
     for node in canonicalized_nodes_dict.values():
         lite_node = dict()
@@ -169,8 +169,7 @@ def create_kg2c_lite_json_file(canonicalized_nodes_dict: Dict[str, Dict[str, any
         json.dump(lite_kg, output_file)
 
 
-def create_kg2c_sqlite_db(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
-                          canonicalized_edges_dict: Dict[str, Dict[str, any]], is_test: bool):
+def create_kg2c_sqlite_db(canonicalized_nodes_dict: Dict[str, Dict[str, any]], is_test: bool):
     print(" Creating KG2c sqlite database..")
     db_name = f"kg2c{'_test' if is_test else ''}.sqlite"
     # Remove any preexisting version of this database
@@ -185,14 +184,6 @@ def create_kg2c_sqlite_db(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
     connection.commit()
     cursor = connection.execute(f"SELECT COUNT(*) FROM nodes")
     print(f"  Done creating nodes table; contains {cursor.fetchone()[0]} rows.")
-    cursor.close()
-    # Add all edges (edge object is dumped into a JSON string)
-    connection.execute("CREATE TABLE edges (id INT PRIMARY KEY, edge TEXT)")
-    edge_rows = [(edge["id"], json.dumps(edge)) for edge in canonicalized_edges_dict.values()]
-    connection.executemany(f"INSERT INTO edges (id, edge) VALUES (?, ?)", edge_rows)
-    connection.commit()
-    cursor = connection.execute(f"SELECT COUNT(*) FROM edges")
-    print(f"  Done creating edges table; contains {cursor.fetchone()[0]} rows.")
     cursor.close()
     connection.close()
 
@@ -376,6 +367,7 @@ def create_kg2c_files(is_test=False):
         # Sort all of our list properties (nicer for users that way)
         for array_property_name in ARRAY_NODE_PROPERTIES:
             node[array_property_name].sort()
+        node["publications"] = node["publications"][:10]  # We don't need a ton of publications, so truncate them
     # Convert our edge IDs to integers (to save space downstream) and add them as actual properties on the edges
     edge_num = 1
     for edge_id, edge in sorted(canonicalized_edges_dict.items()):
@@ -384,11 +376,12 @@ def create_kg2c_files(is_test=False):
         # Sort all of our list properties (nicer for users that way)
         for array_property_name in ARRAY_EDGE_PROPERTIES:
             edge[array_property_name].sort()
+        edge["publications"] = edge["publications"][:20]  # We don't need a ton of publications, so truncate them
 
     # Actually create all of our output files (different formats for storing KG2c)
     create_kg2c_lite_json_file(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
     create_kg2c_json_file(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
-    create_kg2c_sqlite_db(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
+    create_kg2c_sqlite_db(canonicalized_nodes_dict, is_test)
     create_kg2c_tsv_files(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
 
 
