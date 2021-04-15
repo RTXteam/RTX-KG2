@@ -88,11 +88,12 @@ fi
 if [[ "${build_flag}" != "travisci" ]]
 then
     source ${CODE_DIR}/setup-python37-in-ubuntu18.shinc
+    ${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
 else
     python3.7 -m venv ${VENV_DIR}
+    ${VENV_DIR}/bin/pip install -r ${CODE_DIR}/requirements-kg2-build.txt
 fi
 
-${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
 
 ## install ROBOT (software: ROBOT is an OBO Tool) by downloading the jar file
 ## distribution and cURLing the startup script (note github uses URL redirection
