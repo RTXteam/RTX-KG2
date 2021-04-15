@@ -22,7 +22,7 @@ mysql_password=1337
 if [[ "${build_flag}" != "travisci" ]]
 then
 
-	psql_user=ubuntu
+    psql_user=ubuntu
 fi
 
 mkdir -p ${BUILD_DIR}
@@ -67,15 +67,15 @@ sudo debconf-set-selections <<< "mysql-server mysql-server/root_password passwor
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password ${mysql_password}"
 
 sudo apt-get install -y mysql-server \
-   	 mysql-client \
-   	 libmysqlclient-dev \
-   	 python3-mysqldb
+     mysql-client \
+     libmysqlclient-dev \
+     python3-mysqldb
 
 sudo service mysql start
 if [[ "${build_flag}" != "travisci" ]]
 then
-	## this is for convenience when I am remote working
-	sudo apt-get install -y emacs
+    ## this is for convenience when I am remote working
+    sudo apt-get install -y emacs
 fi
 
 # we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
@@ -99,12 +99,12 @@ chmod +x ${BUILD_DIR}/owltools
 
 if [[ "${build_flag}" != "travisci" ]]
 then
-	## setup AWS CLI
-	if ! ${s3_cp_cmd} s3://${s3_bucket}/test-file-do-not-delete /tmp/; then
-	    aws configure
-	else
-	    rm -f /tmp/test-file-do-not-delete
-	fi
+    ## setup AWS CLI
+    if ! ${s3_cp_cmd} s3://${s3_bucket}/test-file-do-not-delete /tmp/; then
+        aws configure
+    else
+        rm -f /tmp/test-file-do-not-delete
+    fi
 fi
 
 {
@@ -122,33 +122,33 @@ sudo ldconfig
 
 if [[ "${build_flag}" != "travisci" ]]
 then
-	# setup MySQL
-	MYSQL_PWD=${mysql_password} mysql -u root -e "CREATE USER '${mysql_user}'@'localhost' IDENTIFIED BY '${mysql_password}'"
-	MYSQL_PWD=${mysql_password} mysql -u root -e "GRANT ALL PRIVILEGES ON *.* to '${mysql_user}'@'localhost'"
+    # setup MySQL
+    MYSQL_PWD=${mysql_password} mysql -u root -e "CREATE USER '${mysql_user}'@'localhost' IDENTIFIED BY '${mysql_password}'"
+    MYSQL_PWD=${mysql_password} mysql -u root -e "GRANT ALL PRIVILEGES ON *.* to '${mysql_user}'@'localhost'"
 
-	cat >${mysql_conf} <<EOF
-	[client]
-	user = ${mysql_user}
-	password = ${mysql_password}
-	host = localhost
+    cat >${mysql_conf} <<EOF
+[client]
+user = ${mysql_user}
+password = ${mysql_password}
+host = localhost
 EOF
 
-	## set mysql server variable to allow loading data from a local file
-	mysql --defaults-extra-file=${mysql_conf} \
-	      -e "set global local_infile=1"
+    ## set mysql server variable to allow loading data from a local file
+    mysql --defaults-extra-file=${mysql_conf} \
+          -e "set global local_infile=1"
 
-	## setup PostGreSQL
-	sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-	wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-	sudo apt-get update
-	sudo apt-get -y install postgresql
-	sudo -u postgres createuser ${psql_user}
-	sudo -u postgres psql -c "ALTER USER ${psql_user} WITH password null"
+    ## setup PostGreSQL
+    sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+    sudo apt-get update
+    sudo apt-get -y install postgresql
+    sudo -u postgres createuser ${psql_user}
+    sudo -u postgres psql -c "ALTER USER ${psql_user} WITH password null"
 fi
 
 if [[ "${build_flag}" == "travisci" ]]
 then
-	export PATH=$PATH:${BUILD_DIR}
+    export PATH=$PATH:${BUILD_DIR}
 fi
 
 date
@@ -158,5 +158,5 @@ echo "================= script finished ================="
 
 if [[ "${build_flag}" != "travisci" ]]
 then
-	${s3_cp_cmd} ${setup_log_file} s3://${s3_bucket_versioned}/
+    ${s3_cp_cmd} ${setup_log_file} s3://${s3_bucket_versioned}/
 fi
