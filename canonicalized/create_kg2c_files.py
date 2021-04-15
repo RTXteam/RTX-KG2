@@ -366,7 +366,7 @@ def create_kg2c_files(is_test=False):
         del node['descriptions_list']  # Don't need this anymore since we've now chosen the 'best' description
         # Sort all of our list properties (nicer for users that way)
         for array_property_name in ARRAY_NODE_PROPERTIES:
-            node[array_property_name].sort()
+            node[array_property_name] = sorted([item for item in node[array_property_name] if item])
         node["publications"] = node["publications"][:10]  # We don't need a ton of publications, so truncate them
     # Convert our edge IDs to integers (to save space downstream) and add them as actual properties on the edges
     edge_num = 1
@@ -375,7 +375,7 @@ def create_kg2c_files(is_test=False):
         edge_num += 1
         # Sort all of our list properties (nicer for users that way)
         for array_property_name in ARRAY_EDGE_PROPERTIES:
-            edge[array_property_name].sort()
+            edge[array_property_name] = sorted([item for item in edge[array_property_name] if item])
         edge["publications"] = edge["publications"][:20]  # We don't need a ton of publications, so truncate them
 
     # Actually create all of our output files (different formats for storing KG2c)
