@@ -48,7 +48,7 @@ export DEBUG=1  ## for owltools
 node_datatype_properties_file="${BUILD_DIR}/node_datatype_properties.json"
 
 ## temporary work around for ontobio issue (see biolink issue #507)
-${BUILD_DIR}/robot convert --input ${BUILD_DIR}/umls-hgnc.ttl --output u${BUILD_DIR}/mls-hgnc.owl
+${BUILD_DIR}/robot convert --input ${BUILD_DIR}/umls-hgnc.ttl --output ${BUILD_DIR}/umls-hgnc.owl
 ${BUILD_DIR}/robot convert --input ${BUILD_DIR}/umls-omim.ttl --output ${BUILD_DIR}/umls-omim.owl
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/save_owl_datatypeproperties.py \
            ${BUILD_DIR}/umls-hgnc.owl \
