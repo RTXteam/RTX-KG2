@@ -151,7 +151,7 @@ def create_kg2c_lite_json_file(canonicalized_nodes_dict: Dict[str, Dict[str, any
                                canonicalized_edges_dict: Dict[str, Dict[str, any]], is_test: bool):
     print(f" Creating KG2c lite JSON file..")
     # Filter out all except these properties so we create a lightweight KG
-    node_lite_properties = ["id", "expanded_categories"]
+    node_lite_properties = ["id", "name", "category", "expanded_categories"]
     edge_lite_properties = ["id", "predicate", "subject", "object", "provided_by", "publications"]
     lite_kg = {"nodes": [], "edges": []}
     for node in canonicalized_nodes_dict.values():
