@@ -1047,7 +1047,8 @@ def get_rels_dict(nodes: dict,
                 else:
                     # attempted fix for issue #1381
                     predicate_label = predicate_curie.split(':')[1]
-                    print("guessing at predicate label based on the " +
+                    print(ontology_curie_id + 
+                          ": guessing at predicate label based on the " +
                           "predicate CURIE: " +
                           predicate_curie + "; guessed label is: " +
                           predicate_label,
