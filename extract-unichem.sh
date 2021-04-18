@@ -17,7 +17,7 @@ source ${config_dir}/master-config.shinc
 output_tsv_file=${1:-"${BUILD_DIR}/unichem/unichem-mappings.tsv"}
 unichem_dir=${BUILD_DIR}/unichem
 unichem_output_dir=`dirname ${output_tsv_file}`
-unichem_ver=335
+unichem_ver=344
 unichem_ftp_site=ftp://ftp.ebi.ac.uk/pub/databases/chembl/UniChem/data
 
 rm -r -f ${unichem_dir}

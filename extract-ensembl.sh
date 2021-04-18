@@ -15,7 +15,7 @@ date
 config_dir=`dirname "$0"`
 source ${config_dir}/master-config.shinc
 
-ensembl_release=97
+ensembl_release=103
 
 ensembl_json_file=${1:-"${BUILD_DIR}/ensembl/ensembl_genes_homo_sapiens.json"}
 output_dir=`dirname ${ensembl_json_file}`
