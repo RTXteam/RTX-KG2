@@ -1046,12 +1046,12 @@ def get_rels_dict(nodes: dict,
                             predicate_label[1:]
                 else:
                     # attempted fix for issue #1381
+                    predicate_label = predicate_curie.split(':')[1]
                     print("guessing at predicate label based on the " +
                           "predicate CURIE: " +
                           predicate_curie + "; guessed label is: " +
                           predicate_label,
                           file=sys.stderr)
-                    predicate_label = predicate_curie.split(':')[1]
 
             assert predicate_label is not None
             predicate_label = predicate_label.replace(' ', '_')
