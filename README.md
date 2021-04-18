@@ -950,7 +950,7 @@ This section has some guidelines for the development team for the KG2 build syst
 ### Python coding standards for KG2
 
 - Only python3 is allowed.
-- Please follow PEP8 formatting standards.
+- Please follow PEP8 formatting standards, except we allow line length to go to 160.
 - Please use type hints wherever possible.
 
 # Shell coding standards for KG2
