@@ -150,12 +150,12 @@ rule miRBase_Conversion:
 
 rule Jensenlab_Conversion:
     input:
-        real = config['JENSENLAB_DIR'],
+        validation = config['VALIDATION_PLACEHOLDER'],
         placeholder = config['BUILD_DIR'] + "/jensenlab-placeholder.empty"
     output:
         config['JENSENLAB_OUTPUT_FILE']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/jensenlab_tsv_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/jensenlab_tsv_to_kg_json.py " + config['TEST_ARG'] + " " + config['JENSENLAB_DIR'] + " {output}"
 
 rule DrugCentral_Conversion:
     input:
