@@ -17,3 +17,4 @@ predicate_mapping_file=${CODE_DIR}/predicate-remap.yaml
 ont_load_inventory_file=${CODE_DIR}/ont-load-inventory${test_suffix}.yaml
 umls2rdf_config_master=${CODE_DIR}/umls2rdf-umls.conf
 rtx_config_file=RTXConfiguration-config.json
+biolink_model_version=1.8.1

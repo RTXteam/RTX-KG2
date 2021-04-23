@@ -24,6 +24,7 @@ from node_synonymizer import NodeSynonymizer
 
 ARRAY_NODE_PROPERTIES = ["all_categories", "publications", "equivalent_curies", "all_names", "expanded_categories"]
 ARRAY_EDGE_PROPERTIES = ["provided_by", "publications"]
+DELIMITER_CHAR = "ǂ"  # Need to use a delimiter that does not appear in any list items (strings)
 
 
 def _run_kg2_cypher_query(cypher_query: str) -> List[Dict[str, any]]:
@@ -46,13 +47,15 @@ def _run_kg2_cypher_query(cypher_query: str) -> List[Dict[str, any]]:
         return query_results
 
 
-def _convert_list_to_neo4j_format(input_list: List[str]) -> str:
-    filtered_list = [item for item in input_list if item]  # Get rid of any None items
-    non_str_items = [item for item in filtered_list if not isinstance(item, str)]
-    if non_str_items:
-        print(f"  WARNING: List contains non-str items (this is unexpected; I'll exclude them): {non_str_items}")
-    str_items = [item for item in filtered_list if isinstance(item, str)]
-    return "ǂ".join(str_items)  # Need to use a delimiter that does not appear in any list items
+def _convert_list_to_string_encoded_format(input_list_or_str: Union[List[str], str]) -> Union[str, List[str]]:
+    if isinstance(input_list_or_str, list):
+        filtered_list = [item for item in input_list_or_str if item]  # Get rid of any None items
+        str_items = [item for item in filtered_list if isinstance(item, str)]
+        if len(str_items) < len(filtered_list):
+            print(f"  WARNING: List contains non-str items (this is unexpected; I'll exclude them)")
+        return DELIMITER_CHAR.join(str_items)
+    else:
+        return input_list_or_str
 
 
 def _merge_two_lists(list_a: List[any], list_b: List[any]) -> List[any]:
@@ -151,8 +154,8 @@ def create_kg2c_lite_json_file(canonicalized_nodes_dict: Dict[str, Dict[str, any
                                canonicalized_edges_dict: Dict[str, Dict[str, any]], is_test: bool):
     print(f" Creating KG2c lite JSON file..")
     # Filter out all except these properties so we create a lightweight KG
-    node_lite_properties = ["id", "expanded_categories"]
-    edge_lite_properties = ["id", "predicate", "subject", "object"]
+    node_lite_properties = ["id", "name", "category", "expanded_categories"]
+    edge_lite_properties = ["id", "predicate", "subject", "object", "provided_by", "publications"]
     lite_kg = {"nodes": [], "edges": []}
     for node in canonicalized_nodes_dict.values():
         lite_node = dict()
@@ -164,13 +167,14 @@ def create_kg2c_lite_json_file(canonicalized_nodes_dict: Dict[str, Dict[str, any
         for lite_property in edge_lite_properties:
             lite_edge[lite_property] = edge[lite_property]
         lite_kg["edges"].append(lite_edge)
+
     # Save this lite KG to a JSON file
+    print(f"    Saving lite json...")
     with open(f"kg2c_lite{'_test' if is_test else ''}.json", "w+") as output_file:
         json.dump(lite_kg, output_file)
 
 
-def create_kg2c_sqlite_db(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
-                          canonicalized_edges_dict: Dict[str, Dict[str, any]], is_test: bool):
+def create_kg2c_sqlite_db(canonicalized_nodes_dict: Dict[str, Dict[str, any]], is_test: bool):
     print(" Creating KG2c sqlite database..")
     db_name = f"kg2c{'_test' if is_test else ''}.sqlite"
     # Remove any preexisting version of this database
@@ -186,14 +190,6 @@ def create_kg2c_sqlite_db(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
     cursor = connection.execute(f"SELECT COUNT(*) FROM nodes")
     print(f"  Done creating nodes table; contains {cursor.fetchone()[0]} rows.")
     cursor.close()
-    # Add all edges (edge object is dumped into a JSON string)
-    connection.execute("CREATE TABLE edges (id INT PRIMARY KEY, edge TEXT)")
-    edge_rows = [(edge["id"], json.dumps(edge)) for edge in canonicalized_edges_dict.values()]
-    connection.executemany(f"INSERT INTO edges (id, edge) VALUES (?, ?)", edge_rows)
-    connection.commit()
-    cursor = connection.execute(f"SELECT COUNT(*) FROM edges")
-    print(f"  Done creating edges table; contains {cursor.fetchone()[0]} rows.")
-    cursor.close()
     connection.close()
 
 
@@ -202,14 +198,14 @@ def create_kg2c_tsv_files(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
     # Convert array fields into the format neo4j wants and do some final processing
     for canonicalized_node in canonicalized_nodes_dict.values():
         for list_node_property in ARRAY_NODE_PROPERTIES:
-            canonicalized_node[list_node_property] = _convert_list_to_neo4j_format(canonicalized_node[list_node_property])
+            canonicalized_node[list_node_property] = _convert_list_to_string_encoded_format(canonicalized_node[list_node_property])
         canonicalized_node['node_labels'] = canonicalized_node['expanded_categories']
     for canonicalized_edge in canonicalized_edges_dict.values():
         if not is_test:  # Make sure we don't have any orphan edges
             assert canonicalized_edge['subject'] in canonicalized_nodes_dict
             assert canonicalized_edge['object'] in canonicalized_nodes_dict
         for list_edge_property in ARRAY_EDGE_PROPERTIES:
-            canonicalized_edge[list_edge_property] = _convert_list_to_neo4j_format(canonicalized_edge[list_edge_property])
+            canonicalized_edge[list_edge_property] = _convert_list_to_string_encoded_format(canonicalized_edge[list_edge_property])
         canonicalized_edge['predicate_for_conversion'] = canonicalized_edge['predicate']
         canonicalized_edge['subject_for_conversion'] = canonicalized_edge['subject']
         canonicalized_edge['object_for_conversion'] = canonicalized_edge['object']
@@ -375,7 +371,8 @@ def create_kg2c_files(is_test=False):
         del node['descriptions_list']  # Don't need this anymore since we've now chosen the 'best' description
         # Sort all of our list properties (nicer for users that way)
         for array_property_name in ARRAY_NODE_PROPERTIES:
-            node[array_property_name].sort()
+            node[array_property_name] = sorted([item for item in node[array_property_name] if item])
+        node["publications"] = node["publications"][:10]  # We don't need a ton of publications, so truncate them
     # Convert our edge IDs to integers (to save space downstream) and add them as actual properties on the edges
     edge_num = 1
     for edge_id, edge in sorted(canonicalized_edges_dict.items()):
@@ -383,12 +380,13 @@ def create_kg2c_files(is_test=False):
         edge_num += 1
         # Sort all of our list properties (nicer for users that way)
         for array_property_name in ARRAY_EDGE_PROPERTIES:
-            edge[array_property_name].sort()
+            edge[array_property_name] = sorted([item for item in edge[array_property_name] if item])
+        edge["publications"] = edge["publications"][:20]  # We don't need a ton of publications, so truncate them
 
     # Actually create all of our output files (different formats for storing KG2c)
     create_kg2c_lite_json_file(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
     create_kg2c_json_file(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
-    create_kg2c_sqlite_db(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
+    create_kg2c_sqlite_db(canonicalized_nodes_dict, is_test)
     create_kg2c_tsv_files(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
 
 

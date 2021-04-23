@@ -8,7 +8,7 @@
 
 import json
 import argparse
-import kg2_util_stripped as kg2_util
+import kg2_util
 import sys
 
 __author__ = 'Erica Wood'
