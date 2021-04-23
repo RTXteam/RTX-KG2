@@ -1,3 +1,15 @@
+# 2.6.0
+
+**Date: 2021.4.23**
+
+Nodes: 10,675,990
+Edges: 49,342,413 
+(Note that KG1 was dropped from this build, and with it KEGG)
+ 
+ - Issues TBD
+
+Build host: `kg2lindsey.rtx.ai` `~/kg2-build/`
+
 # 2.5.2 
 
 **Date: 2021.3.6**
