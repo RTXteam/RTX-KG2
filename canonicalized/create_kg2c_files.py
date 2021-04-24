@@ -23,7 +23,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/../../ARAX/NodeSyno
 from node_synonymizer import NodeSynonymizer
 
 ARRAY_NODE_PROPERTIES = ["all_categories", "publications", "equivalent_curies", "all_names", "expanded_categories"]
-ARRAY_EDGE_PROPERTIES = ["provided_by", "publications"]
+ARRAY_EDGE_PROPERTIES = ["provided_by", "publications", "kg2_ids"]
 DELIMITER_CHAR = "ǂ"  # Need to use a delimiter that does not appear in any list items (strings)
 
 
@@ -86,9 +86,9 @@ def _modify_column_headers_for_neo4j(plain_column_headers: List[str], file_name_
     return modified_headers
 
 
-def _create_node(preferred_curie: str, name: Optional[str], category: str, all_categories: List[str], expanded_categories: List[str],
-                 equivalent_curies: List[str], publications: List[str], all_names: List[str], iri: Optional[str],
-                 description: str, descriptions_list: List[str]) -> Dict[str, any]:
+def _create_node(preferred_curie: str, name: Optional[str], category: str, all_categories: List[str],
+                 expanded_categories: List[str], equivalent_curies: List[str], publications: List[str],
+                 all_names: List[str], iri: Optional[str], description: str, descriptions_list: List[str]) -> Dict[str, any]:
     assert isinstance(preferred_curie, str)
     assert isinstance(name, str) or name is None
     assert isinstance(category, str)
@@ -112,18 +112,21 @@ def _create_node(preferred_curie: str, name: Optional[str], category: str, all_c
     }
 
 
-def _create_edge(subject: str, object: str, predicate: str, provided_by: List[str], publications: List[str]) -> Dict[str, any]:
+def _create_edge(subject: str, object: str, predicate: str, provided_by: List[str], publications: List[str],
+                 kg2_ids: List[str]) -> Dict[str, any]:
     assert isinstance(subject, str)
     assert isinstance(object, str)
     assert isinstance(predicate, str)
     assert isinstance(provided_by, list)
     assert isinstance(publications, list)
+    assert isinstance(kg2_ids, list)
     return {
         "subject": subject,
         "object": object,
         "predicate": predicate,
         "provided_by": provided_by,
-        "publications": publications
+        "publications": publications,
+        "kg2_ids": kg2_ids
     }
 
 
@@ -286,6 +289,7 @@ def _canonicalize_nodes(neo4j_nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Di
 def _canonicalize_edges(neo4j_edges: List[Dict[str, any]], curie_map: Dict[str, str], is_test: bool) -> Dict[str, Dict[str, any]]:
     canonicalized_edges = dict()
     for neo4j_edge in neo4j_edges:
+        kg2_edge_id = neo4j_edge['id']
         original_subject = neo4j_edge['subject']
         original_object = neo4j_edge['object']
         if not is_test:  # Make sure we have the mappings we expect
@@ -301,12 +305,14 @@ def _canonicalize_edges(neo4j_edges: List[Dict[str, any]], curie_map: Dict[str, 
                 canonicalized_edge = canonicalized_edges[canonicalized_edge_key]
                 canonicalized_edge['provided_by'] = _merge_two_lists(canonicalized_edge['provided_by'], edge_provided_by)
                 canonicalized_edge['publications'] = _merge_two_lists(canonicalized_edge['publications'], edge_publications)
+                canonicalized_edge['kg2_ids'].append(kg2_edge_id)
             else:
                 new_canonicalized_edge = _create_edge(subject=canonicalized_subject,
                                                       object=canonicalized_object,
                                                       predicate=neo4j_edge['predicate'],
                                                       provided_by=edge_provided_by,
-                                                      publications=edge_publications)
+                                                      publications=edge_publications,
+                                                      kg2_ids=[kg2_edge_id])
                 canonicalized_edges[canonicalized_edge_key] = new_canonicalized_edge
     return canonicalized_edges
 
@@ -330,7 +336,7 @@ def create_kg2c_files(is_test=False):
         return
     print(f" Extracting edges from KG2..")
     edges_query = f"match (n)-[e]->(m) return n.id as subject, m.id as object, e.predicate as " \
-                  f"predicate, e.provided_by as provided_by, e.publications as publications" \
+                  f"predicate, e.provided_by as provided_by, e.publications as publications, e.id as id" \
                   f"{' limit 20000' if is_test else ''}"
     neo4j_edges = _run_kg2_cypher_query(edges_query)
     if neo4j_edges:
