@@ -21,8 +21,10 @@ use_for_bidirectional_mapping:
     BFO: http://purl.obolibrary.org/obo/BFO_
   -
     bibo: http://purl.org/ontology/bibo/
+#  -
+#    biolink: https://w3id.org/biolink/vocab/
   -
-    biolink: https://w3id.org/biolink/vocab/
+    biolink: https://w3id.org/linkml/
   -
     biolink_download_source: https://raw.githubusercontent.com/biolink/biolink-model/master/
   -
@@ -79,6 +81,8 @@ use_for_bidirectional_mapping:
     DOID: http://purl.obolibrary.org/obo/DOID_
   -
     DRUGBANK: "https://identifiers.org/drugbank:"
+  -
+    DrugCentral: https://drugcentral.org/drugcard/
   -
     ECO: http://purl.obolibrary.org/obo/ECO_
   -
@@ -174,7 +178,11 @@ use_for_bidirectional_mapping:
   -
     IDO: http://purl.obolibrary.org/obo/IDO_
   -
+    IntAct: "https://identifiers.org/intact:"
+  -
     ISBN: https://isbnsearch.org/isbn/
+  -
+    JensenLab: "https://diseases.jensenlab.org/"
   -
     KEGG: "https://www.genome.jp/dbget-bin/www_bget?"
   -
@@ -199,6 +207,8 @@ use_for_bidirectional_mapping:
     MGI: "https://identifiers.org/MGI:"
   -
     MI: http://purl.obolibrary.org/obo/MI_
+  -
+    miRBase: "https://identifiers.org/mirbase:"
   -
     miRGate: http://mirgate.bioinfo.cnio.es
   -
@@ -314,6 +324,8 @@ use_for_bidirectional_mapping:
   -
     PR: http://purl.obolibrary.org/obo/PR_
   -
+    PSY: http://purl.bioontology.org/ontology/PSY/
+  -
     PW: http://purl.obolibrary.org/obo/PW_
   -
     rdf: https://www.w3.org/TR/2004/REC-owl-guide-20040210/#
@@ -333,8 +345,6 @@ use_for_bidirectional_mapping:
     RO: http://purl.obolibrary.org/obo/RO_
   -
     RTX: http://rtx.ai/identifiers#
-  -
-    RTXKG1: http://arax.rtx.ai/
   -
     RXNORM: http://purl.bioontology.org/ontology/RXNORM/
   -

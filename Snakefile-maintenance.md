@@ -32,7 +32,7 @@ Erica Wood (Crescent Valley High School) by logging a GitHub issue and assigning
 
 # Understanding Snakemake
 
-![Overview of Snakemake Build System](https://user-images.githubusercontent.com/36611732/90065568-5a3cc980-dca1-11ea-87ea-d32f8f6b6bd8.png)
+![Overview of Snakemake Build System](https://user-images.githubusercontent.com/36611732/114226788-ea163e80-9928-11eb-808d-5d77e633d278.png)
 
 The Snakemake build system relies on two files to work:
 `build-kg2-snakemake.sh` and
@@ -200,7 +200,7 @@ rule ChemBL_Conversion:
 
  - Then, add a new entry to the list in the form `database_name = config['DATABASE_OUTPUT_FILE']`
 
- - Finally, add the entry to the list of `--kgFiles` in the `shell`. Before `--kgFileOrphanEdges` and after the last `}`, add `{output.database_name} ` with a space after the last `}`.
+ - Finally, add the entry to the list of input files at the end of the `shell` command.
 
 Example Pre-Addition:
 ```
@@ -224,7 +224,7 @@ rule Merge:
         full = config['FINAL_OUTPUT_FILE_FULL'],
         orph = config['OUTPUT_FILE_ORPHAN_EDGES']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/merge_graphs.py " + config['TEST_ARG'] + " --kgFiles {input.owl} {input.uniprot} {input.semmeddb} {input.chembl} {input.ensembl} {input.unichem} {input.ncbigene} {input.dgidb} {input.kg_one} {input.repoddb} {input.drugbank} {input.smpdb} {input.hmdb} {input.go_annotations} --kgFileOrphanEdges {output.orph} {output.full}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/merge_graphs.py " + config['TEST_ARG'] + " --kgFileOrphanEdges {output.orph} --outputFile {output.full} {input.owl} {input.uniprot} {input.semmeddb} {input.chembl} {input.ensembl} {input.unichem} {input.ncbigene} {input.dgidb} {input.kg_one} {input.repoddb} {input.drugbank} {input.smpdb} {input.hmdb} {input.go_annotations}"
 ```
 Example Post-Addition:
 ```
@@ -249,7 +249,7 @@ rule Merge:
         full = config['FINAL_OUTPUT_FILE_FULL'],
         orph = config['OUTPUT_FILE_ORPHAN_EDGES']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/merge_graphs.py " + config['TEST_ARG'] + " --kgFiles {input.owl} {input.uniprot} {input.semmeddb} {input.chembl} {input.ensembl} {input.unichem} {input.ncbigene} {input.dgidb} {input.kg_one} {input.repoddb} {input.drugbank} {input.smpdb} {input.hmdb} {input.go_annotations} {input.database_name} --kgFileOrphanEdges {output.orph} {output.full}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/merge_graphs.py " + config['TEST_ARG'] + " --kgFileOrphanEdges {output.orph} --outputFile {output.full} {input.owl} {input.uniprot} {input.semmeddb} {input.chembl} {input.ensembl} {input.unichem} {input.ncbigene} {input.dgidb} {input.kg_one} {input.repoddb} {input.drugbank} {input.smpdb} {input.hmdb} {input.go_annotations} {input.database_name}"
 ```
 
 #### Special Circumstances

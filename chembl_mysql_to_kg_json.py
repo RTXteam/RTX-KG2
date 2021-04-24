@@ -21,7 +21,9 @@ import pymysql
 CHEMBL_CURIE_BASE_COMPOUND = kg2_util.CURIE_PREFIX_CHEMBL_COMPOUND
 CHEMBL_CURIE_BASE_TARGET = kg2_util.CURIE_PREFIX_CHEMBL_TARGET
 CHEMBL_CURIE_BASE_MECHANISM = kg2_util.CURIE_PREFIX_CHEMBL_MECHANISM
-CHEMBL_KB_CURIE_ID = kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY + ':' + 'chembl'
+CHEMBL_KB_CURIE_ID = kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY + \
+    ':' + 'chembl.compound'
+CHEMBL_KB_URL = kg2_util.BASE_URL_IDENTIFIERS_ORG_REGISTRY + 'chembl.compound'
 CHEMBL_BASE_IRI_COMPOUND = kg2_util.BASE_URL_CHEMBL_COMPOUND
 CHEMBL_BASE_IRI_TARGET = kg2_util.BASE_URL_CHEMBL_TARGET
 CHEMBL_BASE_IRI_PREDICATE = kg2_util.BASE_URL_CHEMBL_MECHANISM
@@ -53,8 +55,11 @@ TARGET_TYPE_TO_CATEGORY = {
 
 
 def get_args():
-    arg_parser = argparse.ArgumentParser(description='ensembl_json_to_kg2_json.py: builds a KG2 JSON representation for Ensembl genes')
-    arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
+    arg_parser = argparse.ArgumentParser(
+        description='chembl_mysql_to_kg_json.py: Extracts a KG in JSON ' +
+        'format from the ChEMBL mysql database')
+    arg_parser.add_argument('--test', dest='test', action="store_true",
+                            default=False)
     arg_parser.add_argument('mysqlConfigFile', type=str)
     arg_parser.add_argument('mysqlDBName', type=str)
     arg_parser.add_argument('outputFile', type=str)
@@ -66,7 +71,8 @@ def make_edge(subject_id: str,
               predicate_label: str,
               update_date: str = None,
               publications: list = None):
-    relation_curie = kg2_util.CURIE_PREFIX_CHEMBL_MECHANISM + ':' + predicate_label
+    relation_curie = kg2_util.CURIE_PREFIX_CHEMBL_MECHANISM + ':' + \
+        predicate_label
     edge = kg2_util.make_edge(subject_id,
                               object_id,
                               relation_curie,
@@ -85,7 +91,8 @@ def make_node(id: str,
               description: str,
               synonym: list,
               publications: list,
-              update_date: str):
+              update_date: str,
+              canonical_smiles: str = None):
     node_dict = kg2_util.make_node(id,
                                    iri,
                                    name,
@@ -95,6 +102,7 @@ def make_node(id: str,
     node_dict['description'] = description
     node_dict['synonym'] = sorted(synonym)
     node_dict['publications'] = sorted(publications)
+    node_dict['has_biological_sequence'] = canonical_smiles
     return node_dict
 
 
@@ -158,6 +166,7 @@ if __name__ == '__main__':
             synonyms.append(standard_inchi_key)
         if canonical_smiles is not None:
             synonyms.append(canonical_smiles)
+        sequence = canonical_smiles
 
         curie_id = 'CHEMBL.COMPOUND:' + chembl_id
         category_label = kg2_util.BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE
@@ -209,7 +218,8 @@ if __name__ == '__main__':
                               description,
                               synonyms,
                               publications,
-                              update_date)
+                              update_date,
+                              canonical_smiles)
         nodes.append(node_dict)
 
 # create node objects for ChEMBL targets
@@ -430,6 +440,45 @@ if __name__ == '__main__':
                                                 predicate_label,
                                                 CHEMBL_KB_CURIE_ID,
                                                 update_date))
+# get metabolism information
+
+    sql = '''select m1.chembl_id as drug_id,
+             m2.chembl_id as compound_id,
+             m3.chembl_id as metabolite_id
+             from metabolism as met
+             inner join compound_records as c1
+             on met.drug_record_id = c1.record_id
+             inner join molecule_dictionary as m1
+             on c1.molregno = m1.molregno
+             inner join compound_records as c2
+             on met.substrate_record_id = c2.record_id
+             inner join molecule_dictionary as m2
+             on c2.molregno = m2.molregno
+             inner join compound_records as c3
+             on met.metabolite_record_id = c3.record_id
+             inner join molecule_dictionary as m3
+             on c3.molregno = m3.molregno'''
+    if test_mode:
+        sql += str_sql_row_limit_test_mode
+    with connection.cursor() as cursor:
+        cursor.execute(sql)
+        results = cursor.fetchall()
+    for (drug_id, compound_id, metabolite_id) in results:
+        subject_curie_id = CHEMBL_CURIE_BASE_COMPOUND + ':' + compound_id
+        object_curie_id = CHEMBL_CURIE_BASE_COMPOUND + ':' + metabolite_id
+        predicate_label = kg2_util.EDGE_LABEL_BIOLINK_HAS_METABOLITE
+        edges.append(kg2_util.make_edge_biolink(subject_curie_id,
+                                                object_curie_id,
+                                                predicate_label,
+                                                CHEMBL_KB_CURIE_ID,
+                                                update_date))
+
+    nodes.append(kg2_util.make_node(CHEMBL_KB_CURIE_ID,
+                           CHEMBL_KB_URL,
+                           'ChEMBL',
+                           kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                           update_date,
+                           CHEMBL_KB_CURIE_ID))
 
     kg2_util.save_json({'nodes': nodes, 'edges': edges},
                        output_file_name,

@@ -35,8 +35,9 @@ def make_node(ncbi_gene_id: str,
               full_name: str,
               gene_symbol: str,
               update_date: str,
-              other_synonyms: list = None):
-    category_label = kg2_util.BIOLINK_CATEGORY_GENE
+              category_label: str,
+              other_synonyms: list = None) -> dict:
+
     if other_synonyms is None:
         other_synonyms = []
     node_curie = kg2_util.CURIE_PREFIX_NCBI_GENE + ':' + ncbi_gene_id
@@ -48,6 +49,7 @@ def make_node(ncbi_gene_id: str,
                                    update_date,
                                    NCBI_KB_CURIE_ID)
     node_dict['synonym'] = [gene_symbol] + sorted(list(set(other_synonyms)))
+    node_dict['name'] = "Genetic locus associated with " + gene_symbol
     return node_dict
 
 
@@ -106,10 +108,19 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
             full_name = full_name_auth
             if full_name is None:
                 full_name = description
+            if type_of_gene != "unknown" or (db_xrefs is None) or (not db_xrefs.startswith("MIM:")) or \
+               nomenc_status is not None:
+                category_label = kg2_util.BIOLINK_CATEGORY_GENE
+            else:
+                full_name = 'Genetic locus associated with ' + full_name
+                category_label = kg2_util.BIOLINK_CATEGORY_GENOMIC_ENTITY
+            if full_name.startswith('microRNA'):
+                category_label = kg2_util.BIOLINK_CATEGORY_MICRORNA
             node_dict = make_node(ncbi_gene_id,
                                   full_name,
                                   gene_symbol,
                                   modify_date,
+                                  category_label,
                                   node_synonyms)
             node_curie_id = node_dict['id']
             type_str = 'Type:'+type_of_gene
@@ -117,12 +128,12 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
             if description is not None and description != full_name_auth:
                 node_description = description + '; '
             node_description += type_str
-            if map_location is not None:
-                node_description += '; Locus:' + map_location
             if nomenc_status is not None:
                 nomenc_tag = 'official'
             else:
                 nomenc_tag = 'unofficial'
+            if map_location is not None:
+                node_description += '; Locus:' + map_location
             node_description += '; NameStatus:' + nomenc_tag
             node_dict['description'] = node_description
             nodes.append(node_dict)
@@ -144,6 +155,8 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                         xref_curie = xref_curie.upper()
                     elif xref_curie.startswith('MIM:'):
                         xref_curie = kg2_util.CURIE_PREFIX_OMIM + ':' + xref_curie.replace('MIM:', '')
+                    elif xref_curie.startswith('miRBase:'):
+                        xref_curie = kg2_util.CURIE_PREFIX_MIRBASE + ':' + xref_curie.replace('miRBase:', '')
                     edges.append(kg2_util.make_edge(node_curie_id,
                                                     xref_curie,
                                                     kg2_util.CURIE_ID_OWL_SAME_AS,

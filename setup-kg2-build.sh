@@ -4,20 +4,29 @@
 
 set -o nounset -o pipefail -o errexit
 
-if [[ $# != 0 || "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0"
+if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
+    echo Usage: "$0 [travisci]" 
     exit 2
 fi
 
-# Usage: setup-kg2-build.sh
+# Usage: setup-kg2-build.sh [travisci]
 
+build_flag=${1:-""}
 
 ## setup the shell variables for various directories
 config_dir=`dirname "$0"`
+if [[ "${build_flag}" == "travisci" ]]
+then
+    sed -i "\@CODE_DIR=~/kg2-code@cCODE_DIR=/home/travis/build/RTXteam/RTX/code/kg2" ${config_dir}/master-config.shinc
+fi
 source ${config_dir}/master-config.shinc
 
 mysql_user=ubuntu
 mysql_password=1337
+if [[ "${build_flag}" != "travisci" ]]
+then
+    psql_user=ubuntu
+fi
 
 mkdir -p ${BUILD_DIR}
 setup_log_file=${BUILD_DIR}/setup-kg2-build.log
@@ -30,7 +39,10 @@ echo `hostname`
 
 ## sym-link into RTX/code/kg2
 if [ ! -L ${CODE_DIR} ]; then
-    ln -sf ~/RTX/code/kg2 ${CODE_DIR}
+    if [[ "${build_flag}" != "travisci" ]]
+    then
+        ln -sf ~/RTX/code/kg2 ${CODE_DIR}
+    fi
 fi
 
 ## install the Linux distro packages that we need (python3-minimal is for docker installations)
@@ -66,14 +78,21 @@ sudo apt-get install -y mysql-server \
      python3-mysqldb
 
 sudo service mysql start
-
-## this is for convenience when I am remote working
-sudo apt-get install -y emacs
+if [[ "${build_flag}" != "travisci" ]]
+then
+    ## this is for convenience when I am remote working
+    sudo apt-get install -y emacs
+fi
 
 # we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
-source ${CODE_DIR}/setup-python37-in-ubuntu18.shinc
+if [[ "${build_flag}" != "travisci" ]]
+then
+    source ${CODE_DIR}/setup-python37-in-ubuntu18.shinc
+    ${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
+else
+    pip install -r ${CODE_DIR}/requirements-kg2-build.txt
+fi
 
-${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
 
 ## install ROBOT (software: ROBOT is an OBO Tool) by downloading the jar file
 ## distribution and cURLing the startup script (note github uses URL redirection
@@ -89,12 +108,14 @@ chmod +x ${BUILD_DIR}/owltools
 
 } >${setup_log_file} 2>&1
 
-
-## setup AWS CLI
-if ! ${s3_cp_cmd} s3://${s3_bucket}/test-file-do-not-delete /tmp/; then
-    aws configure
-else
-    rm -f /tmp/test-file-do-not-delete
+if [[ "${build_flag}" != "travisci" ]]
+then
+    ## setup AWS CLI
+    if ! ${s3_cp_cmd} s3://${s3_bucket}/test-file-do-not-delete /tmp/; then
+        aws configure
+    else
+        rm -f /tmp/test-file-do-not-delete
+    fi
 fi
 
 {
@@ -110,25 +131,43 @@ make check
 sudo make install
 sudo ldconfig
 
-# setup MySQL
-MYSQL_PWD=${mysql_password} mysql -u root -e "CREATE USER '${mysql_user}'@'localhost' IDENTIFIED BY '${mysql_password}'"
-MYSQL_PWD=${mysql_password} mysql -u root -e "GRANT ALL PRIVILEGES ON *.* to '${mysql_user}'@'localhost'"
+if [[ "${build_flag}" != "travisci" ]]
+then
+    # setup MySQL
+    MYSQL_PWD=${mysql_password} mysql -u root -e "CREATE USER '${mysql_user}'@'localhost' IDENTIFIED BY '${mysql_password}'"
+    MYSQL_PWD=${mysql_password} mysql -u root -e "GRANT ALL PRIVILEGES ON *.* to '${mysql_user}'@'localhost'"
 
-cat >${mysql_conf} <<EOF
+    cat >${mysql_conf} <<EOF
 [client]
 user = ${mysql_user}
 password = ${mysql_password}
 host = localhost
 EOF
 
-## set mysql server variable to allow loading data from a local file
-mysql --defaults-extra-file=${mysql_conf} \
-      -e "set global local_infile=1"
+    ## set mysql server variable to allow loading data from a local file
+    mysql --defaults-extra-file=${mysql_conf} \
+          -e "set global local_infile=1"
+
+    ## setup PostGreSQL
+    sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+    sudo apt-get update
+    sudo apt-get -y install postgresql
+    sudo -u postgres createuser ${psql_user}
+    sudo -u postgres psql -c "ALTER USER ${psql_user} WITH password null"
+fi
+
+if [[ "${build_flag}" == "travisci" ]]
+then
+    export PATH=$PATH:${BUILD_DIR}
+fi
 
 date
 
 echo "================= script finished ================="
 } >> ${setup_log_file} 2>&1
 
-
-${s3_cp_cmd} ${setup_log_file} s3://${s3_bucket_versioned}/
+if [[ "${build_flag}" != "travisci" ]]
+then
+    ${s3_cp_cmd} ${setup_log_file} s3://${s3_bucket_versioned}/
+fi

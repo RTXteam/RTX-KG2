@@ -451,7 +451,7 @@ def find_common_ancestor(tui_categories: list, biolink_category_tree: dict):
                 path_list2 = []
                 path_list2.append(pair[1])
                 get_path(biolink_category_tree, "named thing", pair[1], path_list2)
-                print(f"list1: {path_list1!s} list2: {path_list2!s}", file=sys.stderr)
+#                print(f"list1: {path_list1!s} list2: {path_list2!s}", file=sys.stderr)
                 tui_split[tui_split.index(pair)] = compare_two_lists_in_reverse(path_list1,
                                                                                 path_list2)
 
@@ -596,6 +596,14 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             if curie_prefix == kg2_util.CURIE_PREFIX_UMLS_STY and node_curie_id.split(':')[1].startswith('T') and ontology.id != kg2_util.BASE_URL_UMLS_STY:
                 # this is a UMLS semantic type TUI node from a non-STY UMLS source, ignore it
                 continue
+            # to address issue #1361
+            if curie_prefix == kg2_util.CURIE_PREFIX_ENSEMBL and REGEX_ENSEMBL.match(node_curie_id.replace(curie_prefix + ':', '')) is None:
+                node_curie_id = node_curie_id.replace(kg2_util.CURIE_PREFIX_ENSEMBL, kg2_util.CURIE_PREFIX_ENSEMBL_GENOMES)
+                iri = curie_to_uri_expander(node_curie_id)
+                kg2_util.log_message(message="Switching Ensembl: prefix to EnsemblGenomes:",
+                                     ontology_name=iri_of_ontology,
+                                     node_curie_id=node_curie_id,
+                                     output_stream=sys.stderr)
 
             [node_category_label, node_with_category] = get_biolink_category_for_node(ontology_node_id,
                                                                                       node_curie_id,
@@ -618,6 +626,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             node_tui = None
             node_has_cui = False
             node_tui_category_label = None
+            node_gene_symbol = None
 
             node_meta = onto_node_dict.get('meta', None)
             if node_meta is not None:
@@ -688,12 +697,14 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                 if node_name is None:
                                     node_name = node_full_name
                         elif bpv_pred_curie == kg2_util.CURIE_ID_SKOS_ALT_LABEL:
+                            if node_curie_id.startswith(kg2_util.CURIE_PREFIX_HGNC + ':') and bpv_val.endswith(' gene'):
+                                node_gene_symbol = bpv_val.replace(' gene', '')
                             node_synonyms.add(bpv_val)
                         elif bpv_pred_curie == kg2_util.CURIE_ID_SKOS_DEFINITION:
                             node_description = kg2_util.strip_html(bpv_val)
                         elif bpv_pred_curie == kg2_util.CURIE_ID_HGNC_GENE_SYMBOL:
-                            node_name = bpv_val
-                            node_synonyms.add(bpv_val)
+                            node_gene_symbol = bpv_val
+                            node_synonyms.add(node_gene_symbol)
                         elif bpv_pred_curie == kg2_util.CURIE_ID_UMLS_HAS_CUI:
                             node_has_cui = True
                     if len(node_tui_list) == 1:
@@ -719,10 +730,9 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                     else:
                         node_description = comments_str
 
-            if node_category_label is None:
-                node_type = onto_node_dict.get('type', None)
-                if node_type is not None and node_type == 'PROPERTY':
-                    node_category_label = kg2_util.BIOLINK_CATEGORY_ATTRIBUTE
+            node_type = onto_node_dict.get('type', None)
+            if node_type is not None and node_type == 'PROPERTY':
+                node_category_label = kg2_util.BIOLINK_CATEGORY_ATTRIBUTE
 
             if node_category_label is None:
                 node_category_label = 'named thing'
@@ -790,16 +800,19 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                 node_name = kg2_util.allcaps_to_only_first_letter_capitalized(node_name)
 
             if node_name is not None:
-                if node_name.lower().startswith('obsolete:'):
-                    continue
+                if node_name.lower().startswith('obsolete:') or \
+                   (node_curie_id.startswith(kg2_util.CURIE_PREFIX_GO + ':') and node_name.lower().startswith('obsolete ')):
+                    node_deprecated = True
 
             if node_description is not None:
                 if node_description.lower().startswith('obsolete:') or node_description.lower().startswith('obsolete.'):
-                    continue
+                    node_deprecated = True
 
             provided_by = ontology_curie_id
-            if node_category_label == kg2_util.BIOLINK_CATEGORY_ATTRIBUTE:
-                provided_by = kg2_util.CURIE_ID_UMLS_STY
+
+            if node_name is None:
+                if node_gene_symbol is not None:
+                    node_name = node_gene_symbol
 
             node_dict = kg2_util.make_node(node_curie_id,
                                            iri,
@@ -807,7 +820,8 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                            node_category_label,
                                            node_update_date,
                                            provided_by)
-
+            if node_gene_symbol is not None:
+                node_dict['name'] = node_gene_symbol
             node_dict['full_name'] = node_full_name
             node_dict['description'] = node_description
             node_dict['creation_date'] = node_creation_date      # slot name is not biolink standard

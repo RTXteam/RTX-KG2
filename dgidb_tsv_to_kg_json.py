@@ -35,6 +35,10 @@ TTD_KB_CURIE = kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY + ':' + kg2_util.C
 
 INTERACTION_CLAIM_SOURCE_TTD = 'TTD'
 INTERACTION_CLAIM_SOURCE_GTPI = 'GuideToPharmacologyInteractions'
+INTERACTION_CLAIM_SOURCE_DRUGBANK = 'DrugBank'
+INTERACTION_CLAIM_SOURCE_CHEMBL_INTERACTIONS = 'ChemblInteractions'
+
+MAKE_NODE_BY_CLAIM_SOURCE = [INTERACTION_CLAIM_SOURCE_TTD, INTERACTION_CLAIM_SOURCE_GTPI]
 
 
 def get_args():
@@ -97,11 +101,15 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                             node_iri = GTPI_BASE_URL + drug_claim_name
                             provided_by = GTPI_KB_CURIE
                         elif interaction_claim_source == INTERACTION_CLAIM_SOURCE_TTD:
-                            subject_curie_id = TTD_CURIE_PREFIX + ':' + drug_claim_name
+                            subject_curie_id = TTD_CURIE_PREFIX + ':' + drug_claim_name.replace(" ","_")
                             node_name = drug_claim_primary_name
-                            node_iri = TTD_IRI_BASE + drug_claim_name
+                            node_iri = TTD_IRI_BASE + drug_claim_name.replace(" ", "_")
                             provided_by = TTD_KB_CURIE
-                        if subject_curie_id is not None:
+                        elif interaction_claim_source == INTERACTION_CLAIM_SOURCE_DRUGBANK:
+                            subject_curie_id = kg2_util.CURIE_PREFIX_DRUGBANK + ':' + drug_claim_name
+                        elif interaction_claim_source == INTERACTION_CLAIM_SOURCE_CHEMBL_INTERACTIONS:
+                            subject_curie_id = kg2_util.CURIE_PREFIX_CHEMBL_COMPOUND + ':' + drug_claim_name
+                        if subject_curie_id is not None and interaction_claim_source in MAKE_NODE_BY_CLAIM_SOURCE:
                             node_dict = kg2_util.make_node(subject_curie_id,
                                                            node_iri,
                                                            node_name,

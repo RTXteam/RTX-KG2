@@ -108,11 +108,6 @@
   file: umls-msh.ttl
   title: Medical Subject Headings
   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MSH
-- # maps to CURIE prefix umls
-  download: false
-  file: umls-mth.ttl
-  title: Metathesaurus Names
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MTH
 - # maps to CURIE prefix NCBITaxon
   download: false
   file: umls-ncbi.ttl
@@ -143,6 +138,11 @@
   file: umls-pdq.ttl
   title: Physician Data Query
   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/PDQ
+- # maps to CURIE prefix PSY
+  download: false
+  file: umls-psy.ttl
+  title: Psychological Index Terms
+  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/PSY
 - # maps to CURIE prefix RXNORM
   download: false
   file: umls-rxnorm.ttl
@@ -282,3 +282,13 @@
   file: genepio.owl
   download: true
   title: Genomic Epidemiology Ontology
+- # maps to CURIE prefix: MI
+  url: http://purl.obolibrary.org/obo/mi.owl
+  file: mi.owl
+  download: true
+  title: Molecular Interactions Controlled Vocabulary
+- # maps to CURIE prefix umls
+  download: false
+  file: umls-mth.ttl
+  title: Metathesaurus Names
+  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MTH

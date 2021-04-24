@@ -54,9 +54,7 @@ def create_index(label_list, property_name):
     # For every label in the label list, create an index
     # on the given property name
     for label in label_list:
-        if label.find(":") < 0:  # CREATE INDEX ON :BFO:0000050 (edge_label) gives error
-            index_query = "CREATE INDEX ON :" + label + " (" + property_name + ")"
-        run_query(index_query)
+        run_query(f"CREATE INDEX ON :`{label}` ({property_name})")
 
 
 def constraint(label_list):
@@ -109,7 +107,7 @@ if __name__ == '__main__':
 
     # Create Indexes on Node Properties
     create_index(node_label_list, "name")
-    create_index(node_label_list, "preferred_type")
+    create_index(node_label_list, "category")
 
     constraint(node_label_list)
     driver.close()

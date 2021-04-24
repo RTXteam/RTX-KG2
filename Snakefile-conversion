@@ -1,16 +1,7 @@
-rule KG_One:
-    input:
-        config['BUILD_DIR'] + "/validation-placeholder.empty"
-    output:
-        config['KG1_OUTPUT_FILE']
-    run:
-        shell(config['S3_CP_CMD'] + " s3://rtx-kg2/" + config['RTX_CONFIG_FILE'] + " " + config['BUILD_DIR'] + "/" + config['RTX_CONFIG_FILE'])
-        shell(config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/rtx_kg1_neo4j_to_kg_json.py " + config['TEST_ARG'] + " --configFile " + config['BUILD_DIR'] + "/" + config['RTX_CONFIG_FILE'] + " " + config['CURIES_TO_URLS_FILE'] + " {output}")
-
 rule Ontologies_and_TTL:
     input:
         real = config['BUILD_DIR'] + "/umls-placeholder.empty",
-        validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
+        validation = config['VALIDATION_PLACEHOLDER']
     output:
         config['OUTPUT_FILE_FULL']
     log:
@@ -21,7 +12,7 @@ rule Ontologies_and_TTL:
 rule NCBIGene_Conversion:
     input:
         real = config['NCBI_GENE_TSV_FILE'],
-        validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
+        validation = config['VALIDATION_PLACEHOLDER']
     output:
         config['NCBI_GENE_OUTPUT_FILE']
     shell:
@@ -30,7 +21,7 @@ rule NCBIGene_Conversion:
 rule DGIDB_Conversion:
     input:
         real = config['DGIDB_DIR'] + "/interactions.tsv",
-        validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
+        validation = config['VALIDATION_PLACEHOLDER']
     output:
         config['DGIDB_OUTPUT_FILE']
     log:
@@ -41,7 +32,7 @@ rule DGIDB_Conversion:
 rule ChemBL_Conversion:
     input:
         placeholder = config['BUILD_DIR'] + "/chembl-placeholder.empty",
-        validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
+        validation = config['VALIDATION_PLACEHOLDER']
     output:
         config['CHEMBL_OUTPUT_FILE']
     shell:
@@ -50,7 +41,7 @@ rule ChemBL_Conversion:
 rule UniChem_Conversion:
     input:
         real = config['UNICHEM_OUTPUT_TSV_FILE'],
-        validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
+        validation = config['VALIDATION_PLACEHOLDER']
     output:
         config['UNICHEM_OUTPUT_FILE']
     shell:
@@ -59,7 +50,7 @@ rule UniChem_Conversion:
 rule Ensembl_Conversion:
     input:
         real = config['ENSEMBL_SOURCE_JSON_FILE'],
-        validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
+        validation = config['VALIDATION_PLACEHOLDER']
     output:
         config['ENSEMBL_OUTPUT_FILE']
     shell:
@@ -69,7 +60,7 @@ rule SemMed_Conversion:
     input:
         real = config['SEMMED_TUPLELIST_FILE'],
         mrcui_req = config['BUILD_DIR'] + "/umls-placeholder.empty",
-        validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
+        validation = config['VALIDATION_PLACEHOLDER']
     output:
         config['SEMMED_OUTPUT_FILE']
     log:
@@ -80,7 +71,7 @@ rule SemMed_Conversion:
 rule Uniprot_Conversion:
     input:
         real = config['UNIPROTKB_DAT_FILE'],
-        validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
+        validation = config['VALIDATION_PLACEHOLDER']
     output:
         config['UNIPROTKB_OUTPUT_FILE']
     shell:
@@ -89,7 +80,7 @@ rule Uniprot_Conversion:
 rule RepoDB_Conversion:
     input:
         real = config['REPODB_INPUT_FILE'],
-        validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
+        validation = config['VALIDATION_PLACEHOLDER']
     output:
         config['REPODB_OUTPUT_FILE']
     shell:
@@ -98,7 +89,7 @@ rule RepoDB_Conversion:
 rule SMPDB_Conversion:
     input:
         real = config['SMPDB_INPUT_FILE'],
-        validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
+        validation = config['VALIDATION_PLACEHOLDER']
     output:
         config['SMPDB_OUTPUT_FILE']
     log:
@@ -109,7 +100,7 @@ rule SMPDB_Conversion:
 rule DrugBank_Conversion:
     input:
         real = config['DRUGBANK_INPUT_FILE'],
-        validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
+        validation = config['VALIDATION_PLACEHOLDER']
     output:
         config['DRUGBANK_OUTPUT_FILE']
     log:
@@ -120,7 +111,7 @@ rule DrugBank_Conversion:
 rule HMDB_Conversion:
     input:
         real = config['HMDB_INPUT_FILE'],
-        validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
+        validation = config['VALIDATION_PLACEHOLDER']
     output:
         config['HMDB_OUTPUT_FILE']
     log:
@@ -131,10 +122,64 @@ rule HMDB_Conversion:
 rule GO_Annotations_Conversion:
     input:
         real = config['GO_ANNOTATION_INPUT_FILE'],
-        validation = config['BUILD_DIR'] + "/validation-placeholder.empty"
+        validation = config['VALIDATION_PLACEHOLDER']
     output:
         config['GO_ANNOTATION_OUTPUT_FILE']
     log:
         config['BUILD_DIR'] + "/go-gpa-to-kg-json" + config['TEST_SUFFIX'] + ".log"
     shell:
         config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/go_gpa_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output} > {log} 2>&1"
+
+rule Reactome_Conversion:
+    input:
+        placeholder = config['BUILD_DIR'] + "/reactome-placeholder.empty",
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['REACTOME_OUTPUT_FILE']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/reactome_mysql_to_kg_json.py " + config['TEST_ARG'] + " " + config['MYSQL_CONF'] + " " + config['REACTOME_MYSQL_DBNAME'] + " {output}"
+
+rule miRBase_Conversion:
+    input:
+        real = config['MIRBASE_INPUT_FILE'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['MIRBASE_OUTPUT_FILE']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/mirbase_dat_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output}"
+
+rule Jensenlab_Conversion:
+    input:
+        validation = config['VALIDATION_PLACEHOLDER'],
+        placeholder = config['BUILD_DIR'] + "/jensenlab-placeholder.empty"
+    output:
+        config['JENSENLAB_OUTPUT_FILE']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/jensenlab_tsv_to_kg_json.py " + config['TEST_ARG'] + " " + config['JENSENLAB_DIR'] + " {output}"
+
+rule DrugCentral_Conversion:
+    input:
+        real = config['DRUGCENTRAL_INPUT_FILE'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['DRUGCENTRAL_OUTPUT_FILE']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/drugcentral_json_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output}"
+
+rule IntAct_Conversion:
+    input:
+        real = config['INTACT_INPUT_FILE'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['INTACT_OUTPUT_FILE']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/intact_tsv_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output}"
+
+rule DisGeNET_Conversion:
+    input:
+        real = config['DISGENET_INPUT_FILE'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['DISGENET_OUTPUT_FILE']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/disgenet_tsv_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output}"

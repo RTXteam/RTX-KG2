@@ -25,7 +25,7 @@ def get_args():
 def _run_cypher_query(cypher_query: str, kg="KG2") -> List[Dict[str, any]]:
     # This function sends a cypher query to neo4j (either KG1 or KG2) and returns results
     rtxc = RTXConfiguration()
-    if kg == "KG2" or kg == "KG2C":
+    if kg == "KG2" or kg == "KG2c":
         rtxc.live = kg
     try:
         driver = GraphDatabase.driver(rtxc.neo4j_bolt, auth=(

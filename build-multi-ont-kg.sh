@@ -17,6 +17,12 @@ date
 
 ## supply a default value for the build_flag string
 build_flag=${2:-""}
+biolink_base_url_no_version=https://raw.githubusercontent.com/biolink/biolink-model/
+biolink_raw_base_url=${biolink_base_url_no_version}${biolink_model_version}/biolink-model.owl.ttl
+ont_load_inventory_replace_string="\  url: ${biolink_raw_base_url}"
+
+sed -i "\@${biolink_base_url_no_version}@c${ont_load_inventory_replace_string}" \
+        ${ont_load_inventory_file}
 
 if [[ "${build_flag}" == 'test' || "${build_flag}" == 'alltest' ]]
 then

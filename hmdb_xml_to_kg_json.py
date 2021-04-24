@@ -44,14 +44,6 @@ def get_args():
     return arg_parser.parse_args()
 
 
-def date():
-    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-
-def convert_date(time):
-    return datetime.datetime.fromtimestamp(time).strftime('%Y-%m-%d %H:%M:%S')
-
-
 def make_hmdb_edge(subject_id: str,
                    object_id: str,
                    subject_prefix: str,
@@ -104,6 +96,8 @@ def make_node(metabolite: dict, hmdb_id: str):
     general_references = pull_out_references(metabolite["general_references"])
     publications = [reference for reference in general_references.keys()]
 
+    sequence = metabolite.get("smiles", None)
+
     node = kg2_util.make_node(CURIE_PREFIX_HMDB + ":" + hmdb_id,
                               iri,
                               name,
@@ -114,6 +108,7 @@ def make_node(metabolite: dict, hmdb_id: str):
     node["synonym"] = synonyms
     node["creation_date"] = creation_date
     node["publications"] = publications
+    node["has_biological_sequence"] = sequence
 
     return node
 
@@ -624,12 +619,12 @@ def make_property_edges(metabolite: dict, hmdb_id: str):
 
 if __name__ == '__main__':
     args = get_args()
-    print("Script starting at", date())
-    print("Starting load at", date())
+    print("Script starting at", kg2_util.date())
+    print("Starting load at", kg2_util.date())
     xml_file = open(args.inputFile)
     metabolite_data = xmltodict.parse(xml_file.read())
     xml_file.close()
-    print("Finishing load at", date())
+    print("Finishing load at", kg2_util.date())
     locations = {}
     nodes = []
     edges = []
@@ -654,7 +649,7 @@ if __name__ == '__main__':
         else:
             break
 
-    file_update_date = convert_date(os.path.getmtime(args.inputFile))
+    file_update_date = kg2_util.convert_date(os.path.getmtime(args.inputFile))
     hmdb_kp_node = kg2_util.make_node(HMDB_PROVIDED_BY_CURIE_ID,
                                       HMDB_KB_IRI,
                                       "Human Metabolome Database",
@@ -662,10 +657,10 @@ if __name__ == '__main__':
                                       file_update_date,
                                       HMDB_PROVIDED_BY_CURIE_ID)
     nodes.append(hmdb_kp_node)
-    print("Saving JSON at", date())
+    print("Saving JSON at", kg2_util.date())
     kg2_util.save_json({"nodes": nodes,
                         "edges": edges},
                        args.outputFile,
                        args.test)
-    print("Finished saving JSON at", date())
-    print("Script finished at", date())
+    print("Finished saving JSON at", kg2_util.date())
+    print("Script finished at", kg2_util.date())

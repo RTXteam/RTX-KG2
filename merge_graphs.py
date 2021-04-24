@@ -24,9 +24,9 @@ import sys
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='merge_graphs.py: merge two or more JSON KG files')
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
-    arg_parser.add_argument('--kgFiles', type=str, nargs='+')
     arg_parser.add_argument('--kgFileOrphanEdges', type=str, nargs='?', default=None)
-    arg_parser.add_argument('outputFile', type=str)
+    arg_parser.add_argument('--outputFile', type=str, nargs='?', default=None)
+    arg_parser.add_argument('kgFiles', type=str, nargs='+')
     return arg_parser
 
 
@@ -70,7 +70,7 @@ if __name__ == '__main__':
             object_curie = rel_dict['object']
             if subject_curie in nodes and object_curie in nodes:
                 ctr_edges_added += 1
-                edge_key = kg2_util.make_edge_key(rel_dict)
+                edge_key =rel_dict["id"]
                 if edge_key not in edge_keys:
                     edge_keys.add(edge_key)
                     edges.append(rel_dict)
