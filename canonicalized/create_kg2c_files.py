@@ -8,6 +8,7 @@ import argparse
 import csv
 import json
 import os
+import pickle
 import sqlite3
 import sys
 import time
@@ -229,6 +230,8 @@ def _canonicalize_nodes(neo4j_nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Di
     equivalent_curies_info = synonymizer.get_equivalent_nodes(all_canonical_curies)
     recognized_curies = {curie for curie in equivalent_curies_info if equivalent_curies_info.get(curie)}
     equivalent_curies_dict = {curie: list(equivalent_curies_info.get(curie)) for curie in recognized_curies}
+    with open("equivalent_curies.pickle", "wb") as equiv_curies_dump:  # Save these for use by downstream script
+        pickle.dump(equivalent_curies_dict, equiv_curies_dump, protocol=pickle.HIGHEST_PROTOCOL)
     print(f"  Creating canonicalized nodes..")
     curie_map = dict()
     canonicalized_nodes = dict()
