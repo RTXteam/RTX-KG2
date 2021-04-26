@@ -2,8 +2,12 @@
 
 **Date: 2021.4.23**
 
+Biolink Model Version: 1.8.1
+
 Nodes: 10,675,990
+
 Edges: 49,342,413 
+
 (Note that KG1 was dropped from this build, and with it KEGG)
  
  - Issues TBD
