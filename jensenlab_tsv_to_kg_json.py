@@ -118,13 +118,14 @@ def make_edges(input_tsv:str, gene_id_dict:Dict[str,list], pmids_dict:Dict[str,D
             if kg2_gene_id_list is None:
                 # print(f"Missing kg2 equivalent gene ids for {gene_id}. Skipping")
                 continue
-            if float(z_score) < 2.0:
+            if float(z_score) < 3.0:
                 continue
             for kg2_gene_id in kg2_gene_id_list:
                 if pmids_dict['disease'].get(disease_id, None) is None:
                     # print(f"Disease id {disease_id} is not DOID. Skipping.")
                     continue
                 publications_list = list(pmids_dict['gene'][gene_id].intersection(pmids_dict['disease'][disease_id]))
+                publications_list = publications_list[:30] # limit number of publications to 30 for size constraints
                 edge = kg2_util.make_edge(kg2_gene_id,
                                           disease_id,
                                           "JensenLab:associated_with",

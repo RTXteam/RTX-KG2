@@ -698,7 +698,7 @@ DrugCentral:positive_allosteric_modulator:
   rename:
   - increases_activity_of
   - biolink:increases_activity_of
-DrugCentral:postive_modulator:
+DrugCentral:positive_modulator:
   rename:
   - positively_regulates
   - biolink:positively_regulates
@@ -1930,6 +1930,10 @@ MI:2364: # proximity
   rename:
   - colocalizes_with
   - biolink:colocalizes_with
+MI:2252: # guanine nucleotide exchange factor reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
 MONDO:disease_causes_feature:
   rename:
   - causes
@@ -2892,6 +2896,10 @@ PR:has_gene_template:
   invert:
   - has_gene_product
   - biolink:has_gene_product
+PR:confers_resistance_to:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
 PR:lacks_part:
   rename:
   - lacks_part
@@ -3748,6 +3756,14 @@ RO:0012003:
   rename:
   - affects
   - biolink:affects
+RO:0013001: # has synaptic IO in
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0014001: # disease has infectious agent
+  rename:
+  - related_to
+  - biolink:related_to
 RO:derives_from:
   rename:
   - derives_from

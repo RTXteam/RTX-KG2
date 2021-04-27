@@ -376,8 +376,8 @@ def get_reaction_inputs_and_outputs(connection, test):
         in_sql += " LIMIT " + str(ROW_LIMIT_TEST_MODE)
     in_results = run_sql(in_sql, connection)
     for input in in_results:
-        subject_id = only_include_certain_species(input[0])
-        object_id = only_include_certain_species(input[1])
+        subject_id = only_include_certain_species(kg2_util.CURIE_PREFIX_REACTOME + ':' + input[0])
+        object_id = only_include_certain_species(kg2_util.CURIE_PREFIX_REACTOME + ':' + input[1])
         if subject_id is None or object_id is None:
             continue
         predicate = "has_input"
@@ -402,8 +402,8 @@ def get_reaction_inputs_and_outputs(connection, test):
         out_sql += " LIMIT " + str(ROW_LIMIT_TEST_MODE)
     out_results = run_sql(out_sql, connection)
     for out in out_results:
-        subject_id = only_include_certain_species(out[0])
-        object_id = only_include_certain_species(out[1])
+        subject_id = only_include_certain_species(kg2_util.CURIE_PREFIX_REACTOME + ':' + out[0])
+        object_id = only_include_certain_species(kg2_util.CURIE_PREFIX_REACTOME + ':' + out[1])
         if subject_id is None or object_id is None:
             continue
         predicate = "has_output"
@@ -433,8 +433,8 @@ def get_pathway_events(connection, test):
     if test:
         event_sql += " LIMIT " + str(ROW_LIMIT_TEST_MODE)
     for has_event in run_sql(event_sql, connection):
-        subject_id = only_include_certain_species(has_event[0])
-        object_id = only_include_certain_species(has_event[1])
+        subject_id = only_include_certain_species(kg2_util.CURIE_PREFIX_REACTOME + ':' + has_event[0])
+        object_id = only_include_certain_species(kg2_util.CURIE_PREFIX_REACTOME + ':' + has_event[1])
         if subject_id is None or object_id is None:
             continue
         predicate = "has_event"

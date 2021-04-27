@@ -15,13 +15,16 @@ build_flag=${1:-""}
 
 ## setup the shell variables for various directories
 config_dir=`dirname "$0"`
+if [[ "${build_flag}" == "travisci" ]]
+then
+    sed -i "\@CODE_DIR=~/kg2-code@cCODE_DIR=/home/travis/build/RTXteam/RTX/code/kg2" ${config_dir}/master-config.shinc
+fi
 source ${config_dir}/master-config.shinc
 
 mysql_user=ubuntu
 mysql_password=1337
 if [[ "${build_flag}" != "travisci" ]]
 then
-
     psql_user=ubuntu
 fi
 
@@ -36,7 +39,10 @@ echo `hostname`
 
 ## sym-link into RTX/code/kg2
 if [ ! -L ${CODE_DIR} ]; then
-    ln -sf ~/RTX/code/kg2 ${CODE_DIR}
+    if [[ "${build_flag}" != "travisci" ]]
+    then
+        ln -sf ~/RTX/code/kg2 ${CODE_DIR}
+    fi
 fi
 
 ## install the Linux distro packages that we need (python3-minimal is for docker installations)
@@ -79,9 +85,14 @@ then
 fi
 
 # we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
-source ${CODE_DIR}/setup-python37-in-ubuntu18.shinc
+if [[ "${build_flag}" != "travisci" ]]
+then
+    source ${CODE_DIR}/setup-python37-in-ubuntu18.shinc
+    ${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
+else
+    pip install -r ${CODE_DIR}/requirements-kg2-build.txt
+fi
 
-${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
 
 ## install ROBOT (software: ROBOT is an OBO Tool) by downloading the jar file
 ## distribution and cURLing the startup script (note github uses URL redirection
