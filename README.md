@@ -39,68 +39,86 @@ http://kg2endpoint.rtx.ai:7474
 
 # What data sources are used in KG2?
 
-Information from many knowledge databases is combined in bulding KG2, including
-the entire contents of
-[KG1](https://github.com/RTXteam/RTX/tree/master/code/reasoningtool), the RTX
-first-generation knowledge graph.
+Information from many knowledge databases is combined in building KG2. The table below was compiled from the [Snakemake diagram](https://user-images.githubusercontent.com/36611732/114226788-ea163e80-9928-11eb-808d-5d77e633d278.png) and [ont-load-inventory.yaml](https://github.com/RTXteam/RTX/blob/master/code/kg2/ont-load-inventory.yaml).
 
-| Knowledge source                | Type     | KG1 | KG2 | Redistribution license info                                                                                                                      | Home page                                                      |
-|---------------------------------|----------|-----|-----|--------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------|
-| Chembl   [without metabolism]   | data     | x   | x   | [link](https://chembl.gitbook.io/chembl-interface-documentation/about#data-licensing)                                                            | [link](https://www.ebi.ac.uk/chembl/)                                  |
-| DGIdb                           | data     | x   | x   | [link](https://github.com/griffithlab/dgi-db/blob/master/LICENSE)                                                                                | [link](http://www.dgidb.org/)                                          |
-| DisGeNET                        | data     | x   | x   | [link](http://www.disgenet.org/legal)                                                                                                            | [link](http://www.disgenet.org/)                                       |
-| DrugBank                        | data     |     | x   | [link](https://www.drugbank.ca/legal/terms_of_use)                                                                                               | [link](https://www.drugbank.ca/)                                       |
-| Ensembl Genes                   | data     |     | x   | [link](https://uswest.ensembl.org/info/about/legal/code_licence.html)                                                                            | [link](https://uswest.ensembl.org/index.html)                          |
-| GeneProf                        | data     | x   | x   |                                                                                                                                                  | [link](https://bio.tools/geneprof)                                     |
-| GO annotations from EBI         | data     |     | x   |                                                                                                                                                  | [link](https://www.ebi.ac.uk/GOA/)                                     |
-| GtP                             | data     |     | x   | [link](https://www.guidetopharmacology.org/about.jsp#license)                                                                                    | [link](https://www.guidetopharmacology.org/)                           |
-| HMDB                            | data     | x   | x   |                                                                                                                                                  | [link](http://www.hmdb.ca/)                                            |
-| KEGG                            | data     | x   | x   | [link](https://www.kegg.jp/kegg/legal.html)                                                                                                      | [link](https://www.genome.jp/kegg/)                                    |
-| miRBase                         | data     | x   | x   | [link](http://mirbase.org/help/FAQs.shtml#Do%20I%20need%20permission%20to%20download/use%20data%20contained%20in%20miRBase%20for%20my%20own%20research?) | [link](http://www.mirbase.org/)                                |
-| miRGate                         | data     | x   | x   |                                                                                                                                                  | [link](http://mirgate.bioinfo.cnio.es/miRGate/)                        |
-| MyChem.info                     | data     | x   | x   |                                                                                                                                                  | [link](https://mychem.info/)                                           |
-| MyGene.info                     | data     | x   | x   |                                                                                                                                                  | [link](https://mygene.info/)                                           |
-| NCBI Genes                      | data     |     | x   |                                                                                                                                                  | [link](https://www.ncbi.nlm.nih.gov/gene)                              |
-| OMIM                            | data     | x   | x   | [link](https://www.omim.org/help/copyright)                                                                                                      | [link](https://www.omim.org/)                                          |
-| Pathway Commons                 | data     | x   | x   |                                                                                                                                                  | [link](https://www.pathwaycommons.org/)                                |
-| PathWhiz                        | data     |     | x   |                                                                                                                                                  | [link](https://smpdb.ca/pathwhiz)                                      |
-| Pharos                          | data     | x   | x   |                                                                                                                                                  | [link](https://pharos.nih.gov/)                                        |
-| Reactome                        | data     | x   | x   | [link](https://reactome.org/license)                                                                                                             | [link](https://reactome.org/)                                          |
-| SciGraph data                   | data     | x   | x   |                                                                                                                                                  | [link](https://scigraph-data.monarchinitiative.org/scigraph/docs/)     |
-| SemMedDB                        | data     |     | x   | [link](https://skr3.nlm.nih.gov/TermsAndCond.html)                                                                                               | [link](https://skr3.nlm.nih.gov/SemMedDB/)                             |
-| SIDER                           | data     | x   | x   |                                                                                                                                                  | [link](http://sideeffects.embl.de/)                                    |
-| SMPDB                           | data     |     | x   | [link](https://smpdb.ca/about#citing)                                                                                                            | [link](https://smpdb.ca/)                                              |
-| Therapeutic Target Database     | data     |     | x   |                                                                                                                                                  | [link](http://bidd.nus.edu.sg/group/cjttd/)                            |
-| UniChem   [partial]             | data     |     | x   |                                                                                                                                                  | [link](https://www.ebi.ac.uk/unichem/)                                 |
-| UniProtKB   [human + pathogens] | data     | x   | x   | [link](https://www.uniprot.org/help/license)                                                                                                     | [link](https://www.uniprot.org/help/uniprotkb)                         |
-| Biolink model                   | ontology | x   | x   |                                                                                                                                                  | [link](https://github.com/biolink/biolink-api)                         |
-| BFO                             | ontology |     | x   |                                                                                                                                                  | [link](http://www.obofoundry.org/ontology/bfo.html)                    |
-| BSPO                            | ontology |     | x   |                                                                                                                                                  | [link](http://www.obofoundry.org/ontology/bspo.html)                   |
-| Cell Ontology                   | ontology | x   | x   |                                                                                                                                                  | [link](http://www.obofoundry.org/ontology/cl.html)                     |
-| ChEBI                           | ontology |     | x   |                                                                                                                                                  | [link](http://www.obofoundry.org/ontology/chebi.html)                  |
-| DDANAT                          | ontology |     | x   |                                                                                                                                                  | [link](http://www.obofoundry.org/ontology/ddanat.html)                 |
-| DOID                            | ontology | x   | x   |                                                                                                                                                  | [link](http://www.obofoundry.org/ontology/doid.html)                   |
-| EFO                             | ontology |     | x   |                                                                                                                                                  | [link](https://www.ebi.ac.uk/efo/)                                     |
-| EHDAA2                          | ontology |     | x   |                                                                                                                                                  | [link](http://obofoundry.org/ontology/ehdaa2.html)                     |
-| FMA                             | ontology |     | x   |                                                                                                                                                  | [link](http://www.obofoundry.org/ontology/fma.html)                    |
-| FOODON                          | ontology |     | x   |                                                                                                                                                  | [link](http://www.obofoundry.org/ontology/foodon.html)                 |
-| GO                              | ontology | x   | x   |                                                                                                                                                  | [link](http://www.obofoundry.org/ontology/go.html)                     |
-| GO-Plus                         | ontology |     | x   |                                                                                                                                                  | [link](http://www.obofoundry.org/ontology/go.html)                     |
-| HPO                             | ontology |     | x   |                                                                                                                                                  | [link](http://www.obofoundry.org/ontology/hp.html)                     |
-| Mondo                           | ontology |     | x   |                                                                                                                                                  | [link](http://obofoundry.org/ontology/mondo.html)                      |
-| NBO                             | ontology |     | x   |                                                                                                                                                  | [link](http://www.obofoundry.org/ontology/nbo.html)                    |
-| OLS (Ontology Lookup Service)   | ontology | x   | x   | [link](https://github.com/EBISPOT/OLS/blob/master/LICENSE)                                                                                       | [link](https://www.ebi.ac.uk/ols/index)                                |
-| ORDO                            | ontology |     | x   |                                                                                                                                                  | [link](https://bioportal.bioontology.org/ontologies/ORDO)              |
-| OxO                             | ontology | x   | x   |                                                                                                                                                  | [link](https://www.ebi.ac.uk/spot/oxo/)                                |
-| PATO                            | ontology |     | x   |                                                                                                                                                  | [link](http://www.obofoundry.org/ontology/pato.html)                   |
-| Prefix Commons                  | ontology | x   | x   |                                                                                                                                                  | [link](https://prefixcommons.org/)                                     |
-| PRO                             | ontology |     | x   |                                                                                                                                                  | [link](http://www.obofoundry.org/ontology/pr.html)                     |
-| RO                              | ontology |     | x   |                                                                                                                                                  | [link](http://www.obofoundry.org/ontology/ro.html)                     |
-| SciGraph ontology               | ontology | x   | x   |                                                                                                                                                  | [link](https://scigraph-ontology.monarchinitiative.org/scigraph/docs/) |
-| SNOMED CT                       | ontology | x   | x   | [link](https://www.nlm.nih.gov/healthit/snomedct/snomed_licensing.html)                                                                          | [link](http://www.snomed.org)                                          |
-| taxslim                         | ontology |     | x   |                                                                                                                                                  | [link](http://www.obofoundry.org/ontology/ncbitaxon.html)              |
-| Uberon                          | ontology |     | x   |                                                                                                                                                  | [link](http://www.obofoundry.org/ontology/uberon.html)                 |
-| UMLS                            | ontology | x   | x   | [link](https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/license_agreement.html)                                     | [link](https://www.nlm.nih.gov/research/umls/index.html)               |
+
+
+
+
+Knowledge Source | Type | Redistribution license info | Home page
+-- | -- | -- | --
+ChemBL | data | [link](https://chembl.gitbook.io/chembl-interface-documentation/about#data-licensing) | [link](https://www.ebi.ac.uk/chembl/)
+DGIDB | data | [link](https://github.com/griffithlab/dgi-db/blob/master/LICENSE) | [link](http://www.dgidb.org/)
+DisGeNET | data | [link](http://www.disgenet.org/legal) | [link](http://www.disgenet.org/)
+DrugBank | data | [link](https://www.drugbank.ca/legal/terms_of_use) | [link](https://www.drugbank.ca/)
+DrugCentral | data |   | [link](https://drugcentral.org/)
+Ensembl | data | [link](https://uswest.ensembl.org/info/about/legal/code_licence.html) | [link](https://uswest.ensembl.org/index.html/)
+GO_Annotations | data |   | [link](https://www.ebi.ac.uk/GOA/)
+HMDB | data |   | [link](http://www.hmdb.ca/)
+IntAct | data |   | [link](https://www.ebi.ac.uk/intact/)
+JensenLab | data |   | [link](https://diseases.jensenlab.org/About)
+miRBase | data | [link](http://mirbase.org/help/FAQs.shtml#Do%20I%20need%20permission%20to%20download/use%20data%20contained%20in%20miRBase%20for%20my%20own%20research?) | [link](http://www.mirbase.org/)
+NCBIGene | data |   | [link](https://www.ncbi.nlm.nih.gov/gene)
+PathWhiz | data |   | [link](https://smpdb.ca/pathwhiz)
+Reactome | data | [link](https://reactome.org/license) | [link](https://reactome.org/)
+RepoDB | data |   | [link](https://repodb.net/)
+SemMedDB | data | [link](https://skr3.nlm.nih.gov/TermsAndCond.html) | [link](https://skr3.nlm.nih.gov/SemMedDB/)
+SMPD | data | [link](https://smpdb.ca/about#citing) | [link](https://smpdb.ca/)
+Unichem | data |   | [link](https://www.ebi.ac.uk/unichem/)
+UniprotKB | data | [link](https://www.uniprot.org/help/license) | [link](https://www.uniprot.org/help/uniprotkb)
+Anatomical Therapeutic Chemical Classification System | ontology |   | [link](https://www.whocc.no/atc_ddd_index/)
+Basic Formal Ontology | ontology |   | [link](http://www.obofoundry.org/ontology/bfo.html)
+Biolink meta-model | ontology |   | [link](https://github.com/biolink/biolink-api)
+Biological Spatial Ontology | ontology |   | [link](http://www.obofoundry.org/ontology/bspo.html)
+Cell Ontology | ontology |   | [link](http://www.obofoundry.org/ontology/cl.html)
+Chemical Entities of Biological Interest | ontology |   | [link](http://www.obofoundry.org/ontology/chebi.html)
+CPT in HCPCS | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/HCPT/index.html)
+Current Procedural Terminology | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/CPT/index.html)
+Dictyostelium discoideum anatomy | ontology |   | [link](http://www.obofoundry.org/ontology/ddanat.html)
+Disease Ontology | ontology |   | [link](http://www.obofoundry.org/ontology/doid.html)
+Experimental Factor Ontology | ontology |   | [link](https://www.ebi.ac.uk/efo/)
+FOODON (Food Ontology) | ontology |   | [link](http://www.obofoundry.org/ontology/foodon.html)
+Foundational Model of Anatomy | ontology |   | [link](http://www.obofoundry.org/ontology/fma.html)
+Gene Ontology | ontology |   | [link](http://www.obofoundry.org/ontology/go.html)
+Gene Ontology | ontology |   | [link](http://www.obofoundry.org/ontology/go.html)
+Genomic Epidemiology Ontology | ontology |   | [link](http://purl.obolibrary.org/obo/genepio.owl)
+Healthcare Common Procedure Coding System | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/HCPCS/index.html)
+HL7 Version 3.0 | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/HL7)
+HUGO Gene Nomenclature Committee | ontology |   | [link](https://www.genenames.org/)
+Human developmental anatomy, abstract | ontology |   | [link](http://obofoundry.org/ontology/ehdaa2.html)
+Human Phenotype Ontology | ontology |   | [link](http://www.obofoundry.org/ontology/hp.html)
+ICD-10 Procedure Coding System | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD10PCS/index.html)
+ICD-10, American English Equivalents | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD10AE)
+Interaction Network Ontology | ontology |   | [link](http://www.obofoundry.org/ontology/ino.html)
+International Classification of Diseases and Related Health Problems, | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD10/index.html)
+International Classification of Diseases, Ninth Revision, Clinical Modification | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD9CM)
+International Classification of Diseases, Tenth Revision, Clinical Modification | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD10CM)
+Logical Observation Identifiers Names and Codes | ontology |   | [link](https://loinc.org/)
+MedDRA | ontology |   | [link](https://www.meddra.org/)
+Medical Subject Headings | ontology |   | [link](https://www.nlm.nih.gov/mesh/meshhome.html)
+Medication Reference Terminology | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MED-RT)
+MedlinePlus Health Topics | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MEDLINEPLUS/index.html)
+Metathesaurus Names | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MTH)
+Molecular Interactions Controlled Vocabulary | ontology |   | [link](http://purl.obolibrary.org/obo/mi.owl)
+MONDO Disease Ontology | ontology |   | [link](http://obofoundry.org/ontology/mondo.html)
+National Drug Data File | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/NDDF/index.html)
+National Drug File | ontology |  | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/VANDF)
+National Drug File - Reference Terminology | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/NDFRT)
+NCBITaxon | ontology |   | [link](http://www.obofoundry.org/ontology/ncbitaxon.html)
+NCI Thesaurus | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/NCI)
+Neuro Behavior Ontology | ontology |   | [link](http://www.obofoundry.org/ontology/nbo.html)
+Online Mendelian Inheritance in Man | ontology | [link](https://www.omim.org/help/copyright) | [link](https://www.omim.org/)
+ORPHANET Rare Disease Ontology | ontology |   | [link](https://bioportal.bioontology.org/ontologies/ORDO)
+Phenotypic Quality Ontology | ontology |   | [link](https://bioportal.bioontology.org/ontologies/PATO)
+Physician Data Query | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/PDQ)
+Protein Ontology | ontology |   | [link](http://www.obofoundry.org/ontology/pr.html)
+Psychological Index Terms | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/PSY)
+Relation Ontology | ontology |   | [link](http://www.obofoundry.org/ontology/ro.html)
+RXNORM | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/RXNORM/index.html)
+SNOMED Clinical Terms US Edition | ontology | [link](https://www.nlm.nih.gov/healthit/snomedct/snomed_licensing.html) | [link](http://www.snomed.org)
+Uber-anatomy Ontology | ontology |   | [link](http://www.obofoundry.org/ontology/uberon.html)
+UMLS Semantic Types | ontology | [link](https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/license_agreement.html) | [link](https://www.nlm.nih.gov/research/umls/index.html)
+
 
 # How to build RTX KG2 from its upstream sources
 
@@ -283,7 +301,7 @@ that it provides control over which branch you want to use for the KG2 build cod
 
 Note that there is no need to redirect `stdout` or `stderr` to a log file, when
 executing `setup-kg2-build.sh`; this is because the script saves its own `stdout` and
-`stderr` to a log file `${HOME}/setup-kg2-build.log`. This script takes just a
+`stderr` to a log file `~/kg2-build/setup-kg2-build.log`. This script takes just a
 few minutes to complete. At some point, the script will print
 
     fatal error: Unable to locate credentials
@@ -296,7 +314,7 @@ should enter the AWS region that hosts the private S3 bucket that you intend to
 use with the KG2 build system). When prompted `Default output format [None]`,
 just hit enter/return.
 
-(5) Look in the log file `${HOME}/setup-kg2-build.log` to see if the script
+(5) Look in the log file `~/kg2-build/setup-kg2-build.log` to see if the script
 completed successfully; it should end with `======= script finished ======`.
 
 (6) [**THIS STEP IS NORMALLY SKIPPED**] If (and *only* if) you have made code
@@ -317,7 +335,7 @@ this command:
 
 Then exit screen (`ctrl-a d`). Note that there is no need to redirect `stdout`
 or `stderr` to a log file, when executing `build-kg2-snakemake.sh`; this is because the
-script saves its own `stdout` and `stderr` to a log file `build-kg2-snakemake.log`. You can 
+script saves its own `stdout` and `stderr` to a log file `~/kg2-build/build-kg2-snakemake.log`. You can 
 watch the progress of your KG2 build by using this command:
 
     tail -f ~/kg2-build/build-kg2-snakemake.log
