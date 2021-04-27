@@ -54,6 +54,7 @@ DrugBank | data | [link](https://www.drugbank.ca/legal/terms_of_use) | [link](ht
 DrugCentral | data |   | [link](https://drugcentral.org/)
 Ensembl | data | [link](https://uswest.ensembl.org/info/about/legal/code_licence.html) | [link](https://uswest.ensembl.org/index.html/)
 GO_Annotations | data |   | [link](https://www.ebi.ac.uk/GOA/)
+Guide to Pharmacology | data |  | [link](https://www.guidetopharmacology.org/)
 HMDB | data |   | [link](http://www.hmdb.ca/)
 IntAct | data |   | [link](https://www.ebi.ac.uk/intact/)
 JensenLab | data |   | [link](https://diseases.jensenlab.org/About)
@@ -63,7 +64,8 @@ PathWhiz | data |   | [link](https://smpdb.ca/pathwhiz)
 Reactome | data | [link](https://reactome.org/license) | [link](https://reactome.org/)
 RepoDB | data |   | [link](https://repodb.net/)
 SemMedDB | data | [link](https://skr3.nlm.nih.gov/TermsAndCond.html) | [link](https://skr3.nlm.nih.gov/SemMedDB/)
-SMPD | data | [link](https://smpdb.ca/about#citing) | [link](https://smpdb.ca/)
+SMPDB | data | [link](https://smpdb.ca/about#citing) | [link](https://smpdb.ca/)
+Therapuetic Target Database | data | | [link](http://db.idrblab.net/ttd/)
 Unichem | data |   | [link](https://www.ebi.ac.uk/unichem/)
 UniprotKB | data | [link](https://www.uniprot.org/help/license) | [link](https://www.uniprot.org/help/uniprotkb)
 Anatomical Therapeutic Chemical Classification System | ontology |   | [link](https://www.whocc.no/atc_ddd_index/)
@@ -231,18 +233,11 @@ bucket. You will also need to edit (to fill in the correct Neo4j password) and
 place a file `RTXConfiguration-config.json` (template is in the KG2 source code
 directory) into the S3 bucket identified by the shell variable `s3_bucket` in
 `master-config.shinc` (for the KG2 creators, that bucket is `s3://rtx-kg2/`);
-the `RTXConfiguration-config.json` file file provides credentials
-[username, password, and HTTP URI for Neo4j Representational State Transfer (REST) Application Programming Interface (API) server]
-for accessing a RTX KG1 Neo4j endpoint; the KG2 build system will dump the KG1
-graph from that endpoint and will merge that graph into KG2. As a minimal
-example of the data format for `RTXConfiguration-config.json`, see the file
+As a minimal example of the data format for `RTXConfiguration-config.json`, see the file
 `RTXConfiguration-config-EXAMPLE.json` in this repository code directory (note:
 that config file can contain authentication information for additional server
 types in the RTX system; those are not shown in the example file in this code
-directory). The KG1 Neo4j endpoint need not (and in general, won't be) hosted in
-the same EC2 instance that hosts the KG2 build system. Currently, the KG1 Neo4j
-endpoint is hosted in the instance `arax.ncats.io`; the URI of its Neo4j REST
-HTTP interface is: `http://arax.ncats.io:7474`.
+directory).
 
 ## Typical EC2 instance type used for building KG2
 
@@ -254,14 +249,12 @@ The KG2 build software has been tested with the following instance type:
 - Security Group: ingress TCP packets on port 22 (`ssh`) permitted
 
 As of summer 2020, an on-demand `r5a.8xlarge` instance in the `us-west-2` AWS
-region costs $1.808 per hour, so the cost to build KG2 (estimated to take 67
-hours) would be approximately $121 (rough estimate, plus or minus
+region costs $1.808 per hour, so the cost to build KG2 (estimated to take 54
+hours with Snakemake) would be approximately $98 (rough estimate, plus or minus
 20%). (Unfortunately, AWS doesn't seem to allow the provisioning of spot
 instances while specifying minimum memory greater than 240 GiB; but perhaps soon
 that will happen, and if so, it could save significantly on the cost of updating
-the RTX KG2.)  There is also an experimental Snakemake build system (see Build
-Option 2 below) which takes advantage of symmetric multiprocessing to bring the
-build time down to 54 hours (Option #2).
+the RTX KG2.)
 
 ## Build instructions
 
@@ -306,13 +299,13 @@ few minutes to complete. At some point, the script will print
 
     fatal error: Unable to locate credentials
     
-This is normal. The script will then prompt you to enter your AWS Access Key ID
-and AWS Secret Access Key, for an AWS account with access to the private S3
-bucket that is configured in `master-config.shinc`. It will also ask you to
-enter your default AWS region, which in our case is normally `us-west-2` (you
-should enter the AWS region that hosts the private S3 bucket that you intend to
-use with the KG2 build system). When prompted `Default output format [None]`,
-just hit enter/return.
+This is normal. The script will then prompt you to enter:
+- your AWS Access Key ID
+- your AWS Secret Access Key 
+    - (both for an AWS account with access to the private S3 bucket that is configured in `master-config.shinc`)
+- your default AWS region, which in our case is normally `us-west-2` 
+    - (you should enter the AWS region that hosts the private S3 bucket that you intend to use with the KG2 build system)
+- When prompted `Default output format [None]`, just hit enter/return.
 
 (5) Look in the log file `~/kg2-build/setup-kg2-build.log` to see if the script
 completed successfully; it should end with `======= script finished ======`.
@@ -332,6 +325,63 @@ this command:
 (8) Within the `screen` session, run:
 
     bash -x ~/kg2-code/build-kg2-snakemake.sh all
+
+Note the `all` command line argument specifies that you would like to run a full build.
+This is the best option if you are running on a new instance, or have added upstream sources.
+Otherwise, consider the following options:
+
+<details>
+	<summary> Partial Build of KG2 </summary>
+
+
+In some circumstances, if there are no updates to any of the upstream source
+databases (like UMLS, ChEMBL, SemMedDB, etc.) that are extracted using
+`extract*.sh` scripts (as shown in the list of KG2 scripts), you can trigger
+a "partial" build that just downloads the OBO ontologies and does a build
+downstream of that. This can be useful in cases where you are testing a change
+to one of the YAML configuration files for KG2, for example. To do a partial
+build, in Step (8) above, you would run
+
+    bash -x ~/kg2-code/build-kg2-snakemake.sh
+
+(note the absence of the `all` argument to `build-kg2-snakemake.sh`). A partial build of KG2
+may take about 31 hours. Note, you have to have previously run an `all` build
+of KG2, or else the partial build will not work.
+</details>
+
+<details>
+	<summary> Test Build of KG2 </summary>
+
+For testing/debugging purposes, it is helpful to have a faster way to exercise
+the KG2 build code. For this, you may want to execute a "test" build. This build
+mode builds a smaller graph with a significantly reduced set of nodes and edges.
+Before you can do a test build, you must have previously done a full *non-test*
+build of KG2 (i.e., `build-kg2.sh all`) at least once. To execute a full *test*
+build, in Step (8) above, you would run:
+
+	bash -x ~/kg2-code/build-kg2-snakemake.sh alltest
+
+In the case of a test build, the a couple log file names are changed:
+
+       ~/kg2-build/build-kg2-snakemake-test.log
+       ~/kg2-build/build-kg2-ont-test-stderr.log
+
+and all of the intermediate JSON and TSV files that the build system creates
+will have `-test` appended to the filename before the usual filename suffix
+(`.json`).
+</details>
+
+<details>
+	<summary> Partial Test Build of KG2 </summary>
+
+To run a partial build of KG2 in "test" mode, the command would be:
+
+    bash -x ~/kg2-code/build-kg2-snakemake.sh test
+
+This option is frequently used in testing/development. Note, you have to have
+previously run an `alltest` build, or else a `test` build will not work.
+</details>
+
 
 Then exit screen (`ctrl-a d`). Note that there is no need to redirect `stdout`
 or `stderr` to a log file, when executing `build-kg2-snakemake.sh`; this is because the
@@ -373,26 +423,25 @@ for many of the scripts is piped into its own final, including:
 If a build using Snakemake fails and the output file for the rule it failed on doesn't exist, you
 can continue the build such that it only reruns the rule(s) that don't already have an output file
 and all of the rules after that rule(s). For example, if a build fails on `multi_ont_to_json_kg.py`,
-wait for the build to completely fail (`build-kg2-snakemake.sh` won't be running at all), then
-change the following line in `build-kg2-snakemake.sh` to have it run `multi_ont_to_json_kg.py`, `merge_graphs.py`,
+wait for the build to completely fail (`build-kg2-snakemake.sh` won't be running at all, which you can check
+using `top` or `htop`), then change the following line in `build-kg2-snakemake.sh` to have it run 
+`multi_ont_to_json_kg.py`, `merge_graphs.py`,
 etc.
 
 Normal Line:
 
-	cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${CODE_DIR}/Snakefile \
-     -F -j --config TEST_FLAG="${test_flag}" TEST_SUFFIX="${test_suffix}" \
-     ...
+	cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} -F -j
 
 New Line:
 
-	cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${CODE_DIR}/Snakefile \
-     -R Finish -j --config TEST_FLAG="${test_flag}" TEST_SUFFIX="${test_suffix}" \
-     ...
+	cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} -R Finish -j
 
 Note the `-F`, which forces all rules that lead up to `Finish` -- the first rule in the Snakefile -- to run,
 regardless of the existence of output files,
 has changed to `-R Finish`, which only forces the rule that failed and the rules that depend on that rule's output
-to run.
+to run. You can always add `-n` if you're unsure of what rules your edited snakemake command will run: this will 
+cause snakemake to do a dry-run, which just prints the snakemake rules that will be run to the log file without 
+actually running them.
 
 At the end of the build process, you should inspect the logfile
 `~/kg2-build/filter_kg_and_remap_predicates.log` to see if there are warnings
@@ -402,7 +451,7 @@ CURIEPREFIX:some_predicate ``` where `CURIEPREFIX` could be any CURIE prefix in
 (or in the case of Relation Ontology, a numeric identifier). Any warnings of the
 above format in `filter_kg_and_remap_predicates.log` probably indicates that an
 addition needs to be made to the file `predicate-remap.yaml`, followed by a
-partial rebuild starting with `filter_kg_and_remap_predicates.py`.
+partial rebuild starting with `filter_kg_and_remap_predicates.py`(the `Simplify` rule).
 
 #### Note about versioning of KG2
 
@@ -427,55 +476,12 @@ should trigger the incrementing of the major release version by making sure to
 do step (6) above.  The build script (specifically, the script `version.sh`)
 will automatically delete the file `~/kg2-build/major-release` so that it will
 not persist for the next build. Note: if the build system happens to terminate
-unexpectedly while running `version.sh`, you should check what state the file
-`s3://rtx-kg2-public/kg2-version.txt` was left in.
+unexpectedly while running `version.sh`, or after the `Simplify` rule,
+you should check what state the file`s3://rtx-kg2-public/kg2-version.txt` was left in. 
 
 The version history for KG2 can be found [here](kg2-versions.md).
 
-#### Partial build of KG2
 
-In some circumstances, if there are no updates to any of the upstream source
-databases (like UMLS, ChEMBL, SemMedDB, etc.) that are extracted using
-`extract*.sh` scripts (as shown in the list of KG2 scripts), you can trigger
-a "partial" build that just downloads the OBO ontologies and does a build
-downstream of that. This can be useful in cases where you are testing a change
-to one of the YAML configuration files for KG2, for example. To do a partial
-build, in Step (8) above, you would run
-
-    bash -x ~/kg2-code/build-kg2-snakemake.sh
-
-(note the absence of the `all` argument to `build-kg2-snakemake.sh`). A partial build of KG2
-may take about 31 hours. Note, you have to have previously run an `all` build
-of KG2, or else the partial build will not work.
-
-#### Test build of KG2
-
-For testing/debugging purposes, it is helpful to have a faster way to exercise
-the KG2 build code. For this, you may want to execute a "test" build. This build
-mode builds a smaller graph with a significantly reduced set of nodes and edges.
-Before you can do a test build, you must have previously done a full *non-test*
-build of KG2 (i.e., `build-kg2.sh all`) at least once. To execute a full *test*
-build, in Step (8) above, you would run:
-
-    bash -x ~/kg2-code/build-kg2-snakemake.sh alltest
-    
-In the case of a test build, the a couple log file names are changed:
-
-    ~/kg2-build/build-kg2-snakemake-test.log
-    ~/kg2-build/build-kg2-ont-test-stderr.log
-
-and all of the intermediate JSON and TSV files that the build system creates
-will have `-test` appended to the filename before the usual filename suffix
-(`.json`).
-
-#### Partial test build of KG2
-
-To run a partial build of KG2 in "test" mode, the command would be:
-
-    bash -x ~/kg2-code/build-kg2-snakemake.sh test
-
-This option is frequently used in testing/development. Note, you have to have
-previously run an `alltest` build, or else a `test` build will not work.
 
 
 ### Build Option 2: build KG2 serially (about 67 hours) directly on an Ubuntu system (DEPRECATED):
@@ -834,6 +840,10 @@ the following keys:
   - `update date`: a string identifier of the date in which the information for
   this node object was last updated in the upstream source database; it has (at
   present) no consitent format, unfortunately; it is usually not `null`.
+  - `has_biological_sequence`: a string of sequence information for nodes from DrugBank (SMILES),
+  ChemBL (Canonical SMILES), HMDB (SMILES), miRBase ("sequence" - appears to be amino acids), and
+  UniprotKB ("sequence" - also appears to be amino acids). For nodes from other sources,
+  this property is `null`.
 
 ## `edges` slot
 - `edges`: a list of edge objects. Each edge object has the following keys:
@@ -864,6 +874,8 @@ the following keys:
   - `update_date`: a string identifier of the date in which the information for
   this node object was last updated in the upstream source database; it has (at
   present) no consitent format, unfortunately; it is usually not `null`.
+  - `id`: a concatenated string of other edge attributes that uniquely identifies the edge. it
+  follows the format `subject---relation---object---provided_by`.
 
 ### `publications_info` slot
 
