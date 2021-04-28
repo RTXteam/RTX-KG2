@@ -1,3 +1,23 @@
+# 2.6.1
+
+**Date: 2021.4.28**
+
+Biolink Model Version: 1.8.1
+
+Nodes: 10,694,772
+
+Edges: 51,687,002
+
+Notes: 
+ - this build was done from the branch Ontobio507TempFix,
+ with an uncommitted workaround to add some of the KEGG nodes back in
+
+Issues:
+ 
+ - Issue [#1381](https://github.com/RTXteam/RTX/issues/1400)
+
+Build host: `kg2lindsey.rtx.ai` `~/kg2-build/`
+
 # 2.6.0
 
 **Date: 2021.4.23**
@@ -45,6 +65,7 @@ Issues:
  - Issue [#545](https://github.com/RTXteam/RTX/issues/545)
 
 Build host: `kg2lindsey.rtx.ai` `~/kg2-build/`
+Json file(s) stored on same host, `~/kg2-build/KG2-6-0/`
 
 # 2.5.2 
 
