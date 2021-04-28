@@ -57,7 +57,7 @@ def _convert_to_trapi_predicate_format(english_predicate: str) -> str:
 
 def _create_expanded_predicates_maps(biolink_version: str) -> Tuple[DefaultDict[str, set], Dict[str, str]]:
     # Build maps of predicate ancestors and inverses, since KG2c considers these when answering queries
-    _print_log_message("  Generating ancestor/inverse predicates maps..")
+    _print_log_message("Generating ancestor/inverse predicates maps..")
 
     # First load the biolink model into a tree
     root_predicate = "biolink:related_to"
@@ -97,8 +97,8 @@ def _create_expanded_predicates_maps(biolink_version: str) -> Tuple[DefaultDict[
 
 def build_meta_kg(nodes_by_id: Dict[str, Dict[str, any]], edges_by_id: Dict[str, Dict[str, any]],
                   meta_kg_file_name: str, label_property_name: str, biolink_model_version: str, is_test: bool):
-    _print_log_message("Gathering all meta triples..")
     predicate_ancestors, inverses_map = _create_expanded_predicates_maps(biolink_model_version)
+    _print_log_message("Gathering all meta triples..")
     meta_triples = set()
     for edge in edges_by_id.values():
         subject_node_id = edge["subject"]
@@ -113,10 +113,12 @@ def build_meta_kg(nodes_by_id: Dict[str, Dict[str, any]], edges_by_id: Dict[str,
                 for predicate in predicates:
                     for object_category in object_categories:
                         meta_triples.add((subject_category, predicate, object_category))
-                        # Add the inverse of this meta triple as well, if one exists
+                        # Add the inverse of this meta triple as well (and its ancestors), if one exists
                         if inverses_map.get(predicate):
                             inverse_predicate = inverses_map[predicate]
-                            meta_triples.add((object_category, inverse_predicate, subject_category))
+                            inverse_ancestors = predicate_ancestors.get(inverse_predicate, {inverse_predicate})
+                            for inverse_ancestor in inverse_ancestors:
+                                meta_triples.add((object_category, inverse_ancestor, subject_category))
     meta_edges = [{"subject": triple[0], "predicate": triple[1], "object": triple[2]} for triple in meta_triples]
     _print_log_message(f"Created {len(meta_edges)} meta edges")
 
