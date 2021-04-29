@@ -36,7 +36,7 @@ def _run_kg2_cypher_query(cypher_query: str) -> List[Dict[str, any]]:
     try:
         driver = GraphDatabase.driver(rtxc.neo4j_bolt, auth=(rtxc.neo4j_username, rtxc.neo4j_password))
         with driver.session() as session:
-            print(f"  Sending cypher query to KG2 neo4j..")
+            print(f"  Sending cypher query to KG2 neo4j ({rtxc.neo4j_bolt})..")
             query_results = session.run(cypher_query).data()
             print(f"  Got {len(query_results)} results back from neo4j")
         driver.close()
