@@ -66,7 +66,7 @@ In creating KG2c, edges from the regular KG2 are remapped to use only 'preferred
 1. If you wish to upload your eventual output KG2c files to S3:
     1. Install AWS CLI: `sudo apt-get install -y awscli`
     1. And configure it: `aws configure`
-1. Locally modify `kg2c_config.json` for your particular needs
+1. Locally modify `kg2c_config.json` (in `RTX/code/kg2/canonicalized/`) for your particular needs
     - Most importantly, be sure to specify the Neo4j endpoint for the KG2 you want to build this KG2c from under the `"kg2_neo4j"` slot
     - The Biolink model version specified should match that used by the KG2 you specify
 1. If you do **not** want a new `NodeSynonymizer` to be built (i.e., you already have a synonymizer made from the KG2 this KG2c will be built from):
