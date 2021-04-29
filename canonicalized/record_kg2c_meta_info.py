@@ -178,6 +178,7 @@ def add_neighbor_counts_to_sqlite(nodes_by_id: Dict[str, Dict[str, any]], edges_
 
 
 def main():
+    _print_log_message("Starting to record KG2c meta info..")
     arg_parser = argparse.ArgumentParser()
     arg_parser.add_argument("biolink_model_version", type=str)
     arg_parser.add_argument("--test", dest="test", action='store_true', default=False)

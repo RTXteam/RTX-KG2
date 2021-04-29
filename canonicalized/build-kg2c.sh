@@ -1,10 +1,19 @@
 #!/usr/bin/env bash
 # This script builds a canonicalized version of KG2; it requires an ARAX NodeSynonymizer built from the KG2 you intend
 # to make this KG2c from. This synonymizer (e.g., node_synonymizer.sqlite) should be in your code/ARAX/NodeSynonymizer
-# directory. The KG2c will be built from whatever KG2 version your configv2.json file points to.
-# Usage: build-kg2c.sh
+# directory. Your configv2.json must point to the Neo4j endpoint for whatever KG2 version you want to build this
+# KG2c from. You must specify which Biolink model version to use (should match that of the KG2 this KG2c is being built
+# from).
+# Usage: build-kg2c.sh <Biolink model version>
 
 set -e
+
+if [ $# -eq 0 ]  # No arguments were supplied
+  then
+    echo "You must specify the Biolink Model version to use (e.g., 1.8.1)"
+    exit 1
+fi
+biolink_version=$1
 
 kg2c_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"  # Thanks https://stackoverflow.com/a/246128
 
@@ -13,7 +22,7 @@ cd ${kg2c_dir}
 python3 -u create_kg2c_files.py
 
 # Compute and save some additional meta info (meta knowledge graph and neighbor counts)
-python3 -u record_kg2c_meta_info.py
+python3 -u record_kg2c_meta_info.py ${biolink_version}
 
 # Upload generated files to S3
 tarball_name=kg2c-tsv.tar.gz
