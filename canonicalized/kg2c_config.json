@@ -1,0 +1,7 @@
+{
+  "kg2_neo4j": "kg2endpoint-kg2-6-1.rtx.ai",
+  "build_synonymizer": true,
+  "biolink_model_version": "1.8.1",
+  "upload_to_s3": true,
+  "include_neighbor_counts": true
+}

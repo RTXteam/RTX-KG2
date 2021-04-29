@@ -1,7 +1,7 @@
 #!/bin/env python3
 """
 This script creates a canonicalized version of KG2 stored in TSV files, ready for import into neo4j. The TSVs are
-created in the current working directory.
+created in the directory this script is in.
 Usage: python3 create_kg2c_files.py [--test]
 """
 import argparse
@@ -26,6 +26,7 @@ from node_synonymizer import NodeSynonymizer
 ARRAY_NODE_PROPERTIES = ["all_categories", "publications", "equivalent_curies", "all_names", "expanded_categories"]
 ARRAY_EDGE_PROPERTIES = ["provided_by", "publications", "kg2_ids"]
 DELIMITER_CHAR = "ǂ"  # Need to use a delimiter that does not appear in any list items (strings)
+KG2C_DIR = f"{os.path.dirname(os.path.abspath(__file__))}"
 
 
 def _run_kg2_cypher_query(cypher_query: str) -> List[Dict[str, any]]:
@@ -35,7 +36,7 @@ def _run_kg2_cypher_query(cypher_query: str) -> List[Dict[str, any]]:
     try:
         driver = GraphDatabase.driver(rtxc.neo4j_bolt, auth=(rtxc.neo4j_username, rtxc.neo4j_password))
         with driver.session() as session:
-            print(f"  Sending cypher query to KG2 neo4j..")
+            print(f"  Sending cypher query to KG2 neo4j ({rtxc.neo4j_bolt})..")
             query_results = session.run(cypher_query).data()
             print(f"  Got {len(query_results)} results back from neo4j")
         driver.close()
@@ -136,11 +137,11 @@ def _write_list_to_neo4j_ready_tsv(input_list: List[Dict[str, any]], file_name_r
     print(f"  Creating {file_name_root} header file..")
     column_headers = list(input_list[0].keys())
     modified_headers = _modify_column_headers_for_neo4j(column_headers, file_name_root)
-    with open(f"{'test_' if is_test else ''}{file_name_root}_header.tsv", "w+") as header_file:
+    with open(f"{KG2C_DIR}/{'test_' if is_test else ''}{file_name_root}_header.tsv", "w+") as header_file:
         dict_writer = csv.DictWriter(header_file, modified_headers, delimiter='\t')
         dict_writer.writeheader()
     print(f"  Creating {file_name_root} file..")
-    with open(f"{'test_' if is_test else ''}{file_name_root}.tsv", "w+") as data_file:
+    with open(f"{KG2C_DIR}/{'test_' if is_test else ''}{file_name_root}.tsv", "w+") as data_file:
         dict_writer = csv.DictWriter(data_file, column_headers, delimiter='\t')
         dict_writer.writerows(input_list)
 
@@ -150,7 +151,7 @@ def create_kg2c_json_file(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
     print(f" Creating KG2c JSON file..")
     kgx_format_json = {"nodes": list(canonicalized_nodes_dict.values()),
                        "edges": list(canonicalized_edges_dict.values())}
-    with open(f"kg2c{'_test' if is_test else ''}.json", "w+") as output_file:
+    with open(f"{KG2C_DIR}/kg2c{'_test' if is_test else ''}.json", "w+") as output_file:
         json.dump(kgx_format_json, output_file)
 
 
@@ -174,7 +175,7 @@ def create_kg2c_lite_json_file(canonicalized_nodes_dict: Dict[str, Dict[str, any
 
     # Save this lite KG to a JSON file
     print(f"    Saving lite json...")
-    with open(f"kg2c_lite{'_test' if is_test else ''}.json", "w+") as output_file:
+    with open(f"{KG2C_DIR}/kg2c_lite{'_test' if is_test else ''}.json", "w+") as output_file:
         json.dump(lite_kg, output_file)
 
 
@@ -230,7 +231,7 @@ def _canonicalize_nodes(neo4j_nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Di
     equivalent_curies_info = synonymizer.get_equivalent_nodes(all_canonical_curies)
     recognized_curies = {curie for curie in equivalent_curies_info if equivalent_curies_info.get(curie)}
     equivalent_curies_dict = {curie: list(equivalent_curies_info.get(curie)) for curie in recognized_curies}
-    with open("equivalent_curies.pickle", "wb") as equiv_curies_dump:  # Save these for use by downstream script
+    with open(f"{KG2C_DIR}/equivalent_curies.pickle", "wb") as equiv_curies_dump:  # Save these for use by downstream script
         pickle.dump(equivalent_curies_dict, equiv_curies_dump, protocol=pickle.HIGHEST_PROTOCOL)
     print(f"  Creating canonicalized nodes..")
     curie_map = dict()
