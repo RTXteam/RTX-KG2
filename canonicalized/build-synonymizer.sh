@@ -5,7 +5,7 @@
 set -e
 
 script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"  # Thanks https://stackoverflow.com/a/246128
-arax_dir=${script_dir}../../ARAX
+arax_dir=${script_dir}/../../ARAX
 
 # Build a NodeSynonymizer using the KG2 endpoint specified under the "KG2" slot in RTX/code/configv2.json
 cd ${arax_dir}/NodeSynonymizer

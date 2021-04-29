@@ -7,16 +7,19 @@ Usage: python3 record_kg2c_meta_info.py <biolink model version> [--test] [--meta
 """
 import argparse
 import json
+import os
 import pickle
 import sqlite3
 import time
 from collections import defaultdict
 from datetime import datetime
 from typing import Dict, Set, Tuple, DefaultDict
-from treelib import Tree
 
 import requests
+from treelib import Tree
 import yaml
+
+KG2C_DIR = f"{os.path.dirname(os.path.abspath(__file__))}"
 
 
 def _print_log_message(message: str):
@@ -123,7 +126,7 @@ def build_meta_kg(nodes_by_id: Dict[str, Dict[str, any]], edges_by_id: Dict[str,
     _print_log_message(f"Created {len(meta_edges)} meta edges")
 
     _print_log_message("Gathering all meta nodes..")
-    with open("equivalent_curies.pickle", "rb") as equiv_curies_file:
+    with open(f"{KG2C_DIR}/equivalent_curies.pickle", "rb") as equiv_curies_file:
         equivalent_curies_dict = pickle.load(equiv_curies_file)
     meta_nodes = defaultdict(lambda: defaultdict(lambda: set()))
     for node_id, node in nodes_by_id.items():
@@ -136,7 +139,7 @@ def build_meta_kg(nodes_by_id: Dict[str, Dict[str, any]], edges_by_id: Dict[str,
 
     _print_log_message("Saving meta KG to JSON file..")
     meta_kg = {"nodes": meta_nodes, "edges": meta_edges}
-    with open(meta_kg_file_name, "w+") as meta_kg_file:
+    with open(f"{KG2C_DIR}/{meta_kg_file_name}", "w+") as meta_kg_file:
         json.dump(meta_kg, meta_kg_file, default=serialize_with_sets)
 
 
@@ -177,32 +180,35 @@ def add_neighbor_counts_to_sqlite(nodes_by_id: Dict[str, Dict[str, any]], edges_
     connection.close()
 
 
-def main():
-    _print_log_message("Starting to record KG2c meta info..")
-    arg_parser = argparse.ArgumentParser()
-    arg_parser.add_argument("biolink_model_version", type=str)
-    arg_parser.add_argument("--test", dest="test", action='store_true', default=False)
-    arg_parser.add_argument("--metakgonly", dest="meta_kg_only", action='store_true', default=False)
-    args = arg_parser.parse_args()
-
-    input_kg_file_name = f"kg2c_lite{'_test' if args.test else ''}.json"
-    meta_kg_file_name = f"kg2c_meta_kg{'_test' if args.test else ''}.json"
-    sqlite_file_name = f"kg2c{'_test' if args.test else ''}.sqlite"
+def record_meta_kg_info(biolink_version: str, is_test: bool, include_neighbor_counts: bool = True):
+    input_kg_file_name = f"kg2c_lite{'_test' if is_test else ''}.json"
+    meta_kg_file_name = f"kg2c_meta_kg{'_test' if is_test else ''}.json"
+    sqlite_file_name = f"kg2c{'_test' if is_test else ''}.sqlite"
     label_property_name = "expanded_categories"
 
     start = time.time()
-    with open(input_kg_file_name, "r") as input_kg_file:
+    with open(f"{KG2C_DIR}/{input_kg_file_name}", "r") as input_kg_file:
         _print_log_message(f"Loading {input_kg_file_name} into memory..")
         kg2c_dict = json.load(input_kg_file)
         nodes_by_id = {node["id"]: node for node in kg2c_dict["nodes"]}
         edges_by_id = {edge["id"]: edge for edge in kg2c_dict["edges"]}
         del kg2c_dict
 
-    build_meta_kg(nodes_by_id, edges_by_id, meta_kg_file_name, label_property_name, args.biolink_model_version, args.test)
-    if not args.meta_kg_only:
-        add_neighbor_counts_to_sqlite(nodes_by_id, edges_by_id, sqlite_file_name, label_property_name, args.test)
+    build_meta_kg(nodes_by_id, edges_by_id, meta_kg_file_name, label_property_name, biolink_version, is_test)
+    if include_neighbor_counts:
+        add_neighbor_counts_to_sqlite(nodes_by_id, edges_by_id, sqlite_file_name, label_property_name, is_test)
 
-    _print_log_message(f"Done! Took {round((time.time() - start) / 60, 1)} minutes.")
+    _print_log_message(f"Recording meta KG info took {round((time.time() - start) / 60, 1)} minutes.")
+
+
+def main():
+    _print_log_message("Starting to record KG2c meta info..")
+    arg_parser = argparse.ArgumentParser()
+    arg_parser.add_argument("biolink_model_version", type=str)
+    arg_parser.add_argument("--test", dest="test", action='store_true', default=False)
+    args = arg_parser.parse_args()
+
+    record_meta_kg_info(args.biolink_model_version, args.test)
 
 
 if __name__ == "__main__":
