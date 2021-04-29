@@ -41,9 +41,9 @@ echo "# ${update_date}" > ${output_tsv_file}
 zcat ${unichem_dir}/UC_XREF.txt.gz | awk '{if ($2 == '${chebi_src_id}') {print $1 "\tCHEBI:" $3}}' | sort -k1 > ${unichem_dir}/chebi.txt
 zcat ${unichem_dir}/UC_XREF.txt.gz | awk '{if ($2 == '${chembl_src_id}') {print $1 "\tCHEMBL.COMPOUND:" $3}}' | sort -k1 > ${unichem_dir}/chembl.txt
 zcat ${unichem_dir}/UC_XREF.txt.gz | awk '{if ($2 == '${drugbank_src_id}') {print $1 "\tDRUGBANK:" $3}}' | sort -k1 > ${unichem_dir}/drugbank.txt
-zcat ${unichem_dir}/UC_XREF.txt.gz | awk '{if ($2 == '${kegg_src_id}') {print $1 "\KEGG:" $3}}' | sort -k1 > ${unichem_dir}/kegg.txt
-zcat ${unichem_dir}/UC_XREF.txt.gz | awk '{if ($2 == '${drugcentral_src_id}') {print $1 "\DrugCentral:" $3}}' | sort -k1 > ${unichem_dir}/drugcentral.txt
-zcat ${unichem_dir}/UC_XREF.txt.gz | awk '{if ($2 == '${hmdb_src_id}') {print $1 "\HMDB:" $3}}' | sort -k1 > ${unichem_dir}/hmdb.txt
+zcat ${unichem_dir}/UC_XREF.txt.gz | awk '{if ($2 == '${kegg_src_id}') {print $1 "\tKEGG:" $3}}' | sort -k1 > ${unichem_dir}/kegg.txt
+zcat ${unichem_dir}/UC_XREF.txt.gz | awk '{if ($2 == '${drugcentral_src_id}') {print $1 "\tDrugCentral:" $3}}' | sort -k1 > ${unichem_dir}/drugcentral.txt
+zcat ${unichem_dir}/UC_XREF.txt.gz | awk '{if ($2 == '${hmdb_src_id}') {print $1 "\tHMDB:" $3}}' | sort -k1 > ${unichem_dir}/hmdb.txt
 
 join ${unichem_dir}/chembl.txt ${unichem_dir}/chebi.txt | sed 's/ /\t/g' | cut -f2-3 >> ${output_tsv_file}
 join ${unichem_dir}/chembl.txt ${unichem_dir}/drugbank.txt | sed 's/ /\t/g' | cut -f2-3 >> ${output_tsv_file}
