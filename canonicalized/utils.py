@@ -16,6 +16,7 @@ class select_best_description:
     #### Constructor
     def __init__(self, desc_list):
         self.desc_list = list(set([x if x is not None else '' for x in desc_list]))
+        self.len = len(self.desc_list)
 
     @staticmethod
     def _call_biobert_tokenizer(desc, len_limit=3):
@@ -37,7 +38,6 @@ class select_best_description:
         parameter desc[string]: description text
         '''
         if type(desc) is str:
-            desc = desc.replace('UMLS Semantic Type:','').replace('UMLS_STY:','')
             res = textstat.text_standard(desc)
             grade = int(re.sub('[a-z]','',res.split(' ')[0]))
             return grade
@@ -71,7 +71,7 @@ class select_best_description:
             return self.readability_level_score
         else:
             self._desc_school_grade_level = {x:self._call_textstat(x) for x in self.desc_list}
-            self.readability_level_score = {desc: index for index, (desc, _) in enumerate(sorted(self._desc_school_grade_level.items(), key=lambda item: item[1], reverse=False))}
+            self.readability_level_score = {desc: index for index, (desc, _) in enumerate(sorted(self._desc_school_grade_level.items(), key=lambda item: -1 / (item[1]+0.0000000001), reverse=False))}
             return self.readability_level_score
 
     #### Get the final socres based on three rules
