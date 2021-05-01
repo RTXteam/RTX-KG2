@@ -76,11 +76,16 @@ def _print_log_message(message: str):
     print(f"{current_time}: {message}")
 
 
-def _get_best_description(descriptions_list: List[str]) -> str:
+def _get_best_description(descriptions_list: List[str]) -> Optional[str]:
     candidate_descriptions = [description for description in descriptions_list if description and len(description) < 10000]
-    # Use Chunyu's NLP-based method to select the best description out of the coalesced nodes
-    description_finder = select_best_description(candidate_descriptions)
-    return description_finder.get_best_description
+    if not candidate_descriptions:
+        return None
+    elif len(candidate_descriptions) == 1:
+        return candidate_descriptions[0]
+    else:
+        # Use Chunyu's NLP-based method to select the best description
+        description_finder = select_best_description(candidate_descriptions)
+        return description_finder.get_best_description
 
 
 def _modify_column_headers_for_neo4j(plain_column_headers: List[str], file_name_root: str) -> List[str]:
