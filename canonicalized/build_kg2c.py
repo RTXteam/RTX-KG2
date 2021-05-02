@@ -44,9 +44,9 @@ def _setup_rtx_config_local(kg2_neo4j_endpoint: str):
 
 def _upload_output_files_to_s3():
     _print_log_message("Uploading KG2c json and TSV files to S3..")
-    tarball_path=f"{KG2C_DIR}/kg2c-tsv.tar.gz"
-    json_file_path=f"{KG2C_DIR}/kg2c.json"
-    json_lite_file_path=f"{KG2C_DIR}/kg2c_lite.json"
+    tarball_path = f"{KG2C_DIR}/kg2c-tsv.tar.gz"
+    json_file_path = f"{KG2C_DIR}/kg2c.json"
+    json_lite_file_path = f"{KG2C_DIR}/kg2c_lite.json"
     subprocess.call(f"tar -czvf {tarball_path} nodes_c.tsv nodes_c_header.tsv edges_c.tsv edges_c_header.tsv", shell=True)
     subprocess.call(f"aws s3 cp --no-progress --region us-west-2 {tarball_path} s3://rtx-kg2/", shell=True)
     subprocess.call(f"gzip -f {json_file_path}", shell=True)

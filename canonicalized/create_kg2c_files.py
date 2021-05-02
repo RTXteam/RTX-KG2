@@ -9,15 +9,19 @@ import csv
 import json
 import os
 import pickle
+import re
 import sqlite3
 import sys
 import time
 import traceback
 
 from datetime import datetime
+from multiprocessing import Pool
 from typing import List, Dict, Tuple, Union, Optional
 from neo4j import GraphDatabase
 
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+from utils import select_best_description
 sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/../../")  # code directory
 from RTXConfiguration import RTXConfiguration
 sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/../../ARAX/NodeSynonymizer/")
@@ -36,14 +40,14 @@ def _run_kg2_cypher_query(cypher_query: str) -> List[Dict[str, any]]:
     try:
         driver = GraphDatabase.driver(rtxc.neo4j_bolt, auth=(rtxc.neo4j_username, rtxc.neo4j_password))
         with driver.session() as session:
-            print(f"  Sending cypher query to KG2 neo4j ({rtxc.neo4j_bolt})..")
+            _print_log_message(f"  Sending cypher query to KG2 neo4j ({rtxc.neo4j_bolt})..")
             query_results = session.run(cypher_query).data()
-            print(f"  Got {len(query_results)} results back from neo4j")
+            _print_log_message(f"  Got {len(query_results)} results back from neo4j")
         driver.close()
     except Exception:
         tb = traceback.format_exc()
         error_type, error, _ = sys.exc_info()
-        print(f"ERROR: Encountered a problem interacting with {rtxc.neo4j_bolt}. {tb}")
+        _print_log_message(f"ERROR: Encountered a problem interacting with {rtxc.neo4j_bolt}. {tb}")
         return []
     else:
         return query_results
@@ -54,7 +58,7 @@ def _convert_list_to_string_encoded_format(input_list_or_str: Union[List[str], s
         filtered_list = [item for item in input_list_or_str if item]  # Get rid of any None items
         str_items = [item for item in filtered_list if isinstance(item, str)]
         if len(str_items) < len(filtered_list):
-            print(f"  WARNING: List contains non-str items (this is unexpected; I'll exclude them)")
+            _print_log_message(f"  WARNING: List contains non-str items (this is unexpected; I'll exclude them)")
         return DELIMITER_CHAR.join(str_items)
     else:
         return input_list_or_str
@@ -66,6 +70,22 @@ def _merge_two_lists(list_a: List[any], list_b: List[any]) -> List[any]:
 
 def _get_edge_key(subject: str, object: str, predicate: str) -> str:
     return f"{subject}--{predicate}--{object}"
+
+
+def _print_log_message(message: str):
+    current_time = datetime.utcfromtimestamp(time.time()).strftime('%H:%M:%S')
+    print(f"{current_time}: {message}")
+
+
+def _clean_up_description(description: str) -> str:
+    # Removes all of the "UMLS Semantic Type: UMLS_STY:XXXX;" bits from descriptions
+    return re.sub("UMLS Semantic Type: UMLS_STY:[a-zA-Z][0-9]{3}[;]?", "", description).strip().strip(";")
+
+
+def _get_best_description(descriptions_list: List[str]) -> Optional[str]:
+    # Use Chunyu's NLP-based method to select the best description
+    description_finder = select_best_description(descriptions_list)
+    return description_finder.get_best_description
 
 
 def _modify_column_headers_for_neo4j(plain_column_headers: List[str], file_name_root: str) -> List[str]:
@@ -90,7 +110,7 @@ def _modify_column_headers_for_neo4j(plain_column_headers: List[str], file_name_
 
 def _create_node(preferred_curie: str, name: Optional[str], category: str, all_categories: List[str],
                  expanded_categories: List[str], equivalent_curies: List[str], publications: List[str],
-                 all_names: List[str], iri: Optional[str], description: str, descriptions_list: List[str]) -> Dict[str, any]:
+                 all_names: List[str], iri: Optional[str], description: Optional[str], descriptions_list: List[str]) -> Dict[str, any]:
     assert isinstance(preferred_curie, str)
     assert isinstance(name, str) or name is None
     assert isinstance(category, str)
@@ -134,13 +154,13 @@ def _create_edge(subject: str, object: str, predicate: str, provided_by: List[st
 
 def _write_list_to_neo4j_ready_tsv(input_list: List[Dict[str, any]], file_name_root: str, is_test: bool):
     # Converts a list into the specific format Neo4j wants (string with delimiter)
-    print(f"  Creating {file_name_root} header file..")
+    _print_log_message(f"  Creating {file_name_root} header file..")
     column_headers = list(input_list[0].keys())
     modified_headers = _modify_column_headers_for_neo4j(column_headers, file_name_root)
     with open(f"{KG2C_DIR}/{'test_' if is_test else ''}{file_name_root}_header.tsv", "w+") as header_file:
         dict_writer = csv.DictWriter(header_file, modified_headers, delimiter='\t')
         dict_writer.writeheader()
-    print(f"  Creating {file_name_root} file..")
+    _print_log_message(f"  Creating {file_name_root} file..")
     with open(f"{KG2C_DIR}/{'test_' if is_test else ''}{file_name_root}.tsv", "w+") as data_file:
         dict_writer = csv.DictWriter(data_file, column_headers, delimiter='\t')
         dict_writer.writerows(input_list)
@@ -148,7 +168,7 @@ def _write_list_to_neo4j_ready_tsv(input_list: List[Dict[str, any]], file_name_r
 
 def create_kg2c_json_file(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
                           canonicalized_edges_dict: Dict[str, Dict[str, any]], is_test: bool):
-    print(f" Creating KG2c JSON file..")
+    _print_log_message(f" Creating KG2c JSON file..")
     kgx_format_json = {"nodes": list(canonicalized_nodes_dict.values()),
                        "edges": list(canonicalized_edges_dict.values())}
     with open(f"{KG2C_DIR}/kg2c{'_test' if is_test else ''}.json", "w+") as output_file:
@@ -157,7 +177,7 @@ def create_kg2c_json_file(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
 
 def create_kg2c_lite_json_file(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
                                canonicalized_edges_dict: Dict[str, Dict[str, any]], is_test: bool):
-    print(f" Creating KG2c lite JSON file..")
+    _print_log_message(f" Creating KG2c lite JSON file..")
     # Filter out all except these properties so we create a lightweight KG
     node_lite_properties = ["id", "name", "category", "expanded_categories"]
     edge_lite_properties = ["id", "predicate", "subject", "object", "provided_by", "publications"]
@@ -174,13 +194,13 @@ def create_kg2c_lite_json_file(canonicalized_nodes_dict: Dict[str, Dict[str, any
         lite_kg["edges"].append(lite_edge)
 
     # Save this lite KG to a JSON file
-    print(f"    Saving lite json...")
+    _print_log_message(f"    Saving lite json...")
     with open(f"{KG2C_DIR}/kg2c_lite{'_test' if is_test else ''}.json", "w+") as output_file:
         json.dump(lite_kg, output_file)
 
 
 def create_kg2c_sqlite_db(canonicalized_nodes_dict: Dict[str, Dict[str, any]], is_test: bool):
-    print(" Creating KG2c sqlite database..")
+    _print_log_message(" Creating KG2c sqlite database..")
     db_name = f"kg2c{'_test' if is_test else ''}.sqlite"
     # Remove any preexisting version of this database
     if os.path.exists(db_name):
@@ -193,7 +213,7 @@ def create_kg2c_sqlite_db(canonicalized_nodes_dict: Dict[str, Dict[str, any]], i
     connection.execute("CREATE UNIQUE INDEX node_id_index ON nodes (id)")
     connection.commit()
     cursor = connection.execute(f"SELECT COUNT(*) FROM nodes")
-    print(f"  Done creating nodes table; contains {cursor.fetchone()[0]} rows.")
+    _print_log_message(f"  Done creating nodes table; contains {cursor.fetchone()[0]} rows.")
     cursor.close()
     connection.close()
 
@@ -216,7 +236,7 @@ def create_kg2c_tsv_files(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
         canonicalized_edge['object_for_conversion'] = canonicalized_edge['object']
 
     # Finally dump all our nodes/edges into TSVs (formatted for neo4j)
-    print(f" Creating TSVs for Neo4j..")
+    _print_log_message(f" Creating TSVs for Neo4j..")
     _write_list_to_neo4j_ready_tsv(list(canonicalized_nodes_dict.values()), "nodes_c", is_test)
     _write_list_to_neo4j_ready_tsv(list(canonicalized_edges_dict.values()), "edges_c", is_test)
 
@@ -224,16 +244,16 @@ def create_kg2c_tsv_files(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
 def _canonicalize_nodes(neo4j_nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Dict[str, any]], Dict[str, str]]:
     synonymizer = NodeSynonymizer()
     node_ids = [node.get('id') for node in neo4j_nodes if node.get('id')]
-    print(f"  Sending NodeSynonymizer.get_canonical_curies() {len(node_ids)} curies..")
+    _print_log_message(f"  Sending NodeSynonymizer.get_canonical_curies() {len(node_ids)} curies..")
     canonicalized_info = synonymizer.get_canonical_curies(curies=node_ids, return_all_categories=True)
     all_canonical_curies = {canonical_info['preferred_curie'] for canonical_info in canonicalized_info.values() if canonical_info}
-    print(f"  Sending NodeSynonymizer.get_equivalent_nodes() {len(all_canonical_curies)} curies..")
+    _print_log_message(f"  Sending NodeSynonymizer.get_equivalent_nodes() {len(all_canonical_curies)} curies..")
     equivalent_curies_info = synonymizer.get_equivalent_nodes(all_canonical_curies)
     recognized_curies = {curie for curie in equivalent_curies_info if equivalent_curies_info.get(curie)}
     equivalent_curies_dict = {curie: list(equivalent_curies_info.get(curie)) for curie in recognized_curies}
     with open(f"{KG2C_DIR}/equivalent_curies.pickle", "wb") as equiv_curies_dump:  # Save these for use by downstream script
         pickle.dump(equivalent_curies_dict, equiv_curies_dump, protocol=pickle.HIGHEST_PROTOCOL)
-    print(f"  Creating canonicalized nodes..")
+    _print_log_message(f"  Creating canonicalized nodes..")
     curie_map = dict()
     canonicalized_nodes = dict()
     for neo4j_node in neo4j_nodes:
@@ -250,28 +270,26 @@ def _canonicalize_nodes(neo4j_nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Di
             existing_canonical_node['descriptions_list'] = _merge_two_lists(existing_canonical_node['descriptions_list'], descriptions_list)
             # Make sure any nodes subject to #1074-like problems still appear in equivalent curies
             existing_canonical_node['equivalent_curies'] = _merge_two_lists(existing_canonical_node['equivalent_curies'], [neo4j_node['id']])
-            # Add the IRI and description for the 'preferred' curie, if we've found that node
+            # Add the IRI for the 'preferred' curie, if we've found that node
             if neo4j_node['id'] == canonicalized_curie:
                 existing_canonical_node['iri'] = neo4j_node.get('iri')
-                existing_canonical_node['description'] = neo4j_node.get('description')
         else:
             # Initiate the canonical node for this synonym group
             name = canonical_info['preferred_name'] if canonical_info else neo4j_node['name']
             category = canonical_info['preferred_category'] if canonical_info else neo4j_node['category']
             if not category.startswith("biolink:"):
-                print(f"  WARNING: Preferred category for {canonicalized_curie} doesn't start with 'biolink:': {category}")
+                _print_log_message(f"  WARNING: Preferred category for {canonicalized_curie} doesn't start with 'biolink:': {category}")
             all_categories = list(canonical_info['all_categories']) if canonical_info else [neo4j_node['category']]
             expanded_categories = list(canonical_info['expanded_categories']) if canonical_info else [neo4j_node['category']]
             iri = neo4j_node['iri'] if neo4j_node['id'] == canonicalized_curie else None
-            description = neo4j_node.get('description') if neo4j_node['id'] == canonicalized_curie else None
             all_names = [neo4j_node['name']]
 
             # Check for bug where not all categories in synonymizer were of "biolink:PascalCase" format
             if not all(category.startswith("biolink:") for category in all_categories):
-                print(f" WARNING: all_categories for {canonicalized_curie} contain non 'biolink:PascalCase' "
+                _print_log_message(f" WARNING: all_categories for {canonicalized_curie} contain non 'biolink:PascalCase' "
                       f"items: {all_categories}")
             if not all(category.startswith("biolink:") for category in expanded_categories):
-                print(f" WARNING: expanded_categories for {canonicalized_curie} contain non 'biolink:PascalCase' "
+                _print_log_message(f" WARNING: expanded_categories for {canonicalized_curie} contain non 'biolink:PascalCase' "
                       f"items: {expanded_categories}")
 
             canonicalized_node = _create_node(preferred_curie=canonicalized_curie,
@@ -282,7 +300,7 @@ def _canonicalize_nodes(neo4j_nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Di
                                               publications=publications,
                                               equivalent_curies=equivalent_curies_dict.get(canonicalized_curie, [canonicalized_curie]),
                                               iri=iri,
-                                              description=description,
+                                              description=None,
                                               descriptions_list=descriptions_list,
                                               all_names=all_names)
             canonicalized_nodes[canonicalized_node['id']] = canonicalized_node
@@ -327,28 +345,28 @@ def create_kg2c_files(is_test=False):
     canonicalizes the nodes, merges edges (based on subject, object, predicate), and saves the resulting canonicalized
     graph in multiple file formats: JSON, sqlite, and TSV (ready for import into Neo4j).
     """
-    print(f" Extracting nodes from KG2..")
+    _print_log_message(f" Extracting nodes from KG2..")
     nodes_query = f"match (n) return n.id as id, n.name as name, n.category as category, " \
-                  f"n.publications as publications, n.iri as iri, n.description as description{' limit 20000' if is_test else ''}"
+                  f"n.publications as publications, n.iri as iri, n.description as description{' limit 10000' if is_test else ''}"
     neo4j_nodes = _run_kg2_cypher_query(nodes_query)
     if neo4j_nodes:
-        print(f" Canonicalizing nodes..")
+        _print_log_message(f" Canonicalizing nodes..")
         canonicalized_nodes_dict, curie_map = _canonicalize_nodes(neo4j_nodes)
-        print(f"  Number of KG2 nodes was reduced to {len(canonicalized_nodes_dict)} ({round((len(canonicalized_nodes_dict) / len(neo4j_nodes)) * 100)}%)")
+        _print_log_message(f"  Number of KG2 nodes was reduced to {len(canonicalized_nodes_dict)} ({round((len(canonicalized_nodes_dict) / len(neo4j_nodes)) * 100)}%)")
     else:
-        print(f"ERROR: Couldn't get node data from KG2 neo4j.")
+        _print_log_message(f"ERROR: Couldn't get node data from KG2 neo4j.")
         return
-    print(f" Extracting edges from KG2..")
+    _print_log_message(f" Extracting edges from KG2..")
     edges_query = f"match (n)-[e]->(m) return n.id as subject, m.id as object, e.predicate as " \
                   f"predicate, e.provided_by as provided_by, e.publications as publications, e.id as id" \
                   f"{' limit 20000' if is_test else ''}"
     neo4j_edges = _run_kg2_cypher_query(edges_query)
     if neo4j_edges:
-        print(f" Canonicalizing edges..")
+        _print_log_message(f" Canonicalizing edges..")
         canonicalized_edges_dict = _canonicalize_edges(neo4j_edges, curie_map, is_test)
-        print(f"  Number of KG2 edges was reduced to {len(canonicalized_edges_dict)} ({round((len(canonicalized_edges_dict) / len(neo4j_edges)) * 100)}%)")
+        _print_log_message(f"  Number of KG2 edges was reduced to {len(canonicalized_edges_dict)} ({round((len(canonicalized_edges_dict) / len(neo4j_edges)) * 100)}%)")
     else:
-        print(f"ERROR: Couldn't get edge data from KG2 neo4j.")
+        _print_log_message(f"ERROR: Couldn't get edge data from KG2 neo4j.")
         return
 
     # Create a node containing information about this KG2C build
@@ -368,21 +386,36 @@ def create_kg2c_files(is_test=False):
                                        descriptions_list=[])
         canonicalized_nodes_dict[kg2c_build_node['id']] = kg2c_build_node
     else:
-        print(f"  WARNING: No build node detected in the regular KG2, so I'm not creating a KG2c build node.")
+        _print_log_message(f"  WARNING: No build node detected in the regular KG2, so I'm not creating a KG2c build node.")
 
-    # Do some clean up of nodes/edges, now that all merging of nodes/edges is done
-    # Use one of the coalesced nodes' descriptions as the description if the 'preferred' curie didn't have one
+    # Do some final clean-up/formatting of nodes, now that all merging is done
+    _print_log_message(f" Doing final clean-up/formatting of nodes")
+    differing_description_choices = dict()
+    counter = 0
     for node_id, node in canonicalized_nodes_dict.items():
-        if not node['description']:
-            sorted_description_list = sorted(node['descriptions_list'], key=len, reverse=True)
-            # Cut out any super long descriptions
-            filtered_description_list = [description for description in sorted_description_list if len(description) < 10000]
-            node['description'] = filtered_description_list[0] if filtered_description_list else None
-        del node['descriptions_list']  # Don't need this anymore since we've now chosen the 'best' description
+        # Choose the best description
+        cleaned_descriptions = [_clean_up_description(description) for description in node["descriptions_list"]
+                                if description and len(description) < 10000]
+        sorted_descriptions = sorted([description for description in cleaned_descriptions if description],
+                                     key=len, reverse=True)
+        node["description"] = sorted_descriptions[0] if sorted_descriptions else None
+        del node["descriptions_list"]
+        counter += 1
+        # Record description choices for a sample of nodes if they differ for the two methods (temporary - for testing)
+        if counter < 200000 and len(sorted_descriptions) > 1:
+            nlp_best_description = _get_best_description(sorted_descriptions)
+            if nlp_best_description.lower() != node["description"].lower():
+                differing_description_choices[node_id] = {"nlp_choice": nlp_best_description,
+                                                          "length_choice": node["description"],
+                                                          "all_descriptions": sorted_descriptions}
         # Sort all of our list properties (nicer for users that way)
         for array_property_name in ARRAY_NODE_PROPERTIES:
             node[array_property_name] = sorted([item for item in node[array_property_name] if item])
         node["publications"] = node["publications"][:10]  # We don't need a ton of publications, so truncate them
+    with open("differing_descriptions.json", "w+") as descriptions_file:
+        json.dump(differing_description_choices, descriptions_file)
+
+    _print_log_message(f" Doing final clean-up/formatting of edges")
     # Convert our edge IDs to integers (to save space downstream) and add them as actual properties on the edges
     edge_num = 1
     for edge_id, edge in sorted(canonicalized_edges_dict.items()):
@@ -405,10 +438,10 @@ def main():
     arg_parser.add_argument('--test', dest='test', action='store_true', default=False)
     args = arg_parser.parse_args()
 
-    print(f"Starting to create KG2canonicalized..")
+    _print_log_message(f"Starting to create KG2canonicalized..")
     start = time.time()
     create_kg2c_files(args.test)
-    print(f"Done! Took {round(((time.time() - start) / 60) / 60, 2)} hours.")
+    _print_log_message(f"Done! Took {round(((time.time() - start) / 60) / 60, 2)} hours.")
 
 
 if __name__ == "__main__":
