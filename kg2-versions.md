@@ -1,3 +1,23 @@
+# 2.6.2
+
+**Date: 2021.5.1**
+
+Biolink Model Version: 1.8.1
+
+Nodes: 10,694,772
+
+Edges: 51,687,002
+
+Notes: 
+ - Partial rebuild from Simplify on branch Ontobio507TempFix
+
+Issues:
+ 
+ - Issue [#1423](https://github.com/RTXteam/RTX/issues/1423)
+
+Build host: `kg2lindsey.rtx.ai` `~/kg2-build/`
+
+
 # 2.6.1
 
 **Date: 2021.4.28**
@@ -14,7 +34,7 @@ Notes:
 
 Issues:
  
- - Issue [#1381](https://github.com/RTXteam/RTX/issues/1400)
+ - Issue [#1400](https://github.com/RTXteam/RTX/issues/1400)
 
 Build host: `kg2lindsey.rtx.ai` `~/kg2-build/`
 
