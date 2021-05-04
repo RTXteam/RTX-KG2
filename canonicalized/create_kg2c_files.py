@@ -9,6 +9,7 @@ import csv
 import json
 import os
 import pickle
+import random
 import re
 import sqlite3
 import sys
@@ -392,7 +393,10 @@ def create_kg2c_files(is_test=False):
     _print_log_message(f" Doing final clean-up/formatting of nodes")
     differing_description_choices = dict()
     counter = 0
-    for node_id, node in canonicalized_nodes_dict.items():
+    all_node_ids = list(canonicalized_nodes_dict)
+    random.shuffle(all_node_ids)  # Shuffle to collect good test data for descriptions (temporary)
+    for node_id in all_node_ids:
+        node = canonicalized_nodes_dict[node_id]
         # Choose the best description
         cleaned_descriptions = [_clean_up_description(description) for description in node["descriptions_list"]
                                 if description and len(description) < 10000]
@@ -402,7 +406,7 @@ def create_kg2c_files(is_test=False):
         del node["descriptions_list"]
         counter += 1
         # Record description choices for a sample of nodes if they differ for the two methods (temporary - for testing)
-        if counter < 200000 and len(sorted_descriptions) > 1:
+        if counter < 50000 and len(sorted_descriptions) > 1:
             nlp_best_description = _get_best_description(sorted_descriptions)
             if nlp_best_description.lower() != node["description"].lower():
                 differing_description_choices[node_id] = {"nlp_choice": nlp_best_description,
