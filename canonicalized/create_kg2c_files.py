@@ -84,9 +84,13 @@ def _clean_up_description(description: str) -> str:
 
 
 def _get_best_description(descriptions_list: List[str]) -> Optional[str]:
-    # Use Chunyu's NLP-based method to select the best description
-    description_finder = select_best_description(descriptions_list)
-    return description_finder.get_best_description
+    candidate_descriptions = [description for description in descriptions_list if description and len(description) < 10000]
+    if len(candidate_descriptions) == 1:
+        return candidate_descriptions[0]
+    else:
+        # Use Chunyu's NLP-based method to select the best description out of the coalesced nodes
+        description_finder = select_best_description(candidate_descriptions)
+        return description_finder.get_best_description
 
 
 def _modify_column_headers_for_neo4j(plain_column_headers: List[str], file_name_root: str) -> List[str]:
@@ -389,36 +393,30 @@ def create_kg2c_files(is_test=False):
     else:
         _print_log_message(f"  WARNING: No build node detected in the regular KG2, so I'm not creating a KG2c build node.")
 
+    # Choose best descriptions using Chunyu's NLP-based method
+    node_ids = list(canonicalized_nodes_dict)
+    description_lists = [canonicalized_nodes_dict[node_id]["descriptions_list"] for node_id in node_ids]
+    num_cpus = os.cpu_count()
+    _print_log_message(f" Detected {num_cpus} cpus; will use all of them to choose best descriptions")
+    pool = Pool(num_cpus)
+    _print_log_message(f" Starting to use Chunyu's NLP-based method to choose best descriptions (in parallel)..")
+    start = time.time()
+    best_descriptions = pool.map(_get_best_description, description_lists)
+    _print_log_message(f" Choosing best descriptions took {round((time.time() - start) / 60, 2)} minutes")
+    # Actually decorate nodes with their 'best' description
+    for num in range(len(node_ids)):
+        node_id = node_ids[num]
+        best_description = best_descriptions[num]
+        canonicalized_nodes_dict[node_id]["description"] = best_description
+        del canonicalized_nodes_dict[node_id]["descriptions_list"]
+
     # Do some final clean-up/formatting of nodes, now that all merging is done
     _print_log_message(f" Doing final clean-up/formatting of nodes")
-    differing_description_choices = dict()
-    counter = 0
-    all_node_ids = list(canonicalized_nodes_dict)
-    random.shuffle(all_node_ids)  # Shuffle to collect good test data for descriptions (temporary)
-    for node_id in all_node_ids:
-        node = canonicalized_nodes_dict[node_id]
-        # Choose the best description
-        cleaned_descriptions = [_clean_up_description(description) for description in node["descriptions_list"]
-                                if description and len(description) < 10000]
-        sorted_descriptions = sorted([description for description in cleaned_descriptions if description],
-                                     key=len, reverse=True)
-        node["description"] = sorted_descriptions[0] if sorted_descriptions else None
-        del node["descriptions_list"]
-        counter += 1
-        # Record description choices for a sample of nodes if they differ for the two methods (temporary - for testing)
-        if counter < 50000 and len(sorted_descriptions) > 1:
-            nlp_best_description = _get_best_description(sorted_descriptions)
-            if nlp_best_description.lower() != node["description"].lower():
-                differing_description_choices[node_id] = {"nlp_choice": nlp_best_description,
-                                                          "length_choice": node["description"],
-                                                          "all_descriptions": sorted_descriptions}
+    for node_id, node in canonicalized_nodes_dict.items():
         # Sort all of our list properties (nicer for users that way)
         for array_property_name in ARRAY_NODE_PROPERTIES:
             node[array_property_name] = sorted([item for item in node[array_property_name] if item])
         node["publications"] = node["publications"][:10]  # We don't need a ton of publications, so truncate them
-    with open("differing_descriptions.json", "w+") as descriptions_file:
-        json.dump(differing_description_choices, descriptions_file)
-
     _print_log_message(f" Doing final clean-up/formatting of edges")
     # Convert our edge IDs to integers (to save space downstream) and add them as actual properties on the edges
     edge_num = 1
