@@ -73,7 +73,6 @@ def main():
         kg2c_config_info = json.load(config_file)
     kg2_neo4j_endpoint = kg2c_config_info["kg2_neo4j"]
     biolink_model_version = kg2c_config_info["biolink_model_version"]
-    include_neighbor_counts = kg2c_config_info["include_neighbor_counts"]
     upload_to_s3 = kg2c_config_info["upload_to_s3"]
     build_synonymizer = kg2c_config_info["build_synonymizer"]
     _print_log_message(f"Biolink model version to use is {biolink_model_version}")
@@ -91,7 +90,7 @@ def main():
     _print_log_message("Creating KG2c files..")
     create_kg2c_files(args.test)
     _print_log_message("Recording meta KG info..")
-    record_meta_kg_info(biolink_model_version, args.test, include_neighbor_counts)
+    record_meta_kg_info(biolink_model_version, args.test)
     if upload_to_s3 and not args.test:
         _print_log_message("Uploading KG2c files to S3..")
         _upload_output_files_to_s3()

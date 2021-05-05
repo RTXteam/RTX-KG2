@@ -352,7 +352,7 @@ def create_kg2c_files(is_test=False):
     """
     _print_log_message(f" Extracting nodes from KG2..")
     nodes_query = f"match (n) return n.id as id, n.name as name, n.category as category, " \
-                  f"n.publications as publications, n.iri as iri, n.description as description{' limit 10000' if is_test else ''}"
+                  f"n.publications as publications, n.iri as iri, n.description as description{' limit 5000' if is_test else ''}"
     neo4j_nodes = _run_kg2_cypher_query(nodes_query)
     if neo4j_nodes:
         _print_log_message(f" Canonicalizing nodes..")
