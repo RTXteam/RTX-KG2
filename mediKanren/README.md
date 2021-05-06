@@ -86,7 +86,7 @@ Navigate to the `RTX/code/kg2/mediKanren/mediKanren/biolink/data/rtx_kg2` subdir
 
 Compress the TSV files into one tar.gz file:
 ```
-tar -zcvf kg2-tsvs.tar.gz *.tsv
+tar -zcvf kg2-medikanren-tsvs.tar.gz *.tsv
 ```
 And compress the index files into another:
 
@@ -98,19 +98,19 @@ Rename the old TSV and mediKanren-index tarballs in the S3 bucket, to preserve t
 
 Upload both tarballs to the public s3 bucket
 ```
-aws s3 cp kg2-tsvs.tar.gz s3://rtx-kg2-public/
+aws s3 cp kg2-medikanren-tsvs.tar.gz s3://rtx-kg2-public/
 aws s3 cp kg2-medikanren-indexes.tar.gz s3://rtx-kg2-public/
 
 ```
 
 The tarballs should look something like this, in terms of S3 URLs:
 
-- `s3://rtx-kg2-public/kg2-tsvs.tar.gz`
+- `s3://rtx-kg2-public/kg2-medikanren-tsvs.tar.gz`
 - `s3://rtx-kg2-public/kg2-medikanren-indexes.tar.gz`
 
 But make sure to provide downloadable HTTP links to the mediKanren team, like this:
 
-- `http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/kg2-tsvs.tar.gz`
+- `http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/kg2-medikanren-tsvs.tar.gz`
 - `http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/kg2-medikanren-indexes.tar.gz`
 
 ---

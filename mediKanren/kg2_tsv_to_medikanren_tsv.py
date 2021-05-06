@@ -24,7 +24,7 @@ csv.field_size_limit(sys.maxsize)
 
 
 def output_file_names(directory: str):
-    directory = directory.strip("/") + "/"
+    directory = directory.rstrip("/") + "/"
 
     filebase = directory + "rtx_kg2."
 
@@ -33,7 +33,7 @@ def output_file_names(directory: str):
 
 
 def input_file_names(directory: str):
-    directory = directory.strip("/") + "/"
+    directory = directory.rstrip("/") + "/"
 
     return {"nodes": [directory + "nodes.tsv", directory + "nodes_header.tsv"],
             "edges": [directory + "edges.tsv", directory + "edges_header.tsv"]}
@@ -91,7 +91,7 @@ def nodes(nodes_input, nodes_output):
                     if "\t" in propvalue or '"' in propvalue:
                         # stringifies and handles the escaping of extra quotes
                         propvalue = json.dumps(propvalue)
-                   proplist = id + "\t" + prop + "\t" + propvalue + "\n"
+                    proplist = id + "\t" + prop + "\t" + propvalue + "\n"
                     nodes_prop_o.write(proplist)
                 index += 1
 
@@ -137,7 +137,7 @@ def edges(edges_input, edges_output):
                         # stringifies and handles the escaping of extra quotes
                         propvalue = json.dumps(propvalue)
                     proplist = str(line_id) + "\t" + prop + "\t" + propvalue + "\n"
-                   edges_prop_o.write(proplist)
+                    edges_prop_o.write(proplist)
                 index += 1
 
             line_id += 1
