@@ -62,7 +62,7 @@ run `bash -x ./create-index.sh > create-index.log 2>&1` (This could take a few d
 
 ### Testing the Indexes
 
-Run `racket` and run the following commands:
+From `~/kg2-code/mediKanren/mediKanren/biolink`, run `racket` and run the following commands:
 ```
 (require "mk-db.rkt")
 (define rtx2 (make-db "data/rtx_kg2"))
