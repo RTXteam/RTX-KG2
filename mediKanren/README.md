@@ -91,10 +91,9 @@ tar -zcvf kg2-medikanren-tsvs.tar.gz *.tsv
 And compress the index files into another:
 
 ```
-tar --exclude='*.tsv' -zcvf kg2-medikanren-indexes.tar.gz .
+tar --exclude='*.tsv' --exclude='*.tar.gz' -zcvf kg2-medikanren-indexes.tar.gz .
 ```
 
-Rename the old TSV and mediKanren-index tarballs in the S3 bucket, to preserve them (add the ISO date).
 
 Upload both tarballs to the public s3 bucket
 ```
