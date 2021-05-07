@@ -62,10 +62,11 @@ In creating KG2c, edges from the regular KG2 are remapped to use only 'preferred
 
 ### Build KG2canonicalized
 
-1. Follow steps 1-3 in [this section](https://github.com/RTXteam/RTX/wiki/Dev-info#setting-up-for-local-dev-work-on-arax) of the ARAX dev wiki, if you haven't already
-1. If you wish to upload your eventual output KG2c files to S3:
-    1. Install AWS CLI: `sudo apt-get install -y awscli`
-    1. And configure it: `aws configure`
+1. If the machine you'll be using has never previously built a KG2c:
+    1. Follow steps 1-3 in [this section](https://github.com/RTXteam/RTX/wiki/Dev-info#setting-up-for-local-dev-work-on-arax) of the ARAX dev wiki
+    1. If you wish to upload your eventual output KG2c files to S3:
+        1. Install AWS CLI: `sudo apt-get install -y awscli`
+        1. And configure it: `aws configure`
 1. Locally modify `kg2c_config.json` (in `RTX/code/kg2/canonicalized/`) for your particular needs
     - Most importantly, be sure to specify the **Neo4j endpoint** for the KG2 you want to build this KG2c from under the `"kg2_neo4j"` slot
     - Make sure the Biolink model version specified matches that used by the KG2 you specified
