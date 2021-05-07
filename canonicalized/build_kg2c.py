@@ -47,12 +47,12 @@ def _upload_output_files_to_s3():
     tarball_path = f"{KG2C_DIR}/kg2c-tsv.tar.gz"
     json_file_path = f"{KG2C_DIR}/kg2c.json"
     json_lite_file_path = f"{KG2C_DIR}/kg2c_lite.json"
-    subprocess.call(f"tar -czvf {tarball_path} nodes_c.tsv nodes_c_header.tsv edges_c.tsv edges_c_header.tsv", shell=True)
-    subprocess.call(f"aws s3 cp --no-progress --region us-west-2 {tarball_path} s3://rtx-kg2/", shell=True)
-    subprocess.call(f"gzip -f {json_file_path}", shell=True)
-    subprocess.call(f"gzip -f {json_lite_file_path}", shell=True)
-    subprocess.call(f"aws s3 cp --no-progress --region us-west-2 {json_file_path}.gz s3://rtx-kg2/", shell=True)
-    subprocess.call(f"aws s3 cp --no-progress --region us-west-2 {json_lite_file_path}.gz s3://rtx-kg2/", shell=True)
+    subprocess.check_call(["tar", "-czvf", tarball_path, "nodes_c.tsv", "nodes_c_header.tsv", "edges_c.tsv", "edges_c_header.tsv"])
+    subprocess.check_call(["aws", "s3", "cp", "--no-progress", "--region", "us-west-2", tarball_path, "s3://rtx-kg2/"])
+    subprocess.check_call(["gzip", "-f", json_file_path])
+    subprocess.check_call(["gzip", "-f", json_lite_file_path])
+    subprocess.check_call(["aws", "s3", "cp", "--no-progress", "--region", "us-west-2", f"{json_file_path}.gz", "s3://rtx-kg2/"])
+    subprocess.check_call(["aws", "s3", "cp", "--no-progress", "--region", "us-west-2", f"{json_lite_file_path}.gz", "s3://rtx-kg2/"])
 
 
 def _print_log_message(message: str):
@@ -84,7 +84,7 @@ def main():
     # Build a new node synonymizer, if we're supposed to
     if build_synonymizer and not args.test:
         _print_log_message("Building node synonymizer off of specified KG2..")
-        subprocess.call(f"bash -x {KG2C_DIR}/build-synonymizer.sh", shell=True)
+        subprocess.check_call(["bash", "-x", f"{KG2C_DIR}/build-synonymizer.sh"])
 
     # Actually build KG2c
     _print_log_message("Creating KG2c files..")
@@ -96,7 +96,7 @@ def main():
         _upload_output_files_to_s3()
 
     # Remove the config_local file we created (otherwise will always be used instead of configv2.json)
-    subprocess.call(f"rm {CODE_DIR}/config_local.json", shell=True)
+    subprocess.call(["rm", f"{CODE_DIR}/config_local.json"])
 
     _print_log_message(f"DONE WITH KG2c BUILD! Took {round(((time.time() - start) / 60) / 60, 1)} hours")
 
