@@ -432,6 +432,10 @@ def create_kg2c_files(is_test=False):
 
 
 def main():
+    logging.basicConfig(level=logging.INFO,
+                        format='%(asctime)s %(levelname)s: %(message)s',
+                        handlers=[logging.FileHandler("createkg2cfiles.log"),
+                                  logging.StreamHandler()])
     arg_parser = argparse.ArgumentParser()
     arg_parser.add_argument('--test', dest='test', action='store_true', default=False)
     args = arg_parser.parse_args()

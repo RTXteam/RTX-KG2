@@ -223,6 +223,10 @@ def record_meta_kg_info(biolink_version: str, is_test: bool):
 
 
 def main():
+    logging.basicConfig(level=logging.INFO,
+                        format='%(asctime)s %(levelname)s: %(message)s',
+                        handlers=[logging.FileHandler("metainfo.log"),
+                                  logging.StreamHandler()])
     logging.info("Starting to record KG2c meta info..")
     arg_parser = argparse.ArgumentParser()
     arg_parser.add_argument("biolink_model_version", type=str)
