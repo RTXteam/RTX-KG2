@@ -3,12 +3,11 @@
 This script creates a canonicalized version of KG2 stored in various file formats, including TSVs ready for import
 into Neo4j. Files are created in the directory this script is in. It relies on the options you specify in
 kg2c_config.json; in particular, the KG2c will be built off of the KG2 endpoint you specify in that config file.
-WARNING: If you happen to already have a custom version of config_local.json on your machine, this script will override
-it; make a copy if you don't want to lose it.
 Usage: python3 build_kg2c.py [--test]
 """
 import argparse
 import logging
+import pathlib
 from datetime import datetime
 import json
 import os
@@ -32,15 +31,17 @@ def _setup_rtx_config_local(kg2_neo4j_endpoint: str):
     RTXConfiguration()  # Ensures we have a reasonably up-to-date configv2.json
     with open(f"{CODE_DIR}/configv2.json") as configv2_file:
         rtx_config_dict = json.load(configv2_file)
-    # Point to the 'right' KG2 (the one specified in the KG2c config)
+    # Point to the 'right' KG2 (the one specified in the KG2c config) and synonymizer (we always use simple name)
     rtx_config_dict["Contextual"]["KG2"]["neo4j"]["bolt"] = f"bolt://{kg2_neo4j_endpoint}:7687"
-    # Point to the 'right' synonymizer (we'll always use the basic name, and don't need full arax.ncats.io path)
     for mode, path_info in rtx_config_dict["Contextual"].items():
-        path_info["node_synonymizer"]["path"] = "/something/node_synonymizer.sqlite"
+        path_info["node_synonymizer"]["path"] = "/something/node_synonymizer.sqlite"  # Only need name, not full path
+    # Save a copy of any pre-existing config_local.json so we don't overwrite it
+    original_config_local_file = pathlib.Path(f"{CODE_DIR}/config_local.json")
+    if original_config_local_file.exists():
+        subprocess.check_call(["cp", f"{CODE_DIR}/config_local.json", f"{CODE_DIR}/config_local.json_KG2CBUILDTEMP"])
+    # Save our new config_local.json file
     with open(f"{CODE_DIR}/config_local.json", "w+") as config_local_file:
         json.dump(rtx_config_dict, config_local_file)
-    logging.info(f"KG2 neo4j bolt entry in config_local is now: "
-                 f"{rtx_config_dict['Contextual']['KG2']['neo4j']['bolt']}")
 
 
 def _upload_output_files_to_s3():
@@ -95,8 +96,11 @@ def main():
         logging.info("Uploading KG2c files to S3..")
         _upload_output_files_to_s3()
 
-    # Remove the config_local file we created (otherwise will always be used instead of configv2.json)
+    # Remove the config_local file we created and put original config_local back in place (if there was one)
     subprocess.call(["rm", f"{CODE_DIR}/config_local.json"])
+    original_config_local_file = pathlib.Path(f"{CODE_DIR}/config_local.json_KG2CBUILDTEMP")
+    if original_config_local_file.exists():
+        subprocess.check_call(["mv", f"{CODE_DIR}/config_local.json_KG2CBUILDTEMP", f"{CODE_DIR}/config_local.json"])
 
     logging.info(f"DONE WITH KG2c BUILD! Took {round(((time.time() - start) / 60) / 60, 1)} hours")
 
