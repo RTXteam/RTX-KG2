@@ -7,6 +7,7 @@ Usage: python3 record_kg2c_meta_info.py <biolink model version> [--test]
 """
 import argparse
 import json
+import logging
 import os
 import pickle
 import sqlite3
@@ -20,11 +21,6 @@ from treelib import Tree
 import yaml
 
 KG2C_DIR = f"{os.path.dirname(os.path.abspath(__file__))}"
-
-
-def _print_log_message(message: str):
-    current_time = datetime.utcfromtimestamp(time.time()).strftime('%H:%M:%S')
-    print(f"{current_time}: {message}")
 
 
 def serialize_with_sets(obj: any) -> any:
@@ -60,7 +56,7 @@ def _convert_to_trapi_predicate_format(english_predicate: str) -> str:
 
 def _create_expanded_predicates_maps(biolink_version: str) -> Tuple[DefaultDict[str, set], Dict[str, str]]:
     # Build maps of predicate ancestors and inverses, since KG2c considers these when answering queries
-    _print_log_message("Generating ancestor/inverse predicates maps..")
+    logging.info("Generating ancestor/inverse predicates maps..")
 
     # First load the biolink model into a tree
     root_predicate = "biolink:related_to"
@@ -86,8 +82,8 @@ def _create_expanded_predicates_maps(biolink_version: str) -> Tuple[DefaultDict[
         biolink_tree.create_node(root_predicate, root_predicate)
         _create_tree_recursive(root_predicate, parent_to_child_dict, biolink_tree)
     else:
-        _print_log_message(f"WARNING: Unable to load Biolink yaml file. Will not be able to factor predicate ancestors"
-                           f" or inverses into meta triples.")
+        logging.warning(f"Unable to load Biolink yaml file. Will not be able to factor predicate ancestors "
+                        f"or inverses into meta triples.")
 
     # Then use the biolink tree to build up a more convenient map of predicate ancestors
     ancestors_map = defaultdict(set)
@@ -101,7 +97,7 @@ def _create_expanded_predicates_maps(biolink_version: str) -> Tuple[DefaultDict[
 def build_meta_kg(nodes_by_id: Dict[str, Dict[str, any]], edges_by_id: Dict[str, Dict[str, any]],
                   meta_kg_file_name: str, label_property_name: str, biolink_model_version: str, is_test: bool):
     predicate_ancestors, inverses_map = _create_expanded_predicates_maps(biolink_model_version)
-    _print_log_message("Gathering all meta triples..")
+    logging.info("Gathering all meta triples..")
     meta_triples = set()
     for edge in edges_by_id.values():
         subject_node_id = edge["subject"]
@@ -123,9 +119,9 @@ def build_meta_kg(nodes_by_id: Dict[str, Dict[str, any]], edges_by_id: Dict[str,
                             for inverse_ancestor in inverse_ancestors:
                                 meta_triples.add((object_category, inverse_ancestor, subject_category))
     meta_edges = [{"subject": triple[0], "predicate": triple[1], "object": triple[2]} for triple in meta_triples]
-    _print_log_message(f"Created {len(meta_edges)} meta edges")
+    logging.info(f"Created {len(meta_edges)} meta edges")
 
-    _print_log_message("Gathering all meta nodes..")
+    logging.info("Gathering all meta nodes..")
     with open(f"{KG2C_DIR}/equivalent_curies.pickle", "rb") as equiv_curies_file:
         equivalent_curies_dict = pickle.load(equiv_curies_file)
     meta_nodes = defaultdict(lambda: defaultdict(lambda: set()))
@@ -135,9 +131,9 @@ def build_meta_kg(nodes_by_id: Dict[str, Dict[str, any]], edges_by_id: Dict[str,
         categories = node[label_property_name]
         for category in categories:
             meta_nodes[category]["id_prefixes"].update(prefixes)
-    _print_log_message(f"Created {len(meta_nodes)} meta nodes")
+    logging.info(f"Created {len(meta_nodes)} meta nodes")
 
-    _print_log_message("Saving meta KG to JSON file..")
+    logging.info("Saving meta KG to JSON file..")
     meta_kg = {"nodes": meta_nodes, "edges": meta_edges}
     with open(f"{KG2C_DIR}/{meta_kg_file_name}", "w+") as meta_kg_file:
         json.dump(meta_kg, meta_kg_file, default=serialize_with_sets)
@@ -145,7 +141,7 @@ def build_meta_kg(nodes_by_id: Dict[str, Dict[str, any]], edges_by_id: Dict[str,
 
 def add_neighbor_counts_to_sqlite(nodes_by_id: Dict[str, Dict[str, any]], edges_by_id: Dict[str, Dict[str, any]],
                                   sqlite_file_name: str, label_property_name: str, is_test: bool):
-    _print_log_message("Counting up node neighbors by category..")
+    logging.info("Counting up node neighbors by category..")
     # First gather neighbors of each node by label/category
     neighbors_by_label = defaultdict(lambda: defaultdict(lambda: set()))
     for edge in edges_by_id.values():
@@ -166,7 +162,7 @@ def add_neighbor_counts_to_sqlite(nodes_by_id: Dict[str, Dict[str, any]], edges_
             neighbor_counts[node_id][label] = len(neighbor_ids)
 
     # Then write these counts to the sqlite file
-    _print_log_message(f"Saving neighbor counts (for {len(neighbor_counts)} nodes) to sqlite..")
+    logging.info(f"Saving neighbor counts (for {len(neighbor_counts)} nodes) to sqlite..")
     connection = sqlite3.connect(sqlite_file_name)
     connection.execute("DROP TABLE IF EXISTS neighbors")
     connection.execute("CREATE TABLE neighbors (id TEXT, neighbor_counts TEXT)")
@@ -175,14 +171,14 @@ def add_neighbor_counts_to_sqlite(nodes_by_id: Dict[str, Dict[str, any]], edges_
     connection.execute("CREATE UNIQUE INDEX node_neighbor_index ON neighbors (id)")
     connection.commit()
     cursor = connection.execute(f"SELECT COUNT(*) FROM neighbors")
-    _print_log_message(f"Done adding neighbor counts to sqlite; neighbors table contains {cursor.fetchone()[0]} rows")
+    logging.info(f"Done adding neighbor counts to sqlite; neighbors table contains {cursor.fetchone()[0]} rows")
     cursor.close()
     connection.close()
 
 
 def add_category_counts_to_sqlite(nodes_by_id: Dict[str, Dict[str, any]], sqlite_file_name: str,
                                   label_property_name: str):
-    _print_log_message("Counting up nodes by category..")
+    logging.info("Counting up nodes by category..")
     # Organize node IDs by their categories/labels
     nodes_by_label = defaultdict(set)
     for node_id, node in nodes_by_id.items():
@@ -190,7 +186,7 @@ def add_category_counts_to_sqlite(nodes_by_id: Dict[str, Dict[str, any]], sqlite
             nodes_by_label[category].add(node_id)
 
     # Then write these counts to the sqlite file
-    _print_log_message(f"Saving category counts (for {len(nodes_by_label)} categories) to sqlite..")
+    logging.info(f"Saving category counts (for {len(nodes_by_label)} categories) to sqlite..")
     connection = sqlite3.connect(sqlite_file_name)
     connection.execute("DROP TABLE IF EXISTS category_counts")
     connection.execute("CREATE TABLE category_counts (category TEXT, count INTEGER)")
@@ -199,7 +195,7 @@ def add_category_counts_to_sqlite(nodes_by_id: Dict[str, Dict[str, any]], sqlite
     connection.execute("CREATE UNIQUE INDEX category_index ON category_counts (category)")
     connection.commit()
     cursor = connection.execute(f"SELECT COUNT(*) FROM category_counts")
-    _print_log_message(f"Done adding category counts to sqlite; category_counts table contains "
+    logging.info(f"Done adding category counts to sqlite; category_counts table contains "
                        f"{cursor.fetchone()[0]} rows")
     cursor.close()
     connection.close()
@@ -213,7 +209,7 @@ def record_meta_kg_info(biolink_version: str, is_test: bool):
 
     start = time.time()
     with open(f"{KG2C_DIR}/{input_kg_file_name}", "r") as input_kg_file:
-        _print_log_message(f"Loading {input_kg_file_name} into memory..")
+        logging.info(f"Loading {input_kg_file_name} into memory..")
         kg2c_dict = json.load(input_kg_file)
         nodes_by_id = {node["id"]: node for node in kg2c_dict["nodes"]}
         edges_by_id = {edge["id"]: edge for edge in kg2c_dict["edges"]}
@@ -223,11 +219,11 @@ def record_meta_kg_info(biolink_version: str, is_test: bool):
     add_neighbor_counts_to_sqlite(nodes_by_id, edges_by_id, sqlite_file_name, label_property_name, is_test)
     add_category_counts_to_sqlite(nodes_by_id, sqlite_file_name, label_property_name)
 
-    _print_log_message(f"Recording meta KG info took {round((time.time() - start) / 60, 1)} minutes.")
+    logging.info(f"Recording meta KG info took {round((time.time() - start) / 60, 1)} minutes.")
 
 
 def main():
-    _print_log_message("Starting to record KG2c meta info..")
+    logging.info("Starting to record KG2c meta info..")
     arg_parser = argparse.ArgumentParser()
     arg_parser.add_argument("biolink_model_version", type=str)
     arg_parser.add_argument("--test", dest="test", action='store_true', default=False)
