@@ -93,7 +93,6 @@ def main():
     logging.info("Recording meta KG info..")
     record_meta_kg_info(biolink_model_version, args.test)
     if upload_to_s3 and not args.test:
-        logging.info("Uploading KG2c files to S3..")
         _upload_output_files_to_s3()
 
     # Remove the config_local file we created and put original config_local back in place (if there was one)
