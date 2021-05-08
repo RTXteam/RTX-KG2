@@ -6,6 +6,7 @@ Usage: python3 create_kg2c_files.py [--test]
 """
 import argparse
 import csv
+import gc
 import json
 import logging
 import os
@@ -67,7 +68,8 @@ def _convert_list_to_string_encoded_format(input_list_or_str: Union[List[str], s
 
 
 def _merge_two_lists(list_a: List[any], list_b: List[any]) -> List[any]:
-    return list(set(list_a + list_b))
+    unique_items = list(set(list_a + list_b))
+    return [item for item in unique_items if item]
 
 
 def _get_edge_key(subject: str, object: str, predicate: str) -> str:
@@ -278,21 +280,10 @@ def _canonicalize_nodes(neo4j_nodes: List[Dict[str, any]]) -> Tuple[Dict[str, Di
             # Initiate the canonical node for this synonym group
             name = canonical_info['preferred_name'] if canonical_info else neo4j_node['name']
             category = canonical_info['preferred_category'] if canonical_info else neo4j_node['category']
-            if not category.startswith("biolink:"):
-                logging.warning(f"  Preferred category for {canonicalized_curie} doesn't start with 'biolink:': {category}")
             all_categories = list(canonical_info['all_categories']) if canonical_info else [neo4j_node['category']]
             expanded_categories = list(canonical_info['expanded_categories']) if canonical_info else [neo4j_node['category']]
             iri = neo4j_node['iri'] if neo4j_node['id'] == canonicalized_curie else None
             all_names = [neo4j_node['name']]
-
-            # Check for bug where not all categories in synonymizer were of "biolink:PascalCase" format
-            if not all(category.startswith("biolink:") for category in all_categories):
-                logging.warning(f" all_categories for {canonicalized_curie} contain non 'biolink:PascalCase' "
-                                f"items: {all_categories}")
-            if not all(category.startswith("biolink:") for category in expanded_categories):
-                logging.warning(f" expanded_categories for {canonicalized_curie} contain non 'biolink:PascalCase' "
-                                f"items: {expanded_categories}")
-
             canonicalized_node = _create_node(preferred_curie=canonicalized_curie,
                                               name=name,
                                               category=category,
@@ -373,6 +364,8 @@ def create_kg2c_files(is_test=False):
     # Create a node containing information about this KG2C build
     kg2_build_node = canonicalized_nodes_dict.get('RTX:KG2')
     if kg2_build_node:
+        description = f"This KG2c build was created from {kg2_build_node['name']} on " \
+                      f"{datetime.now().strftime('%Y-%m-%d %H:%M')}."
         kg2c_build_node = _create_node(preferred_curie=f"{kg2_build_node['id']}c",
                                        name=f"{kg2_build_node['name']}c",
                                        all_categories=kg2_build_node['all_categories'],
@@ -382,9 +375,8 @@ def create_kg2c_files(is_test=False):
                                        publications=[],
                                        iri=f"{kg2_build_node['iri']}c",
                                        all_names=[f"{kg2_build_node['name']}c"],
-                                       description=f"This KG2c build was created from {kg2_build_node['name']} on "
-                                                   f"{datetime.now().strftime('%Y-%m-%d %H:%M')}.",
-                                       descriptions_list=[])
+                                       description=description,
+                                       descriptions_list=[description])
         canonicalized_nodes_dict[kg2c_build_node['id']] = kg2c_build_node
     else:
         logging.warning(f"  No build node detected in the regular KG2, so I'm not creating a KG2c build node.")
@@ -398,30 +390,27 @@ def create_kg2c_files(is_test=False):
     logging.info(f" Starting to use Chunyu's NLP-based method to choose best descriptions (in parallel)..")
     start = time.time()
     best_descriptions = pool.map(_get_best_description, description_lists)
-    logging.info(f" Choosing best descriptions took {round((time.time() - start) / 60, 2)} minutes")
+    logging.info(f" Choosing best descriptions took {round(((time.time() - start) / 60) / 60, 2)} hours")
     # Actually decorate nodes with their 'best' description
     for num in range(len(node_ids)):
         node_id = node_ids[num]
         best_description = best_descriptions[num]
         canonicalized_nodes_dict[node_id]["description"] = best_description
         del canonicalized_nodes_dict[node_id]["descriptions_list"]
+    del description_lists
+    del best_descriptions
+    gc.collect()
 
     # Do some final clean-up/formatting of nodes, now that all merging is done
     logging.info(f" Doing final clean-up/formatting of nodes")
     for node_id, node in canonicalized_nodes_dict.items():
-        # Sort all of our list properties (nicer for users that way)
-        for array_property_name in ARRAY_NODE_PROPERTIES:
-            node[array_property_name] = sorted([item for item in node[array_property_name] if item])
         node["publications"] = node["publications"][:10]  # We don't need a ton of publications, so truncate them
     logging.info(f" Doing final clean-up/formatting of edges")
     # Convert our edge IDs to integers (to save space downstream) and add them as actual properties on the edges
     edge_num = 1
-    for edge_id, edge in sorted(canonicalized_edges_dict.items()):
+    for edge_id, edge in canonicalized_edges_dict.items():
         edge["id"] = edge_num
         edge_num += 1
-        # Sort all of our list properties (nicer for users that way)
-        for array_property_name in ARRAY_EDGE_PROPERTIES:
-            edge[array_property_name] = sorted([item for item in edge[array_property_name] if item])
         edge["publications"] = edge["publications"][:20]  # We don't need a ton of publications, so truncate them
 
     # Actually create all of our output files (different formats for storing KG2c)
