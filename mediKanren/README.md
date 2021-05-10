@@ -54,33 +54,8 @@ python3.7 kg2_tsv_to_medikanren_tsv.py /path/to/kg2/tsv/files mediKanren/biolink
 
 </details>
 
-### Generate index files
 
-From the `RTX/code/kg2/mediKanren` subdirectory run the following:
-
-run `bash -x ./create-index.sh > create-index.log 2>&1` (This could take a few days and require between 64 and 128 GB of ram)
-
-### Testing the Indexes
-
-From `~/kg2-code/mediKanren/mediKanren/biolink`, run `racket` and run the following commands:
-```
-(require "mk-db.rkt")
-(define rtx2 (make-db "data/rtx_kg2"))
-(run* (c) (db:categoryo rtx2 c))
-(run* (p) (db:predicateo rtx2 p))
-(run 10 (c) (db:concepto rtx2 c))
-(run 10 (e) (db:edgeo rtx2 e))
-```
-
-The the above should return:
-1) All of the node labels
-2) All of the predicates
-3) A sample of 10 nodes
-4) A sample of 10 edges
-
-Verify that the above information returned looks correct.
-
-### Upload the indexes and TSV files
+### Upload the TSV files
 
 Navigate to the `RTX/code/kg2/mediKanren/mediKanren/biolink/data/rtx_kg2` subdirectory.
 
@@ -88,29 +63,19 @@ Compress the TSV files into one tar.gz file:
 ```
 tar -zcvf kg2-medikanren-tsvs.tar.gz *.tsv
 ```
-And compress the index files into another:
 
-```
-tar --exclude='*.tsv' --exclude='*.tar.gz' -zcvf kg2-medikanren-indexes.tar.gz .
-```
-
-
-Upload both tarballs to the public s3 bucket
+Upload the tarball to the public s3 bucket
 ```
 aws s3 cp kg2-medikanren-tsvs.tar.gz s3://rtx-kg2-public/
-aws s3 cp kg2-medikanren-indexes.tar.gz s3://rtx-kg2-public/
-
 ```
 
-The tarballs should look something like this, in terms of S3 URLs:
+The tarball should look something like this, in terms of S3 URL:
 
 - `s3://rtx-kg2-public/kg2-medikanren-tsvs.tar.gz`
-- `s3://rtx-kg2-public/kg2-medikanren-indexes.tar.gz`
 
-But make sure to provide downloadable HTTP links to the mediKanren team, like this:
+But make sure to provide a downloadable HTTP links to the mediKanren team, like this:
 
 - `http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/kg2-medikanren-tsvs.tar.gz`
-- `http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/kg2-medikanren-indexes.tar.gz`
 
 ---
 
