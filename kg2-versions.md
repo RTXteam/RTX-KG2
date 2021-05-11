@@ -1,3 +1,22 @@
+# 2.6.3
+
+**Date: 2021.5.7**
+
+Biolink Model Version: 1.8.1
+
+Nodes: 10,694,772
+
+Edges: 51,687,002
+
+Notes: 
+ - Built by modifying edges.tsv to address 1432 speedily. changes then incorporated into the whole build process.
+
+Issues:
+ 
+ - Issue [#1432](https://github.com/RTXteam/RTX/issues/1432)
+
+Build host: `kg2lindsey.rtx.ai` `~/kg2-build/`
+
 # 2.6.2
 
 **Date: 2021.5.1**

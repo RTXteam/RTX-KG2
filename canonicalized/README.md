@@ -62,19 +62,18 @@ In creating KG2c, edges from the regular KG2 are remapped to use only 'preferred
 
 ### Build KG2canonicalized
 
-1. Follow steps 1-3 in [this section](https://github.com/RTXteam/RTX/wiki/Dev-info#setting-up-for-local-dev-work-on-arax) of the ARAX dev wiki, if you haven't already
-1. If you wish to upload your eventual output KG2c files to S3:
-    1. Install AWS CLI: `sudo apt-get install -y awscli`
-    1. And configure it: `aws configure`
+1. If the machine you'll be using has never previously built a KG2c:
+    1. Follow steps 1-3 in [this section](https://github.com/RTXteam/RTX/wiki/Dev-info#setting-up-for-local-dev-work-on-arax) of the ARAX dev wiki
+    1. If you wish to upload your eventual output KG2c files to S3:
+        1. Install AWS CLI: `sudo apt-get install -y awscli`
+        1. And configure it: `aws configure`
 1. Locally modify `kg2c_config.json` (in `RTX/code/kg2/canonicalized/`) for your particular needs
-    - Most importantly, be sure to specify the Neo4j endpoint for the KG2 you want to build this KG2c from under the `"kg2_neo4j"` slot
-    - The Biolink model version specified should match that used by the KG2 you specify
-1. If you do **not** want a new `NodeSynonymizer` to be built (i.e., you already have a synonymizer made from the KG2 this KG2c will be built from):
-    1. Ensure your synonymizer file is in `RTX/code/ARAX/NodeSynonymizer/` and is named `node_synonymizer.sqlite`
-    1. Make sure to specify `false` for the `"build_synonymizer"` option in `kg2c_config.json`
-1. Then build KG2c (should take a few hours and around 80GB of RAM):
+    - Most importantly, be sure to specify the **Neo4j endpoint** for the KG2 you want to build this KG2c from under the `"kg2_neo4j"` slot
+    - Make sure the Biolink model version specified matches that used by the KG2 you specified
+    - Indicate whether or not you want a new NodeSynonymizer to be built
+        - If you do **not** want a new `NodeSynonymizer` to be built (i.e., you already have a synonymizer made from the KG2 this KG2c will be built from), ensure your synonymizer file is in `RTX/code/ARAX/NodeSynonymizer/` and is named `node_synonymizer.sqlite`
+1. Then build KG2c (should take around 5-10 hours and 200GB of RAM):
     - `python3 RTX/code/kg2/canonicalized/build_kg2c.py`
-    - *WARNING: If you happen to already have a custom `config_local.json` file, this will override it; make a copy if you don't want to lose it*
 
 In the end, KG2c will be created and stored in multiple file formats, including TSVs ready for import into Neo4j.
 
