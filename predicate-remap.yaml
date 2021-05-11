@@ -710,6 +710,10 @@ DrugCentral:releasing_agent:
   rename:
   - increases_expression_of
   - biolink:increases_expression_of
+DrugCentral:struct2atc:
+  rename:
+  - close_match
+  - biolink:close_match
 DrugCentral:substrate:
   rename:
   - physically_interacts_with
