@@ -489,6 +489,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                          curie_to_uri_expander: callable,
                                          select_datatype_properties: dict) -> Dict[str, dict]: # temporary addition for Ontobio Issue #507
     ret_dict = dict()
+    omim_to_hgnc_symbol = dict()
     ontologies_iris_to_curies = dict()
 
     tuis_not_in_mappings_but_in_kg2 = set()
@@ -834,12 +835,25 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         # There isn't a 2 anymore
                         if mimtype == "1" or mimtype == "4":
                             node_category_label = kg2_util.BIOLINK_CATEGORY_GENE
+                            gene_symbol = omim_to_hgnc_symbol.get(node_curie_id, None)
+                            if gene_symbol is not None:
+                                old_name = node_name
+                                node_name = gene_symbol
                         else:
                             node_name += " related phenotypic feature"
                     else:
                         node_category_label = kg2_util.BIOLINK_CATEGORY_NAMED_THING
                 if filename == 'umls-hgnc.ttl':
-                    locus_group = select_datatype_properties[filename].get(node_curie_id, {}).get('LOCUS_GROUP', None)
+                    hgnc_properties = select_datatype_properties[filename].get(node_curie_id, {})
+                    omim_id = hgnc_properties.get('OMIM_ID', None)
+                    gene_symbol = hgnc_properties.get('GENESYMBOL', None)
+                    if omim_id is not None:
+                        if isinstance(omim_id, list):
+                            for id in omim_id:
+                                omim_to_hgnc_symbol[kg2_util.CURIE_PREFIX_OMIM + ':' + id] = gene_symbol
+                        else:
+                            omim_to_hgnc_symbol[kg2_util.CURIE_PREFIX_OMIM + ':' + omim_id] = gene_symbol
+                    locus_group = hgnc_properties.get('LOCUS_GROUP', None)
                     if locus_group is not None:
                         if locus_group == "phenotype":
                             continue
