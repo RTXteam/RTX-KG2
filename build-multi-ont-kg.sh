@@ -15,6 +15,10 @@ fi
 echo "================= starting build-multi-ont-kg.sh ================="
 date
 
+## load the master config file
+config_dir=`dirname "$0"`
+source ${config_dir}/master-config.shinc
+
 ## supply a default value for the build_flag string
 build_flag=${2:-""}
 biolink_base_url_no_version=https://raw.githubusercontent.com/biolink/biolink-model/
@@ -32,10 +36,6 @@ else
     test_suffix=''
     test_arg=''
 fi
-
-## load the master config file
-config_dir=`dirname "$0"`
-source ${config_dir}/master-config.shinc
 
 output_file=${1:-"${BUILD_DIR}/kg2-ont${test_suffix}.json"}
 output_file_base=`basename ${output_file}`
