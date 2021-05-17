@@ -38,6 +38,7 @@ REGEX_MONTH_YEAR = re.compile('([0-9]{1,2})_[12][90][0-9]{2}')
 REGEX_YEAR_MONTH = re.compile('[12][90][0-9]{2}_([0-9]{1,2})')
 REGEX_PUBLICATIONS = re.compile(r'((?:(?:PMID)|(?:ISBN)):\d+)')
 REGEX_XREF_END_DESCRIP = re.compile(r'.*\[([^\]]+)\]$')
+REGEX_OBSOLETE = re.compile("^obsolete|\(obsolete||obsolete$", re.IGNORECASE)
 
 IRI_OBO_XREF = kg2_util.IRI_OBO_FORMAT_XREF
 CURIE_OBO_XREF = kg2_util.CURIE_ID_OBO_FORMAT_XREF
@@ -812,6 +813,8 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             if node_name is not None:
                 if node_name.lower().startswith('obsolete:') or \
                    (node_curie_id.startswith(kg2_util.CURIE_PREFIX_GO + ':') and node_name.lower().startswith('obsolete ')):
+                    node_deprecated = True
+                if REGEX_OBSOLETE.match(node_name) is not None:
                     node_deprecated = True
 
             if node_description is not None:
