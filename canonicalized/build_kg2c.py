@@ -25,13 +25,15 @@ KG2C_DIR = f"{os.path.dirname(os.path.abspath(__file__))}"
 CODE_DIR = f"{KG2C_DIR}/../.."
 
 
-def _setup_rtx_config_local(kg2_neo4j_endpoint: str):
+def _setup_rtx_config_local(kg2_version: str):
     # Create a config_local.json file based off of configv2.json, but modified for our needs
     logging.info("Creating a config_local.json file pointed to the right KG2 Neo4j and synonymizer..")
     RTXConfiguration()  # Ensures we have a reasonably up-to-date configv2.json
     with open(f"{CODE_DIR}/configv2.json") as configv2_file:
         rtx_config_dict = json.load(configv2_file)
     # Point to the 'right' KG2 (the one specified in the KG2c config) and synonymizer (we always use simple name)
+    logging.info(f"Deducing the neo4j bolt url from the KG2 version specified in kg2c_config.json ({kg2_version})")
+    kg2_neo4j_endpoint = f"kg2endpoint-kg{kg2_version.replace('.', '-')}.rtx.ai"
     rtx_config_dict["Contextual"]["KG2"]["neo4j"]["bolt"] = f"bolt://{kg2_neo4j_endpoint}:7687"
     for mode, path_info in rtx_config_dict["Contextual"].items():
         path_info["node_synonymizer"]["path"] = "/something/node_synonymizer.sqlite"  # Only need name, not full path
@@ -72,15 +74,15 @@ def main():
     # Load the KG2c config file
     with open(f"{KG2C_DIR}/kg2c_config.json") as config_file:
         kg2c_config_info = json.load(config_file)
-    kg2_neo4j_endpoint = kg2c_config_info["kg2_neo4j"]
+    kg2_version = kg2c_config_info["kg2_version"]
     biolink_model_version = kg2c_config_info["biolink_model_version"]
     upload_to_s3 = kg2c_config_info["upload_to_s3"]
     build_synonymizer = kg2c_config_info["build_synonymizer"]
+    logging.info(f"KG2 version to use is {kg2_version}")
     logging.info(f"Biolink model version to use is {biolink_model_version}")
-    logging.info(f"KG2 Neo4j to use is {kg2_neo4j_endpoint}")
 
     # Set up an RTX config_local.json file that points to the right KG2 and synonymizer
-    _setup_rtx_config_local(kg2_neo4j_endpoint)
+    _setup_rtx_config_local(kg2_version)
 
     # Build a new node synonymizer, if we're supposed to
     if build_synonymizer and not args.test:

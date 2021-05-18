@@ -361,24 +361,26 @@ def create_kg2c_files(is_test=False):
         return
 
     # Create a node containing information about this KG2C build
-    kg2_build_node = canonicalized_nodes_dict.get('RTX:KG2')
-    if kg2_build_node:
-        description = f"This KG2c build was created from {kg2_build_node['name']} on " \
-                      f"{datetime.now().strftime('%Y-%m-%d %H:%M')}."
-        kg2c_build_node = _create_node(preferred_curie=f"{kg2_build_node['id']}c",
-                                       name=f"{kg2_build_node['name']}c",
-                                       all_categories=kg2_build_node['all_categories'],
-                                       expanded_categories=kg2_build_node['expanded_categories'],
-                                       category=kg2_build_node['category'],
-                                       equivalent_curies=[],
-                                       publications=[],
-                                       iri=f"{kg2_build_node['iri']}c",
-                                       all_names=[f"{kg2_build_node['name']}c"],
-                                       description=description,
-                                       descriptions_list=[description])
-        canonicalized_nodes_dict[kg2c_build_node['id']] = kg2c_build_node
-    else:
-        logging.warning(f"  No build node detected in the regular KG2, so I'm not creating a KG2c build node.")
+    with open(f"{KG2C_DIR}/kg2c_config.json") as config_file:
+        kg2c_config_info = json.load(config_file)
+    kg2_version = kg2c_config_info.get("kg2_version")
+    description_dict = {"kg2_version": kg2_version,
+                        "biolink_model_version": kg2c_config_info.get("biolink_model_version"),
+                        "build_date": datetime.now().strftime('%Y-%m-%d %H:%M')}
+    description = f"{description_dict}"
+    name = f"RTX-KG{kg2_version}c"
+    kg2c_build_node = _create_node(preferred_curie="RTX:KG2c",
+                                   name=name,
+                                   all_categories=["biolink:InformationContentEntity"],
+                                   expanded_categories=["biolink:InformationContentEntity"],
+                                   category="biolink:InformationContentEntity",
+                                   equivalent_curies=[],
+                                   publications=[],
+                                   iri="http://rtx.ai/identifiers#KG2c",
+                                   all_names=[name],
+                                   description=description,
+                                   descriptions_list=[description])
+    canonicalized_nodes_dict[kg2c_build_node['id']] = kg2c_build_node
 
     # Choose best descriptions using Chunyu's NLP-based method
     node_ids = list(canonicalized_nodes_dict)
