@@ -169,16 +169,19 @@ def _write_list_to_neo4j_ready_tsv(input_list: List[Dict[str, any]], file_name_r
 
 
 def create_kg2c_json_file(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
-                          canonicalized_edges_dict: Dict[str, Dict[str, any]], is_test: bool):
+                          canonicalized_edges_dict: Dict[str, Dict[str, any]],
+                          meta_info_dict: Dict[str, str], is_test: bool):
     logging.info(f" Creating KG2c JSON file..")
     kgx_format_json = {"nodes": list(canonicalized_nodes_dict.values()),
                        "edges": list(canonicalized_edges_dict.values())}
+    kgx_format_json.update(meta_info_dict)
     with open(f"{KG2C_DIR}/kg2c{'_test' if is_test else ''}.json", "w+") as output_file:
         json.dump(kgx_format_json, output_file)
 
 
 def create_kg2c_lite_json_file(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
-                               canonicalized_edges_dict: Dict[str, Dict[str, any]], is_test: bool):
+                               canonicalized_edges_dict: Dict[str, Dict[str, any]],
+                               meta_info_dict: Dict[str, str], is_test: bool):
     logging.info(f" Creating KG2c lite JSON file..")
     # Filter out all except these properties so we create a lightweight KG
     node_lite_properties = ["id", "name", "category", "expanded_categories"]
@@ -194,6 +197,7 @@ def create_kg2c_lite_json_file(canonicalized_nodes_dict: Dict[str, Dict[str, any
         for lite_property in edge_lite_properties:
             lite_edge[lite_property] = edge[lite_property]
         lite_kg["edges"].append(lite_edge)
+    lite_kg.update(meta_info_dict)
 
     # Save this lite KG to a JSON file
     logging.info(f"    Saving lite json...")
@@ -364,8 +368,9 @@ def create_kg2c_files(is_test=False):
     with open(f"{KG2C_DIR}/kg2c_config.json") as config_file:
         kg2c_config_info = json.load(config_file)
     kg2_version = kg2c_config_info.get("kg2_version")
+    biolink_version = kg2c_config_info.get("biolink_version")
     description_dict = {"kg2_version": kg2_version,
-                        "biolink_model_version": kg2c_config_info.get("biolink_model_version"),
+                        "biolink_version": biolink_version,
                         "build_date": datetime.now().strftime('%Y-%m-%d %H:%M')}
     description = f"{description_dict}"
     name = f"RTX-KG{kg2_version}c"
@@ -415,8 +420,9 @@ def create_kg2c_files(is_test=False):
         edge["publications"] = edge["publications"][:20]  # We don't need a ton of publications, so truncate them
 
     # Actually create all of our output files (different formats for storing KG2c)
-    create_kg2c_lite_json_file(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
-    create_kg2c_json_file(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
+    meta_info_dict = {"kg2_version": kg2_version, "biolink_version": biolink_version}
+    create_kg2c_lite_json_file(canonicalized_nodes_dict, canonicalized_edges_dict, meta_info_dict, is_test)
+    create_kg2c_json_file(canonicalized_nodes_dict, canonicalized_edges_dict, meta_info_dict, is_test)
     create_kg2c_sqlite_db(canonicalized_nodes_dict, is_test)
     create_kg2c_tsv_files(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
 

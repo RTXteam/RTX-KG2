@@ -1,6 +1,6 @@
 {
   "kg2_version": "2.6.3",
-  "biolink_model_version": "1.8.1",
+  "biolink_version": "1.8.1",
   "build_synonymizer": true,
   "upload_to_s3": true
 }

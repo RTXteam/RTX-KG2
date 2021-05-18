@@ -75,11 +75,11 @@ def main():
     with open(f"{KG2C_DIR}/kg2c_config.json") as config_file:
         kg2c_config_info = json.load(config_file)
     kg2_version = kg2c_config_info["kg2_version"]
-    biolink_model_version = kg2c_config_info["biolink_model_version"]
+    biolink_version = kg2c_config_info["biolink_version"]
     upload_to_s3 = kg2c_config_info["upload_to_s3"]
     build_synonymizer = kg2c_config_info["build_synonymizer"]
     logging.info(f"KG2 version to use is {kg2_version}")
-    logging.info(f"Biolink model version to use is {biolink_model_version}")
+    logging.info(f"Biolink model version to use is {biolink_version}")
 
     # Set up an RTX config_local.json file that points to the right KG2 and synonymizer
     _setup_rtx_config_local(kg2_version)
@@ -93,7 +93,7 @@ def main():
     logging.info("Creating KG2c files..")
     create_kg2c_files(args.test)
     logging.info("Recording meta KG info..")
-    record_meta_kg_info(biolink_model_version, args.test)
+    record_meta_kg_info(biolink_version, args.test)
     if upload_to_s3 and not args.test:
         _upload_output_files_to_s3()
 
