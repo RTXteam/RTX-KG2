@@ -164,7 +164,7 @@ def process_atc_codes(atc_codes, update_date, test_mode):
             continue
         atc_id = kg2_util.CURIE_PREFIX_ATC + ':' + atc_id
         drug_central_id = format_drugcentral_id(drug_central_id)
-        predicate = kg2_util.EDGE_LABEL_BIOLINK_SAME_AS
+        predicate = 'struct2atc'
         edge = format_edge(drug_central_id, atc_id, predicate, update_date)
         edges.append(edge)
     return edges

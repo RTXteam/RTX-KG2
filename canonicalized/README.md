@@ -72,7 +72,7 @@ In creating KG2c, edges from the regular KG2 are remapped to use only 'preferred
     - Make sure the Biolink model version specified matches that used by the KG2 you specified
     - Indicate whether or not you want a new NodeSynonymizer to be built
         - If you do **not** want a new `NodeSynonymizer` to be built (i.e., you already have a synonymizer made from the KG2 this KG2c will be built from), ensure your synonymizer file is in `RTX/code/ARAX/NodeSynonymizer/` and is named `node_synonymizer.sqlite`
-1. Then build KG2c (should take around 5-10 hours and 130GB of RAM):
+1. Then build KG2c (should take around 5-10 hours and 200GB of RAM):
     - `python3 RTX/code/kg2/canonicalized/build_kg2c.py`
 
 In the end, KG2c will be created and stored in multiple file formats, including TSVs ready for import into Neo4j.
