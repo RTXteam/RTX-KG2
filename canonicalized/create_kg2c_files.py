@@ -169,16 +169,19 @@ def _write_list_to_neo4j_ready_tsv(input_list: List[Dict[str, any]], file_name_r
 
 
 def create_kg2c_json_file(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
-                          canonicalized_edges_dict: Dict[str, Dict[str, any]], is_test: bool):
+                          canonicalized_edges_dict: Dict[str, Dict[str, any]],
+                          meta_info_dict: Dict[str, str], is_test: bool):
     logging.info(f" Creating KG2c JSON file..")
     kgx_format_json = {"nodes": list(canonicalized_nodes_dict.values()),
                        "edges": list(canonicalized_edges_dict.values())}
+    kgx_format_json.update(meta_info_dict)
     with open(f"{KG2C_DIR}/kg2c{'_test' if is_test else ''}.json", "w+") as output_file:
         json.dump(kgx_format_json, output_file)
 
 
 def create_kg2c_lite_json_file(canonicalized_nodes_dict: Dict[str, Dict[str, any]],
-                               canonicalized_edges_dict: Dict[str, Dict[str, any]], is_test: bool):
+                               canonicalized_edges_dict: Dict[str, Dict[str, any]],
+                               meta_info_dict: Dict[str, str], is_test: bool):
     logging.info(f" Creating KG2c lite JSON file..")
     # Filter out all except these properties so we create a lightweight KG
     node_lite_properties = ["id", "name", "category", "expanded_categories"]
@@ -194,6 +197,7 @@ def create_kg2c_lite_json_file(canonicalized_nodes_dict: Dict[str, Dict[str, any
         for lite_property in edge_lite_properties:
             lite_edge[lite_property] = edge[lite_property]
         lite_kg["edges"].append(lite_edge)
+    lite_kg.update(meta_info_dict)
 
     # Save this lite KG to a JSON file
     logging.info(f"    Saving lite json...")
@@ -361,24 +365,27 @@ def create_kg2c_files(is_test=False):
         return
 
     # Create a node containing information about this KG2C build
-    kg2_build_node = canonicalized_nodes_dict.get('RTX:KG2')
-    if kg2_build_node:
-        description = f"This KG2c build was created from {kg2_build_node['name']} on " \
-                      f"{datetime.now().strftime('%Y-%m-%d %H:%M')}."
-        kg2c_build_node = _create_node(preferred_curie=f"{kg2_build_node['id']}c",
-                                       name=f"{kg2_build_node['name']}c",
-                                       all_categories=kg2_build_node['all_categories'],
-                                       expanded_categories=kg2_build_node['expanded_categories'],
-                                       category=kg2_build_node['category'],
-                                       equivalent_curies=[],
-                                       publications=[],
-                                       iri=f"{kg2_build_node['iri']}c",
-                                       all_names=[f"{kg2_build_node['name']}c"],
-                                       description=description,
-                                       descriptions_list=[description])
-        canonicalized_nodes_dict[kg2c_build_node['id']] = kg2c_build_node
-    else:
-        logging.warning(f"  No build node detected in the regular KG2, so I'm not creating a KG2c build node.")
+    with open(f"{KG2C_DIR}/kg2c_config.json") as config_file:
+        kg2c_config_info = json.load(config_file)
+    kg2_version = kg2c_config_info.get("kg2_version")
+    biolink_version = kg2c_config_info.get("biolink_version")
+    description_dict = {"kg2_version": kg2_version,
+                        "biolink_version": biolink_version,
+                        "build_date": datetime.now().strftime('%Y-%m-%d %H:%M')}
+    description = f"{description_dict}"
+    name = f"RTX-KG{kg2_version}c"
+    kg2c_build_node = _create_node(preferred_curie="RTX:KG2c",
+                                   name=name,
+                                   all_categories=["biolink:InformationContentEntity"],
+                                   expanded_categories=["biolink:InformationContentEntity"],
+                                   category="biolink:InformationContentEntity",
+                                   equivalent_curies=[],
+                                   publications=[],
+                                   iri="http://rtx.ai/identifiers#KG2c",
+                                   all_names=[name],
+                                   description=description,
+                                   descriptions_list=[description])
+    canonicalized_nodes_dict[kg2c_build_node['id']] = kg2c_build_node
 
     # Choose best descriptions using Chunyu's NLP-based method
     node_ids = list(canonicalized_nodes_dict)
@@ -413,8 +420,9 @@ def create_kg2c_files(is_test=False):
         edge["publications"] = edge["publications"][:20]  # We don't need a ton of publications, so truncate them
 
     # Actually create all of our output files (different formats for storing KG2c)
-    create_kg2c_lite_json_file(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
-    create_kg2c_json_file(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
+    meta_info_dict = {"kg2_version": kg2_version, "biolink_version": biolink_version}
+    create_kg2c_lite_json_file(canonicalized_nodes_dict, canonicalized_edges_dict, meta_info_dict, is_test)
+    create_kg2c_json_file(canonicalized_nodes_dict, canonicalized_edges_dict, meta_info_dict, is_test)
     create_kg2c_sqlite_db(canonicalized_nodes_dict, is_test)
     create_kg2c_tsv_files(canonicalized_nodes_dict, canonicalized_edges_dict, is_test)
 
