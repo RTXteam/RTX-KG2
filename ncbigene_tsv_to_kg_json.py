@@ -114,8 +114,6 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
             else:
                 full_name = 'Genetic locus associated with ' + full_name
                 category_label = kg2_util.BIOLINK_CATEGORY_GENOMIC_ENTITY
-            if full_name.startswith('microRNA'):
-                category_label = kg2_util.BIOLINK_CATEGORY_MICRORNA
             node_dict = make_node(ncbi_gene_id,
                                   full_name,
                                   gene_symbol,

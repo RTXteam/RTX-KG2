@@ -164,9 +164,9 @@ def make_edges(xrefs, nodes_to_species, test_mode):
         for xref_id in xrefs[node_id]:
             if xref_id.startswith(CURIE_PREFIX_HGNC) or \
                xref_id.startswith(CURIE_PREFIX_NCBI_GENE):
-                edge = kg2_util.make_edge_biolink(node_id,
-                                                  xref_id,
-                                                  kg2_util.EDGE_LABEL_BIOLINK_SAME_AS,
+                edge = kg2_util.make_edge_biolink(xref_id,
+                                                  node_id,
+                                                  kg2_util.EDGE_LABEL_BIOLINK_HAS_GENE_PRODUCT,
                                                   MIRBASE_KB_CURIE_ID,
                                                   None)
                 edges.append(edge)
