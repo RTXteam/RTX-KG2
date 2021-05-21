@@ -169,6 +169,9 @@ def make_kg2(curies_to_categories: dict,
                                   curie_to_uri_expander,
                                   map_of_node_ontology_ids_to_curie_ids)
 
+    biolink_inverses = get_inverse_rels(ont_file_information_dict_list[0]['ontology'], ont_file_information_dict_list[0], uri_to_curie_shortener)
+    print(json.dumps(biolink_inverses, indent=4, sort_keys=True))
+
     kg2_dict = dict()
     kg2_dict['edges'] = [rel_dict for rel_dict in all_rels_dict.values()]
     kg2_util.log_message('Number of edges: ' + str(len(kg2_dict['edges'])))
@@ -1100,6 +1103,40 @@ def get_rels_dict(nodes: dict,
                             rels_dict[key] = edge
 
     return rels_dict
+
+
+def get_inverse_rels(biolink_ontology, metadata_dict, uri_to_curie_shortener):
+    ontology_curie_id = uri_to_curie_shortener(metadata_dict['id'])
+    umls_sver = metadata_dict.get('umls-sver', None)
+    updated_date = None
+    if umls_sver is not None:
+        # if you can, parse sver string into a date string
+        updated_date = parse_umls_sver_date(umls_sver, ontology_curie_id.split(':')[1])
+
+    if updated_date is None:
+        updated_date = metadata_dict.get('source-file-date', None)
+
+    if updated_date is None:
+        umls_release = metadata_dict.get('umls-release', None)
+        if umls_release is not None:
+            updated_date = re.sub(r'\D', '', umls_release)
+
+    if updated_date is None:
+        updated_date = metadata_dict['file last modified timestamp']
+
+    edges = []
+    assert biolink_ontology.id == kg2_util.BASE_URL_BIOLINK_ONTOLOGY
+    for ontology_node_id in biolink_ontology.nodes():
+        relations = {neighbor: next(iter(biolink_ontology.child_parent_relations(neighbor, ontology_node_id))) for neighbor in list(biolink_ontology.get_graph().neighbors(ontology_node_id))}
+        for relation in relations:
+            if relations[relation] == "inverseOf":
+                subject_id = ontology_node_id
+                object_id = relation
+                predicate = 'owl:inverseOf'
+                relation_label = 'inverse_of'
+                edge = kg2_util.make_edge(subject_id, object_id, predicate, relation_label, ontology_curie_id, updated_date)
+                edges.append(edge)
+    return edges
 
 
 def get_node_curie_id_from_ontology_node_id(ontology_node_id: str,
