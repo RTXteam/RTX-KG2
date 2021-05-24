@@ -1,14 +1,14 @@
 # KG2: the second-generation RTX knowledge graph
 
 KG2 is the second-generation knowledge graph for the
-[ARAX](https://github.com/RTXteam/RTX) biomedical reasoning system.  The GitHub
-subdirectory `RTX/code/kg2` (including its sub-subdirectories) contains all of
+[ARAX](https://github.com/RTXteam/RTX) biomedical reasoning system.  This [Github 
+repository](https://github.com/RTXteam/RTX-KG2) contains all of
 the code for building KG2 as well as all of the documentation about how to
 build, host, access, and use KG2. The KG2 build system produces knowledge graphs
 in a [Biolink model](https://biolink.github.io/biolink-model/)
 standard-compliant JSON format and in a tab-separated value (TSV) format that
 can be imported into a [Neo4j](https://neo4j.com) graph database system. Through
-additional scripts in the `canonicalized` subdirectory, the build system can
+additional scripts in the ARAX `kg2c` subdirectory, the build system can
 produce a "canonicalized" knowledge graph where synonym concepts (nodes) are
 identified. Through additional scripts in the `mediKanren` subdirectory, the
 build system can produce an export of the KG2 knowledge graph that is suitable
@@ -26,8 +26,8 @@ biomedical reasoning system.
 
 ## Bug reports
 
-Please use the GitHub [issues](https://github.com/RTXteam/RTX/issues) page for
-this project, and add the label `kg2`.
+Please use the GitHub [issues](https://github.com/RTXteam/RTX-KG2/issues) page for
+this project.
 
 # How to access RTX KG2
 
@@ -144,7 +144,7 @@ Linux user account you use to run the KG2 build software (if you run on an EC2
 Ubuntu instance, this directory would by default be `/home/ubuntu`):
 
 1. `~/kg2-build`, where various build artifacts are stored
-2. `~/kg2-code`, which is a symbolic link to the git checkout directory `RTX/code/kg2`
+2. `~/kg2-code`, which is a symbolic link to the git checkout directory `RTX-KG2/`
 3. `~/kg2-venv`, which is the virtualenv for the KG2 build system
 
 The various directories used by the KG2 build system are configured in the
@@ -283,14 +283,14 @@ be installed):
     
 (3) Clone the RTX software from GitHub:
 
-    git clone https://github.com/RTXteam/RTX.git
+    git clone https://github.com/RTXteam/RTX-KG2.git
 
 [An advantage to having the `git clone` command separated out from the install script is
 that it provides control over which branch you want to use for the KG2 build code.]
 
 (4) Setup the KG2 build system: 
 
-    bash -x RTX/code/kg2/setup-kg2-build.sh
+    bash -x RTX-KG2/setup-kg2-build.sh
 
 Note that there is no need to redirect `stdout` or `stderr` to a log file, when
 executing `setup-kg2-build.sh`; this is because the script saves its own `stdout` and
@@ -545,7 +545,7 @@ This option requires that you have `curl` installed on your local computer. In a
 `bash` terminal session, set up the remote EC2 instance by running this command
 (requires `ssh` installed and in your path):
 
-    source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/ec2-setup-remote-instance.sh)
+    source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX-KG2/master/ec2-setup-remote-instance.sh)
 
 You will be prompted to enter the path to your AWS PEM file and the hostname of
 your AWS instance.  The script should then initiate a `bash` session on the
@@ -562,7 +562,7 @@ location. Here are the instructions:
 (1) Install Docker. If you are on Ubuntu 18.04 and you need to install Docker, you can
 run this command in `bash` on the host OS:
    
-    source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/install-docker-ubuntu18.sh)
+    source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX-KG2/master/install-docker-ubuntu18.sh)
     
 (otherwise, the subsequent commands in this section assume that Docker is
 installed on whatever host system you are running). For some notes on how to
@@ -573,7 +573,7 @@ installation (like on macOS Homebrew) doesn't require `sudo`, just omit
 
 (2) Build a Docker image `kg2:latest`:
 
-    sudo docker image build -t kg2 https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/Dockerfile 
+    sudo docker image build -t kg2 https://raw.githubusercontent.com/RTXteam/RTX-KG2/master/Dockerfile 
     
 (3) Create a container called `kg2` from the `kg2:latest` image 
 
@@ -700,11 +700,11 @@ instance, as user `ubuntu`, run the following commands:
     
 (2) Clone the RTX software from GitHub:
 
-    git clone https://github.com/RTXteam/RTX.git
+    git clone https://github.com/RTXteam/RTX-KG2.git
 
 (3) Install and configure Neo4j, with APOC:
 
-    RTX/code/kg2/setup-kg2-neo4j.sh
+    RTX-KG2/setup-kg2-neo4j.sh
 
 This script takes just a few minutes to complete. At some point, the script will
 print
@@ -731,7 +731,7 @@ completed successfully; it should end with `======= script finished ======`.
 
 (5) Load KG2 into Neo4j:
 
-    RTX/code/kg2/tsv-to-neo4j.sh > ~/kg2-build/tsv-to-neo4j.log 2>&1
+    RTX-KG2/tsv-to-neo4j.sh > ~/kg2-build/tsv-to-neo4j.log 2>&1
 
 This script takes about an hour. You may wish to run it in a `screen` session.
 
@@ -743,7 +743,7 @@ completed successfully; it should end with `======= script finished ======`.
 Once you have loaded KG2 into Neo4j as described above, if you want to reload
 KG2, just run (as user `ubuntu`):
 
-    ~/RTX/code/kg2/tsv-to-neo4j.sh > ~/kg2-build/tsv-to-neo4j.log 2>&1
+    ~/RTX-KG2/tsv-to-neo4j.sh > ~/kg2-build/tsv-to-neo4j.log 2>&1
 
 ## Co-hosting the KG2 build system and Neo4j server?
 
