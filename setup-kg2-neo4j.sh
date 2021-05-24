@@ -23,7 +23,7 @@ source ${config_dir}/master-config.shinc
 
 ## sym-link into RTX/code/kg2
 if [ ! -L ${CODE_DIR} ]; then
-    ln -sf ~/RTX/code/kg2 ${CODE_DIR}
+    ln -sf ~/RTX-KG2 ${CODE_DIR}
 fi
 
 ## install the Linux distro packages that we need (python3-minimal is for docker installations)

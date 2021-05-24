@@ -41,7 +41,7 @@ echo `hostname`
 if [ ! -L ${CODE_DIR} ]; then
     if [[ "${build_flag}" != "travisci" ]]
     then
-        ln -sf ~/RTX/code/kg2 ${CODE_DIR}
+        ln -sf ~/RTX-KG2 ${CODE_DIR}
     fi
 fi
 
