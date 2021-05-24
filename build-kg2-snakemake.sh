@@ -45,10 +45,13 @@ ${VENV_DIR}/bin/python3 -u generate_snakemake_config_file.py ${test_arg} ${confi
 
 # Run snakemake from the virtualenv but run the snakefile in kg2-code
 # -F: Run all of the rules in the snakefile
-# -R Finish: Run all of the rules in the snakefile
+# -R Finish: Run all of the rules in the snakefile that generate an unmet dependency
+# -R Merge: Generate any missing KG2 JSON files (ex. kg2-ont.json), merge them, then finish the workflow
+#           (more likely to be the flag you need than -R Finish depending on the fail point)
 # -j: Run the rules in parallel
-# -config: give the test arguments to the snakefile
-# -n: dry run REMOVE THIS LATER
+# -config: Give the test arguments to the snakefile (NO LONGER USED)
+# --dag | dot -Tpng > ~/kg2-build/snakemake_diagram.png: Creates Snakemake workflow diagram (when combined with -F and -j)
+# -n: dry run REMOVE THIS BEFORE BUILDING
 
 export PATH=$PATH:${BUILD_DIR}
 
