@@ -37,7 +37,7 @@ date
 
 echo `hostname`
 
-## sym-link into RTX/code/kg2
+## sym-link into RTX-KG2/
 if [ ! -L ${CODE_DIR} ]; then
     if [[ "${build_flag}" != "travisci" ]]
     then
