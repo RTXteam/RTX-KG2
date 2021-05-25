@@ -21,7 +21,7 @@ config_dir=`dirname "$0"`
 
 source ${config_dir}/master-config.shinc
 
-## sym-link into RTX/code/kg2
+## sym-link into RTX-KG2
 if [ ! -L ${CODE_DIR} ]; then
     ln -sf ~/RTX-KG2 ${CODE_DIR}
 fi
