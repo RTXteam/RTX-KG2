@@ -32,7 +32,7 @@ Erica Wood (Crescent Valley High School) by logging a GitHub issue and assigning
 
 # Understanding Snakemake
 
-![Overview of Snakemake Build System](https://user-images.githubusercontent.com/36611732/114226788-ea163e80-9928-11eb-808d-5d77e633d278.png)
+![Overview of Snakemake Build System](https://user-images.githubusercontent.com/36611732/119391891-ceba8500-bc83-11eb-8847-aad7f2edcb58.png)
 
 The Snakemake build system relies on two files to work:
 `build-kg2-snakemake.sh` and
@@ -80,14 +80,14 @@ and the `run` property for others (when you want to run a group of commands in o
 
 ```
 rule Rule_Name:
-	input:
-		input_filename_as_a_string
-	output:
-		output_filename_as_a_string
-	log:
-		log_filename_as_a_string
-	shell:
-		bash_command_as_a_string
+    input:
+        input_filename_as_a_string
+    output:
+        output_filename_as_a_string
+    log:
+        log_filename_as_a_string
+    shell:
+        bash_command_as_a_string
 ```
 
 In the past, we had all of the rules of build KG2 directly in the `Snakefile`. This was not effective, as the different build types (full, partial, test, and test including SemMedDB) each required different rules. Now, different types of rules are split into different `Snakefile`s that are all run in one central `Snakefile`.
@@ -256,7 +256,7 @@ rule Merge:
 
 If you need to run multiple commands in one rule, rather than using `shell`, use `run`. When using `run`, you must specify that you are using the shell. To do this, place your bash command into the function `shell()`.
 
-Example:
+Example (no longer used in the snakemake build process):
 ```
 rule KG_One:
     input:
@@ -274,54 +274,15 @@ ___
 
 #### General Steps
 
-(1) Copy any variables managing the input and output files for that ETL script from `build-kg2.sh` into `build-kg2-snakemake.sh` and place in the appropriate location (find the last ETL filename set and put them on the next line after an empty line).
+(1) Insert any variables managing the input and output files for that ETL script into `snakemake-config-var.yaml` and place in the appropriate location (find the last ETL filename set and put them on the next line after an empty line). For an ETL script, the variable name should be something like `{source}_{input/output}_file` for the file and `{source}_{dir}` for the source directory (if applicable). If there are any other variables needed to run that ETL script, add them in the same location (e.g. source directory, mysql database).
 
 Example:
 ```
-go_annotation_input_file=${BUILD_DIR}/goa_human.gpa
-go_annotation_output_file=${BUILD_DIR}/kg2-go-annotation${test_suffix}.json
+go_annotation_input_file: ${BUILD_DIR}/goa_human.gpa
+go_annotation_output_file: ${BUILD_DIR}/kg2-go-annotation${test_suffix}.json
 ```
 
-(2) Pass the variables into the call to `snakemake`. To do this, find an appropriate spot in the `--config` argument list (find the last ETL filename set and make a newline after it). On the newline, pass the variables in using the following format:
-
-```
-DATABASE_INPUT_FILE="${database_input_file}" DATABASE_OUTPUT_FILE="${database_output_file} \"
-```
-
-If there are additional variables that you need to pass in for that ETL script, also add them to that line. Here is a full example of the `snakemake` call (view [build-kg2-snakemake.sh](https://github.com/RTXteam/RTX/blob/master/code/kg2/build-kg2-snakemake.sh) for the latest version):
-
-```
-cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${CODE_DIR}/Snakefile \
-     -F -j --config TEST_FLAG="${test_flag}" TEST_SUFFIX="${test_suffix}" \
-     TEST_ARG="${test_arg}" SEMMED_TUPLELIST_FILE="${semmed_tuplelist_file}" \
-     SEMMED_OUTPUT_FILE="${semmed_output_file}" UNIPROTKB_DAT_FILE="${uniprotkb_dat_file}" \
-     UNIPROTKB_OUTPUT_FILE="${uniprotkb_output_file}" OUTPUT_FILE_BASE="${output_file_base}" \
-     OUTPUT_FILE_FULL="${output_file_full}" OUTPUT_FILE_ORPHAN_EDGES="${output_file_orphan_edge}" \
-     FINAL_OUTPUT_FILE_BASE="${final_output_file_base}" FINAL_OUTPUT_FILE_FULL="${final_output_file_full}" \
-     SIMPLIFIED_OUTPUT_FILE_BASE="${simplified_output_file_base}" \
-     SIMPLIFIED_OUTPUT_FILE_FULL="${simplified_output_file_full}" \
-     SIMPLIFIED_OUTPUT_NODES_FILE_BASE="${simplified_output_nodes_file_base}" \
-     SIMPLIFIED_OUTPUT_NODES_FILE_FULL="${simplified_output_nodes_file_full}" \
-     OUTPUT_NODES_FILE_BASE="${output_nodes_file_base}" OUTPUT_NODES_FILE_FULL="${output_nodes_file_full}" \
-     REPORT_FILE_BASE="${report_file_base}" REPORT_FILE_FULL="${report_file_full}" \
-     SIMPLIFIED_REPORT_FILE_BASE="${simplified_report_file_base}" SIMPLIFIED_REPORT_FILE_FULL="${simplified_report_file_full}" \
-     SLIM_OUTPUT_FILE_FULL="${slim_output_file_full}" ENSEMBL_SOURCE_JSON_FILE="${ensembl_source_json_file}" \
-     ENSEMBL_OUTPUT_FILE="${ensembl_output_file}" CHEMBL_OUTPUT_FILE="${chembl_output_file}" \
-     OWL_LOAD_INVENTORY_FILE="${owl_load_inventory_file}" CHEMBL_MYSQL_DBNAME="${chembl_mysql_dbname}" \
-     UNICHEM_OUTPUT_TSV_FILE="${unichem_output_tsv_file}" UNICHEM_OUTPUT_FILE="${unichem_output_file}" \
-     NCBI_GENE_TSV_FILE="${ncbi_gene_tsv_file}" NCBI_GENE_OUTPUT_FILE="${ncbi_gene_output_file}" \
-     DGIDB_DIR="${dgidb_dir}" DGIDB_OUTPUT_FILE="${dgidb_output_file}" \
-     REPODB_DIR="${repodb_dir}" REPODB_INPUT_FILE="${repodb_input_file}" REPODB_OUTPUT_FILE="${repodb_output_file}" \
-     SMPDB_DIR="${smpdb_dir}" SMPDB_INPUT_FILE="${smpdb_input_file}" SMPDB_OUTPUT_FILE="${smpdb_output_file}" \
-     DRUGBANK_INPUT_FILE="${drugbank_input_file}" DRUGBANK_OUTPUT_FILE="${drugbank_output_file}" \
-     HMDB_INPUT_FILE="${hmdb_input_file}" HMDB_OUTPUT_FILE="${hmdb_output_file}" \
-     GO_ANNOTATION_INPUT_FILE="${go_annotation_input_file}" GO_ANNOTATION_OUTPUT_FILE="${go_annotation_output_file}" \
-     KG1_OUTPUT_FILE="${kg1_output_file}" RTX_CONFIG_FILE="${rtx_config_file}" \
-     KG2_TSV_DIR="${kg2_tsv_dir}" KG2_TSV_TARBALL="${kg2_tsv_tarball}" \
-     PREDICATE_MAPPING_FILE="${predicate_mapping_file}" \
-     VENV_DIR="${VENV_DIR}" BUILD_DIR="${BUILD_DIR}" CODE_DIR="${CODE_DIR}" CURIES_TO_URLS_FILE="${curies_to_urls_file}" \
-     MYSQL_CONF="${mysql_conf}" S3_CP_CMD="${s3_cp_cmd}" VERSION_FILE="${version_file}"
-```
+These variable names will be capitalized when `build-kg2-snakemake.sh` runs `generate_snakemake_config_file.py`. So, when using these variables in a `Snakefile`, make sure to fully capitalize them.
 
 ___
 
@@ -374,13 +335,13 @@ In this example, the `output` of the preceding rule is `config['OUTPUT_NODES_FIL
 (3) Write your new rule in the space after the preceding rule using information from the Understanding Snakemake section. Notice how the real `input` is the output of `Merge`. This is why, in the diagram above, there is an arrow from `Merge` to multiple later rules. It is the real `input` for multiple rules. 
 ```
 rule New_Rule:
-	input:
-		real = config['FINAL_OUTPUT_FILE_FULL'],
-		placeholder = config['OUTPUT_NODES_FILE_FULL']
-	output:
-		config['NEW_RULE_OUTPUT_FILE']
-	shell:
-		config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/new_rule_kg_json.py " + config['TEST_ARG'] + "{input.real} {output}"
+    input:
+        real = config['FINAL_OUTPUT_FILE_FULL'],
+        placeholder = config['OUTPUT_NODES_FILE_FULL']
+    output:
+        config['NEW_RULE_OUTPUT_FILE']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/new_rule_kg_json.py " + config['TEST_ARG'] + "{input.real} {output}"
 ```
 
 (4) Edit the placeholder `input` of the rule following the new rule to match the `output` of the new rule.
