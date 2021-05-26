@@ -8,5 +8,5 @@ before_install:
   - export PATH=$PATH:~/kg2-build/
 # command to run tests
 script:
-  - bash -x ./code/kg2/setup-kg2-build.sh travisci
-  - bash -x ./code/kg2/run-validation-tests.sh travisci
+  - bash -x ./setup-kg2-build.sh travisci
+  - bash -x ./run-validation-tests.sh travisci
