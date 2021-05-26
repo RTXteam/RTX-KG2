@@ -17,7 +17,7 @@ build_flag=${1:-""}
 config_dir=`dirname "$0"`
 if [[ "${build_flag}" == "travisci" ]]
 then
-    sed -i "\@CODE_DIR=~/kg2-code@cCODE_DIR=/home/travis/build/RTXteam/RTX/code/kg2" ${config_dir}/master-config.shinc
+    sed -i "\@CODE_DIR=~/kg2-code@cCODE_DIR=/home/travis/build/RTXteam/RTX-KG2" ${config_dir}/master-config.shinc
 fi
 source ${config_dir}/master-config.shinc
 
@@ -37,7 +37,7 @@ date
 
 echo `hostname`
 
-## sym-link into RTX/code/kg2
+## sym-link into RTX-KG2/
 if [ ! -L ${CODE_DIR} ]; then
     if [[ "${build_flag}" != "travisci" ]]
     then

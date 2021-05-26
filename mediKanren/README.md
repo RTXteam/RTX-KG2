@@ -11,7 +11,7 @@ First, install git and clone the RTX repository if you have not already:
 git clone https://github.com/RTXteam/RTX.git
 ```
 
-Then, navigate to the repository subdirectory `RTX/code/kg2/mediKanren`. To download and install everything you need to run kg2 into mediKanren simply run the `setup.sh` script on a unpriveliged user with passwordless sudo enabled like so:
+Then, navigate to the repository subdirectory `RTX-KG2/mediKanren`. To download and install everything you need to run kg2 into mediKanren simply run the `setup.sh` script on a unpriveliged user with passwordless sudo enabled like so:
 ```
 bash -x ./setup.sh > setup.log 2>&1
 ```
@@ -24,7 +24,7 @@ On successful completion, the log file should end with "======== Script Finished
 
 **Currently, only the tsv conversion script `kg2_tsv_to_medikanren_tsv.py` is supported.**
 
-From the `RTX/code/kg2/mediKanren` subdirectory run the following: (entering in the path to the kg2 tsv file)
+From the `RTX-KG2/mediKanren` subdirectory run the following: (entering in the path to the kg2 tsv file)
 ```
 mkdir -p mediKanren/biolink/data/rtx_kg2
 python3.7 kg2_tsv_to_medikanren_tsv.py /path/to/kg2/tsv/files mediKanren/biolink/data/rtx_kg2
@@ -57,7 +57,7 @@ python3.7 kg2_tsv_to_medikanren_tsv.py /path/to/kg2/tsv/files mediKanren/biolink
 
 ### Upload the TSV files
 
-Navigate to the `RTX/code/kg2/mediKanren/mediKanren/biolink/data/rtx_kg2` subdirectory.
+Navigate to the `RTX-KG2/mediKanren/mediKanren/biolink/data/rtx_kg2` subdirectory.
 
 Compress the TSV files into one tar.gz file:
 ```
@@ -88,11 +88,11 @@ First, install git and racket. Then, clone the RTX repository if you have not al
 git clone https://github.com/RTXteam/RTX.git
 ```
 
-Next, navigate to the repository subdirectory `RTX/code/kg2/mediKanren` and run `git clone https://github.com/webyrd/mediKanren.git` to clone the mediKanren repository.
+Next, navigate to the repository subdirectory `RTX-KG2/mediKanren` and run `git clone https://github.com/webyrd/mediKanren.git` to clone the mediKanren repository.
 
 ### Download the index files.
 
-First make sure that you have created the following directory in the mediKanren repository by running the following from the `RTX/code/kg2/mediKanren` subdirectory:
+First make sure that you have created the following directory in the mediKanren repository by running the following from the `RTX-KG2/mediKanren` subdirectory:
 ```
 mkdir -p mediKanren/biolink/data/rtx_kg2
 ```
