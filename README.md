@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/RTXteam/RTX-KG2.svg?branch=master)](https://travis-ci.com/RTXteam/RTX-KG2)
 # KG2: the second-generation RTX knowledge graph
 
 KG2 is the second-generation knowledge graph for the
