@@ -244,8 +244,8 @@ CHEBI:is_tautomer_of:
   - biolink:chemically_similar_to
 CHEMBL.MECHANISM:activator:
   rename:
-  - positively_regulates
-  - biolink:positively_regulates
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
 CHEMBL.MECHANISM:agonist:
   rename:
   - increases_activity_of
@@ -268,8 +268,8 @@ CHEMBL.MECHANISM:binding_agent:
   - biolink:physically_interacts_with
 CHEMBL.MECHANISM:blocker:
   rename:
-  - negatively_regulates
-  - biolink:negatively_regulates
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
 CHEMBL.MECHANISM:chelating_agent:
   rename:
   - physically_interacts_with
@@ -296,24 +296,24 @@ CHEMBL.MECHANISM:hydrolytic_enzyme:
   - biolink:increases_degradation_of
 CHEMBL.MECHANISM:inhibitor:
   rename:
-  - negatively_regulates
-  - biolink:negatively_regulates
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
 CHEMBL.MECHANISM:inverse_agonist:
   rename:
   - decreases_activity_of
   - biolink:decreases_activity_of
 CHEMBL.MECHANISM:modulator:
   rename:
-  - regulates
-  - biolink:regulates
+  - entity_regulates_entity
+  - biolink:entity_regulates_entity
 CHEMBL.MECHANISM:negative_allosteric_modulator:
   rename:
-  - negatively_regulates
-  - biolink:negatively_regulates
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
 CHEMBL.MECHANISM:negative_modulator:
   rename:
-  - negatively_regulates
-  - biolink:negatively_regulates
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
 CHEMBL.MECHANISM:opener:
   rename:
   - increases_activity_of
@@ -354,8 +354,8 @@ CHEMBL.MECHANISM:releasing_agent:
   - biolink:increases_expression_of
 CHEMBL.MECHANISM:rnai_inhibitor:
   rename:
-  - negatively_regulates
-  - biolink:negatively_regulates
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
 CHEMBL.MECHANISM:sequestering_agent:
   rename:
   - physically_interacts_with
@@ -436,8 +436,8 @@ DDANAT:develops_from:
   - biolink:develops_from
 DGIdb:activator:
   rename:
-  - positively_regulates
-  - biolink:positively_regulates
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
 DGIdb:adduct:
   rename:
   - directly_interacts_with
@@ -570,10 +570,90 @@ DGIdb:vaccine:
   rename:
   - decreases_activity_of
   - biolink:decreases_activity_of
+DRUGBANK:activator:
+  rename:
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
+DRUGBANK:adduct:
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+DRUGBANK:aggregation_inhibitor:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DRUGBANK:agonist:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DRUGBANK:allosteric_modulator:
+  rename:
+  - affects_activity_of
+  - biolink:affects_activity_of
+DRUGBANK:antagonist:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DRUGBANK:antibody:
+  rename:
+  - molecularly_interacts_with
+  - biolink:molecularly_interacts_with
+DRUGBANK:antisense_oligonucleotide:
+  rename:
+  - decreases_expression_of
+  - biolink:decreases_expression_of
+DRUGBANK:binder:
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+DRUGBANK:binding:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+DRUGBANK:blocker:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
 DRUGBANK:category:
   rename:
   - subclass_of
   - biolink:subclass_of
+DRUGBANK:chaperone:
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+DRUGBANK:chelator:
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+DRUGBANK:cleavage:
+  rename:
+  - affects_degradation_of
+  - biolink:affects_degradation_of
+DRUGBANK:cofactor:
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+DRUGBANK:component_of:
+  rename:
+  - part_of
+  - biolink:part_of
+DRUGBANK:degradation:
+  rename:
+  - affects_degradation_of
+  - biolink:affects_degradation_of
+DRUGBANK:deoxidizer:
+  rename:
+  - decreases_molecular_modification_of
+  - biolink:decreases_molecular_modification_of
+DRUGBANK:desensitize_the_target:
+  rename:
+  - decreases_response_to
+  - biolink:decreases_response_to
+DRUGBANK:downregulator:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
 DRUGBANK:drug-interaction:
   rename:
   - physically_interacts_with
@@ -582,26 +662,142 @@ DRUGBANK:external-identifier:
   rename:
   - same_as
   - biolink:same_as
+DRUGBANK:gene_replacement:
+  rename:
+  - close_match
+  - biolink:close_match
 DRUGBANK:group:
   rename:
   - related_to
   - biolink:related_to
+DRUGBANK:inactivator:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+DRUGBANK:incorporation_into_and_destabilization:
+  rename:
+  - affects_degradation_of
+  - biolink:affects_degradation_of
+DRUGBANK:inducer:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DRUGBANK:inhibition_of_synthesis:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+DRUGBANK:inhibitor:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+DRUGBANK:inhibitory_allosteric_modulator:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DRUGBANK:intercalation:
+  rename:
+  - molecularly_interacts_with
+  - biolink:molecularly_interacts_with
+DRUGBANK:inverse_agonist:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DRUGBANK:ligand:
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+DRUGBANK:modulator:
+  rename:
+  - entity_regulates_entity
+  - biolink:entity_regulates_entity
+DRUGBANK:multitarget:
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+DRUGBANK:negative_modulator:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+DRUGBANK:neutralizer:
+  rename:
+  - related_to # specify in greater detail later
+  - biolink:related_to # specify in greater detail later
+DRUGBANK:nucleotide_exchange_blocker:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DRUGBANK:oxidizer:
+  rename:
+  - increases_molecular_modification_of
+  - biolink:increases_molecular_modification_of
+DRUGBANK:partial_agnoist:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DRUGBANK:partial_antagonist:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
 DRUGBANK:pathway:
   rename:
   - participates_in
   - biolink:participates_in
+DRUGBANK:positive_allosteric_modulator:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DRUGBANK:positive_modulator:
+  rename:
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
+DRUGBANK:potentiator:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DRUGBANK:product_of:
+  rename:
+  - derives_from
+  - biolink:derives_from
+DRUGBANK:regulator:
+  rename:
+  - entity_regulates_entity
+  - biolink:entity_regulates_entity
+DRUGBANK:stablization:
+  rename:
+  - increases_stability_of
+  - biolink:increases_stability_of
+DRUGBANK:stimulator:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DRUGBANK:substrate:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+DRUGBANK:suppressor:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
 DRUGBANK:target:
   rename:
   - physically_interacts_with
   - biolink:physically_interacts_with
+DRUGBANK:translocation_inhibitor:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+DRUGBANK:weak_inhibitor:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
 DrugCentral:PA: # PA stands for "Pharmacological Action"
   rename:
   - subclass_of
   - biolink:subclass_of
 DrugCentral:activator:
   rename:
-  - positively_regulates
-  - biolink:positively_regulates
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
 DrugCentral:agonist:
   rename:
   - increases_activity_of
@@ -632,8 +828,8 @@ DrugCentral:binding_agent:
   - biolink:directly_interacts_with
 DrugCentral:blocker:
   rename:
-  - negatively_regulates
-  - biolink:negatively_regulates
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
 DrugCentral:contraindication:
   rename:
   - contraindicated_for
@@ -660,24 +856,24 @@ DrugCentral:indication:
   - biolink:treats
 DrugCentral:inhibitor:
   rename:
-  - negatively_regulates
-  - biolink:negatively_regulates
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
 DrugCentral:inverse_agonist:
   rename:
   - decreases_activity_of
   - biolink:decreases_activity_of
 DrugCentral:modulator:
   rename:
-  - regulates
-  - biolink:regulates
+  - entity_regulates_entity
+  - biolink:entity_regulates_entity
 DrugCentral:negative_allosteric_modulator:
   rename:
-  - negatively_regulates
-  - biolink:negatively_regulates
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
 DrugCentral:negative_modulator:
   rename:
-  - negatively_regulates
-  - biolink:negatively_regulates
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
 DrugCentral:off-label_use:
   rename:
   - treats
@@ -700,8 +896,8 @@ DrugCentral:positive_allosteric_modulator:
   - biolink:increases_activity_of
 DrugCentral:positive_modulator:
   rename:
-  - positively_regulates
-  - biolink:positively_regulates
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
 DrugCentral:reduce_risk:
   rename:
   - prevents
@@ -728,8 +924,8 @@ EFO:0000784:
   - biolink:located_in
 EFO:0001697:
   invert:
-  - has_unit
-  - biolink:has_unit
+  - related_to
+  - biolink:related_to
 EFO:0006351:
   rename:
   - related_to
@@ -1272,24 +1468,24 @@ GO:acts_upstream_of:
   - biolink:affects
 GO:acts_upstream_of_negative_effect:
   rename:
-  - negatively_regulates
-  - biolink:negatively_regulates
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
 GO:acts_upstream_of_or_within:
   rename:
   - affects
   - biolink:affects
 GO:acts_upstream_of_or_within_negative_effect:
   rename:
-  - negatively_regulates
-  - biolink:negatively_regulates
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
 GO:acts_upstream_of_or_within_positive_effect:
   rename:
-  - positively_regulates
-  - biolink:positively_regulates
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
 GO:acts_upstream_of_positive_effect:
   rename:
-  - positively_regulates
-  - biolink:positively_regulates
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
 GO:colocalizes_with:
   rename:
   - colocalizes_with
@@ -1346,12 +1542,12 @@ GO:located_in:
   - biolink:located_in
 GO:negatively_regulated_by:
   invert:
-  - negatively_regulates
-  - biolink:negatively_regulates
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
 GO:negatively_regulates:
   rename:
-  - negatively_regulates
-  - biolink:negatively_regulates
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
 GO:occurs_in:
   rename:
   - occurs_in
@@ -1362,20 +1558,20 @@ GO:part_of:
   - biolink:part_of
 GO:positively_regulated_by:
   invert:
-  - positively_regulates
-  - biolink:positively_regulates
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
 GO:positively_regulates:
   rename:
-  - positively_regulates
-  - biolink:positively_regulates
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
 GO:regulated_by:
   invert:
-  - regulates
-  - biolink:regulates
+  - entity_regulates_entity
+  - biolink:entity_regulates_entity
 GO:regulates:
   rename:
-  - regulates
-  - biolink:regulates
+  - entity_regulates_entity
+  - biolink:entity_regulates_entity
 GOREL:0000040:
   rename:
   - causes
@@ -1438,8 +1634,8 @@ HP:SIB:
   delete: null
 IAO:0000039:
   rename:
-  - has_unit
-  - biolink:has_unit
+  - related_to
+  - biolink:related_to
 IAO:0000136:
   rename:
   - related_to
@@ -1468,8 +1664,8 @@ LOINC:analyzed_by:
   delete: null
 LOINC:analyzes:
   rename:
-  - quantifier_qualifier
-  - biolink:quantifier_qualifier
+  - related_to
+  - biolink:related_to
 LOINC:answer_to:
   delete: null
 LOINC:archetype_of:
@@ -1534,8 +1730,8 @@ LOINC:has_component:
   - biolink:part_of
 LOINC:has_count:
   rename:
-  - has_count
-  - biolink:has_count
+  - related_to
+  - biolink:related_to
 LOINC:has_divisor:
   rename:
   - related_to
@@ -1600,8 +1796,8 @@ LOINC:has_parent_group:
   - biolink:subclass_of
 LOINC:has_pharmaceutical_route:
   rename:
-  - has_route
-  - biolink:has_route
+  - related_to
+  - biolink:related_to
 LOINC:has_presence_guidance:
   delete: null
 LOINC:has_property:
@@ -1690,8 +1886,8 @@ LOINC:mapped_to:
   - biolink:related_to
 LOINC:measured_by:
   rename:
-  - quantifier_qualifier
-  - biolink:quantifier_qualifier
+  - related_to
+  - biolink:related_to
 LOINC:measures:
   delete: null
 LOINC:member_of:
@@ -1714,8 +1910,8 @@ LOINC:parent_group_of:
   delete: null
 LOINC:property_of:
   rename:
-  - quantifier_qualifier
-  - biolink:quantifier_qualifier
+  - related_to
+  - biolink:related_to
 LOINC:scale_of:
   delete: null
 LOINC:suffix_of:
@@ -2768,8 +2964,8 @@ OBO:nbo#is_about:
   - biolink:related_to
 OBO:uo#is_unit_of:
   invert:
-  - has_unit
-  - biolink:has_unit
+  - related_to
+  - biolink:related_to
 OBO:xref:
   rename:
   - close_match
@@ -3014,28 +3210,28 @@ REACT:linked_to_disease:
   - biolink:related_to
 REACT:negatively_regulates:
   rename:
-  - negatively_regulates
-  - biolink:negatively_regulates
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
 REACT:negatively_regulates_gene_expression:
   rename:
-  - negatively_regulates
-  - biolink:negatively_regulates
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
 REACT:positively_regulates:
   rename:
-  - positively_regulates
-  - biolink:positively_regulates
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
 REACT:positively_regulates_gene_expression:
   rename:
-  - positively_regulates
-  - biolink:positively_regulates
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
 REACT:related_to:
   rename:
   - related_to
   - biolink:related_to
 REACT:is_requirement_for:
   rename:
-  - regulates
-  - biolink:regulates
+  - entity_regulates_entity
+  - biolink:entity_regulates_entity
 REPODB:clinically_tested_approved_unknown_phase:
   rename:
   - treats
@@ -3378,8 +3574,8 @@ RO:0002292:
   - biolink:expresses
 RO:0002295:
   rename:
-  - regulates
-  - biolink:regulates
+  - entity_regulates_entity
+  - biolink:entity_regulates_entity
 RO:0002296:
   rename:
   - has_output
@@ -3434,8 +3630,8 @@ RO:0002332:
   - biolink:related_to
 RO:0002334:
   invert:
-  - regulates
-  - biolink:regulates
+  - entity_regulates_entity
+  - biolink:entity_regulates_entity
 RO:0002338:
   rename:
   - related_to
@@ -3642,8 +3838,8 @@ RO:0002576:
   - biolink:part_of
 RO:0002578:
   rename:
-  - regulates
-  - biolink:regulates
+  - entity_regulates_entity
+  - biolink:entity_regulates_entity
 RO:0002588:
   rename:
   - has_output
@@ -3666,12 +3862,12 @@ RO:0002608:
   - biolink:causes
 RO:0002629:
   rename:
-  - positively_regulates
-  - biolink:positively_regulates
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
 RO:0002630:
   rename:
-  - negatively_regulates
-  - biolink:negatively_regulates
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
 RO:0003000:
   rename:
   - produces
@@ -3884,8 +4080,8 @@ SEMMEDDB:associated_with:
   - biolink:related_to
 SEMMEDDB:augments:
   rename:
-  - positively_regulates
-  - biolink:positively_regulates
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
 SEMMEDDB:causes:
   rename:
   - causes
@@ -3946,8 +4142,8 @@ SEMMEDDB:measurement_of:
   delete: null
 SEMMEDDB:measures:
   rename:
-  - quantifier_qualifier
-  - biolink:quantifier_qualifier
+  - related_to
+  - biolink:related_to
 SEMMEDDB:method_of:
   delete: null
 SEMMEDDB:nom:
@@ -4148,18 +4344,18 @@ SNOMED:has_component:
   - biolink:part_of
 SNOMED:has_concentration_strength_denominator_unit:
   rename:
-  - has_unit
-  - biolink:has_unit
+  - related_to
+  - biolink:related_to
 SNOMED:has_concentration_strength_denominator_value:
   delete: null
 SNOMED:has_concentration_strength_numerator_unit:
   rename:
-  - has_unit
-  - biolink:has_unit
+  - related_to
+  - biolink:related_to
 SNOMED:has_concentration_strength_numerator_value:
   rename:
-  - has_quantitative_value
-  - biolink:has_quantitative_value
+  - related_to
+  - biolink:related_to
 SNOMED:has_count_of_base_of_active_ingredient:
   rename:
   - related_to
@@ -4204,8 +4400,8 @@ SNOMED:has_dose_form_administration_method:
   - biolink:related_to
 SNOMED:has_dose_form_intended_site:
   rename:
-  - has_route
-  - biolink:has_route
+  - related_to
+  - biolink:related_to
 SNOMED:has_dose_form_release_characteristic:
   rename:
   - related_to
@@ -4296,20 +4492,20 @@ SNOMED:has_precondition:
   - biolink:has_input
 SNOMED:has_presentation_strength_denominator_unit:
   rename:
-  - has_unit
-  - biolink:has_unit
+  - related_to
+  - biolink:related_to
 SNOMED:has_presentation_strength_denominator_value:
   rename:
-  - has_quantitative_value
-  - biolink:has_quantitative_value
+  - related_to
+  - biolink:related_to
 SNOMED:has_presentation_strength_numerator_unit:
   rename:
-  - has_unit
-  - biolink:has_unit
+  - related_to
+  - biolink:related_to
 SNOMED:has_presentation_strength_numerator_value:
   rename:
-  - has_quantitative_value
-  - biolink:has_quantitative_value
+  - related_to
+  - biolink:related_to
 SNOMED:has_priority:
   rename:
   - related_to
@@ -4356,8 +4552,8 @@ SNOMED:has_revision_status:
   - biolink:related_to
 SNOMED:has_route_of_administration:
   rename:
-  - has_route
-  - biolink:has_route
+  - related_to
+  - biolink:related_to
 SNOMED:has_scale_type:
   rename:
   - related_to
@@ -4418,8 +4614,8 @@ SNOMED:has_units:
   - biolink:related_to
 SNOMED:has_unit_of_presentation:
   rename:
-  - has_unit
-  - biolink:has_unit
+  - related_to
+  - biolink:related_to
 SNOMED:indirect_device_of:
   delete: null
 SNOMED:indirect_morphology_of:
@@ -4806,8 +5002,8 @@ UMLS:measured_by:
   delete: null
 UMLS:measures:
   rename:
-  - quantifier_qualifier
-  - biolink:quantifier_qualifier
+  - related_to
+  - biolink:related_to
 UMLS:owning_affiliate_of:
   delete: null
 UMLS:owning_section_of:

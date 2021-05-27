@@ -18,6 +18,7 @@ import argparse
 import kg2_util
 import yaml
 from collections import defaultdict
+import json
 
 BIOLINK_SLOT_TYPES_SKIP = {"biolink:has_attribute",
                            "biolink:synonym",
@@ -40,9 +41,17 @@ def convert_biolink_yaml_association_to_predicate(association: str) -> str:
 
 def create_biolink_to_external_mappings(biolink_model: dict, mapping_heirarchy: list) -> dict:
     # biolink_to_external[biolink relation][mapterm]= list([externals])
+    biolink_mixins = list()
     biolink_to_external_mappings = dict()
     for relation, relation_info in biolink_model['slots'].items():
         predicate_str = convert_biolink_yaml_association_to_predicate(relation)
+        mixin = relation_info.get('mixin', False)
+        if mixin == True:
+            biolink_mixins.append(predicate_str)
+            continue
+        is_a_type = relation_info.get('is_a', '')
+        if is_a_type in ['node property', 'association slot', 'aggregate statistic']:
+            continue
         if biolink_to_external_mappings.get(predicate_str, None) is None:
             biolink_to_external_mappings[predicate_str] = defaultdict(lambda: [])
         for mapping_term in mapping_hierarchy:
@@ -57,7 +66,7 @@ def create_biolink_to_external_mappings(biolink_model: dict, mapping_heirarchy: 
                 existing_list += list(map(lambda x: x.lower(), mappings))
                 biolink_to_external_mappings[biolink_curie][mapping_term] = existing_list
     biolink_to_external_mappings['skos:closeMatch'] = defaultdict(lambda: [])
-    return biolink_to_external_mappings
+    return biolink_to_external_mappings, biolink_mixins
 
 
 args = make_arg_parser().parse_args()
@@ -79,7 +88,7 @@ biolink_model = kg2_util.safe_load_yaml_from_string(
 
 mapping_hierarchy = ["exact_mappings", "close_mappings", "narrow_mappings", "broad_mappings", "related_mappings"]  # TODO: determine correct order of mappings
 
-biolink_to_external_mappings = create_biolink_to_external_mappings(
+biolink_to_external_mappings, biolink_mixins = create_biolink_to_external_mappings(
     biolink_model, mapping_hierarchy)
 
 external_to_biolink_mappings = dict()
@@ -115,6 +124,7 @@ for relation, instruction_dict in pred_info.items():
             else:
                 assert False
     if subinfo is not None:
+        assert subinfo[1] not in biolink_mixins, (relation, subinfo[1], {'Mixins': biolink_mixins})
         assert subinfo[1] in biolink_to_external_mappings, (relation, subinfo[1])
 
         allowed_biolink_curies_set = set()
