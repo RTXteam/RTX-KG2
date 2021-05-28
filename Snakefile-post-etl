@@ -51,7 +51,7 @@ rule Simplify:
     log:
         config['BUILD_DIR'] + "/filter_kg_and_remap_predicates" + config['TEST_SUFFIX'] + ".log"
     shell:
-        "bash -x " + config['CODE_DIR'] + "/run_simplify.sh {input.real} {output} " + config['VERSION_FILE'] + " " + config['TEST_FLAG'] + " > {log} 2>&1" 
+        "bash -x " + config['CODE_DIR'] + "/run-simplify.sh {input.real} {output} " + config['VERSION_FILE'] + " " + config['TEST_FLAG'] + " > {log} 2>&1" 
 
 rule Simplify_Nodes:
     input:
