@@ -52,6 +52,9 @@ def create_biolink_to_external_mappings(biolink_model: dict, mapping_heirarchy: 
         is_a_type = relation_info.get('is_a', '')
         if is_a_type in ['node property', 'association slot', 'aggregate statistic']:
             continue
+        domain_type = relation_info.get('domain', '')
+        if domain_type in ['quantity value', 'attribute']:
+            continue
         if biolink_to_external_mappings.get(predicate_str, None) is None:
             biolink_to_external_mappings[predicate_str] = defaultdict(lambda: [])
         for mapping_term in mapping_hierarchy:
