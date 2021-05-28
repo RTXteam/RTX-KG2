@@ -147,6 +147,9 @@ if __name__ == '__main__':
             print('relation curie is in the config file but was not used in any edge in the graph: ' + relation_curie, file=sys.stderr)
     for relation_curie in relation_curies_not_in_nodes:
         print('could not find a node for relation curie: ' + relation_curie)
+    if relation_curies_not_in_config:
+        print("There are relation curies missing from the yaml config file. Please add them and try again. Exiting.", file=sys.stderr)
+        exit(1)
     update_date = datetime.now().strftime("%Y-%m-%d %H:%M")
     version_file = open(args.versionFile, 'r')
     build_name = str
