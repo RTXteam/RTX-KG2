@@ -720,8 +720,8 @@ DRUGBANK:negative_modulator:
   - biolink:entity_negatively_regulates_entity
 DRUGBANK:neutralizer:
   rename:
-  - related_to # specify in greater detail later
-  - biolink:related_to # specify in greater detail later
+  - decreases_activity_of
+  - biolink:decreases_activity_of
 DRUGBANK:nucleotide_exchange_blocker:
   rename:
   - decreases_activity_of
