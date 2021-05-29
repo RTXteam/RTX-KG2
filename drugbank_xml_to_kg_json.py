@@ -11,6 +11,8 @@ import argparse
 import xmltodict
 import datetime
 import sys
+import pickle
+import json
 
 __author__ = 'Erica Wood'
 __copyright__ = 'Oregon State University'
@@ -322,22 +324,38 @@ def extract_target_edge(target: dict, subject_id: str, predicate_label: str):
     return target_edges
 
 
+def get_target_predicate(actions, predicate_label_default):
+    predicate_label = predicate_label_default
+    if actions is not None:
+        predicate_label = actions['action']
+        if isinstance(predicate_label, list):
+            predicate_label = predicate_label[0]
+    if predicate_label in ['other', 'unknown', 'other/unknown']:
+        predicate_label = predicate_label_default
+    return predicate_label
+
+
 def make_target_edge(drug: dict):
     target_edges = []
 
     subject_id = kg2_util.CURIE_PREFIX_DRUGBANK + ":" + get_drugbank_id(drug)
 
-    predicate_label = "target"
+    predicate_label_default = "target"
 
     if drug["targets"] is not None:
-        if drug["targets"]["target"] is not None:
-            if isinstance(drug["targets"]["target"], dict):
-                for edge in extract_target_edge(drug["targets"]["target"],
+        targets = drug["targets"]["target"]
+        if targets is not None:
+            if isinstance(targets, dict):
+                actions = targets['actions']
+                predicate_label = get_target_predicate(actions, predicate_label_default)
+                for edge in extract_target_edge(targets,
                                                 subject_id,
                                                 predicate_label):
                     target_edges.append(edge)
-            if isinstance(drug["targets"]["target"], list):
-                for target in drug["targets"]["target"]:
+            if isinstance(targets, list):
+                for target in targets:
+                    actions = target['actions']
+                    predicate_label = get_target_predicate(actions, predicate_label_default)
                     for edge in extract_target_edge(target,
                                                     subject_id,
                                                     predicate_label):
@@ -388,6 +406,56 @@ def make_group_edges(drug: dict):
     return group_edges
 
 
+def get_atc_codes(drug: dict):
+    sub_codes_return = set()
+    atc_codes_dict = drug['atc-codes']
+    if atc_codes_dict is None:
+        return [], []
+    atc_codes = atc_codes_dict['atc-code']
+    main_codes = set()
+    if isinstance(atc_codes, list):
+        for atc_code in atc_codes:
+            main_code = atc_code['@code']
+            main_codes.add(main_code)
+            sub_codes = atc_code['level']
+            for code in sub_codes:
+                sub_codes_return.add(code['@code'])
+    else:
+        try:
+            main_code = atc_codes['@code']
+        except:
+            print(json.dumps(drug, indent=4, sort_keys=True))
+            return [], []
+        main_codes.add(main_code)
+        sub_codes = atc_codes['level']
+        for code in sub_codes:
+            sub_codes_return.add(code['@code'])
+    return sorted(list(main_codes)), sorted(list(sub_codes_return))
+
+
+def make_atc_edges(drug: dict):
+    atc_edges = []
+    subject_id = kg2_util.CURIE_PREFIX_DRUGBANK + ':' + get_drugbank_id(drug)
+    predicate_label_main = 'atc-code'
+    predicate_label_sub = predicate_label_main + '-level'
+    main_atc_codes, sub_atc_codes = get_atc_codes(drug)
+    for main_code in main_atc_codes:
+        edge = format_edge(subject_id,
+                           kg2_util.CURIE_PREFIX_ATC + ':' + main_code,
+                           predicate_label_main,
+                           None,
+                           None)
+        atc_edges.append(edge)
+    for sub_code in sub_atc_codes:
+        edge = format_edge(subject_id,
+                           kg2_util.CURIE_PREFIX_ATC + ':' + sub_code,
+                           predicate_label_sub,
+                           None,
+                           None)
+        atc_edges.append(edge)
+    return atc_edges
+
+
 def make_edges(drug: dict):
     edges = []
     category_edges = make_category_edges(drug)
@@ -419,6 +487,11 @@ def make_edges(drug: dict):
     if group_edges is not None:
         for group_edge in group_edges:
             edges.append(group_edge)
+
+    atc_edges = make_atc_edges(drug)
+    if atc_edges is not None:
+        for atc_edge in atc_edges:
+            edges.append(atc_edge)
 
     return edges
 
@@ -471,6 +544,8 @@ if __name__ == '__main__':
     test_mode = args.test
     print("Start load: ", date())
     drugbank_dict = xml_to_drugbank_dict(input_file_name)
+    # For debugging only
+    #drugbank_dict = pickle.load(open(input_file_name, 'rb'))
     print("Finish load: ", date())
     print("Start nodes and edges: ", date())
     graph = make_kg2_graph(drugbank_dict, test_mode)

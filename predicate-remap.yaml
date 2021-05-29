@@ -602,6 +602,14 @@ DRUGBANK:antisense_oligonucleotide:
   rename:
   - decreases_expression_of
   - biolink:decreases_expression_of
+DRUGBANK:atc-code:
+  rename:
+  - close_match
+  - biolink:close_match
+DRUGBANK:atc-code-level:
+  rename:
+  - related_to
+  - biolink:related_to
 DRUGBANK:binder:
   rename:
   - directly_interacts_with
