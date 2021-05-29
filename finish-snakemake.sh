@@ -12,8 +12,6 @@
 # passed into this file are the same as they were are the start of the build. In general, it means that there is one
 # streamlined input.
 
-set -o nounset -o pipefail -o errexit
-
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     echo Usage: "$0 [final_output_file_full] [output_file_orphan_edges] [report_file_full] [output_nodes_file_full] [simplified_output_file_full] [simplified_report_file_full]"
     echo "[simplified_output_nodes_file_full] [slim_output_file_full] [kg2_tsv_dir] [s3_cp_cmd]"
@@ -61,9 +59,18 @@ ${s3_cp_cmd} ${final_output_file_full}.gz s3://${s3_bucket}/
 ${s3_cp_cmd} ${simplified_output_file_full}.gz s3://${s3_bucket_public}/
 ${s3_cp_cmd} ${output_nodes_file_full}.gz s3://${s3_bucket}/
 ${s3_cp_cmd} ${report_file_full} s3://${s3_bucket_public}/
+
+# Attempt to compare the report from the previous build to the current build
 ${s3_cp_cmd} s3://${s3_bucket_public}/${simplified_report_file_base} ${BUILD_DIR}/${previous_simplified_report_base}
-${VENV_DIR}/bin/python3 -u ${CODE_DIR}/compare_edge_reports.py ${BUILD_DIR}/${previous_simplified_report_base} ${simplified_report_file_full}
+if [ $? -eq 0 ]
+then
+    ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/compare_edge_reports.py ${BUILD_DIR}/${previous_simplified_report_base} ${simplified_report_file_full}
+else
+    echo "Report from previous build not available."
+fi
+
 ${s3_cp_cmd} ${simplified_report_file_full} s3://${s3_bucket_public}/
+
 ${s3_cp_cmd} ${output_file_orphan_edges}.gz s3://${s3_bucket_public}/
 ${s3_cp_cmd} ${slim_output_file_full}.gz s3://${s3_bucket}/
 ${s3_cp_cmd} ${simplified_output_nodes_file_full}.gz s3://${s3_bucket}/
