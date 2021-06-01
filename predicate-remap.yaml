@@ -5054,6 +5054,10 @@ oboFormat:xref:
   rename:
   - close_match
   - biolink:close_match
+owl:inverseOf:
+  rename:
+  - related_to
+  - biolink:related_to
 owl:sameAs:
   rename:
   - same_as
