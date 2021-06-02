@@ -4917,9 +4917,13 @@ UMLS:has_physiologic_effect:
   - causes
   - biolink:causes
 UMLS:RB:
-  invert:
-  - subclass_of
-  - biolink:subclass_of
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:RN:
+  rename:
+  - related_to
+  - biolink:related_to
 UMLS:RO:
   rename:
   - related_to
