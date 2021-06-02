@@ -1,27 +1,6 @@
 # Table of Contents
-
- - [Contact](#contact)
- - [Understanding Snakemake](#understanding-snakemake)
-   - [`build-kg2-snakemake.sh`](#build-kg2-snakemakesh)
-   - [`Snakefile`](#snakefile)
-   - [Bash Shell Script to Snakemake Shell](#bash-shell-script-to-snakemake-shell)
- - [Adding to Snakemake Build System](#adding-to-snakemake-build-system)
-   - [Adding an ETL Script](#adding-an-etl-script)
-     - [Editing the `Snakefile`s](#editing-the-snakefiles)
-       - [General Steps](#general-steps)
-       - [Special Circumstances](#special-circumstances)
-     - [Editing `build-kg2-snakemake.sh`](#editing-build-kg2-snakemakesh)
-       - [General Steps](#general-steps-1)
-   - [Adding Scripts that Go BEFORE ETL Scripts](#adding-scripts-that-go-before-etl-scripts)
-     - [Editing `Snakefile-pre-etl`](#editing-snakefile-pre-etl)
-       - [General Steps](#general-steps-2)
-     - [Editing `build-kg2-snakemake.sh`](#editing-build-kg2-snakemakesh-1)
-   - [Adding Scripts to Go AFTER Merge](#adding-scripts-that-go-after-merge)
-     - [Editing `Snakefile-post-etl`](#editing-snakefile-post-etl)
-       - [General Steps](#general-steps-3)
-     - [Editing `Snakefile-finish`](#editing-snakefile-finish)
-       - [General Steps](#general-steps-4)
-     - [Editing `build-kg2-snakemake.sh`](#editing-build-kg2-snakemakesh-2)
+Hover over the menu (circled in red) for a clickable table of contents. 
+<img width="1027" alt="image" src="https://user-images.githubusercontent.com/39020520/120412943-48014a00-c30c-11eb-8052-dd8bd91245a3.png">
 
 
 # Contact
