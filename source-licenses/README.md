@@ -40,3 +40,7 @@ LOINC requires a special notice to be displayed
 
 Note 2:  SNOMED CT has special license requirements spelled out in Appendix 2.
 
+
+## DrugBank
+
+- License:  see `drugbank-license.pdf`
