@@ -170,7 +170,6 @@ def make_kg2(curies_to_categories: dict,
                                   map_of_node_ontology_ids_to_curie_ids)
 
     biolink_inverses = get_inverse_rels(ont_file_information_dict_list[0]['ontology'], ont_file_information_dict_list[0], uri_to_curie_shortener)
-    print(json.dumps(biolink_inverses, indent=4, sort_keys=True))
 
     kg2_dict = dict()
     kg2_dict['edges'] = [rel_dict for rel_dict in all_rels_dict.values()]
