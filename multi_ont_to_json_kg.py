@@ -119,6 +119,7 @@ def make_kg2(curies_to_categories: dict,
              curie_to_uri_expander: callable,
              ont_urls_and_files: tuple,
              output_file_name: str,
+             umls_cui_tsv_file: str,
              node_datatype_properties_file: str, # temporary addition for Ontobio Issue #507
              test_mode: bool = False,
              save_pickle: bool = False):
@@ -150,10 +151,26 @@ def make_kg2(curies_to_categories: dict,
     with open(node_datatype_properties_file, 'r') as node_properties:
         select_datatype_properties = json.load(node_properties)
 
+    cui_lookup = dict()
+    with open(umls_cui_tsv_file, 'r') as cuis:
+        count = 0
+        for line in cuis:
+            count += 1
+            if count == 1:
+                continue
+            line = line.split('\t')
+            cui = line[0]
+            tuis = line[1].split(',')
+            name = line[2].strip()
+            if cui in cui_lookup:
+                kg2_util.log_message('CUI', cui, 'in TSV file multiple times')
+            cui_lookup[cui] = {'TUIs': tuis, 'Name': name}
+
     nodes_dict = make_nodes_dict_from_ontologies_list(ont_file_information_dict_list,
                                                       curies_to_categories,
                                                       uri_to_curie_shortener,
                                                       curie_to_uri_expander,
+                                                      cui_lookup,
                                                       select_datatype_properties) # temporary addition for Ontobio Issue #507
 
     kg2_util.log_message('Calling make_map_of_node_ontology_ids_to_curie_ids')
@@ -490,6 +507,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                          curies_to_categories: dict,
                                          uri_to_curie_shortener: callable,
                                          curie_to_uri_expander: callable,
+                                         cui_lookup: dict,
                                          select_datatype_properties: dict) -> Dict[str, dict]: # temporary addition for Ontobio Issue #507
     ret_dict = dict()
     omim_to_hgnc_symbol = dict()
@@ -509,6 +527,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
 
     convert_bpv_pred_to_curie_func = make_convert_bpv_predicate_to_curie(uri_to_curie_shortener,
                                                                          curie_to_uri_expander)
+
 
     def biolink_depth_getter(category: str):
         return biolink_categories_ontology_depths.get(category, None)
@@ -1290,6 +1309,7 @@ def make_arg_parser():
     arg_parser.add_argument('curiesToURIFile', type=str)
     arg_parser.add_argument('ontLoadInventoryFile', type=str)
     arg_parser.add_argument('outputFile', type=str)
+    arg_parser.add_argument('umlsCUITSVFile', type=str)
     arg_parser.add_argument('nodeDatatypePropertiesFile', type=str) # temporary addition for Ontobio Issue #507
     return arg_parser
 
@@ -1303,6 +1323,7 @@ if __name__ == '__main__':
     curies_to_uri_file_name = args.curiesToURIFile
     ont_load_inventory_file = args.ontLoadInventoryFile
     output_file = args.outputFile
+    umls_cui_tsv_file = args.umlsCUITSVFile
     node_datatype_properties_file = args.nodeDatatypePropertiesFile # temporary addition for Ontobio Issue #507
     save_pickle = args.save_pickle
     test_mode = args.test
@@ -1317,6 +1338,7 @@ if __name__ == '__main__':
              curie_to_uri_expander,
              ont_urls_and_files,
              output_file,
+             umls_cui_tsv_file,
              node_datatype_properties_file, # temporary addition for Ontobio Issue #507
              test_mode,
              save_pickle)
