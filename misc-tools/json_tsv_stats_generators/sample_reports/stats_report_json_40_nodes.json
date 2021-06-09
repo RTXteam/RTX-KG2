@@ -1,0 +1,40 @@
+{
+    "_report_datetime": "2021-06-09 14:55:53",
+    "script": "get_stats_json.py",
+    "input_files": {
+        "paths": [
+            "/home/ubuntu/kg2-uncanonicalized/kg2.4.0/kg2-slim.json"
+        ],
+        "number_of_edges": 53415986,
+        "number_of_nodes": 10533792
+    },
+    "created_graph": {
+        "number_of_edges": 53415986,
+        "number_of_nodes": 8619645,
+        "density": 7.189398227010049e-07,
+        "average_degree": 12.394010658211561,
+        "maximum_degree": 340877,
+        "node_id_with_maximum_degree": "NCBITaxon:9606",
+        "degree_with_most_nodes": 1,
+        "number_of_nodes_with_most_frequent_degree": 3319686,
+        "graph_as_directed": {
+            "number_of_nodes_in_sample": 40,
+            "estimated_average_all_pairs_shortest_paths_distance_in_sample": 7.969228957605203,
+            "estimated_diameter_in_sample": 30,
+            "number_of_sink_nodes_in_sample": 13
+        },
+        "graph_as_undirected": {
+            "number_of_nodes_in_sample": 40,
+            "estimated_average_all_pairs_shortest_paths_distance_in_sample": 8.355347967143706,
+            "estimated_diameter_in_sample": 25,
+            "number_of_sink_nodes_in_sample": 0
+        }
+    },
+    "runtimes": {
+        "build_graph": "0:10:27.397391",
+        "estimate_average_all_pairs_shortest_paths_distance_in_sample_for_directed_graph": 4.400930049999999,
+        "estimate_average_all_pairs_shortest_paths_distance_in_sample_for_undirected_graph": 8.813976525,
+        "calculate_graph_stats": "0:09:16.782618",
+        "execute_complete_script": "0:20:07.680066"
+    }
+}
