@@ -69,6 +69,13 @@ def create_biolink_to_external_mappings(biolink_model: dict, mapping_heirarchy: 
                 existing_list += list(map(lambda x: x.lower(), mappings))
                 biolink_to_external_mappings[biolink_curie][mapping_term] = existing_list
     biolink_to_external_mappings['skos:closeMatch'] = defaultdict(lambda: [])
+
+    # See Issue #63 for why we are doing this
+    try:
+        biolink_to_external_mappings['biolink:subclass_of']['narrow_mappings'].remove("umls:rb")
+        biolink_to_external_mappings['biolink:superclass_of']['narrow_mappings'].remove("umls:rb")
+    except ValueError:
+        print('UMLS:RB work around no longer necessary')
     return biolink_to_external_mappings, biolink_mixins
 
 
