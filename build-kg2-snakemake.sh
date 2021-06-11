@@ -6,16 +6,18 @@
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0 [test]"
+    echo Usage: "$0 [test|alltest|all|-n] [-n] [travisci]"
     exit 2
 fi
 
-# Usage: build-kg2-snakemake.sh [test]
+# Usage: build-kg2-snakemake.sh [test|alltest|all|-n] [-n]
 
 config_dir=`dirname "$0"`
 source ${config_dir}/master-config.shinc
 
 build_flag=${1-""}
+secondary_build_flag=${2-""}
+travisci_flag=${3-""}
 
 if [[ "${build_flag}" == "test" || "${build_flag}" == "alltest" ]]
 then
@@ -75,11 +77,25 @@ then
     echo 'include: "Snakefile-extraction"' >> ${snakefile}
 fi
 
-cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} -F -j
+dryrun=""
+if [[ "${build_flag}" == "-n" || "${secondary_build_flag}" == "-n" ]]
+then
+    dryrun="-n"
+fi
+
+cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} -F -j ${dryrun}
 
 date
 echo "================ script finished ============================"
 } > ${build_kg2_log_file} 2>&1
 
-${s3_cp_cmd} ${build_kg2_log_file} s3://${s3_bucket_public}/
-${s3_cp_cmd} ${build_kg2_log_file} s3://${s3_bucket_versioned}/
+if [[ "${travisci_flag}" != "travisci" ]]
+then
+    ${s3_cp_cmd} ${build_kg2_log_file} s3://${s3_bucket_public}/
+    ${s3_cp_cmd} ${build_kg2_log_file} s3://${s3_bucket_versioned}/
+fi
+
+if [[ "${travisci_flag}" == "travisci" ]]
+then
+    cat ${build_kg2_log_file}
+fi

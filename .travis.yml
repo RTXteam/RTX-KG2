@@ -10,3 +10,4 @@ before_install:
 script:
   - bash -x ./setup-kg2-build.sh travisci
   - bash -x ./run-validation-tests.sh travisci
+  - bash -x ./build-kg2-snakemake.sh all -n travisci
