@@ -5,11 +5,11 @@
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0 [output_dir]"
+    echo Usage: "$0 [output_dir] [umls_cui_file]"
     exit 2
 fi
 
-# Usage: extract-umls.sh [OUTPUT_DIR]
+# Usage: extract-umls.sh [OUTPUT_DIR] [UMLS_CUI_FILE]
 
 echo "================= starting extract-umls.sh ================="
 date
@@ -18,6 +18,7 @@ config_dir=`dirname "$0"`
 source ${config_dir}/master-config.shinc
 
 output_dir=${1:-${BUILD_DIR}}
+umls_cui_file=${2:-${BUILD_DIR}/umls_cuis.tsv}
 
 umls_ver=2020AA
 umls_file_base=${umls_ver}-metathesaurus
@@ -96,6 +97,19 @@ ${VENV_DIR}/bin/python3 umls2rdf.py
 
 ## verify the output files
 ./checkOutputSyntax.sh  ${output_dir} # uses "rapper" command from the "raptor" package
+
+umls_cuis_query="SELECT DISTINCT s.CUI, GROUP_CONCAT(DISTINCT s.TUI), GROUP_CONCAT(DISTINCT c.STR)
+FROM MRSTY s
+INNER JOIN MRCONSO c
+ON s.CUI=c.CUI
+WHERE c.LAT='ENG'
+AND c.TS='P'
+AND STT='PF'
+AND ISPREF='Y'
+GROUP BY s.CUI"
+
+mysql --defaults-extra-file=${mysql_conf} --database=${mysql_dbname} \
+      -e "${umls_cuis_query}" > ${umls_cui_file}
 
 date
 echo "================= finished extract-umls.sh ================="

@@ -5,11 +5,11 @@
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0 <output_file.json> [test]"
+    echo Usage: "$0 <input_file.tsv> <output_file.json> [test]"
     exit 2
 fi
 
-# Usage: build-multi-ont-kg.sh <output_file.json> [test]
+# Usage: build-multi-ont-kg.sh <input_file.tsv> <output_file.json> [test]
 #        build-multi-ont-kg.sh /home/ubuntu/kg2-build/kg2-ont.json test
 
 echo "================= starting build-multi-ont-kg.sh ================="
@@ -20,7 +20,7 @@ config_dir=`dirname "$0"`
 source ${config_dir}/master-config.shinc
 
 ## supply a default value for the build_flag string
-build_flag=${2:-""}
+build_flag=${3:-""}
 biolink_base_url_no_version=https://raw.githubusercontent.com/biolink/biolink-model/
 biolink_raw_base_url=${biolink_base_url_no_version}${biolink_model_version}/biolink-model.owl.ttl
 ont_load_inventory_replace_string="\  url: ${biolink_raw_base_url}"
@@ -37,7 +37,8 @@ else
     test_arg=''
 fi
 
-output_file=${1:-"${BUILD_DIR}/kg2-ont${test_suffix}.json"}
+umls_cuis_file=${1:-"${BUILD_DIR}/umls_cuis.tsv"}
+output_file=${2:-"${BUILD_DIR}/kg2-ont${test_suffix}.json"}
 output_file_base=`basename ${output_file}`
 log_file=`dirname ${output_file}`/build-${output_file_base%.*}-stderr.log
 
@@ -68,6 +69,7 @@ cd ${BUILD_DIR} && ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/multi_ont_to_json_kg.p
            ${curies_to_urls_file} \
            ${ont_load_inventory_file} \
            ${output_file} \
+           ${umls_cuis_file} \
            ${node_datatype_properties_file} \
            2>${log_file}
 

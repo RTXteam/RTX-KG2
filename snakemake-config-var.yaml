@@ -4,6 +4,7 @@ semmed_output_file: ${BUILD_DIR}/kg2-semmeddb${test_suffix}-edges.json
 uniprotkb_dat_file: ${BUILD_DIR}/uniprotkb/uniprot_sprot.dat
 uniprotkb_output_file: ${BUILD_DIR}/kg2-uniprotkb${test_suffix}.json
 
+umls_cui_file: ${BUILD_DIR}/umls_cuis.tsv
 output_file_base: kg2-ont${test_suffix}.json
 output_file_full: ${BUILD_DIR}/${output_file_base}
 
