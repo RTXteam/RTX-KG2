@@ -34,11 +34,8 @@ else
 fi
 
 build_kg2_log_file=${BUILD_DIR}/build-kg2-snakemake${test_suffix}.log
-
-if [[ "${travisci_flag}" != "travisci" ]]
-then
-    {
-fi
+trap "cat ${build_kg2_log_file}" EXIT
+{
 echo "================= starting build-kg2-snakemake.sh =================="
 date
 
@@ -101,13 +98,11 @@ fi
 
 date
 echo "================ script finished ============================"
-if [[ "${travisci_flag}" != "travisci" ]]
-then
-    } > ${build_kg2_log_file} 2>&1
-fi
+} > ${build_kg2_log_file} 2>&1
 
 if [[ "${travisci_flag}" != "travisci" ]]
 then
     ${s3_cp_cmd} ${build_kg2_log_file} s3://${s3_bucket_public}/
     ${s3_cp_cmd} ${build_kg2_log_file} s3://${s3_bucket_versioned}/
 fi
+
