@@ -527,6 +527,12 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
 
     convert_bpv_pred_to_curie_func = make_convert_bpv_predicate_to_curie(uri_to_curie_shortener,
                                                                          curie_to_uri_expander)
+    for cui in cui_lookup:
+        tuis = cui_lookup[cui]['TUIs']
+        category = get_category_for_multiple_tui(biolink_category_tree,
+                                                 tuis,
+                                                 mappings_to_categories)
+        cui_lookup[cui]['Category'] = category
 
 
     def biolink_depth_getter(category: str):
@@ -916,10 +922,15 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         if get_local_id_from_curie_id(cui_curie) == get_local_id_from_curie_id(node_curie_id):
                             continue
                         cui_node_dict['id'] = cui_curie
+                        cui = cui_curie.split(':')[1]
                         cui_node_dict['iri'] = cui_uri
                         cui_node_dict['synonym'] = []
-                        cui_node_dict['category'] = node_tui_category_curie
-                        cui_node_dict['category_label'] = node_tui_category_label.replace(' ', '_')
+                        cui_node_dict['category'] = kg2_util.convert_biolink_category_to_curie(cui_lookup[cui]['Category'])
+                        cui_node_dict['category_label'] = cui_lookup[cui]['Category'].replace(' ', '_')
+                        cui_name = cui_lookup[cui]['Name']
+                        if cui_name.isupper():
+                            cui_name = kg2_util.allcaps_to_only_first_letter_capitalized(cui_name)
+                        cui_node_dict['name'] = cui_name
                         cui_node_dict['ontology node ids'] = []
                         cui_node_dict['provided_by'] = kg2_util.CURIE_ID_UMLS_SOURCE_CUI
                         cui_node_dict['xrefs'] = []  # blanking the "xrefs" here is *vital* in order to avoid issue #395
