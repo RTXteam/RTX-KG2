@@ -1,23 +1,23 @@
 BFO:0000050:
-  rename:
-  - part_of
-  - biolink:part_of
-BFO:0000051:
   invert:
-  - part_of
-  - biolink:part_of
+  - has_part
+  - biolink:has_part
+BFO:0000051:
+  rename:
+  - has_part
+  - biolink:has_part
 BFO:0000054:
   rename:
   - related_to
   - biolink:related_to
 BFO:0000055:
-  invert:
-  - part_of
-  - biolink:part_of
-BFO:0000056:
   rename:
-  - participates_in
-  - biolink:participates_in
+  - has_part
+  - biolink:has_part
+BFO:0000056:
+  invert:
+  - has_participant
+  - biolink:has_participant
 BFO:0000062:
   invert:
   - precedes
@@ -43,13 +43,13 @@ BFO:0000069:
   - related_to
   - biolink:related_to
 BFO:0000117:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 BFO:0000167:
-  invert:
-  - participates_in
-  - biolink:participates_in
+  rename:
+  - has_participant
+  - biolink:has_participant
 BSPO:0000096:
   rename:
   - coexists_with
@@ -131,25 +131,25 @@ BSPO:0001101:
   - located_in
   - biolink:located_in
 BSPO:0001106:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 BSPO:0001107:
   rename:
   - located_in
   - biolink:located_in
 BSPO:0001108:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 BSPO:0001113:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 BSPO:0001115:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 BSPO:0005001:
   rename:
   - overlaps
@@ -235,9 +235,9 @@ CHEBI:is_enantiomer_of:
   - chemically_similar_to
   - biolink:chemically_similar_to
 CHEBI:is_substituent_group_from:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 CHEBI:is_tautomer_of:
   rename:
   - chemically_similar_to
@@ -423,13 +423,13 @@ CPT:mapped_to:
   - related_to
   - biolink:related_to
 CPT:panel_element_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 CPT:panel_element_of_possibly_included:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 DDANAT:develops_from:
   rename:
   - develops_from
@@ -643,9 +643,9 @@ DRUGBANK:cofactor:
   - directly_interacts_with
   - biolink:directly_interacts_with
 DRUGBANK:component_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 DRUGBANK:degradation:
   rename:
   - affects_degradation_of
@@ -748,8 +748,8 @@ DRUGBANK:partial_antagonist:
   - biolink:decreases_activity_of
 DRUGBANK:pathway:
   rename:
-  - participates_in
-  - biolink:participates_in
+  - affects
+  - biolink:affects
 DRUGBANK:positive_allosteric_modulator:
   rename:
   - increases_activity_of
@@ -1015,17 +1015,17 @@ FMA:connection_type_of:
   - coexists_with
   - biolink:coexists_with
 FMA:constitutional_part_of:
-  rename:
-  - part_of
-  - biolink:part_of
-FMA:contained_in:
-  rename:
-  - part_of
-  - biolink:part_of
-FMA:contains:
   invert:
-  - part_of
-  - biolink:part_of
+  - has_part
+  - biolink:has_part
+FMA:contained_in:
+  invert:
+  - has_part
+  - biolink:has_part
+FMA:contains:
+  rename:
+  - has_part
+  - biolink:has_part
 FMA:continuation_branch_of:
   rename:
   - coexists_with
@@ -1139,9 +1139,9 @@ FMA:has_connection_type:
   - coexists_with
   - biolink:coexists_with
 FMA:has_constitutional_part:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 FMA:has_continuation_branch:
   rename:
   - coexists_with
@@ -1187,9 +1187,9 @@ FMA:has_lymphatic_drainage:
   - coexists_with
   - biolink:coexists_with
 FMA:has_member:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 FMA:has_nerve_supply:
   rename:
   - coexists_with
@@ -1203,9 +1203,9 @@ FMA:has_origin:
   - coexists_with
   - biolink:coexists_with
 FMA:has_part:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 FMA:has_primary_segmental_supply:
   rename:
   - coexists_with
@@ -1305,9 +1305,9 @@ FMA:medial_to:
   - coexists_with
   - biolink:coexists_with
 FMA:member_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 FMA:merges_with:
   rename:
   - coexists_with
@@ -1321,9 +1321,9 @@ FMA:origin_of:
   - coexists_with
   - biolink:coexists_with
 FMA:part_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 FMA:posterior_to:
   rename:
   - coexists_with
@@ -1377,13 +1377,13 @@ FMA:receives_projection:
   - coexists_with
   - biolink:coexists_with
 FMA:regional_part_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 FMA:related_developmental_entity_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - related_to
+  - biolink:related_to
 FMA:related_object:
   rename:
   - related_to
@@ -1457,13 +1457,13 @@ FOODON:00001301:
   - model_of
   - biolink:model_of
 FOODON:00001563:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 FOODON:00002420:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 GENEPIO:0001739:
   invert:
   - precedes
@@ -1519,9 +1519,9 @@ GO:has_occurrence:
   - capable_of
   - biolink:capable_of
 GO:has_part:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 GO:inverse_ends_during:
   rename:
   - related_to
@@ -1533,9 +1533,9 @@ GO:inverse_isa:
   - subclass_of
   - biolink:subclass_of
 GO:involved_in:
-  rename:
-  - participates_in
-  - biolink:participates_in
+  invert:
+  - has_participant
+  - biolink:has_participant
 GO:is_active_in:
   rename:
   - actively_involved_in
@@ -1561,9 +1561,9 @@ GO:occurs_in:
   - occurs_in
   - biolink:occurs_in
 GO:part_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 GO:positively_regulated_by:
   invert:
   - entity_positively_regulates_entity
@@ -1635,9 +1635,9 @@ HMDB:in_biospecimen:
   - located_in
   - biolink:located_in
 HMDB:in_pathway:
-  rename:
-  - participates_in
-  - biolink:participates_in
+  invert:
+  - has_participant
+  - biolink:has_participant
 HP:SIB:
   delete: null
 IAO:0000039:
@@ -1689,9 +1689,9 @@ LOINC:class_of:
   - subclass_of
   - biolink:subclass_of
 LOINC:component_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 LOINC:count_of:
   delete: null
 LOINC:divisor_of:
@@ -1733,9 +1733,9 @@ LOINC:has_class:
   - subclass_of
   - biolink:subclass_of
 LOINC:has_component:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 LOINC:has_count:
   rename:
   - related_to
@@ -1777,9 +1777,9 @@ LOINC:has_lateral_location_presence:
 LOINC:has_loinc_number:
   delete: null
 LOINC:has_member:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 LOINC:has_method:
   rename:
   - related_to
@@ -1815,17 +1815,17 @@ LOINC:has_scale:
   - related_to
   - biolink:related_to
 LOINC:has_subject:
-  invert:
-  - participates_in
-  - biolink:participates_in
+  rename:
+  - has_participant
+  - biolink:has_participant
 LOINC:has_suffix:
   rename:
   - related_to
   - biolink:related_to
 LOINC:has_supersystem:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 LOINC:has_system:
   rename:
   - has_input
@@ -1855,9 +1855,9 @@ LOINC:is_approach_guidance_for:
 LOINC:is_exam_for:
   delete: null
 LOINC:is_given_pharmaceutical_substance_for:
-  rename:
-  - participates_in
-  - biolink:participates_in
+  invert:
+  - has_participant
+  - biolink:has_participant
 LOINC:is_imaged_location_for:
   delete: null
 LOINC:is_imaging_focus_of:
@@ -1899,9 +1899,9 @@ LOINC:measured_by:
 LOINC:measures:
   delete: null
 LOINC:member_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 LOINC:method_of:
   delete: null
 LOINC:mth_expanded_form_of:
@@ -1911,9 +1911,9 @@ LOINC:mth_has_expanded_form:
   - related_to
   - biolink:related_to
 LOINC:multipart_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 LOINC:parent_group_of:
   delete: null
 LOINC:property_of:
@@ -1941,13 +1941,13 @@ MEDDRA:classified_as:
 MEDDRA:classifies:
   delete: null
 MEDDRA:has_member:
-  invert:
-  - part_of
-  - biolink:part_of
-MEDDRA:member_of:
   rename:
-  - part_of
-  - biolink:part_of
+  - has_part
+  - biolink:has_part
+MEDDRA:member_of:
+  invert:
+  - has_part
+  - biolink:has_part
 MESH:AQ:
   delete: null
 MESH:QB:
@@ -2155,9 +2155,9 @@ MONDO:disease_has_basis_in_development_of:
   - disease_has_basis_in
   - biolink:disease_has_basis_in
 MONDO:disease_has_major_feature:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 MONDO:disease_responds_to:
   invert:
   - treats
@@ -2179,9 +2179,9 @@ MONDO:has_onset:
   - related_to
   - biolink:related_to
 MONDO:part_of_progression_of_disease:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 MONDO:predisposes_towards:
   rename:
   - contributes_to
@@ -2219,9 +2219,9 @@ NCIT:allele_plays_role_in_metabolism_of_chemical_or_drug:
 NCIT:anatomic_structure_has_location:
   delete: null
 NCIT:anatomic_structure_is_physical_part_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 NCIT:anatomy_originated_from_biological_process:
   delete: null
 NCIT:associated_with_malfunction_of_gene_product:
@@ -2317,15 +2317,15 @@ NCIT:completely_excised_anatomy_has_procedure:
 NCIT:completely_excised_anatomy_may_have_procedure:
   delete: null
 NCIT:complex_has_physical_part:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 NCIT:concept_in_subset:
   delete: null
 NCIT:conceptual_part_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 NCIT:ctcae_5_parent_of:
   invert:
   - subclass_of
@@ -2455,9 +2455,9 @@ NCIT:gene_associated_with_disease:
   - gene_associated_with_condition
   - biolink:gene_associated_with_condition
 NCIT:gene_encodes_gene_product:
-  rename:
-  - has_gene_product
-  - biolink:has_gene_product
+  invert:
+  - gene_product_of
+  - biolink:gene_product_of
 NCIT:gene_found_in_organism:
   rename:
   - in_taxon
@@ -2489,21 +2489,21 @@ NCIT:gene_is_biomarker_type:
   - subclass_of
   - biolink:subclass_of
 NCIT:gene_is_element_in_pathway:
-  rename:
-  - participates_in
-  - biolink:participates_in
+  invert:
+  - has_participant
+  - biolink:has_participant
 NCIT:gene_mapped_to_disease:
   rename:
   - affects
   - biolink:affects
 NCIT:gene_mutant_encodes_gene_product_sequence_variation:
-  rename:
-  - has_gene_product
-  - biolink:has_gene_product
+  invert:
+  - gene_product_of
+  - biolink:gene_product_of
 NCIT:gene_plays_role_in_process:
-  rename:
-  - participates_in
-  - biolink:participates_in
+  invert:
+  - has_participant
+  - biolink:has_participant
 NCIT:gene_product_affected_by_chemical_or_drug:
   delete: null
 NCIT:gene_product_encoded_by_gene:
@@ -2535,9 +2535,9 @@ NCIT:gene_product_has_organism_source:
   - in_taxon
   - biolink:in_taxon
 NCIT:gene_product_has_structural_domain_or_motif:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 NCIT:gene_product_is_biomarker_of:
   rename:
   - biomarker_for
@@ -2547,21 +2547,21 @@ NCIT:gene_product_is_biomarker_type:
   - subclass_of
   - biolink:subclass_of
 NCIT:gene_product_is_element_in_pathway:
-  rename:
-  - participates_in
-  - biolink:participates_in
+  invert:
+  - has_participant
+  - biolink:has_participant
 NCIT:gene_product_is_physical_part_of:
-  rename:
-  - participates_in
-  - biolink:participates_in
+  invert:
+  - has_participant
+  - biolink:has_participant
 NCIT:gene_product_malfunction_associated_with_disease:
   rename:
   - gene_associated_with_condition
   - biolink:gene_associated_with_condition
 NCIT:gene_product_plays_role_in_biological_process:
-  rename:
-  - participates_in
-  - biolink:participates_in
+  invert:
+  - has_participant
+  - biolink:has_participant
 NCIT:gene_product_sequence_variation_encoded_by_gene_mutant:
   rename:
   - is_sequence_variant_of
@@ -2661,9 +2661,9 @@ NCIT:is_chemical_classification_of_gene_product:
 NCIT:is_chromosomal_location_of_gene:
   delete: null
 NCIT:is_component_of_chemotherapy_regimen:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 NCIT:is_cytogenetic_abnormality_of_disease:
   invert:
   - correlated_with
@@ -2773,9 +2773,9 @@ NCIT:partially_excised_anatomy_may_have_procedure:
 NCIT:pathogenesis_of_disease_involves_gene:
   delete: null
 NCIT:pathway_has_gene_element:
-  invert:
-  - participates_in
-  - biolink:participates_in
+  rename:
+  - has_participant
+  - biolink:has_participant
 NCIT:pharmaceutical_administration_method_of:
   delete: null
 NCIT:pharmaceutical_basic_dose_form_of:
@@ -2831,9 +2831,9 @@ NCIT:process_initiates_biological_process:
   - causes
   - biolink:causes
 NCIT:process_involves_gene:
-  invert:
-  - participates_in
-  - biolink:participates_in
+  rename:
+  - has_participant
+  - biolink:has_participant
 NCIT:qualifier_applies_to:
   rename:
   - related_to
@@ -2875,21 +2875,21 @@ NDDF:has_dose_form:
   - subclass_of
   - biolink:subclass_of
 NDDF:has_ingredient:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 NDDF:ingredient_of:
-  rename:
-  - part_of
-  - biolink:part_of
-OBI:0000293:
   invert:
-  - participates_in
-  - biolink:participates_in
-OBI:0000295:
+  - has_part
+  - biolink:has_part
+OBI:0000293:
   rename:
-  - participates_in
-  - biolink:participates_in
+  - has_participant
+  - biolink:has_participant
+OBI:0000295:
+  invert:
+  - has_participant
+  - biolink:has_participant
 OBI:0000299:
   rename:
   - has_output
@@ -2959,9 +2959,9 @@ OBO:nbo#by_means:
   - actively_involved_in
   - biolink:actively_involved_in
 OBO:nbo#has_participant:
-  invert:
-  - participates_in
-  - biolink:participates_in
+  rename:
+  - has_participant
+  - biolink:has_participant
 OBO:nbo#in_response_to:
   invert:
   - causes
@@ -3093,17 +3093,17 @@ PDQ:associated_disease:
 PDQ:associated_genetic_condition:
   delete: null
 PDQ:component_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 PDQ:has_component:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 PR:has_gene_template:
-  invert:
-  - has_gene_product
-  - biolink:has_gene_product
+  rename:
+  - gene_product_of
+  - biolink:gene_product_of
 PR:confers_resistance_to:
   rename:
   - decreases_activity_of
@@ -3133,25 +3133,25 @@ PSY:used_for:
   - has_input
   - biolink:has_input
 PathWhiz:has_bound:
-  invert:
-  - participates_in
-  - biolink:participates_in
+  rename:
+  - has_participant
+  - biolink:has_participant
 PathWhiz:has_compound:
-  invert:
-  - participates_in
-  - biolink:participates_in
+  rename:
+  - has_participant
+  - biolink:has_participant
 PathWhiz:has_element_collection:
-  invert:
-  - participates_in
-  - biolink:participates_in
+  rename:
+  - has_participant
+  - biolink:has_participant
 PathWhiz:has_element_in_bound:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 PathWhiz:has_enzyme:
-  invert:
-  - participates_in
-  - biolink:participates_in
+  rename:
+  - has_participant
+  - biolink:has_participant
 PathWhiz:has_left_element:
   rename:
   - has_input
@@ -3161,21 +3161,21 @@ PathWhiz:has_location:
   - occurs_in
   - biolink:occurs_in
 PathWhiz:has_nucleic_acid:
-  invert:
-  - participates_in
-  - biolink:participates_in
+  rename:
+  - has_participant
+  - biolink:has_participant
 PathWhiz:has_protein:
-  invert:
-  - participates_in
-  - biolink:participates_in
+  rename:
+  - has_participant
+  - biolink:has_participant
 PathWhiz:has_protein_in_complex:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 PathWhiz:has_reaction:
-  invert:
-  - participates_in
-  - biolink:participates_in
+  rename:
+  - has_participant
+  - biolink:has_participant
 PathWhiz:has_right_element:
   rename:
   - has_output
@@ -3185,21 +3185,21 @@ PathWhiz:in_species:
   - occurs_in
   - biolink:occurs_in
 REACT:has_element:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 REACT:has_event:
-  invert:
-  - participates_in
-  - biolink:participates_in
+  rename:
+  - has_participant
+  - biolink:has_participant
 REACT:has_input:
   rename:
   - has_input 
   - biolink:has_input
 REACT:has_member:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 REACT:has_output:
   rename:
   - has_output
@@ -3325,13 +3325,13 @@ RO:0000053:
   - related_to
   - biolink:related_to
 RO:0000056:
-  rename:
-  - participates_in
-  - biolink:participates_in
-RO:0000057:
   invert:
-  - participates_in
-  - biolink:participates_in
+  - has_participant
+  - biolink:has_participant
+RO:0000057:
+  rename:
+  - has_participant
+  - biolink:has_participant
 RO:0000086:
   rename:
   - related_to
@@ -3349,9 +3349,9 @@ RO:0001015:
   - located_in
   - biolink:located_in
 RO:0001019:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 RO:0001022:
   invert:
   - causes
@@ -3373,9 +3373,9 @@ RO:0002005:
   - related_to
   - biolink:related_to
 RO:0002007:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 RO:0002008:
   rename:
   - related_to
@@ -3389,9 +3389,9 @@ RO:0002083:
   - temporally_related_to
   - biolink:temporally_related_to
 RO:0002087:
-  rename:
-  - preceded_by
-  - biolink:preceded_by
+  invert:
+  - precedes
+  - biolink:precedes
 RO:0002090:
   rename:
   - precedes
@@ -3417,9 +3417,9 @@ RO:0002103:
   - interacts_with
   - biolink:interacts_with
 RO:0002104:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 RO:0002120:
   rename:
   - interacts_with
@@ -3473,9 +3473,9 @@ RO:0002179:
   - related_to
   - biolink:related_to
 RO:0002180:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 RO:0002200:
   rename:
   - has_phenotype
@@ -3509,9 +3509,9 @@ RO:0002215:
   - capable_of
   - biolink:capable_of
 RO:0002216:
-  rename:
-  - participates_in
-  - biolink:participates_in
+  invert:
+  - has_participant
+  - biolink:has_participant
 RO:0002219:
   rename:
   - coexists_with
@@ -3573,13 +3573,13 @@ RO:0002256:
   - causes
   - biolink:causes
 RO:0002285:
-  rename:
-  - preceded_by
-  - biolink:preceded_by
+  invert:
+  - precedes
+  - biolink:precedes
 RO:0002292:
-  rename:
-  - expresses
-  - biolink:expresses
+  invert:
+  - expressed_in
+  - biolink:expressed_in
 RO:0002295:
   rename:
   - entity_regulates_entity
@@ -3681,13 +3681,13 @@ RO:0002349:
   - related_to
   - biolink:related_to
 RO:0002350:
-  rename:
-  - part_of
-  - biolink:part_of
-RO:0002351:
   invert:
-  - part_of
-  - biolink:part_of
+  - has_part
+  - biolink:has_part
+RO:0002351:
+  rename:
+  - has_part
+  - biolink:has_part
 RO:0002352:
   invert:
   - has_input
@@ -3725,13 +3725,13 @@ RO:0002374:
   - related_to
   - biolink:related_to
 RO:0002376:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 RO:0002380:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 RO:0002385:
   rename:
   - related_to
@@ -3757,9 +3757,9 @@ RO:0002451:
   - related_to
   - biolink:related_to
 RO:0002473:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 RO:0002488:
   rename:
   - temporally_related_to
@@ -3801,9 +3801,9 @@ RO:0002500:
   - capable_of
   - biolink:capable_of
 RO:0002505:
-  invert:
-  - participates_in
-  - biolink:participates_in
+  rename:
+  - has_participant
+  - biolink:has_participant
 RO:0002507:
   invert:
   - causes
@@ -3813,37 +3813,37 @@ RO:0002509:
   - causes
   - biolink:causes
 RO:0002524:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 RO:0002551:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 RO:0002565:
-  invert:
-  - participates_in
-  - biolink:participates_in
+  rename:
+  - has_participant
+  - biolink:has_participant
 RO:0002568:
   rename:
   - related_to
   - biolink:related_to
 RO:0002571:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 RO:0002572:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 RO:0002573:
   rename:
   - related_to
   - biolink:related_to
 RO:0002576:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 RO:0002578:
   rename:
   - entity_regulates_entity
@@ -3893,9 +3893,9 @@ RO:0004001:
   - causes
   - biolink:causes
 RO:0004007:
-  invert:
-  - participates_in
-  - biolink:participates_in
+  rename:
+  - has_participant
+  - biolink:has_participant
 RO:0004008:
   rename:
   - has_output
@@ -3909,13 +3909,13 @@ RO:0004019:
   - causes
   - biolink:causes
 RO:0004020:
-  invert:
-  - participates_in
-  - biolink:participates_in
+  rename:
+  - has_participant
+  - biolink:has_participant
 RO:0004021:
-  invert:
-  - participates_in
-  - biolink:participates_in
+  rename:
+  - has_participant
+  - biolink:has_participant
 RO:0004022:
   rename:
   - has_phenotype
@@ -3977,29 +3977,29 @@ RO:derives_from:
   - derives_from
   - biolink:derives_from
 RO:has_participant:
-  invert:
-  - participates_in
-  - biolink:participates_in
+  rename:
+  - has_participant
+  - biolink:has_participant
 RO:participates_in:
-  rename:
-  - participates_in
-  - biolink:participates_in
+  invert:
+  - has_participant
+  - biolink:has_participant
 RXNORM:consists_of:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 RXNORM:constitutes:
-  rename:
-  - part_of
-  - biolink:part_of
-RXNORM:contained_in:
-  rename:
-  - part_of
-  - biolink:part_of
-RXNORM:contains:
   invert:
-  - part_of
-  - biolink:part_of
+  - has_part
+  - biolink:has_part
+RXNORM:contained_in:
+  invert:
+  - has_part
+  - biolink:has_part
+RXNORM:contains:
+  rename:
+  - has_part
+  - biolink:has_part
 RXNORM:dose_form_of:
   delete: null
 RXNORM:doseformgroup_of:
@@ -4019,15 +4019,15 @@ RXNORM:has_form:
   - related_to
   - biolink:related_to
 RXNORM:has_ingredient:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 RXNORM:has_ingredients:
   delete: null
 RXNORM:has_part:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 RXNORM:has_precise_ingredient:
   delete: null
 RXNORM:has_quantified_form:
@@ -4039,13 +4039,13 @@ RXNORM:has_tradename:
   - same_as
   - biolink:same_as
 RXNORM:ingredient_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 RXNORM:ingredients_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 RXNORM:inverse_isa:
   invert:
   - subclass_of
@@ -4055,13 +4055,13 @@ RXNORM:isa:
   - subclass_of
   - biolink:subclass_of
 RXNORM:part_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 RXNORM:precise_ingredient_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 RXNORM:quantified_form_of:
   delete: null
 RXNORM:reformulated_to:
@@ -4107,9 +4107,9 @@ SEMMEDDB:complicates:
   - interacts_with
   - biolink:interacts_with
 SEMMEDDB:converts_to:
-  rename:
-  - derives_into
-  - biolink:derives_into
+  invert:
+  - derives_from
+  - biolink:derives_from
 SEMMEDDB:diagnoses:
   rename:
   - biomarker_for
@@ -4161,9 +4161,9 @@ SEMMEDDB:occurs_in:
   - occurs_in
   - biolink:occurs_in
 SEMMEDDB:part_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 SEMMEDDB:precedes:
   rename:
   - precedes
@@ -4213,9 +4213,9 @@ SNOMED:access_device_used_by:
 SNOMED:access_of:
   delete: null
 SNOMED:active_ingredient_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 SNOMED:associated_finding_of:
   delete: null
 SNOMED:associated_morphology_of:
@@ -4229,9 +4229,9 @@ SNOMED:associated_with:
 SNOMED:basic_dose_form_of:
   delete: null
 SNOMED:basis_of_strength_substance_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 SNOMED:causative_agent_of:
   rename:
   - causes
@@ -4249,9 +4249,9 @@ SNOMED:characterizes:
 SNOMED:clinical_course_of:
   delete: null
 SNOMED:component_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 SNOMED:concentration_strength_denominator_unit_of:
   delete: null
 SNOMED:concentration_strength_denominator_value_of:
@@ -4277,9 +4277,9 @@ SNOMED:direct_procedure_site_of:
 SNOMED:direct_site_of:
   delete: null
 SNOMED:direct_substance_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 SNOMED:disposition_of:
   delete: null
 SNOMED:dose_form_administration_method_of:
@@ -4295,9 +4295,9 @@ SNOMED:dose_form_transformation_of:
 SNOMED:due_to:
   delete: null
 SNOMED:during:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 SNOMED:energy_used_by:
   delete: null
 SNOMED:entire_anatomy_structure_of:
@@ -4313,9 +4313,9 @@ SNOMED:finding_method_of:
 SNOMED:finding_site_of:
   delete: null
 SNOMED:focus_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 SNOMED:has_access:
   rename:
   - related_to
@@ -4347,9 +4347,9 @@ SNOMED:has_clinical_course:
   - related_to
   - biolink:related_to
 SNOMED:has_component:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 SNOMED:has_concentration_strength_denominator_unit:
   rename:
   - related_to
@@ -4373,13 +4373,13 @@ SNOMED:has_definitional_manifestation:
   - manifestation_of
   - biolink:manifestation_of
 SNOMED:has_dependent:
-  rename:
-  - part_of
-  - biolink:part_of
-SNOMED:has_direct_device:
   invert:
-  - participates_in
-  - biolink:participates_in
+  - has_part
+  - biolink:has_part
+SNOMED:has_direct_device:
+  rename:
+  - has_participant
+  - biolink:has_participant
 SNOMED:has_direct_morphology:
   rename:
   - related_to
@@ -4631,9 +4631,9 @@ SNOMED:indirect_morphology_of:
 SNOMED:indirect_procedure_site_of:
   delete: null
 SNOMED:inherent_location_of:
-  rename:
-  - location_of
-  - biolink:location_of
+  invert:
+  - located_in
+  - biolink:located_in
 SNOMED:inheres_in:
   rename:
   - related_to
@@ -4669,9 +4669,9 @@ SNOMED:occurs_in:
   - occurs_in
   - biolink:occurs_in
 SNOMED:part_anatomy_structure_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 SNOMED:part_referred_to_by:
   delete: null
 SNOMED:pathological_process_of:
@@ -4681,9 +4681,9 @@ SNOMED:plays_role:
   - treats
   - biolink:treats
 SNOMED:precise_active_ingredient_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 SNOMED:precondition_of:
   delete: null
 SNOMED:presentation_strength_denominator_unit_of:
@@ -4785,9 +4785,9 @@ SO:adjacent_to:
   - coexists_with
   - biolink:coexists_with
 SO:contains:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 SO:derives_from:
   rename:
   - coexists_with
@@ -4801,9 +4801,9 @@ SO:has_origin:
   - coexists_with
   - biolink:coexists_with
 SO:has_part:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 SO:has_quality:
   rename:
   - related_to
@@ -4813,21 +4813,21 @@ SO:non_functional_homolog_of:
   - homologous_to
   - biolink:homologous_to
 SO:member_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 SO:overlaps:
   rename:
   - overlaps
   - biolink:overlaps
 SO:transcribed_from:
-  invert:
-  - has_gene_product
-  - biolink:has_gene_product
-SO:transcribed_to:
   rename:
-  - has_gene_product
-  - biolink:has_gene_product
+  - gene_product_of
+  - biolink:gene_product_of
+SO:transcribed_to:
+  invert:
+  - gene_product_of
+  - biolink:gene_product_of
 UBERON:anastomoses_with:
   rename:
   - coexists_with
@@ -4905,9 +4905,9 @@ UBERON:site_of:
   - occurs_in
   - biolink:occurs_in
 UBERON:subdivision_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 UBERON:synapsed_by:
   rename:
   - related_to
@@ -4945,9 +4945,9 @@ UMLS:class_code_classified_by:
 UMLS:classifies_class_code:
   delete: null
 UMLS:component_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 UMLS:context_binding_of:
   delete: null
 UMLS:exhibited_by:
@@ -4959,9 +4959,9 @@ UMLS:exhibits:
 UMLS:form_of:
   delete: null
 UMLS:has_component:
-  invert:
-  - part_of
-  - biolink:part_of
+  rename:
+  - has_part
+  - biolink:has_part
 UMLS:has_context_binding:
   rename:
   - related_to
@@ -4975,9 +4975,9 @@ UMLS:has_mapping_qualifier:
   - related_to
   - biolink:related_to
 UMLS:has_owning_affiliate:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 UMLS:has_owning_section:
   delete: null
 UMLS:has_owning_subsection:
@@ -5023,9 +5023,9 @@ UMLS:owning_section_of:
   - related_to
   - biolink:related_to
 UMLS:owning_subsection_of:
-  rename:
-  - part_of
-  - biolink:part_of
+  invert:
+  - has_part
+  - biolink:has_part
 UMLS:related_to:
   rename:
   - related_to
@@ -5035,13 +5035,13 @@ UMLS:supported_concept_property_in:
 UMLS:supported_concept_relationship_in:
   delete: null
 VANDF:has_ingredient:
-  invert:
-  - part_of
-  - biolink:part_of
-VANDF:ingredient_of:
   rename:
-  - part_of
-  - biolink:part_of
+  - has_part
+  - biolink:has_part
+VANDF:ingredient_of:
+  invert:
+  - has_part
+  - biolink:has_part
 VANDF:inverse_isa:
   invert:
   - subclass_of
