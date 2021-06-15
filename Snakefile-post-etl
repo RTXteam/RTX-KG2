@@ -45,12 +45,12 @@ rule Simplify:
 
 rule Slim:
     input:
-        real = config['SIMPLIFIED_OUTPUT_FILE_FULL'],
+        slim_real = config['SIMPLIFIED_OUTPUT_FILE_FULL'],
         placeholder = config['SIMPLIFIED_OUTPUT_NODES_FILE_FULL']
     output:
         config['SLIM_OUTPUT_FILE_FULL']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/slim_kg2.py " + config['TEST_ARG'] + " {input.real} {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/slim_kg2.py " + config['TEST_ARG'] + " {input.slim_real} {output}"
 
 rule Simplify_Stats:
     input:

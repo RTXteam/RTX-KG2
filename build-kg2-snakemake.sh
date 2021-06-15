@@ -76,7 +76,7 @@ fi
 if [[ "${nodes_flag}" != "nodes" ]]
 then
     sed -i "/\        placeholder = config\['SIMPLIFIED_OUTPUT_NODES_FILE_FULL'\]/d" ${CODE_DIR}/Snakefile-post-etl
-    sed -i "/\        real = config\['SIMPLIFIED_OUTPUT_FILE_FULL'\],/c\        real = config['SIMPLIFIED_OUTPUT_FILE_FULL']" ${CODE_DIR}/Snakefile-post-etl
+    sed -i "/\        slim_real = config\['SIMPLIFIED_OUTPUT_FILE_FULL'\],/c\        slim_real = config['SIMPLIFIED_OUTPUT_FILE_FULL']" ${CODE_DIR}/Snakefile-post-etl
     sed -i "/\        simplified_output_nodes_file_full = config\['SIMPLIFIED_OUTPUT_NODES_FILE_FULL'\],/d" ${CODE_DIR}/Snakefile-finish
     sed -i '/\        shell("gzip -fk {input.simplified_output_nodes_file_full}")/d' ${CODE_DIR}/Snakefile-finish
     sed -i "/\        shell(config\['S3_CP_CMD'\] + ' {simplified_output_nodes_file_full}.gz s3:\/\/' + config\['S3_BUCKET'\])/d" ${CODE_DIR}/Snakefile-finish
