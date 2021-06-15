@@ -1,0 +1,7 @@
+rule Simplify_Nodes:
+    input:
+        config['SIMPLIFIED_OUTPUT_FILE_FULL']
+    output:
+        config['SIMPLIFIED_OUTPUT_NODES_FILE_FULL']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/get_nodes_json_from_kg_json.py " + config['TEST_ARG'] + " {input} {output}"
