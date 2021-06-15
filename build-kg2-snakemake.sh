@@ -35,11 +35,11 @@ else
 fi
 
 build_kg2_log_file=${BUILD_DIR}/build-kg2-snakemake${test_suffix}.log
-# if [[ "${travisci_flag}" == "travisci" ]]
-# then
-#     trap "cat ${build_kg2_log_file}" EXIT
-# fi
-#{
+if [[ "${travisci_flag}" == "travisci" ]]
+then
+    trap "cat ${build_kg2_log_file}" EXIT
+fi
+{
 echo "================= starting build-kg2-snakemake.sh =================="
 date
 
@@ -80,7 +80,6 @@ then
     sed -i "/\        simplified_output_nodes_file_full = config\['SIMPLIFIED_OUTPUT_NODES_FILE_FULL'\],/d" ${CODE_DIR}/Snakefile-finish
     sed -i '/\        shell("gzip -fk {input.simplified_output_nodes_file_full}")/d' ${CODE_DIR}/Snakefile-finish
     sed -i "/\        shell(config\['S3_CP_CMD'\] + ' {simplified_output_nodes_file_full}.gz s3:\/\/' + config\['S3_BUCKET'\])/d" ${CODE_DIR}/Snakefile-finish
-    cat ${CODE_DIR}/Snakefile-post-etl
 else
         git fetch origin
         git checkout origin/issue71 -- ${CODE_DIR}/Snakefile-post-etl
@@ -127,7 +126,7 @@ fi
 
 date
 echo "================ script finished ============================"
-#} > ${build_kg2_log_file} 2>&1
+} > ${build_kg2_log_file} 2>&1
 
 if [[ "${travisci_flag}" != "travisci" ]]
 then
