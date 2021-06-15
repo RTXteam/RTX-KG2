@@ -35,11 +35,11 @@ else
 fi
 
 build_kg2_log_file=${BUILD_DIR}/build-kg2-snakemake${test_suffix}.log
-if [[ "${travisci_flag}" == "travisci" ]]
-then
-    trap "cat ${build_kg2_log_file}" EXIT
-fi
-{
+# if [[ "${travisci_flag}" == "travisci" ]]
+# then
+#     trap "cat ${build_kg2_log_file}" EXIT
+# fi
+#{
 echo "================= starting build-kg2-snakemake.sh =================="
 date
 
@@ -126,7 +126,7 @@ fi
 
 date
 echo "================ script finished ============================"
-} > ${build_kg2_log_file} 2>&1
+#} > ${build_kg2_log_file} 2>&1
 
 if [[ "${travisci_flag}" != "travisci" ]]
 then
