@@ -25,15 +25,6 @@ rule Merge:
     shell:
         config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/merge_graphs.py " + config['TEST_ARG'] + " --kgFileOrphanEdges {output.orph} --outputFile {output.full} {input.ont} {input.semmeddb} {input.uniprot} {input.ensembl} {input.unichem} {input.chembl} {input.ncbigene} {input.dgidb} {input.repodb} {input.smpdb} {input.drugbank} {input.hmdb} {input.go_annotations} {input.reactome} {input.mirbase} {input.jensenlab} {input.drugcentral} {input.intact} {input.disgenet}"
 
-rule Nodes:
-    input:
-        real = config['FINAL_OUTPUT_FILE_FULL'],
-        placeholder = config['REPORT_FILE_FULL']
-    output:
-        config['OUTPUT_NODES_FILE_FULL']
-    shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/get_nodes_json_from_kg_json.py " + config['TEST_ARG'] + " {input.real} {output}"
-
 rule Stats:
     input:
         config['FINAL_OUTPUT_FILE_FULL']
@@ -44,22 +35,13 @@ rule Stats:
 
 rule Simplify:
     input:
-        real = config['FINAL_OUTPUT_FILE_FULL'],
-        placeholder = config['OUTPUT_NODES_FILE_FULL']
+        real = config['FINAL_OUTPUT_FILE_FULL']
     output:
         config['SIMPLIFIED_OUTPUT_FILE_FULL']
     log:
         config['BUILD_DIR'] + "/filter_kg_and_remap_predicates" + config['TEST_SUFFIX'] + ".log"
     shell:
         "bash -x " + config['CODE_DIR'] + "/run-simplify.sh {input.real} {output} " + config['VERSION_FILE'] + " " + config['TEST_FLAG'] + " > {log} 2>&1" 
-
-rule Simplify_Nodes:
-    input:
-        config['SIMPLIFIED_OUTPUT_FILE_FULL']
-    output:
-        config['SIMPLIFIED_OUTPUT_NODES_FILE_FULL']
-    shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/get_nodes_json_from_kg_json.py " + config['TEST_ARG'] + " {input} {output}"
 
 rule Slim:
     input:

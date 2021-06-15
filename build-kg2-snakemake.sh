@@ -6,7 +6,7 @@
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0 [test|alltest|all|-n] [-n] [travisci]"
+    echo Usage: "$0 [test|alltest|all|-n|nodes|graphic] [-n|nodes|graphic] [nodes|travisci] [travisci]"
     exit 2
 fi
 
@@ -17,7 +17,8 @@ source ${config_dir}/master-config.shinc
 
 build_flag=${1-""}
 secondary_build_flag=${2-""}
-travisci_flag=${3-""}
+tertiary_build_flag=${3-""}
+travisci_flag=${4-"${tertiary_build_flag}"}
 
 if [[ "${build_flag}" == "test" || "${build_flag}" == "alltest" ]]
 then
@@ -66,6 +67,25 @@ fi
 
 export PATH=$PATH:${BUILD_DIR}
 
+nodes_flag=""
+if [[ "${test_flag}" == "test" || "${build_flag}" == "nodes" || "${secondary_build_flag}" == "nodes" || "${tertiary_build_flag}" == "nodes" ]]
+then
+    nodes_flag="nodes"
+fi
+
+if [[ "${nodes_flag}" != "nodes" ]]
+then
+    sed -i "/\        placeholder = config\['SIMPLIFIED_OUTPUT_NODES_FILE_FULL'\]/d" ${CODE_DIR}/Snakefile-post-etl
+    sed -i "/\        real = config\['SIMPLIFIED_OUTPUT_FILE_FULL'\],/c\        real = config\['SIMPLIFIED_OUTPUT_FILE_FULL'\]" ${CODE_DIR}/Snakefile-post-etl
+    sed -i "/\        simplified_output_nodes_file_full = config\['SIMPLIFIED_OUTPUT_NODES_FILE_FULL'\],/d" ${CODE_DIR}/Snakefile-finish
+    sed -i '/\        shell("gzip -fk {input.simplified_output_nodes_file_full}")/d' ${CODE_DIR}/Snakefile-finish
+    sed -i "/\        shell(config\['S3_CP_CMD'\] + ' {simplified_output_nodes_file_full}.gz s3:\/\/' + config\['S3_BUCKET'\])/d" ${CODE_DIR}/Snakefile-finish
+else
+        git fetch origin
+        git checkout origin/issue71 -- ${CODE_DIR}/Snakefile-post-etl
+        git checkout origin/issue71 -- ${CODE_DIR}/Snakefile-finish
+fi
+
 echo configfile: \"${snakemake_config_file}\" > ${snakefile}
 
 cat ${CODE_DIR}/Snakefile-finish >> ${snakefile}
@@ -84,6 +104,11 @@ fi
 if [[ "${build_flag}" == "all" ]]
 then
     echo 'include: "Snakefile-extraction"' >> ${snakefile}
+fi
+
+if [[ "${nodes_flag}" == "nodes" ]]
+then
+    echo 'include: "Snakefile-generate-nodes"' >> ${snakefile}
 fi
 
 dryrun=""
