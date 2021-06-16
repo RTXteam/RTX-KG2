@@ -164,30 +164,25 @@ BASE_URL_UNICHEM = 'https://www.ebi.ac.uk/unichem/'
 BASE_URL_UNIPROTKB = BASE_BASE_URL_IDENTIFIERS_ORG + 'uniprot:'
 
 BIOLINK_CATEGORY_ANATOMICAL_ENTITY = 'anatomical entity'
-BIOLINK_CATEGORY_ATTRIBUTE = 'information content entity'
 BIOLINK_CATEGORY_BIOLOGICAL_PROCESS = 'biological process'
 BIOLINK_CATEGORY_CELL = 'cell'
 BIOLINK_CATEGORY_CELLULAR_COMPONENT = 'cellular component'
-BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE = 'chemical substance'
-BIOLINK_CATEGORY_DATA_FILE = 'information content entity'
+BIOLINK_CATEGORY_CHEMICAL_ENTITY = 'chemical entity'
 BIOLINK_CATEGORY_DISEASE = 'disease'
 BIOLINK_CATEGORY_DRUG = 'drug'
 BIOLINK_CATEGORY_EXON = 'exon'
 BIOLINK_CATEGORY_GENE = 'gene'
 BIOLINK_CATEGORY_GENE_FAMILY = 'gene family'
-BIOLINK_CATEGORY_GENOMIC_ENTITY = 'genomic entity'
-BIOLINK_CATEGORY_MACROMOLECULAR_COMPLEX = 'molecular entity'
-BIOLINK_CATEGORY_METABOLITE = 'metabolite'
 BIOLINK_CATEGORY_MICRORNA = 'microRNA'
 BIOLINK_CATEGORY_MOLECULAR_ACTIVITY = 'molecular activity'
 BIOLINK_CATEGORY_MOLECULAR_ENTITY = 'molecular entity'
 BIOLINK_CATEGORY_NAMED_THING = 'named thing'
+BIOLINK_CATEGORY_NUCLEIC_ACID_ENTITY = 'nucleic acid entity'
 BIOLINK_CATEGORY_ONTOLOGY_CLASS = 'ontology class'
 BIOLINK_CATEGORY_ORGANISM_TAXON = 'organism taxon'
 BIOLINK_CATEGORY_PHENOTYPIC_FEATURE = 'phenotypic feature'
 BIOLINK_CATEGORY_PATHWAY = 'pathway'
 BIOLINK_CATEGORY_PROTEIN = 'protein'
-BIOLINK_CATEGORY_RELATIONSHIP_TYPE = 'relationship type'
 BIOLINK_CATEGORY_TRANSCRIPT = 'transcript'
 
 CURIE_ID_DCTERMS_ISSUED = CURIE_PREFIX_DCTERMS + ':' + 'issued'
@@ -544,6 +539,9 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                                         ret_dict[key] = value
                                 elif new_desc is not None:
                                     ret_dict[key] = value
+                                    log_message(message='Warning: for ' + x.get('id', 'id=UNKNOWN') + ' original name of ' + stored_value +
+                                                ' is being overwritten to ' + value,
+                                                output_stream=sys.stderr)
                         elif key == 'has_biological_sequence':
                             if stored_value is None and value is not None:
                                 ret_dict[key] = value
