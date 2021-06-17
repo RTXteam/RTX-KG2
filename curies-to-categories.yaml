@@ -74,7 +74,7 @@ term-mappings:
     CHEBI:33697: RNA product
     CHEBI:36342: chemical entity # formerly chemical substance
     CHEBI:51086: chemical entity # formerly chemical substance
-    CHEBI:78295: chemical mixture # formerly food component 
+    CHEBI:78295: chemical mixture # formerly food component
     CHEBI:50906: biological process
     CL:0000000: anatomical entity
     EFO:0000324: cell
