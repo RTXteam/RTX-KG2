@@ -13,11 +13,11 @@
   file: umls-atc.ttl
   title: Anatomical Therapeutic Chemical Classification System
   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ATC
-- # maps to CURIE prefix CPT
-  download: false
-  file: umls-cpt.ttl
-  title: Current Procedural Terminology
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/CPT
+# - # maps to CURIE prefix CPT
+#   download: false
+#   file: umls-cpt.ttl
+#   title: Current Procedural Terminology
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/CPT
 - # maps to CURIE prefix DRUGBANK
   download: false
   file: umls-drugbank.ttl
@@ -38,11 +38,11 @@
   file: umls-hcpcs.ttl
   title: Healthcare Common Procedure Coding System
   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/HCPCS
-- # maps to CURIE prefix CPT
-  download: false
-  file: umls-hcpt.ttl
-  title: CPT in HCPCS
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/HCPT
+# - # maps to CURIE prefix CPT
+#   download: false
+#   file: umls-hcpt.ttl
+#   title: CPT in HCPCS
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/HCPT
 - # maps to CURIE prefix HGNC
   download: false
   file: umls-hgnc.ttl
@@ -58,21 +58,21 @@
   file: umls-hpo.ttl
   title: Human Phenotype Ontology
   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/HPO
-- # maps to CURIE prefix ICD10
-  download: false
-  file: umls-icd10.ttl
-  title: International Classification of Diseases and Related Health Problems,
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD10
-- # maps to CURIE prefix ICD10
-  download: false
-  file: umls-icd10ae.ttl
-  title: ICD-10, American English Equivalents
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD10AE
-- # maps to CURIE prefix ICD10
-  download: false
-  file: umls-icd10cm.ttl
-  title: International Classification of Diseases, Tenth Revision, Clinical Modification
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD10CM
+# - # maps to CURIE prefix ICD10
+#   download: false
+#   file: umls-icd10.ttl
+#   title: International Classification of Diseases and Related Health Problems,
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD10
+# - # maps to CURIE prefix ICD10
+#   download: false
+#   file: umls-icd10ae.ttl
+#   title: ICD-10, American English Equivalents
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD10AE
+# - # maps to CURIE prefix ICD10
+#   download: false
+#   file: umls-icd10cm.ttl
+#   title: International Classification of Diseases, Tenth Revision, Clinical Modification
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD10CM
 - # maps to CURIE prefix ICD10PCS
   download: false
   file: umls-icd10pcs.ttl
@@ -88,11 +88,11 @@
   file: umls-lnc.ttl
   title: Logical Observation Identifiers Names and Codes
   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/LNC
-- # maps to CURIE prefix MEDDRA
-  download: false
-  file: umls-mdr.ttl
-  title: MedDRA
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MEDDRA
+# - # maps to CURIE prefix MEDDRA
+#   download: false
+#   file: umls-mdr.ttl
+#   title: MedDRA
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MEDDRA
 - # maps to CURIE prefix umls
   download: false
   file: umls-med-rt.ttl
@@ -148,11 +148,11 @@
   file: umls-rxnorm.ttl
   title: RXNORM
   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/RXNORM
-- # maps to CURIE prefix SNOMED
-  download: false
-  file: umls-snomedct_us.ttl
-  title: SNOMED Clinical Terms US Edition
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/SNOMEDCT
+# - # maps to CURIE prefix SNOMED
+#   download: false
+#   file: umls-snomedct_us.ttl
+#   title: SNOMED Clinical Terms US Edition
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/SNOMEDCT
 # ==> unable to find an online set of pages for SNOMEDCT_VET concepts but I want to find one so that
 # I can include SNOMEDCT_VET in the kg2 build, thus am keeping this section commented out [SAR]:
 # -
