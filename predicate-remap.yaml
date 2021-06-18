@@ -748,8 +748,8 @@ DRUGBANK:partial_antagonist:
   - biolink:decreases_activity_of
 DRUGBANK:pathway:
   rename:
-  - affects
-  - biolink:affects
+  - has_participant
+  - biolink:has_participant
 DRUGBANK:positive_allosteric_modulator:
   rename:
   - increases_activity_of
