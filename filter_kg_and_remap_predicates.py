@@ -138,7 +138,7 @@ if __name__ == '__main__':
     del nodes_dict
     graph['edges'] = list(new_edges.values())
     del new_edges
-       for relation_curie in record_of_relation_curie_occurrences:
+    for relation_curie in record_of_relation_curie_occurrences:
         if not record_of_relation_curie_occurrences[relation_curie]:
             print('relation curie is in the config file but was not used in any edge in the graph: ' + relation_curie, file=sys.stderr)
     for relation_curie in relation_curies_not_in_nodes:
