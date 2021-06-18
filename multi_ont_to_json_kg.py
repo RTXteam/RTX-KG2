@@ -570,7 +570,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
         ontology_node = kg2_util.make_node(ontology_curie_id,
                                            iri_of_ontology,
                                            ontology_info_dict['title'],
-                                           kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                                           kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                                            updated_date,
                                            ontology_curie_id)
         ontology_node['description'] = ontology_info_dict['description']

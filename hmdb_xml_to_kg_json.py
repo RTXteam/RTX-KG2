@@ -653,7 +653,7 @@ if __name__ == '__main__':
     hmdb_kp_node = kg2_util.make_node(HMDB_PROVIDED_BY_CURIE_ID,
                                       HMDB_KB_IRI,
                                       "Human Metabolome Database",
-                                      kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                                      kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                                       file_update_date,
                                       HMDB_PROVIDED_BY_CURIE_ID)
     nodes.append(hmdb_kp_node)

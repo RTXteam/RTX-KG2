@@ -506,7 +506,7 @@ def make_kg2_graph(drugbank_dict: dict, test_mode: bool):
     drugbank_kp_node = kg2_util.make_node(DRUGBANK_KB_CURIE_ID,
                                           DRUGBANK_KB_IRI,
                                           "DrugBank",
-                                          kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                                          kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                                           update_date,
                                           DRUGBANK_KB_CURIE_ID)
 

@@ -934,7 +934,7 @@ if __name__ == '__main__':
     kp_node = kg2_util.make_node(REACTOME_KB_CURIE_ID,
                                  REACTOME_KB_IRI,
                                  'Reactome',
-                                 kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                                 kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                                  None,
                                  REACTOME_KB_CURIE_ID)
     nodes.append(kp_node)

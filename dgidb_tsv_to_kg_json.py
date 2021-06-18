@@ -52,6 +52,7 @@ def get_args():
 def make_kg2_graph(input_file_name: str, test_mode: bool = False):
     nodes = []
     edges = []
+
     line_ctr = 0
     update_date = None
     with open(input_file_name, 'r') as input_file:
@@ -139,6 +140,13 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                                                    update_date)
                     edge_dict['publications'] = pmids_list
                     edges.append(edge_dict)
+    dgidb_kp_node = kg2_util.make_node(DGIDB_KB_CURIE,
+                                       DGIDB_BASE_IRI,
+                                       'The Drug Gene Interaction Database',
+                                       kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
+                                       update_date,
+                                       DGIDB_KB_CURIE)
+    nodes.append(dgidb_kp_node)
     return {'nodes': nodes,
             'edges': edges}
 

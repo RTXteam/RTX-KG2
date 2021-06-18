@@ -211,7 +211,7 @@ def make_kg2_graph(kegg, update_date):
     kegg_kp_node = kg2_util.make_node(KEGG_PROVIDED_BY,
                                       KEGG_SOURCE_IRI,
                                       'Kyoto Encyclopedia of Genes and Genomes',
-                                      kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                                      kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                                       update_date,
                                       KEGG_PROVIDED_BY)
     nodes.append(kegg_kp_node)

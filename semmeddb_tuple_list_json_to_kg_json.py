@@ -235,7 +235,7 @@ if __name__ == '__main__':
         id=semmeddb_kb_curie_id,
         iri=SEMMEDDB_IRI,
         name='Semantic Medline Database (SemMedDB)',
-        category_label=kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+        category_label=kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
         update_date=update_date_dt.strftime('%Y-%m-%d %H:%M:%S'),
         provided_by=semmeddb_kb_curie_id)
 

@@ -48,9 +48,10 @@ if __name__ == '__main__':
     args = get_args()
     gaf_file = open(args.inputFile)
     file_arr = csv.reader(gaf_file, delimiter="\t")
+    nodes = []
     edges = []
     databases = {}
-
+    file_update_date = ''
     for line in file_arr:
         if line[0].startswith("!") is False:
             predicate_label = line[2]
@@ -77,7 +78,15 @@ if __name__ == '__main__':
             edge["negated"] = negated
             edge["publications"] = publications
             edges.append(edge)
-
+        elif line[0].startswith('!Generated: '):
+            file_update_date = line[0].replace('!Generated: ', '')
+    go_kp_node = kg2_util.make_node(GO_PROVIDED_BY_CURIE_ID,
+                                    GO_BASE_IRI,
+                                    "Gene Ontology Annotations",
+                                    kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
+                                    file_update_date,
+                                    GO_PROVIDED_BY_CURIE_ID)
+    nodes.append(go_kp_node)
     kg2_util.save_json({"nodes": [], "edges": edges},
                        args.outputFile,
                        args.test)
