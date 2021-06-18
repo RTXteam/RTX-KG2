@@ -7,7 +7,7 @@ rule Ontologies_and_TTL:
     log:
         config['BUILD_DIR'] + "/build-multi-ont-kg" + config['TEST_SUFFIX'] + ".log"
     shell:
-        "bash -x " + config['CODE_DIR'] + "/build-multi-ont-kg.sh {input} {output} " + config['TEST_FLAG'] + " > {log} 2>&1" 
+        "bash -x " + config['CODE_DIR'] + "/build-multi-ont-kg.sh {input.real} {output} " + config['TEST_FLAG'] + " > {log} 2>&1" 
 
 rule NCBIGene_Conversion:
     input:

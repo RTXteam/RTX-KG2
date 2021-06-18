@@ -144,6 +144,9 @@ def make_kg2(curies_to_categories: dict,
         metadata_dict['ontology'] = ont
         ont_file_information_dict_list.append(metadata_dict)
 
+    kg2_util.log_message('Calling get_inverse_rels')
+    biolink_inverses = get_inverse_rels(ont_file_information_dict_list[0]['ontology'], ont_file_information_dict_list[0], uri_to_curie_shortener)
+
     kg2_util.log_message('Calling make_nodes_dict_from_ontologies_list')
 
     # Temporary addition for addressing Ontobio Issue #507
@@ -186,10 +189,9 @@ def make_kg2(curies_to_categories: dict,
                                   curie_to_uri_expander,
                                   map_of_node_ontology_ids_to_curie_ids)
 
-    biolink_inverses = get_inverse_rels(ont_file_information_dict_list[0]['ontology'], ont_file_information_dict_list[0], uri_to_curie_shortener)
-
     kg2_dict = dict()
     kg2_dict['edges'] = [rel_dict for rel_dict in all_rels_dict.values()]
+    kg2_dict['edges'] += biolink_inverses
     kg2_util.log_message('Number of edges: ' + str(len(kg2_dict['edges'])))
     kg2_dict['nodes'] = list(nodes_dict.values())
     kg2_util.log_message('Number of nodes: ' + str(len(kg2_dict['nodes'])))
