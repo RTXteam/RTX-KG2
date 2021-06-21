@@ -186,7 +186,7 @@ def process_compound(compound_dict, kegg_id, update_date):
 
     node = format_node(node_id,
                        node_name,
-                       kg2_util.BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE,
+                       kg2_util.BIOLINK_CATEGORY_SMALL_MOLECULE,
                        update_date,
                        sequence=sequence,
                        synonym=synonym)

@@ -114,7 +114,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                             node_dict = kg2_util.make_node(subject_curie_id,
                                                            node_iri,
                                                            node_name,
-                                                           kg2_util.BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE,
+                                                           kg2_util.BIOLINK_CATEGORY_SMALL_MOLECULE,
                                                            update_date,
                                                            provided_by)
                             node_dict['publications'] = node_pubs_list

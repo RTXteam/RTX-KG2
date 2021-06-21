@@ -162,7 +162,7 @@ if __name__ == '__main__':
     build_node = kg2_util.make_node(kg2_util.CURIE_PREFIX_RTX + ':' + 'KG2',
                                     kg2_util.BASE_URL_RTX + 'KG2',
                                     build_name,
-                                    kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                                    kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                                     update_date,
                                     kg2_util.CURIE_PREFIX_RTX + ':')
     build_info = {'version': build_node['name'], 'timestamp_utc': build_node['update_date']}

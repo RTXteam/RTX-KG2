@@ -79,7 +79,7 @@ def make_hmdb_edge(subject_id: str,
 def make_node(metabolite: dict, hmdb_id: str):
     iri = HMDB_BASE_IRI + hmdb_id
     name = metabolite["name"]
-    category_label = kg2_util.BIOLINK_CATEGORY_METABOLITE
+    category_label = kg2_util.BIOLINK_CATEGORY_SMALL_MOLECULE
     update_date = metabolite["update_date"]
     creation_date = metabolite["creation_date"]
     provided_by = HMDB_PROVIDED_BY_CURIE_ID
