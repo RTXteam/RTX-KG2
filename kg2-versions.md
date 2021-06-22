@@ -1,3 +1,28 @@
+# 2.6.5
+**Date: 2021.6.20**
+
+Biolink Model Version: 1.8.1 OR 1.7.0 (unclear on the instance)
+
+Nodes: 9,781,698
+
+Edges: 46,296,048
+
+Notes:
+ - Of the source JSON files, only regenerated `kg2-ont.json` to minimize build time (to get build out quicker)
+
+Issues:
+
+ - Issue [#56](https://github.com/RTXteam/RTX-KG2/issues/56)
+ - Issue [#49](https://github.com/RTXteam/RTX-KG2/issues/49)
+ - Issue [#55](https://github.com/RTXteam/RTX-KG2/issues/55)
+ - Issue [#47](https://github.com/RTXteam/RTX-KG2/issues/47)
+ - Issue [#68](https://github.com/RTXteam/RTX-KG2/issues/68)
+ - Issue [#9](https://github.com/RTXteam/RTX-KG2/issues/9)
+ - Issue [#62](https://github.com/RTXteam/RTX-KG2/issues/62)
+ - Issue [#14](https://github.com/RTXteam/RTX-KG2/issues/14)
+
+Build host: `kg2lindsey.rtx.ai` `~/kg2-build/`
+
 # 2.6.3
 
 **Date: 2021.5.7**
