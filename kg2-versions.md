@@ -1,5 +1,5 @@
 # 2.6.6
-**Date: 2021.6.21**
+**Date: 2021.6.22**
 
 Biolink Model Version: 1.8.1 OR 1.7.0 (unclear on the instance)
 
