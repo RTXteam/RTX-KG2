@@ -1,3 +1,21 @@
+# 2.6.6
+**Date: 2021.6.22**
+
+Biolink Model Version: 1.8.1 OR 1.7.0 (unclear on the instance)
+
+Nodes: 9,781,698
+
+Edges: 46,296,048
+
+Notes:
+ - Only edited `edges.tsv` file from KG2.6.5 (and `nodes.tsv` to increase version)
+
+Issues:
+
+ - Issue [#78](https://github.com/RTXteam/RTX-KG2/issues/78)
+
+Build host: `kg2lindsey.rtx.ai` `~/kg2-build/`
+
 # 2.6.5
 **Date: 2021.6.20**
 
