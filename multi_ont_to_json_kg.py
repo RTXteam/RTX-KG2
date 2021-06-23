@@ -90,6 +90,8 @@ def load_ont_file_return_ontology_and_metadata(file_name: str,
                 umls_release = value
             elif pred.endswith('source_file_date'):
                 source_file_date = value
+            elif pred == kg2_util.BASE_URL_BIOLINK_CONCEPTS + 'metamodel_version':
+                ont_version = value
     if ont_version is None:
         ont_version = 'downloaded:' + file_last_modified_timestamp
     ontology_id = None
@@ -553,6 +555,10 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
         print(f"processing ontology: {ontology_curie_id}", file=sys.stderr)
 
         umls_sver = ontology_info_dict.get('umls-sver', None)
+        ont_version = ontology_info_dict.get('version', None)
+        ontology_name = ontology_info_dict['title']
+        if ont_version is not None:
+            ontology_name = ontology_name + " version " + ont_version
         updated_date = None
         if umls_sver is not None:
             # if you can, parse sver string into a date string
@@ -571,7 +577,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
 
         ontology_node = kg2_util.make_node(ontology_curie_id,
                                            iri_of_ontology,
-                                           ontology_info_dict['title'],
+                                           ontology_name,
                                            kg2_util.BIOLINK_CATEGORY_DATA_FILE,
                                            updated_date,
                                            ontology_curie_id)
