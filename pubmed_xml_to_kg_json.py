@@ -195,7 +195,7 @@ if __name__ == '__main__':
     pmid_kp_node = kg2_util.make_node(PMID_PROVIDED_BY_CURIE_ID,
                                       PMID_KB_IRI,
                                       "PubMed",
-                                      kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                                      kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                                       extract_date(latest_date),
                                       PMID_PROVIDED_BY_CURIE_ID)
     nodes.append(pmid_kp_node)

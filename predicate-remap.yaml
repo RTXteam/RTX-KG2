@@ -4036,8 +4036,8 @@ RXNORM:has_quantified_form:
   - biolink:close_match
 RXNORM:has_tradename:
   rename:
-  - same_as
-  - biolink:same_as
+  - related_to
+  - biolink:related_to
 RXNORM:ingredient_of:
   invert:
   - has_part

@@ -143,11 +143,14 @@ if __name__ == '__main__':
             print('relation curie is in the config file but was not used in any edge in the graph: ' + relation_curie, file=sys.stderr)
     for relation_curie in relation_curies_not_in_nodes:
         print('could not find a node for relation curie: ' + relation_curie)
-    for relation_curie_not_in_config in relation_curies_not_in_config:
+    relation_curies_not_in_config_for_iteration = list(relation_curies_not_in_config)
+    for relation_curie_not_in_config in relation_curies_not_in_config_for_iteration:
         if not relation_curie_not_in_config.startswith(kg2_util.CURIE_PREFIX_BIOLINK + ':'):
             print('relation curie is missing from the YAML config file: ' + relation_curie_not_in_config,
                   file=sys.stderr)
-    if relation_curies_not_in_config:
+        else:
+            relation_curies_not_in_config.remove(relation_curie_not_in_config)
+    if len(relation_curies_not_in_config) > 0:
         print("There are relation curies missing from the yaml config file. Please add them and try again. Exiting.", file=sys.stderr)
         exit(1)
     update_date = datetime.now().strftime("%Y-%m-%d %H:%M")
