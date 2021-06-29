@@ -169,7 +169,7 @@ if __name__ == '__main__':
         sequence = canonical_smiles
 
         curie_id = 'CHEMBL.COMPOUND:' + chembl_id
-        category_label = kg2_util.BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE
+        category_label = kg2_util.BIOLINK_CATEGORY_SMALL_MOLECULE
 
         # query to get all synonyms and publications associated with the ChEMBL molecule
 

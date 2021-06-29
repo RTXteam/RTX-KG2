@@ -778,7 +778,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
 
             node_type = onto_node_dict.get('type', None)
             if node_type is not None and node_type == 'PROPERTY':
-                node_category_label = kg2_util.BIOLINK_CATEGORY_ATTRIBUTE
+                node_category_label = kg2_util.BIOLINK_CATEGORY_INFORMATION_CONTENT_ENTITY
 
             if node_category_label is None:
                 node_category_label = 'named thing'
