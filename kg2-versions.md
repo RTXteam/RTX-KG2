@@ -38,6 +38,7 @@ Issues:
  - Issue [#9](https://github.com/RTXteam/RTX-KG2/issues/9)
  - Issue [#62](https://github.com/RTXteam/RTX-KG2/issues/62)
  - Issue [#14](https://github.com/RTXteam/RTX-KG2/issues/14)
+ - Issue [#19](https://github.com/RTXteam/RTX-KG2/issues/19)
 
 Build host: `kg2lindsey.rtx.ai` `~/kg2-build/`
 
