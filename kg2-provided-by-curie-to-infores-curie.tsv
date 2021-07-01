@@ -1,76 +1,81 @@
-KG2-provided-by	infores-curie	type
-DOID:doid.owl	infores:disease-ontology	knowledge_source
-EFO:efo.owl	infores:efo	knowledge_source
-HP:hp.owl	infores:hpo	knowledge_source
-OBO:bfo.owl	infores:bfo	knowledge_source
-OBO:bspo.owl	infores:bspo	knowledge_source
-OBO:chebi.owl	infores:chebi	knowledge_source
-OBO:cl.owl	infores:cl	knowledge_source
-OBO:ddanat.owl	infores:dda	knowledge_source
-OBO:doid.owl	infores:disease-ontology	knowledge_source
-OBO:ehdaa2.owl	infores:ehdaa2	knowledge_source
-OBO:fma.owl	infores:fma	knowledge_source
-OBO:foodon.owl	infores:foodon	knowledge_source
-OBO:genepio.owl	infores:genepio	knowledge_source
-OBO:go/extensions/go-plus.owl	infores:go	knowledge_source
-OBO:hp.owl	infores:hpo	knowledge_source
-OBO:ino.owl	infores:ino	knowledge_source
-OBO:mi.owl	infores:mi	knowledge_source
-OBO:mondo.owl	infores:mondo	knowledge_source
-OBO:nbo.owl	infores:nbo	knowledge_source
-OBO:ncbitaxon/subsets/taxslim.owl	infores:ncbi-taxonomy-slim	knowledge_source
-OBO:pato.owl	infores:pato	knowledge_source
-OBO:pr.owl	infores:pr	knowledge_source
-OBO:ro.owl	infores:ro	knowledge_source
-OBO:uberon/ext.owl	infores:uberon	knowledge_source
-OMIM:	infores:omim	knowledge_source
-ORPHANET:	infores:orphanet	knowledge_source
-PathWhiz:	infores:pathwhiz	knowledge_source
-REPODB:	infores:repodb	knowledge_source
-RTX:	infores:rtx-kg2-kp	knowledge_source
-SEMMEDDB:	infores:semmeddb	knowledge_source
-UMLS_STY:	infores:umls	knowledge_source
-UNICHEM_source:	infores:unichem	knowledge_source
-biolink_download_source:biolink-model.owl.ttl	infores:biolink-model	knowledge_source
-identifiers_org_registry:chembl.compound	infores:chembl	knowledge_source
-identifiers_org_registry:drugbank	infores:drugbank	knowledge_source
-identifiers_org_registry:ensembl	infores:ensembl-gene	knowledge_source
-identifiers_org_registry:hmdb	infores:hmdb	knowledge_source
-identifiers_org_registry:kegg.compound	infores:kegg	knowledge_source
-identifiers_org_registry:ncbigene	infores:ncbi-gene	knowledge_source
-identifiers_org_registry:reactome	infores:reactome	knowledge_source
-identifiers_org_registry:smpdb	infores:smpdb	knowledge_source
-identifiers_org_registry:ttd.target	infores:ttd	knowledge_source
-identifiers_org_registry:umls	infores:umls	knowledge_source
-identifiers_org_registry:uniprot	infores:uniprot	knowledge_source
-umls_source:ATC	infores:atc	knowledge_source
-umls_source:CPT	infores:cpt	knowledge_source
-umls_source:DRUGBANK	infores:drugbank	knowledge_source
-umls_source:FMA	infores:fma	knowledge_source
-umls_source:GO	infores:go	knowledge_source
-umls_source:HCPCS	infores:hcpcs	knowledge_source
-umls_source:HCPT	infores:hcpt	knowledge_source
-umls_source:HGNC	infores:hgnc	knowledge_source
-umls_source:HL7	infores:hl7	knowledge_source
-umls_source:HPO	infores:hpo	knowledge_source
-umls_source:ICD10	infores:icd10	knowledge_source
-umls_source:ICD10AE	infores:icd10ae	knowledge_source
-umls_source:ICD10CM	infores:icd10cm	knowledge_source
-umls_source:ICD10PCS	infores:icd10pcs	knowledge_source
-umls_source:ICD9CM	infores:icd9cm	knowledge_source
-umls_source:LNC	infores:lnc	knowledge_source
-umls_source:MED-RT	infores:med_rt	knowledge_source
-umls_source:MEDDRA	infores:meddra	knowledge_source
-umls_source:MEDLINEPLUS	infores:medlineplus	knowledge_source
-umls_source:MSH	infores:mesh	knowledge_source
-umls_source:MTH	infores:mth	knowledge_source
-umls_source:NCBITAXON	infores:ncbi-taxonomy	knowledge_source
-umls_source:NCI	infores:ncit	knowledge_source
-umls_source:NDDF	infores:nddf	knowledge_source
-umls_source:NDFRT	infores:ndfrt	knowledge_source
-umls_source:OMIM	infores:omim	knowledge_source
-umls_source:PDQ	infores:pdq	knowledge_source
-umls_source:PSY	infores:psy	knowledge_source
-umls_source:RXNORM	infores:rx-norm	knowledge_source
-umls_source:SNOMEDCT	infores:snomed	knowledge_source
-umls_source:VANDF	infores:vandf	knowledge_source
+KG2-provided-by	infores-curie	type	Basis for Type
+DGIdb:	infores:dgidb		
+DisGeNET:	infores:disgenet		
+DOID:doid.owl	infores:disease-ontology	knowledge_source	
+DrugCentral:	infores:drugcentral		
+EFO:efo.owl	infores:efo	knowledge_source	
+HP:hp.owl	infores:hpo	knowledge_source	
+JensenLab:	infores:diseases		
+OBO:bfo.owl	infores:bfo	knowledge_source	
+OBO:bspo.owl	infores:bspo	knowledge_source	
+OBO:chebi.owl	infores:chebi	knowledge_source	
+OBO:cl.owl	infores:cl	knowledge_source	
+OBO:ddanat.owl	infores:dda	knowledge_source	
+OBO:doid.owl	infores:disease-ontology	knowledge_source	
+OBO:ehdaa2.owl	infores:ehdaa2	knowledge_source	
+OBO:fma.owl	infores:fma	knowledge_source	
+OBO:foodon.owl	infores:foodon	knowledge_source	
+OBO:genepio.owl	infores:genepio	knowledge_source	
+OBO:go/extensions/go-plus.owl	infores:go	knowledge_source	
+OBO:hp.owl	infores:hpo	knowledge_source	
+OBO:ino.owl	infores:ino	knowledge_source	
+OBO:mi.owl	infores:mi	knowledge_source	
+OBO:mondo.owl	infores:mondo	aggregator_knowledge_source	https://www.ebi.ac.uk/ols/ontologies/mondo
+OBO:nbo.owl	infores:nbo	knowledge_source	
+OBO:ncbitaxon/subsets/taxslim.owl	infores:ncbi-taxonomy-slim	knowledge_source	
+OBO:pato.owl	infores:pato	knowledge_source	
+OBO:pr.owl	infores:pr	knowledge_source	
+OBO:ro.owl	infores:ro	knowledge_source	
+OBO:uberon/ext.owl	infores:uberon	knowledge_source	
+OMIM:	infores:omim	knowledge_source	
+ORPHANET:	infores:ordo	knowledge_source	
+PathWhiz:	infores:pathwhiz	primary_knowledge_source	Basically, our use of PathWhiz is in the context that PathBank curators used it as a tool ( https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4489271/, https://academic.oup.com/nar/article/48/D1/D470/5585552)
+REPODB:	infores:repodb	knowledge_source	
+RTX:	infores:rtx-kg2	aggregator_knowledge_source	
+SEMMEDDB:	infores:semmeddb	aggregator_knowledge_source	
+UMLS_STY:	infores:umls	knowledge_source	
+UNICHEM_source:	infores:unichem	aggregator_knowledge_source	https://jcheminf.biomedcentral.com/articles/10.1186/1758-2946-5-3
+biolink_download_source:biolink-model.owl.ttl	infores:biolink-model	knowledge_source	
+identifiers_org_registry:chembl.compound	infores:chembl	primary_knowledge_source	http://europepmc.org/article/PMC/3245175 -- "Data extraction and curation"
+identifiers_org_registry:drugbank	infores:drugbank	primary_knowledge_source	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1347430/
+identifiers_org_registry:ensembl	infores:ensembl-gene	knowledge_source	
+identifiers_org_registry:goa	infores:goa	primary_knowledge_source	https://www.ebi.ac.uk/GOA/newto
+identifiers_org_registry:hmdb	infores:hmdb	knowledge_source	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1899095/
+identifiers_org_registry:kegg.compound	infores:kegg	original_knowledge_source	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC102409/ https://academic.oup.com/nar/article/45/D1/D353/2605697
+identifiers_org_registry:ncbigene	infores:ncbi-gene	knowledge_source	
+identifiers_org_registry:reactome	infores:reactome	original_knowledge_source	https://reactome.org/what-is-reactome
+identifiers_org_registry:smpdb	infores:smpdb	primary_knowledge_source	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2808928/ -- "Quality Assurance and Curation" https://academic.oup.com/nar/article/48/D1/D470/5585552 -- "Quality Assurance and Curation"
+identifiers_org_registry:ttd.target	infores:ttd	knowledge_source	
+identifiers_org_registry:umls	infores:umls	knowledge_source	
+identifiers_org_registry:uniprot	infores:uniprot	original_knowledge_source	
+umls_source:ATC	infores:atc	knowledge_source	
+umls_source:CPT	infores:cpt	knowledge_source	
+umls_source:DRUGBANK	infores:drugbank	primary_knowledge_source	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1347430/
+umls_source:FMA	infores:fma	knowledge_source	
+umls_source:GO	infores:go	knowledge_source	
+umls_source:HCPCS	infores:hcpcs	knowledge_source	
+umls_source:HCPT	infores:hcpt	knowledge_source	
+umls_source:HGNC	infores:hgnc	original_knowledge_source	
+umls_source:HL7	infores:hl7	knowledge_source	
+umls_source:HPO	infores:hpo	knowledge_source	
+umls_source:ICD10	infores:icd10	knowledge_source	
+umls_source:ICD10AE	infores:icd10ae	knowledge_source	
+umls_source:ICD10CM	infores:icd10cm	knowledge_source	
+umls_source:ICD10PCS	infores:icd10pcs	knowledge_source	
+umls_source:ICD9CM	infores:icd9cm	knowledge_source	
+umls_source:LNC	infores:lnc	knowledge_source	
+umls_source:MED-RT	infores:med_rt	knowledge_source	
+umls_source:MEDDRA	infores:meddra	knowledge_source	
+umls_source:MEDLINEPLUS	infores:medlineplus	knowledge_source	
+umls_source:MSH	infores:mesh	knowledge_source	
+umls_source:MTH	infores:mth	knowledge_source	
+umls_source:NCBITAXON	infores:ncbi-taxonomy	knowledge_source	
+umls_source:NCI	infores:ncit	knowledge_source	
+umls_source:NDDF	infores:nddf	knowledge_source	
+umls_source:NDFRT	infores:ndfrt	knowledge_source	
+umls_source:OMIM	infores:omim	knowledge_source	
+umls_source:PDQ	infores:pdq	knowledge_source	
+umls_source:PSY	infores:psy	knowledge_source	
+umls_source:RXNORM	infores:rx-norm	knowledge_source	
+umls_source:SNOMEDCT	infores:snomed	knowledge_source	
+umls_source:VANDF	infores:vandf	knowledge_source	
