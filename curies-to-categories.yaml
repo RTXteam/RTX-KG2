@@ -88,6 +88,8 @@ term-mappings:
     ENVO:00002297: environmental feature
     FMA:29733: anatomical entity
     FMA:62955: anatomical entity
+    FMA:63887: biological entity
+    FMA:67257: protein
     FMA:50592: physical entity
     FMA:85802: information content entity
     FMA:87205: biological entity
