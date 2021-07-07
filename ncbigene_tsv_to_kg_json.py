@@ -153,6 +153,12 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                         xref_curie = xref_curie.upper()
                     elif xref_curie.startswith('MIM:'):
                         xref_curie = kg2_util.CURIE_PREFIX_OMIM + ':' + xref_curie.replace('MIM:', '')
+                        edges.append(kg2_util.make_edge_biolink(node_curie_id,
+                                                                xref_curie,
+                                                                kg2_util.EDGE_LABEL_BIOLINK_RELATED_TO,
+                                                                NCBI_KB_CURIE_ID,
+                                                                modify_date))
+                        continue
                     elif xref_curie.startswith('miRBase:'):
                         xref_curie = kg2_util.CURIE_PREFIX_MIRBASE + ':' + xref_curie.replace('miRBase:', '')
                     edges.append(kg2_util.make_edge(node_curie_id,
