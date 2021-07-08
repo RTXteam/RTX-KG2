@@ -59,7 +59,20 @@ def create_biolink_to_external_mappings(biolink_model: dict, mapping_heirarchy: 
         if biolink_to_external_mappings.get(predicate_str, None) is None:
             biolink_to_external_mappings[predicate_str] = defaultdict(lambda: [])
         inverted_relation = relation_info.get('inverse', None)
-        tag = relation_info.get('annotations', dict()).get('tag', None)
+        annotations = relation_info.get('annotations', dict())
+        # Adjustment due to biolink issue #808
+        tag = str
+        if isinstance(annotations, list):
+            tags = list()
+            for annotation in annotations:
+                tag = annotation.get('tag', None)
+                tags.append(tag)
+            if len(tags) > 1:
+                print('Error:', predicate_str, 'has multiple tags:', tags + '. Exiting')
+                exit(1)
+            tag = tags[0]
+        else:
+            tag = annotations.get('tag', None)
         for mapping_term in mapping_hierarchy:
             mapping_value = relation_info.get(mapping_term, [])
             if mapping_value is None:
