@@ -53,10 +53,10 @@ snakefile=${CODE_DIR}/Snakefile
 
 if [[ "${travisci_flag}" != "travisci" ]]
 then
-    ${VENV_DIR}/bin/python3 -u generate_snakemake_config_file.py ${test_arg} ${config_dir}/master-config.shinc \
+    ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/generate_snakemake_config_file.py ${test_arg} ${config_dir}/master-config.shinc \
                             ${CODE_DIR}/snakemake-config-var.yaml ${snakemake_config_file}
 else
-    python3 -u generate_snakemake_config_file.py ${test_arg} ${config_dir}/master-config.shinc \
+    python3 -u ${CODE_DIR}/generate_snakemake_config_file.py ${test_arg} ${config_dir}/master-config.shinc \
             ${CODE_DIR}/snakemake-config-var.yaml ${snakemake_config_file}
 fi
 
