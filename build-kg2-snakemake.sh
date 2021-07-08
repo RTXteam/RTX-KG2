@@ -33,7 +33,13 @@ else
     test_arg=""
 fi
 
-build_kg2_log_file=${BUILD_DIR}/build-kg2-snakemake${test_suffix}.log
+dryrun=""
+if [[ "${build_flag}" == "-n" || "${secondary_build_flag}" == "-n" ]]
+then
+    dryrun="-n"
+fi
+
+build_kg2_log_file=${BUILD_DIR}/build-kg2-snakemake${dryrun}${test_suffix}.log
 if [[ "${travisci_flag}" == "travisci" ]]
 then
     trap "cat ${build_kg2_log_file}" EXIT
@@ -84,12 +90,6 @@ fi
 if [[ "${build_flag}" == "all" ]]
 then
     echo 'include: "Snakefile-extraction"' >> ${snakefile}
-fi
-
-dryrun=""
-if [[ "${build_flag}" == "-n" || "${secondary_build_flag}" == "-n" ]]
-then
-    dryrun="-n"
 fi
 
 if [[ "${travisci_flag}" != "travisci" ]]
