@@ -35,8 +35,10 @@ rule ChemBL_Conversion:
         validation = config['VALIDATION_PLACEHOLDER']
     output:
         config['CHEMBL_OUTPUT_FILE']
+    log:
+        config['BUILD_DIR'] + "/chembl-mysql-to-kg-json" + config['TEST_SUFFIX'] + ".log"
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/chembl_mysql_to_kg_json.py " + config['TEST_ARG'] + " " + config['MYSQL_CONF'] + " " + config['CHEMBL_MYSQL_DBNAME'] + " {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/chembl_mysql_to_kg_json.py " + config['TEST_ARG'] + " " + config['MYSQL_CONF'] + " " + config['CHEMBL_MYSQL_DBNAME'] + " {output} > {log} 2>&1"
 
 rule UniChem_Conversion:
     input:
@@ -74,8 +76,10 @@ rule Uniprot_Conversion:
         validation = config['VALIDATION_PLACEHOLDER']
     output:
         config['UNIPROTKB_OUTPUT_FILE']
+    log:
+        config['BUILD_DIR'] + "/uniprotkb-dat-to-json" + config['TEST_SUFFIX'] + ".log"
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/uniprotkb_dat_to_json.py " + config['TEST_ARG'] + " {input.real} {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/uniprotkb_dat_to_json.py " + config['TEST_ARG'] + " {input.real} {output} > {log} 2>&1"
 
 rule RepoDB_Conversion:
     input:
