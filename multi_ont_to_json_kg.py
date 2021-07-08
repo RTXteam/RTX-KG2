@@ -90,8 +90,6 @@ def load_ont_file_return_ontology_and_metadata(file_name: str,
                 umls_release = value
             elif pred.endswith('source_file_date'):
                 source_file_date = value
-            elif pred == kg2_util.BASE_URL_BIOLINK_CONCEPTS + 'metamodel_version':
-                ont_version = value
     if ont_version is None:
         ont_version = 'downloaded:' + file_last_modified_timestamp
     ontology_id = None
