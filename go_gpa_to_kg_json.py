@@ -22,7 +22,7 @@ __status__ = 'Prototype'
 
 GO_BASE_IRI = kg2_util.BASE_URL_GO
 GO_PROVIDED_BY_CURIE_ID = kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY \
-                                + ":go"
+                                + ":goa"
 CURIE_PREFIX_GO = kg2_util.CURIE_PREFIX_GO
 
 
