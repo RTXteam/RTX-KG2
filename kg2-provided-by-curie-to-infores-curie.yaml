@@ -100,7 +100,7 @@ OBO:uberon/ext.owl:
 'SEMMEDDB:':
   infores_curie: infores:semmeddb
   knowledge_type: aggregator_knowledge_source
-'UMLS_STY:':
+'UMLSSC:':
   infores_curie: infores:umls
   knowledge_type: knowledge_source
 'UNICHEM_source:':

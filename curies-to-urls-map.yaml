@@ -388,7 +388,7 @@ use_for_bidirectional_mapping:
   -
     umls_source: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/
   -
-    UMLS_STY: http://purl.bioontology.org/ontology/STY/
+    UMLSSC: http://purl.bioontology.org/ontology/STY/
   -
     UNICHEM_source: "https://www.ebi.ac.uk/unichem/"
   -

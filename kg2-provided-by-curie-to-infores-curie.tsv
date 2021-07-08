@@ -33,7 +33,7 @@ PathWhiz:	infores:pathwhiz	primary_knowledge_source	Basically, our use of PathWh
 REPODB:	infores:repodb	knowledge_source	
 RTX:	infores:rtx-kg2	aggregator_knowledge_source	
 SEMMEDDB:	infores:semmeddb	aggregator_knowledge_source	
-UMLS_STY:	infores:umls	knowledge_source	
+UMLSSC:	infores:umls	knowledge_source	
 UNICHEM_source:	infores:unichem	aggregator_knowledge_source	https://jcheminf.biomedcentral.com/articles/10.1186/1758-2946-5-3
 biolink_download_source:biolink-model.owl.ttl	infores:biolink-model	knowledge_source	
 identifiers_org_registry:chembl.compound	infores:chembl	primary_knowledge_source	http://europepmc.org/article/PMC/3245175

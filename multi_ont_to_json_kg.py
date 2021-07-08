@@ -240,7 +240,7 @@ def get_biolink_category_for_node(ontology_node_id: str,
         # to use get_biolink_category_for_node to determine the specific semantic type of a CUI based on its
         # TUI record. Need to think about a more elegant way to do this. [SAR]
     if curie_prefix == kg2_util.CURIE_PREFIX_UMLS_STY and node_curie_id.split(':')[1].startswith('T') and ontology.id == kg2_util.BASE_URL_UMLS_STY:
-        return [kg2_util.BIOLINK_CATEGORY_ONTOLOGY_CLASS, None]
+        return [kg2_util.BIOLINK_CATEGORY_NAMED_THING, None]
 
     if get_node_id_of_node_with_category:
         ret_ontology_node_id_of_node_with_category = ontology_node_id

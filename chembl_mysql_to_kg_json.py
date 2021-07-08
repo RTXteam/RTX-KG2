@@ -269,7 +269,7 @@ if __name__ == '__main__':
         if mechanism_of_action is not None:
             node_label = mechanism_of_action.lower().replace(' ', '_')
             node_curie_id = CHEMBL_CURIE_BASE_MECHANISM + ':' + node_label
-            category_label = kg2_util.BIOLINK_CATEGORY_RELATIONSHIP_TYPE
+            category_label = kg2_util.BIOLINK_CATEGORY_NAMED_THING
             node_dict = make_node(node_curie_id,
                                   CHEMBL_BASE_IRI_PREDICATE + node_label,
                                   mechanism_of_action,
@@ -293,7 +293,7 @@ if __name__ == '__main__':
         node_dict = make_node(curie_id,
                               CHEMBL_BASE_IRI_PREDICATE + predicate_label,
                               name,
-                              kg2_util.BIOLINK_CATEGORY_RELATIONSHIP_TYPE,
+                              kg2_util.BIOLINK_CATEGORY_NAMED_THING,
                               description,
                               [],
                               [],
