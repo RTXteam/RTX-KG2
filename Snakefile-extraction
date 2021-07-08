@@ -6,7 +6,7 @@ rule UMLS:
     log:
         config['BUILD_DIR'] + "/extract-umls" + config['TEST_SUFFIX'] + ".log"
     shell:
-        "bash -x " + config['CODE_DIR'] + "/extract-umls.sh " + config['BUILD_DIR'] + " {output}" 
+        "bash -x " + config['CODE_DIR'] + "/extract-umls.sh " + config['BUILD_DIR'] + " {output} > {log} 2>&1" 
 
 rule UniprotKB:
     input:
@@ -177,3 +177,13 @@ rule DisGeNET:
         config['BUILD_DIR'] + "/extract-disgenet" + config['TEST_SUFFIX'] + ".log"
     shell:
         "bash -x " + config['CODE_DIR'] + "/extract-disgenet.sh {output} > {log} 2>&1"
+
+rule KEGG:
+    input:
+        config['VALIDATION_PLACEHOLDER']
+    output:
+        config['KEGG_INPUT_FILE']
+    log:
+        config['BUILD_DIR'] + "/extract-kegg" + config['TEST_SUFFIX'] + ".log"
+    shell:
+        "bash -x " + config['CODE_DIR'] + "/extract-kegg.sh {output} > {log} 2>&1"
