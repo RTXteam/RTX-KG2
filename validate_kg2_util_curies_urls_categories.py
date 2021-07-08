@@ -59,7 +59,7 @@ for variable_name in dir(kg2_util):
         category_label = variable_value
         category_camelcase = kg2_util.convert_space_case_to_camel_case(category_label)
         category_curie = kg2_util.CURIE_PREFIX_BIOLINK + ':' + category_camelcase
-        assert category_camelcase in biolink_categories_ontology_depths or category_curie in biolink_ont.nodes(), category_label
+        assert category_curie in biolink_categories_ontology_depths, category_curie
         #  assert category_label in categories_to_check, category_label
     elif variable_name.startswith('CURIE_ID_'):
         curie_id = variable_value
