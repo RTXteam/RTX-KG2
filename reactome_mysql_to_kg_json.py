@@ -665,28 +665,30 @@ def get_physical_entity_characteristics(connection, test):
     # The entity's Reactome ID is retreived from the StableIdentifier
     # table and the compartment's GO ID is retrieved from the
     # GO_CellularComponent table.
-    compartment_sql = "SELECT si.identifier, go.accession \
-                       FROM PhysicalEntity_2_compartment pe_c \
-                       INNER JOIN Compartment c \
-                       ON c.DB_ID=pe_c.compartment \
-                       INNER JOIN GO_CellularComponent_2_instanceOf g \
-                       ON g.instanceOf=c.DB_ID \
-                       INNER JOIN GO_CellularComponent go \
-                       ON go.DB_ID=g.instanceOf \
-                       INNER JOIN DatabaseObject dbobj \
-                       ON pe_c.DB_ID=dbobj.DB_ID \
-                       INNER JOIN StableIdentifier si \
-                       ON si.DB_ID=dbobj.stableIdentifier"
-    if test:
-        compartment_sql += " LIMIT " + str(ROW_LIMIT_TEST_MODE)
-    for compartment_pe_c in run_sql(compartment_sql, connection):
-        subject_id = only_include_certain_species(kg2_util.CURIE_PREFIX_REACTOME + ':' + compartment_pe_c[0])
-        if subject_id is None:
-            continue
-        object_id = kg2_util.CURIE_PREFIX_GO + ':' + compartment_pe_c[1]
-        predicate = 'in_compartment'
-        edge = format_edge(subject_id, object_id, predicate)
-        edges.append(edge)
+
+    # This table doesn't exist in the latest version of Reactome.
+    # compartment_sql = "SELECT si.identifier, go.accession \
+    #                    FROM PhysicalEntity_2_compartment pe_c \
+    #                    INNER JOIN Compartment c \
+    #                    ON c.DB_ID=pe_c.compartment \
+    #                    INNER JOIN GO_CellularComponent_2_instanceOf g \
+    #                    ON g.instanceOf=c.DB_ID \
+    #                    INNER JOIN GO_CellularComponent go \
+    #                    ON go.DB_ID=g.instanceOf \
+    #                    INNER JOIN DatabaseObject dbobj \
+    #                    ON pe_c.DB_ID=dbobj.DB_ID \
+    #                    INNER JOIN StableIdentifier si \
+    #                    ON si.DB_ID=dbobj.stableIdentifier"
+    # if test:
+    #     compartment_sql += " LIMIT " + str(ROW_LIMIT_TEST_MODE)
+    # for compartment_pe_c in run_sql(compartment_sql, connection):
+    #     subject_id = only_include_certain_species(kg2_util.CURIE_PREFIX_REACTOME + ':' + compartment_pe_c[0])
+    #     if subject_id is None:
+    #         continue
+    #     object_id = kg2_util.CURIE_PREFIX_GO + ':' + compartment_pe_c[1]
+    #     predicate = 'in_compartment'
+    #     edge = format_edge(subject_id, object_id, predicate)
+    #     edges.append(edge)
 
     return edges
 

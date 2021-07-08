@@ -143,7 +143,7 @@ rule Reactome_Conversion:
     log:
         config['BUILD_DIR'] + "/reactome-mysql-to-kg-json" + config['TEST_SUFFIX'] + ".log"
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/reactome_mysql_to_kg_json.py " + config['TEST_ARG'] + " " + config['MYSQL_CONF'] + " " + config['REACTOME_MYSQL_DBNAME'] + " {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/reactome_mysql_to_kg_json.py " + config['TEST_ARG'] + " " + config['MYSQL_CONF'] + " " + config['REACTOME_MYSQL_DBNAME'] + " {output} > {log} 2>&1"
 
 rule miRBase_Conversion:
     input:
