@@ -12,3 +12,9 @@ script:
   - bash -x ./run-validation-tests.sh travisci
   - bash -x ./build-kg2-snakemake.sh all -n travisci
   - bash -x ./build-kg2-snakemake.sh all -n nodes travisci
+  - bash -x ./build-kg2-snakemake.sh all -R_Merge -n travisci
+  - bash -x ./build-kg2-snakemake.sh all -R_Finish -n travisci
+  - bash -x ./build-kg2-snakemake.sh all -F -n travisci
+  - bash -x ./build-kg2-snakemake.sh all -R_Merge -n nodes travisci
+  - bash -x ./build-kg2-snakemake.sh all -R_Finish -n nodes travisci
+  - bash -x ./build-kg2-snakemake.sh all -F -n nodes travisci

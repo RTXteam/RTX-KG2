@@ -10,7 +10,8 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     exit 2
 fi
 
-# Usage: build-kg2-snakemake.sh [test|alltest|all|-n] [-n]
+# Usage: build-kg2-snakemake.sh [test|alltest|all|-n|nodes|graphic|-R_*|-F] [-n|nodes|graphic|-R_*|-F] 
+#                               [-n|nodes|graphic|-R_*|-F|travisci] [nodes|travisci|-n] [travisci]
 
 config_dir=`dirname "$0"`
 source ${config_dir}/master-config.shinc
@@ -18,7 +19,13 @@ source ${config_dir}/master-config.shinc
 build_flag=${1-""}
 secondary_build_flag=${2-""}
 tertiary_build_flag=${3-""}
-travisci_flag=${4-"${tertiary_build_flag}"}
+quaternary_build_flag=${4-""}
+quinary_build_flag=${5-""}
+
+if [[ "${tertiary_build_flag}" == "travisci" || "${quaternary_build_flag}" == "travisci" || "${quinary_build_flag}" == "travisci" ]]
+then
+    travisci_flag="travisci"
+fi
 
 if [[ "${build_flag}" == "test" || "${build_flag}" == "alltest" ]]
 then
@@ -35,9 +42,24 @@ else
 fi
 
 dryrun=""
-if [[ "${build_flag}" == "-n" || "${secondary_build_flag}" == "-n" ]]
+if [[ "${build_flag}" == "-n" || "${secondary_build_flag}" == "-n" || "${tertiary_build_flag}" == "-n" || "${quaternary_build_flag}" == "-n" ]]
 then
     dryrun="-n"
+fi
+
+run_flag=""
+if [[ "${build_flag:0:2}" == "-R" ]]
+then
+    run_flag=$(eval "tr '_' ' ' <<< $build_flag")
+elif [[ "${secondary_build_flag:0:2}" == "-R" ]]
+then
+    run_flag=$(eval "tr '_' ' ' <<< $secondary_build_flag")
+elif [[ "${tertiary_build_flag:0:2}" == "-R" ]]
+then
+    run_flag=$(eval "tr '_' ' ' <<< $tertiary_build_flag")
+elif [[ "${build_flag}" == "-F" || "${secondary_build_flag}" == "-F" || "${tertiary_build_flag}" == "-F" ]]
+then
+    run_flag="-F"
 fi
 
 build_kg2_log_file=${BUILD_DIR}/build-kg2-snakemake${dryrun}${test_suffix}.log
@@ -74,7 +96,7 @@ fi
 export PATH=$PATH:${BUILD_DIR}
 
 nodes_flag=""
-if [[ "${test_flag}" == "test" || "${build_flag}" == "nodes" || "${secondary_build_flag}" == "nodes" || "${tertiary_build_flag}" == "nodes" ]]
+if [[ "${test_flag}" == "test" || "${build_flag}" == "nodes" || "${secondary_build_flag}" == "nodes" || "${tertiary_build_flag}" == "nodes" || "${quaternary_build_flag}" == "nodes" ]]
 then
     nodes_flag="nodes"
 fi
@@ -119,9 +141,9 @@ fi
 
 if [[ "${travisci_flag}" != "travisci" ]]
 then
-    cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} -F -j ${dryrun}
+    cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} ${run_flag} -j ${dryrun}
 else
-    cd ~ && snakemake --snakefile ${snakefile} -F -j ${dryrun}
+    cd ~ && snakemake --snakefile ${snakefile} ${run_flag} -j ${dryrun}
 fi
 
 date
