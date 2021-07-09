@@ -794,9 +794,11 @@ if __name__ == '__main__':
         print("There are relation curies missing from the yaml config file. Please add them and try again. Exiting.", file=sys.stderr)
         exit(1)
 +   if len(provided_by_curies_not_in_config_nodes) > 0:
-+       print("There are provided_by curies missing from the yaml config file. Please add them and try again. Exiting.", file=sys.stderr)
++       print("There are nodes provided_by curies missing from the yaml config file. Please add them and try again. Exiting.", file=sys.stderr)
++       exit(1)
 +   if len(provided_by_curies_not_in_config_edges) > 0:
-+       print("There are provided_by curies missing from the yaml config file. Please add them and try again. Exiting.", file=sys.stderr)
++       print("There are edges provided_by curies missing from the yaml config file. Please add them and try again. Exiting.", file=sys.stderr)
++       exit(1)
     update_date = datetime.now().strftime("%Y-%m-%d %H:%M")
     version_file = open(args.versionFile, 'r')
     build_name = str
