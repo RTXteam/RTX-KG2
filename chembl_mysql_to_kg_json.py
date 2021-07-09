@@ -31,13 +31,13 @@ CHEMBL_BASE_IRI_PREDICATE = kg2_util.BASE_URL_CHEMBL_MECHANISM
 ROW_LIMIT_TEST_MODE = 10000
 
 TARGET_TYPE_TO_CATEGORY = {
-    'CELL-LINE': kg2_util.BIOLINK_CATEGORY_CELL,
+    'CELL-LINE': kg2_util.BIOLINK_CATEGORY_CELL_LINE,
     'CHIMERIC PROTEIN': kg2_util.BIOLINK_CATEGORY_PROTEIN,
     'LIPID': kg2_util.BIOLINK_CATEGORY_MOLECULAR_ENTITY,
-    'MACROMOLECULE': kg2_util.BIOLINK_CATEGORY_MACROMOLECULAR_COMPLEX,
-    'METAL': kg2_util.BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE,
-    'NUCLEIC-ACID': kg2_util.BIOLINK_CATEGORY_MOLECULAR_ENTITY,
-    'OLIGOSACCHARIDE': kg2_util.BIOLINK_CATEGORY_METABOLITE,
+    'MACROMOLECULE': kg2_util.BIOLINK_CATEGORY_MOLECULAR_ENTITY,
+    'METAL': kg2_util.BIOLINK_CATEGORY_CHEMICAL_ENTITY,
+    'NUCLEIC-ACID': kg2_util.BIOLINK_CATEGORY_NUCLEIC_ACID_ENTITY,
+    'OLIGOSACCHARIDE': kg2_util.BIOLINK_CATEGORY_SMALL_MOLECULE,
     'ORGANISM': kg2_util.BIOLINK_CATEGORY_ORGANISM_TAXON,
     'PHENOTYPE': kg2_util.BIOLINK_CATEGORY_PHENOTYPIC_FEATURE,
     'PROTEIN COMPLEX': kg2_util.BIOLINK_CATEGORY_MOLECULAR_ENTITY,
@@ -47,7 +47,7 @@ TARGET_TYPE_TO_CATEGORY = {
     'PROTEIN-PROTEIN INTERACTION': kg2_util.BIOLINK_CATEGORY_PROTEIN,
     'SELECTIVITY GROUP': kg2_util.BIOLINK_CATEGORY_GENE_FAMILY,
     'SINGLE PROTEIN': kg2_util.BIOLINK_CATEGORY_PROTEIN,
-    'SMALL MOLECULE': kg2_util.BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE,
+    'SMALL MOLECULE': kg2_util.BIOLINK_CATEGORY_SMALL_MOLECULE,
     'SUBCELLULAR': kg2_util.BIOLINK_CATEGORY_CELLULAR_COMPONENT,
     'TISSUE': kg2_util.BIOLINK_CATEGORY_ANATOMICAL_ENTITY,
     'UNKNOWN': kg2_util.BIOLINK_CATEGORY_MOLECULAR_ENTITY
@@ -169,7 +169,7 @@ if __name__ == '__main__':
         sequence = canonical_smiles
 
         curie_id = 'CHEMBL.COMPOUND:' + chembl_id
-        category_label = kg2_util.BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE
+        category_label = kg2_util.BIOLINK_CATEGORY_SMALL_MOLECULE
 
         # query to get all synonyms and publications associated with the ChEMBL molecule
 
@@ -269,7 +269,7 @@ if __name__ == '__main__':
         if mechanism_of_action is not None:
             node_label = mechanism_of_action.lower().replace(' ', '_')
             node_curie_id = CHEMBL_CURIE_BASE_MECHANISM + ':' + node_label
-            category_label = kg2_util.BIOLINK_CATEGORY_RELATIONSHIP_TYPE
+            category_label = kg2_util.BIOLINK_CATEGORY_NAMED_THING
             node_dict = make_node(node_curie_id,
                                   CHEMBL_BASE_IRI_PREDICATE + node_label,
                                   mechanism_of_action,
@@ -293,7 +293,7 @@ if __name__ == '__main__':
         node_dict = make_node(curie_id,
                               CHEMBL_BASE_IRI_PREDICATE + predicate_label,
                               name,
-                              kg2_util.BIOLINK_CATEGORY_RELATIONSHIP_TYPE,
+                              kg2_util.BIOLINK_CATEGORY_NAMED_THING,
                               description,
                               [],
                               [],
@@ -476,7 +476,7 @@ if __name__ == '__main__':
     nodes.append(kg2_util.make_node(CHEMBL_KB_CURIE_ID,
                            CHEMBL_KB_URL,
                            'ChEMBL',
-                           kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                           kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                            update_date,
                            CHEMBL_KB_CURIE_ID))
 

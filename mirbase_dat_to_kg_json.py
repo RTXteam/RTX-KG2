@@ -198,7 +198,7 @@ if __name__ == '__main__':
     kp_node = kg2_util.make_node(MIRBASE_KB_CURIE_ID,
                                  MIRBASE_KB_URL,
                                  'miRBase',
-                                 kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                                 kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                                  None,
                                  MIRBASE_KB_CURIE_ID)
     [nodes, xrefs, nodes_to_species] = make_nodes(entries, args.test)

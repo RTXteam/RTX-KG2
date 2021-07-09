@@ -38,7 +38,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
     nodes = [kg2_util.make_node(id=REPODB_CURIE + ':',
                                 iri=REPODB_IRI,
                                 name='repoDB drug repositioning database',
-                                category_label=kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                                category_label=kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                                 update_date=update_date,
                                 provided_by=REPODB_CURIE + ':')]
     edges = []

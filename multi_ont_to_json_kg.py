@@ -144,6 +144,9 @@ def make_kg2(curies_to_categories: dict,
         metadata_dict['ontology'] = ont
         ont_file_information_dict_list.append(metadata_dict)
 
+    kg2_util.log_message('Calling get_inverse_rels')
+    biolink_inverses = get_inverse_rels(ont_file_information_dict_list[0]['ontology'], ont_file_information_dict_list[0], uri_to_curie_shortener)
+
     kg2_util.log_message('Calling make_nodes_dict_from_ontologies_list')
 
     # Temporary addition for addressing Ontobio Issue #507
@@ -186,10 +189,9 @@ def make_kg2(curies_to_categories: dict,
                                   curie_to_uri_expander,
                                   map_of_node_ontology_ids_to_curie_ids)
 
-    biolink_inverses = get_inverse_rels(ont_file_information_dict_list[0]['ontology'], ont_file_information_dict_list[0], uri_to_curie_shortener)
-
     kg2_dict = dict()
     kg2_dict['edges'] = [rel_dict for rel_dict in all_rels_dict.values()]
+    kg2_dict['edges'] += biolink_inverses
     kg2_util.log_message('Number of edges: ' + str(len(kg2_dict['edges'])))
     kg2_dict['nodes'] = list(nodes_dict.values())
     kg2_util.log_message('Number of nodes: ' + str(len(kg2_dict['nodes'])))
@@ -238,7 +240,7 @@ def get_biolink_category_for_node(ontology_node_id: str,
         # to use get_biolink_category_for_node to determine the specific semantic type of a CUI based on its
         # TUI record. Need to think about a more elegant way to do this. [SAR]
     if curie_prefix == kg2_util.CURIE_PREFIX_UMLS_STY and node_curie_id.split(':')[1].startswith('T') and ontology.id == kg2_util.BASE_URL_UMLS_STY:
-        return [kg2_util.BIOLINK_CATEGORY_ONTOLOGY_CLASS, None]
+        return [kg2_util.BIOLINK_CATEGORY_NAMED_THING, None]
 
     if get_node_id_of_node_with_category:
         ret_ontology_node_id_of_node_with_category = ontology_node_id
@@ -551,6 +553,10 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
         print(f"processing ontology: {ontology_curie_id}", file=sys.stderr)
 
         umls_sver = ontology_info_dict.get('umls-sver', None)
+        ont_version = ontology_info_dict.get('version', None)
+        ontology_name = ontology_info_dict['title']
+        if ont_version is not None:
+            ontology_name = ontology_name + " version " + ont_version
         updated_date = None
         if umls_sver is not None:
             # if you can, parse sver string into a date string
@@ -569,8 +575,8 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
 
         ontology_node = kg2_util.make_node(ontology_curie_id,
                                            iri_of_ontology,
-                                           ontology_info_dict['title'],
-                                           kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                                           ontology_name,
+                                           kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                                            updated_date,
                                            ontology_curie_id)
         ontology_node['description'] = ontology_info_dict['description']
@@ -770,7 +776,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
 
             node_type = onto_node_dict.get('type', None)
             if node_type is not None and node_type == 'PROPERTY':
-                node_category_label = kg2_util.BIOLINK_CATEGORY_ATTRIBUTE
+                node_category_label = kg2_util.BIOLINK_CATEGORY_INFORMATION_CONTENT_ENTITY
 
             if node_category_label is None:
                 node_category_label = 'named thing'

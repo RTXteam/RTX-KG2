@@ -1,7 +1,7 @@
 ---
 prefix-mappings:
-    biolink: ontology class
-    BSPO: relationship type
+    biolink: named thing # formerly ontology class
+    BSPO: named thing # formerly relationship type
     CL: anatomical entity
     CPT: procedure
     DOID: disease
@@ -9,7 +9,7 @@ prefix-mappings:
     EHDAA2: anatomical entity
     FAO: anatomical entity
     GAZ: geographic location
-    GOREL: relationship type
+    GOREL: named thing # formerly relationship type
     HCPCS: procedure
     HGNC: gene
     IAO: information content entity
@@ -18,63 +18,63 @@ prefix-mappings:
     MI: information content entity
     NCBIGene: gene
     NCBITaxon: organism taxon
-    OBO: relationship type
+    OBO: named thing # formerly relationship type
     OMIM: phenotypic feature
     PATO: phenotypic feature
     PR: protein
     PW: pathway
     RGD: gene
-    RO: relationship type
+    RO: named thing # formerly relationship type
     RXNORM: drug
     sgd: gene
-    SIO: relationship type
-    skos: ontology class
+    SIO: named thing # formerly relationship type
+    skos: named thing # formerly ontology class
     SYMP: phenotypic feature
     UBERON: anatomical entity
     UBPROP: information content entity
     UniProtKB: protein
 term-mappings:
-    rdfs:isDefinedBy: relationship type
-    OIO:inSubset: relationship type
-    OIO:ObsoleteClass: ontology class
-    OIO:hasRelatedSynonym: relationship type
-    OIO:hasBroadSynonym: relationship type
-    OIO:hasExactSynonym: relationship type
-    OIO:hasDbXref: relationship type
-    OIO:hasOBOFormatVersion: relationship type
+    rdfs:isDefinedBy: named thing # formerly relationship type
+    OIO:inSubset: named thing # formerly relationship type
+    OIO:ObsoleteClass: named thing # formerly ontology class
+    OIO:hasRelatedSynonym: named thing # formerly relationship type
+    OIO:hasBroadSynonym: named thing # formerly relationship type
+    OIO:hasExactSynonym: named thing # formerly relationship type
+    OIO:hasDbXref: named thing # formerly relationship type
+    OIO:hasOBOFormatVersion: named thing # formerly relationship type
     OIO:SubsetProperty: named thing
-    OIO:shorthand: relationship type
+    OIO:shorthand: named thing # formerly relationship type
     owl:topObjectProperty: information content entity
-    OBO:ro/subsets#ro-eco: relationship type
+    OBO:ro/subsets#ro-eco: named thing # formerly relationship type
     BFO:0000001: named thing
     BFO:0000030: physical entity
     BFO:0000040: physical entity
-    BFO:0000050: relationship type
-    BFO:0000051: relationship type
-    BFO:0000053: relationship type
-    BFO:0000054: relationship type
-    BFO:0000055: relationship type
-    BFO:0000056: relationship type
-    BFO:0000057: relationship type
-    BFO:0000060: relationship type
-    BFO:0000061: relationship type
-    BFO:0000062: relationship type
-    BFO:0000063: relationship type
-    BFO:0000066: relationship type
-    BFO:0000067: relationship type
-    BFO:0000068: relationship type
-    BFO:0000069: relationship type
+    BFO:0000050: named thing # formerly relationship type
+    BFO:0000051: named thing # formerly relationship type
+    BFO:0000053: named thing # formerly relationship type
+    BFO:0000054: named thing # formerly relationship type
+    BFO:0000055: named thing # formerly relationship type
+    BFO:0000056: named thing # formerly relationship type
+    BFO:0000057: named thing # formerly relationship type
+    BFO:0000060: named thing # formerly relationship type
+    BFO:0000061: named thing # formerly relationship type
+    BFO:0000062: named thing # formerly relationship type
+    BFO:0000063: named thing # formerly relationship type
+    BFO:0000066: named thing # formerly relationship type
+    BFO:0000067: named thing # formerly relationship type
+    BFO:0000068: named thing # formerly relationship type
+    BFO:0000069: named thing # formerly relationship type
     CARO:0000003: anatomical entity
-    CHEBI:2709: chemical substance
+    CHEBI:2709: chemical entity # formerly chemical substance
     CHEBI:23888: drug
     CHEBI:24431: molecular entity 
     CHEBI:24432: biological entity
-    CHEBI:25212: metabolite
-    CHEBI:33232: chemical substance
+    CHEBI:25212: small molecule # formerly metabolite
+    CHEBI:33232: chemical entity # formerly chemical substance
     CHEBI:33697: RNA product
-    CHEBI:36342: chemical substance
-    CHEBI:51086: chemical substance
-    CHEBI:78295: food component 
+    CHEBI:36342: chemical entity # formerly chemical substance
+    CHEBI:51086: chemical entity # formerly chemical substance
+    CHEBI:78295: chemical mixture # formerly food component
     CHEBI:50906: biological process
     CL:0000000: anatomical entity
     EFO:0000324: cell
@@ -88,11 +88,13 @@ term-mappings:
     ENVO:00002297: environmental feature
     FMA:29733: anatomical entity
     FMA:62955: anatomical entity
+    FMA:63887: biological entity
+    FMA:67257: protein
     FMA:50592: physical entity
     FMA:85802: information content entity
     FMA:87205: biological entity
     FMA:85620: biological entity
-    FMA:85972: relationship type
+    FMA:85972: named thing # formerly relationship type
     FMA:86003: anatomical entity
     FOODON:00002403: biological entity
     FOODON:00002451: biological process
@@ -102,7 +104,7 @@ term-mappings:
     HP:0031797: phenotypic feature
     HP:0012823: phenotypic feature
     HP:0032223: phenotypic feature
-    HP:0040279: quantity value
+    HP:0040279: named thing # formerly quantity value
     HP:0000005: phenotypic feature
     HP:0000118: phenotypic feature
     HP:0032443: information content entity
@@ -148,7 +150,7 @@ term-mappings:
     MESH:D019602: biological entity
     MESH:U000002: anatomical entity
     MESH:U000004: phenomenon
-    MESH:U000005: chemical substance
+    MESH:U000005: chemical entity # formerly chemical substance
     MESH:U000006: disease
     MESH:U000012: organism taxon
     MESH:U000022: geographic location
@@ -183,7 +185,7 @@ term-mappings:
     NCIT:C22188: anatomical entity
     NCIT:C16338: material sample
     NCIT:C71460: procedure
-    NCIT:C16612: genomic entity
+    NCIT:C16612: gene # formerly genomic entity
     NCIT:C813: transcript 
     NCIT:C111298: transcript
     NCIT:C17021: protein
@@ -200,15 +202,15 @@ term-mappings:
     OGMS:0000087: individual organism
     ORPHANET:410298: gene
     ORPHANET:410299: noncoding RNA product
-    ORPHANET:410297: genomic entity
+    ORPHANET:410297: nucleic acid entity # formerly genomic entity, definition is "Chromosomal region associated with a hereditary disorder but without any precision on the possible associated gene."
     ORPHANET:C023: life stage
     ORPHANET:C001: disease
-    ORPHANET:409967: frequency value
-    ORPHANET:C004: frequency value
-    ORPHANET:409973: frequency value
+    ORPHANET:409967: named thing # formerly frequency value
+    ORPHANET:C004: named thing # formerly frequency value
+    ORPHANET:409973: named thing # formerly frequency value
     ORPHANET:C005: phenotypic feature
     owl:Thing: named thing
-    PATO:0000001: phenotypic quality
+    PATO:0000001: named thing # formerly phenotypic quality
     PR:000000001: protein
     SO:0001217: gene
     SNOMED:48176007: activity
@@ -216,18 +218,18 @@ term-mappings:
     SNOMED:71388002: clinical intervention
     SNOMED:78621006: phenomenon
     SNOMED:91723000: anatomical entity
-    SNOMED:105590001: chemical substance
+    SNOMED:105590001: chemical entity # formerly chemical substance
     SNOMED:123037004: anatomical entity
     SNOMED:123038009: material sample
     SNOMED:125676002: individual organism
     SNOMED:138875005: named thing
     SNOMED:243796009: phenomenon
     SNOMED:246061005: information content entity
-    SNOMED:254291000: clinical modifier
+    SNOMED:254291000: named thing # formerly clinical modifier
     SNOMED:260787004: physical entity
     SNOMED:272379006: phenomenon
     SNOMED:308916002: geographic location
-    SNOMED:362981000: quantity value
+    SNOMED:362981000: named thing # formerly quantity value
     SNOMED:363787002: physical entity
     SNOMED:370115009: named thing
     SNOMED:373873005: drug
@@ -236,143 +238,139 @@ term-mappings:
     SNOMED:410942007: drug
     SNOMED:419891008: information content entity
     SNOMED:900000000000441003: information content entity
-    SO:0000704: genomic entity
-    TRANS:0000000: exposure event
+    SO:0000704: gene # formerly genomic entity
+    TRANS:0000000: named thing # formerly exposure event
     UBERON:0001062: anatomical entity
     UBERON:0000105: life stage
-    UMLS_STY:T001: individual organism
-    UMLS_STY:T002: individual organism
-    UMLS_STY:T004: individual organism
-    UMLS_STY:T005: individual organism
-    UMLS_STY:T007: individual organism
-    UMLS_STY:T008: individual organism
-    UMLS_STY:T010: individual organism
-    UMLS_STY:T011: individual organism
-    UMLS_STY:T012: individual organism
-    UMLS_STY:T013: individual organism
-    UMLS_STY:T014: individual organism
-    UMLS_STY:T015: individual organism
-    UMLS_STY:T016: individual organism
-    UMLS_STY:T017: gross anatomical structure
-    UMLS_STY:T018: gross anatomical structure
-    UMLS_STY:T019: disease
-    UMLS_STY:T020: disease
-    UMLS_STY:T021: gross anatomical structure
-    UMLS_STY:T022: anatomical entity
-    UMLS_STY:T023: gross anatomical structure
-    UMLS_STY:T024: gross anatomical structure
-    UMLS_STY:T025: cell
-    UMLS_STY:T026: cellular component
-    UMLS_STY:T028: genomic entity
-    UMLS_STY:T029: anatomical entity
-    UMLS_STY:T030: anatomical entity
-    UMLS_STY:T031: anatomical entity
-    UMLS_STY:T032: physiological process
-    UMLS_STY:T033: disease or phenotypic feature
-    UMLS_STY:T034: phenomenon
-    UMLS_STY:T037: pathological process
-    UMLS_STY:T038: phenomenon
-    UMLS_STY:T039: physiological process
-    UMLS_STY:T040: physiological process
-    UMLS_STY:T041: physiological process
-    UMLS_STY:T042: physiological process
-    UMLS_STY:T043: physiological process
-    UMLS_STY:T044: molecular activity
-    UMLS_STY:T045: physiological process
-    UMLS_STY:T046: pathological process
-    UMLS_STY:T047: disease
-    UMLS_STY:T048: disease
-    UMLS_STY:T049: disease
-    UMLS_STY:T050: biological entity
-    UMLS_STY:T051: activity 
-    UMLS_STY:T052: activity
-    UMLS_STY:T053: activity
-    UMLS_STY:T054: activity
-    UMLS_STY:T055: activity
-    UMLS_STY:T056: activity
-    UMLS_STY:T057: activity 
-    UMLS_STY:T058: procedure
-    UMLS_STY:T059: procedure
-    UMLS_STY:T060: procedure
-    UMLS_STY:T061: procedure
-    UMLS_STY:T062: procedure
-    UMLS_STY:T063: procedure
-    UMLS_STY:T064: activity 
-    UMLS_STY:T065: procedure
-    UMLS_STY:T066: activity
-    # The following term (67) was `occurent` until that
-    # biolink category became a mixin class which cannot inherit from `named
-    # thing`, so we are going with `named thing` for now, until a more specific
-    # subclass of `named thing` is available See also #1148:
-    UMLS_STY:T067: named thing
-    UMLS_STY:T068: phenomenon
-    UMLS_STY:T069: phenomenon
-    UMLS_STY:T070: phenomenon
-    UMLS_STY:T071: named thing
-    UMLS_STY:T072: named thing
-    UMLS_STY:T073: named thing
-    UMLS_STY:T074: device
-    UMLS_STY:T075: device
-    UMLS_STY:T077: information content entity
-    UMLS_STY:T078: information content entity
-    UMLS_STY:T079: information content entity
-    UMLS_STY:T080: information content entity
-    UMLS_STY:T081: information content entity
-    UMLS_STY:T082: information content entity
-    UMLS_STY:T083: geographic location
-    UMLS_STY:T085: molecular entity
-    UMLS_STY:T086: genomic entity
-    UMLS_STY:T087: protein
-    UMLS_STY:T088: carbohydrate
-    UMLS_STY:T089: information content entity
-    UMLS_STY:T090: individual organism
-    # UMLS_STY:T091 is not in the Biolink model, but this
+    UMLSSC:T001: individual organism
+    UMLSSC:T002: organism taxon # formerly individual organism
+    UMLSSC:T004: organism taxon # formerly individual organism
+    UMLSSC:T005: organism taxon # formerly individual organism
+    UMLSSC:T007: organism taxon # formerly individual organism
+    UMLSSC:T008: organism taxon # formerly individual organism
+    UMLSSC:T010: organism taxon # formerly individual organism
+    UMLSSC:T011: organism taxon # formerly individual organism
+    UMLSSC:T012: organism taxon # formerly individual organism
+    UMLSSC:T013: organism taxon # formerly individual organism
+    UMLSSC:T014: organism taxon # formerly individual organism
+    UMLSSC:T015: organism taxon # formerly individual organism
+    UMLSSC:T016: organism taxon # formerly individual organism
+    UMLSSC:T017: gross anatomical structure
+    UMLSSC:T018: gross anatomical structure
+    UMLSSC:T019: disease
+    UMLSSC:T020: disease
+    UMLSSC:T021: gross anatomical structure
+    UMLSSC:T022: anatomical entity
+    UMLSSC:T023: gross anatomical structure
+    UMLSSC:T024: gross anatomical structure
+    UMLSSC:T025: cell
+    UMLSSC:T026: cellular component
+    UMLSSC:T028: nucleic acid entity # formerly genomic entity
+    UMLSSC:T029: anatomical entity
+    UMLSSC:T030: anatomical entity
+    UMLSSC:T031: anatomical entity
+    UMLSSC:T032: named thing # formerly organism attribute # formerly physiological process
+    UMLSSC:T033: disease or phenotypic feature
+    UMLSSC:T034: phenomenon
+    UMLSSC:T037: disease # formerly pathological process
+    UMLSSC:T038: phenomenon
+    UMLSSC:T039: physiological process
+    UMLSSC:T040: physiological process
+    UMLSSC:T041: behavior # formerly physiological process
+    UMLSSC:T042: physiological process
+    UMLSSC:T043: physiological process
+    UMLSSC:T044: molecular activity
+    UMLSSC:T045: physiological process
+    UMLSSC:T046: disease # formerly pathological process
+    UMLSSC:T047: disease
+    UMLSSC:T048: disease
+    UMLSSC:T049: disease
+    UMLSSC:T050: biological entity
+    UMLSSC:T051: event # formerly activity 
+    UMLSSC:T052: activity
+    UMLSSC:T053: behavior # formerly activity
+    UMLSSC:T054: behavior # formerly activity
+    UMLSSC:T055: behavior # formerly activity
+    UMLSSC:T056: activity
+    UMLSSC:T057: activity 
+    UMLSSC:T058: activity # formerly procedure
+    UMLSSC:T059: procedure
+    UMLSSC:T060: procedure
+    UMLSSC:T061: procedure
+    UMLSSC:T062: activity # formerly procedure
+    UMLSSC:T063: procedure
+    UMLSSC:T064: activity 
+    UMLSSC:T065: activity # formerly procedure
+    UMLSSC:T066: activity
+    UMLSSC:T067: phenomenon # formerly named thing (see #1148)
+    UMLSSC:T068: phenomenon
+    UMLSSC:T069: phenomenon
+    UMLSSC:T070: phenomenon
+    UMLSSC:T071: named thing
+    UMLSSC:T072: physical entity # formerly named thing
+    UMLSSC:T073: physical entity # formerly named thing
+    UMLSSC:T074: device
+    UMLSSC:T075: device
+    UMLSSC:T077: information content entity
+    UMLSSC:T078: information content entity
+    UMLSSC:T079: information content entity
+    UMLSSC:T080: information content entity
+    UMLSSC:T081: information content entity
+    UMLSSC:T082: information content entity
+    UMLSSC:T083: geographic location
+    UMLSSC:T085: molecular entity
+    UMLSSC:T086: nucleic acid entity # formerly genomic entity
+    UMLSSC:T087: polypeptide # formerly protein
+    UMLSSC:T088: molecular entity # formerly carbohydrate
+    UMLSSC:T089: information content entity
+    UMLSSC:T090: individual organism
+    # UMLSSC:T091 is not in the Biolink model, but this
     # is a fix per #1266.
-    UMLS_STY:T091: individual organism
-    UMLS_STY:T092: agent
-    UMLS_STY:T093: agent
-    UMLS_STY:T094: agent
-    UMLS_STY:T095: agent
-    UMLS_STY:T096: individual organism
-    UMLS_STY:T097: individual organism
-    UMLS_STY:T098: population of individual organisms
-    UMLS_STY:T099: individual organism
-    UMLS_STY:T100: individual organism
-    UMLS_STY:T101: individual organism
-    UMLS_STY:T102: information content entity
-    UMLS_STY:T103: chemical substance
-    UMLS_STY:T104: chemical substance
-    UMLS_STY:T109: chemical substance
-    UMLS_STY:T114: chemical substance
-    UMLS_STY:T116: protein
-    UMLS_STY:T120: chemical substance
-    UMLS_STY:T121: drug
-    UMLS_STY:T122: chemical substance
-    UMLS_STY:T123: chemical substance
-    UMLS_STY:T125: chemical substance
-    UMLS_STY:T126: chemical substance
-    UMLS_STY:T127: chemical substance
-    UMLS_STY:T129: chemical substance
-    UMLS_STY:T130: chemical substance
-    UMLS_STY:T131: chemical substance
-    UMLS_STY:T167: chemical substance
-    UMLS_STY:T168: named thing
-    UMLS_STY:T169: information content entity
-    UMLS_STY:T170: information content entity
-    UMLS_STY:T171: information content entity
-    UMLS_STY:T184: disease
-    UMLS_STY:T185: information content entity
-    UMLS_STY:T190: disease
-    UMLS_STY:T191: disease
-    UMLS_STY:T192: chemical substance
-    UMLS_STY:T194: individual organism
-    UMLS_STY:T195: chemical substance
-    UMLS_STY:T196: chemical substance
-    UMLS_STY:T197: chemical substance
-    UMLS_STY:T200: drug
-    UMLS_STY:T201: physiological process
-    UMLS_STY:T203: device
-    UMLS_STY:T204: individual organism
+    UMLSSC:T091: individual organism
+    UMLSSC:T092: agent
+    UMLSSC:T093: agent
+    UMLSSC:T094: agent
+    UMLSSC:T095: agent
+    UMLSSC:T096: agent # formerly individual organism
+    UMLSSC:T097: cohort # formerly individual organism
+    UMLSSC:T098: population of individual organisms
+    UMLSSC:T099: cohort # formerly individual organism
+    UMLSSC:T100: cohort # formerly individual organism
+    UMLSSC:T101: cohort # formerly individual organism
+    UMLSSC:T102: information content entity
+    UMLSSC:T103: chemical entity # formerly chemical substance
+    UMLSSC:T104: chemical entity # formerly chemical substance
+    UMLSSC:T109: chemical entity # formerly chemical substance
+    UMLSSC:T114: nucleic acid entity # formerly chemical substance
+    UMLSSC:T116: polypeptide # formerly protein
+    UMLSSC:T120: chemical entity # formerly chemical substance
+    UMLSSC:T121: drug
+    UMLSSC:T122: device # formerly chemical substance
+    UMLSSC:T123: chemical entity # formerly chemical substance
+    UMLSSC:T125: chemical entity # formerly chemical substance
+    UMLSSC:T126: protein # formerly chemical substance
+    UMLSSC:T127: vitamin # formerly chemical substance
+    UMLSSC:T129: chemical entity # formerly chemical substance
+    UMLSSC:T130: chemical entity # formerly chemical substance
+    UMLSSC:T131: chemical entity # formerly chemical substance
+    UMLSSC:T167: chemical entity # formerly chemical substance
+    UMLSSC:T168: food
+    UMLSSC:T169: information content entity
+    UMLSSC:T170: publication
+    UMLSSC:T171: information content entity
+    UMLSSC:T184: phenotypic feature
+    UMLSSC:T185: information content entity
+    UMLSSC:T190: disease
+    UMLSSC:T191: disease
+    UMLSSC:T192: protein # formerly chemical substance
+    UMLSSC:T194: organism taxon # formerly individual organism
+    UMLSSC:T195: drug # formerly chemical substance
+    UMLSSC:T196: small molecule # formerly chemical substance
+    UMLSSC:T197: chemical entity # formerly chemical substance
+    UMLSSC:T200: drug
+    UMLSSC:T201: named thing # formerly clinical attribute # formerly physiological process
+    UMLSSC:T203: device
+    UMLSSC:T204: organism taxon # formerly individual organism
     UPHENO:0001001: phenotypic feature
     WD:Q28845870: biological entity
     WD:Q12136: disease

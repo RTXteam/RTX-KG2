@@ -135,13 +135,13 @@ def make_node(drug: dict):
     synonyms = []
     drug_type = drug["@type"]
     if drug_type == TYPE_SMALL_MOLECULE:
-        category = kg2_util.BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE
+        category = kg2_util.BIOLINK_CATEGORY_SMALL_MOLECULE
     elif drug_type == TYPE_BIOTECH:
         category = kg2_util.BIOLINK_CATEGORY_MOLECULAR_ENTITY
     else:
-        print(f"Unknown type: {drug_type} for drug ID: {drugbank_id}; treating as chemical substance",
+        print(f"Unknown type: {drug_type} for drug ID: {drugbank_id}; treating as chemical entity",
               file=sys.stderr)
-        category = kg2_util.BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE
+        category = kg2_util.BIOLINK_CATEGORY_CHEMICAL_ENTITY
     if drug["synonyms"] is not None:
         if drug["synonyms"]["synonym"] is not None:
             for synonym in drug["synonyms"]["synonym"]:
@@ -506,7 +506,7 @@ def make_kg2_graph(drugbank_dict: dict, test_mode: bool):
     drugbank_kp_node = kg2_util.make_node(DRUGBANK_KB_CURIE_ID,
                                           DRUGBANK_KB_IRI,
                                           "DrugBank",
-                                          kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                                          kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                                           update_date,
                                           DRUGBANK_KB_CURIE_ID)
 
