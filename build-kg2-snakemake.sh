@@ -117,12 +117,6 @@ then
     echo 'include: "Snakefile-generate-nodes"' >> ${snakefile}
 fi
 
-dryrun=""
-if [[ "${build_flag}" == "-n" || "${secondary_build_flag}" == "-n" ]]
-then
-    dryrun="-n"
-fi
-
 if [[ "${travisci_flag}" != "travisci" ]]
 then
     cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} -F -j ${dryrun}
