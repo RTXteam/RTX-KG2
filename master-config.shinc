@@ -14,6 +14,7 @@ curl_get="curl -s -L -f"
 curies_to_categories_file=${CODE_DIR}/curies-to-categories.yaml
 curies_to_urls_file=${CODE_DIR}/curies-to-urls-map.yaml
 predicate_mapping_file=${CODE_DIR}/predicate-remap.yaml
+infores_mapping_file=${CODE_DIR}/kg2-provided-by-curie-to-infores-curie.yaml
 ont_load_inventory_file=${CODE_DIR}/ont-load-inventory${test_suffix}.yaml
 umls2rdf_config_master=${CODE_DIR}/umls2rdf-umls.conf
 rtx_config_file=RTXConfiguration-config.json
