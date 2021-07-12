@@ -537,9 +537,21 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                             if value.replace(' ', '_') != stored_value.replace(' ', '_'):
                                 stored_desc = ret_dict.get('description', None)
                                 new_desc = y.get('description', None)
-                                if stored_desc is not None and new_desc is not None:
+                                stored_provided_by =  ret_dict.get('provided_by', None)
+                                new_provided_by = ret_dict.get('provided_by', None)
+                                if stored_provided_by == CURIE_ID_UMLS_SOURCE_CUI:
+                                    ret_dict[key] = stored_value
+                                elif new_provided_by == CURIE_ID_UMLS_SOURCE_CUI:
+                                    ret_dict[key] = value
+                                    log_message(message='Warning: for ' + x.get('id', 'id=UNKNOWN') + ' original name of ' + stored_value +
+                                                ' is being overwriten to ' + value,
+                                                output_stream=sys.stderr)
+                                elif stored_desc is not None and new_desc is not None:
                                     if len(new_desc) > len(stored_desc):
                                         ret_dict[key] = value
+                                    log_message(message='Warning: for ' + x.get('id', 'id=UNKNOWN') + ' original name of ' + stored_value +
+                                                ' is being overwriten to ' + value,
+                                                output_stream=sys.stderr)
                                 elif new_desc is not None:
                                     ret_dict[key] = value
                                     log_message(message='Warning: for ' + x.get('id', 'id=UNKNOWN') + ' original name of ' + stored_value +
