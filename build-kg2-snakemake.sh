@@ -6,7 +6,8 @@
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0 [test|alltest|all|-n|nodes|graphic] [-n|nodes|graphic] [nodes|travisci] [travisci]"
+    echo Usage: "$0 [test|alltest|all|-n|nodes|graphic|-R_*|-F] [-n|nodes|graphic|-R_*|-F] "
+    echo "[-n|nodes|graphic|-R_*|-F|travisci] [nodes|travisci|-n] [travisci]"
     exit 2
 fi
 
