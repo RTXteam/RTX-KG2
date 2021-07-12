@@ -19,6 +19,9 @@ HP:hp.owl:
 'JensenLab:':
   infores_curie: infores:diseases
   knowledge_type: knowledge_source
+'KEGG_source:':
+  infores_curie: infores:kegg
+  knowledge_type: knowledge_source
 OBO:bfo.owl:
   infores_curie: infores:bfo
   knowledge_type: knowledge_source
