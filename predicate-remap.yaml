@@ -738,7 +738,7 @@ DRUGBANK:oxidizer:
   rename:
   - increases_molecular_modification_of
   - biolink:increases_molecular_modification_of
-DRUGBANK:partial_agnoist:
+DRUGBANK:partial_agonist:
   rename:
   - increases_activity_of
   - biolink:increases_activity_of
@@ -770,7 +770,7 @@ DRUGBANK:regulator:
   rename:
   - entity_regulates_entity
   - biolink:entity_regulates_entity
-DRUGBANK:stablization:
+DRUGBANK:stabilization:
   rename:
   - increases_stability_of
   - biolink:increases_stability_of
