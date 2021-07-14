@@ -1,7 +1,24 @@
+# 2.7.0
+**Date: 2021.7.8**
+
+Biolink Model Version: 2.1.0
+
+Nodes: 9,738,008
+Edges: 48,781,064
+
+Notes:
+ - Reactome released a new version which resulted in a failure of the compartment related queries, which are now commented out in the code.
+
+Issues:
+ - Issue [#77](https://github.com/RTXteam/RTX-KG2/issues/77)
+ - Issue [#64](https://github.com/RTXteam/RTX-KG2/issues/64)
+
+Build host: `kg2steve.rtx.ai` `~/kg2-build/`, ran from `biolink-2.0` branch
+
 # 2.6.7
 **Date: 2021.6.23**
 
-Biolink Model Version: 1.8.1 OR 1.7.0 (unclear on the instance)
+Biolink Model Version: 1.8.1
 
 Nodes: 9,781,698
 
@@ -14,12 +31,12 @@ Issues:
 
  - Issue [#81](https://github.com/RTXteam/RTX-KG2/issues/81)
 
-Build host: `kg2lindsey.rtx.ai` `~/kg2-build/
+Build host: `kg2lindsey.rtx.ai` `~/kg2-build/`
 
 # 2.6.6
 **Date: 2021.6.22**
 
-Biolink Model Version: 1.8.1 OR 1.7.0 (unclear on the instance)
+Biolink Model Version: 1.8.1
 
 Nodes: 9,781,698
 
@@ -37,7 +54,7 @@ Build host: `kg2lindsey.rtx.ai` `~/kg2-build/`
 # 2.6.5
 **Date: 2021.6.20**
 
-Biolink Model Version: 1.8.1 OR 1.7.0 (unclear on the instance)
+Biolink Model Version: 1.8.1
 
 Nodes: 9,781,698
 

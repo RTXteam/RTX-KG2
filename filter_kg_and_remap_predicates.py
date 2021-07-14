@@ -84,7 +84,7 @@ if __name__ == '__main__':
         else:
             infores_curie = infores_curie_dict['infores_curie']
         node_dict['knowledge_source'] = infores_curie
-        nodes_dict[id] = node_dict
+        nodes_dict[node_id] = node_dict
     edge_ctr = 0
     for edge_dict in graph['edges']:
         edge_ctr += 1

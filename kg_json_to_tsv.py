@@ -87,7 +87,8 @@ def check_all_edges_have_same_set(edgekeys_list):
                     "update_date",
                     "predicate",
                     "predicate_label",
-                    "id"]
+                    "id",
+                    "knowledge_source"]
     for edgelabel in edgekeys_list:
         if edgelabel not in supported_ls:
             raise ValueError("relation_label not in supported list: " + edgelabel)
@@ -274,6 +275,8 @@ def edges(graph, output_file_location):
                 value = limit_publication_info_size(key, value)
             elif key == 'provided_by':
                 value = str(value).replace("', '", "; ").replace("['", "").replace("']", "")
+            elif key == 'knowledge_source':
+                value = str(value).replace("', '", "; ").replace("['", "").replace("']", "")
             elif key == 'relation_label':  # fix for issue number 473 (hyphens in relation_labels)
                 value = value.replace('-', '_').replace('(', '').replace(')', '')
             elif key == 'publications':
@@ -284,6 +287,7 @@ def edges(graph, output_file_location):
         # But only for the first edge
         if loop == 1:
             edgekeys = no_space('provided_by', edgekeys, 'provided_by:string[]')
+            edgekeys = no_space('knowledge_source', edgekeys, 'knowledge_source:string[]')
             edgekeys = no_space('predicate', edgekeys, 'predicate:TYPE')
             edgekeys = no_space('subject', edgekeys, ':START_ID')
             edgekeys = no_space('object', edgekeys, ':END_ID')
