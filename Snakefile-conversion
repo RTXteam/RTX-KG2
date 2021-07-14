@@ -35,8 +35,10 @@ rule ChemBL_Conversion:
         validation = config['VALIDATION_PLACEHOLDER']
     output:
         config['CHEMBL_OUTPUT_FILE']
+    log:
+        config['BUILD_DIR'] + "/chembl-mysql-to-kg-json" + config['TEST_SUFFIX'] + ".log"
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/chembl_mysql_to_kg_json.py " + config['TEST_ARG'] + " " + config['MYSQL_CONF'] + " " + config['CHEMBL_MYSQL_DBNAME'] + " {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/chembl_mysql_to_kg_json.py " + config['TEST_ARG'] + " " + config['MYSQL_CONF'] + " " + config['CHEMBL_MYSQL_DBNAME'] + " {output} > {log} 2>&1"
 
 rule UniChem_Conversion:
     input:
@@ -74,8 +76,10 @@ rule Uniprot_Conversion:
         validation = config['VALIDATION_PLACEHOLDER']
     output:
         config['UNIPROTKB_OUTPUT_FILE']
+    log:
+        config['BUILD_DIR'] + "/uniprotkb-dat-to-json" + config['TEST_SUFFIX'] + ".log"
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/uniprotkb_dat_to_json.py " + config['TEST_ARG'] + " {input.real} {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/uniprotkb_dat_to_json.py " + config['TEST_ARG'] + " {input.real} {output} > {log} 2>&1"
 
 rule RepoDB_Conversion:
     input:
@@ -136,8 +140,10 @@ rule Reactome_Conversion:
         validation = config['VALIDATION_PLACEHOLDER']
     output:
         config['REACTOME_OUTPUT_FILE']
+    log:
+        config['BUILD_DIR'] + "/reactome-mysql-to-kg-json" + config['TEST_SUFFIX'] + ".log"
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/reactome_mysql_to_kg_json.py " + config['TEST_ARG'] + " " + config['MYSQL_CONF'] + " " + config['REACTOME_MYSQL_DBNAME'] + " {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/reactome_mysql_to_kg_json.py " + config['TEST_ARG'] + " " + config['MYSQL_CONF'] + " " + config['REACTOME_MYSQL_DBNAME'] + " {output} > {log} 2>&1"
 
 rule miRBase_Conversion:
     input:
@@ -183,3 +189,12 @@ rule DisGeNET_Conversion:
         config['DISGENET_OUTPUT_FILE']
     shell:
         config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/disgenet_tsv_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output}"
+
+rule KEGG_Conversion:
+    input:
+        real = config['KEGG_INPUT_FILE'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['KEGG_OUTPUT_FILE']
+    shell:
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/kegg_json_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output}"

@@ -43,15 +43,6 @@ with open(umls2rdf_conf_file_name, 'r') as umls2rdf_conf_file:
     umls2rdf_conf_file.close()
 umls_ttl_files.add('umls-semantictypes.ttl')
 
-# Adjustment for Issue #68 (https://travis-ci.com/github/RTXteam/RTX-KG2/builds/229153773):
-umls_ttl_files.remove('umls-cpt.ttl')
-umls_ttl_files.remove('umls-hcpt.ttl')
-umls_ttl_files.remove('umls-snomedct_us.ttl')
-umls_ttl_files.remove('umls-icd10ae.ttl')
-umls_ttl_files.remove('umls-icd10.ttl')
-umls_ttl_files.remove('umls-mdr.ttl')
-umls_ttl_files.remove('umls-icd10cm.ttl')
-
 kg2_util.download_file_if_not_exist_locally(biolink_model_url, biolink_model_file_name)
 biolink_ont = kg2_util.make_ontology_from_local_file(biolink_model_file_name)
 biolink_categories_ontology_depths = kg2_util.get_biolink_categories_ontology_depths(biolink_ont)

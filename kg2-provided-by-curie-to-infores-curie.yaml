@@ -1,0 +1,252 @@
+'DGIdb:':
+  infores_curie: infores:dgidb
+  knowledge_type: aggregator_knowledge_source
+DOID:doid.owl:
+  infores_curie: infores:disease-ontology
+  knowledge_type: knowledge_source
+'DisGeNET:':
+  infores_curie: infores:disgenet
+  knowledge_type: aggregator_knowledge_source
+'DrugCentral:':
+  infores_curie: infores:drugcentral
+  knowledge_type: knowledge_source
+EFO:efo.owl:
+  infores_curie: infores:efo
+  knowledge_type: knowledge_source
+HP:hp.owl:
+  infores_curie: infores:hpo
+  knowledge_type: knowledge_source
+'JensenLab:':
+  infores_curie: infores:diseases
+  knowledge_type: knowledge_source
+'KEGG_source:':
+  infores_curie: infores:kegg
+  knowledge_type: knowledge_source
+OBO:bfo.owl:
+  infores_curie: infores:bfo
+  knowledge_type: knowledge_source
+OBO:bspo.owl:
+  infores_curie: infores:bspo
+  knowledge_type: knowledge_source
+OBO:chebi.owl:
+  infores_curie: infores:chebi
+  knowledge_type: knowledge_source
+OBO:cl.owl:
+  infores_curie: infores:cl
+  knowledge_type: knowledge_source
+OBO:ddanat.owl:
+  infores_curie: infores:dda
+  knowledge_type: knowledge_source
+OBO:doid.owl:
+  infores_curie: infores:disease-ontology
+  knowledge_type: knowledge_source
+OBO:ehdaa2.owl:
+  infores_curie: infores:ehdaa2
+  knowledge_type: knowledge_source
+OBO:fma.owl:
+  infores_curie: infores:fma-obo
+  knowledge_type: knowledge_source
+OBO:foodon.owl:
+  infores_curie: infores:foodon
+  knowledge_type: knowledge_source
+OBO:genepio.owl:
+  infores_curie: infores:genepio
+  knowledge_type: knowledge_source
+OBO:go/extensions/go-plus.owl:
+  infores_curie: infores:go-plus
+  knowledge_type: knowledge_source
+OBO:hp.owl:
+  infores_curie: infores:hpo
+  knowledge_type: knowledge_source
+OBO:ino.owl:
+  infores_curie: infores:ino
+  knowledge_type: knowledge_source
+OBO:mi.owl:
+  infores_curie: infores:mi
+  knowledge_type: knowledge_source
+OBO:mondo.owl:
+  infores_curie: infores:mondo
+  knowledge_type: aggregator_knowledge_source
+OBO:nbo.owl:
+  infores_curie: infores:nbo
+  knowledge_type: knowledge_source
+OBO:ncbitaxon/subsets/taxslim.owl:
+  infores_curie: infores:ncbi-taxonomy-slim
+  knowledge_type: knowledge_source
+OBO:pato.owl:
+  infores_curie: infores:pato
+  knowledge_type: knowledge_source
+OBO:pr.owl:
+  infores_curie: infores:pr
+  knowledge_type: knowledge_source
+OBO:ro.owl:
+  infores_curie: infores:ro
+  knowledge_type: knowledge_source
+OBO:uberon/ext.owl:
+  infores_curie: infores:uberon
+  knowledge_type: knowledge_source
+'OMIM:':
+  infores_curie: infores:omim
+  knowledge_type: knowledge_source
+'ORPHANET:':
+  infores_curie: infores:ordo
+  knowledge_type: knowledge_source
+'PathWhiz:':
+  infores_curie: infores:pathwhiz
+  knowledge_type: primary_knowledge_source
+'REPODB:':
+  infores_curie: infores:repodb
+  knowledge_type: knowledge_source
+'RTX:':
+  infores_curie: infores:rtx-kg2
+  knowledge_type: aggregator_knowledge_source
+'SEMMEDDB:':
+  infores_curie: infores:semmeddb
+  knowledge_type: aggregator_knowledge_source
+'UMLSSC:':
+  infores_curie: infores:umls
+  knowledge_type: knowledge_source
+'UNICHEM_source:':
+  infores_curie: infores:unichem
+  knowledge_type: aggregator_knowledge_source
+biolink_download_source:biolink-model.owl.ttl:
+  infores_curie: infores:biolink-model
+  knowledge_type: knowledge_source
+identifiers_org_registry:chembl.compound:
+  infores_curie: infores:chembl
+  knowledge_type: primary_knowledge_source
+identifiers_org_registry:drugbank:
+  infores_curie: infores:drugbank
+  knowledge_type: primary_knowledge_source
+identifiers_org_registry:ensembl:
+  infores_curie: infores:ensembl-gene
+  knowledge_type: knowledge_source
+identifiers_org_registry:go:
+  infores_curie: infores:go
+  knowledge_type: knowledge_source
+identifiers_org_registry:goa:
+  infores_curie: infores:goa
+  knowledge_type: primary_knowledge_source
+identifiers_org_registry:hmdb:
+  infores_curie: infores:hmdb
+  knowledge_type: knowledge_source
+identifiers_org_registry:intact:
+  infores_curie: infores:intact
+  knowledge_type: knowledge_source
+identifiers_org_registry:kegg.compound:
+  infores_curie: infores:kegg
+  knowledge_type: original_knowledge_source
+identifiers_org_registry:mirbase:
+  infores_curie: infores:mirbase
+  knowledge_type: knowledge_source
+identifiers_org_registry:ncbigene:
+  infores_curie: infores:ncbi-gene
+  knowledge_type: knowledge_source
+identifiers_org_registry:reactome:
+  infores_curie: infores:reactome
+  knowledge_type: original_knowledge_source
+identifiers_org_registry:smpdb:
+  infores_curie: infores:smpdb
+  knowledge_type: primary_knowledge_source
+identifiers_org_registry:ttd.target:
+  infores_curie: infores:ttd
+  knowledge_type: knowledge_source
+identifiers_org_registry:umls:
+  infores_curie: infores:umls
+  knowledge_type: knowledge_source
+identifiers_org_registry:uniprot:
+  infores_curie: infores:uniprot
+  knowledge_type: original_knowledge_source
+umls_source:ATC:
+  infores_curie: infores:atc-codes-umls
+  knowledge_type: knowledge_source
+umls_source:CPT:
+  infores_curie: infores:cpt-codes-umls
+  knowledge_type: knowledge_source
+umls_source:DRUGBANK:
+  infores_curie: infores:drugbank
+  knowledge_type: primary_knowledge_source
+umls_source:FMA:
+  infores_curie: infores:fma-umls
+  knowledge_type: knowledge_source
+umls_source:GO:
+  infores_curie: infores:go
+  knowledge_type: knowledge_source
+umls_source:HCPCS:
+  infores_curie: infores:hcp-codes-umls
+  knowledge_type: knowledge_source
+umls_source:HCPT:
+  infores_curie: infores:hcpcs-cpt-umls
+  knowledge_type: knowledge_source
+umls_source:HGNC:
+  infores_curie: infores:hgnc
+  knowledge_type: original_knowledge_source
+umls_source:HL7:
+  infores_curie: infores:hl7-umls
+  knowledge_type: knowledge_source
+umls_source:HPO:
+  infores_curie: infores:hpo
+  knowledge_type: knowledge_source
+umls_source:ICD10:
+  infores_curie: infores:icd10-umls
+  knowledge_type: knowledge_source
+umls_source:ICD10AE:
+  infores_curie: infores:icd10ae-umls
+  knowledge_type: knowledge_source
+umls_source:ICD10CM:
+  infores_curie: infores:icd10cm-umls
+  knowledge_type: knowledge_source
+umls_source:ICD10PCS:
+  infores_curie: infores:icd10pcs-umls
+  knowledge_type: knowledge_source
+umls_source:ICD9CM:
+  infores_curie: infores:icd9cm-umls
+  knowledge_type: knowledge_source
+umls_source:LNC:
+  infores_curie: infores:loinc-umls
+  knowledge_type: knowledge_source
+umls_source:MED-RT:
+  infores_curie: infores:medrt-umls
+  knowledge_type: knowledge_source
+umls_source:MEDDRA:
+  infores_curie: infores:meddra-umls
+  knowledge_type: knowledge_source
+umls_source:MEDLINEPLUS:
+  infores_curie: infores:medlineplus
+  knowledge_type: knowledge_source
+umls_source:MSH:
+  infores_curie: infores:mesh
+  knowledge_type: knowledge_source
+umls_source:MTH:
+  infores_curie: infores:umls-metathesaurus
+  knowledge_type: knowledge_source
+umls_source:NCBITAXON:
+  infores_curie: infores:ncbi-taxonomy
+  knowledge_type: knowledge_source
+umls_source:NCI:
+  infores_curie: infores:ncit
+  knowledge_type: knowledge_source
+umls_source:NDDF:
+  infores_curie: infores:nddf-umls
+  knowledge_type: knowledge_source
+umls_source:NDFRT:
+  infores_curie: infores:ndfrt
+  knowledge_type: knowledge_source
+umls_source:OMIM:
+  infores_curie: infores:omim
+  knowledge_type: knowledge_source
+umls_source:PDQ:
+  infores_curie: infores:pdq-umls
+  knowledge_type: knowledge_source
+umls_source:PSY:
+  infores_curie: infores:psy-umls
+  knowledge_type: knowledge_source
+umls_source:RXNORM:
+  infores_curie: infores:rx-norm
+  knowledge_type: knowledge_source
+umls_source:SNOMEDCT:
+  infores_curie: infores:snomed
+  knowledge_type: knowledge_source
+umls_source:VANDF:
+  infores_curie: infores:ndf-umls
+  knowledge_type: knowledge_source

@@ -63,7 +63,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
     ens_kp_node = kg2_util.make_node(ontology_curie_id,
                                      NCBI_KB_URL,
                                      'NCBI Genes',
-                                     kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                                     kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                                      update_date,
                                      ontology_curie_id)
     nodes.append(ens_kp_node)
@@ -113,7 +113,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                 category_label = kg2_util.BIOLINK_CATEGORY_GENE
             else:
                 full_name = 'Genetic locus associated with ' + full_name
-                category_label = kg2_util.BIOLINK_CATEGORY_GENOMIC_ENTITY
+                category_label = kg2_util.BIOLINK_CATEGORY_NUCLEIC_ACID_ENTITY
             node_dict = make_node(ncbi_gene_id,
                                   full_name,
                                   gene_symbol,
@@ -153,6 +153,12 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                         xref_curie = xref_curie.upper()
                     elif xref_curie.startswith('MIM:'):
                         xref_curie = kg2_util.CURIE_PREFIX_OMIM + ':' + xref_curie.replace('MIM:', '')
+                        edges.append(kg2_util.make_edge_biolink(node_curie_id,
+                                                                xref_curie,
+                                                                kg2_util.EDGE_LABEL_BIOLINK_RELATED_TO,
+                                                                NCBI_KB_CURIE_ID,
+                                                                modify_date))
+                        continue
                     elif xref_curie.startswith('miRBase:'):
                         xref_curie = kg2_util.CURIE_PREFIX_MIRBASE + ':' + xref_curie.replace('miRBase:', '')
                     edges.append(kg2_util.make_edge(node_curie_id,

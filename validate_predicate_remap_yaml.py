@@ -43,6 +43,7 @@ def create_biolink_to_external_mappings(biolink_model: dict, mapping_heirarchy: 
     # biolink_to_external[biolink relation][mapterm]= list([externals])
     biolink_mixins = list()
     biolink_to_external_mappings = dict()
+    inverted_relations = []
     for relation, relation_info in biolink_model['slots'].items():
         predicate_str = convert_biolink_yaml_association_to_predicate(relation)
         mixin = relation_info.get('mixin', False)
@@ -57,10 +58,27 @@ def create_biolink_to_external_mappings(biolink_model: dict, mapping_heirarchy: 
             continue
         if biolink_to_external_mappings.get(predicate_str, None) is None:
             biolink_to_external_mappings[predicate_str] = defaultdict(lambda: [])
+        inverted_relation = relation_info.get('inverse', None)
+        annotations = relation_info.get('annotations', dict())
+        # Adjustment due to biolink issue #808
+        tag = str
+        if isinstance(annotations, list):
+            tags = list()
+            for annotation in annotations:
+                tag = annotation.get('tag', None)
+                tags.append(tag)
+            if len(tags) > 1:
+                print('Error:', predicate_str, 'has multiple tags:', tags + '. Exiting')
+                exit(1)
+            tag = tags[0]
+        else:
+            tag = annotations.get('tag', None)
         for mapping_term in mapping_hierarchy:
-            mappings = list(map(lambda x: x.lower(), relation_info.get(mapping_term, [])))
+            mapping_value = relation_info.get(mapping_term, [])
+            if mapping_value is None:
+                mapping_value = []
+            mappings = list(map(lambda x: x.lower(), mapping_value))
             biolink_to_external_mappings[predicate_str][mapping_term] += mappings
-            inverted_relation = relation_info.get('inverse', None)
             if inverted_relation is not None and len(mappings) != 0:
                 biolink_curie = convert_biolink_yaml_association_to_predicate(inverted_relation)
                 if biolink_to_external_mappings.get(biolink_curie, None) is None:
@@ -68,15 +86,18 @@ def create_biolink_to_external_mappings(biolink_model: dict, mapping_heirarchy: 
                 existing_list = biolink_to_external_mappings[biolink_curie][mapping_term]
                 existing_list += list(map(lambda x: x.lower(), mappings))
                 biolink_to_external_mappings[biolink_curie][mapping_term] = existing_list
+                if tag != "biolink:canonical_predicate":
+                    inverted_relations.append(predicate_str)
+    for inverted_relation in inverted_relations:
+        biolink_to_external_mappings.pop(inverted_relation, None)
     biolink_to_external_mappings['skos:closeMatch'] = defaultdict(lambda: [])
 
     # See Issue #63 for why we are doing this
     try:
-        biolink_to_external_mappings['biolink:subclass_of']['narrow_mappings'].remove("umls:rb")
-        biolink_to_external_mappings['biolink:superclass_of']['narrow_mappings'].remove("umls:rb")
+       biolink_to_external_mappings['biolink:subclass_of']['narrow_mappings'].remove("umls:rb")
     except ValueError:
-        print('UMLS:RB work around no longer necessary')
-    return biolink_to_external_mappings, biolink_mixins
+       print('UMLS:RB work around no longer necessary')
+    return biolink_to_external_mappings, biolink_mixins, inverted_relations
 
 
 args = make_arg_parser().parse_args()
@@ -98,7 +119,7 @@ biolink_model = kg2_util.safe_load_yaml_from_string(
 
 mapping_hierarchy = ["exact_mappings", "close_mappings", "narrow_mappings", "broad_mappings", "related_mappings"]  # TODO: determine correct order of mappings
 
-biolink_to_external_mappings, biolink_mixins = create_biolink_to_external_mappings(
+biolink_to_external_mappings, biolink_mixins, inverted_relations = create_biolink_to_external_mappings(
     biolink_model, mapping_hierarchy)
 
 external_to_biolink_mappings = dict()
@@ -135,6 +156,7 @@ for relation, instruction_dict in pred_info.items():
                 assert False
     if subinfo is not None:
         assert subinfo[1] not in biolink_mixins, (relation, subinfo[1], {'Mixins': biolink_mixins})
+        assert subinfo[1] not in inverted_relations, (relation, subinfo[1], {'Inverted Relations': inverted_relations})
         assert subinfo[1] in biolink_to_external_mappings, (relation, subinfo[1])
 
         allowed_biolink_curies_set = set()

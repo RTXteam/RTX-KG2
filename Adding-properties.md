@@ -9,7 +9,7 @@ Properties should not be added into KG2 on a whim. Every KG2 node and every KG2 
 There are two general sections of the build code where properties can be added:
  - [Within the ETL scripts](#etl-based-property-add)
     - This is the standard place to add properties. If the value of a property comes from the source file/database, it should be assigned within the ETL scripts.
- - [When the graph is being filtered (`filter_and_remap_predicates.py`)](#post-etl-generalized-property-add)
+ - [When the graph is being filtered (`filter_kg_and_remap_predicates.py`)](#post-etl-generalized-property-add)
     - This is a good place to add properties if they are based on a property assigned in an ETL script, but need to be assigned across ETL scripts. Currently, we assign predicates this way. There is a one-to-one mapping guide for source relations (ex. `HMDB:in_pathway`) to Biolink predicates (ex. `biolink:participates_in`). This is useful because if a relation-predicate pair changes, it is fast and easy to rebuild. There is no need to rebuild a source file (a `kg2-{source}.json` file) if a mapping changes. Also, it prevents a relation (such as `owl:sameAs`, which is assigned as a source relation in multiple scripts) from being mapped two different ways to a biolink predicate. This generally involves creating a YAML file that supplies mappings from the property assigned in the ETL script to the new property.
 
 ## ETL-Based Property Add
@@ -278,7 +278,7 @@ def make_node(drug: dict):
     return node
 ```
 
-3. Update `kg2_util.py` merge dictionary code (if adding a node property) or `filter_and_remap_predicates.py` merge code (if adding an edge property).
+3. Update `kg2_util.py` merge dictionary code (if adding a node property) or `filter_kg_and_remap_predicates.py` merge code (if adding an edge property).
 
 **Example 1, node merging**:
 ```diff
@@ -634,7 +634,7 @@ DOID:doid.owl:
     knowledge_type: knowledge_source
 ```
 
-2. Edit `filter_and_remap_predicates.py` to assign the new property/properties.
+2. Edit `filter_kg_and_remap_predicates.py` to assign the new property/properties.
 ```diff
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='filter_kg.py: filters and simplifies the KG2 knowledge grpah for the RTX system')
@@ -794,9 +794,11 @@ if __name__ == '__main__':
         print("There are relation curies missing from the yaml config file. Please add them and try again. Exiting.", file=sys.stderr)
         exit(1)
 +   if len(provided_by_curies_not_in_config_nodes) > 0:
-+       print("There are provided_by curies missing from the yaml config file. Please add them and try again. Exiting.", file=sys.stderr)
++       print("There are nodes provided_by curies missing from the yaml config file. Please add them and try again. Exiting.", file=sys.stderr)
++       exit(1)
 +   if len(provided_by_curies_not_in_config_edges) > 0:
-+       print("There are provided_by curies missing from the yaml config file. Please add them and try again. Exiting.", file=sys.stderr)
++       print("There are edges provided_by curies missing from the yaml config file. Please add them and try again. Exiting.", file=sys.stderr)
++       exit(1)
     update_date = datetime.now().strftime("%Y-%m-%d %H:%M")
     version_file = open(args.versionFile, 'r')
     build_name = str
@@ -821,7 +823,46 @@ if __name__ == '__main__':
 ```
 
 3. Update `kg_json_to_tsv.py`.
+
 Instructions the same as above (see [ETL-Based Property Add Section 4](#etl-based-property-add))
 
-4. (Optional) Add validation script for mapping file.
+4. Update `run-simplify.sh` and `master-config.shinc`.
+
+If you've updated the parameters of `filter_kg_and_remap_predicates.py`, you will need to update `run-simplify.sh` (which runs that script) to adjust to the new parameters. In addition, you will want to update `master-config.shinc` to include that new parameter.
+
+```diff
+if [ -z ${test_suffix+x} ]; then test_suffix=""; fi
+BUILD_DIR=~/kg2-build
+VENV_DIR=~/kg2-venv
+CODE_DIR=~/kg2-code
+umls_dir=${BUILD_DIR}/umls
+umls_dest_dir=${umls_dir}/META
+s3_region=us-west-2
+s3_bucket=rtx-kg2
+s3_bucket_public=rtx-kg2-public
+s3_bucket_versioned=rtx-kg2-versioned
+s3_cp_cmd="aws s3 cp --no-progress --region ${s3_region}"
+mysql_conf=${BUILD_DIR}/mysql-config.conf
+curl_get="curl -s -L -f"
+curies_to_categories_file=${CODE_DIR}/curies-to-categories.yaml
+curies_to_urls_file=${CODE_DIR}/curies-to-urls-map.yaml
+predicate_mapping_file=${CODE_DIR}/predicate-remap.yaml
++infores_mapping_file=${CODE_DIR}/kg2-provided-by-curie-to-infores-curie.yaml
+ont_load_inventory_file=${CODE_DIR}/ont-load-inventory${test_suffix}.yaml
+umls2rdf_config_master=${CODE_DIR}/umls2rdf-umls.conf
+rtx_config_file=RTXConfiguration-config.json
+biolink_model_version=2.1.0
+
+```
+
+```diff
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/filter_kg_and_remap_predicates.py ${test_flag} --dropNegated \\
+                           --dropSelfEdgesExcept interacts_with,positively_regulates,inhibits,increase \\
+-                          ${predicate_mapping_file} ${curies_to_urls_file} ${input_json} ${output_json} \\
++                          ${predicate_mapping_file} ${infores_mapping_file} ${curies_to_urls_file} ${input_json} ${output_json} \\
+                           ${local_version_filename}
+```
+
+5. (Optional) Add validation script for mapping file.
+
 The purpose of this is to verify our own, local mapping file against Biolink mappings. However, since Biolink doesn't yet contain infores mappings, this will be developed later for this specific example.

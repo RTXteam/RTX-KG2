@@ -33,7 +33,13 @@ else
     test_arg=""
 fi
 
-build_kg2_log_file=${BUILD_DIR}/build-kg2-snakemake${test_suffix}.log
+dryrun=""
+if [[ "${build_flag}" == "-n" || "${secondary_build_flag}" == "-n" ]]
+then
+    dryrun="-n"
+fi
+
+build_kg2_log_file=${BUILD_DIR}/build-kg2-snakemake${dryrun}${test_suffix}.log
 if [[ "${travisci_flag}" == "travisci" ]]
 then
     trap "cat ${build_kg2_log_file}" EXIT
@@ -47,10 +53,10 @@ snakefile=${CODE_DIR}/Snakefile
 
 if [[ "${travisci_flag}" != "travisci" ]]
 then
-    ${VENV_DIR}/bin/python3 -u generate_snakemake_config_file.py ${test_arg} ${config_dir}/master-config.shinc \
+    ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/generate_snakemake_config_file.py ${test_arg} ${config_dir}/master-config.shinc \
                             ${CODE_DIR}/snakemake-config-var.yaml ${snakemake_config_file}
 else
-    python3 -u generate_snakemake_config_file.py ${test_arg} ${config_dir}/master-config.shinc \
+    python3 -u ${CODE_DIR}/generate_snakemake_config_file.py ${test_arg} ${config_dir}/master-config.shinc \
             ${CODE_DIR}/snakemake-config-var.yaml ${snakemake_config_file}
 fi
 
@@ -86,12 +92,6 @@ then
     echo 'include: "Snakefile-extraction"' >> ${snakefile}
 fi
 
-dryrun=""
-if [[ "${build_flag}" == "-n" || "${secondary_build_flag}" == "-n" ]]
-then
-    dryrun="-n"
-fi
-
 if [[ "${travisci_flag}" != "travisci" ]]
 then
     cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} -F -j ${dryrun}
@@ -103,7 +103,7 @@ date
 echo "================ script finished ============================"
 } > ${build_kg2_log_file} 2>&1
 
-if [[ "${travisci_flag}" != "travisci" ]]
+if [[ "${travisci_flag}" != "travisci" && "${dryrun}" != "-n" ]]
 then
     ${s3_cp_cmd} ${build_kg2_log_file} s3://${s3_bucket_public}/
     ${s3_cp_cmd} ${build_kg2_log_file} s3://${s3_bucket_versioned}/

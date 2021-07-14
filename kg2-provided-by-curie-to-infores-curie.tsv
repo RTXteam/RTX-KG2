@@ -33,10 +33,10 @@ PathWhiz:	infores:pathwhiz	primary_knowledge_source	Basically, our use of PathWh
 REPODB:	infores:repodb	knowledge_source	
 RTX:	infores:rtx-kg2	aggregator_knowledge_source	
 SEMMEDDB:	infores:semmeddb	aggregator_knowledge_source	
-UMLS_STY:	infores:umls	knowledge_source	
+UMLSSC:	infores:umls	knowledge_source	
 UNICHEM_source:	infores:unichem	aggregator_knowledge_source	https://jcheminf.biomedcentral.com/articles/10.1186/1758-2946-5-3
 biolink_download_source:biolink-model.owl.ttl	infores:biolink-model	knowledge_source	
-identifiers_org_registry:chembl.compound	infores:chembl	primary_knowledge_source	http://europepmc.org/article/PMC/3245175 -- "Data extraction and curation"
+identifiers_org_registry:chembl.compound	infores:chembl	primary_knowledge_source	http://europepmc.org/article/PMC/3245175
 identifiers_org_registry:drugbank	infores:drugbank	primary_knowledge_source	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1347430/
 identifiers_org_registry:ensembl	infores:ensembl-gene	knowledge_source	
 identifiers_org_registry:goa	infores:goa	primary_knowledge_source	https://www.ebi.ac.uk/GOA/newto
@@ -44,7 +44,7 @@ identifiers_org_registry:hmdb	infores:hmdb	knowledge_source	https://www.ncbi.nlm
 identifiers_org_registry:kegg.compound	infores:kegg	original_knowledge_source	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC102409/ https://academic.oup.com/nar/article/45/D1/D353/2605697
 identifiers_org_registry:ncbigene	infores:ncbi-gene	knowledge_source	
 identifiers_org_registry:reactome	infores:reactome	original_knowledge_source	https://reactome.org/what-is-reactome
-identifiers_org_registry:smpdb	infores:smpdb	primary_knowledge_source	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2808928/ -- "Quality Assurance and Curation" https://academic.oup.com/nar/article/48/D1/D470/5585552 -- "Quality Assurance and Curation"
+identifiers_org_registry:smpdb	infores:smpdb	primary_knowledge_source	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2808928/ https://academic.oup.com/nar/article/48/D1/D470/5585552
 identifiers_org_registry:ttd.target	infores:ttd	knowledge_source	
 identifiers_org_registry:umls	infores:umls	knowledge_source	
 identifiers_org_registry:uniprot	infores:uniprot	original_knowledge_source	

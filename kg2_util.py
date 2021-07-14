@@ -107,7 +107,7 @@ CURIE_PREFIX_SNOMED = 'SNOMED'
 CURIE_PREFIX_TTD_DRUG = 'ttd.drug'
 CURIE_PREFIX_TTD_TARGET = 'ttd.target'
 CURIE_PREFIX_UMLS = 'UMLS'
-CURIE_PREFIX_UMLS_STY = 'UMLS_STY'
+CURIE_PREFIX_UMLS_STY = 'UMLSSC'
 CURIE_PREFIX_UMLS_SOURCE = 'umls_source'
 CURIE_PREFIX_UNICHEM_SOURCE = 'UNICHEM_source'
 CURIE_PREFIX_UNIPROT = 'UniProtKB'
@@ -164,30 +164,28 @@ BASE_URL_UNICHEM = 'https://www.ebi.ac.uk/unichem/'
 BASE_URL_UNIPROTKB = BASE_BASE_URL_IDENTIFIERS_ORG + 'uniprot:'
 
 BIOLINK_CATEGORY_ANATOMICAL_ENTITY = 'anatomical entity'
-BIOLINK_CATEGORY_ATTRIBUTE = 'information content entity'
 BIOLINK_CATEGORY_BIOLOGICAL_PROCESS = 'biological process'
 BIOLINK_CATEGORY_CELL = 'cell'
+BIOLINK_CATEGORY_CELL_LINE = 'cell line'
 BIOLINK_CATEGORY_CELLULAR_COMPONENT = 'cellular component'
-BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE = 'chemical substance'
-BIOLINK_CATEGORY_DATA_FILE = 'information content entity'
+BIOLINK_CATEGORY_CHEMICAL_ENTITY = 'chemical entity'
 BIOLINK_CATEGORY_DISEASE = 'disease'
 BIOLINK_CATEGORY_DRUG = 'drug'
 BIOLINK_CATEGORY_EXON = 'exon'
 BIOLINK_CATEGORY_GENE = 'gene'
 BIOLINK_CATEGORY_GENE_FAMILY = 'gene family'
-BIOLINK_CATEGORY_GENOMIC_ENTITY = 'genomic entity'
-BIOLINK_CATEGORY_MACROMOLECULAR_COMPLEX = 'molecular entity'
-BIOLINK_CATEGORY_METABOLITE = 'metabolite'
+BIOLINK_CATEGORY_INFORMATION_CONTENT_ENTITY = 'information content entity'
+BIOLINK_CATEGORY_INFORMATION_RESOURCE = 'information resource'
 BIOLINK_CATEGORY_MICRORNA = 'microRNA'
 BIOLINK_CATEGORY_MOLECULAR_ACTIVITY = 'molecular activity'
 BIOLINK_CATEGORY_MOLECULAR_ENTITY = 'molecular entity'
 BIOLINK_CATEGORY_NAMED_THING = 'named thing'
-BIOLINK_CATEGORY_ONTOLOGY_CLASS = 'ontology class'
+BIOLINK_CATEGORY_NUCLEIC_ACID_ENTITY = 'nucleic acid entity'
 BIOLINK_CATEGORY_ORGANISM_TAXON = 'organism taxon'
 BIOLINK_CATEGORY_PHENOTYPIC_FEATURE = 'phenotypic feature'
 BIOLINK_CATEGORY_PATHWAY = 'pathway'
 BIOLINK_CATEGORY_PROTEIN = 'protein'
-BIOLINK_CATEGORY_RELATIONSHIP_TYPE = 'relationship type'
+BIOLINK_CATEGORY_SMALL_MOLECULE = 'small molecule'
 BIOLINK_CATEGORY_TRANSCRIPT = 'transcript'
 
 CURIE_ID_DCTERMS_ISSUED = CURIE_PREFIX_DCTERMS + ':' + 'issued'
@@ -539,11 +537,26 @@ def merge_two_dicts(x: dict, y: dict, biolink_depth_getter: callable = None):
                             if value.replace(' ', '_') != stored_value.replace(' ', '_'):
                                 stored_desc = ret_dict.get('description', None)
                                 new_desc = y.get('description', None)
-                                if stored_desc is not None and new_desc is not None:
+                                stored_provided_by =  ret_dict.get('provided_by', None)
+                                new_provided_by = ret_dict.get('provided_by', None)
+                                if stored_provided_by == CURIE_ID_UMLS_SOURCE_CUI:
+                                    ret_dict[key] = stored_value
+                                elif new_provided_by == CURIE_ID_UMLS_SOURCE_CUI:
+                                    ret_dict[key] = value
+                                    log_message(message='Warning: for ' + x.get('id', 'id=UNKNOWN') + ' original name of ' + stored_value +
+                                                ' is being overwriten to ' + value,
+                                                output_stream=sys.stderr)
+                                elif stored_desc is not None and new_desc is not None:
                                     if len(new_desc) > len(stored_desc):
                                         ret_dict[key] = value
+                                    log_message(message='Warning: for ' + x.get('id', 'id=UNKNOWN') + ' original name of ' + stored_value +
+                                                ' is being overwriten to ' + value,
+                                                output_stream=sys.stderr)
                                 elif new_desc is not None:
                                     ret_dict[key] = value
+                                    log_message(message='Warning: for ' + x.get('id', 'id=UNKNOWN') + ' original name of ' + stored_value +
+                                                ' is being overwritten to ' + value,
+                                                output_stream=sys.stderr)
                         elif key == 'has_biological_sequence':
                             if stored_value is None and value is not None:
                                 ret_dict[key] = value

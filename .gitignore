@@ -9,4 +9,6 @@ save/*
 old/*
 venv/*
 .mypy_cache/*
-
+__pycache__/*
+snakemake-config.yaml
+*.swp

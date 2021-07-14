@@ -90,8 +90,6 @@ def load_ont_file_return_ontology_and_metadata(file_name: str,
                 umls_release = value
             elif pred.endswith('source_file_date'):
                 source_file_date = value
-            elif pred == kg2_util.BASE_URL_BIOLINK_CONCEPTS + 'metamodel_version':
-                ont_version = value
     if ont_version is None:
         ont_version = 'downloaded:' + file_last_modified_timestamp
     ontology_id = None
@@ -242,7 +240,7 @@ def get_biolink_category_for_node(ontology_node_id: str,
         # to use get_biolink_category_for_node to determine the specific semantic type of a CUI based on its
         # TUI record. Need to think about a more elegant way to do this. [SAR]
     if curie_prefix == kg2_util.CURIE_PREFIX_UMLS_STY and node_curie_id.split(':')[1].startswith('T') and ontology.id == kg2_util.BASE_URL_UMLS_STY:
-        return [kg2_util.BIOLINK_CATEGORY_ONTOLOGY_CLASS, None]
+        return [kg2_util.BIOLINK_CATEGORY_NAMED_THING, None]
 
     if get_node_id_of_node_with_category:
         ret_ontology_node_id_of_node_with_category = ontology_node_id
@@ -578,7 +576,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
         ontology_node = kg2_util.make_node(ontology_curie_id,
                                            iri_of_ontology,
                                            ontology_name,
-                                           kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                                           kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                                            updated_date,
                                            ontology_curie_id)
         ontology_node['description'] = ontology_info_dict['description']
@@ -778,7 +776,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
 
             node_type = onto_node_dict.get('type', None)
             if node_type is not None and node_type == 'PROPERTY':
-                node_category_label = kg2_util.BIOLINK_CATEGORY_ATTRIBUTE
+                node_category_label = kg2_util.BIOLINK_CATEGORY_INFORMATION_CONTENT_ENTITY
 
             if node_category_label is None:
                 node_category_label = 'named thing'

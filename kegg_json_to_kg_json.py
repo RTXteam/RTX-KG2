@@ -186,7 +186,7 @@ def process_compound(compound_dict, kegg_id, update_date):
 
     node = format_node(node_id,
                        node_name,
-                       kg2_util.BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE,
+                       kg2_util.BIOLINK_CATEGORY_SMALL_MOLECULE,
                        update_date,
                        sequence=sequence,
                        synonym=synonym)
@@ -211,7 +211,7 @@ def make_kg2_graph(kegg, update_date):
     kegg_kp_node = kg2_util.make_node(KEGG_PROVIDED_BY,
                                       KEGG_SOURCE_IRI,
                                       'Kyoto Encyclopedia of Genes and Genomes',
-                                      kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                                      kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                                       update_date,
                                       KEGG_PROVIDED_BY)
     nodes.append(kegg_kp_node)

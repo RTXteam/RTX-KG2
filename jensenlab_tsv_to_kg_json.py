@@ -169,7 +169,7 @@ if __name__ == '__main__':
     jensen_lab_source_node = kg2_util.make_node(kg2_util.CURIE_ID_JENSENLAB,
                                                 kg2_util.BASE_URL_JENSENLAB,
                                                 "Jensen Lab Disease Gene Associations",
-                                                kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                                                kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                                                 update_date,
                                                 kg2_util.CURIE_ID_JENSENLAB)
                                         

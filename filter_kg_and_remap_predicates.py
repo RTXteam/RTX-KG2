@@ -34,6 +34,7 @@ from datetime import datetime
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='filter_kg.py: filters and simplifies the KG2 knowledge grpah for the RTX system')
     arg_parser.add_argument('predicateRemapYaml', type=str, help="The YAML file describing how predicates should be remapped to simpler predicates")
+    arg_parser.add_argument('inforesRemapYaml', type=str, help="The YAML file describing how provided_by fields should be remapped to Translator infores curies")
     arg_parser.add_argument('curiesToURIFile', type=str, help="The file mapping CURIE prefixes to URI fragments")
     arg_parser.add_argument('inputFileJson', type=str, help="The input KG2 grah, in JSON format")
     arg_parser.add_argument('outputFileJson', type=str, help="The output KG2 graph, in JSON format")
@@ -47,6 +48,7 @@ def make_arg_parser():
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
     predicate_remap_file_name = args.predicateRemapYaml
+    infores_remap_file_name = args.inforesRemapYaml
     curies_to_uri_file_name = args.curiesToURIFile
     input_file_name = args.inputFileJson
     output_file_name = args.outputFileJson
@@ -57,11 +59,14 @@ if __name__ == '__main__':
         assert type(drop_self_edges_except) == str
         drop_self_edges_except = set(drop_self_edges_except.split(','))
     predicate_remap_config = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(predicate_remap_file_name))
+    infores_remap_config = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(infores_remap_file_name))
     map_dict = kg2_util.make_uri_curie_mappers(curies_to_uri_file_name)
     [curie_to_uri_expander, uri_to_curie_shortener] = [map_dict['expand'], map_dict['contract']]
     graph = kg2_util.load_json(input_file_name)
     new_edges = dict()
     relation_curies_not_in_config = set()
+    provided_by_curies_not_in_config_nodes = set()
+    provided_by_curies_not_in_config_edges = set()
     record_of_relation_curie_occurrences = {relation_curie: False for relation_curie in
                                             predicate_remap_config.keys()}
     command_set = {'delete', 'keep', 'invert', 'rename'}
@@ -69,7 +74,17 @@ if __name__ == '__main__':
         assert len(command) == 1
         assert next(iter(command.keys())) in command_set
     relation_curies_not_in_nodes = set()
-    nodes_dict = {node['id']: node for node in graph['nodes']}
+    nodes_dict = dict()
+    for node_dict in graph['nodes']:
+        node_id = node_dict['id']
+        provided_by = node_dict['provided_by']
+        infores_curie_dict = infores_remap_config.get(provided_by, None)
+        if infores_curie_dict is None:
+            provided_by_curies_not_in_config_nodes.add(provided_by)
+        else:
+            infores_curie = infores_curie_dict['infores_curie']
+        node_dict['knowledge_source'] = infores_curie
+        nodes_dict[node_id] = node_dict
     edge_ctr = 0
     for edge_dict in graph['edges']:
         edge_ctr += 1
@@ -125,16 +140,26 @@ if __name__ == '__main__':
             predicate_uri_prefix = curie_to_uri_expander(predicate_curie_prefix + ':')
             if predicate_uri_prefix == predicate_curie_prefix:
                 relation_curies_not_in_nodes.add(predicate_curie)
-        edge_dict['provided_by'] = [edge_dict['provided_by']]
+        provided_by = edge_dict['provided_by']
+        infores_curie_dict = infores_remap_config.get(provided_by, None)
+        if infores_curie_dict is None:
+            provided_by_curies_not_in_config_edges.add(provided_by)
+        else:
+            infores_curie = infores_curie_dict['infores_curie']
+        edge_dict['provided_by'] = [provided_by]
+        edge_dict['knowledge_source'] = [infores_curie]
         edge_key = edge_dict['subject'] + ' /// ' + predicate_label + ' /// ' + edge_dict['object']
         existing_edge = new_edges.get(edge_key, None)
         if existing_edge is not None:
             existing_edge['provided_by'] = sorted(list(set(existing_edge['provided_by'] + edge_dict['provided_by'])))
+            existing_edge['knowledge_source'] = sorted(list(set(existing_edge['knowledge_source'] + edge_dict['knowledge_source'])))
             existing_edge['publications'] += edge_dict['publications']
             existing_edge['publications_info'].update(edge_dict['publications_info'])
         else:
             new_edges[edge_key] = edge_dict
     del graph['edges']
+    del graph['nodes']
+    graph['nodes'] = list(nodes_dict.values())
     del nodes_dict
     graph['edges'] = list(new_edges.values())
     del new_edges
@@ -150,8 +175,20 @@ if __name__ == '__main__':
                   file=sys.stderr)
         else:
             relation_curies_not_in_config.remove(relation_curie_not_in_config)
+    for provided_by_curies_not_in_config_node in provided_by_curies_not_in_config_nodes:
+        print('provided_by node curie is missing from the YAML config file: ' + provided_by_curies_not_in_config_node,
+               file=sys.stderr)
+    for provided_by_curies_not_in_config_edge in provided_by_curies_not_in_config_edges:
+        print('provided_by node curie is missing from the YAML config file: ' + provided_by_curies_not_in_config_edge,
+               file=sys.stderr)
     if len(relation_curies_not_in_config) > 0:
         print("There are relation curies missing from the yaml config file. Please add them and try again. Exiting.", file=sys.stderr)
+        exit(1)
+    if len(provided_by_curies_not_in_config_nodes) > 0:
+        print("There are nodes provided_by curies missing from the yaml config file. Please add them and try again. Exiting.", file=sys.stderr)
+        exit(1)
+    if len(provided_by_curies_not_in_config_edges) > 0:
+        print("There are edges provided_by curies missing from the yaml config file. Please add them and try again. Exiting.", file=sys.stderr)
         exit(1)
     update_date = datetime.now().strftime("%Y-%m-%d %H:%M")
     version_file = open(args.versionFile, 'r')
@@ -165,7 +202,7 @@ if __name__ == '__main__':
     build_node = kg2_util.make_node(kg2_util.CURIE_PREFIX_RTX + ':' + 'KG2',
                                     kg2_util.BASE_URL_RTX + 'KG2',
                                     build_name,
-                                    kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                                    kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                                     update_date,
                                     kg2_util.CURIE_PREFIX_RTX + ':')
     build_info = {'version': build_node['name'], 'timestamp_utc': build_node['update_date']}

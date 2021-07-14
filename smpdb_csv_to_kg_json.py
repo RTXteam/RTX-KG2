@@ -245,7 +245,7 @@ def per_compound_nodes_and_edges(compound: dict, pw_id: str, date):
 
     pwc_id = compound["id"]["#text"]
     name = compound["name"]
-    category_label = kg2_util.BIOLINK_CATEGORY_CHEMICAL_SUBSTANCE
+    category_label = kg2_util.BIOLINK_CATEGORY_SMALL_MOLECULE
     description = compound["description"]
     iri = PW_BASE_COMPOUNDS_IRI + pwc_id
     node_curie = kg2_util.CURIE_PREFIX_PATHWHIZ_COMPOUND + ":" + pwc_id
@@ -381,7 +381,7 @@ def per_nucleic_acid_nodes_and_edges(nucl_acid: dict, pw_id: str, date):
     edges = []
 
     name = nucl_acid["name"]
-    category_label = kg2_util.BIOLINK_CATEGORY_GENOMIC_ENTITY
+    category_label = kg2_util.BIOLINK_CATEGORY_NUCLEIC_ACID_ENTITY
     iri = PW_BASE_NUCLEIC_ACIDS_IRI + pwna_id
     node_curie = kg2_util.CURIE_PREFIX_PATHWHIZ_NUCLEIC_ACID + ":" + pwna_id
     node = kg2_util.make_node(node_curie,
@@ -1358,13 +1358,13 @@ def make_kg2_graph(smpdb_dir: str, test_mode: bool):
     smpdb_kp_node = kg2_util.make_node(SMPDB_PROVIDED_BY_CURIE_ID,
                                        SMPDB_KB_IRI,
                                        "Small Molecule Pathway Database",
-                                       kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                                       kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                                        csv_update_date,
                                        SMPDB_PROVIDED_BY_CURIE_ID)
     pw_kp_node = kg2_util.make_node(PW_PROVIDED_BY_CURIE_ID,
                                     PW_BASE_IRI,
                                     "PathWhiz",
-                                    kg2_util.BIOLINK_CATEGORY_DATA_FILE,
+                                    kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                                     csv_update_date,
                                     PW_PROVIDED_BY_CURIE_ID)
     nodes = []
