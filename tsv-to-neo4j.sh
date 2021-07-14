@@ -38,6 +38,8 @@ echo "copying RTX Configuration JSON file from S3"
 rtx_config_file_full=${BUILD_DIR}/${rtx_config_file}
 ${s3_cp_cmd} s3://${s3_bucket}/${rtx_config_file} ${rtx_config_file_full}
 
+export PATH=$PATH:${BUILD_DIR}
+
 # change database and database paths to current database and database path in config file
 sudo sed -i '/dbms.active_database/c\dbms.active_database='${database}'' ${neo4j_config}
     
@@ -82,6 +84,7 @@ sudo -u neo4j neo4j-admin import --nodes "${tsv_dir}/nodes_header.tsv,${tsv_dir}
 sudo sed -i '/dbms.read_only/c\dbms.read_only=false' ${neo4j_config}
 sudo service neo4j start
 
+date
 # wait while neo4j boots up
 echo "Sleeping for 1 minute, please do not SIGINT...."
 sleep 1m
@@ -89,9 +92,18 @@ sleep 1m
 # add indexes and constraints to the graph database
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/create_indexes_constraints.py --configFile ${rtx_config_file_full}
 
+date
 # wait for indexing to complete
 echo "Sleeping for 5 minutes, please do not SIGINT...."
 sleep 5m
+
+# download taxslim for decorate_organism_taxon_nodes.py
+taxslim_file=${BUILD_DIR}/taxslim.owl
+
+curl -s -L -f http://purl.obolibrary.org/obo/ncbitaxon/subsets/taxslim.owl > ${taxslim_file}
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/misc-tools/decorate_organism_taxon_nodes.py --config ${rtx_config_file_full} \
+                           --taxslim ${taxslim_file} --bolt bolt://0.0.0.0:7687
+
 sudo service neo4j restart
 
 # change the database to read only
