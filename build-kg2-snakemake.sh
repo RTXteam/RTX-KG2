@@ -102,6 +102,13 @@ then
     nodes_flag="nodes"
 fi
 
+graphic=""
+if [[ "${build_flag}" == "graphic" || "${secondary_build_flag}" == "graphic" || "${tertiary_build_flag}" == "graphic" ]]
+then
+    graphic="--dag | dot -Tpng > ~/kg2-build/snakemake_diagram.png"
+fi
+
+
 if [[ "${nodes_flag}" != "nodes" ]]
 then
     sed -i "/\        placeholder = config\['SIMPLIFIED_OUTPUT_NODES_FILE_FULL'\]/d" ${CODE_DIR}/Snakefile-post-etl
@@ -142,9 +149,9 @@ fi
 
 if [[ "${travisci_flag}" != "travisci" ]]
 then
-    cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} ${run_flag} -j ${dryrun}
+    cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} ${run_flag} -j ${dryrun} ${graphic}
 else
-    cd ~ && snakemake --snakefile ${snakefile} ${run_flag} -j ${dryrun}
+    cd ~ && snakemake --snakefile ${snakefile} ${run_flag} -j ${dryrun} ${graphic}
 fi
 
 date
