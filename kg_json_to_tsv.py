@@ -287,7 +287,7 @@ def edges(graph, output_file_location):
         # But only for the first edge
         if loop == 1:
             edgekeys = no_space('provided_by', edgekeys, 'provided_by:string[]')
-            edgekeys = no_space('knowledge_source', edgekeys, 'provided_by:string[]')
+            edgekeys = no_space('knowledge_source', edgekeys, 'knowledge_source:string[]')
             edgekeys = no_space('predicate', edgekeys, 'predicate:TYPE')
             edgekeys = no_space('subject', edgekeys, ':START_ID')
             edgekeys = no_space('object', edgekeys, ':END_ID')
