@@ -36,7 +36,8 @@ rule Stats:
 
 rule Simplify:
     input:
-        real = config['FINAL_OUTPUT_FILE_FULL']
+        real = config['FINAL_OUTPUT_FILE_FULL'],
+        placeholder = config['REPORT_FILE_FULL']
     output:
         config['SIMPLIFIED_OUTPUT_FILE_FULL']
     log:

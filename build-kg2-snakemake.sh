@@ -23,6 +23,7 @@ tertiary_build_flag=${3-""}
 quaternary_build_flag=${4-""}
 quinary_build_flag=${5-""}
 
+travisci_flag=""
 if [[ "${tertiary_build_flag}" == "travisci" || "${quaternary_build_flag}" == "travisci" || "${quinary_build_flag}" == "travisci" ]]
 then
     travisci_flag="travisci"
@@ -108,7 +109,6 @@ then
     graphic="--dag | dot -Tpng > ~/kg2-build/snakemake_diagram.png"
 fi
 
-
 if [[ "${nodes_flag}" != "nodes" ]]
 then
     sed -i "/\        placeholder = config\['SIMPLIFIED_OUTPUT_NODES_FILE_FULL'\]/d" ${CODE_DIR}/Snakefile-post-etl
@@ -149,10 +149,12 @@ fi
 
 if [[ "${travisci_flag}" != "travisci" ]]
 then
-    cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} ${run_flag} -j ${dryrun} ${graphic}
+    command="cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} ${run_flag} -j ${dryrun} ${graphic}"
 else
-    cd ~ && snakemake --snakefile ${snakefile} ${run_flag} -j ${dryrun} ${graphic}
+    command="cd ~ && snakemake --snakefile ${snakefile} ${run_flag} -j ${dryrun} ${graphic}"
 fi
+
+eval "$command"
 
 date
 echo "================ script finished ============================"
@@ -163,4 +165,3 @@ then
     ${s3_cp_cmd} ${build_kg2_log_file} s3://${s3_bucket_public}/
     ${s3_cp_cmd} ${build_kg2_log_file} s3://${s3_bucket_versioned}/
 fi
-
