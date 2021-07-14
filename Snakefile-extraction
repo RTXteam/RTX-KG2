@@ -8,7 +8,7 @@ rule UMLS:
     shell:
         "bash -x " + config['CODE_DIR'] + "/extract-umls.sh " + config['BUILD_DIR'] + " {output} > {log} 2>&1" 
 
-rule UniprotKB:
+rule UniProtKB:
     input:
         config['VALIDATION_PLACEHOLDER']
     output:
@@ -38,7 +38,7 @@ rule UniChem:
     shell:
         "bash -x " + config['CODE_DIR'] + "/extract-unichem.sh {output} > {log} 2>&1"
 
-rule ChemBL:
+rule ChEMBL:
     input:
         config['VALIDATION_PLACEHOLDER']
     output:
@@ -58,7 +58,7 @@ rule NCBIGene:
     shell:
         "bash -x " + config['CODE_DIR'] + "/extract-ncbigene.sh {output} > {log} 2>&1"
 
-rule DGIDB:
+rule DGIdb:
     input:
         config['VALIDATION_PLACEHOLDER']
     output:

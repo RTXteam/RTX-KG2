@@ -18,7 +18,7 @@ rule NCBIGene_Conversion:
     shell:
         config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/ncbigene_tsv_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output}"
 
-rule DGIDB_Conversion:
+rule DGIdb_Conversion:
     input:
         real = config['DGIDB_DIR'] + "/interactions.tsv",
         validation = config['VALIDATION_PLACEHOLDER']
@@ -29,7 +29,7 @@ rule DGIDB_Conversion:
     shell:
         config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/dgidb_tsv_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output}" + " > {log} 2>&1"
 
-rule ChemBL_Conversion:
+rule ChEMBL_Conversion:
     input:
         placeholder = config['BUILD_DIR'] + "/chembl-placeholder.empty",
         validation = config['VALIDATION_PLACEHOLDER']
@@ -58,7 +58,7 @@ rule Ensembl_Conversion:
     shell:
         config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/ensembl_json_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output}"
 
-rule SemMed_Conversion:
+rule SemMedDB_Conversion:
     input:
         real = config['SEMMED_TUPLELIST_FILE'],
         mrcui_req = config['UMLS_CUI_FILE'],
@@ -70,7 +70,7 @@ rule SemMed_Conversion:
     shell:
         config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/semmeddb_tuple_list_json_to_kg_json.py " + config['TEST_ARG'] + " --mrcuiFile ~/kg2-build/umls/META/MRCUI.RRF {input.real} {output} > {log} 2>&1"
 
-rule Uniprot_Conversion:
+rule UniProtKB_Conversion:
     input:
         real = config['UNIPROTKB_DAT_FILE'],
         validation = config['VALIDATION_PLACEHOLDER']
