@@ -1,9 +1,33 @@
+#!/usr/bin/env python3
+''' modify_edges_tsv.py: Edits a KG2 edges TSV file based on a YAML
+    file detailing what to replace and how
+
+    To see YAML format required, run:
+    ~/kg2-venv/bin/python3 modify_edges_tsv.py --YAMLFormat
+
+    Otherwise:
+
+    Usage: modify_edges_tsv.py --inputFile <inputFile.tsv>
+    --inputHeaderFile <inputHeaderFile.tsv> --outputFile <outputFile.tsv>
+    --replacementKey <replacementKey.yaml>
+'''
+
 import csv
 import argparse
 import sys
 import json
 import yaml
 import io
+
+__author__ = 'Erica Wood'
+__copyright__ = 'Oregon State University'
+__credits__ = ['Stephen Ramsey', 'Erica Wood']
+__license__ = 'MIT'
+__version__ = '0.1.0'
+__maintainer__ = ''
+__email__ = ''
+__status__ = 'Prototype'
+
 
 EDGE_ID_HEADER_KEY = 'id'
 SUBJECT_ID_HEADER_KEY = ':START_ID'
