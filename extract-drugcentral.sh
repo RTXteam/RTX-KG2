@@ -48,7 +48,7 @@ external_ids_query="SELECT id_type, identifier, struct_id FROM identifier"
 ${psql_run_command} "${external_ids_query}" -F $'\t'
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/drugcentral_psql_to_drugcentral_json.py ${psql_dump_file} ${output_file} external_ids --query ${external_ids_query}
 
-omop_relations_query="SELECT DISTINCT struct_id, relationship_name, snomed_full_name, snomed_conceptid, umls_cui FROM omop_relationship"
+omop_relations_query="SELECT DISTINCT struct_id, relationship_name, snomed_full_name, snomed_conceptid, umls_cui, doid FROM omop_relationship_doid_view"
 ${psql_run_command} "${omop_relations_query}" -F $'\t'
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/drugcentral_psql_to_drugcentral_json.py ${psql_dump_file} ${output_file} omop_relations --query ${omop_relations_query}
 
@@ -72,7 +72,7 @@ pharmacologic_action_query="SELECT DISTINCT struct_id, type, class_code, source 
 ${psql_run_command} "${pharmacologic_action_query}" -F $'\t'
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/drugcentral_psql_to_drugcentral_json.py ${psql_dump_file} ${output_file} pharmacologic_action --query ${pharmacologic_action_query}
 
-version_query="SELECT dtime FROM dbversion"
+version_query="SELECT version as version_number, dtime FROM dbversion"
 ${psql_run_command} "${version_query}" -F $'\t'
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/drugcentral_psql_to_drugcentral_json.py ${psql_dump_file} ${output_file} version --query ${version_query}
 

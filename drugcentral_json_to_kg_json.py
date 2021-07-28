@@ -114,16 +114,21 @@ def process_omop_relations(omop_relations, update_date, test_mode):
         edge_count += 1
         if test_mode and edge_count > TEST_MODE_EDGE_COUNT:
             break
-        snomed_id = relation['snomed_conceptid']
+        umls_id = relation['umls_cui']
+        doid_id = relation['doid']
         drug_central_id = relation['struct_id']
         predicate = relation['relationship_name'].replace(' ', '_')
-        if len(snomed_id) < 1 or \
+        if (len(doid_id) < 1 and len(umls_id) < 1) or \
            len(drug_central_id) < 1 or \
            len(predicate) < 1:
             continue
-        snomed_id = kg2_util.CURIE_PREFIX_SNOMED + ':' + snomed_id
+        object_id = ''
+        if len(doid_id) < 1:
+            object_id = kg2_util.CURIE_PREFIX_UMLS + ':' + umls_id
+        else:
+            object_id = kg2_util.CURIE_PREFIX_DOID + ':' + doid_id.replace('DOID:', '')
         drug_central_id = format_drugcentral_id(drug_central_id)
-        edge = format_edge(drug_central_id, snomed_id, predicate, update_date)
+        edge = format_edge(drug_central_id, object_id, predicate, update_date)
         edges.append(edge)
     return edges
 
@@ -271,6 +276,7 @@ if __name__ == '__main__':
     with open(args.inputFile, 'r') as input_file:
         json_data = json.load(input_file)
         update_date = json_data['version'][0]['dtime']
+        version_number = json_data['version'][0]['version']
         edges = process_external_ids(json_data['external_ids'],
                                      update_date,
                                      test_mode)
@@ -292,7 +298,7 @@ if __name__ == '__main__':
         nodes = make_nodes(json_data['drugcentral_ids'], update_date)
         kp_node = kg2_util.make_node(DRUGCENTRAL_SOURCE,
                                      BASE_URL_DRUGCENTRAL,
-                                     'DrugCentral',
+                                     'DrugCentral v' + version_number,
                                      kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                                      update_date,
                                      DRUGCENTRAL_SOURCE)
