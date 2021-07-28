@@ -633,10 +633,15 @@ if __name__ == '__main__':
     metabolite_count = 0
 
     for metabolite in metabolite_data["hmdb"]["metabolite"]:
+        max_version = 0
         metabolite_count += 1
-
-        if metabolite_count <= 10000:
+        if metabolite_count >= 10000 and args.test:
+            break
+        else:
             hmdb_id = metabolite["accession"]
+            version = float(metabolite['version'])
+            if version > max_version:
+                max_version = version
             nodes.append(make_node(metabolite, hmdb_id))
             for edge in make_disease_edges(metabolite, hmdb_id):
                 edges.append(edge)
@@ -646,13 +651,11 @@ if __name__ == '__main__':
                 edges.append(edge)
             for edge in make_property_edges(metabolite, hmdb_id):
                 edges.append(edge)
-        else:
-            break
 
     file_update_date = kg2_util.convert_date(os.path.getmtime(args.inputFile))
     hmdb_kp_node = kg2_util.make_node(HMDB_PROVIDED_BY_CURIE_ID,
                                       HMDB_KB_IRI,
-                                      "Human Metabolome Database",
+                                      "Human Metabolome Database v" + str(max_version),
                                       kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                                       file_update_date,
                                       HMDB_PROVIDED_BY_CURIE_ID)
