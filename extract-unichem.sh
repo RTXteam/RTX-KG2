@@ -17,7 +17,7 @@ source ${config_dir}/master-config.shinc
 output_tsv_file=${1:-"${BUILD_DIR}/unichem/unichem-mappings.tsv"}
 unichem_dir=${BUILD_DIR}/unichem
 unichem_output_dir=`dirname ${output_tsv_file}`
-unichem_ver=344
+unichem_ver=371
 unichem_ftp_site=ftp://ftp.ebi.ac.uk/pub/databases/chembl/UniChem/data
 
 rm -r -f ${unichem_dir}
@@ -27,6 +27,7 @@ mkdir -p ${unichem_output_dir}
 ${curl_get} ${unichem_ftp_site}/oracleDumps/UDRI${unichem_ver}/UC_XREF.txt.gz > ${unichem_dir}/UC_XREF.txt.gz
 ${curl_get} ${unichem_ftp_site}/oracleDumps/UDRI${unichem_ver}/UC_SOURCE.txt.gz > ${unichem_dir}/UC_SOURCE.txt.gz
 ${curl_get} ${unichem_ftp_site}/oracleDumps/UDRI${unichem_ver}/UC_RELEASE.txt.gz > ${unichem_dir}/UC_RELEASE.txt.gz
+${curl_get} ${unichem_ftp_site}/oracleDumps/UDRI${unichem_ver}/README > ${unichem_dir}/README.txt
 
 chembl_src_id=`zcat ${unichem_dir}/UC_SOURCE.txt.gz | awk '{if ($2 == "chembl") {printf "%s", $1}}'`
 chebi_src_id=`zcat ${unichem_dir}/UC_SOURCE.txt.gz | awk '{if ($2 == "chebi") {printf "%s", $1}}'`
@@ -36,7 +37,9 @@ drugcentral_src_id=`zcat ${unichem_dir}/UC_SOURCE.txt.gz | awk '{if ($2 == "drug
 hmdb_src_id=`zcat ${unichem_dir}/UC_SOURCE.txt.gz | awk '{if ($2 == "hmdb") {printf "%s", $1}}'`
 
 update_date=`zcat ${unichem_dir}/UC_RELEASE.txt.gz | tail -1 | cut -f3`
+version_number=`grep "This directory contains files exported from UniChem Release number" ${unichem_dir}/README.txt | cut -f10 -d ' '`
 echo "# ${update_date}" > ${output_tsv_file}
+echo "# ${version_number}" >> ${output_tsv_file}
 
 zcat ${unichem_dir}/UC_XREF.txt.gz | awk '{if ($2 == '${chebi_src_id}') {print $1 "\tCHEBI:" $3}}' | sort -k1 > ${unichem_dir}/chebi.txt
 zcat ${unichem_dir}/UC_XREF.txt.gz | awk '{if ($2 == '${chembl_src_id}') {print $1 "\tCHEMBL.COMPOUND:" $3}}' | sort -k1 > ${unichem_dir}/chembl.txt

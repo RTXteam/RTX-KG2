@@ -57,10 +57,13 @@ def parse_records_from_uniprot_dat(uniprot_dat_file_name: str,
     record_list = []
     record = dict()
     line_ctr = 0
-    update_date = os.path.getmtime(uniprot_dat_file_name)
     with open(uniprot_dat_file_name, 'r') as uniprot_file:
         record = init_record()
         for line_str in uniprot_file:
+            if line_str.startswith('# '):
+                version = line_str.split('Version: ')[1].split(', ')[0].strip()
+                update_date = line_str.split('Date: ')[1].strip()
+                continue
             fields = line_str.split("   ", maxsplit=1)
             field_code = fields[0]
             if field_code == "//\n":
@@ -116,7 +119,7 @@ def parse_records_from_uniprot_dat(uniprot_dat_file_name: str,
                 print("  Number of records: " + str(len(record_list)))
             if line_ctr > 1000000 and test_mode:
                 break
-    return [record_list, update_date]
+    return [record_list, update_date, version]
 
 
 def make_arg_parser():
@@ -344,15 +347,16 @@ if __name__ == '__main__':
     input_file_name = args.inputFile
     output_file_name = args.outputFile
     [uniprot_records,
-     update_date] = parse_records_from_uniprot_dat(input_file_name,
-                                                   DESIRED_SPECIES_INTS,
-                                                   test_mode)
+     update_date,
+     version] = parse_records_from_uniprot_dat(input_file_name,
+                                               DESIRED_SPECIES_INTS,
+                                               test_mode)
 
     nodes_dict = make_nodes(uniprot_records)
     ontology_curie_id = UNIPROTKB_PROVIDED_BY_CURIE_ID
     ont_node = kg2_util.make_node(ontology_curie_id,
                                   UNIPROT_KB_URL,
-                                  'UniProtKB',
+                                  'UniProtKB v' + version,
                                   kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                                   update_date,
                                   ontology_curie_id)

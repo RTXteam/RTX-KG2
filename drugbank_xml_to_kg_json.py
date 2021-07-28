@@ -503,9 +503,10 @@ def make_kg2_graph(drugbank_dict: dict, test_mode: bool):
     edges = []
 
     update_date = drugbank_dict["drugbank"]["@exported-on"]
+    version = drugbank_dict["drugbank"]["@version"]
     drugbank_kp_node = kg2_util.make_node(DRUGBANK_KB_CURIE_ID,
                                           DRUGBANK_KB_IRI,
-                                          "DrugBank",
+                                          "DrugBank v" + version,
                                           kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                                           update_date,
                                           DRUGBANK_KB_CURIE_ID)

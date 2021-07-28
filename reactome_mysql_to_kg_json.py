@@ -935,11 +935,13 @@ if __name__ == '__main__':
     nodes = get_nodes(connection, args.test)
     edges = get_edges(connection, args.test)
 
+    [update_date, version_number] = list(run_sql('SELECT releaseDate, releaseNumber FROM _Release', connection)[0])
+
     kp_node = kg2_util.make_node(REACTOME_KB_CURIE_ID,
                                  REACTOME_KB_IRI,
-                                 'Reactome',
+                                 'Reactome v' + version_number,
                                  kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
-                                 None,
+                                 update_date,
                                  REACTOME_KB_CURIE_ID)
     nodes.append(kp_node)
 

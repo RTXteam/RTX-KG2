@@ -23,8 +23,17 @@ mkdir -p ${uniprotkb_dir}
 ${curl_get} ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.dat.gz  \
             > ${uniprotkb_dir}/uniprot_sprot.dat.gz
 
+${curl_get} ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/relnotes.txt \
+            > ${uniprotkb_dir}/relnotes.txt
+
+version_number=`grep -m 1 "UniProt Release" ${uniprotkb_dir}/relnotes.txt | cut -f3 -d ' '`
+update_date=`grep -m 1 "${version_number} (" ${uniprotkb_dir}/relnotes.txt | cut -f2 -d ' ' | cut -f2 -d '(' | cut -f1 -d ')'`
+
+start_string="# Version: ${version_number}, Date: ${update_date}"
+
 zcat ${uniprotkb_dir}/uniprot_sprot.dat.gz > /tmp/uniprot_sprot.dat
-mv /tmp/uniprot_sprot.dat ${uniprotkb_dat_file}
+echo ${start_string} > ${uniprotkb_dat_file}
+cat /tmp/uniprot_sprot.dat >> ${uniprotkb_dat_file}
 
 date
 echo "================= finished extract-uniprotkb.sh ================="

@@ -51,27 +51,29 @@ if __name__ == '__main__':
     edges = []
     nodes = []
 
-    file_update_date = kg2_util.convert_date(os.path.getmtime(args.inputFile))
-    unichem_kp_node = kg2_util.make_node(UNICHEM_KB_CURIE,
-                                         UNICHEM_KB_IRI,
-                                         "UniChem database",
-                                         kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
-                                         file_update_date,
-                                         UNICHEM_KB_CURIE)
-    nodes.append(unichem_kp_node)
-
     update_date = None
     line_ctr = 0
     with open(input_file_name, 'r') as input_file:
         for line in input_file:
-            if line.startswith('#'):
-                update_date = line.split('# ')[1].rstrip()
-                continue
             line_ctr += 1
+            if line.startswith('#'):
+                if line_ctr == 1:
+                    update_date = line.split('# ')[1].rstrip()
+                if line_ctr == 2:
+                    version = line.split('# ')[1].rstrip()
+                continue
             if test_mode and line_ctr > 10000:
                 break
             (subject_curie_id, object_curie_id) = line.rstrip().split('\t')
             edges.append(make_xref(subject_curie_id, object_curie_id, update_date))
+
+    unichem_kp_node = kg2_util.make_node(UNICHEM_KB_CURIE,
+                                         UNICHEM_KB_IRI,
+                                         "UniChem database v" + version,
+                                         kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
+                                         update_date,
+                                         UNICHEM_KB_CURIE)
+    nodes.append(unichem_kp_node)
 
     out_graph = {'edges': edges, 'nodes': nodes}
     kg2_util.save_json(out_graph, output_file_name, test_mode)

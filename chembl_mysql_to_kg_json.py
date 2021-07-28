@@ -119,10 +119,12 @@ if __name__ == '__main__':
 
     str_sql_row_limit_test_mode = ' limit ' + str(ROW_LIMIT_TEST_MODE)
 
-    sql = "select DATE_FORMAT(creation_date, '%Y-%m-%d') from version"
+    sql = "select name, DATE_FORMAT(creation_date, '%Y-%m-%d') from version"
     with connection.cursor() as cursor:
         cursor.execute(sql)
-        update_date = cursor.fetchone()[0]
+        version_results = cursor.fetchone()
+        version = version_results[0].replace('ChEMBL_', '')
+        update_date = version_results[1]
 
 # create node objects for ChEMBL compounds
 
@@ -475,7 +477,7 @@ if __name__ == '__main__':
 
     nodes.append(kg2_util.make_node(CHEMBL_KB_CURIE_ID,
                            CHEMBL_KB_URL,
-                           'ChEMBL',
+                           'ChEMBL v' + version,
                            kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                            update_date,
                            CHEMBL_KB_CURIE_ID))

@@ -18,10 +18,19 @@ date
 config_dir=`dirname "$0"`
 source ${config_dir}/master-config.shinc
 
+output_dir=${BUILD_DIR}/mirbase
 output_file=${1:-"${BUILD_DIR}/miRNA.dat"}
 
-${curl_get} ftp://mirbase.org/pub/mirbase/CURRENT/miRNA.dat.gz > ${output_file}.gz
-gzip -cdf ${output_file}.gz > ${output_file}
+mkdir -p ${output_dir}
+
+${curl_get} ftp://mirbase.org/pub/mirbase/CURRENT/miRNA.dat.gz > ${output_dir}/miRNA.dat.gz
+${curl_get} ftp://mirbase.org/pub/mirbase/CURRENT/README > ${output_dir}/miRBase_README.txt
+
+version_number=`grep -m 1 "The miRBase Sequence Database -- Release" ${output_dir}/miRBase_README.txt | cut -f7 -d ' '`
+
+zcat ${output_dir}/miRNA.dat.gz > /tmp/miRNA.dat
+echo "# Version: ${version_number}" > ${output_file}
+cat /tmp/miRNA.dat >> ${output_file}
 
 date
 echo "================= finished extract-mirbase.sh =================="
