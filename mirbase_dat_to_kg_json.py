@@ -43,6 +43,9 @@ def format_data(mirbase):
     entry_list = []
     entry = dict()
     for line in mirbase:
+        if line.startswith('# '):
+            version = line.split('Version: ')[1].strip()
+            continue
         if line.startswith('//\n'):
             entry_list.append(entry)
             entry = dict()
@@ -58,7 +61,7 @@ def format_data(mirbase):
             entry[field_name] += "\t" + field_data
         else:
             entry[field_name] = field_data
-    return entry_list
+    return entry_list, version
 
 
 def get_node_id(entry):
@@ -194,10 +197,10 @@ def make_edges(xrefs, nodes_to_species, test_mode):
 if __name__ == '__main__':
     args = get_args()
     with open(args.inputFile, 'r') as mirbase:
-        entries = format_data(mirbase)
+        entries, version = format_data(mirbase)
     kp_node = kg2_util.make_node(MIRBASE_KB_CURIE_ID,
                                  MIRBASE_KB_URL,
-                                 'miRBase',
+                                 'miRBase v' + version,
                                  kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                                  None,
                                  MIRBASE_KB_CURIE_ID)
