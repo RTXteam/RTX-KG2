@@ -14,7 +14,8 @@ __email__ = ''
 __status__ = 'Prototype'
 
 import argparse
-import kg2_util
+import json
+import kg2_util_stripped as kg2_util
 
 
 ENSEMBL_BASE_IRI = kg2_util.BASE_URL_ENSEMBL
@@ -35,8 +36,8 @@ def make_node(ensembl_gene_id: str,
               description: str,
               gene_symbol: str,
               update_date: str,
+              category_label: str,
               other_synonyms: list = None):
-    category_label = kg2_util.BIOLINK_CATEGORY_GENE
     if other_synonyms is None:
         other_synonyms = []
     node_curie = kg2_util.CURIE_PREFIX_ENSEMBL + ':' + ensembl_gene_id
@@ -52,11 +53,23 @@ def make_node(ensembl_gene_id: str,
     return node_dict
 
 
+def add_prefixes_to_curie_list(curie_list, curie_prefix):
+    new_curie_list = []
+    for curie in curie_list:
+        if curie_prefix == kg2_util.CURIE_PREFIX_GO:
+            curie = curie['term'] + ' ' + curie['evidence'][0]
+        if ':' in curie:
+            curie = curie.split(':')[1]
+        new_curie_list.append(curie_prefix + ':' + curie)
+    return sorted(list(set(new_curie_list)))
+
+
 def make_kg2_graph(input_file_name: str, test_mode: bool = False):
     ensembl_data = kg2_util.load_json(input_file_name)
     nodes = []
     edges = []
     genebuild_str = ensembl_data['genebuild']
+    db_version = ensembl_data["dbname"].replace('homo_sapiens_core_', '').replace('_38', '')
     update_date = genebuild_str.split('/')[1]
     gene_ctr = 0
 
@@ -77,13 +90,17 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
         description = gene_dict.get('description', None)
         gene_symbol = gene_dict.get('name', None)
         other_synonyms = []
-        xrefs = gene_dict.get('xrefs', None)
-        if xrefs is not None:
-            other_synonyms = list(set([xref['primary_id'] for xref in xrefs if xref['primary_id'] != ensembl_gene_id]))
+        pathway_xrefs =  add_prefixes_to_curie_list(gene_dict.get('Reactome', []), kg2_util.CURIE_PREFIX_REACTOME)
+        gene_xrefs = add_prefixes_to_curie_list(gene_dict.get('MIM_GENE', []), kg2_util.CURIE_PREFIX_OMIM)
+        gene_xrefs += add_prefixes_to_curie_list(gene_dict.get('HGNC', ''), kg2_util.CURIE_PREFIX_HGNC)
+        gene_xrefs += add_prefixes_to_curie_list(gene_dict.get('EntrezGene', ''), kg2_util.CURIE_PREFIX_NCBI_GENE)
+        microrna_xrefs = add_prefixes_to_curie_list(gene_dict.get('miRBase', ''), kg2_util.CURIE_PREFIX_MIRBASE)
+        go_xrefs = add_prefixes_to_curie_list(gene_dict.get('GO', ''), kg2_util.CURIE_PREFIX_GO)
         node_dict = make_node(ensembl_gene_id,
                               description,
                               gene_symbol,
                               update_date,
+                              kg2_util.BIOLINK_CATEGORY_GENE,
                               other_synonyms)
         nodes.append(node_dict)
         ensembl_gene_curie_id = node_dict['id']
@@ -94,15 +111,39 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                                                 kg2_util.EDGE_LABEL_BIOLINK_IN_TAXON,
                                                 ENSEMBL_KB_CURIE_ID,
                                                 update_date))
-        hgnc_list = gene_dict.get('HGNC', None)
-        if hgnc_list is not None:
-            for hgnc_curie in hgnc_list:
-                edges.append(kg2_util.make_edge(ensembl_gene_curie_id,
-                                                hgnc_curie,
-                                                kg2_util.CURIE_ID_OWL_SAME_AS,
-                                                kg2_util.EDGE_LABEL_OWL_SAME_AS,
-                                                ENSEMBL_KB_CURIE_ID,
-                                                update_date))
+        for gene_xref in gene_xrefs:
+            edges.append(kg2_util.make_edge(ensembl_gene_curie_id,
+                                            gene_xref,
+                                            kg2_util.CURIE_ID_OWL_SAME_AS,
+                                            kg2_util.EDGE_LABEL_OWL_SAME_AS,
+                                            ENSEMBL_KB_CURIE_ID,
+                                            update_date))
+        for transcript in gene_dict['transcripts']:
+            protein_xrefs = add_prefixes_to_curie_list(transcript.get('Uniprot/SWISSPROT', []), kg2_util.CURIE_PREFIX_UNIPROT)
+            ensembl_transcript_id = transcript['id']
+            name = transcript['name']
+            transcript_category_label = kg2_util.BIOLINK_CATEGORY_TRANSCRIPT
+            description = None
+            other_synonyms = []
+            node_dict = make_node(ensembl_transcript_id,
+                                  description,
+                                  name,
+                                  update_date,
+                                  transcript_category_label,
+                                  other_synonyms)
+            nodes.append(node_dict)
+            ensembl_transcript_curie_id = node_dict['id']
+            edges.append(kg2_util.make_edge_biolink(ensembl_transcript_curie_id,
+                                                    ensembl_gene_curie_id,
+                                                    kg2_util.EDGE_LABEL_BIOLINK_TRANSCRIBED_FROM,
+                                                    ENSEMBL_KB_CURIE_ID,
+                                                    update_date))
+            for protein_xref in protein_xrefs:
+                edges.append(kg2_util.make_edge_biolink(ensembl_transcript_curie_id,
+                                                        protein_xref,
+                                                        kg2_util.EDGE_LABEL_BIOLINK_TRANSLATES_TO,
+                                                        ENSEMBL_KB_CURIE_ID,
+                                                        update_date))
     return {'nodes': nodes,
             'edges': edges}
 
@@ -114,3 +155,94 @@ if __name__ == '__main__':
     test_mode = args.test
     graph = make_kg2_graph(input_file_name, test_mode)
     kg2_util.save_json(graph, output_file_name, test_mode)
+
+
+'''
+[
+    "Reactome",
+    "HGNC_trans_name",
+    "RFAM_trans_name",
+    "CDD",
+    "MobiDBLite",
+    "Reactome_gene",
+    "WikiGene",
+    "sifts",
+    "ncoils",
+    "RefSeq_peptide_predicted",
+    "PRINTS",
+    "ChEMBL",
+    "CCDS",
+    "Uniprot/SPTREMBL",
+    "taxon_id",
+    "RefSeq_mRNA_predicted",
+    "EntrezGene",
+    "PANTHER",
+    "RefSeq_ncRNA",
+    "ENS_LRG_transcript",
+    "UniParc",
+    "Ens_Hs_gene",
+    "seq_region_name",
+    "RefSeq_mRNA",
+    "miRBase",
+    "UCSC",
+    "DBASS3",
+    "PDB",
+    "LRG",
+    "SignalP",
+    "Prosite_patterns",
+    "Clone_based_ensembl_transcript",
+    "protein_id",
+    "start",
+    "Seg",
+    "EntrezGene_trans_name",
+    "RefSeq_ncRNA_predicted",
+    "SuperFamily",
+    "genome_display",
+    "ArrayExpress",
+    "ENS_LRG_gene",
+    "biotype",
+    "HAMAP",
+    "Uniprot_isoform",
+    "TMHMM",
+    "miRBase_trans_name",
+    "EMBL",
+    "BioGRID",
+    "GO",
+    "Clone_based_ensembl_gene",
+    "Ens_Hs_transcript",
+    "SFLD",
+    "id",
+    "Uniprot/SWISSPROT",
+    "HPA",
+    "coord_system",
+    "Interpro",
+    "Reactome_transcript",
+    "MIM_MORBID",
+    "DBASS5",
+    "PIRSF",
+    "Smart",
+    "Gene3D",
+    "strand",
+    "HGNC",
+    "name",
+    "Ens_Hs_translation",
+    "Pfam",
+    "RFAM",
+    "transcripts",
+    "lineage",
+    "description",
+    "genome",
+    "KEGG_Enzyme",
+    "GeneDB",
+    "homologues",
+    "MEROPS",
+    "MIM_GENE",
+    "RefSeq_peptide",
+    "xrefs",
+    "Prosite_profiles",
+    "end",
+    "Uniprot_gn",
+    "RNAcentral",
+    "TIGRfam"
+]
+'''
