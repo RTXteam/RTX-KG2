@@ -87,7 +87,7 @@ if __name__ == '__main__':
                                     file_update_date,
                                     GO_PROVIDED_BY_CURIE_ID)
     nodes.append(go_kp_node)
-    kg2_util.save_json({"nodes": [], "edges": edges},
+    kg2_util.save_json({"nodes": nodes, "edges": edges},
                        args.outputFile,
                        args.test)
 
