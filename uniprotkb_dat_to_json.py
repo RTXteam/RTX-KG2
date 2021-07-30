@@ -191,7 +191,7 @@ def fix_xref(raw_xref: str):
         xref = kg2_util.CURIE_PREFIX_RHEA_COMP + ':' + \
             raw_xref.replace('Rhea:RHEA-COMP:', '')
     elif raw_xref.startswith('EC='):
-        xref = kg2_util.CURIE_PREFIX_KEGG + \
+        xref = kg2_util.CURIE_PREFIX_KEGG_ENZYME + \
             ':EC:' + raw_xref.replace('EC=', '')
     else:
         print("Unknown xref: " + raw_xref, file=sys.stderr)

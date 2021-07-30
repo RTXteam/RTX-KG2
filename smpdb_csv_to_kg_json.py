@@ -300,7 +300,7 @@ def per_compound_nodes_and_edges(compound: dict, pw_id: str, date):
     add_if_string(id_prefixes,
                   id_list,
                   kegg_id,
-                  kg2_util.CURIE_PREFIX_KEGG)
+                  kg2_util.CURIE_PREFIX_KEGG_COMPOUND)
 
     for edge in equivocate(id_prefixes,
                            id_list,
@@ -1132,7 +1132,7 @@ def per_element_collection_nodes_and_edges(ec: dict, pw_id: str, date):
     id_list = []
     id_prefixes = {}
 
-    external_id_translator = {"KEGG Compound": kg2_util.CURIE_PREFIX_KEGG,
+    external_id_translator = {"KEGG Compound": kg2_util.CURIE_PREFIX_KEGG_COMPOUND,
                               "ChEBI": kg2_util.CURIE_PREFIX_CHEBI,
                               "UniProt": kg2_util.CURIE_PREFIX_UNIPROT,
                               "Nothing": None,

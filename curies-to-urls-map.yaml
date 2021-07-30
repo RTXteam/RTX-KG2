@@ -184,7 +184,17 @@ use_for_bidirectional_mapping:
   -
     JensenLab: "https://diseases.jensenlab.org/"
   -
-    KEGG: "https://www.genome.jp/dbget-bin/www_bget?"
+    KEGG: "https://www.genome.jp/dbget-bin/www_bget?pathway:map"
+  -
+    KEGG.COMPOUND: "https://www.genome.jp/dbget-bin/www_bget?"
+  -
+    KEGG.DRUG: "https://www.genome.jp/dbget-bin/www_bget?"
+  -
+    KEGG.ENZYME: "https://www.genome.jp/dbget-bin/www_bget?"
+  -
+    KEGG.GLYCAN: "https://www.genome.jp/dbget-bin/www_bget?"
+  -
+    KEGG.REACTION: "https://www.genome.jp/dbget-bin/www_bget?"
   -
     KEGG_source: "https://www.genome.jp"
   -

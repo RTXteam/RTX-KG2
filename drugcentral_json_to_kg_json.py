@@ -82,7 +82,7 @@ def process_external_ids(external_ids, update_date, test_mode):
                   'MESH_SUPPLEMENTAL_RECORD_UI': kg2_util.CURIE_PREFIX_MESH,
                   'PUBCHEM_CID': None,
                   'VUID': None,
-                  'KEGG_DRUG': kg2_util.CURIE_PREFIX_KEGG,
+                  'KEGG_DRUG': kg2_util.CURIE_PREFIX_KEGG_DRUG,
                   'DRUGBANK_ID': kg2_util.CURIE_PREFIX_DRUGBANK,
                   'MMSL': None,
                   'UMLSCUI': kg2_util.CURIE_PREFIX_UMLS,

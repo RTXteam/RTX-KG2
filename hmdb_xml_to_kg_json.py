@@ -250,7 +250,7 @@ def make_equivalencies(metabolite: dict, hmdb_id: str):
     add_if_string(id_prefixes,
                   id_list,
                   kegg_id,
-                  kg2_util.CURIE_PREFIX_KEGG)
+                  kg2_util.CURIE_PREFIX_KEGG_COMPOUND)
     add_if_string(id_prefixes,
                   id_list,
                   drugbank_id,

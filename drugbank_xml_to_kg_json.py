@@ -234,11 +234,11 @@ def make_equivalent_edges(drug: dict):
 
     predicate_label = "external-identifier"
 
-    external_identifier_conversion = {"KEGG Drug": kg2_util.CURIE_PREFIX_KEGG,
+    external_identifier_conversion = {"KEGG Drug": kg2_util.CURIE_PREFIX_KEGG_DRUG,
                                       "UniProtKB": kg2_util.CURIE_PREFIX_UNIPROT,
                                       "Therapeutic Targets Database": kg2_util.CURIE_PREFIX_TTD_DRUG,
                                       "ChEMBL": kg2_util.CURIE_PREFIX_CHEMBL_COMPOUND,
-                                      "KEGG Compound": kg2_util.CURIE_PREFIX_KEGG,
+                                      "KEGG Compound": kg2_util.CURIE_PREFIX_KEGG_COMPOUND,
                                       "ChEBI": kg2_util.CURIE_PREFIX_CHEBI}
     if drug["external-identifiers"] is not None:
         if drug["external-identifiers"]["external-identifier"] is not None:
