@@ -1,252 +1,336 @@
 'DGIdb:':
+  source_name: Drug Gene Interaction Database
   infores_curie: infores:dgidb
   knowledge_type: aggregator_knowledge_source
 DOID:doid.owl:
+  source_name: Disease Ontology
   infores_curie: infores:disease-ontology
   knowledge_type: knowledge_source
 'DisGeNET:':
+  source_name: DisGeNET
   infores_curie: infores:disgenet
   knowledge_type: aggregator_knowledge_source
 'DrugCentral:':
+  source_name: DrugCentral
   infores_curie: infores:drugcentral
   knowledge_type: knowledge_source
 EFO:efo.owl:
+  source_name: Experimental Factor Ontology
   infores_curie: infores:efo
   knowledge_type: knowledge_source
 HP:hp.owl:
+  source_name: Human Phenotype Ontology
   infores_curie: infores:hpo
   knowledge_type: knowledge_source
 'JensenLab:':
+  source_name: Disease-gene associations mined from literature
   infores_curie: infores:diseases
   knowledge_type: knowledge_source
 'KEGG_source:':
+  source_name: Kyoto Encyclopedia of Genes and Genomes
   infores_curie: infores:kegg
   knowledge_type: knowledge_source
 OBO:bfo.owl:
+  source_name: Basic Formal Ontology
   infores_curie: infores:bfo
   knowledge_type: knowledge_source
 OBO:bspo.owl:
+  source_name: Biological Spatial Ontology
   infores_curie: infores:bspo
   knowledge_type: knowledge_source
 OBO:chebi.owl:
+  source_name: Chemical Entity of Biological Interest
   infores_curie: infores:chebi
   knowledge_type: knowledge_source
 OBO:cl.owl:
+  source_name: Cell Ontology
   infores_curie: infores:cl
   knowledge_type: knowledge_source
 OBO:ddanat.owl:
+  source_name: Dictyostelium discoideum anatomy
   infores_curie: infores:dda
   knowledge_type: knowledge_source
 OBO:doid.owl:
+  source_name: Disease Ontology
   infores_curie: infores:disease-ontology
   knowledge_type: knowledge_source
 OBO:ehdaa2.owl:
+  source_name: Human Developmental Anatomy Ontology
   infores_curie: infores:ehdaa2
   knowledge_type: knowledge_source
 OBO:fma.owl:
+  source_name: Foundational Model of Anatomy Ontology (FMA -- both from UMLS and from OBO)
   infores_curie: infores:fma-obo
   knowledge_type: knowledge_source
 OBO:foodon.owl:
+  source_name: Food Ontology
   infores_curie: infores:foodon
   knowledge_type: knowledge_source
 OBO:genepio.owl:
+  source_name: Genomic Epidemiology Ontology
   infores_curie: infores:genepio
   knowledge_type: knowledge_source
 OBO:go/extensions/go-plus.owl:
+  source_name: Gene Ontology Plus
   infores_curie: infores:go-plus
   knowledge_type: knowledge_source
 OBO:hp.owl:
+  source_name: Human Phenotype Ontology
   infores_curie: infores:hpo
   knowledge_type: knowledge_source
 OBO:ino.owl:
+  source_name: Interaction Network Ontology
   infores_curie: infores:ino
   knowledge_type: knowledge_source
 OBO:mi.owl:
+  source_name: Molecular Interactions Controlled Vocabulary
   infores_curie: infores:mi
   knowledge_type: knowledge_source
 OBO:mondo.owl:
+  source_name: MONDO Disease Ontology
   infores_curie: infores:mondo
   knowledge_type: aggregator_knowledge_source
 OBO:nbo.owl:
+  source_name: Neuro Behavior Ontology
   infores_curie: infores:nbo
   knowledge_type: knowledge_source
 OBO:ncbitaxon/subsets/taxslim.owl:
-  infores_curie: infores:ncbi-taxonomy-slim
+  source_name: NCBI Taxonomy Ontology
+  infores_curie: infores:ncbi-taxon
   knowledge_type: knowledge_source
 OBO:pato.owl:
+  source_name: Phenotype and Trait Ontology
   infores_curie: infores:pato
   knowledge_type: knowledge_source
 OBO:pr.owl:
+  source_name: Protein Ontology
   infores_curie: infores:pr
   knowledge_type: knowledge_source
 OBO:ro.owl:
+  source_name: Relations Ontology
   infores_curie: infores:ro
   knowledge_type: knowledge_source
 OBO:uberon/ext.owl:
+  source_name: Uber Anatomy Ontology
   infores_curie: infores:uberon
   knowledge_type: knowledge_source
 'OMIM:':
+  source_name: Online Mendelian Inheritance in Man
   infores_curie: infores:omim
   knowledge_type: knowledge_source
 'ORPHANET:':
+  source_name: Orphanet Rare Disease Ontology
   infores_curie: infores:ordo
   knowledge_type: knowledge_source
 'PathWhiz:':
+  source_name: PathWhiz
   infores_curie: infores:pathwhiz
   knowledge_type: primary_knowledge_source
 'REPODB:':
+  source_name: Drug Repositioning Database
   infores_curie: infores:repodb
   knowledge_type: knowledge_source
 'RTX:':
+  source_name: RTX KG2
   infores_curie: infores:rtx-kg2
   knowledge_type: aggregator_knowledge_source
 'SEMMEDDB:':
+  source_name: Semantic Medline Database
   infores_curie: infores:semmeddb
   knowledge_type: aggregator_knowledge_source
 'UMLSSC:':
+  source_name: Unified Medical Language System
   infores_curie: infores:umls
   knowledge_type: knowledge_source
 'UNICHEM_source:':
+  source_name: UniChem
   infores_curie: infores:unichem
   knowledge_type: aggregator_knowledge_source
 biolink_download_source:biolink-model.owl.ttl:
-  infores_curie: infores:biolink-model
+  source_name: Biolink ontology
+  infores_curie: infores:biolink-ontology
   knowledge_type: knowledge_source
 identifiers_org_registry:chembl.compound:
+  source_name: ChEMBL
   infores_curie: infores:chembl
   knowledge_type: primary_knowledge_source
 identifiers_org_registry:drugbank:
+  source_name: DrugBank
   infores_curie: infores:drugbank
   knowledge_type: primary_knowledge_source
 identifiers_org_registry:ensembl:
+  source_name: Ensembl gene
   infores_curie: infores:ensembl-gene
   knowledge_type: knowledge_source
 identifiers_org_registry:go:
+  source_name: Gene Ontology
   infores_curie: infores:go
   knowledge_type: knowledge_source
 identifiers_org_registry:goa:
+  source_name: Gene Ontology Annotations
   infores_curie: infores:goa
   knowledge_type: primary_knowledge_source
 identifiers_org_registry:hmdb:
+  source_name: Human Metabolome Database
   infores_curie: infores:hmdb
   knowledge_type: knowledge_source
 identifiers_org_registry:intact:
+  source_name: IntAct
   infores_curie: infores:intact
   knowledge_type: knowledge_source
 identifiers_org_registry:kegg.compound:
+  source_name: Kyoto Encyclopedia of Genes and Genomes
   infores_curie: infores:kegg
   knowledge_type: original_knowledge_source
 identifiers_org_registry:mirbase:
+  source_name: The microRNA Database
   infores_curie: infores:mirbase
   knowledge_type: knowledge_source
 identifiers_org_registry:ncbigene:
+  source_name: National Center for Biotechnology Information Gene
   infores_curie: infores:ncbi-gene
   knowledge_type: knowledge_source
 identifiers_org_registry:reactome:
+  source_name: Reactome
   infores_curie: infores:reactome
   knowledge_type: original_knowledge_source
 identifiers_org_registry:smpdb:
+  source_name: Small Molecule Pathway Database (SMPDB)
   infores_curie: infores:smpdb
   knowledge_type: primary_knowledge_source
 identifiers_org_registry:ttd.target:
+  source_name: Therapeutic Target Database (TTD)
   infores_curie: infores:ttd
   knowledge_type: knowledge_source
 identifiers_org_registry:umls:
+  source_name: Unified Medical Language System
   infores_curie: infores:umls
   knowledge_type: knowledge_source
 identifiers_org_registry:uniprot:
+  source_name: UniProt Knowledgebase
   infores_curie: infores:uniprot
   knowledge_type: original_knowledge_source
 umls_source:ATC:
+  source_name: Anatomical Therapeutic Chemical (ATC) Codes (from UMLS)
   infores_curie: infores:atc-codes-umls
   knowledge_type: knowledge_source
 umls_source:CPT:
+  source_name: Current Procedural Terminology (CPT) Codes (from UMLS)
   infores_curie: infores:cpt-codes-umls
   knowledge_type: knowledge_source
 umls_source:DRUGBANK:
+  source_name: DrugBank
   infores_curie: infores:drugbank
   knowledge_type: primary_knowledge_source
 umls_source:FMA:
+  source_name: Foundational Model of Anatomy Ontology (FMA -- both from UMLS and from OBO)
   infores_curie: infores:fma-umls
   knowledge_type: knowledge_source
 umls_source:GO:
+  source_name: Gene Ontology
   infores_curie: infores:go
   knowledge_type: knowledge_source
 umls_source:HCPCS:
+  source_name: Healthcare Common Procedure Coding System (from UMLS)
   infores_curie: infores:hcp-codes-umls
   knowledge_type: knowledge_source
 umls_source:HCPT:
+  source_name: HCPCS Version of Current Procedural Terminology (HCPT) (from UMLS)
   infores_curie: infores:hcpcs-cpt-umls
   knowledge_type: knowledge_source
 umls_source:HGNC:
+  source_name: HUGO Gene Nomenclature Committee
   infores_curie: infores:hgnc
   knowledge_type: original_knowledge_source
 umls_source:HL7:
+  source_name: Health Level Seven (HL7) (from UMLS)
   infores_curie: infores:hl7-umls
   knowledge_type: knowledge_source
 umls_source:HPO:
+  source_name: Human Phenotype Ontology
   infores_curie: infores:hpo
   knowledge_type: knowledge_source
 umls_source:ICD10:
+  source_name: ICD10 (from UMLS)
   infores_curie: infores:icd10-umls
   knowledge_type: knowledge_source
 umls_source:ICD10AE:
+  source_name: ICD10AE (from UMLS)
   infores_curie: infores:icd10ae-umls
   knowledge_type: knowledge_source
 umls_source:ICD10CM:
+  source_name: ICD10CM (from UMLS)
   infores_curie: infores:icd10cm-umls
   knowledge_type: knowledge_source
 umls_source:ICD10PCS:
+  source_name: ICD10PCS (from UMLS)
   infores_curie: infores:icd10pcs-umls
   knowledge_type: knowledge_source
 umls_source:ICD9CM:
+  source_name: ICD9CM (from UMLS)
   infores_curie: infores:icd9cm-umls
   knowledge_type: knowledge_source
 umls_source:LNC:
+  source_name: LOINC (from UMLS)
   infores_curie: infores:loinc-umls
   knowledge_type: knowledge_source
 umls_source:MED-RT:
+  source_name: Medication Reference Terminology (MED-RT) (from UMLS)
   infores_curie: infores:medrt-umls
   knowledge_type: knowledge_source
 umls_source:MEDDRA:
+  source_name: MedDRA (from UMLS)
   infores_curie: infores:meddra-umls
   knowledge_type: knowledge_source
 umls_source:MEDLINEPLUS:
+  source_name: MedlinePlus (from UMLS)
   infores_curie: infores:medlineplus
   knowledge_type: knowledge_source
 umls_source:MSH:
+  source_name: Medical Subject Headings Thesaurus
   infores_curie: infores:mesh
   knowledge_type: knowledge_source
 umls_source:MTH:
+  source_name: UMLS Metathesaurus (MTH) (from UMLS)
   infores_curie: infores:umls-metathesaurus
   knowledge_type: knowledge_source
 umls_source:NCBITAXON:
+  source_name: NCBI Taxonomy
   infores_curie: infores:ncbi-taxonomy
   knowledge_type: knowledge_source
 umls_source:NCI:
+  source_name: National Cancer Institute Thesaurus
   infores_curie: infores:ncit
   knowledge_type: knowledge_source
 umls_source:NDDF:
+  source_name: National Drug Data File (NDDF) (from UMLS)
   infores_curie: infores:nddf-umls
   knowledge_type: knowledge_source
 umls_source:NDFRT:
+  source_name: National Drug File - Reference Terminology (NDF-RT) (from UMLS)
   infores_curie: infores:ndfrt
   knowledge_type: knowledge_source
 umls_source:OMIM:
+  source_name: Online Mendelian Inheritance in Man
   infores_curie: infores:omim
   knowledge_type: knowledge_source
 umls_source:PDQ:
+  source_name: Physician Data Query (PDQ) (from UMLS)
   infores_curie: infores:pdq-umls
   knowledge_type: knowledge_source
 umls_source:PSY:
+  source_name: Psychological Index Terms (PSY) (from UMLS)
   infores_curie: infores:psy-umls
   knowledge_type: knowledge_source
 umls_source:RXNORM:
-  infores_curie: infores:rx-norm
+  source_name: RxNorm
+  infores_curie: infores:rxnorm
   knowledge_type: knowledge_source
 umls_source:SNOMEDCT:
-  infores_curie: infores:snomed
+  source_name: Systemized Nomenclature of Medicine
+  infores_curie: infores:snomedct
   knowledge_type: knowledge_source
 umls_source:VANDF:
-  infores_curie: infores:ndf-umls
+  source_name: Veterans Association National Drug File (VANDF) (from UMLS)
+  infores_curie: infores:vandf-umls
   knowledge_type: knowledge_source
