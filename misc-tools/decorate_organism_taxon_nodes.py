@@ -13,15 +13,6 @@ import json
 import ontobio
 
 
-pathlist = os.path.realpath(__file__).split(os.path.sep)
-RTXindex = pathlist.index("RTX")
-sys.path.append(os.path.sep.join([*pathlist[:(RTXindex + 1)], 'code']))
-
-# sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/..")
-# print(os.path.dirname(os.path.abspath(__file__))+"/../../")
-# sys.path.append(os.getcwd()+"/..")
-from RTXConfiguration import RTXConfiguration
-
 __author__ = 'Finn Womack'
 __copyright__ = 'Oregon State University'
 __credits__ = ['Stephen Ramsey', 'Erica Wood', 'Finn Womack']
@@ -56,22 +47,18 @@ def query_partition(node_id_list, batch_size, organism):
         #yield " union ".join([f"MATCH (n:organism_taxon {{ id: '{node_id}' }}) SET n.organism_type = '"+organism+"' RETURN n.organism_type" for node_id in node_id_list[i:i + batch_size]])
 
 class DecorateOTNodes:
-    def __init__(self, neo4j_user, neo4j_password, neo4j_bolt, neo4j_live, taxslim):
-        if None in [neo4j_user, neo4j_password, neo4j_bolt]:
-            RTXConfig = RTXConfiguration()
-            RTXConfig.live = neo4j_live
+    def __init__(self, neo4j_user, neo4j_password, neo4j_bolt, taxslim):
         if neo4j_user is None:
-            self.neo4j_user = RTXConfig.neo4j_username
+            print('Include the RTXConfig file or pass in a username. Exiting.')
+            exit(1)
         else:
             self.neo4j_user = neo4j_user
         if neo4j_password is None:
-            self.neo4j_password = RTXConfig.neo4j_password
+            print('Include the RTXConfig file or pass in a password. Exiting.')
+            exit(1)
         else:
             self.neo4j_password = neo4j_password
-        if neo4j_bolt is None:
-            self.neo4j_bolt = RTXConfig.neo4j_bolt
-        else:
-            self.neo4j_bolt = neo4j_bolt
+        self.neo4j_bolt = neo4j_bolt
         self.driver = neo4j.GraphDatabase.driver(self.neo4j_bolt, auth=(self.neo4j_user, self.neo4j_password))
         self.ont = ontobio.ontol_factory.OntologyFactory().create(taxslim)
 
@@ -149,15 +136,13 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("-u", "--user", type=str, help="Neo4j Username", default=None, required=False)
     parser.add_argument("-p", "--password", help="Neo4j Password", type=str, default=None, required=False)
-    parser.add_argument("-b", "--bolt", help="Neo4j bolt address", type=str, default=None, required=False)
+    parser.add_argument("-b", "--bolt", help="Neo4j bolt address", type=str, default=None, required=True)
     parser.add_argument("-t", "--taxslim", type=str, help="The path to the taxslim owl file", default=None, required=True)
-    parser.add_argument("-l", "--live", type=str, help="Live parameter for RTXConfiguration", default="local", required=False)
-    parser.add_argument("-c", "--config", type=str, help="config.json file location. If included will read from this as opposed to using RTXConfiguration.", default=None, required=False)
+    parser.add_argument("-c", "--config", type=str, help="config.json file location.", default=None, required=False)
     parser.add_argument("--batch", type=int, help="The batch size for neo4j set querries", default=500, required=False)
     arguments = parser.parse_args()
     
     if arguments.config is not None:
-        #print(arguments.config)
         with open(arguments.config, 'r') as fid:
             config_data = json.load(fid)
         if 'Contextual' in config_data:
@@ -172,8 +157,7 @@ if __name__ == '__main__':
             arguments.password = neo4j_password
         if arguments.user is None:
             arguments.user = neo4j_user
-
-    decorator = DecorateOTNodes(arguments.user, arguments.password, arguments.bolt, arguments.live, arguments.taxslim)
+    decorator = DecorateOTNodes(arguments.user, arguments.password, arguments.bolt, arguments.taxslim)
 
     if decorator.test_read_only():
         print("WARNING: neo4j database is set to read-only and thus nodes will not update", file=sys.stderr)

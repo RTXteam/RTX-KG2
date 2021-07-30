@@ -66,6 +66,10 @@ fi
 
     # copy the RTX configuration file from S3 to ${BUILD_DIR}
     ${s3_cp_cmd} s3://${s3_bucket}/${rtx_config_file} ${BUILD_DIR}/${rtx_config_file}
+
+    ## setup owltools
+    ${curl_get} ${BUILD_DIR} https://github.com/RTXteam/owltools/releases/download/v0.3.0/owltools > ${BUILD_DIR}/owltools
+    chmod +x ${BUILD_DIR}/owltools
 } >>~/setup-kg2-neo4j.log 2>&1
 
 
