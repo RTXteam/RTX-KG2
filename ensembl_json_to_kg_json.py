@@ -15,7 +15,7 @@ __status__ = 'Prototype'
 
 import argparse
 import json
-import kg2_util_stripped as kg2_util
+import kg2_util
 
 
 ENSEMBL_BASE_IRI = kg2_util.BASE_URL_ENSEMBL
@@ -69,14 +69,14 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
     nodes = []
     edges = []
     genebuild_str = ensembl_data['genebuild']
-    db_version = ensembl_data["dbname"].replace('homo_sapiens_core_', '').replace('_38', '')
+    db_version = ensembl_data["dbname"].replace('homo_sapiens_core_', '').split('_')[0]
     update_date = genebuild_str.split('/')[1]
     gene_ctr = 0
 
     ontology_curie_id = ENSEMBL_KB_CURIE_ID
     ens_kp_node = kg2_util.make_node(ontology_curie_id,
                                      ENSEMBL_KB_URI,
-                                     'Ensembl Genes',
+                                     'Ensembl Genes v' + db_version,
                                      kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                                      update_date,
                                      ontology_curie_id)
@@ -134,6 +134,11 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
             nodes.append(node_dict)
             ensembl_transcript_curie_id = node_dict['id']
             edges.append(kg2_util.make_edge_biolink(ensembl_transcript_curie_id,
+                                                    kg2_util.CURIE_PREFIX_NCBI_TAXON + ':' + str(taxon_id_int),
+                                                    kg2_util.EDGE_LABEL_BIOLINK_IN_TAXON,
+                                                    ENSEMBL_KB_CURIE_ID,
+                                                    update_date))
+            edges.append(kg2_util.make_edge_biolink(ensembl_transcript_curie_id,
                                                     ensembl_gene_curie_id,
                                                     kg2_util.EDGE_LABEL_BIOLINK_TRANSCRIBED_FROM,
                                                     ENSEMBL_KB_CURIE_ID,
@@ -155,94 +160,3 @@ if __name__ == '__main__':
     test_mode = args.test
     graph = make_kg2_graph(input_file_name, test_mode)
     kg2_util.save_json(graph, output_file_name, test_mode)
-
-
-'''
-[
-    "Reactome",
-    "HGNC_trans_name",
-    "RFAM_trans_name",
-    "CDD",
-    "MobiDBLite",
-    "Reactome_gene",
-    "WikiGene",
-    "sifts",
-    "ncoils",
-    "RefSeq_peptide_predicted",
-    "PRINTS",
-    "ChEMBL",
-    "CCDS",
-    "Uniprot/SPTREMBL",
-    "taxon_id",
-    "RefSeq_mRNA_predicted",
-    "EntrezGene",
-    "PANTHER",
-    "RefSeq_ncRNA",
-    "ENS_LRG_transcript",
-    "UniParc",
-    "Ens_Hs_gene",
-    "seq_region_name",
-    "RefSeq_mRNA",
-    "miRBase",
-    "UCSC",
-    "DBASS3",
-    "PDB",
-    "LRG",
-    "SignalP",
-    "Prosite_patterns",
-    "Clone_based_ensembl_transcript",
-    "protein_id",
-    "start",
-    "Seg",
-    "EntrezGene_trans_name",
-    "RefSeq_ncRNA_predicted",
-    "SuperFamily",
-    "genome_display",
-    "ArrayExpress",
-    "ENS_LRG_gene",
-    "biotype",
-    "HAMAP",
-    "Uniprot_isoform",
-    "TMHMM",
-    "miRBase_trans_name",
-    "EMBL",
-    "BioGRID",
-    "GO",
-    "Clone_based_ensembl_gene",
-    "Ens_Hs_transcript",
-    "SFLD",
-    "id",
-    "Uniprot/SWISSPROT",
-    "HPA",
-    "coord_system",
-    "Interpro",
-    "Reactome_transcript",
-    "MIM_MORBID",
-    "DBASS5",
-    "PIRSF",
-    "Smart",
-    "Gene3D",
-    "strand",
-    "HGNC",
-    "name",
-    "Ens_Hs_translation",
-    "Pfam",
-    "RFAM",
-    "transcripts",
-    "lineage",
-    "description",
-    "genome",
-    "KEGG_Enzyme",
-    "GeneDB",
-    "homologues",
-    "MEROPS",
-    "MIM_GENE",
-    "RefSeq_peptide",
-    "xrefs",
-    "Prosite_profiles",
-    "end",
-    "Uniprot_gn",
-    "RNAcentral",
-    "TIGRfam"
-]
-'''
