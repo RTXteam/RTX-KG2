@@ -1666,6 +1666,58 @@ JensenLab:associated_with:
   rename:
   - gene_associated_with_condition
   - biolink:gene_associated_with_condition
+KEGG:compound_to_enzyme:
+  rename:
+  -
+  - biolink:
+KEGG:compound_to_pathway:
+  invert:
+  - has_participant
+  - biolink:has_participant
+KEGG:compound_to_reaction:
+  rename:
+  -
+  - biolink:
+KEGG:enzyme_to_pathway:
+  invert:
+  - has_participant
+  - biolink:has_participant
+KEGG:enzyme_to_reaction:
+  rename:
+  - catalyzes
+  - biolink:catalyzes
+KEGG:glycan_to_enzyme:
+  rename:
+  -
+  - biolink:
+KEGG:glycan_to_pathway:
+  invert:
+  - has_participant
+  - biolink:has_participant
+KEGG:glycan_to_reaction:
+  rename:
+  -
+  - biolink:
+KEGG:pathway_to_compound:
+  rename:
+  - has_participant
+  - biolink:has_participant
+KEGG:pathway_to_drug:
+  rename:
+  - has_participant
+  - biolink:has_participant
+KEGG:pathway_to_glycan:
+  rename:
+  - has_participant
+  - biolink:has_participant
+KEGG:reaction_to_enzyme:
+  invert:
+  - catalyzes
+  - biolink:catalyzes
+KEGG:reaction_to_pathway:
+  invert:
+  - has_participant
+  - biolink:has_participant
 LOINC:adjustment_of:
   delete: null
 LOINC:analyzed_by:
