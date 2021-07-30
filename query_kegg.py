@@ -74,6 +74,7 @@ def process_get_query(get_results, results_dict, kegg_id):
 
 def run_queries():
     results_dict = {}
+    info_queries = ["http://rest.kegg.jp/info/kegg"]
     list_queries = ["http://rest.kegg.jp/list/pathway/hsa",
                     "http://rest.kegg.jp/list/compound",
                     "http://rest.kegg.jp/list/glycan",
@@ -84,6 +85,16 @@ def run_queries():
                     "http://rest.kegg.jp/conv/glycan/chebi",
                     "http://rest.kegg.jp/conv/drug/chebi"]
     get_base_query = "http://rest.kegg.jp/get/"
+    for query in info_queries:
+        info_dict = {}
+        for results in send_query(query).split('\n'):
+            if len(results) < 1:
+                continue
+            results = results.strip('kegg').strip().split()
+            if results[0] == "Release":
+                info_dict['version'] = results[1].split('/')[0].strip('+')
+                info_dict['update_date'] = results[2] + '-' + results[3]
+        results_dict['info'] = info_dict
     for query in list_queries:
         for results in send_query(query).split('\n'):
             if len(results) < 1:
