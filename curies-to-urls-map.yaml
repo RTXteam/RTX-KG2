@@ -186,15 +186,15 @@ use_for_bidirectional_mapping:
   -
     KEGG: "https://www.genome.jp/dbget-bin/www_bget?pathway:map"
   -
-    KEGG.COMPOUND: "https://www.genome.jp/dbget-bin/www_bget?"
+    KEGG.COMPOUND: "https://identifiers.org/kegg.compound:"
   -
-    KEGG.DRUG: "https://www.genome.jp/dbget-bin/www_bget?"
+    KEGG.DRUG: "https://identifiers.org/kegg.drug:"
   -
-    KEGG.ENZYME: "https://www.genome.jp/dbget-bin/www_bget?"
+    KEGG.ENZYME: "https://identifiers.org/kegg.enzyme:"
   -
-    KEGG.GLYCAN: "https://www.genome.jp/dbget-bin/www_bget?"
+    KEGG.GLYCAN: "https://identifiers.org/kegg.glycan:"
   -
-    KEGG.REACTION: "https://www.genome.jp/dbget-bin/www_bget?"
+    KEGG.REACTION: "https://identifiers.org/kegg.reaction:"
   -
     KEGG_source: "https://www.genome.jp"
   -

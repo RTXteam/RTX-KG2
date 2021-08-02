@@ -38,11 +38,22 @@ CHEBI_CURIE_PREFIX = kg2_util.CURIE_PREFIX_CHEBI
 RHEA_CURIE_PREFIX = kg2_util.CURIE_PREFIX_RHEA
 GO_CURIE_PREFIX = kg2_util.CURIE_PREFIX_GO
 
-KEGG_BASE_IRI = "https://www.genome.jp/dbget-bin/www_bget?"
-KEGG_BASE_PATHWAY_IRI = "https://www.genome.jp/dbget-bin/www_bget?pathway:map"
+KEGG_BASE_COMPOUND_IRI = kg2_util.BASE_URL_KEGG_COMPOUND
+KEGG_BASE_DRUG_IRI = kg2_util.BASE_URL_KEGG_DRUG
+KEGG_BASE_ENZYME_IRI = kg2_util.BASE_URL_KEGG_ENZYME
+KEGG_BASE_GLYCAN_IRI = kg2_util.BASE_URL_KEGG_GLYCAN
+KEGG_BASE_REACTION_IRI = kg2_util.BASE_URL_KEGG_REACTION
+KEGG_BASE_PATHWAY_IRI = kg2_util.BASE_URL_KEGG_PATHWAY
 KEGG_PROVIDED_BY = kg2_util.CURIE_ID_KEGG
 KEGG_SOURCE_IRI = "https://www.genome.jp"
 KEGG_RELATION_CURIE_PREFIX = KEGG_PATHWAY_CURIE_PREFIX
+
+CURIE_PREFIX_TO_BASE_IRI = {KEGG_COMPOUND_CURIE_PREFIX: KEGG_BASE_COMPOUND_IRI,
+                            KEGG_DRUG_CURIE_PREFIX: KEGG_BASE_DRUG_IRI,
+                            KEGG_ENZYME_CURIE_PREFIX: KEGG_BASE_ENZYME_IRI,
+                            KEGG_GLYCAN_CURIE_PREFIX: KEGG_BASE_GLYCAN_IRI,
+                            KEGG_REACTION_CURIE_PREFIX: KEGG_BASE_REACTION_IRI,
+                            KEGG_PATHWAY_CURIE_PREFIX: KEGG_BASE_PATHWAY_IRI}
 
 
 def get_args():
@@ -64,10 +75,7 @@ def format_node(node_id,
                 sequence=None,
                 synonym=[]):
     curie_id = format_id(node_id)
-    if curie_id.startswith(KEGG_PATHWAY_CURIE_PREFIX + ':'):
-        iri = KEGG_BASE_PATHWAY_IRI + node_id.strip('hsa').strip('map')
-    else:
-        iri = KEGG_BASE_IRI + node_id
+    iri = CURIE_PREFIX_TO_BASE_IRI[curie_id.split(':')[0]] + node_id
     node = kg2_util.make_node(curie_id,
                               iri,
                               name,
