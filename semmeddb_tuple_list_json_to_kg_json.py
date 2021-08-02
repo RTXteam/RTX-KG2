@@ -190,6 +190,10 @@ if __name__ == '__main__':
 
     row_ctr = 0
 
+    versioning = input_data['versioning']
+    version_number = versioning['version_number']
+    version_date = versioning['version_date']
+
     update_date_dt = datetime.datetime.fromisoformat('2018-01-01 00:00:00')  # picking an arbitrary time in the past
 
     for (pmid, subject_cui_str, predicate, object_cui_str, pub_date, sentence,
@@ -234,7 +238,7 @@ if __name__ == '__main__':
     nodes_dict[semmeddb_kb_curie_id] = kg2_util.make_node(
         id=semmeddb_kb_curie_id,
         iri=SEMMEDDB_IRI,
-        name='Semantic Medline Database (SemMedDB)',
+        name='Semantic Medline Database (SemMedDB) v' + version_number,
         category_label=kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
         update_date=update_date_dt.strftime('%Y-%m-%d %H:%M:%S'),
         provided_by=semmeddb_kb_curie_id)
