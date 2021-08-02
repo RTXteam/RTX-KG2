@@ -57,11 +57,11 @@ fi
 
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/semmeddb_mysql_to_tuple_list_json.py \
            ${test_arg} \
-	   ${mysql_conf} \
-	   ${mysql_dbname} \
-       ${semmed_ver} \
-       ${semmed_year} \
-	   ${semmed_output_file}
+           ${mysql_conf} \
+           ${mysql_dbname} \
+           ${semmed_ver} \
+           ${semmed_year} \
+           ${semmed_output_file}
 
 date
 echo "================= finished extract-semmeddb.sh ================="
