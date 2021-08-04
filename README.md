@@ -311,6 +311,14 @@ This is normal. The script will then prompt you to enter:
 
 For KG2 builders on the `RTX-KG2` team, just use the keypair for the `kg2-builder` IAM user.
 
+If all goes well, the setup script should end with the message:
+
+    upload: ../setup-kg2-build.log to s3://rtx-kg2-versioned/setup-kg2-build.log
+
+and in that case it is safe to proceed. The aforementioned message means that
+the logfile from running the setup script has been archived in the
+`rtx-kg2-versioned` S3 bucket.
+
 (5) Look in the log file `~/kg2-build/setup-kg2-build.log` to see if the script
 completed successfully; it should end with `======= script finished ======`.
 
