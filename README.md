@@ -394,10 +394,10 @@ previously run an `alltest` build, or else a `test` build will not work.
 </details>
 
 
-Then exit screen (`ctrl-a d`). Note that there is no need to redirect `stdout`
-or `stderr` to a log file, when executing `build-kg2-snakemake.sh`; this is because the
-script saves its own `stdout` and `stderr` to a log file `~/kg2-build/build-kg2-snakemake.log`. You can 
-watch the progress of your KG2 build by using this command:
+Note that there is no need to redirect `stdout` or `stderr` to a log file, when
+executing `build-kg2-snakemake.sh`; this is because the script saves its own
+`stdout` and `stderr` to a log file `~/kg2-build/build-kg2-snakemake.log`. You
+can watch the progress of your KG2 build by using this command:
 
     tail -f ~/kg2-build/build-kg2-snakemake.log
     
