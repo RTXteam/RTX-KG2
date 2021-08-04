@@ -65,6 +65,7 @@ then
 fi
 
 build_kg2_log_file=${BUILD_DIR}/build-kg2-snakemake${dryrun}${test_suffix}.log
+touch ${build_kg2_log_file}
 if [[ "${travisci_flag}" == "travisci" ]]
 then
     trap "cat ${build_kg2_log_file}" EXIT
