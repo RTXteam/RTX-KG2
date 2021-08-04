@@ -326,7 +326,7 @@ this command:
 
 (8) Within the `screen` session, run:
 
-    bash -x ~/kg2-code/build-kg2-snakemake.sh all
+    bash -x ~/kg2-code/build-kg2-snakemake.sh all -F
 
 Note the `all` command line argument specifies that you would like to run a full build.
 This is the best option if you are running on a new instance, or have added upstream sources.
