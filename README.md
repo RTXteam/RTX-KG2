@@ -308,6 +308,7 @@ This is normal. The script will then prompt you to enter:
 - your default AWS region, which in our case is normally `us-west-2` 
     - (you should enter the AWS region that hosts the private S3 bucket that you intend to use with the KG2 build system)
 - When prompted `Default output format [None]`, just hit enter/return.
+For KG2 builders on the `RTX-KG2` team, just use the keypair for the `kg2-builder` IAM user.
 
 (5) Look in the log file `~/kg2-build/setup-kg2-build.log` to see if the script
 completed successfully; it should end with `======= script finished ======`.
@@ -320,17 +321,25 @@ this command:
 
     touch ~/kg2-build/major-release
 
-(7) Initiate a `screen` session to provide a stable pseudo-tty:
+(7) Run a "dry run" build:
+
+    bash -x ~/kg2-code/build-kg2-snakemake.sh all -F -n
+    
+and inspect the file `build-kg2-snakemake-n.log` that will be created, to make sure htat
+all of the KG2 build tasks are included. Assuming the log file looks correct, proceed.
+
+(8) Initiate a `screen` session to provide a stable pseudo-tty:
 
     screen
 
-(8) Within the `screen` session, run:
+(9) THIS STEP COMMENCES THE BUILD. Within the screen session, run:
 
     bash -x ~/kg2-code/build-kg2-snakemake.sh all -F
 
-Note the `all` command line argument specifies that you would like to run a full build.
-This is the best option if you are running on a new instance, or have added upstream sources.
-Otherwise, consider the following options:
+You may exit out of the screen session using the `ctrl-a d` key sequence.  The
+`all` command line argument specifies that you would like to run a full build.
+This is the best option if you are running on a new instance, or have added
+upstream sources.  Otherwise, consider the following options:
 
 <details>
 	<summary> Partial Build of KG2 </summary>
