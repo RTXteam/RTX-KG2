@@ -308,6 +308,7 @@ This is normal. The script will then prompt you to enter:
 - your default AWS region, which in our case is normally `us-west-2` 
     - (you should enter the AWS region that hosts the private S3 bucket that you intend to use with the KG2 build system)
 - When prompted `Default output format [None]`, just hit enter/return.
+
 For KG2 builders on the `RTX-KG2` team, just use the keypair for the `kg2-builder` IAM user.
 
 (5) Look in the log file `~/kg2-build/setup-kg2-build.log` to see if the script
