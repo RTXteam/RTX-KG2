@@ -58,6 +58,7 @@ def add_prefixes_to_curie_list(curie_list, curie_prefix):
     for curie in curie_list:
         if curie_prefix == kg2_util.CURIE_PREFIX_GO:
             curie = curie['term'] + ' ' + curie['evidence'][0]
+            curie = curie.split(' ')[0]
         if ':' in curie:
             curie = curie.split(':')[1]
         new_curie_list.append(curie_prefix + ':' + curie)
@@ -118,6 +119,18 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                                             kg2_util.EDGE_LABEL_OWL_SAME_AS,
                                             ENSEMBL_KB_CURIE_ID,
                                             update_date))
+        for microrna_xref in microrna_xrefs:
+            edges.append(kg2_util.make_edge_biolink(ensembl_gene_curie_id,
+                                                    microrna_xref,
+                                                    kg2_util.EDGE_LABEL_BIOLINK_HAS_GENE_PRODUCT,
+                                                    ENSEMBL_KB_CURIE_ID,
+                                                    update_date))
+        for go_xref in go_xrefs:
+            edges.append(kg2_util.make_edge_biolink(ensembl_gene_curie_id,
+                                                    go_xref,
+                                                    kg2_util.EDGE_LABEL_BIOLINK_RELATED_TO,
+                                                    ENSEMBL_KB_CURIE_ID,
+                                                    update_date))
         for transcript in gene_dict['transcripts']:
             protein_xrefs = add_prefixes_to_curie_list(transcript.get('Uniprot/SWISSPROT', []), kg2_util.CURIE_PREFIX_UNIPROT)
             ensembl_transcript_id = transcript['id']
@@ -149,6 +162,12 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                                                         kg2_util.EDGE_LABEL_BIOLINK_TRANSLATES_TO,
                                                         ENSEMBL_KB_CURIE_ID,
                                                         update_date))
+            for pathway_xref in pathway_xrefs:
+                edges.append(kg2_util.make_edge_biolink(pathway_xref,
+                                                        ensembl_transcript_curie_id,
+                                                        kg2_util.EDGE_LABEL_BIOLINK_HAS_PARTICIPANT,
+                                                        ENSEMBL_KB_CURIE_ID,
+                                                        update_date))                
     return {'nodes': nodes,
             'edges': edges}
 
