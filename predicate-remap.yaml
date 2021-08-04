@@ -1668,16 +1668,16 @@ JensenLab:associated_with:
   - biolink:gene_associated_with_condition
 KEGG:compound_to_enzyme:
   rename:
-  -
-  - biolink:
+  - interacts_with
+  - biolink:interacts_with
 KEGG:compound_to_pathway:
   invert:
   - has_participant
   - biolink:has_participant
 KEGG:compound_to_reaction:
-  rename:
-  -
-  - biolink:
+  invert:
+  - has_participant
+  - biolink:has_participant
 KEGG:enzyme_to_pathway:
   invert:
   - has_participant
@@ -1688,16 +1688,16 @@ KEGG:enzyme_to_reaction:
   - biolink:catalyzes
 KEGG:glycan_to_enzyme:
   rename:
-  -
-  - biolink:
+  - interacts_with
+  - biolink:interacts_with
 KEGG:glycan_to_pathway:
   invert:
   - has_participant
   - biolink:has_participant
 KEGG:glycan_to_reaction:
-  rename:
-  -
-  - biolink:
+  invert:
+  - has_participant
+  - biolink:has_participant
 KEGG:pathway_to_compound:
   rename:
   - has_participant
