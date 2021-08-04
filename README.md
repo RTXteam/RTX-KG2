@@ -320,6 +320,7 @@ running the setup script has been archived in the `rtx-kg2-versioned` S3 bucket.
 
 (5) Look in the log file `~/kg2-build/setup-kg2-build.log` to see if the script
 completed successfully; it should end with `======= script finished ======`.
+In that case it is safe to proceed.
 
 (6) [**THIS STEP IS NORMALLY SKIPPED**] If (and *only* if) you have made code
 changes to KG2 that will cause a change to the schema for KG2 (or added a major
