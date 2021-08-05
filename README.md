@@ -538,16 +538,13 @@ partial rebuild starting with `filter_kg_and_remap_predicates.py`(the `Simplify`
 #### What to do if a build fails
 
 - Let's suppose the build failed on the rule `UniChem`. In that case, you could
-fix the bug and then test your bugfix by running
-```
-/home/ubuntu/kg2-venv/bin/snakemake --snakefile /home/ubuntu/kg2-code/Snakefile -R --until UniChem
-```
-which *just* runs that rule. Note, you should only use the above command
-after you have run `build-kg2-snakemake.sh` (as in Step 8 above) at least once,
-otherwise it will be using the default `Snakefile` from the code directory
-before it has been regenerated on-the-fly by `build-kg2-snakemake.sh`; running
-Snakemake with the stock KG2 `Snakefile` from the git repo is deprecated. Assuming
-that the above command is successful, you could then proceed.
+fix the bug and then test your bugfix by running ```
+/home/ubuntu/kg2-venv/bin/snakemake --snakefile /home/ubuntu/kg2-code/Snakefile
+-R --until UniChem ``` which *just* runs that rule. Note, you should only use
+the above command after you have run `build-kg2-snakemake.sh` (as in Step 8
+above) at least once, otherwise you will get an error because the required
+Snakefile `~/kg2-code/Snakefile` will not yet exist. Assuming that the above
+command is successful, you could then proceed.
 
 - Restart the full build:
 ```
