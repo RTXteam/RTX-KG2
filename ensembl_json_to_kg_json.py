@@ -57,8 +57,9 @@ def add_prefixes_to_curie_list(curie_list, curie_prefix):
     new_curie_list = []
     for curie in curie_list:
         if curie_prefix == kg2_util.CURIE_PREFIX_GO:
-            curie = curie['term'] + ' ' + curie['evidence'][0]
-            curie = curie.split(' ')[0]
+            assert ' ' not in curie['term']
+            assert curie['term'].startswith(curie_prefix)
+            curie = curie['term']
         if ':' in curie:
             curie = curie.split(':')[1]
         new_curie_list.append(curie_prefix + ':' + curie)
