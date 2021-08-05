@@ -341,6 +341,8 @@ all of the KG2 build tasks are included. Assuming the log file looks correct, pr
 
     screen
 
+(then hit return to get into the screen session).
+
 (9) THIS STEP COMMENCES THE BUILD. Within the screen session, run:
 
     bash -x ~/kg2-code/build-kg2-snakemake.sh all -F
