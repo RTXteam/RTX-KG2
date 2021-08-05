@@ -276,7 +276,7 @@ if __name__ == '__main__':
     with open(args.inputFile, 'r') as input_file:
         json_data = json.load(input_file)
         update_date = json_data['version'][0]['dtime']
-        version_number = json_data['version'][0]['version']
+        version_number = json_data['version'][0]['version as version_number']
         edges = process_external_ids(json_data['external_ids'],
                                      update_date,
                                      test_mode)
