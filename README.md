@@ -330,12 +330,72 @@ this command:
 
     touch ~/kg2-build/major-release
 
-(7) Run a "dry run" build:
+(7) Run a "dry-run" build:
 
     bash -x ~/kg2-code/build-kg2-snakemake.sh all -F -n
     
 and inspect the file `build-kg2-snakemake-n.log` that will be created, to make sure htat
-all of the KG2 build tasks are included. Assuming the log file looks correct, proceed.
+all of the KG2 build tasks are included. Currently, the file should end with the following
+count of tasks:
+```
+Job counts:
+        count   jobs
+        1       ChEMBL
+        1       ChEMBL_Conversion
+        1       DGIdb
+        1       DGIdb_Conversion
+        1       DisGeNET
+        1       DisGeNET_Conversion
+        1       DrugBank
+        1       DrugBank_Conversion
+        1       DrugCentral
+        1       DrugCentral_Conversion
+        1       Ensembl
+        1       Ensembl_Conversion
+        1       Finish
+        1       GO_Annotations
+        1       GO_Annotations_Conversion
+        1       HMDB
+        1       HMDB_Conversion
+        1       IntAct
+        1       IntAct_Conversion
+        1       JensenLab
+        1       Jensenlab_Conversion
+        1       KEGG
+        1       KEGG_Conversion
+        1       Merge
+        1       NCBIGene
+        1       NCBIGene_Conversion
+        1       Ontologies_and_TTL
+        1       Reactome
+        1       Reactome_Conversion
+        1       RepoDB
+        1       RepoDB_Conversion
+        1       SMPDB
+        1       SMPDB_Conversion
+        1       SemMedDB
+        1       SemMedDB_Conversion
+        1       Simplify
+        1       Simplify_Stats
+        1       Slim
+        1       Stats
+        1       TSV
+        1       UMLS
+        1       UniChem
+        1       UniChem_Conversion
+        1       UniProtKB
+        1       UniProtKB_Conversion
+        1       ValidationTests
+        1       miRBase
+        1       miRBase_Conversion
+        48
+This was a dry-run (flag -n). The order of jobs does not reflect the order of execution.
++ date
+Thu Aug  5 00:00:40 UTC 2021
++ echo '================ script finished ============================'
+================ script finished ============================
+```
+Assuming the log file looks correct, proceed.
 
 (8) Initiate a `screen` session to provide a stable pseudo-tty:
 
