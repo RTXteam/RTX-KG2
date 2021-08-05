@@ -535,6 +535,27 @@ above format in `filter_kg_and_remap_predicates.log` probably indicates that an
 addition needs to be made to the file `predicate-remap.yaml`, followed by a
 partial rebuild starting with `filter_kg_and_remap_predicates.py`(the `Simplify` rule).
 
+#### What to do if a build fails
+
+- Let's suppose the build failed on the rule `UniChem`. In that case, you could
+fix the bug and then test your bugfix by running
+```
+/home/ubuntu/kg2-venv/bin/snakemake --snakefile /home/ubuntu/kg2-code/Snakefile -R --until UniChem
+```
+which *just* runs that rule. Note, you should only use the above command
+after you have run `build-kg2-snakemake.sh` (as in Step 8 above) at least once,
+otherwise it will be using the default `Snakefile` from the code directory
+before it has been regenerated on-the-fly by `build-kg2-snakemake.sh`; running
+Snakemake with the stock KG2 `Snakefile` from the git repo is deprecated. Assuming
+that the above command is successful, you could then proceed.
+
+- Restart the full build:
+```
+bash -x ~/kg2-code/build-kg2-snakemake.sh all
+```
+(Note, you only need the `all` above if the rule is for an "extract-XXX.sh" script;
+if it is for a rule that is downstream of the extract scripts, you can omit `all`.
+
 #### Note about versioning of KG2
 
 KG2 has semantic versioning with a graph/major/minor release system:
