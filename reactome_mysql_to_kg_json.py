@@ -939,7 +939,7 @@ if __name__ == '__main__':
 
     kp_node = kg2_util.make_node(REACTOME_KB_CURIE_ID,
                                  REACTOME_KB_IRI,
-                                 'Reactome v' + version_number,
+                                 'Reactome v' + str(version_number),
                                  kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                                  update_date,
                                  REACTOME_KB_CURIE_ID)
