@@ -31,11 +31,13 @@ download_filename=${drugcentral_dir}/drugcentral.sql.gz
 
 psql_dump_file="${drugcentral_dir}/psql_dump_file.txt"
 user="ubuntu"
+role="jjyang"
 
 ${curl_get} ${source} > ${download_filename}
 sudo -u postgres psql -c "DROP DATABASE IF EXISTS ${drugcentral_database}"
 sudo -u postgres psql -c "CREATE DATABASE ${drugcentral_database}"
 gunzip -c ${download_filename} | sudo -u postgres psql ${drugcentral_database}
+sudo -u postgres psql -c "CREATE ROLE ${role}"
 sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE ${drugcentral_database} TO ${user}"
 sudo -u postgres psql -d ${drugcentral_database} -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO ${user}"
 
