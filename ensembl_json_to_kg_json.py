@@ -134,7 +134,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
         for transcript in gene_dict['transcripts']:
             protein_xrefs = add_prefixes_to_curie_list(transcript.get('Uniprot/SWISSPROT', []), kg2_util.CURIE_PREFIX_UNIPROT)
             ensembl_transcript_id = transcript['id']
-            name = transcript['name']
+            name = transcript.get('name', ensembl_transcript_id)
             transcript_category_label = kg2_util.BIOLINK_CATEGORY_TRANSCRIPT
             description = None
             other_synonyms = []
