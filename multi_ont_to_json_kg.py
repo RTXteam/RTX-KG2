@@ -1095,11 +1095,11 @@ def get_rels_dict(nodes: dict,
                 pred_node = nodes.get(predicate_curie, None)
                 if pred_node is not None:
                     predicate_label = pred_node['name']
-                    assert predicate_label is not None
-                    if predicate_label[0].isupper():
-                        predicate_label = predicate_label[0].lower() +\
-                            predicate_label[1:]
-                else:
+                    if predicate_label is not None:
+                        if predicate_label[0].isupper():
+                            predicate_label = predicate_label[0].lower() +\
+                                predicate_label[1:]
+                if predicate_label is None:
                     # attempted fix for issue #1381
                     predicate_label = predicate_curie.split(':')[1]
                     print(ontology_curie_id + 
