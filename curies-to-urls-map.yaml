@@ -432,6 +432,8 @@ use_for_contraction_only:
   -
     AraPort: https://www.araport.org/locus/
   -
+    AraPort: https://bar.utoronto.ca/thalemine/portal.do?externalids=
+  -
     BAO: http://www.bioassayontology.org/bao#
   -
     BFO: http://www.ifomis.org/bfo/1.1/snap#
