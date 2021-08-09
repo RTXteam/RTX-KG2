@@ -184,6 +184,8 @@ def nodes(graph, output_file_location):
                 # If the property does exist, assign the property value
                 value = node[key]
             # Add the value of the property to the property value list
+            if value is None:
+                value = ''
             value = value.replace('\t', ' ').replace('\n', ' ').replace('\r', ' ')
             vallist.append(value)
 
