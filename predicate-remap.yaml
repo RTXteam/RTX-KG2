@@ -400,36 +400,6 @@ CL:lacks_plasma_membrane_part:
   rename:
   - lacks_part
   - biolink:lacks_part
-CPT:SIB:
-  delete: null
-CPT:add_on_code_for:
-  delete: null
-CPT:do_not_code_with:
-  delete: null
-CPT:has_add_on_code:
-  rename:
-  - related_to
-  - biolink:related_to
-CPT:has_panel_element:
-  delete: null
-CPT:has_possibly_included_panel_element:
-  rename:
-  - related_to
-  - biolink:related_to
-CPT:mapped_from:
-  delete: null
-CPT:mapped_to:
-  rename:
-  - related_to
-  - biolink:related_to
-CPT:panel_element_of:
-  invert:
-  - has_part
-  - biolink:has_part
-CPT:panel_element_of_possibly_included:
-  invert:
-  - has_part
-  - biolink:has_part
 DDANAT:develops_from:
   rename:
   - develops_from
@@ -1604,6 +1574,10 @@ HANCESTRO:0301:
   rename:
   - related_to
   - biolink:related_to
+HANCESTRO:0308: # has country of origin
+  rename:
+  - related_to
+  - biolink:related_to
 HANCESTRO:0330:
   rename:
   - related_to
@@ -1652,8 +1626,6 @@ IAO:0000219:
   rename:
   - related_to
   - biolink:related_to
-ICD10:SIB:
-  delete: null
 ICD10PCS:SIB:
   delete: null
 ICD9:SIB:
@@ -1984,22 +1956,6 @@ LOINC:time_aspect_of:
   delete: null
 LOINC:time_modifier_of:
   delete: null
-MEDDRA:SIB:
-  delete: null
-MEDDRA:classified_as:
-  rename:
-  - close_match
-  - biolink:close_match
-MEDDRA:classifies:
-  delete: null
-MEDDRA:has_member:
-  rename:
-  - has_part
-  - biolink:has_part
-MEDDRA:member_of:
-  invert:
-  - has_part
-  - biolink:has_part
 MESH:AQ:
   delete: null
 MESH:QB:
@@ -2194,6 +2150,14 @@ MI:2252: # guanine nucleotide exchange factor reaction
   rename:
   - directly_interacts_with
   - biolink:directly_interacts_with
+MONDO:0100332: # disease has primary infectious agent
+  invert:
+  - causes
+  - biolink:causes
+MONDO:0100333: # disease caused by reactivation of latent infectious agent
+  invert:
+  - causes
+  - biolink:causes
 MONDO:disease_causes_feature:
   rename:
   - causes
@@ -2946,6 +2910,10 @@ OBI:0000299:
   rename:
   - has_output
   - biolink:has_output
+OBI:0000417: # achieves planned objective
+  rename:
+  - has_output
+  - biolink:has_output
 OBI:0001927:
   invert:
   - related_to
@@ -2954,26 +2922,6 @@ OBO:INO_0000154:
   rename:
   - related_to
   - biolink:related_to
-OBO:core#connected_to:
-  rename:
-  - related_to
-  - biolink:related_to
-OBO:core#distally_connected_to:
-  rename:
-  - coexists_with
-  - biolink:coexists_with
-OBO:core#innervated_by:
-  rename:
-  - related_to
-  - biolink:related_to
-OBO:core#subdivision_of:
-  rename:
-  - coexists_with
-  - biolink:coexists_with
-OBO:doid#derives_from:
-  rename:
-  - derives_from
-  - biolink:derives_from
 OBO:doid#has_symptom:
   rename:
   - has_phenotype
@@ -2994,18 +2942,10 @@ OBO:exo.obo#interacts_with_an_exposure_receptor_via:
   rename:
   - interacts_with
   - biolink:interacts_with
-OBO:hancestro_0308:
-  rename:
-  - related_to
-  - biolink:related_to
 OBO:has_role:
   rename:
   - related_to
   - biolink:related_to
-OBO:intersection_of:
-  rename:
-  - subclass_of
-  - biolink:subclass_of
 OBO:nbo#by_means:
   invert:
   - actively_involved_in
@@ -3024,14 +2964,6 @@ OBO:nbo#is_about:
   - biolink:related_to
 OBO:uo#is_unit_of:
   invert:
-  - related_to
-  - biolink:related_to
-OBO:xref:
-  rename:
-  - close_match
-  - biolink:close_match
-OBOREL:bearer_of:
-  rename:
   - related_to
   - biolink:related_to
 OMIM:allelic_variant_of:
@@ -3256,10 +3188,6 @@ REACT:has_output:
   rename:
   - has_output
   - biolink:has_output
-REACT:in_compartment:
-  rename:
-  - occurs_in
-  - biolink:occurs_in
 REACT:in_species:
   rename:
   - occurs_in
@@ -3460,6 +3388,10 @@ RO:0002100:
   rename:
   - overlaps
   - biolink:overlaps
+RO:0002101: # fasciculates with
+  rename:
+  - overlaps
+  - biolink:overlaps  
 RO:0002102:
   rename:
   - overlaps
@@ -3616,6 +3548,10 @@ RO:0002234:
   rename:
   - has_output
   - biolink:has_output
+RO:0002241:
+  rename:
+  - related_to
+  - biolink:related_to
 RO:0002254:
   rename:
   - related_to
@@ -3808,6 +3744,10 @@ RO:0002451:
   rename:
   - related_to
   - biolink:related_to
+RO:0002452: # has symptom
+  rename:
+  - has_phenotype
+  - biolink:has_phenotype  
 RO:0002473:
   rename:
   - has_part
@@ -4016,6 +3956,10 @@ RO:0012003:
   rename:
   - affects
   - biolink:affects
+RO:0012008: # results in fusion of
+  rename:
+  - affects
+  - biolink:affects
 RO:0013001: # has synaptic IO in
   rename:
   - related_to
@@ -4024,14 +3968,6 @@ RO:0014001: # disease has infectious agent
   rename:
   - related_to
   - biolink:related_to
-RO:derives_from:
-  rename:
-  - derives_from
-  - biolink:derives_from
-RO:has_participant:
-  rename:
-  - has_participant
-  - biolink:has_participant
 RO:participates_in:
   invert:
   - has_participant
@@ -4260,578 +4196,6 @@ SEMMEDDB:xref:
   rename:
   - related_to
   - biolink:related_to
-SNOMED:access_device_used_by:
-  delete: null
-SNOMED:access_of:
-  delete: null
-SNOMED:active_ingredient_of:
-  invert:
-  - has_part
-  - biolink:has_part
-SNOMED:associated_finding_of:
-  delete: null
-SNOMED:associated_morphology_of:
-  delete: null
-SNOMED:associated_procedure_of:
-  delete: null
-SNOMED:associated_with:
-  rename:
-  - correlated_with
-  - biolink:correlated_with
-SNOMED:basic_dose_form_of:
-  delete: null
-SNOMED:basis_of_strength_substance_of:
-  invert:
-  - has_part
-  - biolink:has_part
-SNOMED:causative_agent_of:
-  rename:
-  - causes
-  - biolink:causes
-SNOMED:cause_of:
-  rename:
-  - causes
-  - biolink:causes
-SNOMED:characterized_by:
-  rename:
-  - has_phenotype
-  - biolink:has_phenotype
-SNOMED:characterizes:
-  delete: null
-SNOMED:clinical_course_of:
-  delete: null
-SNOMED:component_of:
-  invert:
-  - has_part
-  - biolink:has_part
-SNOMED:concentration_strength_denominator_unit_of:
-  delete: null
-SNOMED:concentration_strength_denominator_value_of:
-  delete: null
-SNOMED:concentration_strength_numerator_unit_of:
-  delete: null
-SNOMED:concentration_strength_numerator_value_of:
-  delete: null
-SNOMED:count_of_base_of_active_ingredient_of:
-  delete: null
-SNOMED:definitional_manifestation_of:
-  delete: null
-SNOMED:dependent_of:
-  delete: null
-SNOMED:device_used_by:
-  delete: null
-SNOMED:direct_device_of:
-  delete: null
-SNOMED:direct_morphology_of:
-  delete: null
-SNOMED:direct_procedure_site_of:
-  delete: null
-SNOMED:direct_site_of:
-  delete: null
-SNOMED:direct_substance_of:
-  invert:
-  - has_part
-  - biolink:has_part
-SNOMED:disposition_of:
-  delete: null
-SNOMED:dose_form_administration_method_of:
-  delete: null
-SNOMED:dose_form_intended_site_of:
-  delete: null
-SNOMED:dose_form_of:
-  delete: null
-SNOMED:dose_form_release_characteristic_of:
-  delete: null
-SNOMED:dose_form_transformation_of:
-  delete: null
-SNOMED:due_to:
-  delete: null
-SNOMED:during:
-  invert:
-  - has_part
-  - biolink:has_part
-SNOMED:energy_used_by:
-  delete: null
-SNOMED:entire_anatomy_structure_of:
-  rename:
-  - subclass_of
-  - biolink:subclass_of
-SNOMED:finding_context_of:
-  delete: null
-SNOMED:finding_informer_of:
-  delete: null
-SNOMED:finding_method_of:
-  delete: null
-SNOMED:finding_site_of:
-  delete: null
-SNOMED:focus_of:
-  invert:
-  - has_part
-  - biolink:has_part
-SNOMED:has_access:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_active_ingredient:
-  delete: null
-SNOMED:has_associated_finding:
-  rename:
-  - correlated_with
-  - biolink:correlated_with
-SNOMED:has_associated_morphology:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_associated_procedure:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_basic_dose_form:
-  invert:
-  - subclass_of
-  - biolink:subclass_of
-SNOMED:has_basis_of_strength_substance:
-  delete: null
-SNOMED:has_causative_agent:
-  delete: null
-SNOMED:has_clinical_course:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_component:
-  rename:
-  - has_part
-  - biolink:has_part
-SNOMED:has_concentration_strength_denominator_unit:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_concentration_strength_denominator_value:
-  delete: null
-SNOMED:has_concentration_strength_numerator_unit:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_concentration_strength_numerator_value:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_count_of_base_of_active_ingredient:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_definitional_manifestation:
-  invert:
-  - manifestation_of
-  - biolink:manifestation_of
-SNOMED:has_dependent:
-  invert:
-  - has_part
-  - biolink:has_part
-SNOMED:has_direct_device:
-  rename:
-  - has_participant
-  - biolink:has_participant
-SNOMED:has_direct_morphology:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_direct_procedure_site:
-  rename:
-  - occurs_in
-  - biolink:occurs_in
-SNOMED:has_direct_site:
-  rename:
-  - occurs_in
-  - biolink:occurs_in
-SNOMED:has_direct_substance:
-  delete: null
-SNOMED:has_disposition:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_dose_form:
-  rename:
-  - subclass_of
-  - biolink:subclass_of
-SNOMED:has_dose_form_administration_method:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_dose_form_intended_site:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_dose_form_release_characteristic:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_dose_form_transformation:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_entire_anatomy_structure:
-  delete: null
-SNOMED:has_finding_context:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_finding_informer:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_finding_method:
-  rename:
-  - has_input
-  - biolink:has_input
-SNOMED:has_finding_site:
-  rename:
-  - located_in
-  - biolink:located_in
-SNOMED:has_focus:
-  delete: null
-SNOMED:has_indirect_device:
-  rename:
-  - has_participant
-  - biolink:has_participant
-SNOMED:has_indirect_morphology:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_indirect_procedure_site:
-  rename:
-  - located_in
-  - biolink:located_in
-SNOMED:has_inherent_attribute:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_inherent_location:
-  rename:
-  - located_in
-  - biolink:located_in
-SNOMED:has_intent:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_interpretation:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_laterality:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_measurement_method:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_method:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_modification:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_occurrence:
-  invert:
-  - occurs_in
-  - biolink:occurs_in
-SNOMED:has_part_anatomy_structure:
-  delete: null
-SNOMED:has_pathological_process:
-  rename:
-  - affects
-  - biolink:affects
-SNOMED:has_precise_active_ingredient:
-  delete: null
-SNOMED:has_precondition:
-  rename:
-  - has_input
-  - biolink:has_input
-SNOMED:has_presentation_strength_denominator_unit:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_presentation_strength_denominator_value:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_presentation_strength_numerator_unit:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_presentation_strength_numerator_value:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_priority:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_procedure_context:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_procedure_device:
-  rename:
-  - has_participant
-  - biolink:has_participant
-SNOMED:has_procedure_morphology:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_procedure_site:
-  rename:
-  - occurs_in
-  - biolink:occurs_in
-SNOMED:has_process_duration:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_process_output:
-  rename:
-  - produces
-  - biolink:produces
-SNOMED:has_property:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_realization:
-  rename:
-  - causes
-  - biolink:causes
-SNOMED:has_recipient_category:
-  rename:
-  - has_participant
-  - biolink:has_participant
-SNOMED:has_revision_status:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_route_of_administration:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_scale_type:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_severity:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_specimen:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_specimen_procedure:
-  delete: null
-SNOMED:has_specimen_source_identity:
-  rename:
-  - has_input
-  - biolink:has_input
-SNOMED:has_specimen_source_morphology:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_specimen_source_topography:
-  rename:
-  - derives_from
-  - biolink:derives_from
-SNOMED:has_specimen_substance:
-  rename:
-  - has_input
-  - biolink:has_input
-SNOMED:has_state_of_matter:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_subject_relationship_context:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_surgical_approach:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_technique:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_temporal_context:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_time_aspect:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_units:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:has_unit_of_presentation:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:indirect_device_of:
-  delete: null
-SNOMED:indirect_morphology_of:
-  delete: null
-SNOMED:indirect_procedure_site_of:
-  delete: null
-SNOMED:inherent_location_of:
-  invert:
-  - located_in
-  - biolink:located_in
-SNOMED:inheres_in:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:intent_of:
-  delete: null
-SNOMED:interpretation_of:
-  delete: null
-SNOMED:interprets:
-  delete: null
-SNOMED:inverse_during:
-  delete: null
-SNOMED:is_interpreted_by:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:is_modification_of:
-  delete: null
-SNOMED:laterality_of:
-  delete: null
-SNOMED:measurement_method_of:
-  delete: null
-SNOMED:method_of:
-  delete: null
-SNOMED:occurs_after:
-  delete: null
-SNOMED:occurs_before:
-  rename:
-  - precedes
-  - biolink:precedes
-SNOMED:occurs_in:
-  rename:
-  - occurs_in
-  - biolink:occurs_in
-SNOMED:part_anatomy_structure_of:
-  invert:
-  - has_part
-  - biolink:has_part
-SNOMED:part_referred_to_by:
-  delete: null
-SNOMED:pathological_process_of:
-  delete: null
-SNOMED:plays_role:
-  rename:
-  - treats
-  - biolink:treats
-SNOMED:precise_active_ingredient_of:
-  invert:
-  - has_part
-  - biolink:has_part
-SNOMED:precondition_of:
-  delete: null
-SNOMED:presentation_strength_denominator_unit_of:
-  delete: null
-SNOMED:presentation_strength_denominator_value_of:
-  delete: null
-SNOMED:presentation_strength_numerator_unit_of:
-  delete: null
-SNOMED:presentation_strength_numerator_value_of:
-  delete: null
-SNOMED:priority_of:
-  delete: null
-SNOMED:procedure_context_of:
-  delete: null
-SNOMED:procedure_device_of:
-  delete: null
-SNOMED:procedure_morphology_of:
-  delete: null
-SNOMED:procedure_site_of:
-  delete: null
-SNOMED:process_duration_of:
-  delete: null
-SNOMED:process_output_of:
-  delete: null
-SNOMED:property_of:
-  delete: null
-SNOMED:realization_of:
-  delete: null
-SNOMED:recipient_category_of:
-  delete: null
-SNOMED:relative_to_part_of:
-  rename:
-  - related_to
-  - biolink:related_to
-SNOMED:revision_status_of:
-  delete: null
-SNOMED:role_played_by:
-  delete: null
-SNOMED:route_of_administration_of:
-  delete: null
-SNOMED:scale_type_of:
-  delete: null
-SNOMED:severity_of:
-  delete: null
-SNOMED:specimen_of:
-  delete: null
-SNOMED:specimen_procedure_of:
-  rename:
-  - produces
-  - biolink:produces
-SNOMED:specimen_source_identity_of:
-  delete: null
-SNOMED:specimen_source_morphology_of:
-  delete: null
-SNOMED:specimen_source_topography_of:
-  delete: null
-SNOMED:specimen_substance_of:
-  delete: null
-SNOMED:state_of_matter_of:
-  delete: null
-SNOMED:subject_relationship_context_of:
-  delete: null
-SNOMED:substance_used_by:
-  delete: null
-SNOMED:surgical_approach_of:
-  delete: null
-SNOMED:technique_of:
-  delete: null
-SNOMED:temporal_context_of:
-  delete: null
-SNOMED:temporally_related_to:
-  rename:
-  - temporally_related_to
-  - biolink:temporally_related_to
-SNOMED:time_aspect_of:
-  delete: null
-SNOMED:unit_of_presentation_of:
-  delete: null
-SNOMED:units_of:
-  delete: null
-SNOMED:uses_access_device:
-  rename:
-  - has_input
-  - biolink:has_input
-SNOMED:uses_device:
-  rename:
-  - has_input
-  - biolink:has_input
-SNOMED:uses_energy:
-  rename:
-  - has_input
-  - biolink:has_input
-SNOMED:uses_substance:
-  rename:
-  - has_input
-  - biolink:has_input
 SO:adjacent_to:
   rename:
   - coexists_with
