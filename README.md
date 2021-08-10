@@ -174,12 +174,13 @@ sources.
 
 The computing environment where you will be running the KG2 build should be
 running **Ubuntu 18.04**.  Your build environment should have the following
-*minimum* specifications:
+*minimum* hardware specifications:
 
 - 256 GiB of system memory
 - 1,023 GiB of disk space in the root file system 
 - high-speed networking (20 Gb/s networking) and storage
-- ideally, AWS region `us-west-2` since that is where the RTX KG2 S3 buckets are located
+- if you are on the RTX-KG2 team: ideally your build system should be in the AWS
+  region `us-west-2` since that is where the RTX KG2 S3 buckets are located
 
 ## The KG2 build system assumes there is no MySQL database already present
 
@@ -268,10 +269,11 @@ on your *local* computer.
 
 These instructions assume that you are logged into the target Ubuntu system, and
 that the Ubuntu system has *not* previously had `setup-kg2-build.sh` run (if it
-has previously had `setup-kg2-build.sh` run, you may wish to clear out the
+has previously had `setup-kg2-build.sh` run, you should first clear out the
 instance by running `clear-instance.sh` before proceeding, in order to ensure
 that you are getting the exact python packages needed in the latest
-`requirements-kg2-build.txt` file in the KG2 codebase):
+`requirements-kg2-build.txt` file in the KG2 codebase) and to ensure that
+your build does not inadvertantly reuse artifacts from a previous RTX-KG2 build:
 
 (1) Install the `git` and `screen` packages if they are not already installed (though
 in an Ubuntu 18.04 instance created using the standard AWS AMI, they should already
