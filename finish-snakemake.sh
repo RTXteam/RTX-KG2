@@ -13,7 +13,7 @@
 # streamlined input.
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0 [final_output_file_full] [output_file_orphan_edges] [report_file_full] [output_nodes_file_full] [simplified_output_file_full] [simplified_report_file_full]"
+    echo Usage: "$0 [final_output_file_full] [output_file_orphan_edges] [report_file_full] [simplified_output_file_full] [simplified_report_file_full]"
     echo "[simplified_output_nodes_file_full] [slim_output_file_full] [kg2_tsv_dir] [s3_cp_cmd]"
     echo "[kg2_tsv_tarball] [s3_bucket] [s3_bucket_public] [output_file_base] [ont_load_inventory_file]"
     echo "[CODE_DIR] [s3_bucket_versioned] [BUILD_DIR] [simplified_report_file_base] [VENV_DIR]"
