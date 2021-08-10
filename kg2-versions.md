@@ -1,5 +1,39 @@
+# 2.7.2
+**Date: 2021.08.19**
+
+Biolink Model version: 2.1.0
+
+Nodes: 10,237,436
+Edges: 54,036,959
+
+Issues:
+ - Issue [#95](https://github.com/RTXteam/RTX-KG2/issues/95)
+ - Issue [#120](https://github.com/RTXteam/RTX-KG2/issues/120)
+
+Build host: `buildkg2.rtx.ai`
+Build directory: `/home/ubuntu/kg2-build`
+Build code branch: `issue95`
+
+# 2.7.1
+**Date: 2021.07.13**
+
+Biolink Model Version: 2.1.0
+
+Nodes: 9,738,008
+Edges: 48,781,064
+
+Note:
+ - Building on `kg2steve.rtx.ai` inadvertantly pulled in old versions of ontologies (from Sept. 2020)
+ 
+Issues:
+ - Issue [#91](https://github.com/RTXteam/RTX-KG2/issues/91)
+ 
+Build host: `kg2steve.rtx.ai`
+Build directory: `/home/ubuntu/kg2-build/`
+Build code branch: `biolink-2.0`
+
 # 2.7.0
-**Date: 2021.7.8**
+**Date: 2021.07.08**
 
 Biolink Model Version: 2.1.0
 
@@ -13,10 +47,12 @@ Issues:
  - Issue [#77](https://github.com/RTXteam/RTX-KG2/issues/77)
  - Issue [#64](https://github.com/RTXteam/RTX-KG2/issues/64)
 
-Build host: `kg2steve.rtx.ai` `~/kg2-build/`, ran from `biolink-2.0` branch
+Build host: `kg2steve.rtx.ai`
+Build directory: `/home/ubuntu/kg2-build/`
+Build code branch: `biolink-2.0`
 
 # 2.6.7
-**Date: 2021.6.23**
+**Date: 2021.06.23**
 
 Biolink Model Version: 1.8.1
 
@@ -31,10 +67,12 @@ Issues:
 
  - Issue [#81](https://github.com/RTXteam/RTX-KG2/issues/81)
 
-Build host: `kg2lindsey.rtx.ai` `~/kg2-build/`
+Build host: `kg2lindsey.rtx.ai` 
+Build directory: `/home/ubuntu/kg2-build/`
+Build code branch: `master`
 
 # 2.6.6
-**Date: 2021.6.22**
+**Date: 2021.06.22**
 
 Biolink Model Version: 1.8.1
 
@@ -49,7 +87,7 @@ Issues:
 
  - Issue [#78](https://github.com/RTXteam/RTX-KG2/issues/78)
 
-Build host: `kg2lindsey.rtx.ai` `~/kg2-build/`
+Build host: `kg2lindsey.rtx.ai` `/home/ubuntu/kg2-build/`
 
 # 2.6.5
 **Date: 2021.6.20**
@@ -75,7 +113,7 @@ Issues:
  - Issue [#14](https://github.com/RTXteam/RTX-KG2/issues/14)
  - Issue [#19](https://github.com/RTXteam/RTX-KG2/issues/19)
 
-Build host: `kg2lindsey.rtx.ai` `~/kg2-build/`
+Build host: `kg2lindsey.rtx.ai` `/home/ubuntu/kg2-build/`
 
 # 2.6.3
 
@@ -94,7 +132,7 @@ Issues:
  
  - Issue [#1432](https://github.com/RTXteam/RTX/issues/1432)
 
-Build host: `kg2lindsey.rtx.ai` `~/kg2-build/`
+Build host: `kg2lindsey.rtx.ai` `/home/ubuntu/kg2-build/`
 
 # 2.6.2
 
@@ -113,7 +151,7 @@ Issues:
  
  - Issue [#1423](https://github.com/RTXteam/RTX/issues/1423)
 
-Build host: `kg2lindsey.rtx.ai` `~/kg2-build/`
+Build host: `kg2lindsey.rtx.ai` `/home/ubuntu/kg2-build/`
 
 
 # 2.6.1
@@ -134,7 +172,7 @@ Issues:
  
  - Issue [#1400](https://github.com/RTXteam/RTX/issues/1400)
 
-Build host: `kg2lindsey.rtx.ai` `~/kg2-build/`
+Build host: `kg2lindsey.rtx.ai` `/home/ubuntu/kg2-build/`
 
 # 2.6.0
 
@@ -182,8 +220,8 @@ Issues:
  - Issue [#550](https://github.com/RTXteam/RTX/issues/550)
  - Issue [#545](https://github.com/RTXteam/RTX/issues/545)
 
-Build host: `kg2lindsey.rtx.ai` `~/kg2-build/`
-Json file(s) stored on same host, `~/kg2-build/KG2-6-0/`
+Build host: `kg2lindsey.rtx.ai` `/home/ubuntu/kg2-build/`
+Json file(s) stored on same host, `/home/ubuntu/kg2-build/KG2-6-0/`
 
 # 2.5.2 
 
@@ -217,7 +255,7 @@ Edges: 53,739,675
 - Issue [#964](https://github.com/RTXteam/RTX/issues/964)
 - Issue [#762](https://github.com/RTXteam/RTX/issues/762)
 
-Build host: `kg2steve.rtx.ai` `~/kg2-build/`
+Build host: `kg2steve.rtx.ai` `/home/ubuntu/kg2-build/`
 
 # 2.5.1 
 
@@ -233,7 +271,7 @@ Edges: 53,474,162
 - Issue [#1200](https://github.com/RTXteam/RTX/issues/1200)
 - Issue [#1079](https://github.com/RTXteam/RTX/issues/1079)
 
-Build host: `kg2lindsey.rtx.ai` `~/kg2-build/`
+Build host: `kg2lindsey.rtx.ai` `/home/ubuntu/kg2-build/`
 
 # 2.5.0 
 
@@ -248,7 +286,7 @@ Edges: 53,416,143
 - Issue [#1155](https://github.com/RTXteam/RTX/issues/1155)
 - Issue [#1083](https://github.com/RTXteam/RTX/issues/1083)
 
-Build host: `kg2lindsey.rtx.ai` `~/kg2-build/`
+Build host: `kg2lindsey.rtx.ai` `/home/ubuntu/kg2-build/`
 
 # 2.4.0 
 
@@ -263,7 +301,7 @@ Edges: 53,415,986
 - Issue [#1123](https://github.com/RTXteam/RTX/issues/1123)
 - Issue [#1142](https://github.com/RTXteam/RTX/issues/1142)
 
-Build host: `kg2lindsey.rtx.ai` `~/kg2-build/`
+Build host: `kg2lindsey.rtx.ai` `/home/ubuntu/kg2-build/`
 
 # 2.3.5 
 
@@ -285,7 +323,7 @@ Edges: 53,456,505
 - Issue [#931](https://github.com/RTXteam/RTX/issues/931)
 - Issue [#891](https://github.com/RTXteam/RTX/issues/891)
 
-Build host: `kg2lindsey.rtx.ai` `~/kg2-build-3.5/`
+Build host: `kg2lindsey.rtx.ai` `/home/ubuntu/kg2-build-3.5/`
 
 # 2.3.4 
 
