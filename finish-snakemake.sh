@@ -14,7 +14,7 @@
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     echo Usage: "$0 [final_output_file_full] [output_file_orphan_edges] [report_file_full] [simplified_output_file_full] [simplified_report_file_full]"
-    echo "[simplified_output_nodes_file_full] [slim_output_file_full] [kg2_tsv_dir] [s3_cp_cmd]"
+    echo "[slim_output_file_full] [kg2_tsv_dir] [s3_cp_cmd]"
     echo "[kg2_tsv_tarball] [s3_bucket] [s3_bucket_public] [output_file_base] [ont_load_inventory_file]"
     echo "[CODE_DIR] [s3_bucket_versioned] [BUILD_DIR] [simplified_report_file_base] [VENV_DIR]"
     exit 2
@@ -48,14 +48,11 @@ tar -C ${kg2_tsv_dir} -czvf ${kg2_tsv_tarball} nodes.tsv nodes_header.tsv edges.
 ${s3_cp_cmd} ${kg2_tsv_tarball} s3://${s3_bucket}/
 
 gzip -fk ${simplified_output_file_full}
-gzip -fk ${simplified_output_nodes_file_full}
-gzip -fk ${output_nodes_file_full}
 gzip -fk ${output_file_orphan_edges}
 gzip -fk ${slim_output_file_full}
 
 ${s3_cp_cmd} ${final_output_file_full}.gz s3://${s3_bucket}/
 ${s3_cp_cmd} ${simplified_output_file_full}.gz s3://${s3_bucket_public}/
-${s3_cp_cmd} ${output_nodes_file_full}.gz s3://${s3_bucket}/
 ${s3_cp_cmd} ${report_file_full} s3://${s3_bucket_public}/
 
 # Attempt to compare the report from the previous build to the current build
@@ -71,7 +68,6 @@ ${s3_cp_cmd} ${simplified_report_file_full} s3://${s3_bucket_public}/
 
 ${s3_cp_cmd} ${output_file_orphan_edges}.gz s3://${s3_bucket_public}/
 ${s3_cp_cmd} ${slim_output_file_full}.gz s3://${s3_bucket}/
-${s3_cp_cmd} ${simplified_output_nodes_file_full}.gz s3://${s3_bucket}/
 
 build_multi_owl_stderr_file="${BUILD_DIR}/build-${output_file_base%.*}"-stderr.log
 
