@@ -13,6 +13,7 @@ Issues:
 Build host: `buildkg2.rtx.ai`
 Build directory: `/home/ubuntu/kg2-build`
 Build code branch: `issue95`
+Neo4j endpoint CNAME: `kg2-7-2.rtx.ai`
 
 # 2.7.1
 **Date: 2021.07.13**
@@ -31,6 +32,7 @@ Issues:
 Build host: `kg2steve.rtx.ai`
 Build directory: `/home/ubuntu/kg2-build/`
 Build code branch: `biolink-2.0`
+Neo4j endpoint CNAME: `kg2endpoint-kg2-7-1.rtx.ai`
 
 # 2.7.0
 **Date: 2021.07.08**
@@ -70,6 +72,7 @@ Issues:
 Build host: `kg2lindsey.rtx.ai` 
 Build directory: `/home/ubuntu/kg2-build/`
 Build code branch: `master`
+Neo4j endpoint CNAME: `kg2endpoint-kg2-6-7.rtx.ai`
 
 # 2.6.6
 **Date: 2021.06.22**
