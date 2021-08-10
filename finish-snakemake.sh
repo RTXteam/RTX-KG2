@@ -13,7 +13,7 @@
 # streamlined input.
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0 [final_output_file_full] [output_file_orphan_edges] [report_file_full] [output_nodes_file_full] [simplified_output_file_full] [simplified_report_file_full]"
+    echo Usage: "$0 [final_output_file_full] [output_file_orphan_edges] [report_file_full] [simplified_output_file_full] [simplified_report_file_full]"
     echo "[simplified_output_nodes_file_full] [slim_output_file_full] [kg2_tsv_dir] [s3_cp_cmd]"
     echo "[kg2_tsv_tarball] [s3_bucket] [s3_bucket_public] [output_file_base] [ont_load_inventory_file]"
     echo "[CODE_DIR] [s3_bucket_versioned] [BUILD_DIR] [simplified_report_file_base] [VENV_DIR]"
@@ -25,19 +25,21 @@ output_file_orphan_edges=${2}
 report_file_full=${3}
 simplified_output_file_full=${4}
 simplified_report_file_full=${5}
-slim_output_file_full=${6}
-kg2_tsv_dir=${7}
-s3_cp_cmd=${8}
-kg2_tsv_tarball=${9}
-s3_bucket=${10}
-s3_bucket_public=${11}
-output_file_base=${12}
-ont_load_inventory_file=${13}
-CODE_DIR=${14}
-s3_bucket_versioned=${15}
-BUILD_DIR=${16}
-simplified_report_file_base=${17}
-VENV_DIR=${18}
+simplified_output_nodes_file_full=${6}
+slim_output_file_full=${7}
+kg2_tsv_dir=${8}
+s3_cp_cmd=${9}
+kg2_tsv_tarball=${10}
+s3_bucket=${11}
+s3_bucket_public=${12}
+output_file_base=${13}
+ont_load_inventory_file=${14}
+CODE_DIR=${15}
+s3_bucket_versioned=${16}
+BUILD_DIR=${17}
+simplified_report_file_base=${18}
+VENV_DIR=${19}
+
 previous_simplified_report_base="previous-${simplified_report_file_base}"
 
 echo "================= starting finish-snakemake.sh =================="
