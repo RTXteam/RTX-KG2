@@ -27,7 +27,7 @@ Note:
  - Building on `kg2steve.rtx.ai` inadvertantly pulled in old versions of ontologies (from Sept. 2020)
  
 Issues:
- - Issue [#91](https://github.com/RTXteam/RTX-KG2/issues/91)
+ - Issue [#97](https://github.com/RTXteam/RTX-KG2/issues/97)
  
 Build host: `kg2steve.rtx.ai`
 Build directory: `/home/ubuntu/kg2-build/`
