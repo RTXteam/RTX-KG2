@@ -26,7 +26,7 @@ use_for_bidirectional_mapping:
   -
     biolink: https://w3id.org/linkml/
   -
-    biolink_download_source: https://raw.githubusercontent.com/biolink/biolink-model/master/
+    biolink_download_source: https://raw.githubusercontent.com/biolink/biolink-model/2.1.0/
   -
     BRO: http://bioontology.org/ontologies/BiomedicalResourceOntology.owl#
   -
