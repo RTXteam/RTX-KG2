@@ -1,27 +1,27 @@
 # 2.7.2
 **Date: 2021.08.19**
 
-Biolink Model version: 2.1.0
-
-Nodes: 10,237,436
-Edges: 54,036,959
+Counts:
+- Nodes: 10,237,436
+- Edges: 54,036,959
 
 Issues:
  - Issue [#95](https://github.com/RTXteam/RTX-KG2/issues/95)
  - Issue [#120](https://github.com/RTXteam/RTX-KG2/issues/120)
 
-Build host: `buildkg2.rtx.ai`
-Build directory: `/home/ubuntu/kg2-build`
-Build code branch: `issue95`
-Neo4j endpoint CNAME: `kg2-7-2.rtx.ai`
+Build info:
+- Biolink Model version: 2.1.0
+- Build host: `buildkg2.rtx.ai`
+- Build directory: `/home/ubuntu/kg2-build`
+- Build code branch: `issue95`
+- Neo4j endpoint CNAME: `kg2-7-2.rtx.ai`
 
 # 2.7.1
 **Date: 2021.07.13**
 
-Biolink Model Version: 2.1.0
-
-Nodes: 9,738,008
-Edges: 48,781,064
+Counts:
+- Nodes: 9,738,008
+- Edges: 48,781,064
 
 Note:
  - Building on `kg2steve.rtx.ai` inadvertantly pulled in old versions of ontologies (from Sept. 2020)
@@ -29,10 +29,12 @@ Note:
 Issues:
  - Issue [#97](https://github.com/RTXteam/RTX-KG2/issues/97)
  
-Build host: `kg2steve.rtx.ai`
-Build directory: `/home/ubuntu/kg2-build/`
-Build code branch: `biolink-2.0`
-Neo4j endpoint CNAME: `kg2endpoint-kg2-7-1.rtx.ai`
+Build info:
+- Biolink Model Version: 2.1.0
+- Build host: `kg2steve.rtx.ai`
+- Build directory: `/home/ubuntu/kg2-build/`
+- Build code branch: `biolink-2.0`
+- Neo4j endpoint CNAME: `kg2endpoint-kg2-7-1.rtx.ai`
 
 # 2.7.0
 **Date: 2021.07.08**
