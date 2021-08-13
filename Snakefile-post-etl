@@ -47,7 +47,8 @@ rule Simplify:
 
 rule Slim:
     input:
-        slim_real = config['SIMPLIFIED_OUTPUT_FILE_FULL']
+        slim_real = config['SIMPLIFIED_OUTPUT_FILE_FULL'],
+        placeholder = config['SIMPLIFIED_OUTPUT_NODES_FILE_FULL']
     output:
         config['SLIM_OUTPUT_FILE_FULL']
     shell:
