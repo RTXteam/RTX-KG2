@@ -36,7 +36,7 @@ if [ ! -L ${CODE_DIR} ]; then
     then
         ln -sf ~/RTX-KG2 ${CODE_DIR}
     else
-        ln -sf ~/RTXteam/RTX-KG2 ${CODE_DIR}
+        ln -sf ~/build/RTXteam/RTX-KG2 ${CODE_DIR}
     fi
 fi
 
