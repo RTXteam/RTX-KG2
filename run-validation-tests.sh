@@ -38,12 +38,7 @@ sed -i "\@${biolink_base_url_no_version}@c${ont_load_inventory_replace_string}" 
         ${ont_load_inventory_file}
 
 
-if [[ ${build_flag} != "travisci" ]]
-then
-    python_command="${VENV_DIR}/bin/python3"
-else
-    python_command="python"
-fi
+python_command="${VENV_DIR}/bin/python3"
 
 ${python_command} -u ${CODE_DIR}/validate_curies_to_categories_yaml.py \
            ${curies_to_categories_file} \
