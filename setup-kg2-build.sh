@@ -24,7 +24,7 @@ psql_user=ubuntu
 mkdir -p ${BUILD_DIR}
 setup_log_file=${BUILD_DIR}/setup-kg2-build.log
 
-{
+#{
 echo "================= starting setup-kg2.sh ================="
 date
 
@@ -91,7 +91,7 @@ chmod +x ${BUILD_DIR}/robot
 ${curl_get} ${BUILD_DIR} https://github.com/RTXteam/owltools/releases/download/v0.3.0/owltools > ${BUILD_DIR}/owltools
 chmod +x ${BUILD_DIR}/owltools
 
-} >${setup_log_file} 2>&1
+#} >${setup_log_file} 2>&1
 
 if [[ "${build_flag}" != "travisci" ]]
 then
