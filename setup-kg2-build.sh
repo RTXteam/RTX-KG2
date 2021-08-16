@@ -24,7 +24,7 @@ psql_user=ubuntu
 mkdir -p ${BUILD_DIR}
 setup_log_file=${BUILD_DIR}/setup-kg2-build.log
 
-#{
+{
 echo "================= starting setup-kg2.sh ================="
 date
 
@@ -91,7 +91,7 @@ chmod +x ${BUILD_DIR}/robot
 ${curl_get} ${BUILD_DIR} https://github.com/RTXteam/owltools/releases/download/v0.3.0/owltools > ${BUILD_DIR}/owltools
 chmod +x ${BUILD_DIR}/owltools
 
-#} >${setup_log_file} 2>&1
+} >${setup_log_file} 2>&1
 
 if [[ "${build_flag}" != "travisci" ]]
 then
@@ -118,33 +118,33 @@ sudo ldconfig
 
 #if [[ "${build_flag}" != "travisci" ]]
 #then
-    # setup MySQL
-    MYSQL_PWD=${mysql_password} mysql -u root -e "CREATE USER '${mysql_user}'@'localhost' IDENTIFIED BY '${mysql_password}'"
-    MYSQL_PWD=${mysql_password} mysql -u root -e "GRANT ALL PRIVILEGES ON *.* to '${mysql_user}'@'localhost'"
+# setup MySQL
+MYSQL_PWD=${mysql_password} mysql -u root -e "CREATE USER '${mysql_user}'@'localhost' IDENTIFIED BY '${mysql_password}'"
+MYSQL_PWD=${mysql_password} mysql -u root -e "GRANT ALL PRIVILEGES ON *.* to '${mysql_user}'@'localhost'"
 
-    cat >${mysql_conf} <<EOF
+cat >${mysql_conf} <<EOF
 [client]
 user = ${mysql_user}
 password = ${mysql_password}
 host = localhost
 EOF
 
-    ## set mysql server variable to allow loading data from a local file
-    mysql --defaults-extra-file=${mysql_conf} \
-          -e "set global local_infile=1"
+## set mysql server variable to allow loading data from a local file
+mysql --defaults-extra-file=${mysql_conf} \
+      -e "set global local_infile=1"
 
-    ## setup PostGreSQL
-    sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-    sudo apt-get update
-    sudo apt-get -y install postgresql
-    sudo -u postgres createuser ${psql_user}
-    sudo -u postgres psql -c "ALTER USER ${psql_user} WITH password null"
+## setup PostGreSQL
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo apt-get update
+sudo apt-get -y install postgresql
+sudo -u postgres createuser ${psql_user}
+sudo -u postgres psql -c "ALTER USER ${psql_user} WITH password null"
 #fi
 
 #if [[ "${build_flag}" == "travisci" ]]
 #then
-    export PATH=$PATH:${BUILD_DIR}
+#export PATH=$PATH:${BUILD_DIR}
 #fi
 
 date
