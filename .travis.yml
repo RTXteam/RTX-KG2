@@ -6,7 +6,7 @@ before_install:
 # command to run tests
 script:
   - bash -x ./setup-kg2-build.sh travisci
-  - bash -x ./run-validation-tests.sh travisci
+  - bash -x ./run-validation-tests.sh
 #  - bash -x ./build-kg2-snakemake.sh all -n travisci
 #  - bash -x ./build-kg2-snakemake.sh all -n nodes travisci
 #  - bash -x ./build-kg2-snakemake.sh all -R_Merge -n travisci
