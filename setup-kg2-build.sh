@@ -116,8 +116,8 @@ make check
 sudo make install
 sudo ldconfig
 
-if [[ "${build_flag}" != "travisci" ]]
-then
+#if [[ "${build_flag}" != "travisci" ]]
+#then
     # setup MySQL
     MYSQL_PWD=${mysql_password} mysql -u root -e "CREATE USER '${mysql_user}'@'localhost' IDENTIFIED BY '${mysql_password}'"
     MYSQL_PWD=${mysql_password} mysql -u root -e "GRANT ALL PRIVILEGES ON *.* to '${mysql_user}'@'localhost'"
@@ -140,12 +140,12 @@ EOF
     sudo apt-get -y install postgresql
     sudo -u postgres createuser ${psql_user}
     sudo -u postgres psql -c "ALTER USER ${psql_user} WITH password null"
-fi
+#fi
 
-if [[ "${build_flag}" == "travisci" ]]
-then
+#if [[ "${build_flag}" == "travisci" ]]
+#then
     export PATH=$PATH:${BUILD_DIR}
-fi
+#fi
 
 date
 
