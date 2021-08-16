@@ -15,18 +15,11 @@ build_flag=${1:-""}
 
 ## setup the shell variables for various directories
 config_dir=`dirname "$0"`
-if [[ "${build_flag}" == "travisci" ]]
-then
-    sed -i "\@CODE_DIR=~/kg2-code@cCODE_DIR=/home/travis/build/RTXteam/RTX-KG2" ${config_dir}/master-config.shinc
-fi
 source ${config_dir}/master-config.shinc
 
 mysql_user=ubuntu
 mysql_password=1337
-if [[ "${build_flag}" != "travisci" ]]
-then
-    psql_user=ubuntu
-fi
+psql_user=ubuntu
 
 mkdir -p ${BUILD_DIR}
 setup_log_file=${BUILD_DIR}/setup-kg2-build.log
@@ -42,6 +35,8 @@ if [ ! -L ${CODE_DIR} ]; then
     if [[ "${build_flag}" != "travisci" ]]
     then
         ln -sf ~/RTX-KG2 ${CODE_DIR}
+    else
+        ln -sf ~/RTXteam/RTX-KG2 ${CODE_DIR}
     fi
 fi
 
@@ -67,7 +62,7 @@ sudo apt-get install -y \
      libtool \
      automake \
      git \
-     libssl-dev
+     libssl-dev 
 
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password ${mysql_password}"
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password ${mysql_password}"
@@ -78,20 +73,10 @@ sudo apt-get install -y mysql-server \
      python3-mysqldb
 
 sudo service mysql start
-if [[ "${build_flag}" != "travisci" ]]
-then
-    ## this is for convenience when I am remote working
-    sudo apt-get install -y emacs
-fi
 
 # we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
-if [[ "${build_flag}" != "travisci" ]]
-then
-    source ${CODE_DIR}/setup-python37-in-ubuntu18.shinc
-    ${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
-else
-    pip install -r ${CODE_DIR}/requirements-kg2-build.txt
-fi
+source ${CODE_DIR}/setup-python37-in-ubuntu18.shinc
+${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
 
 
 ## install ROBOT (software: ROBOT is an OBO Tool) by downloading the jar file
