@@ -1,8 +1,8 @@
 # use ubuntu 18.04
 dist: bionic
 language: minimal
-#before_install:
-#  - export PATH=$PATH:~/kg2-build/
+before_install:
+  - export PATH=$PATH:~/kg2-build/
 # command to run tests
 script:
   - bash -x ./setup-kg2-build.sh travisci
