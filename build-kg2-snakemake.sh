@@ -119,8 +119,8 @@ then
     sed -i "/\        shell(config\['S3_CP_CMD'\] + ' {simplified_output_nodes_file_full}.gz s3:\/\/' + config\['S3_BUCKET'\])/d" ${CODE_DIR}/Snakefile-finish
 else
         git fetch origin
-        git checkout origin/issue95 -- ${CODE_DIR}/Snakefile-post-etl
-        git checkout origin/issue95 -- ${CODE_DIR}/Snakefile-finish
+        git checkout origin/master -- ${CODE_DIR}/Snakefile-post-etl
+        git checkout origin/master -- ${CODE_DIR}/Snakefile-finish
 fi
 
 echo configfile: \"${snakemake_config_file}\" > ${snakefile}
