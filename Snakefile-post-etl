@@ -28,25 +28,8 @@ rule Merge:
             " --kgFileOrphanEdges {output.orph}" + \
             " --outputFile {output.full} " + \
             "{input.ont} " + \
-            "{input.semmeddb} " + \
             "{input.uniprot} " + \
-            "{input.ensembl} " + \
-            "{input.unichem} " + \
-            "{input.chembl} " + \
-            "{input.ncbigene} " + \
-            "{input.dgidb} " + \
-            "{input.repodb} " + \
-            "{input.smpdb} " + \
-            "{input.drugbank} " + \
-            "{input.hmdb} " + \
-            "{input.go_annotations} " + \
-            "{input.reactome} " + \
-            "{input.mirbase} " + \
-            "{input.jensenlab} " + \
-            "{input.drugcentral} " + \
-            "{input.intact} " + \
-            "{input.disgenet} " + \
-            "{input.kegg}"
+            "{input.drugbank} " 
 
 rule Stats:
     input:
