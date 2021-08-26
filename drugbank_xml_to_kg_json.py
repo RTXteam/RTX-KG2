@@ -13,7 +13,6 @@ import datetime
 import sys
 import pickle
 import json
-
 __author__ = 'Erica Wood'
 __copyright__ = 'Oregon State University'
 __credits__ = ['Stephen Ramsey', 'Erica Wood', 'Lindsey Kvarfordt']
@@ -232,7 +231,6 @@ def make_equivalent_edges(drug: dict):
 
     subject_id = kg2_util.CURIE_PREFIX_DRUGBANK + ":" + get_drugbank_id(drug)
 
-    predicate_label = "external-identifier"
 
     external_identifier_conversion = {"KEGG Drug": kg2_util.CURIE_PREFIX_KEGG_DRUG,
                                       "UniProtKB": kg2_util.CURIE_PREFIX_UNIPROT,
@@ -249,6 +247,10 @@ def make_equivalent_edges(drug: dict):
                         resource = ex_id["resource"]
                         conversion = external_identifier_conversion[resource]
                         object_id = conversion + ":" + ex_id["identifier"]
+                        if not object_id.startswith(kg2_util.CURIE_PREFIX_UNIPROT + ':'):
+                            predicate_label = "external-identifier"
+                        else:
+                            predicate_label = "external-identifier-protein"
                         edge = format_edge(subject_id,
                                            object_id,
                                            predicate_label,
