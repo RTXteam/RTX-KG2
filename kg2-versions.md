@@ -1,3 +1,20 @@
+# 2.7.3
+**Date:  TBD**
+
+Counts:
+- Nodes: TBD
+- Edges: TBD
+
+Issues:
+- Issue [#136](https://github.com/RTXteam/RTX-KG2/issues/136)
+
+Build info:
+- Biolink Model version: TBD
+- Build host: TBD
+- Build directory: TBD
+- Build code branch: TBD
+- Neo4j endpoint CNAME: TBD
+
 # 2.7.2
 **Date: 2021.08.19**
 
