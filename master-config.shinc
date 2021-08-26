@@ -1,6 +1,6 @@
 if [ -z ${test_suffix+x} ]; then test_suffix=""; fi
 BUILD_DIR=./kg2-build
-VENV_DIR=./kg2-venv
+VENV_DIR=./venv
 CODE_DIR=./kg2-code
 umls_dir=${BUILD_DIR}/umls
 umls_dest_dir=${umls_dir}/META
