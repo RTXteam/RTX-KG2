@@ -31,10 +31,10 @@ biolink_model_yaml=biolink-model.yaml
 biolink_model_yaml_url=${biolink_raw_base_url}${biolink_model_yaml}
 biolink_model_yaml_local_file=${BUILD_DIR}/${biolink_model_yaml}
 
-sed -i "\@${biolink_base_url_no_version}@c${curies_urls_map_replace_string}" \
+gsed -i "\@${biolink_base_url_no_version}@c${curies_urls_map_replace_string}" \
         ${curies_to_urls_file}
 
-sed -i "\@${biolink_base_url_no_version}@c${ont_load_inventory_replace_string}" \
+gsed -i "\@${biolink_base_url_no_version}@c${ont_load_inventory_replace_string}" \
         ${ont_load_inventory_file}
 
 
