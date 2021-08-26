@@ -18,7 +18,7 @@ else
     then
         mem_bytes=`sysctl -a | grep hw.memsize | cut -f2 -d\ `
     else
-        echo "unsupported OS type for get-system-memory-gb.sh"
+        >&2 echo "unsupported OS type for get-system-memory-gb.sh"
         exit 1
     fi
 fi
