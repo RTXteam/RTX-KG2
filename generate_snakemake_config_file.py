@@ -10,6 +10,7 @@
 '''
 
 import argparse
+import os
 
 
 __author__ = 'Erica Wood'
@@ -45,7 +46,7 @@ def dictionaryify_file(filename: str, existing_dictionary, divider):
             if len(line) > 1 and line.startswith("if") is False:
                 key = line.split(divider)[0].upper()
                 value = line.split(divider)[1].strip()
-                value = value.replace("~", "/home/ubuntu")
+                value = value.replace("~", os.path.expanduser("~"))
                 if '$' in value:
 
                     # If the Bash variable structure is used, take out the
