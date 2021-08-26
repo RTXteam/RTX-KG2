@@ -640,6 +640,10 @@ DRUGBANK:external-identifier:
   rename:
   - same_as
   - biolink:same_as
+DRUGBANK:external-identifier-protein:
+  rename:
+  - derives_from
+  - biolink:derives_from
 DRUGBANK:gene_replacement:
   rename:
   - close_match
