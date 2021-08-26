@@ -110,18 +110,18 @@ then
     graphic="--dag | dot -Tpng > ~/kg2-build/snakemake_diagram.png"
 fi
 
-if [[ "${nodes_flag}" != "nodes" ]]
-then
+#if [[ "${nodes_flag}" != "nodes" ]]
+#then
  #   sed -i "/\        placeholder = config\['SIMPLIFIED_OUTPUT_NODES_FILE_FULL'\]/d" ${CODE_DIR}/Snakefile-post-etl
  #   sed -i "/\        slim_real = config\['SIMPLIFIED_OUTPUT_FILE_FULL'\],/c\        slim_real = config['SIMPLIFIED_OUTPUT_FILE_FULL']" ${CODE_DIR}/Snakefile-post-etl
 #    sed -i "/\        simplified_output_nodes_file_full = config\['SIMPLIFIED_OUTPUT_NODES_FILE_FULL'\],/d" ${CODE_DIR}/Snakefile-finish
 #    sed -i '/\        shell("gzip -fk {input.simplified_output_nodes_file_full}")/d' ${CODE_DIR}/Snakefile-finish
 #    sed -i "/\        shell(config\['S3_CP_CMD'\] + ' {simplified_output_nodes_file_full}.gz s3:\/\/' + config\['S3_BUCKET'\])/d" ${CODE_DIR}/Snakefile-finish
-else
-        git fetch origin
-        git checkout -- ${CODE_DIR}/Snakefile-post-etl
-        git checkout -- ${CODE_DIR}/Snakefile-finish
-fi
+#else
+#        git fetch origin
+#        git checkout -- ${CODE_DIR}/Snakefile-post-etl
+#        git checkout -- ${CODE_DIR}/Snakefile-finish
+#fi
 
 echo configfile: \"${snakemake_config_file}\" > ${snakefile}
 
@@ -145,7 +145,7 @@ fi
 
 if [[ "${travisci_flag}" != "travisci" ]]
 then
-    command="cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} ${run_flag} -j ${dryrun} ${graphic}"
+    command="${VENV_DIR}/bin/snakemake --snakefile ${snakefile} ${run_flag} -j ${dryrun} ${graphic}"
 else
     command="cd ~ && snakemake --snakefile ${snakefile} ${run_flag} -j ${dryrun} ${graphic}"
 fi

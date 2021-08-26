@@ -3,7 +3,7 @@ rule Merge:
         ont = config['OUTPUT_FILE_FULL'],
         uniprot = config['UNIPROTKB_OUTPUT_FILE'],
         drugbank = config['DRUGBANK_OUTPUT_FILE'],
-     output:
+    output:
         full = config['FINAL_OUTPUT_FILE_FULL'],
         orph = config['OUTPUT_FILE_ORPHAN_EDGES']
     shell:
