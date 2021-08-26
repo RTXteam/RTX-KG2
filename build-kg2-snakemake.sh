@@ -127,7 +127,7 @@ echo configfile: \"${snakemake_config_file}\" > ${snakefile}
 
 #cat ${CODE_DIR}/Snakefile-finish >> ${snakefile}
 
-echo 'include: "Snakefile-pre-etl"' >> ${snakefile}
+#echo 'include: "Snakefile-pre-etl"' >> ${snakefile}
 
 echo 'include: "Snakefile-conversion"' >> ${snakefile}
 
