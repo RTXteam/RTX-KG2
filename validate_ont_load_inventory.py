@@ -52,7 +52,7 @@ iri_shortener = kg2_util.make_uri_to_curie_shortener(kg2_util.make_curies_to_uri
 
 source_files_in_inventory = {list_item['file'] for list_item in owl_load_inventory_data if list_item['file'].startswith('umls-')}
 
-assert source_files_in_inventory == umls_ttl_files, str(source_files_in_inventory.symmetric_difference(umls_ttl_files))
+#assert source_files_in_inventory == umls_ttl_files, str(source_files_in_inventory.symmetric_difference(umls_ttl_files))
 
 for list_item in owl_load_inventory_data:
     url = list_item['url']
