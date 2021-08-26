@@ -2,25 +2,8 @@ rule Merge:
     input:
         ont = config['OUTPUT_FILE_FULL'],
         uniprot = config['UNIPROTKB_OUTPUT_FILE'],
-        semmeddb = config['SEMMED_OUTPUT_FILE'],
-        chembl = config['CHEMBL_OUTPUT_FILE'],
-        ensembl = config['ENSEMBL_OUTPUT_FILE'],
-        unichem = config['UNICHEM_OUTPUT_FILE'],
-        ncbigene = config['NCBI_GENE_OUTPUT_FILE'],
-        dgidb = config['DGIDB_OUTPUT_FILE'],
-        repodb = config['REPODB_OUTPUT_FILE'],
         drugbank = config['DRUGBANK_OUTPUT_FILE'],
-        smpdb = config['SMPDB_OUTPUT_FILE'],
-        hmdb = config['HMDB_OUTPUT_FILE'],
-        go_annotations = config['GO_ANNOTATION_OUTPUT_FILE'],
-        reactome = config['REACTOME_OUTPUT_FILE'],
-        mirbase = config['MIRBASE_OUTPUT_FILE'],
-        jensenlab = config['JENSENLAB_OUTPUT_FILE'],
-        drugcentral = config['DRUGCENTRAL_OUTPUT_FILE'],
-        intact = config['INTACT_OUTPUT_FILE'],
-        disgenet = config['DISGENET_OUTPUT_FILE'],
-        kegg = config['KEGG_OUTPUT_FILE']
-    output:
+     output:
         full = config['FINAL_OUTPUT_FILE_FULL'],
         orph = config['OUTPUT_FILE_ORPHAN_EDGES']
     shell:
