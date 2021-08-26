@@ -125,7 +125,7 @@ fi
 
 echo configfile: \"${snakemake_config_file}\" > ${snakefile}
 
-cat ${CODE_DIR}/Snakefile-finish >> ${snakefile}
+#cat ${CODE_DIR}/Snakefile-finish >> ${snakefile}
 
 echo 'include: "Snakefile-pre-etl"' >> ${snakefile}
 
@@ -133,15 +133,10 @@ echo 'include: "Snakefile-conversion"' >> ${snakefile}
 
 echo 'include: "Snakefile-post-etl"' >> ${snakefile}
 
-if [[ "${build_flag}" == "all" || "${build_flag}" == "alltest" ]]
-then
-    echo 'include: "Snakefile-semmeddb-extraction"' >> ${snakefile}
-fi
-
-if [[ "${build_flag}" == "all" ]]
-then
-    echo 'include: "Snakefile-extraction"' >> ${snakefile}
-fi
+#if [[ "${build_flag}" == "all" ]]
+#then
+#    echo 'include: "Snakefile-extraction"' >> ${snakefile}
+#fi
 
 if [[ "${nodes_flag}" == "nodes" ]]
 then
