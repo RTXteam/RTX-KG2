@@ -27,10 +27,10 @@ biolink_raw_base_url_curies_urls_map=${biolink_base_url_no_version}${biolink_mod
 curies_urls_map_replace_string="\    biolink_download_source: ${biolink_raw_base_url_curies_urls_map}"
 ont_load_inventory_replace_string="\  url: ${biolink_raw_base_url}"
 
-sed -i "\@${biolink_base_url_no_version}@c${ont_load_inventory_replace_string}" \
+gsed -i "\@${biolink_base_url_no_version}@c${ont_load_inventory_replace_string}" \
         ${ont_load_inventory_file}
 
-sed -i "\@${biolink_base_url_no_version}@c${curies_urls_map_replace_string}" \
+gsed -i "\@${biolink_base_url_no_version}@c${curies_urls_map_replace_string}" \
          ${curies_to_urls_file}
 
 if [[ "${build_flag}" == 'test' || "${build_flag}" == 'alltest' ]]
