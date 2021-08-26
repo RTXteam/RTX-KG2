@@ -12,7 +12,7 @@ fi
 ## estimate the amount of system ram, in GB (Linux-only script)
 if [[ $OSTYPE == 'linux-gnu' ]];
 then
-    mem_bytes=`cat /proc/meminfo | grep MemTotal | cut -f2 -d\: | cut -f1 -dk | sed 's/ //g'`
+    mem_bytes=`free -b | grep 'Mem:' | tr -s ' ' | cut -f2 -d\ `
 else
     if [[ $OSTYPE == 'darwin'* ]];
     then
