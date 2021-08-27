@@ -7,6 +7,7 @@ Counts:
 
 Issues:
 - Issue [#136](https://github.com/RTXteam/RTX-KG2/issues/136)
+- Issue [#131](https://github.com/RTXteam/RTX-KG2/issues/131)
 
 Build info:
 - Biolink Model version: TBD
