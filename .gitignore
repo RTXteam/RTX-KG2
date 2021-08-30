@@ -12,3 +12,9 @@ venv/*
 __pycache__/*
 snakemake-config.yaml
 *.swp
+
+# emacs backup files
+**/*~
+
+# macOS finder folder-level attributes
+**/.DS_store
