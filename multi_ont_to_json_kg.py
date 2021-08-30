@@ -236,9 +236,9 @@ def get_biolink_category_for_node(ontology_node_id: str,
                              output_stream=sys.stderr)
         return [None, None]
 
-        # Inelegant hack to ensure that TUI: nodes get mapped to "semantic type" while still enabling us
-        # to use get_biolink_category_for_node to determine the specific semantic type of a CUI based on its
-        # TUI record. Need to think about a more elegant way to do this. [SAR]
+    # Inelegant hack to ensure that TUI: nodes get mapped to "semantic type" while still enabling us
+    # to use get_biolink_category_for_node to determine the specific semantic type of a CUI based on its
+    # TUI record. Need to think about a more elegant way to do this. [SAR]
     if curie_prefix == kg2_util.CURIE_PREFIX_UMLS_STY and node_curie_id.split(':')[1].startswith('T') and ontology.id == kg2_util.BASE_URL_UMLS_STY:
         return [kg2_util.BIOLINK_CATEGORY_NAMED_THING, None]
 
@@ -778,19 +778,20 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             if node_type is not None and node_type == 'PROPERTY':
                 node_category_label = kg2_util.BIOLINK_CATEGORY_INFORMATION_CONTENT_ENTITY
 
-            if node_category_label is None:
-                node_category_label = 'named thing'
-                try:
-                    # This is a fix for #891. It was supposed to be addressed on line 756 ("if node_category_label is None:") 
-                    # and 757 ("node_category_label = node_tui_category_label"), but due to the assignment of the label
-                    # 'named thing', that condition was never triggered. Instead, that is now handled here.
-                    if node_tui is not None:
+            if node_category_label is None or node_category_label == 'named thing':
+                # This is a fix for #891. It was supposed to be addressed on line 756 ("if node_category_label is None:") 
+                # and 757 ("node_category_label = node_tui_category_label"), but due to the assignment of the label
+                # 'named thing', that condition was never triggered. Instead, that is now handled here.
+                if node_tui is not None:
+                    if node_tui in mappings_to_categories:
                         node_category_label = mappings_to_categories[node_tui]
-                except KeyError:
-                    if not node_deprecated:
+                    else:
                         kg2_util.log_message(message="Node with ontology_node_id " + ontology_node_id + " does not have a category and has tui " + node_tui,
                                              output_stream=sys.stderr)
                         tuis_not_in_mappings_but_in_kg2.add(node_tui)
+
+            if node_category_label is None:
+                node_category_label = 'named thing'
 
             if node_has_cui:
                 assert node_tui is not None or len(node_tui_list) > 0
