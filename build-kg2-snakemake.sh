@@ -52,13 +52,13 @@ fi
 run_flag=""
 if [[ "${build_flag:0:2}" == "-R" ]]
 then
-    run_flag=`echo "${build_flag}" | sed "s/_//"`
+    run_flag=`echo "${build_flag}" | sed "s/_/ /"`
 elif [[ "${secondary_build_flag:0:2}" == "-R" ]]
 then
-    run_flag=`echo "${secondary_build_flag}" | sed "s/_//"`
+    run_flag=`echo "${secondary_build_flag}" | sed "s/_/ /"`
 elif [[ "${tertiary_build_flag:0:2}" == "-R" ]]
 then
-    run_flag=`echo "${tertiary_build_flag}" | sed "s/_//"`
+    run_flag=`echo "${tertiary_build_flag}" | sed "s/_/ /"`
 elif [[ "${build_flag}" == "-F" || "${secondary_build_flag}" == "-F" || "${tertiary_build_flag}" == "-F" ]]
 then
     run_flag="-F"
