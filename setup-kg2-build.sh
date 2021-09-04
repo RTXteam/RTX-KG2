@@ -134,7 +134,7 @@ sudo ldconfig
 if [[ "${build_flag}" != "travisci" ]]
 then
     # setup MySQL
-    MYSQL_PWD=${mysql_password} mysql -u root -e "CREATE USER '${mysql_user}'@'localhost' IDENTIFIED BY '${mysql_password}'"
+    MYSQL_PWD=${mysql_password} mysql -u root -e "CREATE USER IF NOT EXISTS '${mysql_user}'@'localhost' IDENTIFIED BY '${mysql_password}'"
     MYSQL_PWD=${mysql_password} mysql -u root -e "GRANT ALL PRIVILEGES ON *.* to '${mysql_user}'@'localhost'"
 
     cat >${mysql_conf} <<EOF
