@@ -19,5 +19,6 @@ sudo apt-get -y autoremove
 sudo apt-get -y autoclean
 sudo apt-get remove dbconfig-mysql
 sudo rm -r -f /etc/mysql /var/lib/mysql /var/lib/mysql-files /var/lib/mysql-keyring /run/mysqld /home/ubuntu/.mysql_history
+sudo deluser mysql
 
 
