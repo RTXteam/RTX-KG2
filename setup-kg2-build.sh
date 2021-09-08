@@ -153,7 +153,7 @@ EOF
     wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
     sudo apt-get update
     sudo apt-get -y install postgresql
-    sudo -u postgres createuser ${psql_user}
+    sudo -u postgres psql -c "DO \$do\$ BEGIN IF NOT EXISTS ( SELECT FROM pg_catalog.pg_roles WHERE rolname = '${psql_user}' ) THEN CREATE ROLE ${psql_user} LOGIN PASSWORD null; END IF; END \$do\$;"
     sudo -u postgres psql -c "ALTER USER ${psql_user} WITH password null"
 fi
 
