@@ -15,4 +15,5 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get remove --purge -y postgresql* pgdg-k
 sudo apt-get -y autoremove
 sudo apt-get -y autoclean
 sudo rm -r -f /var/lib/postgresql/ /var/log/postgresql/ /etc/postgresql/
+sudo delgroup postgres
 sudo deluser postgres
