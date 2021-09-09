@@ -18,5 +18,4 @@ sudo rm -r -f /var/lib/postgresql/ \
      /var/log/postgresql/ \
      /etc/postgresql/ 
 sudo deluser postgres || true
-sudo delgroup --only-if-empty postgres || true
 
