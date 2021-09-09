@@ -5,11 +5,11 @@
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0 [travisci]" 
+    echo Usage: "$0 [travisci|test]" 
     exit 2
 fi
 
-# Usage: setup-kg2-build.sh [travisci]
+# Usage: setup-kg2-build.sh [travisci|test]
 
 build_flag=${1:-""}
 
@@ -21,6 +21,13 @@ then
 fi
 source ${config_dir}/master-config.shinc
 
+if [[ "${build_flag}" != "test" ]]
+then
+    test_str=""
+else
+    test_str="-test"
+fi
+
 mysql_user=ubuntu
 mysql_password=1337
 if [[ "${build_flag}" != "travisci" ]]
@@ -29,7 +36,7 @@ then
 fi
 
 mkdir -p ${BUILD_DIR}
-setup_log_file=${BUILD_DIR}/setup-kg2-build.log
+setup_log_file=${BUILD_DIR}/setup-kg2-build${test_str}.log
 
 {
 echo "================= starting setup-kg2.sh ================="
