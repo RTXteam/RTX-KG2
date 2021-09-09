@@ -2,6 +2,10 @@
 # setup-kg2.sh:  setup the environment for building the KG2 knowledge graph for the RTX biomedical reasoning system
 # Copyright 2019 Stephen A. Ramsey <stephen.ramsey@oregonstate.edu>
 
+# Options:
+# ./setup-kg2-build.sh test       Generates a logfile `setup-kg2-build-test.log` instead of `setup-kg2-build.log`
+# ./setup-kg2-build.sh travisci   Accommodate Travis CI's special runtime environment
+
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
