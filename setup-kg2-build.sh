@@ -21,6 +21,13 @@ then
 fi
 source ${config_dir}/master-config.shinc
 
+if [[ "${build_flag}" != "test" ]]
+then
+    test_str=""
+else
+    test_str="-test"
+fi
+
 mysql_user=ubuntu
 mysql_password=1337
 if [[ "${build_flag}" != "travisci" ]]
@@ -29,7 +36,7 @@ then
 fi
 
 mkdir -p ${BUILD_DIR}
-setup_log_file=${BUILD_DIR}/setup-kg2-build.log
+setup_log_file=${BUILD_DIR}/setup-kg2-build${test_str}.log
 
 {
 echo "================= starting setup-kg2.sh ================="
@@ -167,7 +174,7 @@ date
 echo "================= script finished ================="
 } >> ${setup_log_file} 2>&1
 
-if [[ "${build_flag}" != "travisci" && "${build_flag}" != "test" ]]
+if [[ "${build_flag}" != "travisci" ]]
 then
     ${s3_cp_cmd} ${setup_log_file} s3://${s3_bucket_versioned}/
 fi
