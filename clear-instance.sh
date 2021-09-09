@@ -25,7 +25,7 @@ then
     rm -r -f ${BUILD_DIR}
     rm -r -f ${CODE_DIR}
     rm -r -f ${VENV_DIR}
-    rm -r -f ~/RTX
+    rm -r -f ~/RTX-KG2
     rm -r -f ~/.cachier
     rm -r -f ~/.cache
     rm -r -f ~/*.log
