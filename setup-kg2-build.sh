@@ -108,7 +108,7 @@ chmod +x ${BUILD_DIR}/owltools
 
 } >${setup_log_file} 2>&1
 
-if [[ "${build_flag}" != "travisci"  && "${build_flag}" != "test" ]]
+if [[ "${build_flag}" != "travisci" ]]
 then
     ## setup AWS CLI
     if ! ${s3_cp_cmd} s3://${s3_bucket}/test-file-do-not-delete /tmp/; then
@@ -167,7 +167,7 @@ date
 echo "================= script finished ================="
 } >> ${setup_log_file} 2>&1
 
-if [[ "${build_flag}" != "travisci" ]]
+if [[ "${build_flag}" != "travisci" && "${build_flag}" != "test" ]]
 then
     ${s3_cp_cmd} ${setup_log_file} s3://${s3_bucket_versioned}/
 fi
