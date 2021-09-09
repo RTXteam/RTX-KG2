@@ -17,5 +17,6 @@ sudo apt-get -y autoclean
 sudo rm -r -f /var/lib/postgresql/ \
      /var/log/postgresql/ \
      /etc/postgresql/ 
-sudo delgroup postgres
 sudo deluser postgres
+sudo delgroup --only-if-empty postgres && true
+
