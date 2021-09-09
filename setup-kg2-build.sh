@@ -5,11 +5,11 @@
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0 [travisci]" 
+    echo Usage: "$0 [travisci|test]" 
     exit 2
 fi
 
-# Usage: setup-kg2-build.sh [travisci]
+# Usage: setup-kg2-build.sh [travisci|test]
 
 build_flag=${1:-""}
 
@@ -108,7 +108,7 @@ chmod +x ${BUILD_DIR}/owltools
 
 } >${setup_log_file} 2>&1
 
-if [[ "${build_flag}" != "travisci" ]]
+if [[ "${build_flag}" != "travisci"  && "${build_flag}" != "test" ]]
 then
     ## setup AWS CLI
     if ! ${s3_cp_cmd} s3://${s3_bucket}/test-file-do-not-delete /tmp/; then
