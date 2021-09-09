@@ -11,7 +11,7 @@ if [[ $# != 0 || "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     exit 2
 fi
 
-sudo DEBIAN_FRONTEND=noninteractive apt-get remove --purge -y postgresql* pgkg-keyring
+sudo DEBIAN_FRONTEND=noninteractive apt-get remove --purge -y postgresql* pgdg-keyring
 sudo apt-get -y autoremove
 sudo apt-get -y autoclean
 sudo rm -r -f /var/lib/postgresql/ /var/log/postgresql/ /etc/postgresql/
