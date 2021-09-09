@@ -21,6 +21,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]
 then
     cd ~
     bash -x ${CODE_DIR}/delete-mysql-ubuntu.sh
+    bash -x ${CODE_DIR}/delete-postgresql-ubuntu.sh
     rm -r -f ${BUILD_DIR}
     rm -r -f ${CODE_DIR}
     rm -r -f ${VENV_DIR}
@@ -29,9 +30,6 @@ then
     rm -r -f ~/.cache
     rm -r -f ~/*.log
     rm -r -f ~/.aws
-
-    # This will ask for confirmation to remove directories
-    sudo apt purge postgresql*
 fi
 
 echo "================= script finished ================="
