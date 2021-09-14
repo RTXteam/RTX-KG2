@@ -22,7 +22,7 @@ else
         exit 1
     fi
 fi
-divisor=1048576
+divisor=1073741824
 mem_gb=$((mem_bytes/divisor))
 echo ${mem_gb}
 
