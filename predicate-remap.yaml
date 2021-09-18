@@ -3752,6 +3752,10 @@ RO:0002452: # has symptom
   rename:
   - has_phenotype
   - biolink:has_phenotype  
+RO:0002470:
+  rename:
+  - related_to
+  - biolink:related_to
 RO:0002473:
   rename:
   - has_part
