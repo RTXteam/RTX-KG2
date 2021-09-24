@@ -77,6 +77,12 @@ But make sure to provide a downloadable HTTP links to the mediKanren team, like 
 
 - `http://rtx-kg2-public.s3-website-us-west-2.amazonaws.com/kg2-medikanren-tsvs.tar.gz`
 
+
+Make sure to compute the MD5 hash of `kg2-medikanren-tsvs.tar.gz` and to provide that 
+to Team Unsecret Agent along with the file:
+
+    md5sum kg2-medikanren-tsvs.tar.gz
+
 ---
 
 ## 2) Run mediKanren locally from pregenerated indexes
