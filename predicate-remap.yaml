@@ -14,10 +14,10 @@ BFO:0000055:
   rename:
   - has_part
   - biolink:has_part
-BFO:0000056:
-  invert:
-  - has_participant
-  - biolink:has_participant
+# BFO:0000056:
+#   invert:
+#   - has_participant
+#   - biolink:has_participant
 BFO:0000062:
   invert:
   - precedes
@@ -432,10 +432,10 @@ DGIdb:antibody:
   rename:
   - molecularly_interacts_with
   - biolink:molecularly_interacts_with
-DGIdb:antisense:
-  rename:
-  - decreases_expression_of
-  - biolink:decreases_expression_of
+# DGIdb:antisense:
+#   rename:
+#   - decreases_expression_of
+#   - biolink:decreases_expression_of
 DGIdb:antisense_oligonucleotide:
   rename:
   - decreases_expression_of
@@ -448,10 +448,10 @@ DGIdb:blocker:
   rename:
   - decreases_activity_of
   - biolink:decreases_activity_of
-DGIdb:channel_blocker:
-  rename:
-  - decreases_activity_of
-  - biolink:decreases_activity_of
+# DGIdb:channel_blocker:
+#   rename:
+#   - decreases_activity_of
+#   - biolink:decreases_activity_of
 DGIdb:chaperone:
   rename:
   - directly_interacts_with
@@ -464,10 +464,10 @@ DGIdb:cofactor:
   rename:
   - directly_interacts_with
   - biolink:directly_interacts_with
-DGIdb:gating_inhibitor:
-  rename:
-  - decreases_activity_of
-  - biolink:decreases_activity_of
+# DGIdb:gating_inhibitor:
+#   rename:
+#   - decreases_activity_of
+#   - biolink:decreases_activity_of
 DGIdb:inducer:
   rename:
   - increases_activity_of
@@ -508,10 +508,10 @@ DGIdb:partial_antagonist:
   rename:
   - decreases_activity_of
   - biolink:decreases_activity_of
-DGIdb:positive_allosteric_modulator:
-  rename:
-  - increases_activity_of
-  - biolink:increases_activity_of
+# DGIdb:positive_allosteric_modulator:
+#   rename:
+#   - increases_activity_of
+#   - biolink:increases_activity_of
 DGIdb:positive_modulator:
   rename:
   - increases_activity_of
@@ -816,18 +816,18 @@ DrugCentral:contraindication:
   rename:
   - contraindicated_for
   - biolink:contraindicated_for
-DrugCentral:diagnosis: # A drug that helps diagnose a condition
-  rename:
-  - related_to
-  - biolink:related_to
+# DrugCentral:diagnosis: # A drug that helps diagnose a condition
+#   rename:
+#   - related_to
+#   - biolink:related_to
 DrugCentral:gating_inhibitor:
   rename:
   - decreases_activity_of
   - biolink:decreases_activity_of
-DrugCentral:has_faers:
-  rename:
-  - causes_adverse_event
-  - biolink:causes_adverse_event
+# DrugCentral:has_faers:
+#   rename:
+#   - causes_adverse_event
+#   - biolink:causes_adverse_event
 DrugCentral:has_role:
   rename:
   - related_to
@@ -880,10 +880,10 @@ DrugCentral:positive_modulator:
   rename:
   - entity_positively_regulates_entity
   - biolink:entity_positively_regulates_entity
-DrugCentral:reduce_risk:
-  rename:
-  - prevents
-  - biolink:prevents
+# DrugCentral:reduce_risk:
+#   rename:
+#   - prevents
+#   - biolink:prevents
 DrugCentral:releasing_agent:
   rename:
   - increases_expression_of
@@ -1566,10 +1566,10 @@ GOREL:0002004:
   rename:
   - increases_degradation_of
   - biolink:increases_degradation_of
-GOREL:0002005:
-  rename:
-  - related_to
-  - biolink:related_to
+# GOREL:0002005:
+#   rename:
+#   - related_to
+#   - biolink:related_to
 GOREL:0012006:
   rename:
   - related_to
@@ -3844,10 +3844,10 @@ RO:0002576:
   invert:
   - has_part
   - biolink:has_part
-RO:0002578:
-  rename:
-  - entity_regulates_entity
-  - biolink:entity_regulates_entity
+# RO:0002578:
+#   rename:
+#   - entity_regulates_entity
+#   - biolink:entity_regulates_entity
 RO:0002588:
   rename:
   - has_output
@@ -3868,14 +3868,14 @@ RO:0002608:
   invert:
   - causes
   - biolink:causes
-RO:0002629:
-  rename:
-  - entity_positively_regulates_entity
-  - biolink:entity_positively_regulates_entity
-RO:0002630:
-  rename:
-  - entity_negatively_regulates_entity
-  - biolink:entity_negatively_regulates_entity
+# RO:0002629:
+#   rename:
+#   - entity_positively_regulates_entity
+#   - biolink:entity_positively_regulates_entity
+# RO:0002630:
+#   rename:
+#   - entity_negatively_regulates_entity
+#   - biolink:entity_negatively_regulates_entity
 RO:0003000:
   rename:
   - produces
@@ -4204,54 +4204,54 @@ SEMMEDDB:xref:
   rename:
   - related_to
   - biolink:related_to
-SO:adjacent_to:
-  rename:
-  - coexists_with
-  - biolink:coexists_with
-SO:contains:
-  rename:
-  - has_part
-  - biolink:has_part
-SO:derives_from:
-  rename:
-  - coexists_with
-  - biolink:coexists_with
-SO:guided_by:
-  rename:
-  - related_to
-  - biolink:related_to
+# SO:adjacent_to:
+#   rename:
+#   - coexists_with
+#   - biolink:coexists_with
+# SO:contains:
+#   rename:
+#   - has_part
+#   - biolink:has_part
+# SO:derives_from:
+#   rename:
+#   - coexists_with
+#   - biolink:coexists_with
+# SO:guided_by:
+#   rename:
+#   - related_to
+#   - biolink:related_to
 SO:has_origin:
   rename:
   - coexists_with
   - biolink:coexists_with
-SO:has_part:
-  rename:
-  - has_part
-  - biolink:has_part
-SO:has_quality:
-  rename:
-  - related_to
-  - biolink:related_to
-SO:non_functional_homolog_of:
-  rename:
-  - homologous_to
-  - biolink:homologous_to
-SO:member_of:
-  invert:
-  - has_part
-  - biolink:has_part
-SO:overlaps:
-  rename:
-  - overlaps
-  - biolink:overlaps
-SO:transcribed_from:
-  rename:
-  - gene_product_of
-  - biolink:gene_product_of
-SO:transcribed_to:
-  invert:
-  - gene_product_of
-  - biolink:gene_product_of
+# SO:has_part:
+#   rename:
+#   - has_part
+#   - biolink:has_part
+# SO:has_quality:
+#   rename:
+#   - related_to
+#   - biolink:related_to
+# SO:non_functional_homolog_of:
+#   rename:
+#   - homologous_to
+#   - biolink:homologous_to
+# SO:member_of:
+#   invert:
+#   - has_part
+#   - biolink:has_part
+# SO:overlaps:
+#   rename:
+#   - overlaps
+#   - biolink:overlaps
+# SO:transcribed_from:
+#   rename:
+#   - gene_product_of
+#   - biolink:gene_product_of
+# SO:transcribed_to:
+#   invert:
+#   - gene_product_of
+#   - biolink:gene_product_of
 UBERON:anastomoses_with:
   rename:
   - coexists_with
@@ -4280,10 +4280,10 @@ UBERON:distally_connected_to:
   rename:
   - coexists_with
   - biolink:coexists_with
-UBERON:existence_starts_and_ends_during:
-  rename:
-  - coexists_with
-  - biolink:coexists_with
+# UBERON:existence_starts_and_ends_during:
+#   rename:
+#   - coexists_with
+#   - biolink:coexists_with
 UBERON:extends_fibers_into:
   rename:
   - coexists_with
@@ -4344,10 +4344,10 @@ UMLS:RB:
   rename:
   - related_to
   - biolink:related_to
-UMLS:RN:
-  rename:
-  - related_to
-  - biolink:related_to
+# UMLS:RN:
+#   rename:
+#   - related_to
+#   - biolink:related_to
 UMLS:RO:
   rename:
   - related_to
