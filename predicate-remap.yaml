@@ -4474,10 +4474,6 @@ VANDF:isa:
   rename:
   - subclass_of
   - biolink:subclass_of
-biolink:has_gene_product:
-  invert:
-  - gene_product_of
-  - biolink:gene_product_of
 biolink:in_taxon:
   keep: null
 biolink:part_of:
