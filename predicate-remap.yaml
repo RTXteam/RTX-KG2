@@ -4474,86 +4474,18 @@ VANDF:isa:
   rename:
   - subclass_of
   - biolink:subclass_of
-biolink:actively_involves:
-  invert:
-  - actively_involved_in
-  - biolink:actively_involved_in
-biolink:caused_by:
-  invert:
-  - causes
-  - biolink:causes
-biolink:condition_associated_with_gene:
-  invert:
-  - gene_associated_with_condition
-  - biolink:gene_associated_with_condition
-biolink:derives_into:
-  invert:
-  - derives_from
-  - biolink:derives_from
-biolink:enabled_by:
-  invert:
-  - enables
-  - biolink:enables
-biolink:expresses:
-  invert:
-  - expressed_in
-  - biolink:expressed_in
-biolink:has_biomarker:
-  invert:
-  - biomarker_for
-  - biolink:biomarker_for
 biolink:has_gene_product:
   invert:
   - gene_product_of
   - biolink:gene_product_of
 biolink:in_taxon:
   keep: null
-biolink:is_metabolite_of:
-  invert:
-  - has_metabolite
-  - biolink:has_metabolite
-biolink:location_of:
-  invert:
-  - located_in
-  - biolink:located_in
-biolink:narrow_match:
-  invert:
-  - broad_match
-  - biolink:broad_match
 biolink:part_of:
   invert:
   - has_part
   - biolink:has_part
-biolink:participates_in:
-  invert:
-  - has_participant
-  - biolink:has_participant
-biolink:preceded_by:
-  invert:
-  - precedes
-  - biolink:precedes
-biolink:produced_by:
-  invert:
-  - produces
-  - biolink:produces
 biolink:subclass_of:
   keep: null
-biolink:superclass_of:
-  invert:
-  - subclass_of
-  - biolink:subclass_of
-biolink:transcribed_to:
-  invert:
-  - transcribed_from
-  - biolink:transcribed_from
-biolink:translation_of:
-  invert:
-  - translates_to
-  - biolink:translates_to
-biolink:treated_by:
-  invert:
-  - treats
-  - biolink:treats
 oboFormat:xref:
   rename:
   - close_match
