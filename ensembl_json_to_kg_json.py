@@ -121,9 +121,9 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                                             ENSEMBL_KB_CURIE_ID,
                                             update_date))
         for microrna_xref in microrna_xrefs:
-            edges.append(kg2_util.make_edge_biolink(ensembl_gene_curie_id,
-                                                    microrna_xref,
-                                                    kg2_util.EDGE_LABEL_BIOLINK_HAS_GENE_PRODUCT,
+            edges.append(kg2_util.make_edge_biolink(microrna_xref,
+                                                    ensembl_gene_curie_id,
+                                                    kg2_util.EDGE_LABEL_BIOLINK_GENE_PRODUCT_OF,
                                                     ENSEMBL_KB_CURIE_ID,
                                                     update_date))
         for go_xref in go_xrefs:

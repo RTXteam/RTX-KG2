@@ -151,18 +151,18 @@ def make_edges(records: list, nodes_dict: dict):
                 hgnc_match = REGEX_HGNC.match(xref_str)
                 if hgnc_match is not None:
                     hgnc_curie = hgnc_match[1]
-                    ret_list.append(kg2_util.make_edge_biolink(hgnc_curie,
-                                                               curie_id,
-                                                               kg2_util.EDGE_LABEL_BIOLINK_HAS_GENE_PRODUCT,
+                    ret_list.append(kg2_util.make_edge_biolink(curie_id,
+                                                               hgnc_curie,
+                                                               kg2_util.EDGE_LABEL_BIOLINK_GENE_PRODUCT_OF,
                                                                UNIPROTKB_PROVIDED_BY_CURIE_ID,
                                                                update_date))
                 gene_id_match = REGEX_NCBIGeneID.match(xref_str)
                 if gene_id_match is not None:
                     ncbi_curie = kg2_util.CURIE_PREFIX_NCBI_GENE + \
                         ':' + gene_id_match[1]
-                    ret_list.append(kg2_util.make_edge_biolink(ncbi_curie,
-                                                               curie_id,
-                                                               kg2_util.EDGE_LABEL_BIOLINK_HAS_GENE_PRODUCT,
+                    ret_list.append(kg2_util.make_edge_biolink(curie_id,
+                                                               ncbi_curie,
+                                                               kg2_util.EDGE_LABEL_BIOLINK_GENE_PRODUCT_OF,
                                                                UNIPROTKB_PROVIDED_BY_CURIE_ID,
                                                                update_date))
 
