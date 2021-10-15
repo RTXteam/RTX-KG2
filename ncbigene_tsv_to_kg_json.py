@@ -32,6 +32,7 @@ def get_args():
 
 
 def make_node(ncbi_gene_id: str,
+              name: str,
               full_name: str,
               gene_symbol: str,
               update_date: str,
@@ -44,12 +45,12 @@ def make_node(ncbi_gene_id: str,
     iri = NCBI_BASE_IRI + ncbi_gene_id
     node_dict = kg2_util.make_node(node_curie,
                                    iri,
-                                   full_name,
+                                   name,
                                    category_label,
                                    update_date,
                                    NCBI_KB_CURIE_ID)
     node_dict['synonym'] = [gene_symbol] + sorted(list(set(other_synonyms)))
-    node_dict['name'] = "Genetic locus associated with " + gene_symbol
+    node_dict['full_name'] = full_name
     return node_dict
 
 
@@ -111,17 +112,20 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
             if type_of_gene != "unknown" or (db_xrefs is None) or (not db_xrefs.startswith("MIM:")) or \
                nomenc_status is not None:
                 category_label = kg2_util.BIOLINK_CATEGORY_GENE
+                name = gene_symbol
             else:
                 full_name = 'Genetic locus associated with ' + full_name
+                name = 'Genetic locus associated with ' + gene_symbol
                 category_label = kg2_util.BIOLINK_CATEGORY_NUCLEIC_ACID_ENTITY
             node_dict = make_node(ncbi_gene_id,
+                                  name,
                                   full_name,
                                   gene_symbol,
                                   modify_date,
                                   category_label,
                                   node_synonyms)
             node_curie_id = node_dict['id']
-            type_str = 'Type:'+type_of_gene
+            type_str = 'Type:' + type_of_gene
             node_description = ''
             if description is not None and description != full_name_auth:
                 node_description = description + '; '
