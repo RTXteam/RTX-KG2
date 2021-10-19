@@ -94,7 +94,7 @@ if __name__ == '__main__':
             continue
         relation_label = edge_dict['relation_label']
         predicate_label = relation_label
-        relation_curie = edge_dict['relation']
+        relation_curie = edge_dict['original_predicate']
         predicate_curie = relation_curie
         if record_of_relation_curie_occurrences.get(relation_curie, None) is not None:
             record_of_relation_curie_occurrences[relation_curie] = True

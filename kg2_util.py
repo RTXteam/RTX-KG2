@@ -241,7 +241,6 @@ EDGE_LABEL_BIOLINK_IN_TAXON = 'in_taxon'
 EDGE_LABEL_BIOLINK_PART_OF = 'part_of'
 EDGE_LABEL_BIOLINK_PHYSICALLY_INTERACTS_WITH = 'physically_interacts_with'
 EDGE_LABEL_BIOLINK_RELATED_TO = 'related_to'
-EDGE_LABEL_BIOLINK_RELATION = 'relation'
 EDGE_LABEL_BIOLINK_SAME_AS = 'same_as'
 EDGE_LABEL_BIOLINK_SUBCLASS_OF = 'subclass_of'
 EDGE_LABEL_BIOLINK_TRANSCRIBED_FROM = 'transcribed_from'
@@ -689,7 +688,7 @@ def make_node(id: str,
 
 def make_edge_key(edge_dict: dict):
     return edge_dict['subject'] + '---' + \
-           edge_dict['relation'] + '---' + \
+           edge_dict['original_predicate'] + '---' + \
            edge_dict['object'] + '---' + \
            edge_dict['provided_by']
 
@@ -704,7 +703,7 @@ def make_edge(subject_id: str,
     edge = {'subject': subject_id,
             'object': object_id,
             'relation_label': relation_label,
-            'relation': relation_curie,
+            'original_predicate': relation_curie,
             'negated': False,
             'publications': [],
             'publications_info': {},
