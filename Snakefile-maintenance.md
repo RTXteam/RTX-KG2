@@ -237,7 +237,6 @@ rule Merge:
          unichem = config['UNICHEM_OUTPUT_FILE'],
          ncbigene = config['NCBI_GENE_OUTPUT_FILE'],
          dgidb = config['DGIDB_OUTPUT_FILE'],
-         kg_one = config['KG1_OUTPUT_FILE'],
          repoddb = config['REPODB_OUTPUT_FILE'],
          drugbank = config['DRUGBANK_OUTPUT_FILE'],
          smpdb = config['SMPDB_OUTPUT_FILE'],
@@ -256,9 +255,9 @@ rule Merge:
 
 #### Special Circumstances
 
-If you need to run multiple commands in one rule, rather than using `shell`, use `run`. When using `run`, you must specify that you are using the shell. To do this, place your bash command into the function `shell()`.
+If you need to run multiple commands in one rule, rather than using `shell`, use `run`. When using `run`, you must specify that you are using the shell. To do this, place your bash commands into the function `shell()`.
 
-Example (no longer used in the snakemake build process):
+Example (note, this particular command no longer used in the snakemake build process):
 ```
 rule KG_One:
     input:
