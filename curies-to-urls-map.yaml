@@ -400,8 +400,6 @@ use_for_bidirectional_mapping:
   -
     umls_source: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/
   -
-    UMLSSC: http://purl.bioontology.org/ontology/STY/
-  -
     UNICHEM_source: "https://www.ebi.ac.uk/unichem/"
   -
     UniProtKB: "https://identifiers.org/uniprot:"
@@ -613,6 +611,8 @@ use_for_contraction_only:
     UMLS: http://purl.bioontology.org/ontology/MED-RT/
   -
     UMLS: http://purl.bioontology.org/ontology/MEDLINEPLUS/
+  -
+    UMLSSC: http://purl.bioontology.org/ontology/STY/
   -
     UniProtKB: "http://identifiers.org/uniprot/"
   -
