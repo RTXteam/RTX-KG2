@@ -206,7 +206,7 @@ use_for_bidirectional_mapping:
   -
     medgen: "https://identifiers.org/medgen:"
   -
-    MESH: http://purl.bioontology.org/ontology/MESH/
+    MESH: http://id.nlm.nih.gov/mesh/
   -
     MF: http://purl.obolibrary.org/obo/MF_
   -
@@ -218,7 +218,7 @@ use_for_bidirectional_mapping:
   -
     MI: http://purl.obolibrary.org/obo/MI_
   -
-    miRBase: "https://identifiers.org/mirbase:"
+    miRBase: http://identifiers.org/mirbase
   -
     miRGate: http://mirgate.bioinfo.cnio.es
   -
@@ -368,7 +368,7 @@ use_for_bidirectional_mapping:
   -
     SMPDB: "https://identifiers.org/smpdb:"
   -
-    SNOMED: http://purl.bioontology.org/ontology/SNOMEDCT/
+    SNOMED: http://www.snomedbrowser.com/Codes/Details/
   -
     SO: http://purl.obolibrary.org/obo/SO_
   -
@@ -520,11 +520,15 @@ use_for_contraction_only:
   -
     medgen: http://identifiers.org/medgen/
   -
+    MESH: http://purl.bioontology.org/ontology/MESH/
+  -
     MESH: http://purl.bioontology.org/ontology/MSH/
   -
     MESH: http://identifiers.org/mesh/
   -
     MGI: "http://www.informatics.jax.org/marker/MGI:"
+  -
+    miRBase: "https://identifiers.org/mirbase:"
   -
     MONDO: http://purl.obolibrary.org/obo/mondo#
   -
@@ -574,6 +578,8 @@ use_for_contraction_only:
   -
     skos: http://www.w3.org/2008/05/skos#
   -
+    SNOMED: http://purl.bioontology.org/ontology/SNOMEDCT/
+  -
     SNOMED: http://snomed.info/id/
   -
     SNOMED: http://snomed.info/sct/
@@ -583,6 +589,8 @@ use_for_contraction_only:
     SNOMED: http://identifiers.org/snomedct/
   -
     SO: http://purl.obolibrary.org/obo/so#
+  -
+    STY: http://purl.bioontology.org/ontology/STY/
   -
     NCBITaxon: http://purl.obolibrary.org/obo/ncbitaxon#
   -
