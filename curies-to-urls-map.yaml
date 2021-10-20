@@ -374,6 +374,8 @@ use_for_bidirectional_mapping:
   -
     STATO: http://purl.obolibrary.org/obo/STATO_
   -
+    STY: http://purl.bioontology.org/ontology/STY/
+  -
     SWO: http://www.ebi.ac.uk/swo/
   -
     SYMP: http://purl.obolibrary.org/obo/SYMP_
@@ -589,8 +591,6 @@ use_for_contraction_only:
     SNOMED: http://identifiers.org/snomedct/
   -
     SO: http://purl.obolibrary.org/obo/so#
-  -
-    STY: http://purl.bioontology.org/ontology/STY/
   -
     NCBITaxon: http://purl.obolibrary.org/obo/ncbitaxon#
   -
