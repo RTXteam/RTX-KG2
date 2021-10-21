@@ -2381,7 +2381,9 @@ NCIT:disease_has_associated_anatomic_site:
   - affects
   - biolink:affects
 NCIT:disease_has_associated_disease:
-  delete: null
+  rename: 
+  - has_real_world_evidence_of_association_with
+  - biolink:has_real_world_evidence_of_association_with
 NCIT:disease_has_associated_gene:
   delete: null
 NCIT:disease_has_cytogenetic_abnormality:
