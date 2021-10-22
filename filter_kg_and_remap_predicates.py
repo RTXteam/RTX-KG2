@@ -64,16 +64,16 @@ if __name__ == '__main__':
     [curie_to_uri_expander, uri_to_curie_shortener] = [map_dict['expand'], map_dict['contract']]
     graph = kg2_util.load_json(input_file_name)
     new_edges = dict()
-    relation_curies_not_in_config = set()
+    original_predicate_curies_not_in_config = set()
     provided_by_curies_not_in_config_nodes = set()
     provided_by_curies_not_in_config_edges = set()
-    record_of_relation_curie_occurrences = {relation_curie: False for relation_curie in
+    record_of_original_predicate_curie_occurrences = {original_predicate_curie: False for original_predicate_curie in
                                             predicate_remap_config.keys()}
     command_set = {'delete', 'keep', 'invert', 'rename'}
-    for relation_curie, command in predicate_remap_config.items():
+    for original_predicate_curie, command in predicate_remap_config.items():
         assert len(command) == 1
         assert next(iter(command.keys())) in command_set
-    relation_curies_not_in_nodes = set()
+    original_predicate_curies_not_in_nodes = set()
     nodes_dict = dict()
     for node_dict in graph['nodes']:
         node_id = node_dict['id']
@@ -92,22 +92,22 @@ if __name__ == '__main__':
             print('processing edge ' + str(edge_ctr) + ' out of ' + str(len(graph['edges'])))
         if drop_negated and edge_dict['negated']:
             continue
-        relation_label = edge_dict['relation_label']
+        original_predicate_label = edge_dict['original_predicate_label']
         predicate_label = relation_label
-        relation_curie = edge_dict['original_predicate']
-        predicate_curie = relation_curie
-        if record_of_relation_curie_occurrences.get(relation_curie, None) is not None:
-            record_of_relation_curie_occurrences[relation_curie] = True
-            pred_remap_info = predicate_remap_config.get(relation_curie, None)
+        original_predicate_curie = edge_dict['original_predicate']
+        predicate_curie = original_predicate_curie
+        if record_of_original_predicate_curie_occurrences.get(original_predicate_curie, None) is not None:
+            record_of_original_predicate_curie_occurrences[original_predicate_curie] = True
+            pred_remap_info = predicate_remap_config.get(original_predicate_curie, None)
         else:
-            # there is a relation CURIE in the graph that is not in the config file
-            relation_curies_not_in_config.add(relation_curie)
+            # there is a original predicate CURIE in the graph that is not in the config file
+            original_predicate_curies_not_in_config.add(original_predicate_curie)
             pred_remap_info = {'keep': None}
         assert pred_remap_info is not None
         invert = False
         get_new_rel_info = False
         if pred_remap_info is None:
-            assert relation_curie in relation_curies_not_in_config
+            assert original_predicate_curie in original_predicate_curies_not_in_config
         else:
             if 'delete' in pred_remap_info:
                 continue
@@ -125,7 +125,7 @@ if __name__ == '__main__':
             predicate_label = remap_subinfo[0]
             predicate_curie = remap_subinfo[1]
         if invert:
-            edge_dict['relation_label'] = 'INVERTED:' + relation_label
+            edge_dict['original_predicate_label'] = 'INVERTED:' + original_predicate_label
             new_object = edge_dict['subject']
             edge_dict['subject'] = edge_dict['object']
             edge_dict['object'] = new_object
@@ -139,7 +139,7 @@ if __name__ == '__main__':
             predicate_curie_prefix = predicate_curie.split(':')[0]
             predicate_uri_prefix = curie_to_uri_expander(predicate_curie_prefix + ':')
             if predicate_uri_prefix == predicate_curie_prefix:
-                relation_curies_not_in_nodes.add(predicate_curie)
+                original_predicate_curies_not_in_nodes.add(predicate_curie)
         provided_by = edge_dict['provided_by']
         infores_curie_dict = infores_remap_config.get(provided_by, None)
         if infores_curie_dict is None:
@@ -163,26 +163,26 @@ if __name__ == '__main__':
     del nodes_dict
     graph['edges'] = list(new_edges.values())
     del new_edges
-    for relation_curie in record_of_relation_curie_occurrences:
-        if not record_of_relation_curie_occurrences[relation_curie]:
-            print('relation curie is in the config file but was not used in any edge in the graph: ' + relation_curie, file=sys.stderr)
-    for relation_curie in relation_curies_not_in_nodes:
-        print('could not find a node for relation curie: ' + relation_curie)
-    relation_curies_not_in_config_for_iteration = list(relation_curies_not_in_config)
-    for relation_curie_not_in_config in relation_curies_not_in_config_for_iteration:
-        if not relation_curie_not_in_config.startswith(kg2_util.CURIE_PREFIX_BIOLINK + ':'):
-            print('relation curie is missing from the YAML config file: ' + relation_curie_not_in_config,
+    for original_predicate_curie in record_of_original_predicate_curie_occurrences:
+        if not record_of_original_predicate_curie_occurrences[original_predicate_curie]:
+            print('original predicate curie is in the config file but was not used in any edge in the graph: ' + original_predicate_curie, file=sys.stderr)
+    for original_predicate_curie in original_predicate_curies_not_in_nodes:
+        print('could not find a node for original predicate curie: ' + original_predicate_curie)
+    original_predicate_curies_not_in_config_for_iteration = list(original_predicate_curies_not_in_config)
+    for original_predicate_curie_not_in_config in original_predicate_curies_not_in_config_for_iteration:
+        if not original_predicate_curie_not_in_config.startswith(kg2_util.CURIE_PREFIX_BIOLINK + ':'):
+            print('original predicate curie is missing from the YAML config file: ' + original_predicate_curie_not_in_config,
                   file=sys.stderr)
         else:
-            relation_curies_not_in_config.remove(relation_curie_not_in_config)
+            original_predicate_curies_not_in_config.remove(original_predicate_curie_not_in_config)
     for provided_by_curies_not_in_config_node in provided_by_curies_not_in_config_nodes:
         print('provided_by node curie is missing from the YAML config file: ' + provided_by_curies_not_in_config_node,
                file=sys.stderr)
     for provided_by_curies_not_in_config_edge in provided_by_curies_not_in_config_edges:
         print('provided_by node curie is missing from the YAML config file: ' + provided_by_curies_not_in_config_edge,
                file=sys.stderr)
-    if len(relation_curies_not_in_config) > 0:
-        print("There are relation curies missing from the yaml config file. Please add them and try again. Exiting.", file=sys.stderr)
+    if len(original_predicate_curies_not_in_config) > 0:
+        print("There are original predicate curies missing from the yaml config file. Please add them and try again. Exiting.", file=sys.stderr)
         exit(1)
     if len(provided_by_curies_not_in_config_nodes) > 0:
         print("There are nodes provided_by curies missing from the yaml config file. Please add them and try again. Exiting.", file=sys.stderr)
