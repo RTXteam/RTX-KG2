@@ -108,6 +108,7 @@ term-mappings:
     HP:0000005: phenotypic feature
     HP:0000118: phenotypic feature
     HP:0032443: information content entity
+    MAXO:0000058: treatment
     MEDDRA:10005329: disease
     MEDDRA:10007541: disease
     MEDDRA:10010331: disease
@@ -239,6 +240,100 @@ term-mappings:
     SNOMED:419891008: information content entity
     SNOMED:900000000000441003: information content entity
     SO:0000704: gene # formerly genomic entity
+    STY:T001: individual organism
+    STY:T017: anatomical entity
+    STY:T018: gross anatomical structure
+    STY:T019: disease
+    STY:T020: disease
+    STY:T023: gross anatomical structure
+    STY:T024: gross anatomical structure
+    STY:T025: cell
+    STY:T026: cellular component
+    STY:T028: genomic entity
+    STY:T032: organism attribute
+    STY:T033: disease or phenotypic feature
+    STY:T034: phenomenon
+    STY:T037: disease
+    STY:T038: phenomenon
+    STY:T039: physiological process
+    STY:T040: physiological process
+    STY:T041: behavior
+    STY:T042: physiological process
+    STY:T043: physiological process
+    STY:T044: molecular activity
+    STY:T045: physiological process
+    STY:T046: disease
+    STY:T047: disease
+    STY:T048: disease
+    STY:T049: disease
+    STY:T050: biological entity
+    STY:T052: activity
+    STY:T053: behavior
+    STY:T054: behavior
+    STY:T055: behavior
+    STY:T056: activity
+    STY:T057: activity
+    STY:T058: activity
+    STY:T059: procedure
+    STY:T060: procedure
+    STY:T061: procedure
+    STY:T062: activity
+    STY:T063: procedure
+    STY:T064: activity
+    STY:T065: activity
+    STY:T066: activity
+    STY:T067: phenomenon
+    STY:T068: phenomenon
+    STY:T069: phenomenon
+    STY:T070: phenomenon
+    STY:T071: named thing
+    STY:T072: physical entity
+    STY:T073: physical entity
+    STY:T074: device
+    STY:T075: device
+    STY:T077: information content entity
+    STY:T078: information content entity
+    STY:T079: information content entity
+    STY:T080: information content entity
+    STY:T081: information content entity
+    STY:T082: information content entity
+    STY:T083: geographic location
+    STY:T085: genomic entity
+    STY:T086: nucleic acid entity
+    STY:T087: polypeptide
+    STY:T088: genomic entity
+    STY:T089: information content entity
+    STY:T092: agent
+    STY:T093: agent
+    STY:T094: agent
+    STY:T095: agent
+    STY:T096: agent
+    STY:T097: cohort
+    STY:T098: population of individual organisms
+    STY:T099: cohort
+    STY:T100: cohort
+    STY:T101: cohort
+    STY:T102: information content entity
+    STY:T114: nucleic acid entity
+    STY:T116: polypeptide
+    STY:T121: drug
+    STY:T122: device
+    STY:T126: protein
+    STY:T127: vitamin
+    STY:T168: food
+    STY:T169: information content entity
+    STY:T170: publication
+    STY:T171: information content entity
+    STY:T184: phenotypic feature
+    STY:T185: information content entity
+    STY:T190: disease
+    STY:T191: disease
+    STY:T192: protein
+    STY:T195: drug
+    STY:T196: small molecule
+    STY:T200: drug
+    STY:T201: clinical attribute
+    STY:T203: device
     TRANS:0000000: named thing # formerly exposure event
     UBERON:0001062: anatomical entity
     UBERON:0000105: life stage
