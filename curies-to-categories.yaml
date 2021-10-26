@@ -249,8 +249,8 @@ term-mappings:
     STY:T024: gross anatomical structure
     STY:T025: cell
     STY:T026: cellular component
-    STY:T028: genomic entity
-    STY:T032: organism attribute
+    STY:T028: biological entity
+    STY:T032: named thing # formerly organism attribute
     STY:T033: disease or phenotypic feature
     STY:T034: phenomenon
     STY:T037: disease
@@ -298,10 +298,10 @@ term-mappings:
     STY:T081: information content entity
     STY:T082: information content entity
     STY:T083: geographic location
-    STY:T085: genomic entity
+    STY:T085: biological entity
     STY:T086: nucleic acid entity
     STY:T087: polypeptide
-    STY:T088: genomic entity
+    STY:T088: biological entity
     STY:T089: information content entity
     STY:T092: agent
     STY:T093: agent
@@ -332,7 +332,7 @@ term-mappings:
     STY:T195: drug
     STY:T196: small molecule
     STY:T200: drug
-    STY:T201: clinical attribute
+    STY:T201: named thing # formerly clinical attribute
     STY:T203: device
     TRANS:0000000: named thing # formerly exposure event
     UBERON:0001062: anatomical entity
