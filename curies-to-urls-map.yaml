@@ -202,6 +202,8 @@ use_for_bidirectional_mapping:
   -
     MA: http://purl.obolibrary.org/obo/MA_
   -
+    MAXO: http://purl.obolibrary.org/obo/MAXO_
+  -
     MEDDRA: http://purl.bioontology.org/ontology/MEDDRA/
   -
     medgen: "https://identifiers.org/medgen:"
