@@ -336,7 +336,7 @@ this command:
 
     bash -x ~/kg2-code/build-kg2-snakemake.sh all -F -n
     
-and inspect the file `build-kg2-snakemake-n.log` that will be created, to make sure htat
+and inspect the file `~/kg2-build/build-kg2-snakemake-n.log` that will be created, to make sure htat
 all of the KG2 build tasks are included. Currently, the file should end with the following
 count of tasks:
 ```
