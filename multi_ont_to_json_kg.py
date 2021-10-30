@@ -1044,7 +1044,7 @@ def get_rels_dict(nodes: dict,
                     elif edge_pred_string in kg2_util.MONDO_EDGE_NAMES_SET:
                         predicate_curie = kg2_util.CURIE_PREFIX_MONDO + ':' + edge_pred_string
                     else:
-                        assert "Cannot map predicate name: " + edge_pred_string + " to a predicate CURIE, in ontology: " + ontology.id
+                        assert False, "Cannot map predicate name: " + edge_pred_string + " to a predicate CURIE, in ontology: " + ontology.id
                     predicate_label = kg2_util.convert_camel_case_to_snake_case(edge_pred_string)
                 else:
                     # edge_pred_string is a CURIE
