@@ -249,7 +249,7 @@ EDGE_LABEL_BIOLINK_TREATS = 'treats'
 
 RDFS_EDGE_NAMES_SET = {'subClassOf', 'subPropertyOf'}
 OWL_EDGE_NAMES_SET = {'equivalentClass', 'equivalentProperty', 'sameAs',
-                      'differentFrom'}
+                      'differentFrom', 'inverseOf'}
 MONDO_EDGE_NAMES_SET = {'equivalentTo'}
 
 OBO_REL_CURIE_RE = re.compile(r'OBO:([^#]+)#([^#]+)')
