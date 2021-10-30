@@ -150,7 +150,7 @@ fi
 
 if [[ "${travisci_flag}" != "travisci" ]]
 then
-    command="cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} ${run_flag} -j ${dryrun} ${graphic}"
+    command="cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} ${run_flag} -R Finish -j ${dryrun} ${graphic}"
 else
     command="cd ~ && snakemake --snakefile ${snakefile} ${run_flag} -j ${dryrun} ${graphic}"
 fi
