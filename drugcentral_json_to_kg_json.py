@@ -238,7 +238,7 @@ def process_pharmacologic_actions(pharm_acts, update_date, test_mode):
 def make_nodes(drugcentral_ids, update_date):
     nodes = []
     reformatted_json = dict()
-    category_label = kg2_util.BIOLINK_CATEGORY_DRUG
+    category_label = kg2_util.BIOLINK_CATEGORY_CHEMICAL_ENTITY
     for name_row in drugcentral_ids:
         drug_central_id = name_row['id']
         name = name_row['name']
