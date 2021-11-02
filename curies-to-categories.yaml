@@ -257,11 +257,16 @@ term-mappings:
     STY:T018: gross anatomical structure
     STY:T019: disease
     STY:T020: disease
+    STY:T021: gross anatomical structure
+    STY:T022: anatomical entity
     STY:T023: gross anatomical structure
     STY:T024: gross anatomical structure
     STY:T025: cell
     STY:T026: cellular component
     STY:T028: biological entity
+    STY:T029: anatomical entity
+    STY:T030: anatomical entity
+    STY:T031: anatomical entity
     STY:T032: named thing # formerly organism attribute
     STY:T033: disease or phenotypic feature
     STY:T034: phenomenon
@@ -279,6 +284,7 @@ term-mappings:
     STY:T048: disease
     STY:T049: disease
     STY:T050: biological entity
+    STY:T051: event # formerly activity
     STY:T052: activity
     STY:T053: behavior
     STY:T054: behavior
@@ -315,6 +321,7 @@ term-mappings:
     STY:T087: polypeptide
     STY:T088: biological entity
     STY:T089: information content entity
+    STY:T090: individual organism
     STY:T092: agent
     STY:T093: agent
     STY:T094: agent
@@ -326,14 +333,22 @@ term-mappings:
     STY:T100: cohort
     STY:T101: cohort
     STY:T102: information content entity
+    STY:T103: chemical entity # formerly chemical substance
+    STY:T104: chemical entity # formerly chemical substance
     STY:T109: chemical entity
     STY:T114: nucleic acid entity
     STY:T116: polypeptide
+    STY:T120: chemical entity # formerly chemical substance
     STY:T121: drug
     STY:T122: device
+    STY:T123: chemical entity # formerly chemical substance
+    STY:T125: chemical entity # formerly chemical substance
     STY:T126: protein
     STY:T127: vitamin
+    STY:T129: chemical entity # formerly chemical substance
     STY:T130: chemical entity
+    STY:T131: chemical entity # formerly chemical substance
+    STY:T167: chemical entity # formerly chemical substance
     STY:T168: food
     STY:T169: information content entity
     STY:T170: publication
@@ -343,11 +358,14 @@ term-mappings:
     STY:T190: disease
     STY:T191: disease
     STY:T192: protein
+    STY:T194: organism taxon # formerly individual organism
     STY:T195: drug
     STY:T196: small molecule
+    STY:T097: cohort # formerly individual organism
     STY:T200: drug
     STY:T201: named thing # formerly clinical attribute
     STY:T203: device
+    STY:T204: organism taxon # formerly individual organism
     TRANS:0000000: named thing # formerly exposure event
     UBERON:0001062: anatomical entity
     UBERON:0000105: life stage
