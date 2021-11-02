@@ -241,15 +241,32 @@ term-mappings:
     SNOMED:900000000000441003: information content entity
     SO:0000704: gene # formerly genomic entity
     STY:T001: individual organism
+    STY:T002: organism taxon # formerly individual organism
+    STY:T004: organism taxon # formerly individual organism
+    STY:T005: organism taxon # formerly individual organism
+    STY:T007: organism taxon # formerly individual organism
+    STY:T008: organism taxon # formerly individual organism
+    STY:T010: organism taxon # formerly individual organism
+    STY:T011: organism taxon # formerly individual organism
+    STY:T012: organism taxon # formerly individual organism
+    STY:T013: organism taxon # formerly individual organism
+    STY:T014: organism taxon # formerly individual organism
+    STY:T015: organism taxon # formerly individual organism
+    STY:T016: organism taxon # formerly individual organism
     STY:T017: anatomical entity
     STY:T018: gross anatomical structure
     STY:T019: disease
     STY:T020: disease
+    STY:T021: gross anatomical structure
+    STY:T022: anatomical entity
     STY:T023: gross anatomical structure
     STY:T024: gross anatomical structure
     STY:T025: cell
     STY:T026: cellular component
     STY:T028: biological entity
+    STY:T029: anatomical entity
+    STY:T030: anatomical entity
+    STY:T031: anatomical entity
     STY:T032: named thing # formerly organism attribute
     STY:T033: disease or phenotypic feature
     STY:T034: phenomenon
@@ -267,6 +284,7 @@ term-mappings:
     STY:T048: disease
     STY:T049: disease
     STY:T050: biological entity
+    STY:T051: event # formerly activity
     STY:T052: activity
     STY:T053: behavior
     STY:T054: behavior
@@ -303,6 +321,7 @@ term-mappings:
     STY:T087: polypeptide
     STY:T088: biological entity
     STY:T089: information content entity
+    STY:T090: individual organism
     STY:T092: agent
     STY:T093: agent
     STY:T094: agent
@@ -314,12 +333,22 @@ term-mappings:
     STY:T100: cohort
     STY:T101: cohort
     STY:T102: information content entity
+    STY:T103: chemical entity # formerly chemical substance
+    STY:T104: chemical entity # formerly chemical substance
+    STY:T109: chemical entity
     STY:T114: nucleic acid entity
     STY:T116: polypeptide
+    STY:T120: chemical entity # formerly chemical substance
     STY:T121: drug
     STY:T122: device
+    STY:T123: chemical entity # formerly chemical substance
+    STY:T125: chemical entity # formerly chemical substance
     STY:T126: protein
     STY:T127: vitamin
+    STY:T129: chemical entity # formerly chemical substance
+    STY:T130: chemical entity
+    STY:T131: chemical entity # formerly chemical substance
+    STY:T167: chemical entity # formerly chemical substance
     STY:T168: food
     STY:T169: information content entity
     STY:T170: publication
@@ -329,143 +358,143 @@ term-mappings:
     STY:T190: disease
     STY:T191: disease
     STY:T192: protein
+    STY:T194: organism taxon # formerly individual organism
     STY:T195: drug
     STY:T196: small molecule
+    STY:T097: cohort # formerly individual organism
     STY:T200: drug
     STY:T201: named thing # formerly clinical attribute
     STY:T203: device
+    STY:T204: organism taxon # formerly individual organism
     TRANS:0000000: named thing # formerly exposure event
     UBERON:0001062: anatomical entity
     UBERON:0000105: life stage
-    UMLSSC:T001: individual organism
-    UMLSSC:T002: organism taxon # formerly individual organism
-    UMLSSC:T004: organism taxon # formerly individual organism
-    UMLSSC:T005: organism taxon # formerly individual organism
-    UMLSSC:T007: organism taxon # formerly individual organism
-    UMLSSC:T008: organism taxon # formerly individual organism
-    UMLSSC:T010: organism taxon # formerly individual organism
-    UMLSSC:T011: organism taxon # formerly individual organism
-    UMLSSC:T012: organism taxon # formerly individual organism
-    UMLSSC:T013: organism taxon # formerly individual organism
-    UMLSSC:T014: organism taxon # formerly individual organism
-    UMLSSC:T015: organism taxon # formerly individual organism
-    UMLSSC:T016: organism taxon # formerly individual organism
-    UMLSSC:T017: gross anatomical structure
-    UMLSSC:T018: gross anatomical structure
-    UMLSSC:T019: disease
-    UMLSSC:T020: disease
-    UMLSSC:T021: gross anatomical structure
-    UMLSSC:T022: anatomical entity
-    UMLSSC:T023: gross anatomical structure
-    UMLSSC:T024: gross anatomical structure
-    UMLSSC:T025: cell
-    UMLSSC:T026: cellular component
-    UMLSSC:T028: nucleic acid entity # formerly genomic entity
-    UMLSSC:T029: anatomical entity
-    UMLSSC:T030: anatomical entity
-    UMLSSC:T031: anatomical entity
-    UMLSSC:T032: named thing # formerly organism attribute # formerly physiological process
-    UMLSSC:T033: disease or phenotypic feature
-    UMLSSC:T034: phenomenon
-    UMLSSC:T037: disease # formerly pathological process
-    UMLSSC:T038: phenomenon
-    UMLSSC:T039: physiological process
-    UMLSSC:T040: physiological process
-    UMLSSC:T041: behavior # formerly physiological process
-    UMLSSC:T042: physiological process
-    UMLSSC:T043: physiological process
-    UMLSSC:T044: molecular activity
-    UMLSSC:T045: physiological process
-    UMLSSC:T046: disease # formerly pathological process
-    UMLSSC:T047: disease
-    UMLSSC:T048: disease
-    UMLSSC:T049: disease
-    UMLSSC:T050: biological entity
-    UMLSSC:T051: event # formerly activity 
-    UMLSSC:T052: activity
-    UMLSSC:T053: behavior # formerly activity
-    UMLSSC:T054: behavior # formerly activity
-    UMLSSC:T055: behavior # formerly activity
-    UMLSSC:T056: activity
-    UMLSSC:T057: activity 
-    UMLSSC:T058: activity # formerly procedure
-    UMLSSC:T059: procedure
-    UMLSSC:T060: procedure
-    UMLSSC:T061: procedure
-    UMLSSC:T062: activity # formerly procedure
-    UMLSSC:T063: procedure
-    UMLSSC:T064: activity 
-    UMLSSC:T065: activity # formerly procedure
-    UMLSSC:T066: activity
-    UMLSSC:T067: phenomenon # formerly named thing (see #1148)
-    UMLSSC:T068: phenomenon
-    UMLSSC:T069: phenomenon
-    UMLSSC:T070: phenomenon
-    UMLSSC:T071: named thing
-    UMLSSC:T072: physical entity # formerly named thing
-    UMLSSC:T073: physical entity # formerly named thing
-    UMLSSC:T074: device
-    UMLSSC:T075: device
-    UMLSSC:T077: information content entity
-    UMLSSC:T078: information content entity
-    UMLSSC:T079: information content entity
-    UMLSSC:T080: information content entity
-    UMLSSC:T081: information content entity
-    UMLSSC:T082: information content entity
-    UMLSSC:T083: geographic location
-    UMLSSC:T085: molecular entity
-    UMLSSC:T086: nucleic acid entity # formerly genomic entity
-    UMLSSC:T087: polypeptide # formerly protein
-    UMLSSC:T088: molecular entity # formerly carbohydrate
-    UMLSSC:T089: information content entity
-    UMLSSC:T090: individual organism
-    # UMLSSC:T091 is not in the Biolink model, but this
-    # is a fix per #1266.
-    UMLSSC:T091: individual organism
-    UMLSSC:T092: agent
-    UMLSSC:T093: agent
-    UMLSSC:T094: agent
-    UMLSSC:T095: agent
-    UMLSSC:T096: agent # formerly individual organism
-    UMLSSC:T097: cohort # formerly individual organism
-    UMLSSC:T098: population of individual organisms
-    UMLSSC:T099: cohort # formerly individual organism
-    UMLSSC:T100: cohort # formerly individual organism
-    UMLSSC:T101: cohort # formerly individual organism
-    UMLSSC:T102: information content entity
-    UMLSSC:T103: chemical entity # formerly chemical substance
-    UMLSSC:T104: chemical entity # formerly chemical substance
-    UMLSSC:T109: chemical entity # formerly chemical substance
-    UMLSSC:T114: nucleic acid entity # formerly chemical substance
-    UMLSSC:T116: polypeptide # formerly protein
-    UMLSSC:T120: chemical entity # formerly chemical substance
-    UMLSSC:T121: drug
-    UMLSSC:T122: device # formerly chemical substance
-    UMLSSC:T123: chemical entity # formerly chemical substance
-    UMLSSC:T125: chemical entity # formerly chemical substance
-    UMLSSC:T126: protein # formerly chemical substance
-    UMLSSC:T127: vitamin # formerly chemical substance
-    UMLSSC:T129: chemical entity # formerly chemical substance
-    UMLSSC:T130: chemical entity # formerly chemical substance
-    UMLSSC:T131: chemical entity # formerly chemical substance
-    UMLSSC:T167: chemical entity # formerly chemical substance
-    UMLSSC:T168: food
-    UMLSSC:T169: information content entity
-    UMLSSC:T170: publication
-    UMLSSC:T171: information content entity
-    UMLSSC:T184: phenotypic feature
-    UMLSSC:T185: information content entity
-    UMLSSC:T190: disease
-    UMLSSC:T191: disease
-    UMLSSC:T192: protein # formerly chemical substance
-    UMLSSC:T194: organism taxon # formerly individual organism
-    UMLSSC:T195: drug # formerly chemical substance
-    UMLSSC:T196: small molecule # formerly chemical substance
-    UMLSSC:T197: chemical entity # formerly chemical substance
-    UMLSSC:T200: drug
-    UMLSSC:T201: named thing # formerly clinical attribute # formerly physiological process
-    UMLSSC:T203: device
-    UMLSSC:T204: organism taxon # formerly individual organism
+    # UMLSSC:T001: individual organism
+    # UMLSSC:T005: organism taxon # formerly individual organism
+    # UMLSSC:T007: organism taxon # formerly individual organism
+    # UMLSSC:T008: organism taxon # formerly individual organism
+    # UMLSSC:T010: organism taxon # formerly individual organism
+    # UMLSSC:T012: organism taxon # formerly individual organism
+    # UMLSSC:T013: organism taxon # formerly individual organism
+    # UMLSSC:T014: organism taxon # formerly individual organism
+    # UMLSSC:T015: organism taxon # formerly individual organism
+    # UMLSSC:T016: organism taxon # formerly individual organism
+    # UMLSSC:T017: gross anatomical structure
+    # UMLSSC:T018: gross anatomical structure
+    # UMLSSC:T019: disease
+    # UMLSSC:T020: disease
+    # UMLSSC:T021: gross anatomical structure
+    # UMLSSC:T022: anatomical entity
+    # UMLSSC:T023: gross anatomical structure
+    # UMLSSC:T024: gross anatomical structure
+    # UMLSSC:T025: cell
+    # UMLSSC:T026: cellular component
+    # UMLSSC:T028: nucleic acid entity # formerly genomic entity
+    # UMLSSC:T029: anatomical entity
+    # UMLSSC:T030: anatomical entity
+    # UMLSSC:T031: anatomical entity
+    # UMLSSC:T032: named thing # formerly organism attribute # formerly physiological process
+    # UMLSSC:T033: disease or phenotypic feature
+    # UMLSSC:T034: phenomenon
+    # UMLSSC:T037: disease # formerly pathological process
+    # UMLSSC:T038: phenomenon
+    # UMLSSC:T039: physiological process
+    # UMLSSC:T040: physiological process
+    # UMLSSC:T041: behavior # formerly physiological process
+    # UMLSSC:T042: physiological process
+    # UMLSSC:T043: physiological process
+    # UMLSSC:T044: molecular activity
+    # UMLSSC:T045: physiological process
+    # UMLSSC:T046: disease # formerly pathological process
+    # UMLSSC:T047: disease
+    # UMLSSC:T048: disease
+    # UMLSSC:T049: disease
+    # UMLSSC:T050: biological entity
+    # UMLSSC:T051: event # formerly activity 
+    # UMLSSC:T052: activity
+    # UMLSSC:T053: behavior # formerly activity
+    # UMLSSC:T054: behavior # formerly activity
+    # UMLSSC:T055: behavior # formerly activity
+    # UMLSSC:T056: activity
+    # UMLSSC:T057: activity 
+    # UMLSSC:T058: activity # formerly procedure
+    # UMLSSC:T059: procedure
+    # UMLSSC:T060: procedure
+    # UMLSSC:T061: procedure
+    # UMLSSC:T062: activity # formerly procedure
+    # UMLSSC:T063: procedure
+    # UMLSSC:T064: activity 
+    # UMLSSC:T065: activity # formerly procedure
+    # UMLSSC:T066: activity
+    # UMLSSC:T067: phenomenon # formerly named thing (see #1148)
+    # UMLSSC:T068: phenomenon
+    # UMLSSC:T069: phenomenon
+    # UMLSSC:T070: phenomenon
+    # UMLSSC:T071: named thing
+    # UMLSSC:T072: physical entity # formerly named thing
+    # UMLSSC:T073: physical entity # formerly named thing
+    # UMLSSC:T074: device
+    # UMLSSC:T075: device
+    # UMLSSC:T077: information content entity
+    # UMLSSC:T078: information content entity
+    # UMLSSC:T079: information content entity
+    # UMLSSC:T080: information content entity
+    # UMLSSC:T081: information content entity
+    # UMLSSC:T082: information content entity
+    # UMLSSC:T083: geographic location
+    # UMLSSC:T085: molecular entity
+    # UMLSSC:T086: nucleic acid entity # formerly genomic entity
+    # UMLSSC:T087: polypeptide # formerly protein
+    # UMLSSC:T088: molecular entity # formerly carbohydrate
+    # UMLSSC:T089: information content entity
+    # UMLSSC:T090: individual organism
+    # # UMLSSC:T091 is not in the Biolink model, but this
+    # # is a fix per #1266.
+    # UMLSSC:T091: individual organism
+    # UMLSSC:T092: agent
+    # UMLSSC:T093: agent
+    # UMLSSC:T094: agent
+    # UMLSSC:T095: agent
+    # UMLSSC:T096: agent # formerly individual organism
+    # UMLSSC:T097: cohort # formerly individual organism
+    # UMLSSC:T098: population of individual organisms
+    # UMLSSC:T099: cohort # formerly individual organism
+    # UMLSSC:T100: cohort # formerly individual organism
+    # UMLSSC:T101: cohort # formerly individual organism
+    # UMLSSC:T102: information content entity
+    # UMLSSC:T103: chemical entity # formerly chemical substance
+    # UMLSSC:T104: chemical entity # formerly chemical substance
+    # UMLSSC:T109: chemical entity # formerly chemical substance
+    # UMLSSC:T114: nucleic acid entity # formerly chemical substance
+    # UMLSSC:T116: polypeptide # formerly protein
+    # UMLSSC:T120: chemical entity # formerly chemical substance
+    # UMLSSC:T121: drug
+    # UMLSSC:T122: device # formerly chemical substance
+    # UMLSSC:T123: chemical entity # formerly chemical substance
+    # UMLSSC:T125: chemical entity # formerly chemical substance
+    # UMLSSC:T126: protein # formerly chemical substance
+    # UMLSSC:T127: vitamin # formerly chemical substance
+    # UMLSSC:T129: chemical entity # formerly chemical substance
+    # UMLSSC:T130: chemical entity # formerly chemical substance
+    # UMLSSC:T131: chemical entity # formerly chemical substance
+    # UMLSSC:T167: chemical entity # formerly chemical substance
+    # UMLSSC:T168: food
+    # UMLSSC:T169: information content entity
+    # UMLSSC:T170: publication
+    # UMLSSC:T171: information content entity
+    # UMLSSC:T184: phenotypic feature
+    # UMLSSC:T185: information content entity
+    # UMLSSC:T190: disease
+    # UMLSSC:T191: disease
+    # UMLSSC:T192: protein # formerly chemical substance
+    # UMLSSC:T194: organism taxon # formerly individual organism
+    # UMLSSC:T195: drug # formerly chemical substance
+    # UMLSSC:T196: small molecule # formerly chemical substance
+    # UMLSSC:T197: chemical entity # formerly chemical substance
+    # UMLSSC:T200: drug
+    # UMLSSC:T201: named thing # formerly clinical attribute # formerly physiological process
+    # UMLSSC:T203: device
+    # UMLSSC:T204: organism taxon # formerly individual organism
     UPHENO:0001001: phenotypic feature
     WD:Q28845870: biological entity
     WD:Q12136: disease
