@@ -361,7 +361,7 @@ term-mappings:
     STY:T194: organism taxon # formerly individual organism
     STY:T195: drug
     STY:T196: small molecule
-    STY:T097: cohort # formerly individual organism
+    STY:T197: chemical entity
     STY:T200: drug
     STY:T201: named thing # formerly clinical attribute
     STY:T203: device
