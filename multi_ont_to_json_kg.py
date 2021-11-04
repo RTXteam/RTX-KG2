@@ -632,7 +632,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             assert node_curie_id is not None
 
             if node_curie_id in ret_dict:
-                prev_provided_by = ret_dict[node_curie_id].get('provided_by', None)
+                prev_provided_by = ret_dict[node_curie_id].get('knowledge_source', None)
                 if prev_provided_by is not None and node_curie_id == prev_provided_by:
                     continue  # issue 984
 
@@ -939,7 +939,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                             cui_name = kg2_util.allcaps_to_only_first_letter_capitalized(cui_name)
                         cui_node_dict['name'] = cui_name
                         cui_node_dict['ontology node ids'] = []
-                        cui_node_dict['provided_by'] = kg2_util.CURIE_ID_UMLS_SOURCE_CUI
+                        cui_node_dict['knowledge_source'] = kg2_util.CURIE_ID_UMLS_SOURCE_CUI
                         cui_node_dict['xrefs'] = []  # blanking the "xrefs" here is *vital* in order to avoid issue #395
                         cui_node_dict_existing = ret_dict.get(cui_curie, None)
                         if cui_node_dict_existing is not None:
@@ -1043,6 +1043,8 @@ def get_rels_dict(nodes: dict,
                         predicate_curie = kg2_util.CURIE_PREFIX_OWL + ':' + edge_pred_string
                     elif edge_pred_string in kg2_util.MONDO_EDGE_NAMES_SET:
                         predicate_curie = kg2_util.CURIE_PREFIX_MONDO + ':' + edge_pred_string
+                    elif edge_pred_string in kg2_util.RDF_EDGE_NAMES_SET:
+                        predicate_curie = kg2_util.CURIE_PREFIX_RDF + ':' + edge_pred_string
                     else:
                         assert False, "Cannot map predicate name: " + edge_pred_string + " to a predicate CURIE, in ontology: " + ontology.id
                     predicate_label = kg2_util.convert_camel_case_to_snake_case(edge_pred_string)
@@ -1127,7 +1129,7 @@ def get_rels_dict(nodes: dict,
             if xrefs is not None:
                 for xref_node_id in xrefs:
                     if xref_node_id in nodes and node_id != xref_node_id:
-                        provided_by = nodes[node_id]['provided_by']
+                        provided_by = nodes[node_id]['knowledge_source']
                         key = make_rel_key(node_id, CURIE_OBO_XREF, xref_node_id, provided_by)
                         if rels_dict.get(key, None) is None:
                             edge = kg2_util.make_edge(node_id,
