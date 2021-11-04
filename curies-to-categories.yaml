@@ -322,6 +322,7 @@ term-mappings:
     STY:T088: biological entity
     STY:T089: information content entity
     STY:T090: individual organism
+    STY:T091: named thing
     STY:T092: agent
     STY:T093: agent
     STY:T094: agent
