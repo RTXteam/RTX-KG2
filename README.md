@@ -22,7 +22,7 @@ biomedical reasoning system.
 
 - Stephen Ramsey, Oregon State University (ramseyst@oregonstate.edu)
 - Amy Glen, Oregon State University (glena@oregonstate.edu)
-- Erica Wood, Crescent Valley High School
+- E. C. Wood, Crescent Valley High School
 - Lindsey Kvarfordt, Oregon State University (kvarforl@oregonstate.edu)
 - Lili Acevedo, Oregon State University (acevedol@oregonstate.edu)
 
@@ -1100,12 +1100,12 @@ This section has some guidelines for the development team for the KG2 build syst
 Thank you to the many people who have contributed to the development of RTX KG2:
 
 ## Code
-Stephen Ramsey, Amy Glen, Finn Womack, Erica Wood, Veronica Flores, Deqing Qu, and Lindsey Kvarfordt.
+Stephen Ramsey, Amy Glen, Finn Womack, E. C. Wood, Liliana Acevedo, Veronica Flores, Deqing Qu, and Lindsey Kvarfordt.
 
 ## Advice and feedback
 David Koslicki, Eric Deutsch, Yao Yao, Jared Roach, Chris Mungall, Tom Conlin, Matt Brush,
-Chunlei Wu, Harold Solbrig, Will Byrd, Michael Patton, Jim Balhoff, Chunyu Ma, Chris Bizon, and 
-Deepak Unni.
+Chunlei Wu, Harold Solbrig, Will Byrd, Michael Patton, Jim Balhoff, Chunyu Ma, Chris Bizon,  
+Deepak Unni, Richard Bruskiewich, and Jeff Henrikson.
 
 ## Funding
 National Center for Advancing Translational Sciences (award number OT2TR002520).
