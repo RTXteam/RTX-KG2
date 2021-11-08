@@ -77,7 +77,7 @@ if __name__ == '__main__':
     nodes_dict = dict()
     for node_dict in graph['nodes']:
         node_id = node_dict['id']
-        provided_by = node_dict['provided_by']
+        provided_by = node_dict['knowledge_source']
         infores_curie_dict = infores_remap_config.get(provided_by, None)
         if infores_curie_dict is None:
             provided_by_curies_not_in_config_nodes.add(provided_by)
@@ -140,18 +140,16 @@ if __name__ == '__main__':
             predicate_uri_prefix = curie_to_uri_expander(predicate_curie_prefix + ':')
             if predicate_uri_prefix == predicate_curie_prefix:
                 original_predicate_curies_not_in_nodes.add(predicate_curie)
-        provided_by = edge_dict['provided_by']
+        provided_by = edge_dict['knowledge_source']
         infores_curie_dict = infores_remap_config.get(provided_by, None)
         if infores_curie_dict is None:
             provided_by_curies_not_in_config_edges.add(provided_by)
         else:
             infores_curie = infores_curie_dict['infores_curie']
-        edge_dict['provided_by'] = [provided_by]
         edge_dict['knowledge_source'] = [infores_curie]
         edge_key = edge_dict['subject'] + ' /// ' + predicate_label + ' /// ' + edge_dict['object']
         existing_edge = new_edges.get(edge_key, None)
         if existing_edge is not None:
-            existing_edge['provided_by'] = sorted(list(set(existing_edge['provided_by'] + edge_dict['provided_by'])))
             existing_edge['knowledge_source'] = sorted(list(set(existing_edge['knowledge_source'] + edge_dict['knowledge_source'])))
             existing_edge['publications'] += edge_dict['publications']
             existing_edge['publications_info'].update(edge_dict['publications_info'])
@@ -176,10 +174,10 @@ if __name__ == '__main__':
         else:
             original_predicate_curies_not_in_config.remove(original_predicate_curie_not_in_config)
     for provided_by_curies_not_in_config_node in provided_by_curies_not_in_config_nodes:
-        print('provided_by node curie is missing from the YAML config file: ' + provided_by_curies_not_in_config_node,
+        print('knowledge_source node curie is missing from the YAML config file: ' + provided_by_curies_not_in_config_node,
                file=sys.stderr)
     for provided_by_curies_not_in_config_edge in provided_by_curies_not_in_config_edges:
-        print('provided_by node curie is missing from the YAML config file: ' + provided_by_curies_not_in_config_edge,
+        print('knowledge_source node curie is missing from the YAML config file: ' + provided_by_curies_not_in_config_edge,
                file=sys.stderr)
     if len(original_predicate_curies_not_in_config) > 0:
         print("There are original predicate curies missing from the yaml config file. Please add them and try again. Exiting.", file=sys.stderr)
