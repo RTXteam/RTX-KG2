@@ -80,7 +80,7 @@ def count_number_of_nodes_by_source_and_category(nodes: list):
 
 def count_edges_by_source(edges: list):
     ret_data = None
-    if type(edges[0]['']) == str:
+    if type(edges[0]['knowledge_source']) == str:
         ret_data = collections.Counter([edge['knowledge_source'] for edge in edges])
     else:
         assert type(edges[0]['knowledge_source'] == list)
