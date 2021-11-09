@@ -92,7 +92,7 @@ if __name__ == '__main__':
             print('processing edge ' + str(edge_ctr) + ' out of ' + str(len(graph['edges'])))
         if drop_negated and edge_dict['negated']:
             continue
-        original_predicate_label = edge_dict['original_predicate_label']
+        original_predicate_label = edge_dict['relation_label']
         predicate_label = relation_label
         original_predicate_curie = edge_dict['original_predicate']
         predicate_curie = original_predicate_curie
