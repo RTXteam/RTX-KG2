@@ -93,7 +93,7 @@ if __name__ == '__main__':
         if drop_negated and edge_dict['negated']:
             continue
         original_predicate_label = edge_dict['relation_label']
-        predicate_label = relation_label
+        predicate_label = original_predicate_label
         original_predicate_curie = edge_dict['original_predicate']
         predicate_curie = original_predicate_curie
         if record_of_original_predicate_curie_occurrences.get(original_predicate_curie, None) is not None:
