@@ -4500,6 +4500,10 @@ owl:sameAs:
   rename:
   - same_as
   - biolink:same_as
+rdf:type:
+  rename:
+  - related_to
+  - biolink:related_to
 rdfs:subClassOf:
   rename:
   - subclass_of
