@@ -2928,6 +2928,10 @@ OBO:INO_0000154:
   rename:
   - related_to
   - biolink:related_to
+OBO:bspo#parallel_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
 OBO:doid#has_symptom:
   rename:
   - has_phenotype
