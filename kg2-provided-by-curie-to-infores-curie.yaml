@@ -138,7 +138,7 @@ OBO:uberon/ext.owl:
   source_name: Semantic Medline Database
   infores_curie: infores:semmeddb
   knowledge_type: aggregator_knowledge_source
-'UMLSSC:':
+'STY:':
   source_name: Unified Medical Language System
   infores_curie: infores:umls
   knowledge_type: knowledge_source
