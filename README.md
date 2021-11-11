@@ -336,7 +336,7 @@ this command:
 
     bash -x ~/kg2-code/build-kg2-snakemake.sh all -F -n
     
-and inspect the file `~/kg2-build/build-kg2-snakemake-n.log` that will be created, to make sure htat
+and inspect the file `~/kg2-build/build-kg2-snakemake-n.log` that will be created, to make sure that
 all of the KG2 build tasks are included. Currently, the file should end with the following
 count of tasks:
 ```
@@ -962,12 +962,10 @@ the following keys:
   combination of subject/predicate/object (in the case of multiple providers for
   an edge, the other fields like `publications` are merged from the information
   from the multiple sources).
-  - `provided_by`: deprecated. Refer to `knowledge_source`.
   - `publications`: a list of CURIE IDs of publications supporting this edge
     (e.g., `PMID` or `ISBN` or `DOI` identifiers)
   - `publications_info`: a dictionary whose keys are CURIE IDs from the list in the
   `publications` field, and whose values are described in the next subsection ("publication_info")
-  - `relation`: This field is deprecated. See `knowledge_source`.
   - `predicate_label`: a `snake_case` representation of the plain English
     label for the simplified predicate (see the `predicate`
     field); in most cases this is a predicate type from the Biolink model.
@@ -979,6 +977,10 @@ the following keys:
   present) no consitent format, unfortunately; it is usually not `null`.
   - `id`: a concatenated string of other edge attributes that uniquely identifies the edge. it
   follows the format `subject---relation---object---provided_by`.
+  - `original_predicate`: a CURIE ID for the relation as reported by the upstream
+    database source.
+  - `provided_by`: _deprecated_. Refer to `knowledge_source`.
+  - `relation`: _deprecated_. See `original_predicate`.
 
 ### `publications_info` slot
 
