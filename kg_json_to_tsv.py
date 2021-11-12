@@ -83,7 +83,6 @@ def check_all_edges_have_same_set(edgekeys_list):
                     "publications",
                     "publications_info",
                     "original_predicate",
-                    "original_predicate_label",
                     "subject",
                     "update_date",
                     "predicate",
