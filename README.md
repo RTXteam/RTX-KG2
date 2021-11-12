@@ -21,10 +21,9 @@ biomedical reasoning system.
 ## KG2 Team
 
 - Stephen Ramsey, Oregon State University (ramseyst@oregonstate.edu)
-- Amy Glen, Oregon State University (glena@oregonstate.edu)
-- E. C. Wood, Crescent Valley High School
-- Lindsey Kvarfordt, Oregon State University (kvarforl@oregonstate.edu)
 - Lili Acevedo, Oregon State University (acevedol@oregonstate.edu)
+- Amy Glen, Oregon State University (glena@oregonstate.edu)
+- E. C. Wood, Stanford University
 
 ## Bug reports
 
@@ -1099,8 +1098,15 @@ This section has some guidelines for the development team for the KG2 build syst
 
 Thank you to the many people who have contributed to the development of RTX KG2:
 
-## Code
-Stephen Ramsey, Amy Glen, Finn Womack, E. C. Wood, Liliana Acevedo, Veronica Flores, Deqing Qu, and Lindsey Kvarfordt.
+## Code and development work
+Stephen Ramsey, 
+E. C. Wood,
+Amy Glen, 
+Lindsey Kvarfordt,
+Finn Womack, 
+Liliana Acevedo, 
+Veronica Flores, and
+Deqing Qu.
 
 ## Advice and feedback
 David Koslicki, Eric Deutsch, Yao Yao, Jared Roach, Chris Mungall, Tom Conlin, Matt Brush,
