@@ -125,7 +125,7 @@ if __name__ == '__main__':
             predicate_label = remap_subinfo[0]
             predicate_curie = remap_subinfo[1]
         if invert:
-            edge_dict['original_predicate_label'] = 'INVERTED:' + original_predicate_label
+            edge_dict['relation_label'] = 'INVERTED:' + original_predicate_label
             new_object = edge_dict['subject']
             edge_dict['subject'] = edge_dict['object']
             edge_dict['object'] = new_object
