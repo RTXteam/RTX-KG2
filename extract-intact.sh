@@ -22,7 +22,7 @@ intact_output_file=${1:-"${BUILD_DIR}/intact.txt"}
 
 intact_link="ftp://ftp.ebi.ac.uk/pub/databases/intact/current/psimitab/intact.zip"
 
-${curl_get} ${intact_link} > ${intact_output_file}.zip
+${curl_get} ${intact_link} -o ${intact_output_file}.zip
 
 unzip -o ${intact_output_file}.zip -d ${BUILD_DIR}
 

@@ -35,33 +35,33 @@ OBJECT_ID_HEADER_KEY = ':END_ID'
 PREDICATE_HEADER_KEY_1 = 'predicate'
 PREDICATE_HEADER_KEY_2 = 'predicate:TYPE'
 PREDICATE_LABEL_HEADER_KEY = 'predicate_label'
-RELATION_HEADER_KEY = 'relation'
-RELATION_LABEL_HEADER_KEY = 'relation_label'
+ORIGINAL_PREDICATE_HEADER_KEY = 'original_predicate'
+ORIGINAL_PREDICATE_LABEL_HEADER_KEY = 'original_predicate_label'
 INFORES_HEADER_KEY = 'knowledge_source:string[]'
 
 REPLACEMENT_KEY_FORMAT = '-\n' \
                          '  detection:\n' \
                          '    subject_start: null\n' \
                          '    object_start: null\n' \
-                         '    relation: null\n' \
+                         '    original_predicate: null\n' \
                          '    predicate: null\n' \
                          '    infores_curie: null\n' \
                          '  new_values:\n' \
                          '    predicate: null\n' \
-                         '    relation: null\n' \
-                         '    relation_label: null\n' \
+                         '    original_predicate: null\n' \
+                         '    original_predicate_label: null\n' \
                          '    infores_curie: null'
 REPLACEMENT_KEY_EXAMPLE = '-\n' \
                           '  detection:\n' \
                           '    subject_start: "DrugCentral:"\n' \
                           '    object_start: "ATC:"\n' \
-                          '    relation: null\n' \
+                          '    original_predicate: null\n' \
                           '    predicate: biolink:same_as\n' \
                           '    infores_curie: infores:drugcentral\n' \
                           '  new_values:\n' \
                           '    predicate: biolink:close_match\n' \
-                          '    relation: DrugCentral:struct2atc\n' \
-                          '    relation_label: struct2atc\n' \
+                          '    original_predicate: DrugCentral:struct2atc\n' \
+                          '    original_predicate_label: struct2atc\n' \
                           '    infores_curie: null'
 
 
@@ -85,9 +85,9 @@ def check_edge(replacement_key, subject_id, object_id, infores, relation, predic
     object_start = detection.get('object_start', None)
     old_infores = detection.get('infores_curie', None)
     new_infores = new_values.get('infores_curie', None)
-    old_relation = detection.get('relation', None)
-    new_relation = new_values.get('relation', None)
-    new_relation_label = new_values.get('relation_label', None)
+    old_original_predicate = detection.get('original_predicate', None)
+    new_original_predicate = new_values.get('original_predicate', None)
+    new_original_predicate_label = new_values.get('original_predicate_label', None)
     old_predicate = detection.get('predicate', None)
     new_predicate = new_values.get('predicate', None)
 
@@ -97,19 +97,19 @@ def check_edge(replacement_key, subject_id, object_id, infores, relation, predic
         return False
     if old_infores is not None and old_infores != infores and infores not in old_infores:
         return False
-    if old_relation is not None and old_relation != relation:
+    if old_original_predicate is not None and old_original_predicate != original_predicate:
         return False
     if old_predicate is not None and old_predicate != predicate:
         return False
     return_dict = {}
     if new_predicate is not None:
         return_dict['predicate'] = new_predicate
-    if new_relation is not None:
-        return_dict['relation'] = new_relation
-        if new_relation_label is not None:
-            return_dict['relation_label'] = new_relation_label
+    if new_original_predicate is not None:
+        return_dict['original_predicate'] = new_original_predicate
+        if new_original_predicate_label is not None:
+            return_dict['original_predicate_label'] = new_original_predicate_label
         else:
-            return_dict['relation_label'] = new_relation.split(':')[1]
+            return_dict['original_predicate_label'] = new_original_predicate.split(':')[1]
     if new_infores is not None:
         if old_infores is not None:
             return_dict['infores'] = infores.replace(old_infores, new_infores)
@@ -118,11 +118,11 @@ def check_edge(replacement_key, subject_id, object_id, infores, relation, predic
     return return_dict
 
 
-def edit_relation(edge, old_edge_id, old_relation, new_value_dict, header):
-    new_relation = new_value_dict['relation']
-    edge[header[EDGE_ID_HEADER_KEY]] = old_edge_id.replace(old_relation, new_relation)
-    edge[header[RELATION_HEADER_KEY]] = new_relation
-    edge[header[RELATION_LABEL_HEADER_KEY]] = new_value_dict['relation_label']
+def edit_original_predicate(edge, old_edge_id, old_original_predicate, new_value_dict, header):
+    new_original_predicate = new_value_dict['original_predicate']
+    edge[header[EDGE_ID_HEADER_KEY]] = old_edge_id.replace(old_original_predicate, new_original_predicate)
+    edge[header[ORIGINAL_PREDICATE_HEADER_KEY]] = new_original_predicate
+    edge[header[ORIGINAL_PREDICATE_LABEL_HEADER_KEY]] = new_value_dict['original_predicate_label']
     return edge
 
 
@@ -187,17 +187,17 @@ if __name__ == '__main__':
             edge_id = edge[header[EDGE_ID_HEADER_KEY]]
             subject_id = edge[header[SUBJECT_ID_HEADER_KEY]]
             object_id = edge[header[OBJECT_ID_HEADER_KEY]]
-            relation = edge[header[RELATION_HEADER_KEY]]
+            original_predicate = edge[header[ORIGINAL_PREDICATE_HEADER_KEY]]
             infores = edge[header[INFORES_HEADER_KEY]]
             predicate = edge[header[PREDICATE_HEADER_KEY_1]]
             checked_edge = False
             for replacement_key in replacement_keys:
-                checked_edge_local = check_edge(replacement_key, subject_id, object_id, infores, relation, predicate)
+                checked_edge_local = check_edge(replacement_key, subject_id, object_id, infores, original_predicate, predicate)
                 if checked_edge_local != False:
                     checked_edge = checked_edge_local
             if checked_edge != False:
-                if "relation" in checked_edge:
-                    edge = edit_relation(edge, edge_id, relation, checked_edge, header)
+                if "original_predicate" in checked_edge:
+                    edge = edit_relation(edge, edge_id, original_predicate, checked_edge, header)
                 if "predicate" in checked_edge:
                     edge = edit_predicate(edge, checked_edge, header)
                 if "infores" in checked_edge:

@@ -57,7 +57,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                                        object_id=UMLS_CURIE + ':' + df['ind_id'][idx],
                                        relation_curie=REPODB_CURIE + ':' + relation,
                                        relation_label=relation,
-                                       provided_by=REPODB_CURIE + ':',
+                                       knowledge_source=REPODB_CURIE + ':',
                                        update_date=None)
         if not df['NCT'].isna()[idx]:
             edge_dict['publications'].append(NCT_CURIE + df['NCT'][idx])

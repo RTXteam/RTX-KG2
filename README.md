@@ -335,7 +335,7 @@ this command:
 
     bash -x ~/kg2-code/build-kg2-snakemake.sh all -F -n
     
-and inspect the file `build-kg2-snakemake-n.log` that will be created, to make sure htat
+and inspect the file `~/kg2-build/build-kg2-snakemake-n.log` that will be created, to make sure that
 all of the KG2 build tasks are included. Currently, the file should end with the following
 count of tasks:
 ```
@@ -922,9 +922,10 @@ the following keys:
   - `iri`: a URI where the user can get more information about this node (we try
     to make these resolvable wherever possible)
   - `name`: a display name for the node
-  - `provided_by`: a CURIE ID (which corresponds to an actual node in KG2) for
-  the upstream source database that is the definitive source for information
-  about this node
+  - `knowledge_source`: A CURIE ID (which corresponds to an actual node in KG2) for the 
+  upstream information resource that is the definitive source for information about
+  this node. 
+  - `provided_by`: This slot is deprecated. Refer to `knowledge_source`.
   - `publications`: a list of CURIE IDs of publications (e.g., `PMID` or `ISBN`
     or `DOI` identifiers) that contain information about this node
   - `replaced_by`: a CURIE ID for the node that replaces this node, for cases
@@ -955,8 +956,8 @@ the following keys:
     is "negated"; usually `false`, in the normal build process for KG2
   - `object`: the CURIE ID (`id`) for the KG2 node that is the object of the
     edge
-  - `provided_by`: a list containing CURIE IDs (each of which should be a node
-  in KG2) of the upstream source databases that reported this edge's specific
+  - `knowledge_source`: A list containing CURIE IDs (each of which corresponds to an actual node in KG2) for the 
+  upstream information resources that reported this edge's specific
   combination of subject/predicate/object (in the case of multiple providers for
   an edge, the other fields like `publications` are merged from the information
   from the multiple sources).
@@ -964,8 +965,6 @@ the following keys:
     (e.g., `PMID` or `ISBN` or `DOI` identifiers)
   - `publications_info`: a dictionary whose keys are CURIE IDs from the list in the
   `publications` field, and whose values are described in the next subsection ("publication_info")
-  - `relation`: a CURIE ID for the relation as reported by the upstream
-    database source.
   - `predicate_label`: a `snake_case` representation of the plain English
     label for the simplified predicate (see the `predicate`
     field); in most cases this is a predicate type from the Biolink model.
@@ -977,6 +976,10 @@ the following keys:
   present) no consitent format, unfortunately; it is usually not `null`.
   - `id`: a concatenated string of other edge attributes that uniquely identifies the edge. it
   follows the format `subject---relation---object---provided_by`.
+  - `original_predicate`: a CURIE ID for the relation as reported by the upstream
+    database source.
+  - `provided_by`: _deprecated_. Refer to `knowledge_source`.
+  - `relation`: _deprecated_. See `original_predicate`.
 
 ### `publications_info` slot
 

@@ -58,18 +58,18 @@ def count_nodes_by_category(nodes: list):
 
 
 def count_nodes_by_source(nodes: list):
-    return collections.Counter([node['provided_by'] for node in nodes])
+    return collections.Counter([node['knowledge_source'] for node in nodes])
 
 
 def count_number_of_nodes_by_source_and_category(nodes: list):
     fulldict = {}
-    sourcedict = collections.Counter([node['provided_by'] for node in nodes])
+    sourcedict = collections.Counter([node['knowledge_source'] for node in nodes])
     sourcecatdict = {}
     categorylist = []
     for source in sourcedict:
         categorylist = []
         for node in nodes:
-            if node['provided_by'] == source:
+            if node['knowledge_source'] == source:
                 categorylist.append(node['category_label'])
         sourcecatdict.update({source: categorylist})
     for defintion in sourcecatdict:
@@ -80,13 +80,13 @@ def count_number_of_nodes_by_source_and_category(nodes: list):
 
 def count_edges_by_source(edges: list):
     ret_data = None
-    if type(edges[0]['provided_by']) == str:
-        ret_data = collections.Counter([edge['provided_by'] for edge in edges])
+    if type(edges[0]['knowledge_source']) == str:
+        ret_data = collections.Counter([edge['knowledge_source'] for edge in edges])
     else:
-        assert type(edges[0]['provided_by'] == list)
+        assert type(edges[0]['knowledge_source'] == list)
         provby_list = []
         for edge in edges:
-            provby_list += edge['provided_by']
+            provby_list += edge['knowledge_source']
         ret_data = collections.Counter(provby_list)
     return ret_data
 

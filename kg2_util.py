@@ -98,6 +98,7 @@ CURIE_PREFIX_PATHWHIZ_REACTION = 'PathWhiz.Reaction'
 CURIE_PREFIX_PATHWHIZ_BOUND = 'PathWhiz.Bound'
 CURIE_PREFIX_PATHWHIZ_PROTEIN_COMPLEX = 'PathWhiz.ProteinComplex'
 CURIE_PREFIX_PMID = 'PMID'
+CURIE_PREFIX_RDF = 'rdf'
 CURIE_PREFIX_RDFS = 'rdfs'
 CURIE_PREFIX_REACTOME='REACT'
 CURIE_PREFIX_REPODB = 'REPODB'
@@ -112,7 +113,7 @@ CURIE_PREFIX_SNOMED = 'SNOMED'
 CURIE_PREFIX_TTD_DRUG = 'ttd.drug'
 CURIE_PREFIX_TTD_TARGET = 'ttd.target'
 CURIE_PREFIX_UMLS = 'UMLS'
-CURIE_PREFIX_UMLS_STY = 'UMLSSC'
+CURIE_PREFIX_UMLS_STY = 'STY'
 CURIE_PREFIX_UMLS_SOURCE = 'umls_source'
 CURIE_PREFIX_UNICHEM_SOURCE = 'UNICHEM_source'
 CURIE_PREFIX_UNIPROT = 'UniProtKB'
@@ -250,6 +251,7 @@ EDGE_LABEL_BIOLINK_TREATS = 'treats'
 RDFS_EDGE_NAMES_SET = {'subClassOf', 'subPropertyOf'}
 OWL_EDGE_NAMES_SET = {'equivalentClass', 'equivalentProperty', 'sameAs',
                       'differentFrom', 'inverseOf'}
+RDF_EDGE_NAMES_SET = {'type'}
 MONDO_EDGE_NAMES_SET = {'equivalentTo'}
 
 OBO_REL_CURIE_RE = re.compile(r'OBO:([^#]+)#([^#]+)')
@@ -682,7 +684,7 @@ def make_node(id: str,
             'update_date': update_date,
             'deprecated': False,
             'replaced_by': None,
-            'provided_by': provided_by,
+            'knowledge_source': provided_by,
             'has_biological_sequence': None}
 
 
@@ -690,7 +692,7 @@ def make_edge_key(edge_dict: dict):
     return edge_dict['subject'] + '---' + \
            edge_dict['original_predicate'] + '---' + \
            edge_dict['object'] + '---' + \
-           edge_dict['provided_by']
+           edge_dict['knowledge_source']
 
 
 def make_edge(subject_id: str,
@@ -708,7 +710,7 @@ def make_edge(subject_id: str,
             'publications': [],
             'publications_info': {},
             'update_date': update_date,
-            'provided_by': provided_by}
+            'knowledge_source': provided_by}
     edge_id = make_edge_key(edge)
     edge["id"] = edge_id
     return edge

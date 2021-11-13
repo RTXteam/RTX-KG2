@@ -24,10 +24,10 @@ rm -r -f ${unichem_dir}
 mkdir -p ${unichem_dir}
 mkdir -p ${unichem_output_dir}
 
-${curl_get} ${unichem_ftp_site}/oracleDumps/UDRI${unichem_ver}/UC_XREF.txt.gz > ${unichem_dir}/UC_XREF.txt.gz
-${curl_get} ${unichem_ftp_site}/oracleDumps/UDRI${unichem_ver}/UC_SOURCE.txt.gz > ${unichem_dir}/UC_SOURCE.txt.gz
-${curl_get} ${unichem_ftp_site}/oracleDumps/UDRI${unichem_ver}/UC_RELEASE.txt.gz > ${unichem_dir}/UC_RELEASE.txt.gz
-${curl_get} ${unichem_ftp_site}/oracleDumps/UDRI${unichem_ver}/README > ${unichem_dir}/README.txt
+${curl_get} ${unichem_ftp_site}/oracleDumps/UDRI${unichem_ver}/UC_XREF.txt.gz -o ${unichem_dir}/UC_XREF.txt.gz
+${curl_get} ${unichem_ftp_site}/oracleDumps/UDRI${unichem_ver}/UC_SOURCE.txt.gz -o ${unichem_dir}/UC_SOURCE.txt.gz
+${curl_get} ${unichem_ftp_site}/oracleDumps/UDRI${unichem_ver}/UC_RELEASE.txt.gz -o ${unichem_dir}/UC_RELEASE.txt.gz
+${curl_get} ${unichem_ftp_site}/oracleDumps/UDRI${unichem_ver}/README -o ${unichem_dir}/README.txt
 
 chembl_src_id=`zcat ${unichem_dir}/UC_SOURCE.txt.gz | awk '{if ($2 == "chembl") {printf "%s", $1}}'`
 chebi_src_id=`zcat ${unichem_dir}/UC_SOURCE.txt.gz | awk '{if ($2 == "chebi") {printf "%s", $1}}'`
