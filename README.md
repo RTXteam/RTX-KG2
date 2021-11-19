@@ -32,7 +32,7 @@ this project.
 
 # Is RTX-KG2 published?
 
-Plesae see our preprint: E.C. Wood, A.K. Glen, et al. _RTX-KG2: a system for building a
+Please see our preprint: E.C. Wood, A.K. Glen, et al. _RTX-KG2: a system for building a
 semantically standardized knowledge graph for translational biomedicine._ 
 bioRxiv (2021). [doi:10.1101/2021.10.17.464747](https://doi.org/10.1101/2021.10.17.464747).
 
