@@ -30,7 +30,13 @@ biomedical reasoning system.
 Please use the GitHub [issues](https://github.com/RTXteam/RTX-KG2/issues) page for
 this project.
 
-# How to access RTX KG2
+# Is RTX-KG2 published?
+
+Plesae see our preprint: E.C. Wood, A.K. Glen, et al. _RTX-KG2: a system for building a
+semantically standardized knowledge graph for translational biomedicine._ 
+bioRxiv (2021). [doi:10.1101/2021.10.17.464747](https://doi.org/10.1101/2021.10.17.464747).
+
+# How to access RTX-KG2
 
 ## Neo4j read-only endpoint for RTX KG2 as a graph database
 
