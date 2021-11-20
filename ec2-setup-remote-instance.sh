@@ -4,6 +4,9 @@
 #
 # NOTE: requires user input at the terminal
 
+set -o nounset -o pipefail
+# note: the standard bash "errexit" flag will not work in this script
+
 if [[ $# != 0 || "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     echo Usage: "$0"
     exit 2
