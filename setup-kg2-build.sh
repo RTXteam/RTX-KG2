@@ -98,7 +98,7 @@ fi
 # we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
 if [[ "${build_flag}" != "travisci" ]]
 then
-    source ${CODE_DIR}/setup-python37-in-ubuntu18.shinc
+    source ${CODE_DIR}/setup-python37-with-pip3-in-ubuntu.shinc
     ${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
 else
     pip install -r ${CODE_DIR}/requirements-kg2-build.txt
