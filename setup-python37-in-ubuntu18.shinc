@@ -1,4 +1,7 @@
 # this shell script is meant to be run with "source" assuming that you have already sourced "master.shinc"
+# - installs python3.7 in either Ubuntu 18.04 or 20.04, along with pip3, and creates a python3.7 virtualenv
+#   in the directory identified by the environment variable VENV_DIR (which must already exist before this
+#   script is executed)
 
 sudo apt-get update
 sudo apt-get install -y software-properties-common
