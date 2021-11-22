@@ -19,7 +19,7 @@ else
     then
 python3_distutils_filename=python3-distutils_3.8.10-0ubuntu1~20.04_all.deb
     else
-        >&2 echo "Unrecognized python3 distutils .deb package filename; this is a bug in setup-python37-in-ubuntu18.shinc"
+        >&2 echo "Unrecognized python3 distutils .deb package filename; this is a bug in setup-python37-with-pip3-in-ubuntu.shinc"
         exit 1
     fi
 fi
