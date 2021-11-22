@@ -43,7 +43,7 @@ sudo apt-get install -y \
 sudo apt-get install -y emacs
 
 # we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
-source ${CODE_DIR}/setup-python37-in-ubuntu18.shinc
+source ${CODE_DIR}/setup-python37-with-pip3-in-ubuntu.shinc
 
 ## Install python3 packages that we will need (Note: we are not using pymongo
 ## directly, but installing it silences a runtime warning from ontobio):
