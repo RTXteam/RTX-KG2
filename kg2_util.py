@@ -668,7 +668,7 @@ def make_node(id: str,
               name: str,
               category_label: str,
               update_date: str,
-              provided_by: str):
+              knowledge_source: str):
     if '-' in category_label:
         raise ValueError('underscore character detected in category_label argument to function kg2_util.make_node: ' + category_label)
     return {'id': id,
@@ -710,7 +710,7 @@ def make_edge(subject_id: str,
             'publications': [],
             'publications_info': {},
             'update_date': update_date,
-            'knowledge_source': provided_by}
+            'knowledge_source': knowledge_source}
     edge_id = make_edge_key(edge)
     edge["id"] = edge_id
     return edge
