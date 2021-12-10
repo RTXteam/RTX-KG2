@@ -684,7 +684,7 @@ def make_node(id: str,
             'update_date': update_date,
             'deprecated': False,
             'replaced_by': None,
-            'knowledge_source': provided_by,
+            'knowledge_source': knowledge_source,
             'has_biological_sequence': None}
 
 
