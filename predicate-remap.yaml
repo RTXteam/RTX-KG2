@@ -4210,6 +4210,8 @@ SEMMEDDB:xref:
   rename:
   - related_to
   - biolink:related_to
+SIO:000001:
+  delete: null
 # SO:adjacent_to:
 #   rename:
 #   - coexists_with
