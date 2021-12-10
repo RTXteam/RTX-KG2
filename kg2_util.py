@@ -699,7 +699,7 @@ def make_edge(subject_id: str,
               object_id: str,
               relation_curie: str,
               relation_label: str,
-              provided_by: str,
+              knowledge_source: str,
               update_date: str = None):
 
     edge = {'subject': subject_id,
