@@ -21,12 +21,11 @@ __email__ = ''
 __status__ = 'Prototype'
 
 
-def check_tab(the_string: str,
-              line_ctr: int):
+def check_tab(the_string: str):
     if '\t' in the_string:
-        ## print("WARNING: tab found on line " + str(line_ctr + 1) + "; string: " + the_string,
-        ##      file=log_file)
-        the_string = the_string.replace('\t', '    ').replace('\n', ' ')
+        the_string = the_string.replace('\t', '    ')
+    if '\n' in the_string:
+        the_string = the_string.replace('\n', ' ')
     return the_string
 
 
@@ -91,18 +90,18 @@ with open(log_file_name, 'a') as log_file:
     edges_data = input_data['edges']
     for item in edges_data:
         if max_rows is None or num_edges < max_rows:
-            output_file.write(check_tab(item['subject'], num_edges) + '\t')
-            output_file.write(check_tab(item['object'], num_edges) + '\t')
-            output_file.write(check_tab(item['predicate'], num_edges) + '\t')
+            output_file.write(check_tab(item['subject']) + '\t')
+            output_file.write(check_tab(item['object']) + '\t')
+            output_file.write(check_tab(item['predicate']) + '\t')
             # knowledge source is a list
-            ks_list = [check_tab(ks, num_edges) for ks in item['knowledge_source']]
+            ks_list = [check_tab(ks) for ks in item['knowledge_source']]
             output_file.write('|'.join(ks_list) + '\t')
             # publications is a list
-            pubs_list = [check_tab(pub, num_edges) for pub in item['publications']]
+            pubs_list = [check_tab(pub) for pub in item['publications']]
             output_file.write('|'.join(pubs_list) + '\t')
             # publications_info is a dictionary
             output_file.write(json.dumps(item['publications_info']) + '\t')
-            output_file.write(check_tab(item['id'], num_edges) + '\n')
+            output_file.write(check_tab(item['id']) + '\n')
         num_edges += 1
 
     output_file.close()
@@ -128,18 +127,18 @@ with open(log_file_name, 'a') as log_file:
     nodes_data = input_data['nodes']
     for item in nodes_data:
         if max_rows is None or num_nodes < max_rows:
-            output_file.write(check_tab(item['id'], num_nodes) + '\t')
-            output_file.write(check_tab(str(item['name']), num_nodes) + '\t')
-            output_file.write(check_tab(item['category'], num_nodes) + '\t')
-            output_file.write(check_tab(item['iri'], num_nodes) + '\t')
+            output_file.write(check_tab(item['id']) + '\t')
+            output_file.write(check_tab(str(item['name'])) + '\t')
+            output_file.write(check_tab(item['category']) + '\t')
+            output_file.write(check_tab(item['iri']) + '\t')
             desc = item['description']
             if desc is not None:
-                check_tab(desc, num_nodes)
+                check_tab(desc)
             else:
                 desc = ''
             output_file.write(desc + '\t')
             # publications is a list
-            pub_list = [check_tab(publication, num_nodes) for publication in item['publications']]
+            pub_list = [check_tab(publication) for publication in item['publications']]
             output_file.write('|'.join(pub_list) + '\n')
         num_nodes += 1
 
