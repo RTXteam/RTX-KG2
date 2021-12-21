@@ -118,6 +118,7 @@ with open(log_file_name, 'a') as log_file:
             output_file.write(str(item['name'])+'\t')
             output_file.write(item['category'] + '\t')
             output_file.write(item['iri'] + '\t')
+            output_file.write(item['description'] + '\t')
             # publications is a list
             output_file.write('|'.join(item['publications']) + '\n')
         num_edges += 1
