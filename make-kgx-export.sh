@@ -35,7 +35,7 @@ ${VENV_DIR}/bin/python3 -u kg2_json_to_kgx_tsv.py \
            ${BUILD_DIR}/kg2-simplified${test_suffix}.json \
            ${tsv_dir}
 
-${VENV_DIR}/bin/kgx --input-format tsv \
+${VENV_DIR}/bin/kgx graph-summary --input-format tsv \
            --output ${BUILD_DIR}/content_metadata.json \
            --report-type meta-knowledge-graph \
            --error-log ${BUILD_DIR}/kgx_build_graph_stats.err \
