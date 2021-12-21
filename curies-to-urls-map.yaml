@@ -63,10 +63,10 @@ use_for_bidirectional_mapping:
     CVDO: http://purl.obolibrary.org/obo/CVDO_
   -
     dbpedia: http://dbpedia.org/resource/
-  -
-    dc: http://purl.org/dc/elements/1.1/
-  -
-    dcterms: http://purl.org/dc/terms/
+  - 
+    dct: 'http://purl.org/dc/terms/'
+  - 
+    dcid: 'https://datacommons.org/browser/'
   -
     DDANAT: http://purl.obolibrary.org/obo/DDANAT_
   -
@@ -77,8 +77,10 @@ use_for_bidirectional_mapping:
     DisGeNET: "http://www.disgenet.org"
   -
     doap: http://usefulinc.com/ns/doap#
-  -
-    DOID: http://purl.obolibrary.org/obo/DOID_
+  - 
+    doi: https://doi.org/
+  - 
+    DOID-PROPERTY: 'http://purl.obolibrary.org/obo/doid#'
   -
     DRUGBANK: "https://identifiers.org/drugbank:"
   -
@@ -166,11 +168,11 @@ use_for_bidirectional_mapping:
   -
     IAO: http://purl.obolibrary.org/obo/IAO_
   -
-    ICD10: http://purl.bioontology.org/ontology/ICD10/
+    ICD10: 'https://icd.codes/icd9cm/'
   -
     ICD10PCS: http://purl.bioontology.org/ontology/ICD10PCS/
   -
-    ICD9: http://purl.bioontology.org/ontology/ICD9CM/
+    ICD9: 'http://translator.ncats.nih.gov/ICD9_'
   -
     ICO: http://purl.obolibrary.org/obo/ICO_
   -
@@ -244,9 +246,13 @@ use_for_bidirectional_mapping:
   -
     NBO: http://purl.obolibrary.org/obo/NBO_
   -
-    NCBIGene: "https://identifiers.org/ncbigene:"
+    NBO-PROPERTY: 'http://purl.obolibrary.org/obo/nbo#'
+  -
+    NCBIGene: 'http://identifiers.org/ncbigene/'
   -
     NCIT: "https://identifiers.org/ncit:"
+  -
+    NCIT-OBO: 'http://purl.obolibrary.org/obo/ncit#'
   -
     NCRO: http://purl.obolibrary.org/obo/NCRO_
   -
@@ -268,7 +274,7 @@ use_for_bidirectional_mapping:
   -
     oboFormat: http://purl.org/obo/owl/oboFormat#oboFormat_
   -
-    OBOREL: "http://purl.org/obo/owl/OBO_REL#"
+    OBOREL: 'http://purl.obolibrary.org/obo/RO_'
   -
     OCRe: http://purl.org/net/OCRe/
   -
@@ -396,6 +402,10 @@ use_for_bidirectional_mapping:
   -
     UBERON: http://purl.obolibrary.org/obo/UBERON_
   -
+    UBERON_CORE: 'http://purl.obolibrary.org/obo/uberon/core#'
+  - 
+    UBERON_NONAMESPACE: 'http://purl.obolibrary.org/obo/core#'
+  -
     UBPROP: http://purl.obolibrary.org/obo/UBPROP_
   -
     UMLS: "https://identifiers.org/umls:"
@@ -409,6 +419,8 @@ use_for_bidirectional_mapping:
     UniProtKB: "https://identifiers.org/uniprot:"
   -
     UO: http://purl.obolibrary.org/obo/UO_
+  -
+    UO-PROPERTY: 'http://purl.obolibrary.org/obo/uo#'
   -
     UPHENO: http://purl.obolibrary.org/obo/UPHENO_
   -
@@ -460,7 +472,13 @@ use_for_contraction_only:
   -
     CPT: http://purl.bioontology.org/ontology/HCPT/
   -
+    dc: http://purl.org/dc/elements/1.1/
+  -
+    dcterms: http://purl.org/dc/terms/
+  -
     DDANAT: http://purl.obolibrary.org/obo/ddanat#
+  -
+    DOID: http://purl.obolibrary.org/obo/DOID_
   -
     DRUGBANK: http://purl.bioontology.org/ontology/DRUGBANK/
   -
@@ -502,6 +520,8 @@ use_for_contraction_only:
   -
     HP: http://purl.bioontology.org/ontology/HPO/
   -
+    ICD10: http://purl.bioontology.org/ontology/ICD10/
+  -
     ICD10: http://purl.obolibrary.org/obo/ICD10_
   -
     ICD10: http://purl.obolibrary.org/obo/ICD10AE_
@@ -511,6 +531,8 @@ use_for_contraction_only:
     ICD10: http://purl.bioontology.org/ontology/ICD10AE/
   -
     ICD10: http://purl.bioontology.org/ontology/ICD10CM/
+  -
+    ICD9: http://purl.bioontology.org/ontology/ICD9CM/
   -
     ICD9: http://purl.obolibrary.org/obo/ICD9_
   -
@@ -536,6 +558,8 @@ use_for_contraction_only:
   -
     MONDO: http://purl.obolibrary.org/obo/mondo#
   -
+    NCBIGene: "https://identifiers.org/ncbigene:"
+  -
     NCBIGene: http://www.ncbi.nlm.nih.gov/gene/
   -
     NCBITaxon: http://purl.bioontology.org/ontology/NCBITAXON/
@@ -557,6 +581,10 @@ use_for_contraction_only:
     NCIT: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#
   -
     OBO: http://purl.obolibrary.org/obo#
+  -
+    oboFormat: http://purl.org/obo/owl/oboFormat#oboFormat_
+  -
+    OBOREL: "http://purl.org/obo/owl/OBO_REL#"
   -
     OCRe: http://purl.org/net/OCRe/research.owl#
   -
