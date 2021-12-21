@@ -26,7 +26,7 @@ def check_tab(the_string: str,
     if '\t' in the_string:
         ## print("WARNING: tab found on line " + str(line_ctr + 1) + "; string: " + the_string,
         ##      file=log_file)
-        the_string = the_string.replace('\t', '    ')
+        the_string = the_string.replace('\t', '    ').replace('\n', ' ')
     return the_string
 
 
