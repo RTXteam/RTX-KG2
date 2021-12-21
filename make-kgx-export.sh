@@ -3,12 +3,12 @@
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0 <input_file.tsv> <output_file.json> [test]"
+    echo Usage: "$0 [test]"
     exit 2
 fi
 
 ## supply a default value for the build_flag string
-build_flag=${3:-""}
+build_flag=${1:-""}
 if [[ "${build_flag}" == 'test' || "${build_flag}" == 'alltest' ]]
 then
     test_suffix='-test'
