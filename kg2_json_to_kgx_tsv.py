@@ -23,8 +23,10 @@ __status__ = 'Prototype'
 
 def check_tab(the_string: str,
               line_ctr: int):
-    assert '\t' not in the_string, "tab found on line " + str(line_ctr + 1) + \
-        "; string: " + the_string
+    if '\t' in the_string:
+        print("WARNING: tab found on line " + str(line_ctr + 1) + "; string: " + the_string,
+              file=log_file)
+        the_string = the_string.replace('\t', '    ')
     return the_string
 
 
