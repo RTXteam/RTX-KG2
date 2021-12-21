@@ -117,9 +117,9 @@ with open(log_file_name, 'a') as log_file:
 
     for item in node_fields:
         if node_fields.index(item) == len(node_fields)-1:
-            output_file.write(item+'\n')
+            output_file.write(item + '\n')
         else:
-            output_file.write(item+'\t')
+            output_file.write(item + '\t')
     print("--- Headers written to nodes.tsv ---", file=log_file)
     nodes_data = input_data['nodes']
 
