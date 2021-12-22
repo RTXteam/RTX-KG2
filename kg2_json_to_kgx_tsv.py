@@ -133,7 +133,7 @@ with open(log_file_name, 'a') as log_file:
             output_file.write(check_tab(item['iri']) + '\t')
             desc = item['description']
             if desc is not None:
-                check_tab(desc)
+                desc = check_tab(desc)
             else:
                 desc = ''
             output_file.write(desc + '\t')
