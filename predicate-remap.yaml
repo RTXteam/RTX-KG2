@@ -400,6 +400,10 @@ CL:lacks_plasma_membrane_part:
   rename:
   - lacks_part
   - biolink:lacks_part
+dcid:MeSHTerm:
+  rename:
+  - mesh_terms
+  - biolink: mesh_terms
 DDANAT:develops_from:
   rename:
   - develops_from
@@ -540,6 +544,14 @@ DGIdb:vaccine:
   rename:
   - decreases_activity_of
   - biolink:decreases_activity_of
+DOID-PROPERTY:derives_from:
+  rename:
+  - derives_from
+  - biolink:derives_from
+DOID-PROPERTY:has_symptom:
+  rename:
+  - has_phenotype
+  - biolink:has_phenotype
 DRUGBANK:activator:
   rename:
   - entity_positively_regulates_entity
@@ -772,10 +784,10 @@ DRUGBANK:weak_inhibitor:
   rename:
   - entity_negatively_regulates_entity
   - biolink:entity_negatively_regulates_entity
-DrugCentral:PA: # PA stands for "Pharmacological Action"
-  rename:
-  - subclass_of
-  - biolink:subclass_of
+DrugCentral:5271:
+  rename: 
+  - diagnoses
+  - biolink: diagnoses
 DrugCentral:activator:
   rename:
   - entity_positively_regulates_entity
@@ -864,6 +876,10 @@ DrugCentral:opener:
   rename:
   - increases_activity_of
   - biolink:increases_activity_of
+DrugCentral:PA: # PA stands for "Pharmacological Action"
+  rename:
+  - subclass_of
+  - biolink:subclass_of
 DrugCentral:partial_agonist:
   rename:
   - increases_activity_of
@@ -1938,6 +1954,10 @@ LOINC:mth_has_expanded_form:
   rename:
   - related_to
   - biolink:related_to
+LOINC:MTHU019741:
+  rename:
+  - mechanism_of_action
+  - biolink:mechanism_of_action
 LOINC:multipart_of:
   invert:
   - has_part
@@ -2146,6 +2166,10 @@ MI:1310: # de-ADP-ribosylation reaction
   rename:
   - directly_interacts_with
   - biolink:directly_interacts_with
+MI:2044:
+  rename:
+  - mechanism_of_action
+  - biolink:mechanism_of_action
 MI:2364: # proximity
   rename:
   - colocalizes_with
@@ -2206,6 +2230,22 @@ MONDO:predisposes_towards:
   rename:
   - contributes_to
   - biolink:contributes_to
+NBO-PROPERTY:by_means:
+  rename:
+  - actively_involved_in
+  - biolink:actively_involved_in
+NBO-PROPERTY:has_participant:
+  rename: 
+  - has_participant
+  - biolink:has_participant
+NBO-PROPERTY:in_response_to:
+  rename:
+  - causes
+  - biolink: causes
+NBO-PROPERTY:is_about:
+  rename: 
+  - related_to
+  - biolink: related_to
 NCIT:abnormal_cell_affected_by_chemical_or_drug:
   delete: null
 NCIT:abnormality_associated_with_allele:
@@ -2280,6 +2320,10 @@ NCIT:biomarker_type_includes_gene:
   delete: null
 NCIT:biomarker_type_includes_gene_product:
   delete: null
+NCIT:C15220: # diagnosis
+  rename:
+  - diagnoses
+  - biolink: diagnoses
 NCIT:cdrh_parent_of:
   invert:
   - subclass_of
@@ -2860,6 +2904,66 @@ NCIT:qualifier_applies_to:
   rename:
   - related_to
   - biolink:related_to
+NCIT:R40:
+  rename: 
+  - located_in
+  - biolink:located_in
+NCIT:R88: # disease is stage
+  rename: 
+  - has_attribute
+  - biolink: has_attribute
+NCIT:R89:
+  rename: 
+  - has_phenotype
+  - biolink:has_phenotype
+NCIT:R108:
+  rename: 
+  - has_phenotype
+  - biolink:has_phenotype
+NCIT:R115:
+  rename: 
+  - has_phenotype
+  - biolink:has_phenotype
+NCIT:R145:
+  rename: 
+  - located_in
+  - biolink:located_in
+NCIT:R155:
+  rename: 
+  - located_in
+  - biolink:located_in
+NCIT:R156:
+  rename: 
+  - located_in
+  - biolink:located_in
+NCIT:R165:
+  rename: 
+  - located_in
+  - biolink:located_in
+NCIT:R166:
+  rename: 
+  - located_in
+  - biolink:located_in
+NCIT:R167:
+  rename: 
+  - located_in
+  - biolink:located_in
+NCIT:R168:
+  rename: 
+  - located_in
+  - biolink:located_in
+NCIT:R169:
+  rename: 
+  - located_in
+  - biolink:located_in
+NCIT:R170:
+  rename: 
+  - located_in
+  - biolink:located_in
+NCIT:R171:
+  rename: 
+  - located_in
+  - biolink:located_in
 NCIT:regimen_has_accepted_use_for_disease:
   rename:
   - treats
@@ -2976,6 +3080,10 @@ OBO:uo#is_unit_of:
   invert:
   - related_to
   - biolink:related_to
+OIO:hasDbXref:
+  rename: 
+  - close_match
+  - biolink: close_match
 OMIM:allelic_variant_of:
   rename:
   - is_sequence_variant_of
@@ -3052,6 +3160,10 @@ ORPHANET:C017:
   rename:
   - related_to
   - biolink:related_to
+PATO:0000085: # sensitivity toward
+  rename:
+  - associated_with_sensitivity_to
+  - biolink: associated_with_sensitivity_to
 PATO:correlates_with:
   rename:
   - correlated_with
@@ -3412,8 +3524,8 @@ RO:0002103:
   - biolink:interacts_with
 RO:0002104:
   rename:
-  - has_part
-  - biolink:has_part
+  - has_plasma_membrane_part
+  - biolink:has_plasma_membrane_part
 RO:0002120:
   rename:
   - interacts_with
@@ -3764,8 +3876,8 @@ RO:0002470:
   - biolink:related_to
 RO:0002473:
   rename:
-  - has_part
-  - biolink:has_part
+  - composed_primarily_of
+  - biolink:composed_primarily_of
 RO:0002488:
   rename:
   - temporally_related_to
@@ -3936,8 +4048,8 @@ RO:0004025:
   - biolink:disrupts
 RO:0004026:
   rename:
-  - related_to
-  - biolink:related_to
+  - disease_has_location
+  - biolink:disease_has_location
 RO:0004027:
   rename:
   - related_to
@@ -3948,8 +4060,8 @@ RO:0004028:
   - biolink:causes
 RO:0004029:
   rename:
-  - correlated_with
-  - biolink:correlated_with
+  - associated_with
+  - biolink:associated_with
 RO:0004030:
   invert:
   - causes
@@ -4212,6 +4324,10 @@ SEMMEDDB:xref:
   - biolink:related_to
 SIO:000001:
   delete: null
+SIO:001331: # diagnosis
+  rename:
+  - diagnoses
+  - biolink: diagnoses
 # SO:adjacent_to:
 #   rename:
 #   - coexists_with
@@ -4344,6 +4460,22 @@ UBERON:synapsed_by:
   rename:
   - related_to
   - biolink:related_to
+UBERON_NONAMESPACE:connected_to:
+  rename:
+  - related_to
+  - biolink: related_to
+UBERON_NONAMESPACE:distally_connected_to:
+  rename:
+  - coexists_with
+  - biolink: coexists_with
+UBERON_NONAMESPACE:innervated_by:
+  rename:
+  - related_to
+  - biolink: related_to
+UBERON_NONAMESPACE:subdivision_of:
+  rename:
+  - coexists_with
+  - biolink: coexists_with
 UMLS:has_physiologic_effect:
   rename:
   - causes
@@ -4466,6 +4598,10 @@ UMLS:supported_concept_property_in:
   delete: null
 UMLS:supported_concept_relationship_in:
   delete: null
+UO-PROPERTY:is_unit_of:
+  rename:
+  - has_unit
+  - biolink: has_unit
 VANDF:has_ingredient:
   rename:
   - has_part
