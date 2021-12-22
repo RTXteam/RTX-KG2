@@ -214,6 +214,18 @@ BTO:related_to:
   rename:
   - related_to
   - biolink:related_to
+CHEBI:23367:
+  rename:
+  - molecular_entity
+  - biolink:molecular_entity
+CHEBI:23888:
+  rename:
+  - drug
+  - biolink:drug
+CHEBI:59999:
+  rename:
+  - small_molecule
+  - biolink:small_molecule
 CHEBI:has_functional_parent:
   rename:
   - chemically_similar_to
@@ -400,10 +412,50 @@ CL:lacks_plasma_membrane_part:
   rename:
   - lacks_part
   - biolink:lacks_part
+dcid:BiologicalSpecies:
+  rename:
+  - organism_taxon
+  - biolink:organism_taxon
+dcid:ChemicalCompound:
+  rename:
+  - chemical_mixture
+  - biolink:chemical_mixture
+dcid:Dataset:
+  rename:
+  - dataset
+  - biolink:dataset
+dcid:Disease:
+  rename:
+  - disease
+  - biolink:disease
+dcid:Drug:
+  rename:
+  - drug
+  - biolink:drug
+dcid:Gene:
+  rename:
+  - gene
+  - biolink:gene
+dcid:GenomeAssemblyUnit:
+  rename:
+  - genome
+  - biolink:genome
+dcid:MedicalProcedure:
+  rename:
+  - procedure
+  - biolink:procedure
 dcid:MeSHTerm:
   rename:
   - mesh_terms
   - biolink: mesh_terms
+dcid:RNATranscript:
+  rename:
+  - transcript
+  - biolink:transcript
+dcid:Thing:
+  rename:
+  - named_thing
+  - biolink:named_thing
 DDANAT:develops_from:
   rename:
   - develops_from
@@ -2320,10 +2372,22 @@ NCIT:biomarker_type_includes_gene:
   delete: null
 NCIT:biomarker_type_includes_gene_product:
   delete: null
+NCIT:C2991:
+  rename:
+  - disease
+  - biolink:disease
+NCIT:C13379:
+  rename:
+  - protein_domain
+  - biolink:protein_domain
 NCIT:C15220: # diagnosis
   rename:
   - diagnoses
-  - biolink: diagnoses
+  - biolink:diagnoses
+NCIT:C54680:
+  rename:
+  - mechanism_of_action
+  - biolink:mechanism_of_action
 NCIT:cdrh_parent_of:
   invert:
   - subclass_of
