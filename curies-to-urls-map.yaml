@@ -650,6 +650,10 @@ use_for_contraction_only:
   -
     WD: http://purl.obolibrary.org/obo/Wikidata_
   -
+    WIKIDATA: 'https://www.wikidata.org/wiki/'
+  -
+    WIKIDATA_PROPERTY: 'https://www.wikidata.org/wiki/Property:'  # Wikidata Property - not a conventional namespace prefix
+  -
     ZFIN: "http://zfin.org/action/marker/view/"
 ############################################
 use_for_expansion_only:
