@@ -412,6 +412,10 @@ CL:lacks_plasma_membrane_part:
   rename:
   - lacks_part
   - biolink:lacks_part
+dcid:Allele:
+  rename:
+  - sequence_variant
+  - biolink:sequence_variant
 dcid:BiologicalSpecies:
   rename:
   - organism_taxon
@@ -2384,6 +2388,14 @@ NCIT:C15220: # diagnosis
   rename:
   - diagnoses
   - biolink:diagnoses
+NCIT:C20130:
+  rename:
+  - protein_family
+  - biolink:protein_family
+NCIT:C26004:
+  rename:
+  - protein_family
+  - biolink:protein_family
 NCIT:C54680:
   rename:
   - mechanism_of_action
@@ -4391,7 +4403,15 @@ SIO:000001:
 SIO:001331: # diagnosis
   rename:
   - diagnoses
-  - biolink: diagnoses
+  - biolink:diagnoses
+SIO:001379:
+  rename:
+  - protein_domain
+  - biolink:protein_domain
+SIO:001380:
+  rename:
+  - protein_family
+  - biolink:protein_family
 # SO:adjacent_to:
 #   rename:
 #   - coexists_with
@@ -4440,6 +4460,10 @@ SO:has_origin:
 #   invert:
 #   - gene_product_of
 #   - biolink:gene_product_of
+STY:T046:
+  rename:
+  - pathological_process
+  - biolink:pathological_process
 UBERON:anastomoses_with:
   rename:
   - coexists_with
@@ -4540,6 +4564,10 @@ UBERON_NONAMESPACE:subdivision_of:
   rename:
   - coexists_with
   - biolink: coexists_with
+UMLS:C1514562:
+  rename:
+  - protein_domain
+  - biolink:protein_domain
 UMLS:has_physiologic_effect:
   rename:
   - causes
@@ -4682,6 +4710,14 @@ VANDF:isa:
   rename:
   - subclass_of
   - biolink:subclass_of
+WIKIDATA:Q417841:
+  rename:
+  - protein_family
+  - biolink:protein_family
+WIKIDATA:Q2278983:
+  rename:
+  - protein_family
+  - biolink:protein_family
 biolink:in_taxon:
   keep: null
 biolink:part_of:
