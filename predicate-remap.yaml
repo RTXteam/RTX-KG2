@@ -424,6 +424,10 @@ dcid:ChemicalCompound:
   rename:
   - chemical_mixture
   - biolink:chemical_mixture
+dcid:Chromosome:
+  rename:
+  - genomic_sequence_localization
+  - biolink:genomic_sequence_localization
 dcid:Dataset:
   rename:
   - dataset
@@ -432,6 +436,14 @@ dcid:Disease:
   rename:
   - disease
   - biolink:disease
+dcid:DiseaseGeneAssociation:
+  rename:
+  - gene_to_disease_association
+  - biolink:gene_to_disease_association
+dcid:DiseaseSymptomAssociation:
+  rename:
+  - disease_to_phenotypic_feature_association
+  - biolink:disease_to_phenotypic_feature_association
 dcid:Drug:
   rename:
   - drug
@@ -440,10 +452,46 @@ dcid:Gene:
   rename:
   - gene
   - biolink:gene
+dcid:GenomeAnnotation:
+  rename:
+  - genomic_sequence_localization
+  - biolink:genomic_sequence_localization
 dcid:GenomeAssemblyUnit:
   rename:
   - genome
   - biolink:genome
+dcid:GeologicalEvent:
+  rename:
+  - geographic_exposure
+  - biolink:geographic_exposure
+dcid:IceStoremEvent:
+  rename:
+  - geographic_exposure
+  - biolink:geographic_exposure
+dcid:LakeEffectSnowEvent:
+  rename:
+  - geographic_exposure
+  - biolink:geographic_exposure
+dcid:LandslideEvent:
+  rename:
+  - geographic_exposure
+  - biolink:geographic_exposure
+dcid:MarineDenseFogEvent:
+  rename:
+  - geographic_exposure
+  - biolink:geographic_exposure
+dcid:MarineLighteningEvent:
+  rename:
+  - geographic_exposure
+  - biolink:geographic_exposure
+dcid:MarineStrongWindEvent:
+  rename:
+  - geographic_exposure
+  - biolink:geographic_exposure
+dcid:MarineThunderstormWindEvent:
+  rename:
+  - geographic_exposure
+  - biolink:geographic_exposure
 dcid:MedicalProcedure:
   rename:
   - procedure
@@ -452,14 +500,46 @@ dcid:MeSHTerm:
   rename:
   - mesh_terms
   - biolink: mesh_terms
+dcid:ProteinProteinInteraction:
+  rename:
+  - pairwise_gene_to_gene_interaction
+  - biolink:pairwise_gene_to_gene_interaction
 dcid:RNATranscript:
   rename:
   - transcript
   - biolink:transcript
+dcid:StormEvent:
+  rename:
+  - geographic_exposure
+  - biolink:geographic_exposure
+dcid:StormSurgeTideEvent:
+  rename:
+  - geographic_exposure
+  - biolink:geographic_exposure
+dcid:StrongWindEvent:
+  rename:
+  - geographic_exposure
+  - biolink:geographic_exposure
 dcid:Thing:
   rename:
   - named_thing
   - biolink:named_thing
+dcid:ThunderstormWindEvent:
+  rename:
+  - geographic_exposure
+  - biolink:geographic_exposure
+dcid:TornadoEvent:
+  rename:
+  - geographic_exposure
+  - biolink:geographic_exposure
+dcid:TropicalDepressionEvent:
+  rename:
+  - geographic_exposure
+  - biolink:geographic_exposure
+dcid:WinterStoremEvent:
+  rename:
+  - geographic_exposure
+  - biolink:geographic_exposure
 DDANAT:develops_from:
   rename:
   - develops_from
@@ -984,6 +1064,10 @@ EFO:0006351:
   rename:
   - related_to
   - biolink:related_to
+EFO:0009708:
+  rename:
+  - pathological_process
+  - biolink:pathological_process
 EFO:is_executed_in:
   rename:
   - related_to
@@ -2388,6 +2472,14 @@ NCIT:C15220: # diagnosis
   rename:
   - diagnoses
   - biolink:diagnoses
+NCIT:C16956:
+  rename:
+  - pathological_process
+  - biolink:pathological_process
+NCIT:C19151:
+  rename:
+  - pathological_process
+  - biolink:pathological_process
 NCIT:C20130:
   rename:
   - protein_family
@@ -3104,6 +3196,10 @@ OBI:0001927:
   invert:
   - related_to
   - biolink:related_to
+OBI:1110122:
+  rename:
+  - pathological_process
+  - biolink:pathological_process
 OBO:INO_0000154:
   rename:
   - related_to
@@ -4400,6 +4496,10 @@ SEMMEDDB:xref:
   - biolink:related_to
 SIO:000001:
   delete: null
+SIO:000983:
+  rename:
+  - gene_to_disease_association
+  - biolink:gene_to_disease_association
 SIO:001331: # diagnosis
   rename:
   - diagnoses
@@ -4460,6 +4560,10 @@ SO:has_origin:
 #   invert:
 #   - gene_product_of
 #   - biolink:gene_product_of
+STY:T037:
+  rename:
+  - pathological_process
+  - biolink:pathological_process
 STY:T046:
   rename:
   - pathological_process
