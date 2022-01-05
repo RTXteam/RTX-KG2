@@ -16,7 +16,7 @@ lockfile==0.12.2
 marshmallow==3.0.0b3
 mysqlclient==1.4.4
 neo4j==1.7.4
-networkx==2.2
+networkx==2.3
 numpy==1.16.3
 ontobio==1.10.1
 pandas==0.24.2
