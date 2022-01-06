@@ -64,9 +64,11 @@ use_for_bidirectional_mapping:
   -
     dbpedia: http://dbpedia.org/resource/
   - 
-    dct: 'http://purl.org/dc/terms/'
-  - 
     dcid: 'https://datacommons.org/browser/'
+  - 
+    dct: 'http://purl.org/dc/terms/'
+  -
+    dcterms: http://purl.org/dc/terms/
   -
     DDANAT: http://purl.obolibrary.org/obo/DDANAT_
   -
@@ -473,8 +475,6 @@ use_for_contraction_only:
     CPT: http://purl.bioontology.org/ontology/HCPT/
   -
     dc: http://purl.org/dc/elements/1.1/
-  -
-    dcterms: http://purl.org/dc/terms/
   -
     DDANAT: http://purl.obolibrary.org/obo/ddanat#
   -
