@@ -63,6 +63,8 @@ use_for_bidirectional_mapping:
     CVDO: http://purl.obolibrary.org/obo/CVDO_
   -
     dbpedia: http://dbpedia.org/resource/
+  -
+    dc: http://purl.org/dc/elements/1.1/
   - 
     dcid: 'https://datacommons.org/browser/'
   - 
@@ -473,8 +475,6 @@ use_for_contraction_only:
     CL: http://purl.obolibrary.org/obo/cl#
   -
     CPT: http://purl.bioontology.org/ontology/HCPT/
-  -
-    dc: http://purl.org/dc/elements/1.1/
   -
     DDANAT: http://purl.obolibrary.org/obo/ddanat#
   -
