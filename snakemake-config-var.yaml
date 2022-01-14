@@ -90,6 +90,8 @@ kegg_output_file: ${BUILD_DIR}/kg2-kegg${test_suffix}.json
 kg2_tsv_dir: ${BUILD_DIR}/TSV
 kg2_tsv_tarball: ${BUILD_DIR}/kg2-tsv-for-neo4j${test_suffix}.tar.gz
 
+multi_ont_kg_file: ${BUILD_DIR}/build-multi-ont-kg${test_suffix}.log
+
 version_file: ${BUILD_DIR}/kg2-version.txt
 
 validation_placeholder: ${BUILD_DIR}/validation-placeholder.empty
