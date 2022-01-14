@@ -68,7 +68,7 @@ ${s3_cp_cmd} ${simplified_report_file_full} s3://${s3_bucket_public}/
 ${s3_cp_cmd} ${output_file_orphan_edges}.gz s3://${s3_bucket_public}/
 ${s3_cp_cmd} ${slim_output_file_full}.gz s3://${s3_bucket}/
 
-build_multi_owl_stderr_file="${BUILD_DIR}/build-${output_file_base%.*}"-stderr.log
+build_multi_owl_stderr_file="${multi_ont_kg_file}"
 
 ${s3_cp_cmd} ${build_multi_owl_stderr_file} s3://${s3_bucket_public}/
 ${s3_cp_cmd} ${CODE_DIR}/s3-index.html s3://${s3_bucket_public}/index.html
