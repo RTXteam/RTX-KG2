@@ -83,6 +83,8 @@ use_for_bidirectional_mapping:
     doap: http://usefulinc.com/ns/doap#
   - 
     doi: https://doi.org/
+  -
+    DOID: http://purl.obolibrary.org/obo/DOID_
   - 
     DOID-PROPERTY: 'http://purl.obolibrary.org/obo/doid#'
   -
@@ -477,8 +479,6 @@ use_for_contraction_only:
     CPT: http://purl.bioontology.org/ontology/HCPT/
   -
     DDANAT: http://purl.obolibrary.org/obo/ddanat#
-  -
-    DOID: http://purl.obolibrary.org/obo/DOID_
   -
     DRUGBANK: http://purl.bioontology.org/ontology/DRUGBANK/
   -
