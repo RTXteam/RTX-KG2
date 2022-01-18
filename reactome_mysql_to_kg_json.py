@@ -32,7 +32,7 @@ ENSEMBL_PREFIX = kg2_util.CURIE_PREFIX_ENSEMBL
 PMID_PREFIX = kg2_util.CURIE_PREFIX_PMID
 
 BIOLOGICAL_PROCESS = kg2_util.BIOLINK_CATEGORY_BIOLOGICAL_PROCESS
-DRUG = kg2_util.BIOLINK_CATEGORY_DRUG
+SMALL_MOLECULE = kg2_util.BIOLINK_CATEGORY_SMALL_MOLECULE
 MOLECULAR_ACTIVITY = kg2_util.BIOLINK_CATEGORY_MOLECULAR_ACTIVITY
 MOLECULAR_ENTITY = kg2_util.BIOLINK_CATEGORY_MOLECULAR_ENTITY
 BIOLOGICAL_ENTITY = kg2_util.BIOLINK_CATEGORY_BIOLOGICAL_ENTITY
@@ -205,7 +205,7 @@ def match_reactome_category_to_biolink(reactome_category: str,
                      'GenomeEncodedEntity': BIOLOGICAL_ENTITY,
                      'BlackBoxEvent': BIOLOGICAL_PROCESS,
                      'DefinedSet': BIOLOGICAL_ENTITY,
-                     'ChemicalDrug': DRUG,
+                     'ChemicalDrug': SMALL_MOLECULE,
                      'Complex': BIOLOGICAL_ENTITY,
                      'FailedReaction': PATHOLOGICAL_PROCESS,
                      'Pathway': kg2_util.BIOLINK_CATEGORY_PATHWAY,
@@ -215,7 +215,7 @@ def match_reactome_category_to_biolink(reactome_category: str,
                      'NegativeRegulation': BIOLOGICAL_PROCESS,
                      'CandidateSet': MOLECULAR_ENTITY,
                      'Requirement': BIOLOGICAL_PROCESS,
-                     'ProteinDrug': PROTEIN,
+                     'ProteinDrug': CHEMICAL_ENTITY,
                      'Polymer': BIOLOGICAL_ENTITY,
                      'EntityWithAccessionedSequence': PROTEIN,
                      'Polymerisation': BIOLOGICAL_PROCESS,
