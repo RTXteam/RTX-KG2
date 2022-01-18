@@ -136,7 +136,7 @@ def make_node(drug: dict):
     if drug_type == TYPE_SMALL_MOLECULE:
         category = kg2_util.BIOLINK_CATEGORY_SMALL_MOLECULE
     elif drug_type == TYPE_BIOTECH:
-        category = kg2_util.BIOLINK_CATEGORY_PROTEIN
+        category = kg2_util.BIOLINK_CATEGORY_CHEMICAL_ENTITY
     else:
         print(f"Unknown type: {drug_type} for drug ID: {drugbank_id}; treating as chemical entity",
               file=sys.stderr)
