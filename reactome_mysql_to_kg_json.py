@@ -213,16 +213,16 @@ def match_reactome_category_to_biolink(reactome_category: str,
                      'PositiveRegulation': BIOLOGICAL_PROCESS,
                      'NegativeGeneExpressionRegulation': BIOLOGICAL_PROCESS,
                      'NegativeRegulation': BIOLOGICAL_PROCESS,
-                     'CandidateSet': MOLECULAR_ENTITY,
+                     'CandidateSet': BIOLOGICAL_ENTITY,
                      'Requirement': BIOLOGICAL_PROCESS,
                      'ProteinDrug': CHEMICAL_ENTITY,
                      'Polymer': BIOLOGICAL_ENTITY,
-                     'EntityWithAccessionedSequence': PROTEIN,
+                     'EntityWithAccessionedSequence': BIOLOGICAL_ENTITY,
                      'Polymerisation': BIOLOGICAL_PROCESS,
                      'PositiveGeneExpressionRegulation': BIOLOGICAL_PROCESS}
 
     biolink_category = category_dict[reactome_category]
-    if biolink_category == MOLECULAR_ENTITY and reference_class is not None \
+    if reactome_category == 'EntityWithAccessionedSequence' and reference_class is not None \
        and reference_class == 'ReferenceGeneProduct':
         biolink_category = PROTEIN
         
