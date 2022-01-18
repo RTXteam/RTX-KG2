@@ -35,7 +35,10 @@ BIOLOGICAL_PROCESS = kg2_util.BIOLINK_CATEGORY_BIOLOGICAL_PROCESS
 DRUG = kg2_util.BIOLINK_CATEGORY_DRUG
 MOLECULAR_ACTIVITY = kg2_util.BIOLINK_CATEGORY_MOLECULAR_ACTIVITY
 MOLECULAR_ENTITY = kg2_util.BIOLINK_CATEGORY_MOLECULAR_ENTITY
+BIOLOGICAL_ENTITY = kg2_util.BIOLINK_CATEGORY_BIOLOGICAL_ENTITY
 PATHWAY = kg2_util.BIOLINK_CATEGORY_PATHWAY
+PROTEIN = kg2_util.BIOLINK_CATEGORY_PROTEIN
+PATHOLOGICAL_PROCESS = kg2_util.BIOLINK_CATEGORY_PATHOLOGICAL_PROCESS
 
 ROW_LIMIT_TEST_MODE = 1000
 
@@ -115,7 +118,9 @@ def match_name_to_prefix(name: str):
                         'PRF': None,
                         'IUPHAR': None,
                         'PubChem': None,
-                        'PubChem SID': None}
+                        'PubChem SID': None,
+                        'Guide to Pharmacology': kg2_util.CURIE_PREFIX_GTPI,
+                        'NCIthesaurus': kg2_util.CURIE_PREFIX_NCIT}
 
     return name_prefix_dict[name]
 
@@ -192,30 +197,36 @@ def match_species_to_id(species: str):
     return species_dict[species]
 
 
-def match_reactome_category_to_biolink(category: str):
-    category_dict = {'Reaction': MOLECULAR_ACTIVITY,
-                     'OtherEntity': MOLECULAR_ENTITY,
-                     'SimpleEntity': MOLECULAR_ENTITY,
-                     'GenomeEncodedEntity': MOLECULAR_ENTITY,
-                     'BlackBoxEvent': MOLECULAR_ACTIVITY,
-                     'DefinedSet': MOLECULAR_ENTITY,
+def match_reactome_category_to_biolink(reactome_category: str,
+                                       reference_class: str):
+    category_dict = {'Reaction': BIOLOGICAL_PROCESS,
+                     'OtherEntity': BIOLOGICAL_ENTITY,
+                     'SimpleEntity': BIOLOGICAL_ENTITY,
+                     'GenomeEncodedEntity': BIOLOGICAL_ENTITY,
+                     'BlackBoxEvent': BIOLOGICAL_PROCESS,
+                     'DefinedSet': BIOLOGICAL_ENTITY,
                      'ChemicalDrug': DRUG,
-                     'Complex': MOLECULAR_ENTITY,
-                     'FailedReaction': MOLECULAR_ACTIVITY,
+                     'Complex': BIOLOGICAL_ENTITY,
+                     'FailedReaction': PATHOLOGICAL_PROCESS,
                      'Pathway': kg2_util.BIOLINK_CATEGORY_PATHWAY,
-                     'Depolymerisation': MOLECULAR_ACTIVITY,
-                     'PositiveRegulation': None,
-                     'NegativeGeneExpressionRegulation': None,
-                     'NegativeRegulation': None,
+                     'Depolymerisation': BIOLOGICAL_PROCESS,
+                     'PositiveRegulation': BIOLOGICAL_PROCESS,
+                     'NegativeGeneExpressionRegulation': BIOLOGICAL_PROCESS,
+                     'NegativeRegulation': BIOLOGICAL_PROCESS,
                      'CandidateSet': MOLECULAR_ENTITY,
-                     'Requirement': None,
-                     'ProteinDrug': DRUG,
-                     'Polymer': MOLECULAR_ENTITY,
-                     'EntityWithAccessionedSequence': MOLECULAR_ENTITY,
-                     'Polymerisation': MOLECULAR_ACTIVITY,
-                     'PositiveGeneExpressionRegulation': None}
+                     'Requirement': BIOLOGICAL_PROCESS,
+                     'ProteinDrug': PROTEIN,
+                     'Polymer': BIOLOGICAL_ENTITY,
+                     'EntityWithAccessionedSequence': PROTEIN,
+                     'Polymerisation': BIOLOGICAL_PROCESS,
+                     'PositiveGeneExpressionRegulation': BIOLOGICAL_PROCESS}
 
-    return category_dict[category]
+    biolink_category = category_dict[reactome_category]
+    if biolink_category == MOLECULAR_ENTITY and reference_class is not None \
+       and reference_class == 'ReferenceGeneProduct':
+        biolink_category = PROTEIN
+        
+    return biolink_category
 
 
 def only_include_certain_species(reactome_id: str):
@@ -271,7 +282,8 @@ def get_nodes(connection, test):
                  GROUP_CONCAT(DISTINCT sum_fr_e.text) as description_event, \
                  GROUP_CONCAT(DISTINCT sum_fr_p.text) as description_entity, \
                  GROUP_CONCAT(DISTINCT sum_fr_r.text) as description_regulation, \
-                 GROUP_CONCAT(DISTINCT ins_ed.dateTime) as created_date \
+                 GROUP_CONCAT(DISTINCT ins_ed.dateTime) as created_date, \
+                 GROUP_CONCAT(DISTINCT ewas.referenceEntity_class) as refclass  \
                  FROM StableIdentifier si \
                  INNER JOIN DatabaseObject dbobj \
                  ON si.DB_ID=dbobj.stableIdentifier \
@@ -297,30 +309,36 @@ def get_nodes(connection, test):
                  on reg_sum.DB_ID=dbobj.DB_ID \
                  LEFT JOIN Summation sum_fr_r \
                  ON sum_fr_r.DB_ID=reg_sum.summation \
+                 LEFT JOIN EntityWithAccessionedSequence ewas \
+                 ON dbobj.DB_ID = ewas.DB_ID \
                  GROUP BY si.identifier"
     if test:
         nodes_sql += " LIMIT " + str(ROW_LIMIT_TEST_MODE)
     for result in run_sql(nodes_sql, connection):
-        node_id = only_include_certain_species(kg2_util.CURIE_PREFIX_REACTOME + ':' + result[0])
+        (reactome_id,
+         name,
+         update_date,
+         reactome_category,
+         publications_event, 
+         publications_phy_ent,
+         description_event,
+         description_phy_ent,
+         descrption_reg,
+         created_date,
+         reference_class) = result
+        node_id = only_include_certain_species(kg2_util.CURIE_PREFIX_REACTOME + ':' + reactome_id)
         if node_id is None:
             continue
-        name = result[1]
-        update_date = str(result[2])
+        update_date = str(update_date)
         try:
-            category_label = match_reactome_category_to_biolink(result[3])
+            category_label = match_reactome_category_to_biolink(reactome_category, reference_class)
             if category_label is None:
                 continue
         except KeyError:
-            print("Category for", result[3], "not in match_reactome_category_to_biolink")
+            print("Category for \"", reactome_category, "\" not in match_reactome_category_to_biolink")
             continue
-        publications_event = result[4]
-        publications_phy_ent = result[5]
-        description_event = result[6]
-        description_phy_ent = result[7]
-        descrption_reg = result[8]
         iri = REACTOME_BASE_IRI + result[0]
-        created_date = result[9]
-
+        
         # Check to see which general type of node it is and generate the
         # publications list using that
         if publications_event is not None:
@@ -746,7 +764,7 @@ def get_equivalencies(connection, test):
             if ex_ont_prefix is None:
                 continue
         except KeyError:
-            print("The source " + ex_ont[0] + " is not in the name_prefix_dict.")
+            print("The source \"" + ex_ont[0] + "\" is not in the name_prefix_dict.")
             continue
         ex_ont_id = ex_ont_prefix + ":" + str(ex_ont[1])
         react_id = only_include_certain_species(kg2_util.CURIE_PREFIX_REACTOME + ':' + ex_ont[2])
@@ -788,7 +806,7 @@ def get_equivalencies(connection, test):
                 if obj_prefix is None:
                     continue
             except KeyError:
-                print("The source " + result[2] + " is not in the name_prefix_dict")
+                print("The source \"" + result[2] + "\" is not in the name_prefix_dict")
                 continue
             object_id = obj_prefix + ':' + result[1]
             predicate = kg2_util.EDGE_LABEL_BIOLINK_SAME_AS
