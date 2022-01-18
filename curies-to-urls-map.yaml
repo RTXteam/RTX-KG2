@@ -628,8 +628,6 @@ use_for_contraction_only:
   -
     UBERON: http://purl.obolibrary.org/obo/uberon/insect-anatomy#
   -
-    UBERON: http://purl.obolibrary.org/obo/uberon/core#
-  -
     UBERON: http://purl.obolibrary.org/obo/uberon#
   -
     UMLS: http://purl.obolibrary.org/obo/UMLS_
