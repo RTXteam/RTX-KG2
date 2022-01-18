@@ -444,6 +444,8 @@ use_for_bidirectional_mapping:
   -
     WIKIDATA: 'https://www.wikidata.org/wiki/'
   -
+    WIKIDATA_PROPERTY: 'https://www.wikidata.org/wiki/Property:'  # Wikidata Property - not a conventional namespace prefix
+  -
     XCO: http://purl.obolibrary.org/obo/XCO_
   -
     ZEA: http://purl.obolibrary.org/obo/ZEA_
@@ -651,8 +653,6 @@ use_for_contraction_only:
     wb: http://www.wormbase.org/species/c_elegans/gene/
   -
     WD: http://purl.obolibrary.org/obo/Wikidata_
-  -
-    WIKIDATA_PROPERTY: 'https://www.wikidata.org/wiki/Property:'  # Wikidata Property - not a conventional namespace prefix
   -
     ZFIN: "http://zfin.org/action/marker/view/"
 ############################################
