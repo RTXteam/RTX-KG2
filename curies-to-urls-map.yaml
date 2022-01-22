@@ -440,8 +440,6 @@ use_for_bidirectional_mapping:
   -
     wb: "https://identifiers.org/wb:"
   -
-    WD: "https://identifiers.org/wikidata:"
-  -
     WIKIDATA: 'https://www.wikidata.org/wiki/'
   -
     WIKIDATA_PROPERTY: 'https://www.wikidata.org/wiki/Property:'  # Wikidata Property - not a conventional namespace prefix
@@ -648,7 +646,9 @@ use_for_contraction_only:
   -
     wb: http://www.wormbase.org/species/c_elegans/gene/
   -
-    WD: http://purl.obolibrary.org/obo/Wikidata_
+    WIKIDATA: "https://identifiers.org/wikidata:"
+  -
+    WIKIDATA: http://purl.obolibrary.org/obo/Wikidata_
   -
     ZFIN: "http://zfin.org/action/marker/view/"
 ############################################
@@ -665,4 +665,6 @@ use_for_expansion_only:
     oboInOwl: http://www.geneontology.org/formats/oboInOwl#
   -
     RXCUI: http://purl.bioontology.org/ontology/RXNORM/
+  -
+    WD: https://www.wikidata.org/wiki/
 
