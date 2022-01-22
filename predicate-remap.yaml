@@ -214,18 +214,6 @@ BTO:related_to:
   rename:
   - related_to
   - biolink:related_to
-CHEBI:23367:
-  rename:
-  - molecular_entity
-  - biolink:molecular_entity
-CHEBI:23888:
-  rename:
-  - drug
-  - biolink:drug
-CHEBI:59999:
-  rename:
-  - small_molecule
-  - biolink:small_molecule
 CHEBI:has_functional_parent:
   rename:
   - chemically_similar_to
@@ -412,134 +400,6 @@ CL:lacks_plasma_membrane_part:
   rename:
   - lacks_part
   - biolink:lacks_part
-dcid:Allele:
-  rename:
-  - sequence_variant
-  - biolink:sequence_variant
-dcid:BiologicalSpecies:
-  rename:
-  - organism_taxon
-  - biolink:organism_taxon
-dcid:ChemicalCompound:
-  rename:
-  - chemical_mixture
-  - biolink:chemical_mixture
-dcid:Chromosome:
-  rename:
-  - genomic_sequence_localization
-  - biolink:genomic_sequence_localization
-dcid:Dataset:
-  rename:
-  - dataset
-  - biolink:dataset
-dcid:Disease:
-  rename:
-  - disease
-  - biolink:disease
-dcid:DiseaseGeneAssociation:
-  rename:
-  - gene_to_disease_association
-  - biolink:gene_to_disease_association
-dcid:DiseaseSymptomAssociation:
-  rename:
-  - disease_to_phenotypic_feature_association
-  - biolink:disease_to_phenotypic_feature_association
-dcid:Drug:
-  rename:
-  - drug
-  - biolink:drug
-dcid:Gene:
-  rename:
-  - gene
-  - biolink:gene
-dcid:GenomeAnnotation:
-  rename:
-  - genomic_sequence_localization
-  - biolink:genomic_sequence_localization
-dcid:GenomeAssemblyUnit:
-  rename:
-  - genome
-  - biolink:genome
-dcid:GeologicalEvent:
-  rename:
-  - geographic_exposure
-  - biolink:geographic_exposure
-dcid:IceStoremEvent:
-  rename:
-  - geographic_exposure
-  - biolink:geographic_exposure
-dcid:LakeEffectSnowEvent:
-  rename:
-  - geographic_exposure
-  - biolink:geographic_exposure
-dcid:LandslideEvent:
-  rename:
-  - geographic_exposure
-  - biolink:geographic_exposure
-dcid:MarineDenseFogEvent:
-  rename:
-  - geographic_exposure
-  - biolink:geographic_exposure
-dcid:MarineLighteningEvent:
-  rename:
-  - geographic_exposure
-  - biolink:geographic_exposure
-dcid:MarineStrongWindEvent:
-  rename:
-  - geographic_exposure
-  - biolink:geographic_exposure
-dcid:MarineThunderstormWindEvent:
-  rename:
-  - geographic_exposure
-  - biolink:geographic_exposure
-dcid:MedicalProcedure:
-  rename:
-  - procedure
-  - biolink:procedure
-dcid:MeSHTerm:
-  rename:
-  - mesh_terms
-  - biolink: mesh_terms
-dcid:ProteinProteinInteraction:
-  rename:
-  - pairwise_gene_to_gene_interaction
-  - biolink:pairwise_gene_to_gene_interaction
-dcid:RNATranscript:
-  rename:
-  - transcript
-  - biolink:transcript
-dcid:StormEvent:
-  rename:
-  - geographic_exposure
-  - biolink:geographic_exposure
-dcid:StormSurgeTideEvent:
-  rename:
-  - geographic_exposure
-  - biolink:geographic_exposure
-dcid:StrongWindEvent:
-  rename:
-  - geographic_exposure
-  - biolink:geographic_exposure
-dcid:Thing:
-  rename:
-  - named_thing
-  - biolink:named_thing
-dcid:ThunderstormWindEvent:
-  rename:
-  - geographic_exposure
-  - biolink:geographic_exposure
-dcid:TornadoEvent:
-  rename:
-  - geographic_exposure
-  - biolink:geographic_exposure
-dcid:TropicalDepressionEvent:
-  rename:
-  - geographic_exposure
-  - biolink:geographic_exposure
-dcid:WinterStoremEvent:
-  rename:
-  - geographic_exposure
-  - biolink:geographic_exposure
 DDANAT:develops_from:
   rename:
   - develops_from
@@ -921,9 +781,9 @@ DRUGBANK:weak_inhibitor:
   - entity_negatively_regulates_entity
   - biolink:entity_negatively_regulates_entity
 DrugCentral:5271:
-  rename: 
+  rename:
   - diagnoses
-  - biolink: diagnoses
+  - biolink:diagnoses
 DrugCentral:activator:
   rename:
   - entity_positively_regulates_entity
@@ -1064,10 +924,6 @@ EFO:0006351:
   rename:
   - related_to
   - biolink:related_to
-EFO:0009708:
-  rename:
-  - pathological_process
-  - biolink:pathological_process
 EFO:is_executed_in:
   rename:
   - related_to
@@ -2094,10 +1950,6 @@ LOINC:mth_has_expanded_form:
   rename:
   - related_to
   - biolink:related_to
-LOINC:MTHU019741:
-  rename:
-  - mechanism_of_action
-  - biolink:mechanism_of_action
 LOINC:multipart_of:
   invert:
   - has_part
@@ -2306,9 +2158,6 @@ MI:1310: # de-ADP-ribosylation reaction
   rename:
   - directly_interacts_with
   - biolink:directly_interacts_with
-MI:2044:
-  rename:
-  - mechanism_of_action
   - biolink:mechanism_of_action
 MI:2364: # proximity
   rename:
@@ -2379,13 +2228,13 @@ NBO-PROPERTY:has_participant:
   - has_participant
   - biolink:has_participant
 NBO-PROPERTY:in_response_to:
-  rename:
+  invert:
   - causes
-  - biolink: causes
+  - biolink:causes
 NBO-PROPERTY:is_about:
   rename: 
   - related_to
-  - biolink: related_to
+  - biolink:related_to
 NCIT:abnormal_cell_affected_by_chemical_or_drug:
   delete: null
 NCIT:abnormality_associated_with_allele:
@@ -2460,38 +2309,10 @@ NCIT:biomarker_type_includes_gene:
   delete: null
 NCIT:biomarker_type_includes_gene_product:
   delete: null
-NCIT:C2991:
-  rename:
-  - disease
-  - biolink:disease
-NCIT:C13379:
-  rename:
-  - protein_domain
-  - biolink:protein_domain
 NCIT:C15220: # diagnosis
   rename:
   - diagnoses
   - biolink:diagnoses
-NCIT:C16956:
-  rename:
-  - pathological_process
-  - biolink:pathological_process
-NCIT:C19151:
-  rename:
-  - pathological_process
-  - biolink:pathological_process
-NCIT:C20130:
-  rename:
-  - protein_family
-  - biolink:protein_family
-NCIT:C26004:
-  rename:
-  - protein_family
-  - biolink:protein_family
-NCIT:C54680:
-  rename:
-  - mechanism_of_action
-  - biolink:mechanism_of_action
 NCIT:cdrh_parent_of:
   invert:
   - subclass_of
@@ -3078,8 +2899,8 @@ NCIT:R40:
   - biolink:located_in
 NCIT:R88: # disease is stage
   rename: 
-  - has_attribute
-  - biolink: has_attribute
+  - related_to
+  - biolink:related_to
 NCIT:R89:
   rename: 
   - has_phenotype
@@ -3196,10 +3017,6 @@ OBI:0001927:
   invert:
   - related_to
   - biolink:related_to
-OBI:1110122:
-  rename:
-  - pathological_process
-  - biolink:pathological_process
 OBO:INO_0000154:
   rename:
   - related_to
@@ -3255,7 +3072,7 @@ OBO:uo#is_unit_of:
 OIO:hasDbXref:
   rename: 
   - close_match
-  - biolink: close_match
+  - biolink:close_match
 OMIM:allelic_variant_of:
   rename:
   - is_sequence_variant_of
@@ -3335,7 +3152,7 @@ ORPHANET:C017:
 PATO:0000085: # sensitivity toward
   rename:
   - associated_with_sensitivity_to
-  - biolink: associated_with_sensitivity_to
+  - biolink:associated_with_sensitivity_to
 PATO:correlates_with:
   rename:
   - correlated_with
@@ -4498,20 +4315,12 @@ SIO:000001:
   delete: null
 SIO:000983:
   rename:
-  - gene_to_disease_association
-  - biolink:gene_to_disease_association
+  - biomarker_for
+  - biolink:biomarker_for
 SIO:001331: # diagnosis
   rename:
   - diagnoses
   - biolink:diagnoses
-SIO:001379:
-  rename:
-  - protein_domain
-  - biolink:protein_domain
-SIO:001380:
-  rename:
-  - protein_family
-  - biolink:protein_family
 # SO:adjacent_to:
 #   rename:
 #   - coexists_with
@@ -4560,14 +4369,6 @@ SO:has_origin:
 #   invert:
 #   - gene_product_of
 #   - biolink:gene_product_of
-STY:T037:
-  rename:
-  - pathological_process
-  - biolink:pathological_process
-STY:T046:
-  rename:
-  - pathological_process
-  - biolink:pathological_process
 UBERON:anastomoses_with:
   rename:
   - coexists_with
@@ -4655,23 +4456,19 @@ UBERON:synapsed_by:
 UBERON_NONAMESPACE:connected_to:
   rename:
   - related_to
-  - biolink: related_to
+  - biolink:related_to
 UBERON_NONAMESPACE:distally_connected_to:
   rename:
   - coexists_with
-  - biolink: coexists_with
+  - biolink:coexists_with
 UBERON_NONAMESPACE:innervated_by:
   rename:
   - related_to
-  - biolink: related_to
+  - biolink:related_to
 UBERON_NONAMESPACE:subdivision_of:
   rename:
   - coexists_with
-  - biolink: coexists_with
-UMLS:C1514562:
-  rename:
-  - protein_domain
-  - biolink:protein_domain
+  - biolink:coexists_with
 UMLS:has_physiologic_effect:
   rename:
   - causes
@@ -4796,8 +4593,8 @@ UMLS:supported_concept_relationship_in:
   delete: null
 UO-PROPERTY:is_unit_of:
   rename:
-  - has_unit
-  - biolink: has_unit
+  - related_to
+  - biolink:related_to
 VANDF:has_ingredient:
   rename:
   - has_part
@@ -4814,14 +4611,6 @@ VANDF:isa:
   rename:
   - subclass_of
   - biolink:subclass_of
-WIKIDATA:Q417841:
-  rename:
-  - protein_family
-  - biolink:protein_family
-WIKIDATA:Q2278983:
-  rename:
-  - protein_family
-  - biolink:protein_family
 biolink:in_taxon:
   keep: null
 biolink:part_of:
