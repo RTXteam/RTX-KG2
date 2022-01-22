@@ -24,6 +24,7 @@ BIOLINK_SLOT_TYPES_SKIP = {"biolink:has_attribute",
                            "biolink:synonym",
                            "biolink:has_attribute_type"}
 
+relation_mapping_exceptions = {"SEMMEDDB:diagnoses"}
 
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(
@@ -169,7 +170,7 @@ for relation, instruction_dict in pred_info.items():
                 if len(allowed_biolink_curies_set) != 0:
                     mapping_term_used = mapping_term
                     break
-            if len(allowed_biolink_curies_set) != 0:
+            if len(allowed_biolink_curies_set) != 0 and relation not in relation_mapping_exceptions:
                 err_str = "%s should map to %s (%s)" % (relation, allowed_biolink_curies_set, mapping_term_used.split("_")[0])
                 assert subinfo[1] in allowed_biolink_curies_set, err_str
 

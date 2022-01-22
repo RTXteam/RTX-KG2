@@ -4398,8 +4398,8 @@ SEMMEDDB:converts_to:
   - biolink:derives_from
 SEMMEDDB:diagnoses:
   rename:
-  - biomarker_for
-  - biolink:biomarker_for
+  - diagnoses
+  - biolink:diagnoses
 SEMMEDDB:disrupts:
   rename:
   - disrupts
