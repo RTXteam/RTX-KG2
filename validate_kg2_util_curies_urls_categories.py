@@ -15,7 +15,6 @@ __status__ = 'Prototype'
 
 import argparse
 import kg2_util
-import pprint
 
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='validate_kg2_util_curies_urls_categories.py: ' +
