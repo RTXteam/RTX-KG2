@@ -169,7 +169,7 @@ if __name__ == '__main__':
     nodes = []
     edges = []
     latest_date = 0
-    mesh_predicate_label = kg2_util.EDGE_LABEL_BIOLINK_HAS_ATTRIBUTE
+    mesh_predicate_label = kg2_util.EDGE_LABEL_BIOLINK_RELATED_TO
 
     for filename in os.listdir(pubmed_dir):
         if ".gz" in filename:

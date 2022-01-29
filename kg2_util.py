@@ -236,7 +236,7 @@ IRI_OWL_SAME_AS = BASE_URL_OWL + 'sameAs'
 
 EDGE_LABEL_OWL_SAME_AS = 'same_as'
 EDGE_LABEL_BIOLINK_GENE_ASSOCIATED_WITH_CONDITION = 'gene_associated_with_condition'
-EDGE_LABEL_BIOLINK_HAS_ATTRIBUTE = 'has_attribute'
+#EDGE_LABEL_BIOLINK_HAS_ATTRIBUTE = 'has_attribute'
 EDGE_LABEL_BIOLINK_GENE_PRODUCT_OF = 'gene_product_of'
 EDGE_LABEL_BIOLINK_HAS_METABOLITE = 'has_metabolite'
 EDGE_LABEL_BIOLINK_HAS_PARTICIPANT = 'has_participant'
@@ -731,6 +731,14 @@ def predicate_label_to_curie(predicate_label: str,
     return relation_curie_prefix + ':' + predicate_label_to_use
 
 
+def ont_children_recursive(ont_hier: ontobio.ontol.Ontology,
+                           node_name: str):
+    res_set = {node_name}
+    for child_node_name in ont_hier.children(node_name):
+        res_set |= ont_children_recursive(ont_hier, child_node_name)
+    return res_set
+
+    
 def make_edge_biolink(subject_curie_id: str,
                       object_curie_id: str,
                       predicate_label: str,
