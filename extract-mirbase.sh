@@ -23,7 +23,7 @@ output_file=${1:-"${BUILD_DIR}/miRNA.dat"}
 
 mkdir -p ${output_dir}
 
-${curl_get} ftp://mirbase.org/pub/mirbase/CURRENT/miRNA.dat.gz > ${output_dir}/miRNA.dat.gz
+${curl_get} https://mirbase.org/ftp/CURRENT/miRNA.dat.gz > ${output_dir}/miRNA.dat.gz
 ${curl_get} ftp://mirbase.org/pub/mirbase/CURRENT/README > ${output_dir}/miRBase_README.txt
 
 version_number=`grep -m 1 "The miRBase Sequence Database -- Release" ${output_dir}/miRBase_README.txt | cut -f7 -d ' '`
