@@ -3057,6 +3057,10 @@ OBO:exo#interacts_with:
   rename:
   - interacts_with
   - biolink:interacts_with
+OBO:exo#interacts_with_an_exposure_stressor_via:
+  rename:
+  - interacts_with
+  - biolink:interacts_with
 OBO:exo#interacts_with_an_exposure_receptor_via:
   rename:
   - interacts_with
