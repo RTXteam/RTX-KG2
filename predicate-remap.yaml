@@ -2211,6 +2211,14 @@ MONDO:has_onset:
   rename:
   - related_to
   - biolink:related_to
+MONDO:has_onset_before:
+  rename:
+  - related_to
+  - biolink:related_to
+MONDO:has_onset_during_or_after:
+  rename:
+  - related_to
+  - biolink:related_to
 MONDO:part_of_progression_of_disease:
   invert:
   - has_part
@@ -2897,6 +2905,14 @@ NCIT:R40:
   rename: 
   - located_in
   - biolink:located_in
+NCIT:R81:
+  rename:
+  - related_to
+  - biolink:related_to
+NCIT:R82:
+  rename:
+  - part_of
+  - biolink:part_of
 NCIT:R88: # disease is stage
   rename: 
   - related_to
@@ -2925,6 +2941,10 @@ NCIT:R156:
   rename: 
   - located_in
   - biolink:located_in
+NCIT:R163:
+  rename:
+  - related_to
+  - biolink:related_to
 NCIT:R165:
   rename: 
   - located_in
@@ -3033,6 +3053,14 @@ OBO:envo#has_increased_levels_of:
   rename:
   - related_to
   - biolink:related_to
+OBO:exo#interacts_with:
+  rename:
+  - interacts_with
+  - biolink:interacts_with
+OBO:exo#interacts_with_an_exposure_receptor_via:
+  rename:
+  - interacts_with
+  - biolink:interacts_with
 OBO:exo.obo#interacts_with:
   rename:
   - interacts_with
@@ -3049,6 +3077,10 @@ OBO:has_role:
   rename:
   - related_to
   - biolink:related_to
+OBO:MF#manifestationOf:
+  rename:
+  - manifestation_of
+  - biolink:manifestation_of
 OBO:nbo#by_means:
   invert:
   - actively_involved_in
@@ -3423,6 +3455,10 @@ RO:0000057:
   rename:
   - has_participant
   - biolink:has_participant
+RO:0000059:
+  rename:
+  - related_to
+  - biolink:related_to
 RO:0000086:
   rename:
   - related_to
@@ -3907,6 +3943,10 @@ RO:0002500:
   rename:
   - capable_of
   - biolink:capable_of
+RO:0002503:
+  rename:
+  - actively_involved_in
+  - biolink:actively_involved_in
 RO:0002505:
   rename:
   - has_participant
@@ -3975,6 +4015,10 @@ RO:0002608:
   invert:
   - causes
   - biolink:causes
+RO:0002610:
+  rename:
+  - correlated_with
+  - biolink:correlated_with
 # RO:0002629:
 #   rename:
 #   - entity_positively_regulates_entity
@@ -4453,6 +4497,86 @@ UBERON:synapsed_by:
   rename:
   - related_to
   - biolink:related_to
+UBERON_CORE:anastomoses_with:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON_CORE:anteriorly_connected_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON_CORE:channel_for:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON_CORE:channels_from:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON_CORE:channels_into:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON_CORE:conduit_for:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON_CORE:distally_connected_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON_CORE:extends_fibers_into:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON_CORE:filtered_through:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON_CORE:in_central_side_of:
+  rename:
+  - located_in
+  - rename:located_in
+UBERON_CORE:in_innermost_side_of:
+  rename:
+  - located_in
+  - rename:located_in
+UBERON_CORE:in_outermost_side_of:
+  rename:
+  - located_in
+  - rename:located_in
+UBERON_CORE:indirectly_supplies:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON_CORE:posteriorly_connected_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON_CORE:protects:
+  rename:
+  - related_to
+  - biolink:related_to
+UBERON_CORE:proximally_connected_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON_CORE:sexually_homologous_to:
+  rename:
+  - homologous_to
+  - biolink:homologous_to
+UBERON_CORE:site_of:
+  rename:
+  - occurs_in
+  - biolink:occurs_in
+UBERON_CORE:subdivision_of:
+  rename:
+  - part_of
+  - biolink:part_of
+UBERON_CORE:synapsed_by:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
 UBERON_NONAMESPACE:connected_to:
   rename:
   - related_to
