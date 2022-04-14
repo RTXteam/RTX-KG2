@@ -112,7 +112,7 @@
   download: false
   file: umls-ncbi.ttl
   title: NCBI
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/NCBITAXON
+  url: http://purl.obolibrary.org/obo/ncbitaxon/subsets/taxslim.owl
 - # maps to CURIE prefix NCIT
   download: false
   file: umls-nci.ttl
