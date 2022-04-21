@@ -197,6 +197,7 @@ def nodes(graph, output_file_location):
             nodekeys = no_space('publications', nodekeys, "publications:string[]")
             nodekeys = no_space('synonym', nodekeys, "synonym:string[]")
             nodekeys = no_space('category', nodekeys, ':LABEL')
+            nodekeys = no_space('has_chemical_role', nodekeys, "has_chemical_role:[]")
             tsvwrite_h.writerow(nodekeys)
         tsvwrite.writerow(vallist)
 
