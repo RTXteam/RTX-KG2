@@ -67,10 +67,13 @@ with open(input_file_name_full, "r") as input_file:
 # Populate edges header row
 edge_fields = ['subject',
                'object',
-               'predicate',
-               'knowledge_source',
+               'relation_label',
+               'original_predicate',
+               'negated',
                'publications',
                'publications_info',
+               'update_date',
+               'knowledge_source',
                'id']
 
 with open(log_file_name, 'a') as log_file:
@@ -92,15 +95,18 @@ with open(log_file_name, 'a') as log_file:
         if max_rows is None or num_edges < max_rows:
             output_file.write(check_tab(item['subject']) + '\t')
             output_file.write(check_tab(item['object']) + '\t')
-            output_file.write(check_tab(item['predicate']) + '\t')
-            # knowledge source is a list
-            ks_list = [check_tab(ks) for ks in item['knowledge_source']]
-            output_file.write('|'.join(ks_list) + '\t')
+            output_file.write(check_tab(item['relation_label']) + '\t')
+            output_file.write(check_tab(item['original_predicate']) + '\t')
+            output_file.write(check_tab(item['negated']) + '\t')
             # publications is a list
             pubs_list = [check_tab(pub) for pub in item['publications']]
             output_file.write('|'.join(pubs_list) + '\t')
             # publications_info is a dictionary
             output_file.write(json.dumps(item['publications_info']) + '\t')
+            output_file.write(check_tab(item['update_date']) + '\t')
+            # knowledge source is a list
+            ks_list = [check_tab(ks) for ks in item['knowledge_source']]
+            output_file.write('|'.join(ks_list) + '\t')
             output_file.write(check_tab(item['id']) + '\n')
         num_edges += 1
 
@@ -108,7 +114,9 @@ with open(log_file_name, 'a') as log_file:
     print("--- Edges.tsv completed --- ", file=log_file)
 
     # Populate nodes header row
-    node_fields = ['id', 'name', 'category', 'iri', 'description', 'publications']
+    node_fields = ['id', 'iri', 'name', 'full_name','category','category_label', 'description','synonym', 'publications'
+                   , 'creation_date', 'update_date', 'deprecated','replaced_by', 'knowledge_source','has_biological_sequence'
+                   ,'has_chemical_role','specificity_index')
 
     # Begin writing nodes.tsv
     print("--- Begin writing nodes.tsv ---", file=log_file)
@@ -128,18 +136,32 @@ with open(log_file_name, 'a') as log_file:
     for item in nodes_data:
         if max_rows is None or num_nodes < max_rows:
             output_file.write(check_tab(item['id']) + '\t')
-            output_file.write(check_tab(str(item['name'])) + '\t')
-            output_file.write(check_tab(item['category']) + '\t')
             output_file.write(check_tab(item['iri']) + '\t')
+            output_file.write(check_tab(str(item['name'])) + '\t')
+            output_file.write(check_tab(str(item['full_name'])) + '\t')
+            output_file.write(check_tab(item['category']) + '\t')
+            output_file.write(check_tab(item['category_label']) + '\t')
             desc = item['description']
             if desc is not None:
                 desc = check_tab(desc)
             else:
                 desc = ''
             output_file.write(desc + '\t')
+            output_file.write(check_tab(item['synonym']) + '\t')
             # publications is a list
             pub_list = [check_tab(publication) for publication in item['publications']]
-            output_file.write('|'.join(pub_list) + '\n')
+            output_file.write('|'.join(pub_list) + '\t')
+            output_file.write(check_tab(item['creation_date']) + '\t')
+            output_file.write(check_tab(item['update_date']) + '\t')
+            output_file.write(check_tab(item['deprecated']) + '\t')
+            output_file.write(check_tab(item['replaced_by']) + '\t')
+            output_file.write(check_tab(item['knowledge_source']) + '\t')
+            output_file.write(check_tab(item['has_biological_sequence']) + '\t')
+            # has_chemical_role is a list
+            chemical_roles = [check_tab(chemical_role) for chemical_role in item['has_chemical_role']]
+            output_file.write('|'.join(chemical_roles) + '\t')
+            output_file.write(check_tab(item['specificity_index']) + '\n')
+
         num_nodes += 1
 
     output_file.close()
