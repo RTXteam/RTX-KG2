@@ -4540,15 +4540,15 @@ UBERON_CORE:filtered_through:
 UBERON_CORE:in_central_side_of:
   rename:
   - located_in
-  - rename:located_in
+  - biolink:located_in
 UBERON_CORE:in_innermost_side_of:
   rename:
   - located_in
-  - rename:located_in
+  - biolink:located_in
 UBERON_CORE:in_outermost_side_of:
   rename:
   - located_in
-  - rename:located_in
+  - biolink:located_in
 UBERON_CORE:indirectly_supplies:
   rename:
   - coexists_with
