@@ -186,7 +186,7 @@ use_for_bidirectional_mapping:
   -
     IDO: http://purl.obolibrary.org/obo/IDO_
   -
-    IntAct: "https://identifiers.org/intact:"
+    IntAct: "https://identifiers.org/intact:EBI-"
   -
     ISBN: https://isbnsearch.org/isbn/
   -
@@ -255,6 +255,8 @@ use_for_bidirectional_mapping:
     NBO-PROPERTY: 'http://purl.obolibrary.org/obo/nbo#'
   -
     NCBIGene: 'http://identifiers.org/ncbigene/'
+  - 
+    NCBITaxon: 'http://purl.obolibrary.org/obo/ncbitaxon/subsets/taxslim.owl'
   -
     NCIT: "https://identifiers.org/ncit:"
   -
