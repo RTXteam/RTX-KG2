@@ -486,28 +486,29 @@ That file shows what has finished and what is still happening. If any line says
 the code has failed. However, since the code is 
 running in parallel, to minimize confusion, `stdout` and `stderr`
 for many of the scripts is piped into its own final, including:
-- `run-validation-tests.sh` -> `~/kg2-build/run-validation-tests.log`
-- `extract-umls.sh` -> `~/kg2-build/extract-umls.log`
-- `extract-semmeddb.sh` -> `~/kg2-build/extract-semmeddb.log`
-- `extract-uniprotkb.sh` -> `~/kg2-build/extract-uniprotkb.log`
-- `extract-ensembl.sh` -> `~/kg2-build/extract-ensembl.log`
-- `extract-unichem.sh` -> `~/kg2-build/extract-unichem.log`
-- `extract-chembl.sh` -> `~/kg2-build/extract-chembl.log`
-- `extract-ncbigene.sh` -> `~/kg2-build/extract-ncbigene.log`
-- `extract-dgidb.sh` -> `~/kg2-build/extract-dgidb.log`
-- `download-repodb-csv.sh` -> `~/kg2-build/download-repodb-csv.log`
-- `extract-smpdb.sh` -> `~/kg2-build/extract-smpdb.log`
-- `extract-drugbank.sh` -> `~/kg2-build/extract-drugbank.log`
-- `extract-hmdb.sh` -> `~/kg2-build/extract-hmdb.log`
-- `extract-go-annotations.sh` -> `~/kg2-build/extract-go-annotations.log`
 - `build-multi-ont-kg.sh` -> `~/kg2-build/build-multi-ont-kg.log`
 - `dgidb_tsv_to_kg_json.py` -> `~/kg2-build/dgidb/dgidb-tsv-to-kg-stderr.log`
+- `download-repodb-csv.sh` -> `~/kg2-build/download-repodb-csv.log`
+- `drugbank_xml_to_kg_json.py` -> `~/kg2-build/drugbank-xml-to-kg-json.log`
+- `extract-chembl.sh` -> `~/kg2-build/extract-chembl.log`
+- `extract-dgidb.sh` -> `~/kg2-build/extract-dgidb.log`
+- `extract-drugbank.sh` -> `~/kg2-build/extract-drugbank.log`
+- `extract-ensembl.sh` -> `~/kg2-build/extract-ensembl.log`
+- `extract-go-annotations.sh` -> `~/kg2-build/extract-go-annotations.log`
+- `extract-hmdb.sh` -> `~/kg2-build/extract-hmdb.log`
+- `extract-kegg.sh` -> `~/kg2-build/extract-kegg.log`
+- `extract-ncbigene.sh` -> `~/kg2-build/extract-ncbigene.log`
+- `extract-semmeddb.sh` -> `~/kg2-build/extract-semmeddb.log`
+- `extract-smpdb.sh` -> `~/kg2-build/extract-smpdb.log`
+- `extract-umls.sh` -> `~/kg2-build/extract-umls.log`
+- `extract-uniprotkb.sh` -> `~/kg2-build/extract-uniprotkb.log`
+- `extract-unichem.sh` -> `~/kg2-build/extract-unichem.log`
+- `filter_kg_and_remap_predicates.py` -> `~/kg2-build/filter_kg_and_remap_predicates.log`
+- `go_gpa_to_kg_json.py` -> `~/kg2-build/go-gpa-to-kg-json.log`
+- `hmdb_xml_to_kg_json.py` -> `~/kg2-build/hmdb-xml-to-kg-json.log`
+- `run-validation-tests.sh` -> `~/kg2-build/run-validation-tests.log`
 - `semmeddb_tuple_list_json_to_kg_json.py` -> `~/kg2-build/semmeddb-tuple-list-json-to-kg-json.log`
 - `smpdb_csv_to_kg_json.py` -> `~/kg2-build/smpdb/smpdb-csv-to-kg-json.log`
-- `drugbank_xml_to_kg_json.py` -> `~/kg2-build/drugbank-xml-to-kg-json.log`
-- `hmdb_xml_to_kg_json.py` -> `~/kg2-build/hmdb-xml-to-kg-json.log`
-- `go_gpa_to_kg_json.py` -> `~/kg2-build/go-gpa-to-kg-json.log`
-- `filter_kg_and_remap_predicates.py` -> `~/kg2-build/filter_kg_and_remap_predicates.log`
 
 If a build using Snakemake fails and the output file for the rule it failed on doesn't exist, you
 can continue the build such that it only reruns the rule(s) that don't already have an output file
