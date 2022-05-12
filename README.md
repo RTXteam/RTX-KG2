@@ -659,9 +659,11 @@ your AWS instance.  The script should then initiate a `bash` session on the
 remote instance. Within that `bash` session, continue to follow the instructions
 for Build Option 1, starting at step (4).
 
-### Build Option 4: in an Ubuntu container in Docker
-
-For Build Option 4, you will need a *lot* of disk space (see disk storage
+### Build Option 4: In an Ubuntu container in Docker
+<details>
+	<summary> Click here to view steps </summary>
+	
+	For Build Option 4, you will need a *lot* of disk space (see disk storage
 requirements above) in the root file system, unless you modify the Docker
 installation to store containers in some other (non-default) file system
 location. Here are the instructions:
@@ -675,7 +677,7 @@ run this command in `bash` on the host OS:
 installed on whatever host system you are running). For some notes on how to
 install Docker on MacOS via the Homebrew system, see
 [macos-docker-notes.md](macos-docker-notes.md).  NOTE: if your docker
-installation (like on macOS Homebrew) doesn't require `sudo`, just omit
+installation (like on macOS Homebrew) does not require `sudo`, just omit
 `sudo` everywhere you see `sudo docker` in the steps below.
 
 (2) Build a Docker image `kg2:latest`:
@@ -699,6 +701,7 @@ installation (like on macOS Homebrew) doesn't require `sudo`, just omit
     su - ubuntu
     
 Now follow the instructions for Build Option 1 above.
+</details>
 
 ## Possible failure modes for the KG2 build
 
@@ -734,6 +737,8 @@ we are not currently archiving old builds of KG2 and that is why `kg2-simplified
 and the related large KG2 JSON files are stored in a *non-versioned* S3 bucket.
 
 ## Optional KG2 PubMed Build
+<details>
+	<summary> Click here to view steps </summary>
 
 To add PubMed ID nodes and Pubmed->MeSH edges to your KG2, you can add those for every
 PubMed ID referenced in KG2 (whether in an edge - `publications`, `publications_info` - 
@@ -776,7 +781,10 @@ UNTESTED
 
 	rm -rf ~/kg2-build/PubMedKG2TSV/
 	mkdir -p ~/kg2-build/PubMedKG2TSV/
-	~/kg2-venv/bin/python3 ~/kg2-code/kg_json_to_tsv.py ~/kg2-code/kg2-with-pubmed-simplified.json ~/kg2-code/PubMedKG2TSV
+	~/kg2-venv/bin/python3 ~/kg2-code/kg_json_to_tsv.py ~/kg2-code/kg2-with-pubmed-simplified.json ~/kg2-code/PubMedKG2TSV	
+	
+	
+</details>
 
 
 ## Updating the installed KG2 build system software
