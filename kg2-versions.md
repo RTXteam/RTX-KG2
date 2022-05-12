@@ -16,7 +16,7 @@ Build info:
 - Build directory: `/home/ubuntu/kg2-build`
 - Build code branch: `master`
 - Neo4j endpoint CNAME: `kg2-7-6.rtx.ai`
-- Neo4j endpoint hostname: `kg2endpoint3.rtx.ai`
+- Neo4j endpoint hostname: `kg2endpoint2.rtx.ai`
 - Tracking issue for the build: Issue [#202](https://github.com/RTXteam/RTX-KG2/issues/202)
 
 # 2.7.5
