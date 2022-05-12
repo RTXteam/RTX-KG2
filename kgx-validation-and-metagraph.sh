@@ -16,7 +16,7 @@ set -o nounset -o pipefail -o errexit
 ## validate the TSV files produced by kg2_tsv_to_kgx_tsv.py
 kgx validate \
     --input-format tsv \
-    nodes.tsv edges.tsv
+    nodes.tsv edges.tsv >> kgx-validation.log
 
 ## make a "content_metadata.json" file for upload to KGE
 kgx graph-summary \
