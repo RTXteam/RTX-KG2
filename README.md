@@ -1030,11 +1030,9 @@ KG2 aims to comply with the [Biolink knowledge graph format](biolink-kg-schema.m
 
 ## Where can I download a pre-built copy of KG2?
 
-Due to licensing restrictions by some of the upstream sources used to build KG2,
-we are unable to publicly host a downloadable copy of the KG2 knowledge graph at
-this time. But for groups that have UMLS and SNOMED CT licenses that are
-up-to-date, we can arrange for private access to a dump of the KG2 knowledge
-graph; please inquire by [email](mailto:ramseyst@oregonstate.edu). 
+Dump files of RTX-KG2pre and RTX-KG2c are available for download in the
+[github:ncats/translator-lfs-artifacts](https://github.com/ncats/translator-lfs-artifacts/tree/main/files)
+project area.
 
 ## What licenses cover KG2?
 
