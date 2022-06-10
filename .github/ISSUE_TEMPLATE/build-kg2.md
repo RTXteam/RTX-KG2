@@ -30,5 +30,5 @@ assignees: ''
 
 Example Cypher to get versions of many of the knowledge sources in a specific build of KG2pre:
 ```
-match (n:`biolink:InformationResource`) return n.id, n.name order by n.id;
+match (n:`biolink:InformationResource`) where not n.id =~ 'umls_.*' and not n.id =~ 'OBO:.*' return n.id, n.name order by n.id;
 ```
