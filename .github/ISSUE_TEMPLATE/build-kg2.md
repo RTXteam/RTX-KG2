@@ -27,8 +27,10 @@ assignees: ''
 - [ ] Update code on kg2endpoint, then run setup-kg2-neo4j.sh if necessary
 - [ ] Load KG2 into Neo4J `RTX-KG2/tsv-to-neo4j.sh > ~/kg2-build/tsv-to-neo4j.log 2>&1`
 - [ ] Update kg2-versions.md
+- [ ] Update version numbers of upstream knowledge sources, for the new version of KG2 in `kg2-versions.md` (see Cypher command below).
 
 Example Cypher to get versions of many of the knowledge sources in a specific build of KG2pre:
 ```
 match (n:`biolink:InformationResource`) where not n.id =~ 'umls_.*' and not n.id =~ 'OBO:.*' return n.id, n.name order by n.id;
 ```
+
