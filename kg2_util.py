@@ -686,7 +686,8 @@ def make_node(id: str,
             'deprecated': False,
             'replaced_by': None,
             'knowledge_source': knowledge_source,
-            'has_biological_sequence': None}
+            'has_biological_sequence': None,
+            'specificity_index': None}
 
 
 def make_edge_key(edge_dict: dict):
