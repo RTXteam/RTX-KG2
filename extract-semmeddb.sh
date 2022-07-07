@@ -22,8 +22,8 @@ semmed_output_file=${1:-"${BUILD_DIR}/kg2-semmeddb-tuplelist.json"}
 ## supply a default value for the build_flag string
 build_flag=${2:-""}
 
-semmed_ver=VER30
-semmed_year=2022
+semmed_ver=VER43
+semmed_year=2021
 semmed_dir=${BUILD_DIR}/semmeddb
 semmed_output_dir=`dirname "${semmed_output_file}"`
 semmed_sql_file=semmed${semmed_ver}_${semmed_year}_R_WHOLEDB.sql
