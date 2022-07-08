@@ -18,9 +18,10 @@ date
 config_dir=`dirname "$0"`
 source ${config_dir}/master-config.shinc
 
+drugbank_version=5.1.9
 output_file=${1:-"${BUILD_DIR}/drugbank.xml"}
 
-xml_filename="drugbank.xml.gz"
+xml_filename=drugbank-${drugbank_version}.xml.gz
 
 ${s3_cp_cmd} s3://${s3_bucket}/${xml_filename} ${BUILD_DIR}
 gzip -cdf ${BUILD_DIR}/${xml_filename} > ${output_file}
