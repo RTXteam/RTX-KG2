@@ -210,7 +210,7 @@ which are in the `us-west-2` AWS region) and you will need to have an AWS
 authentication key pair that is configured to be able to read from (and write
 to) the bucket(s), so that the build script can download a copy of the full
 Unified Medical Language System (UMLS) distribution. The full UMLS distribution
-(including SNOMED CT) (`umls-2020AA-metathesaurus.zip`; IANAL, but it appears
+(including SNOMED CT) (`umls-2022AA-metathesaurus.zip`; IANAL, but it appears
 that the UMLS is encumbered by a license preventing redistribution so I have not
 hosted them on a public server for download; but you can get it for free at the
 [UMLS website](https://www.nlm.nih.gov/research/umls/) if you agree to the UMLS
