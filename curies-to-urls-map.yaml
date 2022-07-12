@@ -8,11 +8,17 @@ use_for_bidirectional_mapping:
   -
     AIR: https://identifiers.org/umls/AIR/
   -
+    alliancegenome: 'https://www.alliancegenome.org/'
+  -
+    apollo: 'https://github.com/GMOD/Apollo'
+  -
     AraPort: http://purl.uniprot.org/araport/
   -
     ARG: http://purl.obolibrary.org/obo/ARG_
   -
     ARO: http://purl.obolibrary.org/obo/ARO_
+  -
+    AspGD: 'http://www.aspergillusgenome.org/cgi-bin/locus.pl?dbid='
   -
     ATC: http://purl.bioontology.org/ontology/ATC/
   -
@@ -21,18 +27,22 @@ use_for_bidirectional_mapping:
     BFO: http://purl.obolibrary.org/obo/BFO_
   -
     bibo: http://purl.org/ontology/bibo/
-#  -
-#    biolink: https://w3id.org/biolink/vocab/
   -
-    biolink: https://w3id.org/linkml/
+    biolink: https://w3id.org/biolink/vocab/
+#  -
+#    biolink: https://w3id.org/linkml/
   -
     biolink_download_source: https://raw.githubusercontent.com/biolink/biolink-model/master/
+  -
+    bioschemas: 'https://bioschemas.org/'
   -
     BRO: http://bioontology.org/ontologies/BiomedicalResourceOntology.owl#
   -
     BSPO: http://purl.obolibrary.org/obo/BSPO_
   -
     BTO: http://purl.obolibrary.org/obo/BTO_
+  -
+    CAID: 'http://reg.clinicalgenome.org/redmine/projects/registry/genboree_registry/by_caid?caid='
   -
     CARO: http://purl.obolibrary.org/obo/CARO_
   -
@@ -50,21 +60,39 @@ use_for_bidirectional_mapping:
   -
     CHMO: http://purl.obolibrary.org/obo/CHMO_
   -
+    CID: 'http://pubchem.ncbi.nlm.nih.gov/compound/'
+  -
     CL: http://purl.obolibrary.org/obo/CL_
   -
     clinicaltrials: "https://identifiers.org/clinicaltrials:"
   -
+    CLINVAR: 'http://identifiers.org/clinvar'
+  -
     CLO: http://purl.obolibrary.org/obo/CLO_
+  -
+    COAR_RESOURCE: 'http://purl.org/coar/resource_type/'
+  -
+    COG: 'https://www.ncbi.nlm.nih.gov/research/cog-project/'
   -
     CP: http://purl.obolibrary.org/obo/CP_
   -
-    CPT: http://purl.bioontology.org/ontology/CPT/
+    CPT: https://www.ama-assn.org/practice-management/cpt/
+  -
+    CTD.CHEMICAL: 'http://ctdbase.org/detail.go?type=chem&acc='
+  -
+    CTD.DISEASE: 'http://ctdbase.org/detail.go?type=disease&db=MESH&acc='
+  -
+    CTD.GENE: 'http://ctdbase.org/detail.go?type=gene&acc='
+  -
+    CTD: 'http://ctdbase.org/'
   -
     CVDO: http://purl.obolibrary.org/obo/CVDO_
   -
     dbpedia: http://dbpedia.org/resource/
   -
     dc: http://purl.org/dc/elements/1.1/
+  -
+    dcat: 'http://www.w3.org/ns/dcat#'
   - 
     dcid: 'https://datacommons.org/browser/'
   - 
@@ -74,7 +102,7 @@ use_for_bidirectional_mapping:
   -
     DDANAT: http://purl.obolibrary.org/obo/DDANAT_
   -
-    DGIdb: http://www.dgidb.org/
+    DGIdb: https://www.dgidb.org/interaction_types
   -
     dictybase.gene: "https://identifiers.org/dictybase.gene:"
   -
@@ -102,6 +130,14 @@ use_for_bidirectional_mapping:
   -
     EDAM: http://purl.bioontology.org/ontology/edam/
   -
+    EDAM-DATA: 'http://edamontology.org/data_'
+  -
+    EDAM-FORMAT: 'http://edamontology.org/format_'
+  -
+    EDAM-OPERATION: 'http://edamontology.org/operation_'
+  -
+    EDAM-TOPIC: 'http://edamontology.org/topic_'
+  -
     EFO: http://purl.bioontology.org/ontology/EFO/
   -
     EHDAA2: "http://purl.obolibrary.org/obo/EHDAA2_"
@@ -122,6 +158,8 @@ use_for_bidirectional_mapping:
   -
     FAO: http://purl.obolibrary.org/obo/FAO_
   -
+    fabio: 'http://purl.org/spar/fabio/'
+  -
     FBbt: http://purl.obolibrary.org/obo/FBbt_
   -
     FBdv: http://purl.obolibrary.org/obo/FBdv_
@@ -138,7 +176,17 @@ use_for_bidirectional_mapping:
   -
     foaf: http://xmlns.com/foaf/0.1/
   -
+    foodb.compound: 'http://foodb.ca/foods/'
+  -
+    foodb.food: 'http://foodb.ca/compounds/'
+  -
     FOODON: http://purl.obolibrary.org/obo/FOODON_
+  -
+    FYECO: 'https://www.pombase.org/term/'
+  -
+    FYPO: 'http://purl.obolibrary.org/obo/FYPO_'  # Fission Yeast Phenotype Ontology
+  -
+    GAMMA: 'http://translator.renci.org/GAMMA_'
   -
     GARD: http://purl.obolibrary.org/obo/GARD_
   -
@@ -152,11 +200,15 @@ use_for_bidirectional_mapping:
   -
     GEO: http://purl.obolibrary.org/obo/GEO_
   -
+    gff3: 'https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md#'
+  -
     GO: http://purl.obolibrary.org/obo/GO_
   -
     GOREL: http://purl.obolibrary.org/obo/GOREL_
   -
     GO_REF: "https://identifiers.org/GO_REF:"
+  -
+    gpi: 'https://github.com/geneontology/go-annotation/blob/master/specs/gpad-gpi-2-0.md#'
   -
     GTPI: https://www.guidetopharmacology.org/GRAC/LigandDisplayForward?ligandId=
   -
@@ -206,7 +258,9 @@ use_for_bidirectional_mapping:
   -
     KEGG_source: "https://www.genome.jp"
   -
-    LOINC: http://purl.bioontology.org/ontology/LNC/
+    linkml: 'https://w3id.org/linkml/'
+  -
+    LOINC: http://loinc.org/rdf/
   -
     MA: http://purl.obolibrary.org/obo/MA_
   -
@@ -232,7 +286,11 @@ use_for_bidirectional_mapping:
   -
     miRGate: http://mirgate.bioinfo.cnio.es
   -
+    mmmp.biomaps: 'https://bioregistry.io/mmmp.biomaps:'
+  -
     MMO: http://purl.obolibrary.org/obo/MMO_
+  -
+    MmusDv: 'http://purl.obolibrary.org/obo/MMUSDV_'
   -
     MOD: http://purl.obolibrary.org/obo/MOD_
   -
@@ -295,6 +353,8 @@ use_for_bidirectional_mapping:
     OMIABIS: http://purl.obolibrary.org/obo/OMIABIS_
   -
     OMIM: http://purl.obolibrary.org/obo/OMIM_
+  -
+    OMIM.PS: 'https://www.omim.org/phenotypicSeries/'
   -
     OMIMDiseaseCluster: http://purl.obolibrary.org/obo/DC_
   -
@@ -442,6 +502,10 @@ use_for_bidirectional_mapping:
   -
     wb: "https://identifiers.org/wb:"
   -
+    WBls: 'http://purl.obolibrary.org/obo/WBBL_'
+  -
+    WBbt: 'http://purl.obolibrary.org/obo/WBBT_'
+  -
     WIKIDATA: 'https://www.wikidata.org/wiki/'
   -
     WIKIDATA_PROPERTY: 'https://www.wikidata.org/wiki/Property:'  # Wikidata Property - not a conventional namespace prefix
@@ -541,6 +605,8 @@ use_for_contraction_only:
     ICD9: http://purl.obolibrary.org/obo/ICD9_
   -
     KEGG: http://purl.obolibrary.org/obo/KEGG_
+  -
+    LOINC: http://purl.bioontology.org/ontology/LNC/
   -
     MEDDRA: http://purl.obolibrary.org/obo/MedDRA_
   -
