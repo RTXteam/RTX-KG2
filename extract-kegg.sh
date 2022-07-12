@@ -20,10 +20,6 @@ source ${config_dir}/master-config.shinc
 
 output_file=${1:-"${BUILD_DIR}/kegg.json"}
 
-cache_control_helper_link="https://raw.githubusercontent.com/RTXteam/RTX/master/code/reasoningtool/kg-construction/cache_control_helper.py"
-
-curl -L ${cache_control_helper_link} > ${CODE_DIR}/cache_control_helper.py
-
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/query_kegg.py ${output_file}
 
 date
