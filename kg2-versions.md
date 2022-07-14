@@ -7,14 +7,16 @@ Counts:
 
 Issues:
 - Issue [#220](https://github.com/RTXteam/RTX-KG2/issues/220)
+- Issue [#221](https://github.com/RTXteam/RTX-KG2/issues/221)
+- Issue [#222](https://github.com/RTXteam/RTX-KG2/issues/222)
 - Additional issues that arose during the build: 
 
 Build info:
-- Biolink Model version: 2.2.11
+- Biolink Model version: 2.4.2
 - Build host: `buildkg2.rtx.ai`
 - Build directory: `/home/ubuntu/kg2-build`
 - Build code branch: `master`
-- Neo4j endpoint CNAME: `kg2-7-6.rtx.ai`
+- Neo4j endpoint CNAME: `kg2-7-7.rtx.ai`
 - Neo4j endpoint hostname: `kg2endpoint2.rtx.ai`
 - Tracking issue for the build: Issue [#202](https://github.com/RTXteam/RTX-KG2/issues/202)
 - Major knowledge source versions:
