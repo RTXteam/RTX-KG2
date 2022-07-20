@@ -400,6 +400,66 @@ CL:lacks_plasma_membrane_part:
   rename:
   - lacks_part
   - biolink:lacks_part
+CPT:has_add_on_code:
+  rename:
+  - related_to
+  - biolink:related_to
+CPT:mapped_to:
+  rename:
+  - related_to
+  - biolink:related_to
+CTD:affects_abundance_of:
+  rename:
+  - affects_abundance_of
+  - biolink:affects_abundance_of
+CTD:affects_folding_of:
+  rename:
+  - affects_folding_of
+  - biolink:affects_folding_of
+CTD:affects_molecular_modification_of:
+  rename:
+  - affects_molecular_modification_of
+  - biolink:affects_molecular_modification_of
+CTD:affects_synthesis_of:
+  rename:
+  - affects_synthesis_of
+  - biolink:affects_synthesis_of
+CTD:decreases_folding_of:
+  rename:
+  - decreases_folding_of
+  - biolink:decreases_folding_of
+CTD:decreases_localization_of:
+  rename:
+  - decreases_localization_of
+  - biolink:decreases_localization_of
+CTD:decreases_metabolic_processing_of:
+  rename:
+  - decreases_metabolic_processing_of
+  - biolink:decreases_metabolic_processing_of
+CTD:decreases_molecular_modification_of:
+  rename:
+  - decreases_molecular_modification_of
+  - biolink:decreases_molecular_modification_of
+CTD:increases_folding_of:
+  rename:
+  - increases_folding_of
+  - biolink:increases_folding_of
+CTD:increases_localization_of:
+  rename:
+  - increases_localization_of
+  - biolink:increases_localization_of
+CTD:increases_metabolic_processing_of:
+  rename:
+  - increases_metabolic_processing_of
+  - biolink:increases_metabolic_processing_of
+CTD:increases_molecular_modification_of:
+  rename:
+  - increases_molecular_modification_of
+  - biolink:increases_molecular_modification_of
+CTD:increases_synthesis_of:
+  rename:
+  - increases_synthesis_of
+  - biolink:increases_synthesis_of
 DDANAT:develops_from:
   rename:
   - develops_from
@@ -3710,7 +3770,15 @@ RO:0002254:
 RO:0002256:
   rename:
   - causes
-  - biolink:causes
+  - biolink:
+RO:0002263:
+  rename:
+  - acts_upstream_of
+  - biolink:acts_upstream_of
+RO:0002264:
+  rename:
+  - acts_upstream_of_or_within
+  - biolink:acts_upstream_of_or_within
 RO:0002285:
   invert:
   - precedes
@@ -3891,6 +3959,10 @@ RO:0002433:
   rename:
   - overlaps
   - biolink:overlaps
+RO:0002434:
+  rename:
+  - interacts_with
+  - biolink:interacts_with
 RO:0002451:
   rename:
   - related_to
@@ -4039,10 +4111,18 @@ RO:0003001:
   invert:
   - produces
   - biolink:produces
+RO:0003003:
+  rename:
+  - increases_expression_of
+  - biolink:increases_expression_of
 RO:0003304:
   rename:
   - contributes_to
   - biolink:contributes_to
+RO:0003309:
+  rename:
+  - exacerbates
+  - biolink:exacerbates
 RO:0004001:
   rename:
   - causes
@@ -4099,10 +4179,26 @@ RO:0004029:
   rename:
   - associated_with
   - biolink:associated_with
-RO:0004030:
-  invert:
-  - causes
-  - biolink:causes
+# RO:0004030:
+#   invert:
+#   - causes
+#   - biolink:
+RO:0004032:
+  rename:
+  - acts_upstream_of_or_within_positive_effect
+  - biolink:acts_upstream_of_or_within_positive_effect
+RO:0004033:
+  rename:
+  - acts_upstream_of_or_within_negative_effect
+  - biolink:acts_upstream_of_or_within_negative_effect
+RO:0004034:
+  rename:
+  - acts_upstream_of_positive_effect
+  - biolink:acts_upstream_of_positive_effect
+RO:0004035:
+  rename:
+  - acts_upstream_of_negative_effect
+  - biolink:acts_upstream_of_negative_effect
 RO:0009001:
   rename:
   - related_to
@@ -4255,8 +4351,8 @@ SEMMEDDB:compared_with:
   - biolink:related_to
 SEMMEDDB:complicates:
   rename:
-  - interacts_with
-  - biolink:interacts_with
+  - exacerbates
+  - biolink:exacerbates
 SEMMEDDB:converts_to:
   invert:
   - derives_from
@@ -4279,8 +4375,8 @@ SEMMEDDB:inhibits:
   - biolink:entity_negatively_regulates_entity
 SEMMEDDB:interacts_with:
   rename:
-  - physically_interacts_with
-  - biolink:physically_interacts_with
+  - interacts_with
+  - biolink:interacts_with
 SEMMEDDB:isa:
   rename:
   - subclass_of
