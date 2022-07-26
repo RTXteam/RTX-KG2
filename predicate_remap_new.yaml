@@ -188,12 +188,24 @@ CHEMBL.MECHANISM:activator:
 CHEMBL.MECHANISM:agonist:
   operation: rename
   core_predicate: biolink:increases_activity_of
+  qualified_predicate: biolink:causes
+  qualifiers:
+    object_direction_qualifier: increases
+    object_aspect_qualifier: activity
 CHEMBL.MECHANISM:allosteric_antagonist:
   operation: rename
   core_predicate: biolink:decreases_activity_of
+  qualified_predicate: biolink:causes
+  qualifiers:
+    object_direction_qualifier: decreased
+    object_aspect_qualifier: activity
 CHEMBL.MECHANISM:antagonist:
   operation: rename
   core_predicate: biolink:decreases_activity_of
+  qualified_predicate: biolink:causes
+  qualifiers:
+    object_direction_qualifier: decreased
+    object_aspect_qualifier: activity
 CHEMBL.MECHANISM:antisense_inhibitor:
   operation: rename
   core_predicate: biolink:decreases_expression_of
@@ -227,6 +239,10 @@ CHEMBL.MECHANISM:inhibitor:
 CHEMBL.MECHANISM:inverse_agonist:
   operation: rename
   core_predicate: biolink:decreases_activity_of
+  qualified_predicate: biolink:causes
+  qualifiers:
+    object_direction_qualifier: decreased
+    object_aspect_qualifier: activity
 CHEMBL.MECHANISM:modulator:
   operation: rename
   core_predicate: biolink:entity_regulates_entity
@@ -279,7 +295,7 @@ CHEMBL.MECHANISM:subset_of:
   core_predicate: biolink:subclass_of
 CHEMBL.MECHANISM:substrate:
   operation: rename
-  core_predicate: biolink:physically_interacts_with
+  core_predicate: biolink:increases_degradation_of
 CHEMBL.MECHANISM:superset_of:
   operation: invert
   core_predicate: biolink:subclass_of
@@ -319,6 +335,9 @@ CTD:affects_molecular_modification_of:
 CTD:affects_synthesis_of:
   operation: rename
   core_predicate: biolink:affects_synthesis_of
+CTD:decreases_degradation_of:
+  operation: rename
+  core_predicate: biolink:decreases_degradation_of
 CTD:decreases_folding_of:
   operation: rename
   core_predicate: biolink:decreases_folding_of
@@ -368,6 +387,14 @@ DGIdb:allosteric_modulator:
 DGIdb:antagonist:
   operation: rename
   core_predicate: biolink:decreases_activity_of
+  qualified_predicate: biolink:causes
+  qualifiers:
+    object_direction_qualifier: decreased
+    object_aspect_qualifier: activity
+  qualified_predicate: biolink:causes
+  qualifiers:
+    object_direction_qualifier: decreases
+    object_aspect_qualifier: activity
 DGIdb:antibody:
   operation: rename
   core_predicate: biolink:molecularly_interacts_with
@@ -385,6 +412,10 @@ DGIdb:antisense_oligonucleotide:
 DGIdb:blocker:
   operation: rename
   core_predicate: biolink:decreases_activity_of
+  qualified_predicate: biolink:causes
+  qualifiers:
+    object_direction_qualifier: decreased
+    object_aspect_qualifier: activity
 # DGIdb:channel_blocker:
 #   rename:
 #   - decreases_activity_of
@@ -411,12 +442,24 @@ DGIdb:inducer:
 DGIdb:inhibitor:
   operation: rename
   core_predicate: biolink:decreases_activity_of
+  qualified_predicate: biolink:causes
+  qualifiers:
+    object_direction_qualifier: decreased
+    object_aspect_qualifier: activity
 DGIdb:inhibitory_allosteric_modulator:
   operation: rename
   core_predicate: biolink:decreases_activity_of
+  qualified_predicate: biolink:causes
+  qualifiers:
+    object_direction_qualifier: decreased
+    object_aspect_qualifier: activity
 DGIdb:inverse_agonist:
   operation: rename
   core_predicate: biolink:decreases_activity_of
+  qualified_predicate: biolink:causes
+  qualifiers:
+    object_direction_qualifier: decreased
+    object_aspect_qualifier: activity
 # DGIdb:ligand:
 #   rename:
 #   - directly_interacts_with
@@ -431,6 +474,10 @@ DGIdb:modulator:
 DGIdb:negative_modulator:
   operation: rename
   core_predicate: biolink:decreases_activity_of
+  qualified_predicate: biolink:causes
+  qualifiers:
+    object_direction_qualifier: decreased
+    object_aspect_qualifier: activity
 DGIdb:partial_agonist:
   operation: rename
   core_predicate: biolink:increases_activity_of
@@ -464,9 +511,17 @@ DGIdb:positive_modulator:
 DGIdb:suppressor:
   operation: rename
   core_predicate: biolink:decreases_activity_of
+  qualified_predicate: biolink:causes
+  qualifiers:
+    object_direction_qualifier: decreases
+    object_aspect_qualifier: activity
 DGIdb:vaccine:
   operation: rename
   core_predicate: biolink:decreases_activity_of
+  qualified_predicate: biolink:causes
+  qualifiers:
+    object_direction_qualifier: decreased
+    object_aspect_qualifier: activity
 # DOID-PROPERTY:derives_from:
 #   rename:
 #   - derives_from
@@ -484,6 +539,10 @@ DRUGBANK:adduct:
 DRUGBANK:aggregation_inhibitor:
   operation: rename
   core_predicate: biolink:decreases_activity_of
+  qualified_predicate: biolink:causes
+  qualifiers:
+    object_direction_qualifier: decreased
+    object_aspect_qualifier: activity
 DRUGBANK:agonist:
   operation: rename
   core_predicate: biolink:increases_activity_of
@@ -493,6 +552,10 @@ DRUGBANK:allosteric_modulator:
 DRUGBANK:antagonist:
   operation: rename
   core_predicate: biolink:decreases_activity_of
+  qualified_predicate: biolink:causes
+  qualifiers:
+    object_direction_qualifier: decreased
+    object_aspect_qualifier: activity
 DRUGBANK:antibody:
   operation: rename
   core_predicate: biolink:molecularly_interacts_with
@@ -577,12 +640,20 @@ DRUGBANK:inhibitor:
 DRUGBANK:inhibitory_allosteric_modulator:
   operation: rename
   core_predicate: biolink:decreases_activity_of
+  qualified_predicate: biolink:causes
+  qualifiers:
+    object_direction_qualifier: decreased
+    object_aspect_qualifier: activity
 DRUGBANK:intercalation:
   operation: rename
   core_predicate: biolink:molecularly_interacts_with
 DRUGBANK:inverse_agonist:
   operation: rename
   core_predicate: biolink:decreases_activity_of
+  qualified_predicate: biolink:causes
+  qualifiers:
+    object_direction_qualifier: decreased
+    object_aspect_qualifier: activity
 DRUGBANK:ligand:
   operation: rename
   core_predicate: biolink:directly_interacts_with
@@ -598,9 +669,17 @@ DRUGBANK:negative_modulator:
 DRUGBANK:neutralizer:
   operation: rename
   core_predicate: biolink:decreases_activity_of
+  qualified_predicate: biolink:causes
+  qualifiers:
+    object_direction_qualifier: decreased
+    object_aspect_qualifier: activity
 DRUGBANK:nucleotide_exchange_blocker:
   operation: rename
   core_predicate: biolink:decreases_activity_of
+  qualified_predicate: biolink:causes
+  qualifiers:
+    object_direction_qualifier: decreased
+    object_aspect_qualifier: activity
 DRUGBANK:oxidizer:
   operation: rename
   core_predicate: biolink:increases_molecular_modification_of
@@ -610,6 +689,10 @@ DRUGBANK:partial_agonist:
 DRUGBANK:partial_antagonist:
   operation: rename
   core_predicate: biolink:decreases_activity_of
+  qualified_predicate: biolink:causes
+  qualifiers:
+    object_direction_qualifier: decreased
+    object_aspect_qualifier: activity
 DRUGBANK:pathway:
   operation: rename
   core_predicate: biolink:has_participant
@@ -640,6 +723,10 @@ DRUGBANK:substrate:
 DRUGBANK:suppressor:
   operation: rename
   core_predicate: biolink:decreases_activity_of
+  qualified_predicate: biolink:causes
+  qualifiers:
+    object_direction_qualifier: decreased
+    object_aspect_qualifier: activity
 DRUGBANK:target:
   operation: rename
   core_predicate: biolink:physically_interacts_with
@@ -662,12 +749,20 @@ DrugCentral:agonist:
 DrugCentral:allosteric_antagonist:
   operation: rename
   core_predicate: biolink:decreases_activity_of
+  qualified_predicate: biolink:causes
+  qualifiers:
+    object_direction_qualifier: decreased
+    object_aspect_qualifier: activity
 DrugCentral:allosteric_modulator:
   operation: rename
   core_predicate: biolink:affects_activity_of
 DrugCentral:antagonist:
   operation: rename
   core_predicate: biolink:decreases_activity_of
+  qualified_predicate: biolink:causes
+  qualifiers:
+    object_direction_qualifier: decreased
+    object_aspect_qualifier: activity
 DrugCentral:antibody_binding:
   operation: rename
   core_predicate: biolink:molecularly_interacts_with
@@ -690,6 +785,10 @@ DrugCentral:contraindication:
 DrugCentral:gating_inhibitor:
   operation: rename
   core_predicate: biolink:decreases_activity_of
+  qualified_predicate: biolink:causes
+  qualifiers:
+    object_direction_qualifier: decreased
+    object_aspect_qualifier: activity
 # DrugCentral:has_faers:
 #   rename:
 #   - causes_adverse_event
@@ -706,6 +805,10 @@ DrugCentral:inhibitor:
 DrugCentral:inverse_agonist:
   operation: rename
   core_predicate: biolink:decreases_activity_of
+  qualified_predicate: biolink:causes
+  qualifiers:
+    object_direction_qualifier: decreased
+    object_aspect_qualifier: activity
 DrugCentral:modulator:
   operation: rename
   core_predicate: biolink:entity_regulates_entity
@@ -2612,6 +2715,10 @@ PR:has_gene_template:
 PR:confers_resistance_to:
   operation: rename
   core_predicate: biolink:decreases_activity_of
+  qualified_predicate: biolink:causes
+  qualifiers:
+    object_direction_qualifier: decreased
+    object_aspect_qualifier: activity
 PR:lacks_part:
   operation: rename
   core_predicate: biolink:lacks_part
