@@ -48,6 +48,7 @@ else
     echo "*** TEST MODE -- NO INCREMENT ***"
 fi
 
+# TODO: Update self edge exception list for compliance with Biolink 3.0
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/filter_kg_and_remap_predicates.py ${test_flag} --dropNegated \
                         --dropSelfEdgesExcept interacts_with,positively_regulates,inhibits,increase \
                         ${predicate_mapping_file} ${infores_mapping_file} ${curies_to_urls_file} ${input_json} \
