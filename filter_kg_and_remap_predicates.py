@@ -20,10 +20,16 @@ import pprint
 import sys
 from datetime import datetime
 
+# 1. What is the indicator for negation?
+# - It's a prefix in the relation property in the edge... possibly. 
+# - Negated edges only come from SEMMEDDB, so we look in semmeddb_tuple_list_json_to_kg_json
+# - A value on L209, the source relation checks and sets value
+# 2. Instruction below "drop any edge if it is in between two SnoMedCT nodes" still needed? No
+
 # - check for any input relation_labels that occur twice in the predicate-remap.yaml file
 # - rename script something like "filter_kg_and_remap_relation_labels.py"
 # - need to detect the command "keep" in the YAML file
-# - drop edges with 'NEGATION' ?
+# - drop edges with 'NEGATION'
 # - *don't* merge two edges if at least one of them has nonempty publication_info
 # - change 'xref' to skos:closeMatch (skos)
 # - drop any edge if it is in between two SnoMedCT nodes (optionally; use command-line option)
@@ -35,7 +41,7 @@ from datetime import datetime
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='filter_kg.py: filters and simplifies the KG2 knowledge grpah for the RTX system')
     arg_parser.add_argument('predicateRemapYaml', type=str, help="The YAML file describing how predicates should be remapped to simpler predicates")
-    arg_parser.add_argument('inforesRemapYaml', type=str, help="The YAML file describing how provided_by fields should be remapped to Translator infores curies")
+    arg_parser.add_argument('inforesRemapYaml', type=str, help="The YAML file describing how knowledge_source fields should be remapped to Translator infores curies")
     arg_parser.add_argument('curiesToURIFile', type=str, help="The file mapping CURIE prefixes to URI fragments")
     arg_parser.add_argument('inputFileJson', type=str, help="The input KG2 graph, in JSON format")
     arg_parser.add_argument('outputFileJson', type=str, help="The output KG2 graph, in JSON format")
@@ -56,53 +62,72 @@ if __name__ == '__main__':
     test_mode = args.test
     drop_negated = args.drop_negated
     drop_self_edges_except = args.drop_self_edges_except
+
     if drop_self_edges_except is not None:
         assert type(drop_self_edges_except) == str
         drop_self_edges_except = set(drop_self_edges_except.split(','))
+
     # Config files
+    # safe load takes a yaml file and returns a dictionary
     predicate_remap_config = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(predicate_remap_file_name))
     infores_remap_config = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(infores_remap_file_name))
-    map_dict = kg2_util.make_uri_curie_mappers(curies_to_uri_file_name)
-    # ** Not sure about this notation ** 
+    
+    (map_dict = kg2_util.make_uri_curie_mappers(curies_to_uri_file_name))
+
     [curie_to_uri_expander, uri_to_curie_shortener] = [map_dict['expand'], map_dict['contract']]
     graph = kg2_util.load_json(input_file_name)
     new_edges = dict()
     # Create sets to handle knowledge sources
     original_predicate_curies_not_in_config = set()
-    provided_by_curies_not_in_config_nodes = set()
-    provided_by_curies_not_in_config_edges = set()
-    # ** Double check meaning ** 
+    knowledge_source_curies_not_in_config_nodes = set()
+    knowledge_source_curies_not_in_config_edges = set()
+
+    # This should not change because predicate_remap_config.keys() is still just original predicate curies
     record_of_original_predicate_curie_occurrences = {original_predicate_curie: False for original_predicate_curie in
                                             predicate_remap_config.keys()}
-    # To Do: Update command set
-    command_set = {'delete', 'keep', 'invert', 'rename'}
+
+    # To Do: Update everything for rename/keep commands
+    # Old command set: {'delete', 'keep', 'invert', 'rename'}
+    command_set = {'delete', 'keep', 'invert'}
+
+    # The length of the 'command' could be 1 if it just has the operation, such as with 'delete'
+    # or up to 4 if there is the operation, core predicate, qualified predicate, and qualifiers
+    # Verify that the operation is allowed
     for original_predicate_curie, command in predicate_remap_config.items():
-        assert len(command) == 1
-        assert next(iter(command.keys())) in command_set
+        assert len(command) in range(1, 5)
+        assert command["operation"] in command_set
+
     # Every predicate curie should get its own node. Otherwise add to this set to complain.
     original_predicate_curies_not_in_nodes = set()
     nodes_dict = dict()
     for node_dict in graph['nodes']:
         node_id = node_dict['id']
-        provided_by = node_dict['knowledge_source']
-        infores_curie_dict = infores_remap_config.get(provided_by, None)
+        knowledge_source = node_dict['knowledge_source']
+        infores_curie_dict = infores_remap_config.get(knowledge_source, None)
         if infores_curie_dict is None:
-            provided_by_curies_not_in_config_nodes.add(provided_by)
+            knowledge_source_curies_not_in_config_nodes.add(knowledge_source)
         else:
             infores_curie = infores_curie_dict['infores_curie']
         node_dict['knowledge_source'] = infores_curie
         nodes_dict[node_id] = node_dict
+    
     edge_ctr = 0
+    num_edges = len(graph['edges'])
     for edge_dict in graph['edges']:
+        # Print progress
         edge_ctr += 1
         if edge_ctr % 1000000 == 0:
-            print('processing edge ' + str(edge_ctr) + ' out of ' + str(len(graph['edges'])))
+            print(f'Processing edge {str(edge_ctr)} out of {str(num_edges)}')
+
+        # TODO: Add logic to handle "positively_regulates" changed to "regulates/ causes/ activity or abundance/ increased"
         if drop_negated and edge_dict['negated']:
             continue
+            
         original_predicate_label = edge_dict['relation_label']
         predicate_label = original_predicate_label
         original_predicate_curie = edge_dict['original_predicate']
         predicate_curie = original_predicate_curie
+        # ** Double check meaning ** 
         if record_of_original_predicate_curie_occurrences.get(original_predicate_curie, None) is not None:
             record_of_original_predicate_curie_occurrences[original_predicate_curie] = True
             pred_remap_info = predicate_remap_config.get(original_predicate_curie, None)
@@ -116,7 +141,7 @@ if __name__ == '__main__':
         if pred_remap_info is None:
             assert original_predicate_curie in original_predicate_curies_not_in_config
         else:
-            if 'delete' in pred_remap_info:
+            if pred_remap_info['operation'] == 'delete':
                 continue
             remap_subinfo = pred_remap_info.get('invert', None)
             if remap_subinfo is not None:
@@ -144,25 +169,23 @@ if __name__ == '__main__':
            edge_dict['subject'] == edge_dict['object'] and \
            predicate_label not in drop_self_edges_except:
             continue  # see issue 743
-        edge_dict['predicate'] = predicate_curie
         # Sets biolink curie; remapping
+        edge_dict['predicate'] = predicate_curie
         if predicate_curie not in nodes_dict:
             predicate_curie_prefix = predicate_curie.split(':')[0]
             predicate_uri_prefix = curie_to_uri_expander(predicate_curie_prefix + ':')
             # Create list of curies to complain about if not in biolink
             if predicate_uri_prefix == predicate_curie_prefix:
                 original_predicate_curies_not_in_nodes.add(predicate_curie) 
-        provided_by = edge_dict['knowledge_source']
-        infores_curie_dict = infores_remap_config.get(provided_by, None)
+        knowledge_source = edge_dict['knowledge_source']
+        infores_curie_dict = infores_remap_config.get(knowledge_source, None)
         if infores_curie_dict is None:
-            provided_by_curies_not_in_config_edges.add(provided_by)
+            knowledge_source_curies_not_in_config_edges.add(knowledge_source)
         else:
             infores_curie = infores_curie_dict['infores_curie']
         edge_dict['knowledge_source'] = [infores_curie]
-        # TODO: Update with additional properties
-        edge_key = edge_dict['subject'] + ' /// ' + predicate_label + ' /// ' + edge_dict['object']
+        edge_key = f'{edge_subject} {predicate} {predicate_qualifier} /// {edge_object}'
         existing_edge = new_edges.get(edge_key, None)
-        # TODO: Update merging to handle semantic distinction between qualifiers
         if existing_edge is not None:
             existing_edge['knowledge_source'] = sorted(list(set(existing_edge['knowledge_source'] + edge_dict['knowledge_source'])))
             existing_edge['publications'] += edge_dict['publications']
@@ -189,20 +212,20 @@ if __name__ == '__main__':
                   file=sys.stderr)
         else:
             original_predicate_curies_not_in_config.remove(original_predicate_curie_not_in_config)
-    for provided_by_curies_not_in_config_node in provided_by_curies_not_in_config_nodes:
-        print('knowledge_source node curie is missing from the YAML config file: ' + provided_by_curies_not_in_config_node,
+    for knowledge_source_curies_not_in_config_node in knowledge_source_curies_not_in_config_nodes:
+        print('knowledge_source node curie is missing from the YAML config file: ' + knowledge_source_curies_not_in_config_node,
                file=sys.stderr)
-    for provided_by_curies_not_in_config_edge in provided_by_curies_not_in_config_edges:
-        print('knowledge_source node curie is missing from the YAML config file: ' + provided_by_curies_not_in_config_edge,
+    for knowledge_source_curies_not_in_config_edge in knowledge_source_curies_not_in_config_edges:
+        print('knowledge_source node curie is missing from the YAML config file: ' + knowledge_source_curies_not_in_config_edge,
                file=sys.stderr)
     if len(original_predicate_curies_not_in_config) > 0:
         print("There are original predicate curies missing from the yaml config file. Please add them and try again. Exiting.", file=sys.stderr)
         exit(1)
-    if len(provided_by_curies_not_in_config_nodes) > 0:
-        print("There are nodes provided_by curies missing from the yaml config file. Please add them and try again. Exiting.", file=sys.stderr)
+    if len(knowledge_source_curies_not_in_config_nodes) > 0:
+        print("There are nodes knowledge_source curies missing from the yaml config file. Please add them and try again. Exiting.", file=sys.stderr)
         exit(1)
-    if len(provided_by_curies_not_in_config_edges) > 0:
-        print("There are edges provided_by curies missing from the yaml config file. Please add them and try again. Exiting.", file=sys.stderr)
+    if len(knowledge_source_curies_not_in_config_edges) > 0:
+        print("There are edges knowledge_source curies missing from the yaml config file. Please add them and try again. Exiting.", file=sys.stderr)
         exit(1)
     update_date = datetime.now().strftime("%Y-%m-%d %H:%M")
     version_file = open(args.versionFile, 'r')

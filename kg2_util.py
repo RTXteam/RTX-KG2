@@ -692,6 +692,9 @@ def make_node(id: str,
 def make_edge_key(edge_dict: dict):
     return edge_dict['subject'] + '---' + \
            edge_dict['original_predicate'] + '---' + \
+           edge_dict['qualified_predicate'] + '---' + \
+           edge_dict['qualified_object_aspect'] + '---' + \
+           edge_dict['qualified_object_direction'] + '---' + \
            edge_dict['object'] + '---' + \
            edge_dict['knowledge_source']
 
@@ -700,6 +703,9 @@ def make_edge(subject_id: str,
               object_id: str,
               relation_curie: str,
               relation_label: str,
+              qualified_predicate: str,
+              qualified_object_aspect: str,
+              qualified_object_direction: str,
               knowledge_source: str,
               update_date: str = None):
 
@@ -707,6 +713,9 @@ def make_edge(subject_id: str,
             'object': object_id,
             'relation_label': relation_label,
             'original_predicate': relation_curie,
+            'qualified_predicate': qualified_predicate,
+            'qualified_object_aspect': qualified_object_aspect,
+            'qualified_object_direction': qualified_object_direction,
             'negated': False,
             'publications': [],
             'publications_info': {},
