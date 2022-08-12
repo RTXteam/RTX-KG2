@@ -127,40 +127,53 @@ if __name__ == '__main__':
         predicate_label = original_predicate_label
         original_predicate_curie = edge_dict['original_predicate']
         predicate_curie = original_predicate_curie
-        # ** Double check meaning ** 
+
         if record_of_original_predicate_curie_occurrences.get(original_predicate_curie, None) is not None:
             record_of_original_predicate_curie_occurrences[original_predicate_curie] = True
             pred_remap_info = predicate_remap_config.get(original_predicate_curie, None)
         else:
             # there is a original predicate CURIE in the graph that is not in the config file
             original_predicate_curies_not_in_config.add(original_predicate_curie)
-            pred_remap_info = {'keep': None}
+        
         assert pred_remap_info is not None
+        
         invert = False
         get_new_rel_info = False
+        operation_not_allowed = {}
+        
         if pred_remap_info is None:
             assert original_predicate_curie in original_predicate_curies_not_in_config
         else:
             if pred_remap_info['operation'] == 'delete':
                 continue
-            remap_subinfo = pred_remap_info.get('invert', None)
-            if remap_subinfo is not None:
+            elif pred_remap_info['operation'] == 'invert':
                 invert = True
                 get_new_rel_info = True
+            elif pred_remap_info['operation'] == 'keep':
+                get_new_rel_info = True
             else:
-                remap_subinfo = pred_remap_info.get('rename', None)
-                if remap_subinfo is None:
-                    assert 'keep' in pred_remap_info
-                else:
-                    get_new_rel_info = True
+                operation_not_allowed[predicate_curie] = pred_remap_info['operation']
+                    
+        qualified_predicate_curie = pred_remap_info.get('qualified_predicate', None)
+        qualifiers_dict = pred_remap_info.get('qualifiers', None)
+
+        if qualifiers_dict is not None:
+            edge_dict['qualified_predicate'] = qualified_predicate_curie
+            qualified_predicate_object_aspect = qualifiers_dict.get('object aspect', None)
+            qualified_predicate_object_direction = qualifiers_dict.get('object direction', None)
+            if qualified_predicate_object_aspect is not None:
+                edge_dict['qualified_object_aspect'] = qualified_predicate_object_aspect
+            if qualified_predicate_object_direction is not None:
+                edge_dict['qualified_object_direction'] = qualified_predicate_object_direction
         if get_new_rel_info:
-            predicate_label = remap_subinfo[0]
-            predicate_curie = remap_subinfo[1]  # Gets the biolink predicate
+            predicate_curie = pred_remap_info['core_predicate']
+
         if invert:
             edge_dict['relation_label'] = 'INVERTED:' + original_predicate_label
             new_object = edge_dict['subject']
             edge_dict['subject'] = edge_dict['object']
             edge_dict['object'] = new_object
+
         edge_dict['predicate_label'] = predicate_label
         # Delete negated edges and self edges except interacts_with,positively_regulates,inhibits,increase
         # as defined in run-simplify.sh
@@ -169,6 +182,7 @@ if __name__ == '__main__':
            edge_dict['subject'] == edge_dict['object'] and \
            predicate_label not in drop_self_edges_except:
             continue  # see issue 743
+
         # Sets biolink curie; remapping
         edge_dict['predicate'] = predicate_curie
         if predicate_curie not in nodes_dict:
@@ -177,6 +191,7 @@ if __name__ == '__main__':
             # Create list of curies to complain about if not in biolink
             if predicate_uri_prefix == predicate_curie_prefix:
                 original_predicate_curies_not_in_nodes.add(predicate_curie) 
+        
         knowledge_source = edge_dict['knowledge_source']
         infores_curie_dict = infores_remap_config.get(knowledge_source, None)
         if infores_curie_dict is None:
@@ -184,10 +199,27 @@ if __name__ == '__main__':
         else:
             infores_curie = infores_curie_dict['infores_curie']
         edge_dict['knowledge_source'] = [infores_curie]
+
+        edge_subject = edge_dict['subject'] 
+        edge_object = edge_dict['object']
+
+        if qualified_predicate_curie:
+            predicate = " /// " + qualified_predicate_curie
+        else:
+            predicate = " /// " + predicate_curie
+
+        predicate_qualifier = ""
+        if qualifiers_dict is not None:
+            if qualified_predicate_object_aspect:
+                predicate_qualifier = " /// " + qualified_predicate_object_aspect
+            if qualified_predicate_object_direction:
+                predicate_qualifier += f" /// {qualified_predicate_object_direction}"
         edge_key = f'{edge_subject} {predicate} {predicate_qualifier} /// {edge_object}'
+
         existing_edge = new_edges.get(edge_key, None)
         if existing_edge is not None:
-            existing_edge['knowledge_source'] = sorted(list(set(existing_edge['knowledge_source'] + edge_dict['knowledge_source'])))
+            existing_edge['knowledge_source'] = sorted(list(set(existing_edge['knowledge_source'] +
+                                                                edge_dict['knowledge_source'])))
             existing_edge['publications'] += edge_dict['publications']
             existing_edge['publications_info'].update(edge_dict['publications_info'])
         else:
