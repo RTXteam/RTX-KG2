@@ -132,6 +132,8 @@ for biolink_curie, mappings in biolink_to_external_mappings.items():
             if biolink_curie not in BIOLINK_SLOT_TYPES_SKIP:
                 external_to_biolink_mappings[external_curie][mapping_term].add(biolink_curie)
 
+# Here it starts to look at predicate_remap. I think a bunch of the stuff above needs to be 
+# moved to validate_curies_to_urls_map.py
 pred_info = yaml.safe_load(open(predicate_remap_file_name, 'r'))
 
 for relation, instruction_dict in pred_info.items():
