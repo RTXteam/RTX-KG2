@@ -20,7 +20,7 @@ echo "================= starting run-validation-tests.sh ================="
 date
 
 biolink_base_url_no_version=https://raw.githubusercontent.com/biolink/biolink-model/
-biolink_raw_base_url=${biolink_base_url_no_version}${biolink_model_version}/
+biolink_raw_base_url=${biolink_base_url_no_version}v${biolink_model_version}/
 curies_urls_map_replace_string="\    biolink_download_source: ${biolink_raw_base_url}"
 ont_load_inventory_replace_string="\  url: ${biolink_raw_base_url}"
 biolink_url_context_jsonld=${biolink_raw_base_url}context.jsonld
