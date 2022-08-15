@@ -102,7 +102,7 @@ use_for_bidirectional_mapping:
   -
     DDANAT: http://purl.obolibrary.org/obo/DDANAT_
   -
-    DGIdb: https://www.dgidb.org/interaction_types
+    DGIdb: https://www.dgidb.org/interaction_types/
   -
     dictybase.gene: "https://identifiers.org/dictybase.gene:"
   -
