@@ -136,35 +136,20 @@ for biolink_curie, mappings in biolink_to_external_mappings.items():
 # moved to validate_curies_to_urls_map.py
 pred_info = yaml.safe_load(open(predicate_remap_file_name, 'r'))
 
-for relation, instruction_dict in pred_info.items():
-    command, subinfo = next(iter(instruction_dict.items()))
-    assert len(instruction_dict) == 1, relation
-    if command == 'keep' and not relation.startswith('biolink:'):
-        if not relation.startswith('BSPO:') and \
-           not relation.startswith('FMA:') and \
-           not relation.startswith('UBERON:'):
-            assert False, relation
-        else:
-            command = 'rename'
-            subinfo = ['coexists_with', 'biolink:coexists_with']
-    if subinfo is not None:
-        predicate = subinfo[1]
-        if not predicate.startswith('biolink:') and not predicate.startswith('skos:closeMatch'):
-            if predicate.startswith('FMA:') or \
-               predicate.startswith('BSPO:') or \
-               predicate.startswith('UBERON:'):
-                command = 'rename'
-                subinfo = ['coexists_with', 'biolink:coexists_with']
-            else:
-                assert False
-    if subinfo is not None:
-        assert subinfo[1] not in biolink_mixins, (relation, subinfo[1], {'Mixins': biolink_mixins})
-        assert subinfo[1] not in inverted_relations, (relation, subinfo[1], {'Inverted Relations': inverted_relations})
-        assert subinfo[1] in biolink_to_external_mappings, (relation, subinfo[1])
+    for relation, instruction_dict in pred_info.items():
+        operation = instruction_dict.get('operation', '')
+        assert operation != '', relation
+        core_predicate = instruction_dict.get('core_predicate', '')
+        assert core_predicate != '', relation
+        qualified_predicate = instruction_dict.get('qualified_predicate', '')
+        qualifiers = instruction_dict.get('qualifiers', '')
+
+        assert core_predicate not in biolink_mixins, (relation, core_predicate, {'Mixins': biolink_mixins})
+        assert core_predicate not in inverted_relations, (relation, core_predicate, {'Inverted Relations': inverted_relations})
+        assert core_predicate not in biolink_to_external_mappings, (relation, core_predicate)
 
         allowed_biolink_curies_set = set()
-        biolink_term_externals = external_to_biolink_mappings.get(
-            relation.lower(), None)
+        biolink_term_externals = external_to_biolink_mappings.get(relation.lower(), None)
         if biolink_term_externals is not None:
             mapping_term_used = "none"
             for mapping_term in mapping_hierarchy:
@@ -174,11 +159,6 @@ for relation, instruction_dict in pred_info.items():
                     break
             if len(allowed_biolink_curies_set) != 0 and relation not in relation_mapping_exceptions:
                 err_str = "%s should map to %s (%s)" % (relation, allowed_biolink_curies_set, mapping_term_used.split("_")[0])
-                assert subinfo[1] in allowed_biolink_curies_set, err_str
-
-    else:
-        assert command == 'keep' or command == 'delete'
-        if command == 'keep':
-            assert relation in biolink_to_external_mappings, relation
-            assert relation.startswith(
-                'biolink:') or relation.startswith('skos:')
+                assert core_predicate in allowed_biolink_curies_set, err_str
+        else:
+            assert operation == 'delete'
