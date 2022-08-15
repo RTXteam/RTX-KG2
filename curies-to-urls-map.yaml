@@ -313,8 +313,10 @@ use_for_bidirectional_mapping:
     NBO-PROPERTY: 'http://purl.obolibrary.org/obo/nbo#'
   -
     NCBIGene: 'http://identifiers.org/ncbigene/'
-  - 
-    NCBITaxon: 'http://purl.obolibrary.org/obo/ncbitaxon/subsets/taxslim.owl'
+#   - 
+#     NCBITaxon: 'http://purl.obolibrary.org/obo/ncbitaxon/subsets/taxslim.owl'
+  -
+    NCBITaxon: http://purl.obolibrary.org/obo/NCBITaxon_
   -
     NCIT: "https://identifiers.org/ncit:"
   -
@@ -455,8 +457,6 @@ use_for_bidirectional_mapping:
     SWO: http://www.ebi.ac.uk/swo/
   -
     SYMP: http://purl.obolibrary.org/obo/SYMP_
-  -
-    NCBITaxon: http://purl.obolibrary.org/obo/NCBITaxon_
   -
     TO: http://purl.obolibrary.org/obo/TO_
   -
