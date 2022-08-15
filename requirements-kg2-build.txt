@@ -3,7 +3,7 @@ CacheControl==0.12.6
 cachier==1.2.5
 certifi==2019.3.9
 chardet==3.0.4
-Click==7.0
+Click==8.0
 conf==0.4.
 Cython==0.29.26
 dataclasses==0.6
