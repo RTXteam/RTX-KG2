@@ -634,6 +634,8 @@ use_for_contraction_only:
   -
     NCBITaxon: http://purl.bioontology.org/ontology/NCBITAXON/
   -
+    NCBITaxon: http://purl.obolibrary.org/obo/ncbitaxon#
+  -
     NCIT: http://purl.bioontology.org/ontology/NCI/
   -
     NCIT: http://purl.bioontology.org/ontology/NCI_BioC/
@@ -689,8 +691,6 @@ use_for_contraction_only:
     SNOMED: http://identifiers.org/snomedct/
   -
     SO: http://purl.obolibrary.org/obo/so#
-  -
-    NCBITaxon: http://purl.obolibrary.org/obo/ncbitaxon#
   -
     UBERON: http://purl.obolibrary.org/obo/uberon/insect-anatomy#
   -
