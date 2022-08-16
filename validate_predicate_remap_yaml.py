@@ -40,7 +40,7 @@ def convert_biolink_yaml_association_to_predicate(association: str) -> str:
     return 'biolink:' + association.replace(',', '').replace(' ', '_')
 
 
-def create_biolink_to_external_mappings(biolink_model: dict, mapping_heirarchy: list) -> dict:
+def create_biolink_to_external_mappings(biolink_model: dict, mapping_hierarchy: list) -> dict:
     # biolink_to_external[biolink relation][mapterm]= list([externals])
     biolink_mixins = list()
     biolink_to_external_mappings = dict()
@@ -136,29 +136,29 @@ for biolink_curie, mappings in biolink_to_external_mappings.items():
 # moved to validate_curies_to_urls_map.py
 pred_info = yaml.safe_load(open(predicate_remap_file_name, 'r'))
 
-    for relation, instruction_dict in pred_info.items():
-        operation = instruction_dict.get('operation', '')
-        assert operation != '', relation
-        core_predicate = instruction_dict.get('core_predicate', '')
-        assert core_predicate != '', relation
-        qualified_predicate = instruction_dict.get('qualified_predicate', '')
-        qualifiers = instruction_dict.get('qualifiers', '')
+for relation, instruction_dict in pred_info.items():
+    operation = instruction_dict.get('operation', None)
+    assert operation is not None, relation
+    core_predicate = instruction_dict.get('core_predicate', None)
+    assert core_predicate is not None, relation
+    qualified_predicate = instruction_dict.get('qualified_predicate', None)
+    qualifiers = instruction_dict.get('qualifiers', None)
 
-        assert core_predicate not in biolink_mixins, (relation, core_predicate, {'Mixins': biolink_mixins})
-        assert core_predicate not in inverted_relations, (relation, core_predicate, {'Inverted Relations': inverted_relations})
-        assert core_predicate not in biolink_to_external_mappings, (relation, core_predicate)
+    assert core_predicate not in biolink_mixins, (relation, core_predicate, {'Mixins': biolink_mixins})
+    assert core_predicate not in inverted_relations, (relation, core_predicate, {'Inverted Relations': inverted_relations})
+    assert core_predicate in biolink_to_external_mappings, (relation, core_predicate)
 
-        allowed_biolink_curies_set = set()
-        biolink_term_externals = external_to_biolink_mappings.get(relation.lower(), None)
-        if biolink_term_externals is not None:
-            mapping_term_used = "none"
-            for mapping_term in mapping_hierarchy:
-                allowed_biolink_curies_set = biolink_term_externals[mapping_term]
-                if len(allowed_biolink_curies_set) != 0:
-                    mapping_term_used = mapping_term
-                    break
-            if len(allowed_biolink_curies_set) != 0 and relation not in relation_mapping_exceptions:
-                err_str = "%s should map to %s (%s)" % (relation, allowed_biolink_curies_set, mapping_term_used.split("_")[0])
-                assert core_predicate in allowed_biolink_curies_set, err_str
-        else:
-            assert operation == 'delete'
+    allowed_biolink_curies_set = set()
+    biolink_term_externals = external_to_biolink_mappings.get(relation.lower(), None)
+    if biolink_term_externals is not None:
+        mapping_term_used = "none"
+        for mapping_term in mapping_hierarchy:
+            allowed_biolink_curies_set = biolink_term_externals[mapping_term]
+            if len(allowed_biolink_curies_set) != 0:
+                mapping_term_used = mapping_term
+                break
+        if len(allowed_biolink_curies_set) != 0 and relation not in relation_mapping_exceptions:
+            err_str = "%s should map to %s (%s)" % (relation, allowed_biolink_curies_set, mapping_term_used.split("_")[0])
+            assert core_predicate in allowed_biolink_curies_set, err_str
+    else:
+        assert operation == 'delete'
