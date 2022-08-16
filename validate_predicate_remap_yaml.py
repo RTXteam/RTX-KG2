@@ -142,7 +142,7 @@ for relation, instruction_dict in pred_info.items():
     core_predicate = instruction_dict.get('core_predicate', None)
     assert core_predicate is not None, relation
     qualified_predicate = instruction_dict.get('qualified_predicate', None)
-    qualifiers = instruction_dict.get('qualifiers', None)
+    qualifiers_list = instruction_dict.get('qualifiers', None)
 
     assert core_predicate not in biolink_mixins, (relation, core_predicate, {'Mixins': biolink_mixins})
     assert core_predicate not in inverted_relations, (relation, core_predicate, {'Inverted Relations': inverted_relations})
