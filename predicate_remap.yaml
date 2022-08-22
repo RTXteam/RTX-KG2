@@ -192,5196 +192,5190 @@ CHEMBL.MECHANISM:activator:
   core_predicate: biolink:regulates
   qualifiers:
     - object_direction: increased
-CHEMBL.MECHANISM:agonist: 
+CHEMBL.MECHANISM:agonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: increased
-CHEMBL.MECHANISM:allosteric_antagonist: 
+CHEMBL.MECHANISM:allosteric_antagonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: decreased
-CHEMBL.MECHANISM:antagonist: 
+CHEMBL.MECHANISM:antagonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: decreased
-CHEMBL.MECHANISM:antisense_inhibitor: 
+CHEMBL.MECHANISM:antisense_inhibitor:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
-  qualifiers: 
+  qualifiers:
     - object_aspect: expression
     - object_direction: decreased
-CHEMBL.MECHANISM:binding_agent: 
+CHEMBL.MECHANISM:binding_agent:
   operation: keep
   core_predicate: biolink:physically_interacts_with
-CHEMBL.MECHANISM:blocker: 
-  operation: keep  
+CHEMBL.MECHANISM:blocker:
+  operation: keep
   core_predicate: biolink:regulates
   qualifiers:
     - object_direction: decreased
-CHEMBL.MECHANISM:chelating_agent: 
+CHEMBL.MECHANISM:chelating_agent:
   operation: keep
   core_predicate: biolink:physically_interacts_with
-CHEMBL.MECHANISM:cross-linking_agent: 
+CHEMBL.MECHANISM:cross-linking_agent:
   operation: keep
   core_predicate: biolink:physically_interacts_with
-CHEMBL.MECHANISM:degrader: 
+CHEMBL.MECHANISM:degrader:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
-  qualifiers: 
+  qualifiers:
     - object_aspect: degradation
     - object_direction: increased
-CHEMBL.MECHANISM:disrupting_agent: 
+CHEMBL.MECHANISM:disrupting_agent:
   operation: keep
   core_predicate: biolink:disrupts
-CHEMBL.MECHANISM:equivalent_to: 
+CHEMBL.MECHANISM:equivalent_to:
   operation: keep
   core_predicate: biolink:same_as
-CHEMBL.MECHANISM:hydrolytic_enzyme: 
+CHEMBL.MECHANISM:hydrolytic_enzyme:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
-  qualifiers: 
+  qualifiers:
     - object_aspect: degradation
     - object_direction: increased
-CHEMBL.MECHANISM:inhibitor: 
-  operation: keep  
+CHEMBL.MECHANISM:inhibitor:
+  operation: keep
   core_predicate: biolink:regulates
   qualifiers:
     - object_direction: decreased
-CHEMBL.MECHANISM:inverse_agonist: 
+CHEMBL.MECHANISM:inverse_agonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: decreased
-CHEMBL.MECHANISM:modulator: 
+CHEMBL.MECHANISM:modulator:
   operation: keep
   core_predicate: biolink:regulates
-CHEMBL.MECHANISM:negative_allosteric_modulator: 
-  operation: keep  
+CHEMBL.MECHANISM:negative_allosteric_modulator:
+  operation: keep
   core_predicate: biolink:regulates
   qualifiers:
     - object_direction: decreased
-CHEMBL.MECHANISM:negative_modulator: 
-  operation: keep  
+CHEMBL.MECHANISM:negative_modulator:
+  operation: keep
   core_predicate: biolink:regulates
   qualifiers:
     - object_direction: decreased
-CHEMBL.MECHANISM:opener: 
+CHEMBL.MECHANISM:opener:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: increased
-CHEMBL.MECHANISM:other: 
+CHEMBL.MECHANISM:other:
   operation: delete
-CHEMBL.MECHANISM:overlaps_with: 
+CHEMBL.MECHANISM:overlaps_with:
   operation: keep
   core_predicate: biolink:overlaps
-CHEMBL.MECHANISM:oxidative_enzyme: 
+CHEMBL.MECHANISM:oxidative_enzyme:
   operation: keep
   core_predicate: biolink:physically_interacts_with
-CHEMBL.MECHANISM:partial_agonist: 
+CHEMBL.MECHANISM:partial_agonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: increased
-CHEMBL.MECHANISM:positive_allosteric_modulator: 
+CHEMBL.MECHANISM:positive_allosteric_modulator:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: increased
-CHEMBL.MECHANISM:positive_modulator: 
+CHEMBL.MECHANISM:positive_modulator:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: increased
-CHEMBL.MECHANISM:proteolytic_enzyme: 
+CHEMBL.MECHANISM:proteolytic_enzyme:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
-  qualifiers: 
+  qualifiers:
     - object_aspect: degradation
     - object_direction: increased
-CHEMBL.MECHANISM:reducing_agent: 
+CHEMBL.MECHANISM:reducing_agent:
   operation: keep
   core_predicate: biolink:physically_interacts_with
-CHEMBL.MECHANISM:releasing_agent: 
+CHEMBL.MECHANISM:releasing_agent:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: expression
     - object_direction: increased
-CHEMBL.MECHANISM:rnai_inhibitor: 
-  operation: keep
-  core_predicate: regulates
-  qualifiers:
-    - object_direction: decreased
-CHEMBL.MECHANISM:sequestering_agent: 
+#CHEMBL.MECHANISM:rnai_inhibitor:
+#  operation: keep
+#  core_predicate: regulates
+#  qualifiers:
+#    - object_direction: decreased
+CHEMBL.MECHANISM:sequestering_agent:
   operation: keep
   core_predicate: biolink:physically_interacts_with
-CHEMBL.MECHANISM:stabiliser: 
+CHEMBL.MECHANISM:stabiliser:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: stability
     - object_direction: increased
-CHEMBL.MECHANISM:subset_of: 
+CHEMBL.MECHANISM:subset_of:
   operation: keep
   core_predicate: biolink:subclass_of
-CHEMBL.MECHANISM:substrate: 
+CHEMBL.MECHANISM:substrate:
   operation: keep
   core_predicate: biolink:physically_interacts_with
-CHEMBL.MECHANISM:superset_of: 
+CHEMBL.MECHANISM:superset_of:
   operation: invert
   core_predicate: biolink:subclass_of
-CL:has_completed: 
+CL:has_completed:
   operation: keep
   core_predicate: biolink:has_completed
-CL:has_high_plasma_membrane_amount: 
+CL:has_high_plasma_membrane_amount:
   operation: keep
   core_predicate: biolink:has_increased_amount
-CL:has_low_plasma_membrane_amount: 
+CL:has_low_plasma_membrane_amount:
   operation: keep
   core_predicate: biolink:has_decreased_amount
-CL:has_not_completed: 
+CL:has_not_completed:
   operation: keep
   core_predicate: biolink:has_not_completed
-CL:lacks_part: 
+CL:lacks_part:
   operation: keep
   core_predicate: biolink:lacks_part
-CL:lacks_plasma_membrane_part: 
+CL:lacks_plasma_membrane_part:
   operation: keep
   core_predicate: biolink:lacks_part
-CPT:has_add_on_code: 
+CPT:has_add_on_code:
   operation: keep
   core_predicate: biolink:related_to
-CPT:mapped_to: 
+CPT:mapped_to:
   operation: keep
   core_predicate: biolink:related_to
-CPT:panel_element_of: 
+CPT:panel_element_of:
   operation: invert
   core_predicate: biolink:has_part
-CPT:panel_element_of_possibly_included: 
+CPT:panel_element_of_possibly_included:
   operation: invert
   core_predicate: biolink:has_part
-CTD:affects_ADP-ribosylation: 
+CTD:affects_ADP-ribosylation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_N-linked_glycosylation: 
+CTD:affects_N-linked_glycosylation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_O-linked_glycosylation: 
+CTD:affects_O-linked_glycosylation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_RNA_splicing: 
+CTD:affects_RNA_splicing:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: splicing
-CTD:affects_abundance_of: 
+CTD:affects_abundance_of:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: abundance
-CTD:affects_acetylation: 
+CTD:affects_acetylation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_acylation: 
+CTD:affects_acylation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_alkylation: 
+CTD:affects_alkylation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_amination: 
+CTD:affects_amination:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_binding: 
+CTD:affects_binding:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-CTD:affects_carbamoylation: 
-  operation: keep
-  core_predicate: biolink:affects
-  qualifiers:
-    - object_aspect: molecular_modification
-CTD:affects_carboxylation: 
+  core_predicate: biolink:interacts_with
+CTD:affects_carbamoylation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_cleavage: 
+CTD:affects_carboxylation:
+  operation: keep
+  core_predicate: biolink:affects
+  qualifiers:
+    - object_aspect: molecular_modification
+CTD:affects_cleavage:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: degradation
-CTD:affects_degradation_of: 
+CTD:affects_degradation_of:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: degradation
-CTD:affects_ethylation: 
+CTD:affects_ethylation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_export: 
+CTD:affects_export:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: secretion
-CTD:affects_farnesylation: 
+CTD:affects_farnesylation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_folding_of: 
+CTD:affects_folding_of:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: folding
-CTD:affects_geranoylation: 
+CTD:affects_geranoylation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_glucuronidation: 
+CTD:affects_glucuronidation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_glutathionylation: 
+CTD:affects_glutathionylation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_glycation: 
+CTD:affects_glycation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_glycosylation: 
+CTD:affects_glycosylation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_hydrolysis: 
+CTD:affects_hydrolysis:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: degradation
-CTD:affects_hydroxylation: 
+CTD:affects_hydroxylation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_import: 
+CTD:affects_import:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: uptake
-CTD:affects_lipidation: 
+CTD:affects_lipidation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_methylation: 
+CTD:affects_methylation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_molecular_modification_of: 
+CTD:affects_molecular_modification_of:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_mutation_rate_of: 
+CTD:affects_mutation_rate_of:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: mutation_rate
-CTD:affects_myristoylation: 
+CTD:affects_myristoylation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_nitrosation: 
+CTD:affects_nitrosation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_nucleotidylation: 
+CTD:affects_nucleotidylation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_oxidation: 
+CTD:affects_oxidation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_palmitoylation: 
+CTD:affects_palmitoylation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_phosphorylation: 
+CTD:affects_phosphorylation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_prenylation: 
+CTD:affects_prenylation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_reduction: 
+CTD:affects_reduction:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_response_to: 
-  operation: invert
-  core_predicate: biolink:response_affected_by
-CTD:affects_ribosylation: 
+CTD:affects_response_to:
+  operation: keep
+  core_predicate: biolink:affects_response_to
+CTD:affects_ribosylation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_secretion_of: 
+CTD:affects_secretion_of:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: secretion
-CTD:affects_splicing_of: 
+CTD:affects_splicing_of:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: splicing
-CTD:affects_sulfation: 
+CTD:affects_sulfation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_sumoylation: 
+CTD:affects_sumoylation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_synthesis_of: 
+CTD:affects_synthesis_of:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: synthesis
-CTD:affects_transport_of: 
+CTD:affects_transport_of:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: transport
-CTD:affects_ubiquitination: 
+CTD:affects_ubiquitination:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: molecular_modification
-CTD:affects_uptake_of: 
+CTD:affects_uptake_of:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: uptake
-CTD:decreases_ADP-ribosylation: 
+CTD:decreases_ADP-ribosylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_N-linked_glycosylation: 
+CTD:decreases_N-linked_glycosylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_O-linked_glycosylation: 
+CTD:decreases_O-linked_glycosylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_RNA_splicing: 
+CTD:decreases_RNA_splicing:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: splicing
     - object_direction: decreased
-CTD:decreases_acetylation: 
+CTD:decreases_acetylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_acylation: 
+CTD:decreases_acylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_alkylation: 
+CTD:decreases_alkylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_amination: 
+CTD:decreases_amination:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_carbamoylation: 
+CTD:decreases_carbamoylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_carboxylation: 
+CTD:decreases_carboxylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_cleavage: 
+CTD:decreases_cleavage:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: degradation
     - object_direction: decreased
-CTD:decreases_degradation_of: 
+CTD:decreases_degradation_of:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: degradation
     - object_direction: decreased
-CTD:decreases_ethylation: 
+CTD:decreases_ethylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_export: 
+CTD:decreases_export:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: secretion
     - object_direction: decreased
-CTD:decreases_farnesylation: 
+CTD:decreases_farnesylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_folding_of: 
+CTD:decreases_folding_of:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: folding
     - object_direction: decreased
-CTD:decreases_geranoylation: 
+CTD:decreases_geranoylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_glucuronidation: 
+CTD:decreases_glucuronidation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_glutathionylation: 
+CTD:decreases_glutathionylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_glycation: 
+CTD:decreases_glycation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_glycosylation: 
+CTD:decreases_glycosylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_hydrolysis: 
+CTD:decreases_hydrolysis:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: degradation
     - object_direction: decreased
-CTD:decreases_hydroxylation: 
+CTD:decreases_hydroxylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_import: 
+CTD:decreases_import:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: uptake
     - object_direction: decreased
-CTD:decreases_lipidation: 
+CTD:decreases_lipidation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_localization_of: 
+CTD:decreases_localization_of:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: localization
     - object_direction: decreased
-CTD:decreases_metabolic_processing_of: 
+CTD:decreases_metabolic_processing_of:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: localization
     - object_direction: decreased
-CTD:decreases_methylation: 
+CTD:decreases_methylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_molecular_interaction_with: 
+CTD:decreases_molecular_interaction_with:
   operation: keep
-  core_predicate: biolink:decreases_molecular_interaction
-CTD:decreases_molecular_modification_of: 
+  core_predicate: biolink:physically_interacts_with
+CTD:decreases_molecular_modification_of:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_mutagenesis: 
+CTD:decreases_mutagenesis:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: mutation_rate
     - object_direction: decreased
-CTD:decreases_mutation_rate_of: 
+CTD:decreases_mutation_rate_of:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: mutation_rate
     - object_direction: decreased
-CTD:decreases_myristoylation: 
+CTD:decreases_myristoylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_nitrosation: 
+CTD:decreases_nitrosation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_nucleotidylation: 
+CTD:decreases_nucleotidylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_oxidation: 
+CTD:decreases_oxidation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_palmitoylation: 
+CTD:decreases_palmitoylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_phosphorylation: 
+CTD:decreases_phosphorylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_prenylation: 
+CTD:decreases_prenylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_reduction: 
+CTD:decreases_reduction:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_response_to: 
+CTD:decreases_response_to:
   operation: keep
   core_predicate: biolink:decreases_response_to
-CTD:decreases_response_to_substance: 
+CTD:decreases_response_to_substance:
   operation: keep
   core_predicate: biolink:decreases_response_to
-CTD:decreases_ribosylation: 
+CTD:decreases_ribosylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_secretion_of: 
+CTD:decreases_secretion_of:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: secretion
     - object_direction: decreased
-CTD:decreases_splicing_of: 
+CTD:decreases_splicing_of:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: splicing
     - object_direction: decreased
-CTD:decreases_stability_of: 
+CTD:decreases_stability_of:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: stability
     - object_direction: decreased
-CTD:decreases_sulfation: 
+CTD:decreases_sulfation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_sumoylation: 
+CTD:decreases_sumoylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_transport_of: 
+CTD:decreases_transport_of:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: transport
     - object_direction: decreased
-CTD:decreases_ubiquitination: 
+CTD:decreases_ubiquitination:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-CTD:decreases_uptake_of: 
+CTD:decreases_uptake_of:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: uptake
     - object_direction: decreased
-CTD:increases_ADP-ribosylation: 
+CTD:increases_ADP-ribosylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_N-linked_glycosylation: 
+CTD:increases_N-linked_glycosylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_O-linked_glycosylation: 
+CTD:increases_O-linked_glycosylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_RNA_splicing: 
+CTD:increases_RNA_splicing:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: splicing
     - object_direction: increased
-CTD:increases_acetylation: 
+CTD:increases_acetylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_acylation: 
+CTD:increases_acylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_alkylation: 
+CTD:increases_alkylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_amination: 
+CTD:increases_amination:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_carbamoylation: 
+CTD:increases_carbamoylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_carboxylation: 
+CTD:increases_carboxylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_cleavage: 
+CTD:increases_cleavage:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
-  qualifiers: 
+  qualifiers:
     - object_aspect: degradation
     - object_direction: increased
-CTD:increases_ethylation: 
+CTD:increases_ethylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_export: 
+CTD:increases_export:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: secretion
     - object_direction: increased
-CTD:increases_farnesylation: 
+CTD:increases_farnesylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_folding_of: 
+CTD:increases_folding_of:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: folding
     - object_direction: increased
-CTD:increases_geranoylation: 
+CTD:increases_geranoylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_glucuronidation: 
+CTD:increases_glucuronidation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_glutathionylation: 
+CTD:increases_glutathionylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_glycation: 
+CTD:increases_glycation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_glycosylation: 
+CTD:increases_glycosylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_hydrolysis: 
+CTD:increases_hydrolysis:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
-  qualifiers: 
+  qualifiers:
     - object_aspect: degradation
     - object_direction: increased
-CTD:increases_hydroxylation: 
+CTD:increases_hydroxylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_import: 
+CTD:increases_import:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: uptake
     - object_direction: increased
-CTD:increases_lipidation: 
+CTD:increases_lipidation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_localization_of: 
+CTD:increases_localization_of:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: localization
     - object_direction: increased
-CTD:increases_metabolic_processing_of: 
+CTD:increases_metabolic_processing_of:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: localization
     - object_direction: increased
-CTD:increases_methylation: 
+CTD:increases_methylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_molecular_interaction_with: 
+CTD:increases_molecular_interaction_with:
   operation: keep
-  core_predicate: biolink:increases_molecular_interaction
-CTD:increases_molecular_modification_of: 
+  core_predicate: biolink:physically_interacts_with
+CTD:increases_molecular_modification_of:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_mutagenesis: 
+CTD:increases_mutagenesis:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: mutation_rate
     - object_direction: increased
-CTD:increases_mutation_rate_of: 
+CTD:increases_mutation_rate_of:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: mutation_rate
     - object_direction: increased
-CTD:increases_myristoylation: 
+CTD:increases_myristoylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_nitrosation: 
+CTD:increases_nitrosation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_nucleotidylation: 
+CTD:increases_nucleotidylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_oxidation: 
+CTD:increases_oxidation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_palmitoylation: 
+CTD:increases_palmitoylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_phosphorylation: 
+CTD:increases_phosphorylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_prenylation: 
+CTD:increases_prenylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_reduction: 
+CTD:increases_reduction:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_response_to: 
+CTD:increases_response_to:
   operation: keep
   core_predicate: biolink:increases_response_to
-CTD:increases_ribosylation: 
+CTD:increases_ribosylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_secretion_of: 
+CTD:increases_secretion_of:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: secretion
     - object_direction: increased
-CTD:increases_splicing_of: 
+CTD:increases_splicing_of:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: splicing
     - object_direction: increased
-CTD:increases_sulfation: 
+CTD:increases_sulfation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_sumoylation: 
+CTD:increases_sumoylation:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_synthesis_of: 
+CTD:increases_synthesis_of:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: synthesis
     - object_direction: increased
-CTD:increases_ubiquitination: 
+CTD:increases_ubiquitination:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-CTD:increases_uptake_of: 
+CTD:increases_uptake_of:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: uptake
     - object_direction: increased
-CTD:inferred: 
+CTD:inferred:
   operation: keep
   core_predicate: biolink:affects
-CTD:marker_mechanism: 
+CTD:marker_mechanism:
   operation: keep
   core_predicate: biolink:contributes_to
-CTD:negative_correlation: 
+CTD:negative_correlation:
   operation: keep
   core_predicate: biolink:negatively_correlated_with
-CTD:positive_correlation: 
+CTD:positive_correlation:
   operation: keep
   core_predicate: biolink:positively_correlated_with
-CTD:prediction_hypothesis: 
+CTD:prediction_hypothesis:
   operation: keep
   core_predicate: biolink:affects
-DDANAT:develops_from: 
+DDANAT:develops_from:
   operation: keep
   core_predicate: biolink:develops_from
-DGIdb:activator: 
-  operation: keep  
+DGIdb:activator:
+  operation: keep
   core_predicate: biolink:regulates
   qualifiers:
     - object_direction: increased
-DGIdb:adduct: 
+DGIdb:adduct:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-DGIdb:affects: 
+  core_predicate: biolink:directly_physically_interacts_with
+DGIdb:affects:
   operation: keep
   core_predicate: biolink:affects
-DGIdb:agonist: 
+DGIdb:agonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: increased
-DGIdb:allosteric_modulator: 
+DGIdb:allosteric_modulator:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: activity
-DGIdb:antagonist: 
+DGIdb:antagonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: decreased
-DGIdb:antibody: 
+DGIdb:antibody:
   operation: keep
-  core_predicate: biolink:molecularly_interacts_with
-DGIdb:antisense_oligonucleotide: 
+  core_predicate: biolink:physically_interacts_with
+DGIdb:antisense_oligonucleotide:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
-  qualifiers: 
+  qualifiers:
     - object_aspect: expression
     - object_direction: decreased
-DGIdb:binder: 
+DGIdb:binder:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-DGIdb:blocker: 
-  operation: keep
-  core_predicate: biolink:affects
-  qualified_predicate: biolink:causes
-  qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
-DGIdb:channel_blocker: 
+  core_predicate: biolink:interacts_with
+DGIdb:blocker:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: decreased
-DGIdb:chaperone: 
+DGIdb:channel_blocker:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-DGIdb:cleavage: 
+  core_predicate: biolink:affects
+  qualified_predicate: biolink:causes
+  qualifiers:
+    - object_aspect: activity
+    - object_direction: decreased
+DGIdb:chaperone:
+  operation: keep
+  core_predicate: biolink:binds
+DGIdb:cleavage:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: degradation
-DGIdb:cofactor: 
+DGIdb:cofactor:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-DGIdb:gating_inhibitor: 
+  core_predicate: biolink:interacts_with
+DGIdb:gating_inhibitor:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: decreased
-DGIdb:inducer: 
+DGIdb:inducer:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: increased
-DGIdb:inhibitor: 
+DGIdb:inhibitor:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: decreased
-DGIdb:inhibitory_allosteric_modulator: 
+DGIdb:inhibitory_allosteric_modulator:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: decreased
-DGIdb:inverse_agonist: 
+DGIdb:inverse_agonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: decreased
-DGIdb:ligand: 
+DGIdb:ligand:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-DGIdb:modulator: 
+  core_predicate: biolink:directly_physically_interacts_with
+DGIdb:modulator:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: activity
-DGIdb:multitarget: 
+DGIdb:multitarget:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-DGIdb:negative_modulator: 
+  core_predicate: biolink:directly_physically_interacts_with
+DGIdb:negative_modulator:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: decreased
-DGIdb:partial_agonist: 
+DGIdb:partial_agonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: increased
-DGIdb:partial_antagonist: 
+DGIdb:partial_antagonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: decreased
-DGIdb:positive_modulator: 
+DGIdb:positive_modulator:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: increased
-DGIdb:potentiator: 
+DGIdb:potentiator:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: increased
-DGIdb:product_of: 
+DGIdb:product_of:
   operation: keep
   core_predicate: biolink:derives_from
-DGIdb:stimulator: 
+DGIdb:stimulator:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: increased
-DGIdb:substrate: 
+DGIdb:substrate:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
-  qualifiers: 
+  qualifiers:
     - object_aspect: degradation
     - object_direction: increased
-DGIdb:suppressor: 
+DGIdb:suppressor:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: decreased
-DGIdb:vaccine: 
+DGIdb:vaccine:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: decreased
-DOID-PROPERTY:derives_from: 
-  operation: invert
-  core_predicate: biolink:derives_into
-DOID-PROPERTY:has_symptom: 
+#DOID-PROPERTY:derives_from:
+#  operation: keep
+#  core_predicate: biolink:related_to_at_instance_level
+DOID-PROPERTY:has_symptom:
   operation: keep
   core_predicate: biolink:has_phenotype
-DRUGBANK:activator: 
+DRUGBANK:activator:
   operation: keep
   core_predicate: biolink:regulates
   qualifiers:
     - object_direction: increased
-DRUGBANK:adduct: 
+DRUGBANK:adduct:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-DRUGBANK:aggregation_inhibitor: 
+  core_predicate: biolink:directly_physically_interacts_with
+DRUGBANK:aggregation_inhibitor:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: decreased
-DRUGBANK:agonist: 
+DRUGBANK:agonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: increased
-DRUGBANK:allosteric_modulator: 
+DRUGBANK:allosteric_modulator:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: activity
-DRUGBANK:antagonist: 
+DRUGBANK:antagonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: decreased
-DRUGBANK:antibody: 
+DRUGBANK:antibody:
   operation: keep
-  core_predicate: biolink:molecularly_interacts_with
-DRUGBANK:antisense_oligonucleotide: 
+  core_predicate: biolink:physically_interacts_with
+DRUGBANK:antisense_oligonucleotide:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
-  qualifiers: 
+  qualifiers:
     - object_aspect: expression
     - object_direction: decreased
-DRUGBANK:atc-code: 
+DRUGBANK:atc-code:
   operation: keep
   core_predicate: biolink:close_match
-DRUGBANK:atc-code-level: 
+DRUGBANK:atc-code-level:
   operation: keep
   core_predicate: biolink:related_to
-DRUGBANK:binder: 
+DRUGBANK:binder:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-DRUGBANK:binding: 
+  core_predicate: biolink:directly_physically_interacts_with
+DRUGBANK:binding:
   operation: keep
   core_predicate: biolink:physically_interacts_with
-DRUGBANK:blocker: 
+DRUGBANK:blocker:
   operation: keep
   core_predicate: biolink:regulates
   qualifiers:
     - object_direction: decreased
-DRUGBANK:category: 
+DRUGBANK:category:
   operation: keep
   core_predicate: biolink:subclass_of
-DRUGBANK:chaperone: 
+DRUGBANK:chaperone:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-DRUGBANK:chelator: 
+  core_predicate: biolink:binds
+DRUGBANK:chelator:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-DRUGBANK:cleavage: 
+  core_predicate: biolink:interacts_with
+DRUGBANK:cleavage:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: degradation
-DRUGBANK:cofactor: 
+DRUGBANK:cofactor:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-DRUGBANK:component_of: 
+  core_predicate: biolink:directly_physically_interacts_with
+DRUGBANK:component_of:
   operation: invert
   core_predicate: biolink:has_part
-DRUGBANK:degradation: 
+DRUGBANK:degradation:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: degradation
-DRUGBANK:deoxidizer: 
+DRUGBANK:deoxidizer:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: decreased
-DRUGBANK:desensitize_the_target: 
+DRUGBANK:desensitize_the_target:
   operation: keep
   core_predicate: biolink:decreases_response_to
-DRUGBANK:downregulator: 
+DRUGBANK:downregulator:
   operation: keep
   core_predicate: biolink:regulates
   qualifiers:
     - object_direction: decreased
-DRUGBANK:drug-interaction: 
+DRUGBANK:drug-interaction:
   operation: keep
   core_predicate: biolink:physically_interacts_with
-DRUGBANK:external-identifier: 
+DRUGBANK:external-identifier:
   operation: keep
   core_predicate: biolink:same_as
-DRUGBANK:external-identifier-protein: 
+DRUGBANK:external-identifier-protein:
   operation: keep
   core_predicate: biolink:derives_from
-DRUGBANK:gene_replacement: 
+DRUGBANK:gene_replacement:
   operation: keep
   core_predicate: biolink:close_match
-DRUGBANK:group: 
+DRUGBANK:group:
   operation: keep
   core_predicate: biolink:related_to
-DRUGBANK:inactivator: 
+DRUGBANK:inactivator:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: decreased
-DRUGBANK:incorporation_into_and_destabilization: 
+DRUGBANK:incorporation_into_and_destabilization:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: degradation
-DRUGBANK:inducer: 
+DRUGBANK:inducer:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: increased
-DRUGBANK:inhibition_of_synthesis: 
+DRUGBANK:inhibition_of_synthesis:
   operation: keep
   core_predicate: biolink:regulates
   qualifiers:
     - object_direction: decreased
-DRUGBANK:inhibitor: 
+DRUGBANK:inhibitor:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: decreased
-DRUGBANK:inhibitory_allosteric_modulator: 
+DRUGBANK:inhibitory_allosteric_modulator:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: decreased
-DRUGBANK:intercalation: 
+DRUGBANK:intercalation:
   operation: keep
-  core_predicate: biolink:molecularly_interacts_with
-DRUGBANK:inverse_agonist: 
+  core_predicate: biolink:physically_interacts_with
+DRUGBANK:inverse_agonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: decreased
-DRUGBANK:ligand: 
+DRUGBANK:ligand:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-DRUGBANK:modulator: 
+  core_predicate: biolink:directly_physically_interacts_with
+DRUGBANK:modulator:
   operation: keep
   core_predicate: biolink:regulates
-DRUGBANK:multitarget: 
+DRUGBANK:multitarget:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-DRUGBANK:negative_modulator: 
+  core_predicate: biolink:directly_physically_interacts_with
+DRUGBANK:negative_modulator:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: decreased
-DRUGBANK:neutralizer: 
+DRUGBANK:neutralizer:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: decreased
-DRUGBANK:nucleotide_exchange_blocker: 
+DRUGBANK:nucleotide_exchange_blocker:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: decreased
-DRUGBANK:oxidizer: 
+DRUGBANK:oxidizer:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: molecular_modification
     - object_direction: increased
-DRUGBANK:partial_agonist: 
+DRUGBANK:partial_agonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: increased
-DRUGBANK:partial_antagonist: 
+DRUGBANK:partial_antagonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: decreased
-DRUGBANK:pathway: 
+DRUGBANK:pathway:
   operation: invert
   core_predicate: biolink:has_participant
-DRUGBANK:positive_allosteric_modulator: 
+DRUGBANK:positive_allosteric_modulator:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: increased
-DRUGBANK:positive_modulator: 
+DRUGBANK:positive_modulator:
   operation: keep
   core_predicate: biolink:regulates
   qualifiers:
     - object_direction: increased
-DRUGBANK:potentiator: 
+DRUGBANK:potentiator:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: increased
-DRUGBANK:product_of: 
+DRUGBANK:product_of:
   operation: keep
   core_predicate: biolink:derives_from
-DRUGBANK:regulator: 
+DRUGBANK:regulator:
   operation: keep
   core_predicate: biolink:regulates
-DRUGBANK:stabilization: 
+DRUGBANK:stabilization:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: stability
     - object_direction: increased
-DRUGBANK:stimulator: 
+DRUGBANK:stimulator:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: increased
-DRUGBANK:substrate: 
+DRUGBANK:substrate:
   operation: keep
   core_predicate: biolink:physically_interacts_with
-DRUGBANK:suppressor: 
+DRUGBANK:suppressor:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: decreased
-DRUGBANK:target: 
+DRUGBANK:target:
   operation: keep
   core_predicate: biolink:physically_interacts_with
-DRUGBANK:translocation_inhibitor: 
+DRUGBANK:translocation_inhibitor:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: decreased
-DRUGBANK:treats: 
+DRUGBANK:treats:
   operation: keep
   core_predicate: biolink:treats
-DRUGBANK:weak_inhibitor: 
+DRUGBANK:weak_inhibitor:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: decreased
-DrugCentral:5271: 
+DrugCentral:5271:
   operation: keep
   core_predicate: biolink:diagnoses
-DrugCentral:PA: 
+DrugCentral:PA:
   operation: keep
   core_predicate: biolink:subclass_of
-DrugCentral:activator: 
+DrugCentral:activator:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: increased
-DrugCentral:agonist: 
+DrugCentral:agonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: increased
-DrugCentral:allosteric_antagonist: 
+DrugCentral:allosteric_antagonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: decreased
-DrugCentral:allosteric_modulator: 
+DrugCentral:allosteric_modulator:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: activity
-DrugCentral:antagonist: 
+DrugCentral:antagonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: decreased
-DrugCentral:antibody_binding: 
+DrugCentral:antibody_binding:
   operation: keep
-  core_predicate: biolink:molecularly_interacts_with
-DrugCentral:antisense_inhibitor: 
+  core_predicate: biolink:binds
+DrugCentral:antisense_inhibitor:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
-  qualifiers: 
+  qualifiers:
     - object_aspect: expression
     - object_direction: decreased
-DrugCentral:binding_agent: 
+DrugCentral:binding_agent:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-DrugCentral:blocker: 
+  core_predicate: biolink:directly_physically_interacts_with
+DrugCentral:blocker:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: decreased
-DrugCentral:contraindication: 
+DrugCentral:contraindication:
   operation: keep
   core_predicate: biolink:contraindicated_for
-DrugCentral:gating_inhibitor: 
+DrugCentral:gating_inhibitor:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: decreased
-DrugCentral:has_role: 
+DrugCentral:has_role:
   operation: keep
   core_predicate: biolink:related_to
-DrugCentral:indication: 
+DrugCentral:indication:
   operation: keep
   core_predicate: biolink:treats
-DrugCentral:inhibitor: 
+DrugCentral:inhibitor:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: decreased
-DrugCentral:inverse_agonist: 
+DrugCentral:inverse_agonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: decreased
-DrugCentral:modulator: 
+DrugCentral:modulator:
   operation: keep
   core_predicate: biolink:regulates
-DrugCentral:negative_allosteric_modulator: 
+DrugCentral:negative_allosteric_modulator:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: decreased
-DrugCentral:negative_modulator: 
+DrugCentral:negative_modulator:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: decreased
-DrugCentral:off-label_use: 
+DrugCentral:off-label_use:
   operation: keep
   core_predicate: biolink:treats
-DrugCentral:opener: 
+DrugCentral:opener:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: increased
-DrugCentral:partial_agonist: 
+DrugCentral:partial_agonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: increased
-DrugCentral:pharmacological_chaperone: 
+DrugCentral:pharmacological_chaperone:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-DrugCentral:positive_allosteric_modulator: 
+  core_predicate: biolink:directly_physically_interacts_with
+DrugCentral:positive_allosteric_modulator:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: increased
-DrugCentral:positive_modulator: 
+DrugCentral:positive_modulator:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: increased
-DrugCentral:releasing_agent: 
+DrugCentral:releasing_agent:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: expression
     - object_direction: increased
-DrugCentral:struct2atc: 
+DrugCentral:struct2atc:
   operation: keep
   core_predicate: biolink:close_match
-DrugCentral:substrate: 
+DrugCentral:substrate:
   operation: keep
   core_predicate: biolink:physically_interacts_with
-DrugCentral:symptomatic_treatment: 
+DrugCentral:symptomatic_treatment:
   operation: keep
   core_predicate: biolink:treats
-EFO:0000784: 
+EFO:0000784:
   operation: keep
   core_predicate: biolink:located_in
-EFO:0001697: 
+EFO:0001697:
   operation: invert
   core_predicate: biolink:related_to
-EFO:0006351: 
+EFO:0006351:
   operation: keep
   core_predicate: biolink:related_to
-EFO:is_executed_in: 
+EFO:is_executed_in:
   operation: keep
   core_predicate: biolink:related_to
-ENVO:01001307: 
+ENVO:01001307:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:SIB: 
+FMA:SIB:
   operation: delete
-FMA:adheres_to: 
+FMA:adheres_to:
   operation: keep
   core_predicate: biolink:physically_interacts_with
-FMA:adjacent_to: 
+FMA:adjacent_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:afferent_to: 
+FMA:afferent_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:anatomical_entity_observed_in: 
+FMA:anatomical_entity_observed_in:
   operation: delete
-FMA:anterior_to: 
+FMA:anterior_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:anteroinferior_to: 
+FMA:anteroinferior_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:anterolateral_to: 
+FMA:anterolateral_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:anteromedial_to: 
+FMA:anteromedial_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:anterosuperior_to: 
+FMA:anterosuperior_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:arterial_supply_of: 
+FMA:arterial_supply_of:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:articulates_with: 
+FMA:articulates_with:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:attaches_to: 
+FMA:attaches_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:bounded_by: 
+FMA:bounded_by:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:bounds: 
+FMA:bounds:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:branch_of: 
+FMA:branch_of:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:connected_to: 
+FMA:connected_to:
   operation: keep
   core_predicate: biolink:related_to
-FMA:connection_type_of: 
+FMA:connection_type_of:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:constitutional_part_of: 
+FMA:constitutional_part_of:
   operation: invert
   core_predicate: biolink:has_part
-FMA:contained_in: 
+FMA:contained_in:
   operation: invert
   core_predicate: biolink:has_part
-FMA:contains: 
+FMA:contains:
   operation: keep
   core_predicate: biolink:has_part
-FMA:continuation_branch_of: 
+FMA:continuation_branch_of:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:continuous_distally_with: 
+FMA:continuous_distally_with:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:continuous_proximally_with: 
+FMA:continuous_proximally_with:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:continuous_with: 
+FMA:continuous_with:
   operation: keep
   core_predicate: biolink:related_to
-FMA:corresponds_to: 
+FMA:corresponds_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:derives: 
+FMA:derives:
   operation: invert
   core_predicate: biolink:derives_from
-FMA:derives_from: 
-  operation: invert
-  core_predicate: biolink:derives_into
-FMA:development_type_of: 
+FMA:derives_from:
+  operation: keep
+  core_predicate: biolink:derives_from
+FMA:development_type_of:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:developmental_stage_of: 
+FMA:developmental_stage_of:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:develops_from: 
+FMA:develops_from:
   operation: keep
   core_predicate: biolink:develops_from
-FMA:develops_into: 
+FMA:develops_into:
   operation: keep
   core_predicate: biolink:develops_from
-FMA:direct_cell_shape_of: 
+FMA:direct_cell_shape_of:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:direct_left_of: 
+FMA:direct_left_of:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:direct_right_of: 
+FMA:direct_right_of:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:distal_to: 
+FMA:distal_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:drains_into: 
+FMA:drains_into:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:efferent_to: 
+FMA:efferent_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:external_to: 
+FMA:external_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:formed_by: 
+FMA:formed_by:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:forms: 
+FMA:forms:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:full_grown_phenotype_of: 
+FMA:full_grown_phenotype_of:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:fuses_with: 
+FMA:fuses_with:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:fusion_of: 
+FMA:fusion_of:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:germ_origin_of: 
+FMA:germ_origin_of:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:has_adherent: 
+FMA:has_adherent:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:has_arterial_supply: 
+FMA:has_arterial_supply:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:has_branch: 
+FMA:has_branch:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:has_connection_type: 
+FMA:has_connection_type:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:has_constitutional_part: 
+FMA:has_constitutional_part:
   operation: keep
   core_predicate: biolink:has_part
-FMA:has_continuation_branch: 
+FMA:has_continuation_branch:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:has_development_type: 
+FMA:has_development_type:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:has_developmental_stage: 
+FMA:has_developmental_stage:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:has_direct_cell_shape: 
+FMA:has_direct_cell_shape:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:has_full_grown_phenotype: 
+FMA:has_full_grown_phenotype:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:has_fusion: 
+FMA:has_fusion:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:has_germ_origin: 
+FMA:has_germ_origin:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:has_inherent_3d_shape: 
+FMA:has_inherent_3d_shape:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:has_insertion: 
+FMA:has_insertion:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:has_location: 
+FMA:has_location:
   operation: keep
   core_predicate: biolink:located_in
-FMA:has_lymphatic_drainage: 
+FMA:has_lymphatic_drainage:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:has_member: 
+FMA:has_member:
   operation: keep
   core_predicate: biolink:has_part
-FMA:has_nerve_supply: 
+FMA:has_nerve_supply:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:has_observed_anatomical_entity: 
+FMA:has_observed_anatomical_entity:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:has_origin: 
+FMA:has_origin:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:has_part: 
+FMA:has_part:
   operation: keep
   core_predicate: biolink:has_part
-FMA:has_primary_segmental_supply: 
+FMA:has_primary_segmental_supply:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:has_projection: 
+FMA:has_projection:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:has_regional_part: 
+FMA:has_regional_part:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:has_related_developmental_entity: 
+FMA:has_related_developmental_entity:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:has_secondary_segmental_supply: 
+FMA:has_secondary_segmental_supply:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:has_segmental_composition: 
+FMA:has_segmental_composition:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:has_segmental_supply: 
+FMA:has_segmental_supply:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:has_tributary: 
+FMA:has_tributary:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:has_venous_drainage: 
+FMA:has_venous_drainage:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:homonym_for: 
+FMA:homonym_for:
   operation: delete
-FMA:homonym_of: 
+FMA:homonym_of:
   operation: keep
   core_predicate: biolink:related_to
-FMA:inferior_to: 
+FMA:inferior_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:inferolateral_to: 
+FMA:inferolateral_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:inferomedial_to: 
+FMA:inferomedial_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:inherent_3d_shape_of: 
+FMA:inherent_3d_shape_of:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:insertion_of: 
+FMA:insertion_of:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:internal_to: 
+FMA:internal_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:lateral_to: 
+FMA:lateral_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:left_lateral_to: 
+FMA:left_lateral_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:left_medial_to: 
+FMA:left_medial_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:location_of: 
+FMA:location_of:
   operation: invert
   core_predicate: biolink:located_in
-FMA:lymphatic_drainage_of: 
+FMA:lymphatic_drainage_of:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:matures_from: 
+FMA:matures_from:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:matures_into: 
+FMA:matures_into:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:medial_to: 
+FMA:medial_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:member_of: 
+FMA:member_of:
   operation: invert
   core_predicate: biolink:has_part
-FMA:merges_with: 
+FMA:merges_with:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:nerve_supply_of: 
+FMA:nerve_supply_of:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:origin_of: 
+FMA:origin_of:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:part_of: 
+FMA:part_of:
   operation: invert
   core_predicate: biolink:has_part
-FMA:posterior_to: 
+FMA:posterior_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:posteroinferior_to: 
+FMA:posteroinferior_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:posterolateral_to: 
+FMA:posterolateral_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:posteromedial_to: 
+FMA:posteromedial_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:posterosuperior_to: 
+FMA:posterosuperior_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:primary_segmental_supply_of: 
+FMA:primary_segmental_supply_of:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:projects_from: 
+FMA:projects_from:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:projects_to: 
+FMA:projects_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:proximal_to: 
+FMA:proximal_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:receives_attachment_from: 
+FMA:receives_attachment_from:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:receives_drainage_from: 
+FMA:receives_drainage_from:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:receives_input_from: 
+FMA:receives_input_from:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:receives_projection: 
+FMA:receives_projection:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:regional_part_of: 
+FMA:regional_part_of:
   operation: invert
   core_predicate: biolink:has_part
-FMA:related_developmental_entity_of: 
+FMA:related_developmental_entity_of:
   operation: keep
   core_predicate: biolink:related_to
-FMA:related_object: 
+FMA:related_object:
   operation: keep
   core_predicate: biolink:related_to
-FMA:related_part: 
+FMA:related_part:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:right_lateral_to: 
+FMA:right_lateral_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:right_medial_to: 
+FMA:right_medial_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:secondary_segmental_supply_of: 
+FMA:secondary_segmental_supply_of:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:segmental_composition_of: 
+FMA:segmental_composition_of:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:segmental_supply_of: 
+FMA:segmental_supply_of:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:sends_output_to: 
+FMA:sends_output_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:superior_to: 
+FMA:superior_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:superolateral_to: 
+FMA:superolateral_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:superomedial_to: 
+FMA:superomedial_to:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:surrounded_by: 
+FMA:surrounded_by:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:surrounds: 
+FMA:surrounds:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:transforms_from: 
+FMA:transforms_from:
   operation: invert
   core_predicate: biolink:precedes
-FMA:transforms_into: 
+FMA:transforms_into:
   operation: keep
   core_predicate: biolink:precedes
-FMA:tributary_of: 
+FMA:tributary_of:
   operation: keep
   core_predicate: biolink:coexists_with
-FMA:venous_drainage_of: 
+FMA:venous_drainage_of:
   operation: keep
   core_predicate: biolink:coexists_with
-FOODON:00001301: 
+FOODON:00001301:
   operation: keep
   core_predicate: biolink:model_of
-FOODON:00001563: 
+FOODON:00001563:
   operation: keep
   core_predicate: biolink:has_part
-FOODON:00002420: 
+FOODON:00002420:
   operation: keep
   core_predicate: biolink:has_part
-GENEPIO:0001739: 
+GENEPIO:0001739:
   operation: invert
   core_predicate: biolink:precedes
-GENO:0000382: 
+GENO:0000382:
   operation: keep
   core_predicate: biolink:has_variant_part
-GENO:0000790: 
+GENO:0000790:
   operation: keep
   core_predicate: biolink:related_condition
-GENO:0000840: 
+GENO:0000840:
   operation: keep
   core_predicate: biolink:gene_associated_with_condition
-GENO:0000841: 
+GENO:0000841:
   operation: keep
   core_predicate: biolink:gene_associated_with_condition
-GO:SIB: 
+GO:SIB:
   operation: delete
-GO:acts_upstream_of: 
+GO:acts_upstream_of:
   operation: keep
   core_predicate: biolink:affects
-GO:acts_upstream_of_negative_effect: 
+GO:acts_upstream_of_negative_effect:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: decreased
-GO:acts_upstream_of_or_within: 
+GO:acts_upstream_of_or_within:
   operation: keep
   core_predicate: biolink:affects
-GO:acts_upstream_of_or_within_negative_effect: 
+GO:acts_upstream_of_or_within_negative_effect:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: decreased
-GO:acts_upstream_of_or_within_positive_effect: 
+GO:acts_upstream_of_or_within_positive_effect:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: increased
-GO:acts_upstream_of_positive_effect: 
+GO:acts_upstream_of_positive_effect:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: increased
-GO:colocalizes_with: 
+GO:colocalizes_with:
   operation: keep
   core_predicate: biolink:colocalizes_with
-GO:contributes_to: 
+GO:contributes_to:
   operation: keep
   core_predicate: biolink:contributes_to
-GO:enables: 
+GO:enables:
   operation: keep
   core_predicate: biolink:enables
-GO:ends_during: 
+GO:ends_during:
   operation: keep
   core_predicate: biolink:related_to
-GO:happens_during: 
+GO:happens_during:
   operation: keep
   core_predicate: biolink:related_to
-GO:has_occurrence: 
+GO:has_occurrence:
   operation: keep
   core_predicate: biolink:capable_of
-GO:has_part: 
+GO:has_part:
   operation: keep
   core_predicate: biolink:has_part
-GO:inverse_ends_during: 
+GO:inverse_ends_during:
   operation: keep
   core_predicate: biolink:related_to
-GO:inverse_happens_during: 
+GO:inverse_happens_during:
   operation: delete
-GO:inverse_isa: 
+GO:inverse_isa:
   operation: invert
   core_predicate: biolink:subclass_of
-GO:involved_in: 
+GO:involved_in:
   operation: invert
   core_predicate: biolink:has_participant
-GO:is_active_in: 
+GO:is_active_in:
   operation: keep
   core_predicate: biolink:actively_involved_in
-GO:isa: 
+GO:isa:
   operation: keep
   core_predicate: biolink:subclass_of
-GO:located_in: 
+GO:located_in:
   operation: keep
   core_predicate: biolink:located_in
-GO:negatively_regulated_by: 
+GO:negatively_regulated_by:
   operation: invert
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: decreased
-GO:negatively_regulates: 
+GO:negatively_regulates:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: decreased
-GO:occurs_in: 
+GO:occurs_in:
   operation: keep
   core_predicate: biolink:occurs_in
-GO:part_of: 
+GO:part_of:
   operation: invert
   core_predicate: biolink:has_part
-GO:positively_regulated_by: 
+GO:positively_regulated_by:
   operation: invert
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: increased
-GO:positively_regulates: 
+GO:positively_regulates:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: increased
-GO:regulated_by: 
+GO:regulated_by:
   operation: invert
   core_predicate: biolink:regulates
-GO:regulates: 
+GO:regulates:
   operation: keep
   core_predicate: biolink:regulates
-GOREL:0000040: 
+GOREL:0000040:
   operation: keep
   core_predicate: biolink:causes
-GOREL:0001004: 
+GOREL:0001004:
   operation: keep
   core_predicate: biolink:located_in
-GOREL:0001006: 
+GOREL:0001006:
   operation: keep
   core_predicate: biolink:affects
-GOREL:0002003: 
+GOREL:0002003:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: localization
-GOREL:0002004: 
+GOREL:0002004:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
-  qualifiers: 
+  qualifiers:
     - object_aspect: degradation
     - object_direction: increased
-GOREL:0002005: 
+GOREL:0002005:
   operation: keep
   core_predicate: biolink:related_to
-GOREL:0012006: 
+GOREL:0012006:
   operation: keep
   core_predicate: biolink:related_to
-GTEx:affects_expression_in: 
+GTEx:affects_expression_in:
   operation: keep
   core_predicate: biolink:affects
-HANCESTRO:0301: 
+HANCESTRO:0301:
   operation: keep
   core_predicate: biolink:related_to
-HANCESTRO:0308: 
+HANCESTRO:0308:
   operation: keep
   core_predicate: biolink:related_to
-HANCESTRO:0330: 
+HANCESTRO:0330:
   operation: keep
   core_predicate: biolink:related_to
-HCPCS:mapped_from: 
+HCPCS:mapped_from:
   operation: delete
-HCPCS:mapped_to: 
+HCPCS:mapped_to:
   operation: keep
   core_predicate: biolink:related_to
-HMDB:at_cellular_location: 
+HMDB:at_cellular_location:
   operation: keep
   core_predicate: biolink:located_in
-HMDB:at_tissue: 
+HMDB:at_tissue:
   operation: keep
   core_predicate: biolink:located_in
-HMDB:disease: 
+HMDB:disease:
   operation: keep
   core_predicate: biolink:related_to
-HMDB:has_protein_association: 
+HMDB:has_protein_association:
   operation: keep
   core_predicate: biolink:related_to
-HMDB:in_biospecimen: 
+HMDB:in_biospecimen:
   operation: keep
   core_predicate: biolink:located_in
-HMDB:in_pathway: 
+HMDB:in_pathway:
   operation: invert
   core_predicate: biolink:has_participant
-HP:SIB: 
+HP:SIB:
   operation: delete
-IAO:0000039: 
+IAO:0000039:
   operation: keep
   core_predicate: biolink:related_to
-IAO:0000136: 
+IAO:0000136:
   operation: keep
   core_predicate: biolink:related_to
-IAO:0000142: 
+IAO:0000142:
   operation: keep
   core_predicate: biolink:mentions
-IAO:0000219: 
+IAO:0000219:
   operation: keep
   core_predicate: biolink:related_to
-ICD10PCS:SIB: 
+ICD10PCS:SIB:
   operation: delete
-ICD9:SIB: 
+ICD9:SIB:
   operation: delete
-IDO:0000664: 
+IDO:0000664:
   operation: invert
   core_predicate: biolink:contributes_to
-JensenLab:associated_with: 
+JensenLab:associated_with:
   operation: keep
   core_predicate: biolink:gene_associated_with_condition
-KEGG:compound_to_enzyme: 
+KEGG:compound_to_enzyme:
   operation: keep
   core_predicate: biolink:interacts_with
-KEGG:compound_to_pathway: 
+KEGG:compound_to_pathway:
   operation: invert
   core_predicate: biolink:has_participant
-KEGG:compound_to_reaction: 
+KEGG:compound_to_reaction:
   operation: invert
   core_predicate: biolink:has_participant
-KEGG:enzyme_to_pathway: 
+KEGG:enzyme_to_pathway:
   operation: invert
   core_predicate: biolink:has_participant
-KEGG:enzyme_to_reaction: 
+KEGG:enzyme_to_reaction:
   operation: keep
   core_predicate: biolink:catalyzes
-KEGG:glycan_to_enzyme: 
+KEGG:glycan_to_enzyme:
   operation: keep
   core_predicate: biolink:interacts_with
-KEGG:glycan_to_pathway: 
+KEGG:glycan_to_pathway:
   operation: invert
   core_predicate: biolink:has_participant
-KEGG:glycan_to_reaction: 
+KEGG:glycan_to_reaction:
   operation: invert
   core_predicate: biolink:has_participant
-KEGG:pathway_to_compound: 
+KEGG:pathway_to_compound:
   operation: keep
   core_predicate: biolink:has_participant
-KEGG:pathway_to_drug: 
+KEGG:pathway_to_drug:
   operation: keep
   core_predicate: biolink:has_participant
-KEGG:pathway_to_glycan: 
+KEGG:pathway_to_glycan:
   operation: keep
   core_predicate: biolink:has_participant
-KEGG:reaction_to_enzyme: 
+KEGG:reaction_to_enzyme:
   operation: invert
   core_predicate: biolink:catalyzes
-KEGG:reaction_to_pathway: 
+KEGG:reaction_to_pathway:
   operation: invert
   core_predicate: biolink:has_participant
-LOINC:adjustment_of: 
+LOINC:adjustment_of:
   operation: delete
-LOINC:analyzed_by: 
+LOINC:analyzed_by:
   operation: delete
-LOINC:analyzes: 
+LOINC:analyzes:
   operation: keep
   core_predicate: biolink:related_to
-LOINC:answer_to: 
+LOINC:answer_to:
   operation: delete
-LOINC:archetype_of: 
+LOINC:archetype_of:
   operation: delete
-LOINC:associated_with: 
+LOINC:associated_with:
   operation: keep
   core_predicate: biolink:correlated_with
-LOINC:challenge_of: 
+LOINC:challenge_of:
   operation: delete
-LOINC:class_of: 
+LOINC:class_of:
   operation: keep
   core_predicate: biolink:subclass_of
-LOINC:component_of: 
+LOINC:component_of:
   operation: invert
   core_predicate: biolink:has_part
-LOINC:count_of: 
+LOINC:count_of:
   operation: delete
-LOINC:divisor_of: 
+LOINC:divisor_of:
   operation: delete
-LOINC:evaluation_of: 
+LOINC:evaluation_of:
   operation: delete
-LOINC:fragments_for_synonyms_of: 
+LOINC:fragments_for_synonyms_of:
   operation: delete
-LOINC:has_action_guidance: 
+LOINC:has_action_guidance:
   operation: keep
   core_predicate: biolink:related_to
-LOINC:has_adjustment: 
+LOINC:has_adjustment:
   operation: keep
   core_predicate: biolink:related_to
-LOINC:has_aggregation_view: 
+LOINC:has_aggregation_view:
   operation: keep
   core_predicate: biolink:related_to
-LOINC:has_answer: 
+LOINC:has_answer:
   operation: keep
   core_predicate: biolink:related_to
-LOINC:has_approach_guidance: 
+LOINC:has_approach_guidance:
   operation: keep
   core_predicate: biolink:related_to
-LOINC:has_archetype: 
+LOINC:has_archetype:
   operation: keep
   core_predicate: biolink:subclass_of
-LOINC:has_challenge: 
+LOINC:has_challenge:
   operation: keep
   core_predicate: biolink:related_to
-LOINC:has_class: 
+LOINC:has_class:
   operation: invert
   core_predicate: biolink:subclass_of
-LOINC:has_component: 
+LOINC:has_component:
   operation: keep
   core_predicate: biolink:has_part
-LOINC:has_count: 
+LOINC:has_count:
   operation: keep
   core_predicate: biolink:related_to
-LOINC:has_divisor: 
+LOINC:has_divisor:
   operation: keep
   core_predicate: biolink:related_to
-LOINC:has_evaluation: 
+LOINC:has_evaluation:
   operation: keep
   core_predicate: biolink:related_to
-LOINC:has_exam: 
+LOINC:has_exam:
   operation: keep
   core_predicate: biolink:related_to
-LOINC:has_fragments_for_synonyms: 
+LOINC:has_fragments_for_synonyms:
   operation: keep
   core_predicate: biolink:has_input
-LOINC:has_given_pharmaceutical_substance: 
+LOINC:has_given_pharmaceutical_substance:
   operation: delete
-LOINC:has_imaged_location: 
+LOINC:has_imaged_location:
   operation: keep
   core_predicate: biolink:occurs_in
-LOINC:has_imaging_focus: 
+LOINC:has_imaging_focus:
   operation: keep
   core_predicate: biolink:located_in
-LOINC:has_lateral_anatomic_location: 
+LOINC:has_lateral_anatomic_location:
   operation: keep
   core_predicate: biolink:coexists_with
-LOINC:has_lateral_location_presence: 
+LOINC:has_lateral_location_presence:
   operation: keep
   core_predicate: biolink:coexists_with
-LOINC:has_loinc_number: 
+LOINC:has_loinc_number:
   operation: delete
-LOINC:has_member: 
+LOINC:has_member:
   operation: keep
   core_predicate: biolink:has_part
-LOINC:has_method: 
+LOINC:has_method:
   operation: keep
   core_predicate: biolink:related_to
-LOINC:has_modality_subtype: 
+LOINC:has_modality_subtype:
   operation: keep
   core_predicate: biolink:related_to
-LOINC:has_modality_type: 
+LOINC:has_modality_type:
   operation: keep
   core_predicate: biolink:related_to
-LOINC:has_multipart: 
+LOINC:has_multipart:
   operation: delete
-LOINC:has_object_guidance: 
+LOINC:has_object_guidance:
   operation: keep
   core_predicate: biolink:related_to
-LOINC:has_parent_group: 
+LOINC:has_parent_group:
   operation: keep
   core_predicate: biolink:subclass_of
-LOINC:has_pharmaceutical_route: 
+LOINC:has_pharmaceutical_route:
   operation: keep
   core_predicate: biolink:related_to
-LOINC:has_presence_guidance: 
+LOINC:has_presence_guidance:
   operation: delete
-LOINC:has_property: 
+LOINC:has_property:
   operation: delete
-LOINC:has_scale: 
+LOINC:has_scale:
   operation: keep
   core_predicate: biolink:related_to
-LOINC:has_subject: 
+LOINC:has_subject:
   operation: keep
   core_predicate: biolink:has_participant
-LOINC:has_suffix: 
+LOINC:has_suffix:
   operation: keep
   core_predicate: biolink:related_to
-LOINC:has_supersystem: 
+LOINC:has_supersystem:
   operation: invert
   core_predicate: biolink:has_part
-LOINC:has_system: 
+LOINC:has_system:
   operation: keep
   core_predicate: biolink:has_input
-LOINC:has_time_aspect: 
+LOINC:has_time_aspect:
   operation: keep
   core_predicate: biolink:related_to
-LOINC:has_time_modifier: 
+LOINC:has_time_modifier:
   operation: keep
   core_predicate: biolink:related_to
-LOINC:has_timing_of: 
+LOINC:has_timing_of:
   operation: keep
   core_predicate: biolink:related_to
-LOINC:has_view_type: 
+LOINC:has_view_type:
   operation: keep
   core_predicate: biolink:related_to
-LOINC:is_action_guidance_for: 
+LOINC:is_action_guidance_for:
   operation: delete
-LOINC:is_aggregation_view_of: 
+LOINC:is_aggregation_view_of:
   operation: delete
-LOINC:is_approach_guidance_for: 
+LOINC:is_approach_guidance_for:
   operation: delete
-LOINC:is_exam_for: 
+LOINC:is_exam_for:
   operation: delete
-LOINC:is_given_pharmaceutical_substance_for: 
+LOINC:is_given_pharmaceutical_substance_for:
   operation: invert
   core_predicate: biolink:has_participant
-LOINC:is_imaged_location_for: 
+LOINC:is_imaged_location_for:
   operation: delete
-LOINC:is_imaging_focus_of: 
+LOINC:is_imaging_focus_of:
   operation: delete
-LOINC:is_lateral_anatomic_location_of: 
+LOINC:is_lateral_anatomic_location_of:
   operation: delete
-LOINC:is_modality_subtype_for: 
+LOINC:is_modality_subtype_for:
   operation: delete
-LOINC:is_modality_type_for: 
+LOINC:is_modality_type_for:
   operation: delete
-LOINC:is_object_guidance_for: 
+LOINC:is_object_guidance_for:
   operation: delete
-LOINC:is_pharmaceutical_route_for: 
+LOINC:is_pharmaceutical_route_for:
   operation: delete
-LOINC:is_presence_guidance_for: 
+LOINC:is_presence_guidance_for:
   operation: keep
   core_predicate: biolink:subclass_of
-LOINC:is_presence_of_lateral_location: 
+LOINC:is_presence_of_lateral_location:
   operation: delete
-LOINC:is_subject_of: 
+LOINC:is_subject_of:
   operation: delete
-LOINC:is_timing_for: 
+LOINC:is_timing_for:
   operation: delete
-LOINC:is_view_type_for: 
+LOINC:is_view_type_for:
   operation: delete
-LOINC:loinc_number_of: 
+LOINC:loinc_number_of:
   operation: delete
-LOINC:mapped_from: 
+LOINC:mapped_from:
   operation: delete
-LOINC:mapped_to: 
+LOINC:mapped_to:
   operation: keep
   core_predicate: biolink:related_to
-LOINC:measured_by: 
+LOINC:measured_by:
   operation: keep
   core_predicate: biolink:related_to
-LOINC:measures: 
+LOINC:measures:
   operation: delete
-LOINC:member_of: 
+LOINC:member_of:
   operation: invert
   core_predicate: biolink:has_part
-LOINC:method_of: 
+LOINC:method_of:
   operation: delete
-LOINC:mth_expanded_form_of: 
+LOINC:mth_expanded_form_of:
   operation: delete
-LOINC:mth_has_expanded_form: 
+LOINC:mth_has_expanded_form:
   operation: keep
   core_predicate: biolink:related_to
-LOINC:multipart_of: 
+LOINC:multipart_of:
   operation: invert
   core_predicate: biolink:has_part
-LOINC:parent_group_of: 
+LOINC:parent_group_of:
   operation: delete
-LOINC:property_of: 
+LOINC:property_of:
   operation: keep
   core_predicate: biolink:related_to
-LOINC:scale_of: 
+LOINC:scale_of:
   operation: delete
-LOINC:suffix_of: 
+LOINC:suffix_of:
   operation: delete
-LOINC:supersystem_of: 
+LOINC:supersystem_of:
   operation: delete
-LOINC:system_of: 
+LOINC:system_of:
   operation: delete
-LOINC:time_aspect_of: 
+LOINC:time_aspect_of:
   operation: delete
-LOINC:time_modifier_of: 
+LOINC:time_modifier_of:
   operation: delete
-MEDDRA:classified_as: 
+MEDDRA:classified_as:
   operation: keep
   core_predicate: biolink:close_match
-MEDDRA:has_member: 
+MEDDRA:has_member:
   operation: keep
   core_predicate: biolink:has_part
-MEDDRA:member_of: 
+MEDDRA:member_of:
   operation: invert
   core_predicate: biolink:has_part
-MESH:AQ: 
+MESH:AQ:
   operation: delete
-MESH:QB: 
+MESH:QB:
   operation: delete
-MESH:RO: 
+MESH:RO:
   operation: keep
   core_predicate: biolink:related_to
-MESH:SIB: 
+MESH:SIB:
   operation: delete
-MESH:has_mapping_qualifier: 
+MESH:has_mapping_qualifier:
   operation: keep
   core_predicate: biolink:related_to
-MESH:inverse_isa: 
+MESH:inverse_isa:
   operation: invert
   core_predicate: biolink:subclass_of
-MESH:isa: 
+MESH:isa:
   operation: keep
   core_predicate: biolink:subclass_of
-MESH:mapped_from: 
+MESH:mapped_from:
   operation: delete
-MESH:mapped_to: 
+MESH:mapped_to:
   operation: keep
   core_predicate: biolink:related_to
-MESH:mapping_qualifier_of: 
+MESH:mapping_qualifier_of:
   operation: delete
-MI:0192: 
+MI:0192:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0194: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0194:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0195: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0195:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0197: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0197:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0203: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0203:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0204: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0204:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0210: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0210:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0211: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0211:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0212: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0212:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0213: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0213:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0214: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0214:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0216: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0216:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0217: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0217:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0220: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0220:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0403: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0403:
   operation: keep
   core_predicate: biolink:colocalizes_with
-MI:0407: 
+MI:0407:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0408: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0408:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0414: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0414:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0556: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0556:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0557: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0557:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0559: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0559:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0566: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0566:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0567: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0567:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0569: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0569:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0570: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0570:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0572: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0572:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0844: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0844:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0871: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0871:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0882: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0882:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0883: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0883:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0902: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0902:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:0914: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:0914:
   operation: keep
   core_predicate: biolink:interacts_with
-MI:0915: 
+MI:0915:
   operation: keep
   core_predicate: biolink:physically_interacts_with
-MI:0945: 
+MI:0945:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:1126: 
-  operation: keep
-  core_predicate: biolink:interacts_with
-MI:1127: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:1126:
   operation: keep
   core_predicate: biolink:interacts_with
-MI:1148: 
+MI:1127:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:1237: 
+  core_predicate: biolink:interacts_with
+MI:1148:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:1310: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:1237:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:2252: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:1310:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-MI:2364: 
+  core_predicate: biolink:directly_physically_interacts_with
+MI:2252:
+  operation: keep
+  core_predicate: biolink:directly_physically_interacts_with
+MI:2364:
   operation: keep
   core_predicate: biolink:colocalizes_with
-MONDO:0100332: 
+MONDO:0100332:
   operation: invert
   core_predicate: biolink:causes
-MONDO:0100333: 
+MONDO:0100333:
   operation: invert
   core_predicate: biolink:causes
-MONDO:disease_causes_feature: 
+MONDO:disease_causes_feature:
   operation: keep
   core_predicate: biolink:causes
-MONDO:disease_has_basis_in_accumulation_of: 
+MONDO:disease_has_basis_in_accumulation_of:
   operation: keep
   core_predicate: biolink:disease_has_basis_in
-MONDO:disease_has_basis_in_development_of: 
+MONDO:disease_has_basis_in_development_of:
   operation: keep
   core_predicate: biolink:disease_has_basis_in
-MONDO:disease_has_location: 
+MONDO:disease_has_location:
   operation: keep
   core_predicate: biolink:disease_has_location
-MONDO:disease_has_major_feature: 
+MONDO:disease_has_major_feature:
   operation: keep
   core_predicate: biolink:has_part
-MONDO:disease_responds_to: 
+MONDO:disease_responds_to:
   operation: invert
   core_predicate: biolink:treats
-MONDO:disease_shares_features_of: 
+MONDO:disease_shares_features_of:
   operation: keep
   core_predicate: biolink:related_to
-MONDO:disease_triggers: 
+MONDO:disease_triggers:
   operation: keep
   core_predicate: biolink:causes
-MONDO:equivalentTo: 
+MONDO:equivalentTo:
   operation: keep
   core_predicate: biolink:same_as
-MONDO:has_onset: 
+MONDO:has_onset:
   operation: keep
   core_predicate: biolink:related_to
-MONDO:has_onset_before: 
+MONDO:has_onset_before:
   operation: keep
   core_predicate: biolink:related_to
-MONDO:has_onset_during_or_after: 
+MONDO:has_onset_during_or_after:
   operation: keep
   core_predicate: biolink:related_to
-MONDO:part_of_progression_of_disease: 
+MONDO:part_of_progression_of_disease:
   operation: invert
   core_predicate: biolink:has_part
-MONDO:predisposes_towards: 
+MONDO:predisposes_towards:
   operation: keep
   core_predicate: biolink:contributes_to
-NBO-PROPERTY:by_means: 
+NBO-PROPERTY:by_means:
   operation: keep
   core_predicate: biolink:actively_involved_in
-NBO-PROPERTY:has_participant: 
+NBO-PROPERTY:has_participant:
   operation: keep
   core_predicate: biolink:has_participant
-NBO-PROPERTY:in_response_to: 
+NBO-PROPERTY:in_response_to:
   operation: keep
   core_predicate: biolink:causes
-NBO-PROPERTY:is_about: 
+NBO-PROPERTY:is_about:
   operation: keep
   core_predicate: biolink:related_to
-NCIT:A11: 
+NCIT:A11:
   operation: keep
   core_predicate: biolink:subclass_of
-NCIT:A14: 
+NCIT:A14:
   operation: keep
   core_predicate: biolink:subclass_of
-NCIT:A16: 
+NCIT:A16:
   operation: keep
   core_predicate: biolink:subclass_of
-NCIT:A3: 
+NCIT:A3:
   operation: keep
   core_predicate: biolink:subclass_of
-NCIT:A7: 
+NCIT:A7:
   operation: keep
   core_predicate: biolink:physically_interacts_with
-NCIT:Anatomic_Structure_Has_Location_Role: 
+NCIT:Anatomic_Structure_Has_Location_Role:
   operation: invert
   core_predicate: biolink:located_in
-NCIT:C15220: 
+NCIT:C15220:
   operation: keep
   core_predicate: biolink:diagnoses
-NCIT:C16798: 
+NCIT:C16798:
   operation: keep
   core_predicate: biolink:in_linkage_disequilibrium_with
-NCIT:C2861: 
+NCIT:C2861:
   operation: keep
   core_predicate: biolink:causes_adverse_event
-NCIT:C37933: 
+NCIT:C37933:
   operation: keep
   core_predicate: biolink:contraindicated_for
-NCIT:R100: 
+NCIT:R100:
   operation: keep
   core_predicate: biolink:affects
-NCIT:R101: 
+NCIT:R101:
   operation: keep
   core_predicate: biolink:affects
-NCIT:R102: 
+NCIT:R102:
   operation: keep
   core_predicate: biolink:affects
-NCIT:R108: 
+NCIT:R108:
   operation: keep
   core_predicate: biolink:has_phenotype
-NCIT:R113: 
+NCIT:R113:
   operation: keep
   core_predicate: biolink:affects
-NCIT:R115: 
+NCIT:R115:
   operation: keep
   core_predicate: biolink:has_phenotype
-NCIT:R124: 
+NCIT:R124:
   operation: keep
   core_predicate: biolink:affects
-NCIT:R130: 
+NCIT:R130:
   operation: invert
   core_predicate: biolink:has_participant
-NCIT:R131: 
+NCIT:R131:
   operation: invert
   core_predicate: biolink:has_participant
-NCIT:R133: 
+NCIT:R133:
   operation: keep
   core_predicate: biolink:affects
-NCIT:R145: 
+NCIT:R145:
   operation: keep
   core_predicate: biolink:located_in
-NCIT:R146: 
+NCIT:R146:
   operation: keep
   core_predicate: biolink:affects
-NCIT:R150: 
+NCIT:R150:
   operation: keep
   core_predicate: biolink:affects
-NCIT:R155: 
+NCIT:R155:
   operation: keep
   core_predicate: biolink:located_in
-NCIT:R156: 
+NCIT:R156:
   operation: keep
   core_predicate: biolink:located_in
-NCIT:R158: 
+NCIT:R158:
   operation: keep
   core_predicate: biolink:affects
-NCIT:R160: 
+NCIT:R160:
   operation: keep
   core_predicate: biolink:affects
-NCIT:R163: 
+NCIT:R163:
   operation: keep
   core_predicate: biolink:related_to
-NCIT:R165: 
+NCIT:R165:
   operation: keep
   core_predicate: biolink:located_in
-NCIT:R166: 
+NCIT:R166:
   operation: keep
   core_predicate: biolink:located_in
-NCIT:R167: 
+NCIT:R167:
   operation: keep
   core_predicate: biolink:located_in
-NCIT:R168: 
+NCIT:R168:
   operation: keep
   core_predicate: biolink:located_in
-NCIT:R169: 
+NCIT:R169:
   operation: keep
   core_predicate: biolink:located_in
-NCIT:R170: 
+NCIT:R170:
   operation: keep
   core_predicate: biolink:located_in
-NCIT:R171: 
+NCIT:R171:
   operation: keep
   core_predicate: biolink:located_in
-NCIT:R173: 
+NCIT:R173:
   operation: keep
   core_predicate: biolink:affects
-NCIT:R175: 
+NCIT:R175:
   operation: keep
   core_predicate: biolink:gene_associated_with_condition
-NCIT:R176: 
+NCIT:R176:
   operation: invert
   core_predicate: biolink:gene_associated_with_condition
-NCIT:R178: 
+NCIT:R178:
   operation: invert
   core_predicate: biolink:gene_product_of
-NCIT:R23: 
+NCIT:R23:
   operation: keep
   core_predicate: biolink:affects
-NCIT:R25: 
+NCIT:R25:
   operation: keep
   core_predicate: biolink:affects
-NCIT:R27: 
+NCIT:R27:
   operation: invert
   core_predicate: biolink:has_part
-NCIT:R29: 
+NCIT:R29:
   operation: keep
   core_predicate: biolink:produces
-NCIT:R30: 
+NCIT:R30:
   operation: keep
   core_predicate: biolink:affects
-NCIT:R36: 
+NCIT:R36:
   operation: keep
   core_predicate: biolink:subclass_of
-NCIT:R37: 
+NCIT:R37:
   operation: invert
   core_predicate: biolink:has_participant
-NCIT:R38: 
+NCIT:R38:
   operation: keep
   core_predicate: biolink:gene_associated_with_condition
-NCIT:R39: 
+NCIT:R39:
   operation: keep
   core_predicate: biolink:biomarker_for
-NCIT:R40: 
+NCIT:R40:
   operation: keep
   core_predicate: biolink:located_in
-NCIT:R42: 
+NCIT:R42:
   operation: keep
   core_predicate: biolink:subclass_of
-NCIT:R47: 
+NCIT:R47:
   operation: keep
   core_predicate: biolink:biomarker_for
-NCIT:R48: 
+NCIT:R48:
   operation: keep
   core_predicate: biolink:gene_associated_with_condition
-NCIT:R50: 
+NCIT:R50:
   operation: keep
   core_predicate: biolink:has_part
-NCIT:R51: 
+NCIT:R51:
   operation: invert
   core_predicate: biolink:has_participant
-NCIT:R52: 
+NCIT:R52:
   operation: keep
   core_predicate: biolink:capable_of
-NCIT:R53: 
+NCIT:R53:
   operation: invert
   core_predicate: biolink:has_participant
-NCIT:R72: 
+NCIT:R72:
   operation: keep
   core_predicate: biolink:affects
-NCIT:R81: 
+NCIT:R81:
   operation: keep
   core_predicate: biolink:related_to
-NCIT:R82: 
+NCIT:R82:
   operation: invert
   core_predicate: biolink:has_part
-NCIT:R88: 
+NCIT:R88:
   operation: keep
   core_predicate: biolink:related_to
-NCIT:R89: 
+NCIT:R89:
   operation: keep
   core_predicate: biolink:has_phenotype
-NCIT:abnormal_cell_affected_by_chemical_or_drug: 
+NCIT:abnormal_cell_affected_by_chemical_or_drug:
   operation: delete
-NCIT:abnormality_associated_with_allele: 
+NCIT:abnormality_associated_with_allele:
   operation: delete
-NCIT:activity_of_allele: 
+NCIT:activity_of_allele:
   operation: delete
-NCIT:allele_absent_from_wild-type_chromosomal_location: 
+NCIT:allele_absent_from_wild-type_chromosomal_location:
   operation: keep
   core_predicate: biolink:located_in
-NCIT:allele_has_abnormality: 
+NCIT:allele_has_abnormality:
   operation: keep
   core_predicate: biolink:causes
-NCIT:allele_has_activity: 
+NCIT:allele_has_activity:
   operation: keep
   core_predicate: biolink:has_molecular_consequence
-NCIT:allele_in_chromosomal_location: 
+NCIT:allele_in_chromosomal_location:
   operation: keep
   core_predicate: biolink:located_in
-NCIT:allele_plays_altered_role_in_process: 
+NCIT:allele_plays_altered_role_in_process:
   operation: keep
   core_predicate: biolink:affects
-NCIT:allele_plays_role_in_metabolism_of_chemical_or_drug: 
+NCIT:allele_plays_role_in_metabolism_of_chemical_or_drug:
   operation: keep
   core_predicate: biolink:affects
-NCIT:anatomic_structure_has_location: 
+NCIT:anatomic_structure_has_location:
   operation: delete
-NCIT:anatomic_structure_is_physical_part_of: 
+NCIT:anatomic_structure_is_physical_part_of:
   operation: invert
   core_predicate: biolink:has_part
-NCIT:anatomy_originated_from_biological_process: 
+NCIT:anatomy_originated_from_biological_process:
   operation: delete
-NCIT:associated_with_malfunction_of_gene_product: 
+NCIT:associated_with_malfunction_of_gene_product:
   operation: delete
-NCIT:biological_process_has_associated_location: 
+NCIT:biological_process_has_associated_location:
   operation: keep
   core_predicate: biolink:affects
-NCIT:biological_process_has_initiator_chemical_or_drug: 
+NCIT:biological_process_has_initiator_chemical_or_drug:
   operation: delete
-NCIT:biological_process_has_initiator_process: 
+NCIT:biological_process_has_initiator_process:
   operation: delete
-NCIT:biological_process_has_result_anatomy: 
+NCIT:biological_process_has_result_anatomy:
   operation: keep
   core_predicate: biolink:has_output
-NCIT:biological_process_has_result_biological_process: 
+NCIT:biological_process_has_result_biological_process:
   operation: keep
   core_predicate: biolink:causes
-NCIT:biological_process_has_result_chemical_or_drug: 
+NCIT:biological_process_has_result_chemical_or_drug:
   operation: keep
   core_predicate: biolink:produces
-NCIT:biological_process_involves_chemical_or_drug: 
+NCIT:biological_process_involves_chemical_or_drug:
   operation: invert
   core_predicate: biolink:actively_involved_in
-NCIT:biological_process_involves_gene_product: 
+NCIT:biological_process_involves_gene_product:
   operation: delete
-NCIT:biological_process_is_part_of_process: 
+NCIT:biological_process_is_part_of_process:
   operation: delete
-NCIT:biological_process_results_from_biological_process: 
+NCIT:biological_process_results_from_biological_process:
   operation: delete
-NCIT:biomarker_type_includes_gene: 
+NCIT:biomarker_type_includes_gene:
   operation: delete
-NCIT:biomarker_type_includes_gene_product: 
+NCIT:biomarker_type_includes_gene_product:
   operation: delete
-NCIT:cdrh_parent_of: 
+NCIT:cdrh_parent_of:
   operation: invert
   core_predicate: biolink:subclass_of
-NCIT:cell_type_is_associated_with_eo_disease: 
+NCIT:cell_type_is_associated_with_eo_disease:
   operation: delete
-NCIT:cell_type_or_tissue_affected_by_chemical_or_drug: 
+NCIT:cell_type_or_tissue_affected_by_chemical_or_drug:
   operation: delete
-NCIT:chemical_or_drug_affects_abnormal_cell: 
+NCIT:chemical_or_drug_affects_abnormal_cell:
   operation: keep
   core_predicate: biolink:affects
-NCIT:chemical_or_drug_affects_cell_type_or_tissue: 
+NCIT:chemical_or_drug_affects_cell_type_or_tissue:
   operation: keep
   core_predicate: biolink:affects
-NCIT:chemical_or_drug_affects_gene_product: 
+NCIT:chemical_or_drug_affects_gene_product:
   operation: keep
   core_predicate: biolink:affects
-NCIT:chemical_or_drug_has_mechanism_of_action: 
+NCIT:chemical_or_drug_has_mechanism_of_action:
   operation: keep
   core_predicate: biolink:affects
-NCIT:chemical_or_drug_has_physiologic_effect: 
+NCIT:chemical_or_drug_has_physiologic_effect:
   operation: keep
   core_predicate: biolink:causes
-NCIT:chemical_or_drug_initiates_biological_process: 
+NCIT:chemical_or_drug_initiates_biological_process:
   operation: keep
   core_predicate: biolink:causes
-NCIT:chemical_or_drug_is_metabolized_by_enzyme: 
+NCIT:chemical_or_drug_is_metabolized_by_enzyme:
   operation: delete
-NCIT:chemical_or_drug_is_product_of_biological_process: 
+NCIT:chemical_or_drug_is_product_of_biological_process:
   operation: delete
-NCIT:chemical_or_drug_metabolism_is_associated_with_allele: 
+NCIT:chemical_or_drug_metabolism_is_associated_with_allele:
   operation: delete
-NCIT:chemical_or_drug_plays_role_in_biological_process: 
+NCIT:chemical_or_drug_plays_role_in_biological_process:
   operation: delete
-NCIT:chemotherapy_regimen_has_component: 
+NCIT:chemotherapy_regimen_has_component:
   operation: delete
-NCIT:chromosomal_location_of_allele: 
+NCIT:chromosomal_location_of_allele:
   operation: delete
-NCIT:chromosomal_location_of_wild-type_gene: 
+NCIT:chromosomal_location_of_wild-type_gene:
   operation: delete
-NCIT:chromosome_involved_in_cytogenetic_abnormality: 
+NCIT:chromosome_involved_in_cytogenetic_abnormality:
   operation: delete
-NCIT:chromosome_mapped_to_disease: 
+NCIT:chromosome_mapped_to_disease:
   operation: keep
   core_predicate: biolink:causes
-NCIT:completely_excised_anatomy_has_procedure: 
+NCIT:completely_excised_anatomy_has_procedure:
   operation: delete
-NCIT:completely_excised_anatomy_may_have_procedure: 
+NCIT:completely_excised_anatomy_may_have_procedure:
   operation: delete
-NCIT:complex_has_physical_part: 
+NCIT:complex_has_physical_part:
   operation: keep
   core_predicate: biolink:has_part
-NCIT:concept_in_subset: 
+NCIT:concept_in_subset:
   operation: delete
-NCIT:conceptual_part_of: 
+NCIT:conceptual_part_of:
   operation: invert
   core_predicate: biolink:has_part
-NCIT:ctcae_5_parent_of: 
+NCIT:ctcae_5_parent_of:
   operation: invert
   core_predicate: biolink:subclass_of
-NCIT:cytogenetic_abnormality_involves_chromosome: 
+NCIT:cytogenetic_abnormality_involves_chromosome:
   operation: keep
   core_predicate: biolink:affects
-NCIT:data_element_of: 
+NCIT:data_element_of:
   operation: delete
-NCIT:disease_excludes_abnormal_cell: 
+NCIT:disease_excludes_abnormal_cell:
   operation: delete
-NCIT:disease_excludes_cytogenetic_abnormality: 
+NCIT:disease_excludes_cytogenetic_abnormality:
   operation: delete
-NCIT:disease_excludes_finding: 
+NCIT:disease_excludes_finding:
   operation: delete
-NCIT:disease_excludes_metastatic_anatomic_site: 
+NCIT:disease_excludes_metastatic_anatomic_site:
   operation: delete
-NCIT:disease_excludes_molecular_abnormality: 
+NCIT:disease_excludes_molecular_abnormality:
   operation: delete
-NCIT:disease_excludes_normal_cell_origin: 
+NCIT:disease_excludes_normal_cell_origin:
   operation: delete
-NCIT:disease_excludes_normal_tissue_origin: 
+NCIT:disease_excludes_normal_tissue_origin:
   operation: delete
-NCIT:disease_excludes_primary_anatomic_site: 
+NCIT:disease_excludes_primary_anatomic_site:
   operation: delete
-NCIT:disease_has_abnormal_cell: 
+NCIT:disease_has_abnormal_cell:
   operation: delete
-NCIT:disease_has_accepted_treatment_with_regimen: 
+NCIT:disease_has_accepted_treatment_with_regimen:
   operation: delete
-NCIT:disease_has_associated_anatomic_site: 
+NCIT:disease_has_associated_anatomic_site:
   operation: keep
   core_predicate: biolink:affects
-NCIT:disease_has_associated_disease: 
+NCIT:disease_has_associated_disease:
   operation: keep
-  core_predicate: biolink:has_real_world_evidence_of_association_with
-NCIT:disease_has_associated_gene: 
+  core_predicate: biolink:associated_with
+NCIT:disease_has_associated_gene:
   operation: delete
-NCIT:disease_has_cytogenetic_abnormality: 
+NCIT:disease_has_cytogenetic_abnormality:
   operation: delete
-NCIT:disease_has_finding: 
+NCIT:disease_has_finding:
   operation: invert
   core_predicate: biolink:biomarker_for
-NCIT:disease_has_metastatic_anatomic_site: 
+NCIT:disease_has_metastatic_anatomic_site:
   operation: keep
   core_predicate: biolink:affects
-NCIT:disease_has_molecular_abnormality: 
+NCIT:disease_has_molecular_abnormality:
   operation: invert
   core_predicate: biolink:biomarker_for
-NCIT:disease_has_normal_cell_origin: 
+NCIT:disease_has_normal_cell_origin:
   operation: delete
-NCIT:disease_has_normal_tissue_origin: 
+NCIT:disease_has_normal_tissue_origin:
   operation: keep
   core_predicate: biolink:causes
-NCIT:disease_has_primary_anatomic_site: 
+NCIT:disease_has_primary_anatomic_site:
   operation: keep
   core_predicate: biolink:affects
-NCIT:disease_is_grade: 
+NCIT:disease_is_grade:
   operation: keep
   core_predicate: biolink:related_to
-NCIT:disease_is_marked_by_gene: 
+NCIT:disease_is_marked_by_gene:
   operation: invert
   core_predicate: biolink:biomarker_for
-NCIT:disease_is_stage: 
+NCIT:disease_is_stage:
   operation: keep
   core_predicate: biolink:related_to
-NCIT:disease_mapped_to_chromosome: 
+NCIT:disease_mapped_to_chromosome:
   operation: delete
-NCIT:disease_mapped_to_gene: 
+NCIT:disease_mapped_to_gene:
   operation: delete
-NCIT:disease_may_have_abnormal_cell: 
+NCIT:disease_may_have_abnormal_cell:
   operation: keep
   core_predicate: biolink:affects
-NCIT:disease_may_have_associated_disease: 
+NCIT:disease_may_have_associated_disease:
   operation: keep
   core_predicate: biolink:related_to
-NCIT:disease_may_have_cytogenetic_abnormality: 
+NCIT:disease_may_have_cytogenetic_abnormality:
   operation: delete
-NCIT:disease_may_have_finding: 
+NCIT:disease_may_have_finding:
   operation: keep
   core_predicate: biolink:has_phenotype
-NCIT:disease_may_have_molecular_abnormality: 
+NCIT:disease_may_have_molecular_abnormality:
   operation: keep
   core_predicate: biolink:has_phenotype
-NCIT:disease_may_have_normal_cell_origin: 
+NCIT:disease_may_have_normal_cell_origin:
   operation: delete
-NCIT:endogenous_product_related_to: 
+NCIT:endogenous_product_related_to:
   operation: delete
-NCIT:enzyme_metabolizes_chemical_or_drug: 
+NCIT:enzyme_metabolizes_chemical_or_drug:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: localization
     - object_direction: increased
-NCIT:eo_anatomy_is_associated_with_eo_disease: 
+NCIT:eo_anatomy_is_associated_with_eo_disease:
   operation: delete
-NCIT:eo_disease_has_associated_cell_type: 
+NCIT:eo_disease_has_associated_cell_type:
   operation: keep
   core_predicate: biolink:affects
-NCIT:eo_disease_has_associated_eo_anatomy: 
+NCIT:eo_disease_has_associated_eo_anatomy:
   operation: keep
   core_predicate: biolink:affects
-NCIT:eo_disease_has_property_or_attribute: 
+NCIT:eo_disease_has_property_or_attribute:
   operation: keep
   core_predicate: biolink:related_to
-NCIT:eo_disease_maps_to_human_disease: 
+NCIT:eo_disease_maps_to_human_disease:
   operation: delete
-NCIT:excised_anatomy_has_procedure: 
+NCIT:excised_anatomy_has_procedure:
   operation: delete
-NCIT:excised_anatomy_may_have_procedure: 
+NCIT:excised_anatomy_may_have_procedure:
   operation: delete
-NCIT:gene_associated_with_disease: 
+NCIT:gene_associated_with_disease:
   operation: keep
   core_predicate: biolink:gene_associated_with_condition
-NCIT:gene_encodes_gene_product: 
+NCIT:gene_encodes_gene_product:
   operation: invert
   core_predicate: biolink:gene_product_of
-NCIT:gene_found_in_organism: 
+NCIT:gene_found_in_organism:
   operation: keep
   core_predicate: biolink:in_taxon
-NCIT:gene_has_abnormality: 
+NCIT:gene_has_abnormality:
   operation: delete
-NCIT:gene_has_physical_location: 
+NCIT:gene_has_physical_location:
   operation: keep
   core_predicate: biolink:located_in
-NCIT:gene_in_chromosomal_location: 
+NCIT:gene_in_chromosomal_location:
   operation: keep
   core_predicate: biolink:located_in
-NCIT:gene_involved_in_molecular_abnormality: 
+NCIT:gene_involved_in_molecular_abnormality:
   operation: keep
   core_predicate: biolink:actively_involved_in
-NCIT:gene_involved_in_pathogenesis_of_disease: 
+NCIT:gene_involved_in_pathogenesis_of_disease:
   operation: keep
   core_predicate: biolink:gene_associated_with_condition
-NCIT:gene_is_biomarker_of: 
+NCIT:gene_is_biomarker_of:
   operation: keep
   core_predicate: biolink:biomarker_for
-NCIT:gene_is_biomarker_type: 
+NCIT:gene_is_biomarker_type:
   operation: keep
   core_predicate: biolink:subclass_of
-NCIT:gene_is_element_in_pathway: 
+NCIT:gene_is_element_in_pathway:
   operation: invert
   core_predicate: biolink:has_participant
-NCIT:gene_mapped_to_disease: 
+NCIT:gene_mapped_to_disease:
   operation: keep
   core_predicate: biolink:affects
-NCIT:gene_mutant_encodes_gene_product_sequence_variation: 
+NCIT:gene_mutant_encodes_gene_product_sequence_variation:
   operation: invert
   core_predicate: biolink:gene_product_of
-NCIT:gene_plays_role_in_process: 
+NCIT:gene_plays_role_in_process:
   operation: invert
   core_predicate: biolink:has_participant
-NCIT:gene_product_affected_by_chemical_or_drug: 
+NCIT:gene_product_affected_by_chemical_or_drug:
   operation: delete
-NCIT:gene_product_encoded_by_gene: 
+NCIT:gene_product_encoded_by_gene:
   operation: delete
-NCIT:gene_product_expressed_in_tissue: 
+NCIT:gene_product_expressed_in_tissue:
   operation: keep
   core_predicate: biolink:expressed_in
-NCIT:gene_product_has_abnormality: 
+NCIT:gene_product_has_abnormality:
   operation: keep
   core_predicate: biolink:affects
-NCIT:gene_product_has_associated_anatomy: 
+NCIT:gene_product_has_associated_anatomy:
   operation: keep
   core_predicate: biolink:expressed_in
-NCIT:gene_product_has_biochemical_function: 
+NCIT:gene_product_has_biochemical_function:
   operation: keep
   core_predicate: biolink:capable_of
-NCIT:gene_product_has_chemical_classification: 
+NCIT:gene_product_has_chemical_classification:
   operation: keep
   core_predicate: biolink:subclass_of
-NCIT:gene_product_has_gene_product_variant: 
+NCIT:gene_product_has_gene_product_variant:
   operation: delete
-NCIT:gene_product_has_organism_source: 
+NCIT:gene_product_has_organism_source:
   operation: keep
   core_predicate: biolink:in_taxon
-NCIT:gene_product_has_structural_domain_or_motif: 
+NCIT:gene_product_has_structural_domain_or_motif:
   operation: keep
   core_predicate: biolink:has_part
-NCIT:gene_product_is_biomarker_of: 
+NCIT:gene_product_is_biomarker_of:
   operation: keep
   core_predicate: biolink:biomarker_for
-NCIT:gene_product_is_biomarker_type: 
+NCIT:gene_product_is_biomarker_type:
   operation: keep
   core_predicate: biolink:subclass_of
-NCIT:gene_product_is_element_in_pathway: 
+NCIT:gene_product_is_element_in_pathway:
   operation: invert
   core_predicate: biolink:has_participant
-NCIT:gene_product_is_physical_part_of: 
+NCIT:gene_product_is_physical_part_of:
   operation: invert
   core_predicate: biolink:has_participant
-NCIT:gene_product_malfunction_associated_with_disease: 
+NCIT:gene_product_malfunction_associated_with_disease:
   operation: keep
   core_predicate: biolink:gene_associated_with_condition
-NCIT:gene_product_plays_role_in_biological_process: 
+NCIT:gene_product_plays_role_in_biological_process:
   operation: invert
   core_predicate: biolink:has_participant
-NCIT:gene_product_sequence_variation_encoded_by_gene_mutant: 
+NCIT:gene_product_sequence_variation_encoded_by_gene_mutant:
   operation: keep
   core_predicate: biolink:is_sequence_variant_of
-NCIT:gene_product_variant_of_gene_product: 
+NCIT:gene_product_variant_of_gene_product:
   operation: keep
   core_predicate: biolink:is_sequence_variant_of
-NCIT:genetic_biomarker_related_to: 
+NCIT:genetic_biomarker_related_to:
   operation: keep
   core_predicate: biolink:biomarker_for
-NCIT:has_cdrh_parent: 
+NCIT:has_cdrh_parent:
   operation: delete
-NCIT:has_conceptual_part: 
+NCIT:has_conceptual_part:
   operation: delete
-NCIT:has_ctcae_5_parent: 
+NCIT:has_ctcae_5_parent:
   operation: delete
-NCIT:has_data_element: 
+NCIT:has_data_element:
   operation: keep
   core_predicate: biolink:related_to
-NCIT:has_free_acid_or_base_form: 
+NCIT:has_free_acid_or_base_form:
   operation: delete
-NCIT:has_gene_product_element: 
+NCIT:has_gene_product_element:
   operation: delete
-NCIT:has_inc_parent: 
+NCIT:has_inc_parent:
   operation: keep
   core_predicate: biolink:subclass_of
-NCIT:has_nichd_parent: 
+NCIT:has_nichd_parent:
   operation: keep
   core_predicate: biolink:subclass_of
-NCIT:has_pharmaceutical_administration_method: 
+NCIT:has_pharmaceutical_administration_method:
   operation: keep
   core_predicate: biolink:related_to
-NCIT:has_pharmaceutical_basic_dose_form: 
+NCIT:has_pharmaceutical_basic_dose_form:
   operation: keep
   core_predicate: biolink:related_to
-NCIT:has_pharmaceutical_intended_site: 
+NCIT:has_pharmaceutical_intended_site:
   operation: keep
   core_predicate: biolink:related_to
-NCIT:has_pharmaceutical_release_characteristics: 
+NCIT:has_pharmaceutical_release_characteristics:
   operation: keep
   core_predicate: biolink:related_to
-NCIT:has_pharmaceutical_state_of_matter: 
+NCIT:has_pharmaceutical_state_of_matter:
   operation: keep
   core_predicate: biolink:related_to
-NCIT:has_pharmaceutical_transformation: 
+NCIT:has_pharmaceutical_transformation:
   operation: keep
   core_predicate: biolink:related_to
-NCIT:has_physical_part_of_anatomic_structure: 
+NCIT:has_physical_part_of_anatomic_structure:
   operation: delete
-NCIT:has_salt_form: 
+NCIT:has_salt_form:
   operation: keep
   core_predicate: biolink:chemically_similar_to
-NCIT:has_target: 
+NCIT:has_target:
   operation: keep
   core_predicate: biolink:physically_interacts_with
-NCIT:human_disease_maps_to_eo_disease: 
+NCIT:human_disease_maps_to_eo_disease:
   operation: keep
   core_predicate: biolink:related_to
-NCIT:imaged_anatomy_has_procedure: 
+NCIT:imaged_anatomy_has_procedure:
   operation: delete
-NCIT:inc_parent_of: 
+NCIT:inc_parent_of:
   operation: delete
-NCIT:is_abnormal_cell_of_disease: 
+NCIT:is_abnormal_cell_of_disease:
   operation: keep
   core_predicate: biolink:related_to
-NCIT:is_abnormality_of_gene: 
+NCIT:is_abnormality_of_gene:
   operation: delete
-NCIT:is_abnormality_of_gene_product: 
+NCIT:is_abnormality_of_gene_product:
   operation: delete
-NCIT:is_associated_anatomic_site_of: 
+NCIT:is_associated_anatomic_site_of:
   operation: delete
-NCIT:is_associated_anatomy_of_gene_product: 
+NCIT:is_associated_anatomy_of_gene_product:
   operation: delete
-NCIT:is_associated_disease_of: 
+NCIT:is_associated_disease_of:
   operation: keep
   core_predicate: biolink:correlated_with
-NCIT:is_biochemical_function_of_gene_product: 
+NCIT:is_biochemical_function_of_gene_product:
   operation: delete
-NCIT:is_chemical_classification_of_gene_product: 
+NCIT:is_chemical_classification_of_gene_product:
   operation: delete
-NCIT:is_chromosomal_location_of_gene: 
+NCIT:is_chromosomal_location_of_gene:
   operation: delete
-NCIT:is_component_of_chemotherapy_regimen: 
+NCIT:is_component_of_chemotherapy_regimen:
   operation: invert
   core_predicate: biolink:has_part
-NCIT:is_cytogenetic_abnormality_of_disease: 
+NCIT:is_cytogenetic_abnormality_of_disease:
   operation: invert
   core_predicate: biolink:correlated_with
-NCIT:is_finding_of_disease: 
+NCIT:is_finding_of_disease:
   operation: delete
-NCIT:is_grade_of_disease: 
+NCIT:is_grade_of_disease:
   operation: delete
-NCIT:is_location_of_anatomic_structure: 
+NCIT:is_location_of_anatomic_structure:
   operation: keep
   core_predicate: biolink:located_in
-NCIT:is_location_of_biological_process: 
+NCIT:is_location_of_biological_process:
   operation: delete
-NCIT:is_marked_by_gene_product: 
+NCIT:is_marked_by_gene_product:
   operation: delete
-NCIT:is_mechanism_of_action_of_chemical_or_drug: 
+NCIT:is_mechanism_of_action_of_chemical_or_drug:
   operation: delete
-NCIT:is_metastatic_anatomic_site_of_disease: 
+NCIT:is_metastatic_anatomic_site_of_disease:
   operation: delete
-NCIT:is_molecular_abnormality_of_disease: 
+NCIT:is_molecular_abnormality_of_disease:
   operation: keep
   core_predicate: biolink:biomarker_for
-NCIT:is_normal_cell_origin_of_disease: 
+NCIT:is_normal_cell_origin_of_disease:
   operation: invert
   core_predicate: biolink:derives_from
-NCIT:is_normal_tissue_origin_of_disease: 
+NCIT:is_normal_tissue_origin_of_disease:
   operation: delete
-NCIT:is_not_abnormal_cell_of_disease: 
+NCIT:is_not_abnormal_cell_of_disease:
   operation: delete
-NCIT:is_not_cytogenetic_abnormality_of_disease: 
+NCIT:is_not_cytogenetic_abnormality_of_disease:
   operation: delete
-NCIT:is_not_finding_of_disease: 
+NCIT:is_not_finding_of_disease:
   operation: delete
-NCIT:is_not_metastatic_anatomic_site_of_disease: 
+NCIT:is_not_metastatic_anatomic_site_of_disease:
   operation: delete
-NCIT:is_not_molecular_abnormality_of_disease: 
+NCIT:is_not_molecular_abnormality_of_disease:
   operation: delete
-NCIT:is_not_normal_cell_origin_of_disease: 
+NCIT:is_not_normal_cell_origin_of_disease:
   operation: delete
-NCIT:is_not_normal_tissue_origin_of_disease: 
+NCIT:is_not_normal_tissue_origin_of_disease:
   operation: delete
-NCIT:is_not_primary_anatomic_site_of_disease: 
+NCIT:is_not_primary_anatomic_site_of_disease:
   operation: delete
-NCIT:is_organism_source_of_gene_product: 
+NCIT:is_organism_source_of_gene_product:
   operation: invert
   core_predicate: biolink:in_taxon
-NCIT:is_physical_location_of_gene: 
+NCIT:is_physical_location_of_gene:
   operation: delete
-NCIT:is_physiologic_effect_of_chemical_or_drug: 
+NCIT:is_physiologic_effect_of_chemical_or_drug:
   operation: delete
-NCIT:is_primary_anatomic_site_of_disease: 
+NCIT:is_primary_anatomic_site_of_disease:
   operation: delete
-NCIT:is_property_or_attribute_of_eo_disease: 
+NCIT:is_property_or_attribute_of_eo_disease:
   operation: delete
-NCIT:is_qualified_by: 
+NCIT:is_qualified_by:
   operation: keep
   core_predicate: biolink:related_to
-NCIT:is_related_to_endogenous_product: 
+NCIT:is_related_to_endogenous_product:
   operation: keep
   core_predicate: biolink:related_to
-NCIT:is_stage_of_disease: 
+NCIT:is_stage_of_disease:
   operation: delete
-NCIT:is_structural_domain_or_motif_of_gene_product: 
+NCIT:is_structural_domain_or_motif_of_gene_product:
   operation: delete
-NCIT:is_target: 
+NCIT:is_target:
   operation: delete
-NCIT:kind_is_domain_of: 
+NCIT:kind_is_domain_of:
   operation: delete
-NCIT:kind_is_range_of: 
+NCIT:kind_is_range_of:
   operation: delete
-NCIT:may_be_abnormal_cell_of_disease: 
+NCIT:may_be_abnormal_cell_of_disease:
   operation: delete
-NCIT:may_be_associated_disease_of_disease: 
+NCIT:may_be_associated_disease_of_disease:
   operation: delete
-NCIT:may_be_cytogenetic_abnormality_of_disease: 
+NCIT:may_be_cytogenetic_abnormality_of_disease:
   operation: delete
-NCIT:may_be_finding_of_disease: 
+NCIT:may_be_finding_of_disease:
   operation: delete
-NCIT:may_be_molecular_abnormality_of_disease: 
+NCIT:may_be_molecular_abnormality_of_disease:
   operation: delete
-NCIT:may_be_normal_cell_origin_of_disease: 
+NCIT:may_be_normal_cell_origin_of_disease:
   operation: invert
   core_predicate: biolink:derives_from
-NCIT:molecular_abnormality_involves_gene: 
+NCIT:molecular_abnormality_involves_gene:
   operation: delete
-NCIT:neoplasm_has_special_category: 
+NCIT:neoplasm_has_special_category:
   operation: keep
   core_predicate: biolink:subclass_of
-NCIT:nichd_parent_of: 
+NCIT:nichd_parent_of:
   operation: delete
-NCIT:organism_has_gene: 
+NCIT:organism_has_gene:
   operation: invert
   core_predicate: biolink:in_taxon
-NCIT:partially_excised_anatomy_has_procedure: 
+NCIT:partially_excised_anatomy_has_procedure:
   operation: delete
-NCIT:partially_excised_anatomy_may_have_procedure: 
+NCIT:partially_excised_anatomy_may_have_procedure:
   operation: delete
-NCIT:pathogenesis_of_disease_involves_gene: 
+NCIT:pathogenesis_of_disease_involves_gene:
   operation: delete
-NCIT:pathway_has_gene_element: 
+NCIT:pathway_has_gene_element:
   operation: keep
   core_predicate: biolink:has_participant
-NCIT:pharmaceutical_administration_method_of: 
+NCIT:pharmaceutical_administration_method_of:
   operation: delete
-NCIT:pharmaceutical_basic_dose_form_of: 
+NCIT:pharmaceutical_basic_dose_form_of:
   operation: delete
-NCIT:pharmaceutical_intended_site_of: 
+NCIT:pharmaceutical_intended_site_of:
   operation: delete
-NCIT:pharmaceutical_release_characteristics_of: 
+NCIT:pharmaceutical_release_characteristics_of:
   operation: delete
-NCIT:pharmaceutical_state_of_matter_of: 
+NCIT:pharmaceutical_state_of_matter_of:
   operation: delete
-NCIT:pharmaceutical_transformation_of: 
+NCIT:pharmaceutical_transformation_of:
   operation: delete
-NCIT:procedure_has_completely_excised_anatomy: 
+NCIT:procedure_has_completely_excised_anatomy:
   operation: keep
   core_predicate: biolink:located_in
-NCIT:procedure_has_excised_anatomy: 
+NCIT:procedure_has_excised_anatomy:
   operation: keep
   core_predicate: biolink:located_in
-NCIT:procedure_has_imaged_anatomy: 
+NCIT:procedure_has_imaged_anatomy:
   operation: keep
   core_predicate: biolink:located_in
-NCIT:procedure_has_partially_excised_anatomy: 
+NCIT:procedure_has_partially_excised_anatomy:
   operation: keep
   core_predicate: biolink:located_in
-NCIT:procedure_has_target_anatomy: 
+NCIT:procedure_has_target_anatomy:
   operation: keep
   core_predicate: biolink:located_in
-NCIT:procedure_may_have_completely_excised_anatomy: 
+NCIT:procedure_may_have_completely_excised_anatomy:
   operation: keep
   core_predicate: biolink:located_in
-NCIT:procedure_may_have_excised_anatomy: 
+NCIT:procedure_may_have_excised_anatomy:
   operation: keep
   core_predicate: biolink:located_in
-NCIT:procedure_may_have_partially_excised_anatomy: 
+NCIT:procedure_may_have_partially_excised_anatomy:
   operation: keep
   core_predicate: biolink:located_in
-NCIT:process_altered_by_allele: 
+NCIT:process_altered_by_allele:
   operation: delete
-NCIT:process_includes_biological_process: 
+NCIT:process_includes_biological_process:
   operation: keep
   core_predicate: biolink:has_participant
-NCIT:process_initiates_biological_process: 
+NCIT:process_initiates_biological_process:
   operation: keep
   core_predicate: biolink:causes
-NCIT:process_involves_gene: 
+NCIT:process_involves_gene:
   operation: keep
   core_predicate: biolink:has_participant
-NCIT:qualifier_applies_to: 
+NCIT:qualifier_applies_to:
   operation: keep
   core_predicate: biolink:related_to
-NCIT:regimen_has_accepted_use_for_disease: 
+NCIT:regimen_has_accepted_use_for_disease:
   operation: keep
   core_predicate: biolink:treats
-NCIT:related_to_genetic_biomarker: 
+NCIT:related_to_genetic_biomarker:
   operation: delete
-NCIT:role_has_domain: 
+NCIT:role_has_domain:
   operation: keep
   core_predicate: biolink:related_to
-NCIT:role_has_parent: 
+NCIT:role_has_parent:
   operation: keep
   core_predicate: biolink:subclass_of
-NCIT:role_has_range: 
+NCIT:role_has_range:
   operation: keep
   core_predicate: biolink:related_to
-NCIT:role_is_parent_of: 
+NCIT:role_is_parent_of:
   operation: delete
-NCIT:special_category_includes_neoplasm: 
+NCIT:special_category_includes_neoplasm:
   operation: delete
-NCIT:subset_includes_concept: 
+NCIT:subset_includes_concept:
   operation: invert
   core_predicate: biolink:subclass_of
-NCIT:target_anatomy_has_procedure: 
+NCIT:target_anatomy_has_procedure:
   operation: delete
-NCIT:tissue_is_expression_site_of_gene_product: 
+NCIT:tissue_is_expression_site_of_gene_product:
   operation: delete
-NDDF:dose_form_of: 
+NDDF:dose_form_of:
   operation: delete
-NDDF:has_dose_form: 
+NDDF:has_dose_form:
   operation: keep
   core_predicate: biolink:subclass_of
-NDDF:has_ingredient: 
+NDDF:has_ingredient:
   operation: keep
   core_predicate: biolink:has_part
-NDDF:ingredient_of: 
+NDDF:ingredient_of:
   operation: invert
   core_predicate: biolink:has_part
-OBI:0000293: 
+OBI:0000293:
   operation: keep
   core_predicate: biolink:has_participant
-OBI:0000295: 
+OBI:0000295:
   operation: invert
   core_predicate: biolink:has_participant
-OBI:0000299: 
+OBI:0000299:
   operation: keep
   core_predicate: biolink:has_output
-OBI:0000417: 
+OBI:0000417:
   operation: keep
   core_predicate: biolink:has_output
-OBI:0001927: 
+OBI:0001927:
   operation: invert
   core_predicate: biolink:related_to
-OBO:INO_0000154: 
+OBO:INO_0000154:
   operation: keep
   core_predicate: biolink:related_to
-OBO:MF#manifestationOf: 
+OBO:MF#manifestationOf:
   operation: keep
   core_predicate: biolink:manifestation_of
-OBO:bspo#parallel_to: 
+OBO:bspo#parallel_to:
   operation: keep
   core_predicate: biolink:coexists_with
-OBO:doid#has_symptom: 
+OBO:doid#has_symptom:
   operation: keep
   core_predicate: biolink:has_phenotype
-OBO:envo#has_increased_levels_of: 
+OBO:envo#has_increased_levels_of:
   operation: keep
   core_predicate: biolink:related_to
-OBO:exo#interacts_with: 
+OBO:exo#interacts_with:
   operation: keep
   core_predicate: biolink:interacts_with
-OBO:exo#interacts_with_an_exposure_receptor_via: 
+OBO:exo#interacts_with_an_exposure_receptor_via:
   operation: keep
   core_predicate: biolink:interacts_with
-OBO:exo#interacts_with_an_exposure_stressor_via: 
+OBO:exo#interacts_with_an_exposure_stressor_via:
   operation: keep
   core_predicate: biolink:interacts_with
-OBO:exo.obo#interacts_with: 
+OBO:exo.obo#interacts_with:
   operation: keep
   core_predicate: biolink:interacts_with
-OBO:exo.obo#interacts_with_an_exposure_receptor_via: 
+OBO:exo.obo#interacts_with_an_exposure_receptor_via:
   operation: keep
   core_predicate: biolink:interacts_with
-OBO:exo.obo#interacts_with_an_exposure_stressor_via: 
+OBO:exo.obo#interacts_with_an_exposure_stressor_via:
   operation: keep
   core_predicate: biolink:interacts_with
-OBO:has_role: 
+OBO:has_role:
   operation: keep
   core_predicate: biolink:related_to
-OBO:nbo#by_means: 
+OBO:nbo#by_means:
   operation: invert
   core_predicate: biolink:actively_involved_in
-OBO:nbo#has_participant: 
+OBO:nbo#has_participant:
   operation: keep
   core_predicate: biolink:has_participant
-OBO:nbo#in_response_to: 
+OBO:nbo#in_response_to:
   operation: invert
   core_predicate: biolink:causes
-OBO:nbo#is_about: 
+OBO:nbo#is_about:
   operation: keep
   core_predicate: biolink:related_to
-OBO:uo#is_unit_of: 
+OBO:uo#is_unit_of:
   operation: invert
   core_predicate: biolink:related_to
-OIO:hasDbXref: 
+OIO:hasDbXref:
   operation: keep
   core_predicate: biolink:close_match
-OMIM:allelic_variant_of: 
+OMIM:allelic_variant_of:
   operation: keep
   core_predicate: biolink:is_sequence_variant_of
-OMIM:has_allelic_variant: 
+OMIM:has_allelic_variant:
   operation: delete
-OMIM:has_inheritance_type: 
+OMIM:has_inheritance_type:
   operation: keep
   core_predicate: biolink:related_to
-OMIM:has_manifestation: 
+OMIM:has_manifestation:
   operation: invert
   core_predicate: biolink:subclass_of
-OMIM:has_phenotype: 
+OMIM:has_phenotype:
   operation: keep
   core_predicate: biolink:has_phenotype
-OMIM:inheritance_type_of: 
+OMIM:inheritance_type_of:
   operation: delete
-OMIM:manifestation_of: 
+OMIM:manifestation_of:
   operation: keep
   core_predicate: biolink:manifestation_of
-OMIM:phenotype_of: 
+OMIM:phenotype_of:
   operation: invert
   core_predicate: biolink:has_phenotype
-ORPHA:317343: 
+ORPHA:317343:
   operation: keep
   core_predicate: biolink:causes
-ORPHA:317344: 
+ORPHA:317344:
   operation: keep
   core_predicate: biolink:causes
-ORPHA:317346: 
+ORPHA:317346:
   operation: keep
   core_predicate: biolink:causes
-ORPHA:317348: 
+ORPHA:317348:
   operation: keep
   core_predicate: biolink:actively_involved_in
-ORPHA:317349: 
+ORPHA:317349:
   operation: keep
   core_predicate: biolink:actively_involved_in
-ORPHA:327767: 
+ORPHA:327767:
   operation: keep
   core_predicate: biolink:actively_involved_in
-ORPHA:410295: 
+ORPHA:410295:
   operation: keep
   core_predicate: biolink:causes
-ORPHA:410296: 
+ORPHA:410296:
   operation: keep
   core_predicate: biolink:causes
-ORPHA:465410: 
+ORPHA:465410:
   operation: keep
   core_predicate: biolink:biomarker_for
-ORPHANET:317343: 
+ORPHANET:317343:
   operation: keep
   core_predicate: biolink:causes
-ORPHANET:317344: 
+ORPHANET:317344:
   operation: keep
   core_predicate: biolink:causes
-ORPHANET:317345: 
+ORPHANET:317345:
   operation: keep
   core_predicate: biolink:correlated_with
-ORPHANET:317346: 
+ORPHANET:317346:
   operation: keep
   core_predicate: biolink:causes
-ORPHANET:317348: 
+ORPHANET:317348:
   operation: keep
   core_predicate: biolink:actively_involved_in
-ORPHANET:317349: 
+ORPHANET:317349:
   operation: keep
   core_predicate: biolink:actively_involved_in
-ORPHANET:327767: 
+ORPHANET:327767:
   operation: keep
   core_predicate: biolink:actively_involved_in
-ORPHANET:410295: 
+ORPHANET:410295:
   operation: keep
   core_predicate: biolink:causes
-ORPHANET:410296: 
+ORPHANET:410296:
   operation: keep
   core_predicate: biolink:causes
-ORPHANET:465410: 
+ORPHANET:465410:
   operation: keep
   core_predicate: biolink:biomarker_for
-ORPHANET:C016: 
+ORPHANET:C016:
   operation: keep
   core_predicate: biolink:related_to
-ORPHANET:C017: 
+ORPHANET:C017:
   operation: keep
   core_predicate: biolink:related_to
-PATO:0000085: 
+PATO:0000085:
   operation: keep
   core_predicate: biolink:associated_with_sensitivity_to
-PATO:correlates_with: 
+PATO:correlates_with:
   operation: keep
   core_predicate: biolink:correlated_with
-PATO:decreased_in_magnitude_relative_to: 
+PATO:decreased_in_magnitude_relative_to:
   operation: keep
   core_predicate: biolink:related_to
-PATO:has_cross_section: 
+PATO:has_cross_section:
   operation: keep
   core_predicate: biolink:related_to
-PATO:has_relative_magnitude: 
+PATO:has_relative_magnitude:
   operation: keep
   core_predicate: biolink:related_to
-PATO:increased_in_magnitude_relative_to: 
+PATO:increased_in_magnitude_relative_to:
   operation: keep
   core_predicate: biolink:related_to
-PATO:reciprocal_of: 
+PATO:reciprocal_of:
   operation: keep
   core_predicate: biolink:related_to
-PATO:towards: 
+PATO:towards:
   operation: invert
   core_predicate: biolink:actively_involved_in
-PDQ:associated_disease: 
+PDQ:associated_disease:
   operation: keep
   core_predicate: biolink:correlated_with
-PDQ:associated_genetic_condition: 
+PDQ:associated_genetic_condition:
   operation: delete
-PDQ:component_of: 
+PDQ:component_of:
   operation: invert
   core_predicate: biolink:has_part
-PDQ:has_component: 
+PDQ:has_component:
   operation: keep
   core_predicate: biolink:has_part
-PHAROS:drug_targets: 
+PHAROS:drug_targets:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-PR:confers_resistance_to: 
+  core_predicate: biolink:interacts_with
+PR:confers_resistance_to:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
     - object_direction: decreased
-PR:has_gene_template: 
+PR:has_gene_template:
   operation: keep
   core_predicate: biolink:gene_product_of
-PR:lacks_part: 
+PR:lacks_part:
   operation: keep
   core_predicate: biolink:lacks_part
-PR:non-covalently_bound_to: 
+PR:non-covalently_bound_to:
   operation: keep
   core_predicate: biolink:physically_interacts_with
-PSY:RB: 
+PSY:RB:
   operation: invert
   core_predicate: biolink:subclass_of
-PSY:RO: 
+PSY:RO:
   operation: keep
   core_predicate: biolink:related_to
-PSY:use: 
+PSY:use:
   operation: keep
   core_predicate: biolink:subclass_of
-PSY:used_for: 
+PSY:used_for:
   operation: invert
   core_predicate: biolink:has_input
-PathWhiz:has_bound: 
+PathWhiz:has_bound:
   operation: keep
   core_predicate: biolink:has_participant
-PathWhiz:has_compound: 
+PathWhiz:has_compound:
   operation: keep
   core_predicate: biolink:has_participant
-PathWhiz:has_element_collection: 
+PathWhiz:has_element_collection:
   operation: keep
   core_predicate: biolink:has_participant
-PathWhiz:has_element_in_bound: 
+PathWhiz:has_element_in_bound:
   operation: keep
   core_predicate: biolink:has_part
-PathWhiz:has_enzyme: 
+PathWhiz:has_enzyme:
   operation: keep
   core_predicate: biolink:has_participant
-PathWhiz:has_left_element: 
+PathWhiz:has_left_element:
   operation: keep
   core_predicate: biolink:has_input
-PathWhiz:has_location: 
+PathWhiz:has_location:
   operation: keep
   core_predicate: biolink:occurs_in
-PathWhiz:has_nucleic_acid: 
+PathWhiz:has_nucleic_acid:
   operation: keep
   core_predicate: biolink:has_participant
-PathWhiz:has_protein: 
+PathWhiz:has_protein:
   operation: keep
   core_predicate: biolink:has_participant
-PathWhiz:has_protein_in_complex: 
+PathWhiz:has_protein_in_complex:
   operation: keep
   core_predicate: biolink:has_part
-PathWhiz:has_reaction: 
+PathWhiz:has_reaction:
   operation: keep
   core_predicate: biolink:has_participant
-PathWhiz:has_right_element: 
+PathWhiz:has_right_element:
   operation: keep
   core_predicate: biolink:has_output
-PathWhiz:in_species: 
+PathWhiz:in_species:
   operation: keep
   core_predicate: biolink:occurs_in
-REACT:has_element: 
+REACT:has_element:
   operation: keep
   core_predicate: biolink:has_part
-REACT:has_event: 
+REACT:has_event:
   operation: keep
   core_predicate: biolink:has_participant
-REACT:has_input: 
+REACT:has_input:
   operation: keep
   core_predicate: biolink:has_input
-REACT:has_member: 
+REACT:has_member:
   operation: keep
   core_predicate: biolink:has_part
-REACT:has_output: 
+REACT:has_output:
   operation: keep
   core_predicate: biolink:has_output
-REACT:in_species: 
+REACT:in_species:
   operation: keep
   core_predicate: biolink:occurs_in
-REACT:is_requirement_for: 
+REACT:is_requirement_for:
   operation: keep
   core_predicate: biolink:regulates
-REACT:linked_to_disease: 
+REACT:linked_to_disease:
   operation: keep
   core_predicate: biolink:related_to
-REACT:negatively_regulates: 
+REACT:negatively_regulates:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: decreased
-REACT:negatively_regulates_gene_expression: 
+REACT:negatively_regulates_gene_expression:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: decreased
-REACT:positively_regulates: 
+REACT:positively_regulates:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: increased
-REACT:positively_regulates_gene_expression: 
+REACT:positively_regulates_gene_expression:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: increased
-REACT:related_to: 
+REACT:related_to:
   operation: keep
   core_predicate: biolink:related_to
-REPODB:clinically_tested_approved_unknown_phase: 
+REPODB:clinically_tested_approved_unknown_phase:
   operation: keep
   core_predicate: biolink:treats
-REPODB:clinically_tested_suspended_phase_0: 
+REPODB:clinically_tested_suspended_phase_0:
   operation: keep
   core_predicate: biolink:treats
-REPODB:clinically_tested_suspended_phase_1: 
+REPODB:clinically_tested_suspended_phase_1:
   operation: keep
   core_predicate: biolink:treats
-REPODB:clinically_tested_suspended_phase_1_or_phase_2: 
+REPODB:clinically_tested_suspended_phase_1_or_phase_2:
   operation: keep
   core_predicate: biolink:treats
-REPODB:clinically_tested_suspended_phase_2: 
+REPODB:clinically_tested_suspended_phase_2:
   operation: keep
   core_predicate: biolink:treats
-REPODB:clinically_tested_suspended_phase_2_or_phase_3: 
+REPODB:clinically_tested_suspended_phase_2_or_phase_3:
   operation: keep
   core_predicate: biolink:treats
-REPODB:clinically_tested_suspended_phase_3: 
+REPODB:clinically_tested_suspended_phase_3:
   operation: keep
   core_predicate: biolink:treats
-REPODB:clinically_tested_terminated_phase_0: 
+REPODB:clinically_tested_terminated_phase_0:
   operation: keep
   core_predicate: biolink:treats
-REPODB:clinically_tested_terminated_phase_1: 
+REPODB:clinically_tested_terminated_phase_1:
   operation: keep
   core_predicate: biolink:treats
-REPODB:clinically_tested_terminated_phase_1_or_phase_2: 
+REPODB:clinically_tested_terminated_phase_1_or_phase_2:
   operation: keep
   core_predicate: biolink:treats
-REPODB:clinically_tested_terminated_phase_2: 
+REPODB:clinically_tested_terminated_phase_2:
   operation: keep
   core_predicate: biolink:treats
-REPODB:clinically_tested_terminated_phase_2_or_phase_3: 
+REPODB:clinically_tested_terminated_phase_2_or_phase_3:
   operation: keep
   core_predicate: biolink:treats
-REPODB:clinically_tested_terminated_phase_3: 
+REPODB:clinically_tested_terminated_phase_3:
   operation: keep
   core_predicate: biolink:treats
-REPODB:clinically_tested_withdrawn_phase_0: 
+REPODB:clinically_tested_withdrawn_phase_0:
   operation: keep
   core_predicate: biolink:treats
-REPODB:clinically_tested_withdrawn_phase_1: 
+REPODB:clinically_tested_withdrawn_phase_1:
   operation: keep
   core_predicate: biolink:treats
-REPODB:clinically_tested_withdrawn_phase_1_or_phase_2: 
+REPODB:clinically_tested_withdrawn_phase_1_or_phase_2:
   operation: keep
   core_predicate: biolink:treats
-REPODB:clinically_tested_withdrawn_phase_2: 
+REPODB:clinically_tested_withdrawn_phase_2:
   operation: keep
   core_predicate: biolink:treats
-REPODB:clinically_tested_withdrawn_phase_2_or_phase_3: 
+REPODB:clinically_tested_withdrawn_phase_2_or_phase_3:
   operation: keep
   core_predicate: biolink:treats
-REPODB:clinically_tested_withdrawn_phase_3: 
+REPODB:clinically_tested_withdrawn_phase_3:
   operation: keep
   core_predicate: biolink:treats
-RO:0000052: 
+RO:0000052:
   operation: keep
   core_predicate: biolink:related_to
-RO:0000053: 
+RO:0000053:
   operation: keep
   core_predicate: biolink:related_to
-RO:0000056: 
+RO:0000056:
   operation: invert
   core_predicate: biolink:has_participant
-RO:0000057: 
+RO:0000057:
   operation: keep
   core_predicate: biolink:has_participant
-RO:0000059: 
+RO:0000059:
   operation: keep
   core_predicate: biolink:related_to
-RO:0000086: 
+RO:0000086:
   operation: keep
   core_predicate: biolink:related_to
-RO:0000087: 
+RO:0000087:
   operation: keep
   core_predicate: biolink:related_to
-RO:00002325: 
+RO:00002325:
   operation: keep
   core_predicate: biolink:colocalizes_with
-RO:0001000: 
-  operation: invert
-  core_predicate: biolink:derives_into
-RO:0001001: 
+RO:0001000:
+  operation: keep
+  core_predicate: biolink:derives_from
+RO:0001001:
   operation: invert
   core_predicate: biolink:derives_from
-RO:0001015: 
+RO:0001015:
   operation: invert
   core_predicate: biolink:located_in
-RO:0001018: 
+RO:0001018:
   operation: invert
   core_predicate: biolink:has_part
-RO:0001019: 
+RO:0001019:
   operation: keep
   core_predicate: biolink:has_part
-RO:0001022: 
+RO:0001022:
   operation: invert
   core_predicate: biolink:causes
-RO:0001025: 
+RO:0001025:
   operation: keep
   core_predicate: biolink:located_in
-RO:0002001: 
+RO:0002001:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002002: 
+RO:0002002:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002003: 
+RO:0002003:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002005: 
+RO:0002005:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002007: 
+RO:0002007:
   operation: invert
   core_predicate: biolink:has_part
-RO:0002008: 
+RO:0002008:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002082: 
+RO:0002082:
   operation: keep
   core_predicate: biolink:temporally_related_to
-RO:0002083: 
+RO:0002083:
   operation: keep
   core_predicate: biolink:temporally_related_to
-RO:0002084: 
+RO:0002084:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002087: 
+RO:0002087:
   operation: invert
   core_predicate: biolink:precedes
-RO:0002090: 
+RO:0002090:
   operation: keep
   core_predicate: biolink:precedes
-RO:0002092: 
+RO:0002092:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002093: 
+RO:0002093:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002100: 
+RO:0002100:
   operation: keep
   core_predicate: biolink:overlaps
-RO:0002101: 
+RO:0002101:
   operation: keep
   core_predicate: biolink:overlaps
-RO:0002102: 
+RO:0002102:
   operation: keep
   core_predicate: biolink:overlaps
-RO:0002103: 
+RO:0002103:
   operation: keep
   core_predicate: biolink:interacts_with
-RO:0002104: 
+RO:0002104:
   operation: keep
-  core_predicate: biolink:has_part
-RO:0002120: 
-  operation: keep
-  core_predicate: biolink:interacts_with
-RO:0002130: 
+  core_predicate: biolink:has_plasma_membrane_part
+RO:0002120:
   operation: keep
   core_predicate: biolink:interacts_with
-RO:0002131: 
+RO:0002130:
+  operation: keep
+  core_predicate: biolink:interacts_with
+RO:0002131:
   operation: keep
   core_predicate: biolink:overlaps
-RO:0002134: 
+RO:0002134:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002150: 
+RO:0002150:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002159: 
+RO:0002159:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002160: 
+RO:0002160:
   operation: keep
   core_predicate: biolink:in_taxon
-RO:0002162: 
+RO:0002162:
   operation: keep
   core_predicate: biolink:in_taxon
-RO:0002170: 
+RO:0002170:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002176: 
+RO:0002176:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002177: 
+RO:0002177:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002178: 
+RO:0002178:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002179: 
+RO:0002179:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002180: 
+RO:0002180:
   operation: keep
   core_predicate: biolink:has_part
-RO:0002200: 
+RO:0002200:
   operation: keep
   core_predicate: biolink:has_phenotype
-RO:0002202: 
+RO:0002202:
   operation: keep
   core_predicate: biolink:develops_from
-RO:0002203: 
+RO:0002203:
   operation: keep
   core_predicate: biolink:develops_from
-RO:0002204: 
-  operation: invert
-  core_predicate: biolink:has_gene_product
-RO:0002205: 
+RO:0002205:
   operation: invert
   core_predicate: biolink:gene_product_of
-RO:0002207: 
+RO:0002207:
   operation: keep
   core_predicate: biolink:develops_from
-RO:0002211: 
+RO:0002211:
   operation: keep
   core_predicate: biolink:regulates
-RO:0002212: 
-  operation: keep  
+RO:0002212:
+  operation: keep
   core_predicate: biolink:regulates
   qualifiers:
     - object_direction: decreased
-RO:0002213: 
-  operation: keep  
+RO:0002213:
+  operation: keep
   core_predicate: biolink:regulates
   qualifiers:
     - object_direction: increased
-RO:0002215: 
+RO:0002215:
   operation: keep
   core_predicate: biolink:capable_of
-RO:0002216: 
+RO:0002216:
   operation: invert
   core_predicate: biolink:has_participant
-RO:0002219: 
+RO:0002219:
   operation: keep
   core_predicate: biolink:coexists_with
-RO:0002220: 
+RO:0002220:
   operation: keep
   core_predicate: biolink:coexists_with
-RO:0002221: 
+RO:0002221:
   operation: keep
   core_predicate: biolink:coexists_with
-RO:0002223: 
+RO:0002223:
   operation: keep
   core_predicate: biolink:temporally_related_to
-RO:0002224: 
+RO:0002224:
   operation: keep
   core_predicate: biolink:temporally_related_to
-RO:0002225: 
+RO:0002225:
   operation: keep
   core_predicate: biolink:develops_from
-RO:0002226: 
+RO:0002226:
   operation: keep
   core_predicate: biolink:develops_from
-RO:0002229: 
+RO:0002229:
   operation: keep
   core_predicate: biolink:temporally_related_to
-RO:0002230: 
+RO:0002230:
   operation: keep
   core_predicate: biolink:temporally_related_to
-RO:0002231: 
+RO:0002231:
   operation: keep
   core_predicate: biolink:occurs_in
-RO:0002232: 
+RO:0002232:
   operation: keep
   core_predicate: biolink:occurs_in
-RO:0002233: 
+RO:0002233:
   operation: keep
   core_predicate: biolink:has_input
-RO:0002234: 
+RO:0002234:
   operation: keep
   core_predicate: biolink:has_output
-RO:0002241: 
+RO:0002241:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002254: 
+RO:0002254:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002255: 
+RO:0002255:
   operation: keep
   core_predicate: biolink:contributes_to
-RO:0002256: 
+RO:0002256:
   operation: keep
   core_predicate: biolink:causes
-RO:0002263: 
+RO:0002263:
   operation: keep
   core_predicate: biolink:acts_upstream_of
-RO:0002264: 
+RO:0002264:
   operation: keep
   core_predicate: biolink:acts_upstream_of_or_within
-RO:0002285: 
+RO:0002285:
   operation: invert
   core_predicate: biolink:precedes
-RO:0002292: 
+RO:0002292:
   operation: invert
   core_predicate: biolink:expressed_in
-RO:0002295: 
+RO:0002295:
   operation: keep
   core_predicate: biolink:regulates
-RO:0002296: 
+RO:0002296:
   operation: keep
   core_predicate: biolink:has_output
-RO:0002297: 
+RO:0002297:
   operation: keep
   core_predicate: biolink:has_output
-RO:0002298: 
+RO:0002298:
   operation: keep
   core_predicate: biolink:has_output
-RO:0002299: 
+RO:0002299:
   operation: keep
   core_predicate: biolink:has_output
-RO:0002302: 
+RO:0002302:
   operation: invert
   core_predicate: biolink:treats
-RO:0002303: 
+RO:0002303:
   operation: keep
   core_predicate: biolink:located_in
-RO:0002309: 
+RO:0002309:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002313: 
+RO:0002313:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: transport
-RO:0002314: 
+RO:0002314:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002315: 
+RO:0002315:
   operation: keep
   core_predicate: biolink:causes
-RO:0002322: 
+RO:0002322:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002326: 
+RO:0002326:
   operation: keep
   core_predicate: biolink:contributes_to
-RO:0002327: 
-  operation: invert
-  core_predicate: biolink:enabled_by
-RO:0002328: 
+RO:0002328:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002331: 
+RO:0002331:
   operation: keep
   core_predicate: biolink:actively_involved_in
-RO:0002332: 
+RO:0002332:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002333: 
+RO:0002333:
   operation: invert
   core_predicate: biolink:enables
-RO:0002334: 
+RO:0002334:
   operation: invert
   core_predicate: biolink:regulates
-RO:0002338: 
+RO:0002338:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002339: 
+RO:0002339:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002340: 
+RO:0002340:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: transport
-RO:0002341: 
+RO:0002341:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002342: 
+RO:0002342:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002343: 
+RO:0002343:
   operation: keep
   core_predicate: biolink:affects
-RO:0002344: 
+RO:0002344:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002345: 
+RO:0002345:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
     - object_aspect: transport
-RO:0002348: 
+RO:0002348:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002349: 
+RO:0002349:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002350: 
+RO:0002350:
   operation: invert
   core_predicate: biolink:has_part
-RO:0002351: 
+RO:0002351:
   operation: keep
   core_predicate: biolink:has_part
-RO:0002352: 
+RO:0002352:
   operation: invert
   core_predicate: biolink:has_input
-RO:0002353: 
+RO:0002353:
   operation: invert
   core_predicate: biolink:has_output
-RO:0002354: 
+RO:0002354:
   operation: invert
   core_predicate: biolink:has_output
-RO:0002355: 
+RO:0002355:
   operation: keep
   core_predicate: biolink:affects
-RO:0002356: 
+RO:0002356:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002371: 
+RO:0002371:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002372: 
+RO:0002372:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002373: 
+RO:0002373:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002374: 
+RO:0002374:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002376: 
+RO:0002376:
   operation: invert
   core_predicate: biolink:has_part
-RO:0002380: 
+RO:0002380:
   operation: invert
   core_predicate: biolink:has_part
-RO:0002385: 
+RO:0002385:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002387: 
+RO:0002387:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002410: 
+RO:0002410:
   operation: keep
   core_predicate: biolink:causes
-RO:0002411: 
+RO:0002411:
   operation: keep
   core_predicate: biolink:precedes
-RO:0002412: 
+RO:0002412:
   operation: keep
   core_predicate: biolink:precedes
-RO:0002432: 
+RO:0002432:
   operation: keep
   core_predicate: biolink:active_in
-RO:0002433: 
+RO:0002433:
   operation: keep
   core_predicate: biolink:overlaps
-RO:0002434: 
+RO:0002434:
   operation: keep
   core_predicate: biolink:interacts_with
-RO:0002435: 
+RO:0002435:
   operation: keep
   core_predicate: biolink:genetically_interacts_with
-RO:0002436: 
+RO:0002436:
   operation: keep
-  core_predicate: biolink:molecularly_interacts_with
-RO:0002448: 
-  operation: invert
-  core_predicate: biolink:entity_regulated_by_entity
-RO:0002449: 
+  core_predicate: biolink:physically_interacts_with
+RO:0002448:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+RO:0002449:
+  operation: keep
+  core_predicate: biolink:regulates
+  qualifiers:
     - object_direction: decreased
-RO:0002450: 
+RO:0002450:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: increased
-RO:0002451: 
+RO:0002451:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002452: 
+RO:0002452:
   operation: keep
   core_predicate: biolink:has_phenotype
-RO:0002470: 
+RO:0002470:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002473: 
+RO:0002473:
   operation: keep
-  core_predicate: biolink:has_part
-RO:0002488: 
-  operation: keep
-  core_predicate: biolink:temporally_related_to
-RO:0002489: 
+  core_predicate: biolink:composed_primarily_of
+RO:0002488:
   operation: keep
   core_predicate: biolink:temporally_related_to
-RO:0002491: 
+RO:0002489:
+  operation: keep
+  core_predicate: biolink:temporally_related_to
+RO:0002491:
   operation: keep
   core_predicate: biolink:coexists_with
-RO:0002492: 
+RO:0002492:
   operation: keep
   core_predicate: biolink:temporally_related_to
-RO:0002493: 
+RO:0002493:
   operation: keep
   core_predicate: biolink:temporally_related_to
-RO:0002494: 
+RO:0002494:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002495: 
+RO:0002495:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002496: 
+RO:0002496:
   operation: keep
   core_predicate: biolink:temporally_related_to
-RO:0002497: 
+RO:0002497:
   operation: keep
   core_predicate: biolink:temporally_related_to
-RO:0002500: 
+RO:0002500:
   operation: keep
   core_predicate: biolink:capable_of
-RO:0002503: 
+RO:0002503:
   operation: keep
   core_predicate: biolink:actively_involved_in
-RO:0002505: 
+RO:0002505:
   operation: invert
   core_predicate: biolink:has_participant
-RO:0002506: 
+RO:0002506:
   operation: keep
   core_predicate: biolink:causes
-RO:0002507: 
+RO:0002507:
   operation: keep
   core_predicate: biolink:causes
-RO:0002509: 
+RO:0002509:
   operation: keep
   core_predicate: biolink:causes
-RO:0002510: 
+RO:0002510:
   operation: keep
   core_predicate: biolink:transcribed_from
-RO:0002511: 
+RO:0002511:
   operation: invert
   core_predicate: biolink:transcribed_from
-RO:0002524: 
+RO:0002524:
   operation: keep
   core_predicate: biolink:has_part
-RO:0002551: 
+RO:0002551:
   operation: keep
   core_predicate: biolink:has_part
-RO:0002565: 
+RO:0002565:
   operation: invert
   core_predicate: biolink:has_participant
-RO:0002568: 
+RO:0002568:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002571: 
+RO:0002571:
   operation: invert
   core_predicate: biolink:has_part
-RO:0002572: 
+RO:0002572:
   operation: invert
   core_predicate: biolink:has_part
-RO:0002573: 
+RO:0002573:
   operation: keep
   core_predicate: biolink:related_to
-RO:0002576: 
+RO:0002576:
   operation: invert
   core_predicate: biolink:has_part
-RO:0002578: 
+RO:0002578:
   operation: keep
   core_predicate: biolink:regulates
-RO:0002588: 
+RO:0002588:
   operation: keep
   core_predicate: biolink:has_output
-RO:0002590: 
+RO:0002590:
   operation: keep
   core_predicate: biolink:has_input
-RO:0002591: 
+RO:0002591:
   operation: keep
   core_predicate: biolink:affects
-RO:0002592: 
+RO:0002592:
   operation: keep
   core_predicate: biolink:affects
-RO:0002599: 
+RO:0002599:
   operation: keep
   core_predicate: biolink:prevents
-RO:0002604: 
+RO:0002604:
   operation: keep
   core_predicate: biolink:opposite_of
-RO:0002606: 
+RO:0002606:
   operation: keep
   core_predicate: biolink:treats
-RO:0002607: 
+RO:0002607:
   operation: keep
   core_predicate: biolink:biomarker_for
-RO:0002608: 
+RO:0002608:
   operation: invert
   core_predicate: biolink:causes
-RO:0002610: 
+RO:0002610:
   operation: keep
   core_predicate: biolink:correlated_with
-RO:0002629: 
-  operation: keep  
+RO:0002629:
+  operation: keep
   core_predicate: biolink:regulates
   qualifiers:
     - object_direction: increased
-RO:0002630: 
-  operation: keep  
+RO:0002630:
+  operation: keep
   core_predicate: biolink:regulates
   qualifiers:
     - object_direction: decreased
-RO:0003000: 
+RO:0003000:
   operation: keep
   core_predicate: biolink:produces
-RO:0003001: 
+RO:0003001:
   operation: invert
   core_predicate: biolink:produces
-RO:0003002: 
+RO:0003002:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
-  qualifiers: 
+  qualifiers:
     - object_aspect: expression
     - object_direction: decreased
-RO:0003003: 
+RO:0003003:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: expression
     - object_direction: increased
-RO:0003301: 
+RO:0003301:
   operation: keep
   core_predicate: biolink:model_of
-RO:0003303: 
+RO:0003303:
   operation: keep
   core_predicate: biolink:causes
-RO:0003304: 
+RO:0003304:
   operation: keep
   core_predicate: biolink:contributes_to
-RO:0003307: 
+RO:0003307:
   operation: keep
   core_predicate: biolink:ameliorates
-RO:0003309: 
+RO:0003309:
   operation: keep
   core_predicate: biolink:exacerbates
-RO:0004001: 
+RO:0004001:
   operation: keep
   core_predicate: biolink:causes
-RO:0004007: 
+RO:0004007:
   operation: keep
   core_predicate: biolink:has_participant
-RO:0004008: 
+RO:0004008:
   operation: keep
   core_predicate: biolink:has_output
-RO:0004009: 
+RO:0004009:
   operation: keep
   core_predicate: biolink:has_input
-RO:0004019: 
+RO:0004019:
   operation: invert
   core_predicate: biolink:causes
-RO:0004020: 
+RO:0004020:
   operation: invert
   core_predicate: biolink:causes
-RO:0004021: 
+RO:0004021:
   operation: keep
   core_predicate: biolink:has_participant
-RO:0004022: 
+RO:0004022:
   operation: keep
   core_predicate: biolink:has_phenotype
-RO:0004024: 
+RO:0004024:
   operation: keep
   core_predicate: biolink:disrupts
-RO:0004025: 
+RO:0004025:
   operation: keep
   core_predicate: biolink:disrupts
-RO:0004026: 
+RO:0004026:
+  operation: keep
+  core_predicate: biolink:disease_has_location
+RO:0004027:
   operation: keep
   core_predicate: biolink:related_to
-RO:0004027: 
-  operation: keep
-  core_predicate: biolink:related_to
-RO:0004028: 
+RO:0004028:
   operation: invert
   core_predicate: biolink:causes
-RO:0004029: 
+RO:0004029:
   operation: keep
   core_predicate: biolink:associated_with
-RO:0004030: 
+RO:0004030:
   operation: invert
   core_predicate: biolink:causes
-RO:0004032: 
+RO:0004032:
   operation: keep
   core_predicate: biolink:acts_upstream_of_or_within_positive_effect
-RO:0004033: 
+RO:0004033:
   operation: keep
   core_predicate: biolink:acts_upstream_of_or_within_negative_effect
-RO:0004034: 
+RO:0004034:
   operation: keep
   core_predicate: biolink:acts_upstream_of_positive_effect
-RO:0004035: 
+RO:0004035:
   operation: keep
   core_predicate: biolink:acts_upstream_of_negative_effect
-RO:0009001: 
+RO:0009001:
   operation: keep
   core_predicate: biolink:related_to
-RO:0009004: 
+RO:0009004:
   operation: keep
   core_predicate: biolink:related_to
-RO:0009501: 
+RO:0009501:
   operation: invert
   core_predicate: biolink:causes
-RO:0012003: 
+RO:0012003:
   operation: keep
   core_predicate: biolink:affects
-RO:0012008: 
+RO:0012008:
   operation: keep
   core_predicate: biolink:affects
-RO:0013001: 
+RO:0013001:
   operation: keep
   core_predicate: biolink:related_to
-RO:0014001: 
+RO:0014001:
   operation: keep
   core_predicate: biolink:related_to
-RO:HOM0000000: 
+RO:HOM0000000:
   operation: keep
   core_predicate: biolink:similar_to
-RO:has_participant: 
+RO:has_participant:
   operation: keep
   core_predicate: biolink:has_participant
-RO:participates_in: 
+RO:participates_in:
   operation: invert
   core_predicate: biolink:has_participant
-RXNORM:consists_of: 
+RXNORM:consists_of:
   operation: keep
   core_predicate: biolink:has_part
-RXNORM:constitutes: 
+RXNORM:constitutes:
   operation: invert
   core_predicate: biolink:has_part
-RXNORM:contained_in: 
+RXNORM:contained_in:
   operation: invert
   core_predicate: biolink:has_part
-RXNORM:contains: 
+RXNORM:contains:
   operation: keep
   core_predicate: biolink:has_part
-RXNORM:dose_form_of: 
+RXNORM:dose_form_of:
   operation: delete
-RXNORM:doseformgroup_of: 
+RXNORM:doseformgroup_of:
   operation: delete
-RXNORM:form_of: 
+RXNORM:form_of:
   operation: delete
-RXNORM:has_dose_form: 
+RXNORM:has_dose_form:
   operation: keep
   core_predicate: biolink:subclass_of
-RXNORM:has_doseformgroup: 
+RXNORM:has_doseformgroup:
   operation: keep
   core_predicate: biolink:subclass_of
-RXNORM:has_form: 
+RXNORM:has_form:
   operation: keep
   core_predicate: biolink:related_to
-RXNORM:has_ingredient: 
+RXNORM:has_ingredient:
   operation: keep
   core_predicate: biolink:has_part
-RXNORM:has_ingredients: 
+RXNORM:has_ingredients:
   operation: delete
-RXNORM:has_part: 
+RXNORM:has_part:
   operation: keep
   core_predicate: biolink:has_part
-RXNORM:has_precise_ingredient: 
+RXNORM:has_precise_ingredient:
   operation: delete
-RXNORM:has_quantified_form: 
+RXNORM:has_quantified_form:
   operation: keep
   core_predicate: biolink:close_match
-RXNORM:has_tradename: 
+RXNORM:has_tradename:
   operation: keep
   core_predicate: biolink:related_to
-RXNORM:ingredient_of: 
+RXNORM:ingredient_of:
   operation: invert
   core_predicate: biolink:has_part
-RXNORM:ingredients_of: 
+RXNORM:ingredients_of:
   operation: invert
   core_predicate: biolink:has_part
-RXNORM:inverse_isa: 
+RXNORM:inverse_isa:
   operation: invert
   core_predicate: biolink:subclass_of
-RXNORM:isa: 
+RXNORM:isa:
   operation: keep
   core_predicate: biolink:subclass_of
-RXNORM:part_of: 
+RXNORM:part_of:
   operation: invert
   core_predicate: biolink:has_part
-RXNORM:precise_ingredient_of: 
+RXNORM:precise_ingredient_of:
   operation: invert
   core_predicate: biolink:has_part
-RXNORM:quantified_form_of: 
+RXNORM:quantified_form_of:
   operation: delete
-RXNORM:reformulated_to: 
+RXNORM:reformulated_to:
   operation: keep
   core_predicate: biolink:related_to
-RXNORM:reformulation_of: 
+RXNORM:reformulation_of:
   operation: delete
-RXNORM:tradename_of: 
+RXNORM:tradename_of:
   operation: delete
-SEMMEDDB:1532: 
+SEMMEDDB:1532:
   operation: delete
-SEMMEDDB:AFFECTS: 
+SEMMEDDB:AFFECTS:
   operation: keep
   core_predicate: biolink:affects
-SEMMEDDB:CAUSES: 
+SEMMEDDB:CAUSES:
   operation: keep
   core_predicate: biolink:causes
-SEMMEDDB:COEXISTS_WITH: 
+SEMMEDDB:COEXISTS_WITH:
   operation: keep
   core_predicate: biolink:coexists_with
-SEMMEDDB:CONVERTS_TO: 
+SEMMEDDB:CONVERTS_TO:
   operation: invert
   core_predicate: biolink:derives_from
-SEMMEDDB:DISRUPTS: 
+SEMMEDDB:DISRUPTS:
   operation: keep
   core_predicate: biolink:disrupts
-SEMMEDDB:INHIBITS: 
+SEMMEDDB:INHIBITS:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: decreased
-SEMMEDDB:IS_A: 
+SEMMEDDB:IS_A:
   operation: keep
   core_predicate: biolink:subclass_of
-SEMMEDDB:LOCATION_OF: 
+SEMMEDDB:LOCATION_OF:
   operation: invert
   core_predicate: biolink:located_in
-SEMMEDDB:MANIFESTATION_OF: 
+SEMMEDDB:MANIFESTATION_OF:
   operation: keep
   core_predicate: biolink:manifestation_of
-SEMMEDDB:OCCURS_IN: 
+SEMMEDDB:OCCURS_IN:
   operation: keep
   core_predicate: biolink:occurs_in
-SEMMEDDB:PART_OF: 
+SEMMEDDB:PART_OF:
   operation: invert
   core_predicate: biolink:has_part
-SEMMEDDB:PRECEDES: 
+SEMMEDDB:PRECEDES:
   operation: keep
   core_predicate: biolink:precedes
-SEMMEDDB:PREVENTS: 
+SEMMEDDB:PREVENTS:
   operation: keep
   core_predicate: biolink:prevents
-SEMMEDDB:PROCESS_OF: 
+SEMMEDDB:PROCESS_OF:
   operation: keep
   core_predicate: biolink:occurs_in
-SEMMEDDB:PRODUCES: 
+SEMMEDDB:PRODUCES:
   operation: keep
   core_predicate: biolink:produces
-SEMMEDDB:SAME_AS: 
+SEMMEDDB:SAME_AS:
   operation: keep
   core_predicate: biolink:close_match
-SEMMEDDB:STIMULATES: 
+SEMMEDDB:STIMULATES:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: increased
-SEMMEDDB:TREATS: 
+SEMMEDDB:TREATS:
   operation: keep
   core_predicate: biolink:treats
-SEMMEDDB:administered_to: 
+SEMMEDDB:administered_to:
   operation: keep
   core_predicate: biolink:affects
-SEMMEDDB:affects: 
+SEMMEDDB:affects:
   operation: keep
   core_predicate: biolink:affects
-SEMMEDDB:associated_with: 
+SEMMEDDB:associated_with:
   operation: keep
   core_predicate: biolink:associated_with
-SEMMEDDB:augments: 
+SEMMEDDB:augments:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: increased
-SEMMEDDB:causes: 
+SEMMEDDB:causes:
   operation: keep
   core_predicate: biolink:causes
-SEMMEDDB:coexists_with: 
+SEMMEDDB:coexists_with:
   operation: keep
   core_predicate: biolink:coexists_with
-SEMMEDDB:compared_with: 
+SEMMEDDB:compared_with:
   operation: keep
   core_predicate: biolink:related_to
-SEMMEDDB:complicates: 
+SEMMEDDB:complicates:
   operation: keep
   core_predicate: biolink:exacerbates
-SEMMEDDB:converts_to: 
+SEMMEDDB:converts_to:
   operation: invert
   core_predicate: biolink:derives_from
-SEMMEDDB:diagnoses: 
+SEMMEDDB:diagnoses:
   operation: keep
   core_predicate: biolink:diagnoses
-SEMMEDDB:disrupts: 
+SEMMEDDB:disrupts:
   operation: keep
   core_predicate: biolink:disrupts
-SEMMEDDB:higher_than: 
+SEMMEDDB:higher_than:
   operation: keep
   core_predicate: biolink:related_to
-SEMMEDDB:inhibits: 
+SEMMEDDB:inhibits:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: decreased
-SEMMEDDB:interacts_with: 
+SEMMEDDB:interacts_with:
   operation: keep
   core_predicate: biolink:interacts_with
-SEMMEDDB:isa: 
+SEMMEDDB:isa:
   operation: keep
   core_predicate: biolink:subclass_of
-SEMMEDDB:location_of: 
+SEMMEDDB:location_of:
   operation: invert
   core_predicate: biolink:located_in
-SEMMEDDB:lower_than: 
+SEMMEDDB:lower_than:
   operation: keep
   core_predicate: biolink:related_to
-SEMMEDDB:manifestation_of: 
+SEMMEDDB:manifestation_of:
   operation: keep
   core_predicate: biolink:manifestation_of
-SEMMEDDB:measurement_of: 
+SEMMEDDB:measurement_of:
   operation: delete
-SEMMEDDB:measures: 
+SEMMEDDB:measures:
   operation: keep
   core_predicate: biolink:related_to
-SEMMEDDB:method_of: 
+SEMMEDDB:method_of:
   operation: delete
-SEMMEDDB:nom: 
+SEMMEDDB:nom:
   operation: delete
-SEMMEDDB:occurs_in: 
+SEMMEDDB:occurs_in:
   operation: keep
   core_predicate: biolink:occurs_in
-SEMMEDDB:part_of: 
+SEMMEDDB:part_of:
   operation: invert
   core_predicate: biolink:has_part
-SEMMEDDB:precedes: 
+SEMMEDDB:precedes:
   operation: keep
   core_predicate: biolink:precedes
-SEMMEDDB:predisposes: 
+SEMMEDDB:predisposes:
   operation: keep
   core_predicate: biolink:predisposes
-SEMMEDDB:prep: 
+SEMMEDDB:prep:
   operation: delete
-SEMMEDDB:prevents: 
+SEMMEDDB:prevents:
   operation: keep
   core_predicate: biolink:prevents
-SEMMEDDB:process_of: 
+SEMMEDDB:process_of:
   operation: keep
   core_predicate: biolink:occurs_in
-SEMMEDDB:produces: 
+SEMMEDDB:produces:
   operation: keep
   core_predicate: biolink:produces
-SEMMEDDB:same_as: 
+SEMMEDDB:same_as:
   operation: keep
   core_predicate: biolink:close_match
-SEMMEDDB:stimulates: 
+SEMMEDDB:stimulates:
   operation: keep
   core_predicate: biolink:regulates
-  qualifiers: 
+  qualifiers:
     - object_direction: increased
-SEMMEDDB:treats: 
+SEMMEDDB:treats:
   operation: keep
   core_predicate: biolink:treats
-SEMMEDDB:uses: 
+SEMMEDDB:uses:
   operation: keep
   core_predicate: biolink:has_input
-SEMMEDDB:verb: 
+SEMMEDDB:verb:
   operation: delete
-SEMMEDDB:xref: 
+SEMMEDDB:xref:
   operation: keep
   core_predicate: biolink:related_to
-SIO:000001: 
+SIO:000001:
   operation: delete
-SIO:000203: 
+SIO:000203:
   operation: keep
-  core_predicate: biolink:directly_interacts_with
-SIO:000628: 
+  core_predicate: biolink:interacts_with
+SIO:000628:
   operation: keep
   core_predicate: biolink:mentions
-SIO:000983: 
+SIO:000983:
   operation: keep
   core_predicate: biolink:biomarker_for
-SIO:001331: 
+SIO:001331:
   operation: keep
   core_predicate: biolink:diagnoses
-SIO:010080: 
+SIO:010080:
   operation: invert
   core_predicate: biolink:transcribed_from
-SIO:010081: 
+SIO:010081:
   operation: keep
   core_predicate: biolink:transcribed_from
-SIO:010285: 
+SIO:010285:
   operation: keep
   core_predicate: biolink:in_complex_with
-SO:0001583: 
+SO:0001583:
   operation: keep
   core_predicate: biolink:is_missense_variant_of
-SO:0001589: 
+SO:0001589:
   operation: keep
   core_predicate: biolink:is_frameshift_variant_of
-SO:0001629: 
+SO:0001629:
   operation: keep
   core_predicate: biolink:is_splice_site_variant_of
-SO:0001819: 
+SO:0001819:
   operation: keep
   core_predicate: biolink:is_synonymous_variant_of
-SO:0002054: 
+SO:0002054:
   operation: keep
   core_predicate: biolink:is_nonsense_variant_of
-SO:has_origin: 
+SO:has_origin:
   operation: keep
   core_predicate: biolink:coexists_with
-SO:similar_to: 
+SO:similar_to:
   operation: keep
   core_predicate: biolink:similar_to
-UBERON:anastomoses_with: 
+UBERON:anastomoses_with:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON:anteriorly_connected_to: 
+UBERON:anteriorly_connected_to:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON:channel_for: 
+UBERON:channel_for:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON:channels_from: 
+UBERON:channels_from:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON:channels_into: 
+UBERON:channels_into:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON:conduit_for: 
+UBERON:conduit_for:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON:distally_connected_to: 
+UBERON:distally_connected_to:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON:existence_starts_and_ends_during: 
+UBERON:existence_starts_and_ends_during:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON:extends_fibers_into: 
+UBERON:extends_fibers_into:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON:filtered_through: 
+UBERON:filtered_through:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON:in_central_side_of: 
+UBERON:in_central_side_of:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON:in_innermost_side_of: 
+UBERON:in_innermost_side_of:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON:in_outermost_side_of: 
+UBERON:in_outermost_side_of:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON:indirectly_supplies: 
+UBERON:indirectly_supplies:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON:posteriorly_connected_to: 
+UBERON:posteriorly_connected_to:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON:protects: 
+UBERON:protects:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON:proximally_connected_to: 
+UBERON:proximally_connected_to:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON:sexually_homologous_to: 
+UBERON:sexually_homologous_to:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON:site_of: 
+UBERON:site_of:
   operation: invert
   core_predicate: biolink:occurs_in
-UBERON:subdivision_of: 
+UBERON:subdivision_of:
   operation: invert
   core_predicate: biolink:has_part
-UBERON:synapsed_by: 
+UBERON:synapsed_by:
   operation: keep
   core_predicate: biolink:related_to
-UBERON_CORE:anastomoses_with: 
+UBERON_CORE:anastomoses_with:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON_CORE:anteriorly_connected_to: 
+UBERON_CORE:anteriorly_connected_to:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON_CORE:channel_for: 
+UBERON_CORE:channel_for:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON_CORE:channels_from: 
+UBERON_CORE:channels_from:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON_CORE:channels_into: 
+UBERON_CORE:channels_into:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON_CORE:conduit_for: 
+UBERON_CORE:conduit_for:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON_CORE:distally_connected_to: 
+UBERON_CORE:distally_connected_to:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON_CORE:extends_fibers_into: 
+UBERON_CORE:extends_fibers_into:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON_CORE:filtered_through: 
+UBERON_CORE:filtered_through:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON_CORE:in_central_side_of: 
+UBERON_CORE:in_central_side_of:
   operation: keep
   core_predicate: biolink:located_in
-UBERON_CORE:in_innermost_side_of: 
+UBERON_CORE:in_innermost_side_of:
   operation: keep
   core_predicate: biolink:located_in
-UBERON_CORE:in_outermost_side_of: 
+UBERON_CORE:in_outermost_side_of:
   operation: keep
   core_predicate: biolink:located_in
-UBERON_CORE:indirectly_supplies: 
+UBERON_CORE:indirectly_supplies:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON_CORE:layer_part_of: 
+UBERON_CORE:layer_part_of:
   operation: invert
   core_predicate: biolink:has_part
-UBERON_CORE:posteriorly_connected_to: 
+UBERON_CORE:posteriorly_connected_to:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON_CORE:protects: 
+UBERON_CORE:protects:
   operation: keep
   core_predicate: biolink:related_to
-UBERON_CORE:proximally_connected_to: 
+UBERON_CORE:proximally_connected_to:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON_CORE:sexually_homologous_to: 
+UBERON_CORE:sexually_homologous_to:
   operation: keep
   core_predicate: biolink:homologous_to
-UBERON_CORE:site_of: 
+UBERON_CORE:site_of:
   operation: keep
   core_predicate: biolink:occurs_in
-UBERON_CORE:subdivision_of: 
+UBERON_CORE:subdivision_of:
   operation: invert
   core_predicate: biolink:has_part
-UBERON_CORE:synapsed_by: 
+UBERON_CORE:synapsed_by:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON_CORE:transitively_anteriorly_connected_to: 
+UBERON_CORE:transitively_anteriorly_connected_to:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON_CORE:transitively_connected_to: 
+UBERON_CORE:transitively_connected_to:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON_CORE:transitively_distally_connected_to: 
+UBERON_CORE:transitively_distally_connected_to:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON_CORE:transitively_proximally_connected_to: 
+UBERON_CORE:transitively_proximally_connected_to:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON_CORE:trunk_part_of: 
+UBERON_CORE:trunk_part_of:
   operation: invert
   core_predicate: biolink:has_part
-UBERON_NONAMESPACE:connected_to: 
+UBERON_NONAMESPACE:connected_to:
   operation: keep
   core_predicate: biolink:related_to
-UBERON_NONAMESPACE:distally_connected_to: 
+UBERON_NONAMESPACE:distally_connected_to:
   operation: keep
   core_predicate: biolink:coexists_with
-UBERON_NONAMESPACE:innervated_by: 
+UBERON_NONAMESPACE:innervated_by:
   operation: keep
   core_predicate: biolink:related_to
-UBERON_NONAMESPACE:subdivision_of: 
+UBERON_NONAMESPACE:subdivision_of:
   operation: keep
   core_predicate: biolink:coexists_with
-UMLS:RB: 
+UMLS:RB:
   operation: invert
   core_predicate: biolink:subclass_of
-UMLS:RO: 
+UMLS:RO:
   operation: keep
   core_predicate: biolink:related_to
-UMLS:RQ: 
+UMLS:RQ:
   operation: keep
   core_predicate: biolink:related_to
-UMLS:SIB: 
+UMLS:SIB:
   operation: delete
-UMLS:SY: 
+UMLS:SY:
   operation: keep
   core_predicate: biolink:close_match
-UMLS:class_code_classified_by: 
+UMLS:class_code_classified_by:
   operation: keep
   core_predicate: biolink:related_to
-UMLS:classifies_class_code: 
+UMLS:classifies_class_code:
   operation: delete
-UMLS:component_of: 
+UMLS:component_of:
   operation: invert
   core_predicate: biolink:has_part
-UMLS:context_binding_of: 
+UMLS:context_binding_of:
   operation: delete
-UMLS:exhibited_by: 
+UMLS:exhibited_by:
   operation: keep
   core_predicate: biolink:related_to
-UMLS:exhibits: 
+UMLS:exhibits:
   operation: delete
-UMLS:form_of: 
+UMLS:form_of:
   operation: delete
-UMLS:has_component: 
+UMLS:has_component:
   operation: keep
   core_predicate: biolink:has_part
-UMLS:has_context_binding: 
+UMLS:has_context_binding:
   operation: keep
   core_predicate: biolink:related_to
-UMLS:has_form: 
+UMLS:has_form:
   operation: keep
   core_predicate: biolink:related_to
-UMLS:has_mapping_qualifier: 
+UMLS:has_mapping_qualifier:
   operation: keep
   core_predicate: biolink:related_to
-UMLS:has_owning_affiliate: 
+UMLS:has_owning_affiliate:
   operation: invert
   core_predicate: biolink:has_part
-UMLS:has_owning_section: 
+UMLS:has_owning_section:
   operation: delete
-UMLS:has_owning_subsection: 
+UMLS:has_owning_subsection:
   operation: delete
-UMLS:has_physiologic_effect: 
+UMLS:has_physiologic_effect:
   operation: keep
   core_predicate: biolink:causes
-UMLS:has_structural_class: 
+UMLS:has_structural_class:
   operation: keep
   core_predicate: biolink:related_to
-UMLS:has_supported_concept_property: 
+UMLS:has_supported_concept_property:
   operation: keep
   core_predicate: biolink:related_to
-UMLS:has_supported_concept_relationship: 
+UMLS:has_supported_concept_relationship:
   operation: keep
   core_predicate: biolink:related_to
-UMLS:larger_than: 
+UMLS:larger_than:
   operation: keep
   core_predicate: biolink:related_to
-UMLS:mapped_from: 
+UMLS:mapped_from:
   operation: delete
-UMLS:mapped_to: 
+UMLS:mapped_to:
   operation: keep
   core_predicate: biolink:related_to
-UMLS:may_be_qualified_by: 
+UMLS:may_be_qualified_by:
   operation: keep
   core_predicate: biolink:related_to
-UMLS:may_qualify: 
+UMLS:may_qualify:
   operation: delete
-UMLS:measured_by: 
+UMLS:measured_by:
   operation: delete
-UMLS:measures: 
+UMLS:measures:
   operation: keep
   core_predicate: biolink:related_to
-UMLS:owning_affiliate_of: 
+UMLS:owning_affiliate_of:
   operation: delete
-UMLS:owning_section_of: 
+UMLS:owning_section_of:
   operation: keep
   core_predicate: biolink:related_to
-UMLS:owning_subsection_of: 
+UMLS:owning_subsection_of:
   operation: invert
   core_predicate: biolink:has_part
-UMLS:related_to: 
+UMLS:related_to:
   operation: keep
   core_predicate: biolink:related_to
-UMLS:supported_concept_property_in: 
+UMLS:supported_concept_property_in:
   operation: delete
-UMLS:supported_concept_relationship_in: 
+UMLS:supported_concept_relationship_in:
   operation: delete
-UO-PROPERTY:is_unit_of: 
+UO-PROPERTY:is_unit_of:
   operation: keep
   core_predicate: biolink:related_to
-UPHENO:0000001: 
+UPHENO:0000001:
   operation: keep
   core_predicate: biolink:affects
-VANDF:has_ingredient: 
+VANDF:has_ingredient:
   operation: keep
   core_predicate: biolink:has_part
-VANDF:ingredient_of: 
+VANDF:ingredient_of:
   operation: invert
   core_predicate: biolink:has_part
-VANDF:inverse_isa: 
+VANDF:inverse_isa:
   operation: invert
   core_predicate: biolink:subclass_of
-VANDF:isa: 
+VANDF:isa:
   operation: keep
   core_predicate: biolink:subclass_of
-WIKIDATA:P2888: 
+WIKIDATA:P2888:
   operation: keep
   core_predicate: biolink:exact_match
-WIKIDATA:P3433: 
+WIKIDATA:P3433:
   operation: keep
   core_predicate: biolink:is_sequence_variant_of
-WIKIDATA:Q181394: 
+WIKIDATA:Q181394:
   operation: keep
   core_predicate: biolink:has_nutrient
-WIKIDATA:Q39893449: 
+WIKIDATA:Q39893449:
   operation: keep
   core_predicate: biolink:exact_match
-WIKIDATA:Q39893967: 
+WIKIDATA:Q39893967:
   operation: invert
   core_predicate: biolink:broad_match
-WIKIDATA:Q39894595: 
+WIKIDATA:Q39894595:
   operation: keep
   core_predicate: biolink:broad_match
-WIKIDATA:Q66088480: 
+WIKIDATA:Q66088480:
   operation: invert
   core_predicate: biolink:subclass_of
-WIKIDATA_PROPERTY:P1056: 
+WIKIDATA_PROPERTY:P1056:
   operation: keep
   core_predicate: biolink:produces
-WIKIDATA_PROPERTY:P123: 
+WIKIDATA_PROPERTY:P123:
   operation: keep
   core_predicate: biolink:publisher
-WIKIDATA_PROPERTY:P128: 
+WIKIDATA_PROPERTY:P128:
   operation: keep
   core_predicate: biolink:regulates
-WIKIDATA_PROPERTY:P129: 
+WIKIDATA_PROPERTY:P129:
   operation: keep
   core_predicate: biolink:physically_interacts_with
 WIKIDATA_PROPERTY:P1542: 

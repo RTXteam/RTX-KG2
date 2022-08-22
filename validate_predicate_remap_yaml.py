@@ -73,6 +73,7 @@ def create_biolink_to_external_mappings(biolink_model: dict, mapping_hierarchy: 
             biolink_to_external_mappings[predicate_str] = defaultdict(lambda: [])
         inverted_relation = relation_info.get('inverse', None)
         annotations = relation_info.get('annotations', dict())
+        canonical_predicate = annotations.get('canonical_predicate', False)
         deprecated = relation_info.get('deprecated', None)
         if deprecated:
             deprecated_predicate = 'biolink:' + '_'.join(relation.split(" "))
@@ -96,7 +97,7 @@ def create_biolink_to_external_mappings(biolink_model: dict, mapping_hierarchy: 
                 mapping_value = []
             mappings = list(map(lambda x: x.lower(), mapping_value))
             biolink_to_external_mappings[predicate_str][mapping_term] += mappings
-            if inverted_relation is not None and len(mappings) != 0:
+            if inverted_relation is not None and not canonical_predicate and len(mappings) != 0:
                 biolink_curie = convert_biolink_yaml_association_to_predicate(inverted_relation)
                 if biolink_to_external_mappings.get(biolink_curie, None) is None:
                     biolink_to_external_mappings[biolink_curie] = defaultdict(lambda: [])
@@ -156,7 +157,6 @@ for relation, instruction_dict in pred_info.items():
     operation = instruction_dict.get('operation', None)
     assert operation is not None, relation
     core_predicate = instruction_dict.get('core_predicate', None)
-    assert core_predicate is not None, relation
     qualified_predicate = instruction_dict.get('qualified_predicate', None)
     qualifiers_list = instruction_dict.get('qualifiers', None)
 
@@ -181,7 +181,10 @@ for relation, instruction_dict in pred_info.items():
                     new_curie = convert_biolink_yaml_association_to_predicate(nondeprecated_parent)
                     allowed_biolink_curies_set.remove(curie)
                     allowed_biolink_curies_set.add(new_curie)
-            if len(allowed_biolink_curies_set) != 0 and relation not in relation_mapping_exceptions:
+            if core_predicate not in allowed_biolink_curies_set and core_predicate == 'biolink:regulates':
+                # TODO: find a better way of handling the biolink 3.0 changes
+                pass
+            elif len(allowed_biolink_curies_set) != 0 and relation not in relation_mapping_exceptions:
                 err_str = "%s should map to %s (%s)" % (relation, allowed_biolink_curies_set, mapping_term_used.split("_")[0])
                 assert core_predicate in allowed_biolink_curies_set, err_str
     else:
