@@ -74,7 +74,7 @@ def process_get_query(get_results, results_dict, kegg_id):
 
 def run_queries():
     results_dict = {}
-    info_queries = ["http://rest.kegg.jp/info/kegg"]
+    info_queries = ["http://rest.kegg.jp/info"]
     list_queries = ["http://rest.kegg.jp/list/pathway/hsa",
                     "http://rest.kegg.jp/list/compound",
                     "http://rest.kegg.jp/list/glycan",

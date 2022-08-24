@@ -6,11 +6,11 @@
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0 <output-xml-file>"
+    echo Usage: "$0 <output-json-file>"
     exit 2
 fi
 
-# Usage: extract-kegg.sh <output_xml_file>
+# Usage: extract-kegg.sh <output_json_file>
 
 echo "================= starting extract-kegg.sh =================="
 date
