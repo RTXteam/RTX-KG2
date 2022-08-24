@@ -25,8 +25,8 @@ drugcentral_database=drugcentral
 
 mkdir -p ${drugcentral_dir}
 
-drugcentral_date=2021_09_01
-source="https://unmtid-shinyapps.net/download/DrugCentral/${drugcentral_date}/drugcentral-pgdump_${drugcentral_date}.sql.gz"
+drugcentral_date=07_22_2022
+source="https://unmtid-shinyapps.net/download/drugcentral.dump.${drugcentral_date}.sql.gz"
 download_filename=${drugcentral_dir}/drugcentral.sql.gz
 
 psql_dump_file="${drugcentral_dir}/psql_dump_file.txt"
