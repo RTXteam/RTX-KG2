@@ -703,9 +703,6 @@ def make_edge(subject_id: str,
               object_id: str,
               relation_curie: str,
               relation_label: str,
-              qualified_predicate: str,
-              qualified_object_aspect: str,
-              qualified_object_direction: str,
               knowledge_source: str,
               update_date: str = None):
 
