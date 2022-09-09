@@ -40,7 +40,7 @@ if __name__ == '__main__':
     output_file = open(VERSION_FILE, 'w')
     output_file.write(VERSION)
     output_file.close()
-    print("KG2 version: " VERSION)
+    print(f"KG2 version: {VERSION}")
 
 
     # args = get_args()
