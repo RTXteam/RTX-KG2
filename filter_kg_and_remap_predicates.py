@@ -72,7 +72,7 @@ if __name__ == '__main__':
     predicate_remap_config = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(predicate_remap_file_name))
     infores_remap_config = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(infores_remap_file_name))
     
-    (map_dict = kg2_util.make_uri_curie_mappers(curies_to_uri_file_name))
+    map_dict = kg2_util.make_uri_curie_mappers(curies_to_uri_file_name)
 
     [curie_to_uri_expander, uri_to_curie_shortener] = [map_dict['expand'], map_dict['contract']]
     graph = kg2_util.load_json(input_file_name)
