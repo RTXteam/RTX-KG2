@@ -1078,6 +1078,12 @@ ValueError: unable to expand CURIE: MONARCH:cliqueLeader
 would indicate that the CURIE prefix (in this case, `MONARCH`) needs to be added to the
 `use_for_bidirectional_mapping` section of `curies-to-urls-map.yaml` config file.
 
+## Error building DAG of jobs
+- In the case where Snakemake is forcibly quit due to a loss of power or other reason, it may result in the code directory becoming locked. To resolve, run:
+```
+/home/ubuntu/kg2-venv/bin/snakemake --snakefile /home/ubuntu/kg2-code/Snakefile --unlock
+```
+
 ## Authentication Error in `tsv-to-neo4j.sh`
 Soemtimes, when hosting KG2 in a Neo4j server on a new AWS instance, the initial password does not get set correctly, which will lead to an Authentication Error in `tsv-to-neo4j.sh`. To fix this, do the following:
 1. Start up Neo4 (sudo service neo4j start)
