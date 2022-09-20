@@ -285,32 +285,32 @@ def get_nodes(connection, test):
                  GROUP_CONCAT(DISTINCT sum_fr_r.text) as description_regulation, \
                  GROUP_CONCAT(DISTINCT ins_ed.dateTime) as created_date, \
                  GROUP_CONCAT(DISTINCT ewas.referenceEntity_class) as refclass  \
-                 FROM StableIdentifier si \
-                 INNER JOIN DatabaseObject dbobj \
+                 FROM stableidentifier si \
+                 INNER JOIN databaseobject dbobj \
                  ON si.DB_ID=dbobj.stableIdentifier \
-                 LEFT JOIN InstanceEdit ins_ed \
+                 LEFT JOIN instanceedit ins_ed \
                  ON dbobj.created=ins_ed.DB_ID \
                  LEFT JOIN Event_2_literatureReference ev_lit \
                  ON dbobj.DB_ID=ev_lit.DB_ID \
-                 LEFT JOIN LiteratureReference lit_fr_e \
+                 LEFT JOIN literaturereference lit_fr_e \
                  ON lit_fr_e.DB_ID=ev_lit.literatureReference \
-                 LEFT JOIN Event_2_summation ev_sum \
+                 LEFT JOIN event_2_summation ev_sum \
                  ON ev_sum.DB_ID=dbobj.DB_ID \
-                 LEFT JOIN Summation sum_fr_e \
+                 LEFT JOIN summation sum_fr_e \
                  ON ev_sum.summation=sum_fr_e.DB_ID \
-                 LEFT JOIN PhysicalEntity_2_literatureReference pe_lit \
+                 LEFT JOIN physicalentity_2_literaturereference pe_lit \
                  ON dbobj.DB_ID=pe_lit.DB_ID \
-                 LEFT JOIN LiteratureReference lit_fr_p \
+                 LEFT JOIN literaturereference lit_fr_p \
                  ON lit_fr_p.DB_ID=pe_lit.literatureReference \
-                 LEFT JOIN PhysicalEntity_2_summation pe_sum \
+                 LEFT JOIN physicalentity_2_summation pe_sum \
                  ON dbobj.DB_ID=pe_sum.DB_ID \
-                 LEFT JOIN Summation sum_fr_p \
+                 LEFT JOIN summation sum_fr_p \
                  ON pe_sum.summation = sum_fr_p.DB_ID \
-                 LEFT JOIN Regulation_2_summation reg_sum \
+                 LEFT JOIN regulation_2_summation reg_sum \
                  on reg_sum.DB_ID=dbobj.DB_ID \
-                 LEFT JOIN Summation sum_fr_r \
+                 LEFT JOIN summation sum_fr_r \
                  ON sum_fr_r.DB_ID=reg_sum.summation \
-                 LEFT JOIN EntityWithAccessionedSequence ewas \
+                 LEFT JOIN entitywithaccessionedsequence ewas \
                  ON dbobj.DB_ID = ewas.DB_ID \
                  GROUP BY si.identifier"
     if test:
