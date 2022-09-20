@@ -781,9 +781,9 @@ def get_equivalencies(connection, test):
     # from the StableIdentifier table) with another source's ID.
     # There is only one mapping per entity (as far as I know)
     # and they are precise, so we use the 'same_as' predicate.
-    reference_entity_tables = ['EntityWithAccessionedSequence',
-                               'SimpleEntity',
-                               'Drug']
+    reference_entity_tables = ['entitywithaccessionedsequence',
+                               'simpleentity',
+                               'drug']
     for reference_entity_table in reference_entity_tables:
         reference_entity_sql = f"SELECT si_sub.identifier, re.identifier, \
                                  dbobj_obj._displayName \
