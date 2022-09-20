@@ -290,7 +290,7 @@ def get_nodes(connection, test):
                  ON si.DB_ID=dbobj.stableIdentifier \
                  LEFT JOIN instanceedit ins_ed \
                  ON dbobj.created=ins_ed.DB_ID \
-                 LEFT JOIN Event_2_literatureReference ev_lit \
+                 LEFT JOIN event_2_literaturereference ev_lit \
                  ON dbobj.DB_ID=ev_lit.DB_ID \
                  LEFT JOIN literaturereference lit_fr_e \
                  ON lit_fr_e.DB_ID=ev_lit.literatureReference \
