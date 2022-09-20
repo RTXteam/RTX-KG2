@@ -495,7 +495,7 @@ def get_event_characteristics(connection, test):
     # ExternalOntology to return its DOID ID.
     event_to_disease_sql = "SELECT si.identifier, eo.identifier \
                             FROM event_2_disease ev_dis \
-                            INNER JOIN databaseObject dbobj_sub \
+                            INNER JOIN databaseobject dbobj_sub \
                             ON dbobj_sub.DB_ID=ev_dis.DB_ID \
                             INNER JOIN stableidentifier si \
                             ON si.DB_ID=dbobj_sub.stableIdentifier \
