@@ -10,11 +10,12 @@ from cache_control_helper import CacheControlHelper
 import datetime
 import argparse
 import kg2_util
+import requests
 
 
 __author__ = 'Erica Wood'
 __copyright__ = 'Oregon State University'
-__credits__ = ['Stephen Ramsey', 'Erica Wood', 'Deqing Qu']
+__credits__ = ['Stephen Ramsey', 'Erica Wood', 'Deqing Qu', 'Liliana Acevedo']
 __license__ = 'MIT'
 __version__ = '0.1.0'
 __maintainer__ = ''
@@ -87,7 +88,9 @@ def run_queries():
     get_base_query = "http://rest.kegg.jp/get/"
     for query in info_queries:
         info_dict = {}
-        for results in send_query(query).split('\n'):
+        site_request = requests.get(query)
+        site_response = str(site_request.content)
+        for results in site_response.split('\n'):
             if len(results) < 1:
                 continue
             results = results.strip('kegg').strip().split()
@@ -96,7 +99,9 @@ def run_queries():
                 info_dict['update_date'] = results[2] + '-' + results[3]
         results_dict['info'] = info_dict
     for query in list_queries:
-        for results in send_query(query).split('\n'):
+        site_request = requests.get(query)
+        site_response = str(site_request.content)
+        for results in site_response.split('\n'):
             if len(results) < 1:
                 continue
             results = results.split('\t')
