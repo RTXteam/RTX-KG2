@@ -1,6 +1,6 @@
 import calendar
 from cachecontrol.heuristics import BaseHeuristic
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from email.utils import parsedate, formatdate
 import requests
 from cachecontrol import CacheControl
@@ -13,8 +13,9 @@ class CustomHeuristic(BaseHeuristic):
         self.days = days
 
     def update_headers(self, response):
-        date = parsedate(response.headers['date'])
-        expires = datetime(*date[:6]) + timedelta(days=self.days)
+        # date = parsedate(response.headers.get('date', date.today()))
+        # junky hack to get this working for now
+        expires =  date.today() #datetime(*date[:6]) + timedelta(days=self.days)
         # print(formatdate(calendar.timegm(expires.timetuple())))
         return {
             'expires': formatdate(calendar.timegm(expires.timetuple())),
