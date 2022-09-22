@@ -248,10 +248,12 @@ def make_nodes(drugcentral_ids, update_date):
         if drug_central_id not in reformatted_json:
             reformatted_json[drug_central_id] = dict()
             reformatted_json[drug_central_id]['synonyms'] = []
-        if name_row['preferred_name'] == "1":
-            reformatted_json[drug_central_id]['name'] = name
-        else:
-            reformatted_json[drug_central_id]['synonyms'].append(name)
+        # I'm not sure what to do with the "preferred name" condition since there aren't any synonyms that I see
+        # if name_row['preferred_name'] == "1":
+        #     reformatted_json[drug_central_id]['name'] = name
+        # else:
+        #     reformatted_json[drug_central_id]['synonyms'].append(name)
+        reformatted_json[drug_central_id]['name'] = name
     for node_id in reformatted_json:
         synonyms = reformatted_json[node_id]['synonyms']
         name = reformatted_json[node_id]['name']
