@@ -104,13 +104,15 @@ def run_queries():
         for results in site_response.split('\n'):
             if len(results) < 1:
                 continue
-            results = results.split('\t')
+            results = results.split('\\t')
             results_dict[results[0]] = {'name': results[1]}
     for query in conv_queries:
-        for results in send_query(query).split('\n'):
+        site_request = requests.get(query)
+        site_response = str(site_request.content)
+        for results in site_response.split('\n'):
             if len(results) < 1:
                 continue
-            results = results.split('\t')
+            results = results.split('\\t')
             results_dict[results[1]]['eq_id'] = results[0]
     kegg_ids = len(results_dict.keys())
     get_count = 0
