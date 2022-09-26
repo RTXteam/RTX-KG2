@@ -220,7 +220,7 @@
 -
   url: http://purl.obolibrary.org/obo/foodon.owl 
   file: foodon.owl
-  download: true
+  download: false
   title: FOODON (Food Ontology)
 -
   url:  http://data.bioontology.org/ontologies/ORDO/submissions/15/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb

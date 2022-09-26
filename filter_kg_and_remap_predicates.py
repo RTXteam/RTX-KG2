@@ -52,6 +52,24 @@ def make_arg_parser():
     return arg_parser
 
 
+def update_edge_id(edge_key_value: str, qualified_predicate=None, qualified_object_aspect=None,
+                   qualified_object_direction=None):
+    value_list = edge_key_value.split('---')
+    assert len(value_list) == 4
+    if qualified_object_direction is None:
+        qualified_object_direction = "None"
+    if qualified_object_aspect is None:
+        qualified_object_aspect = "None"
+    if qualified_predicate is None:
+        qualified_predicate = "None"
+    value_list.insert(2, qualified_object_direction)
+    value_list.insert(2, qualified_object_aspect)
+    value_list.insert(2, qualified_predicate)
+    new_edge_id = "---".join(value_list)
+
+    return new_edge_id
+
+
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
     predicate_remap_file_name = args.predicateRemapYaml
@@ -108,7 +126,7 @@ if __name__ == '__main__':
             knowledge_source_curies_not_in_config_nodes.add(knowledge_source)
         else:
             infores_curie = infores_curie_dict['infores_curie']
-        node_dict['knowledge_source'] = infores_curie
+            node_dict['knowledge_source'] = infores_curie
         nodes_dict[node_id] = node_dict
     
     edge_ctr = 0
@@ -125,7 +143,7 @@ if __name__ == '__main__':
             
         original_predicate_label = edge_dict['relation_label']
         predicate_label = original_predicate_label
-        original_predicate_curie = edge_dict['original_predicate']
+        original_predicate_curie = edge_dict['source_predicate']
         predicate_curie = original_predicate_curie
 
         if record_of_original_predicate_curie_occurrences.get(original_predicate_curie, None) is not None:
@@ -155,10 +173,16 @@ if __name__ == '__main__':
                 operation_not_allowed[predicate_curie] = pred_remap_info['operation']
                     
         qualified_predicate_curie = pred_remap_info.get('qualified_predicate', None)
-        qualifiers_dict = pred_remap_info.get('qualifiers', None)
+        edge_dict['qualified_predicate'] = qualified_predicate_curie
+        # Convert the qualifiers to a dict for easier use
+        qualifiers_list = pred_remap_info.get('qualifiers', None)
+        qualifiers_dict = {}
 
-        if qualifiers_dict is not None:
-            edge_dict['qualified_predicate'] = qualified_predicate_curie
+        if qualifiers_list is not None:
+            for item in qualifiers_list:
+                qualifier = list(item.keys())[0]
+                value = item[qualifier]
+                qualifiers_dict[qualifier] = value
             qualified_predicate_object_aspect = qualifiers_dict.get('object aspect', None)
             qualified_predicate_object_direction = qualifiers_dict.get('object direction', None)
             if qualified_predicate_object_aspect is not None:
@@ -224,6 +248,11 @@ if __name__ == '__main__':
             existing_edge['publications_info'].update(edge_dict['publications_info'])
         else:
             new_edges[edge_key] = edge_dict
+
+    edge_id = update_edge_id(new_edges[edge_key]['id'], qualified_predicate_curie, qualified_predicate_object_aspect,
+                             qualified_predicate_object_direction)
+    new_edges[edge_key]['id'] = edge_id
+
     # Releasing some memory
     del graph['edges']
     del graph['nodes']

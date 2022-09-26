@@ -5462,6 +5462,11 @@ owl:topObjectProperty:
 rdf:type: 
   operation: keep
   core_predicate: biolink:related_to
+rdfs:negatively_regulates:
+  operation: keep
+  core_predicate: biolink:regulates
+  qualifiers:
+    - object_direction: decreased
 rdfs:subClassOf: 
   operation: keep
   core_predicate: biolink:subclass_of

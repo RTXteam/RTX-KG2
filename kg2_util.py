@@ -691,7 +691,7 @@ def make_node(id: str,
 
 def make_edge_key(edge_dict: dict):
     return edge_dict['subject'] + '---' + \
-           edge_dict['original_predicate'] + '---' + \
+           edge_dict['source_predicate'] + '---' + \
            (edge_dict['qualified_predicate'] if edge_dict['qualified_predicate'] is not None else 'None') + \
            '---' + \
            (edge_dict['qualified_object_aspect'] if edge_dict['qualified_object_aspect'] is not None else 'None') + \
@@ -712,7 +712,7 @@ def make_edge(subject_id: str,
     edge = {'subject': subject_id,
             'object': object_id,
             'relation_label': relation_label,
-            'original_predicate': relation_curie,
+            'source_predicate': relation_curie,
             'qualified_predicate': None,
             'qualified_object_aspect': None,
             'qualified_object_direction': None,
