@@ -110,9 +110,9 @@
 #   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MSH
 # - # maps to CURIE prefix umls
 #   download: false
-#   file: umls-mth.ttl
-#   title: Metathesaurus Names
-#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MTH
+  file: umls-mth.ttl
+  title: Metathesaurus Names
+  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MTH
 # - # maps to CURIE prefix NCBITaxon
 #   download: false
 #   file: umls-ncbi.ttl
@@ -218,10 +218,10 @@
 #   download: true
 #   title: Chemical Entities of Biological Interest
 # -
-  url: http://purl.obolibrary.org/obo/foodon.owl 
-  file: foodon.owl
-  download: false
-  title: FOODON (Food Ontology)
+  # url: http://purl.obolibrary.org/obo/foodon.owl 
+  # file: foodon.owl
+  # download: false
+  # title: FOODON (Food Ontology)
 # -
 #   url:  http://data.bioontology.org/ontologies/ORDO/submissions/15/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
 #   file: ordo.owl

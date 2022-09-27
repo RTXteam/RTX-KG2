@@ -56,8 +56,11 @@ ENSEMBL_LETTER_TO_CATEGORY = {'P': 'protein',
 
 
 def delete_ontobio_cachier_caches():
-    kg2_util.purge("~/.cachier", ".ontobio*")
-    kg2_util.purge("~/.cachier", ".prefixcommons*")
+    # This is causing issues in the current build because these files don't exist.
+    # Temporarily commenting out to avoid error.
+    # kg2_util.purge("~/.cachier", ".ontobio*")
+    # kg2_util.purge("~/.cachier", ".prefixcommons*")
+    pass
 
 
 def load_ont_file_return_ontology_and_metadata(file_name: str,
