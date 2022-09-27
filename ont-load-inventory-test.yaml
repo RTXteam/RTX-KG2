@@ -110,9 +110,9 @@
 #   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MSH
 # - # maps to CURIE prefix umls
 #   download: false
-  file: umls-mth.ttl
-  title: Metathesaurus Names
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MTH
+  # file: umls-mth.ttl
+  # title: Metathesaurus Names
+  # url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MTH
 # - # maps to CURIE prefix NCBITaxon
 #   download: false
 #   file: umls-ncbi.ttl
