@@ -177,7 +177,7 @@
 #   file: bfo.owl
 #   download: true
 #   title: Basic Formal Ontology
-- # maps to CURIE prefix: GO
+#-  maps to CURIE prefix: GO
   # url:  http://purl.obolibrary.org/obo/go/extensions/go-plus.owl
   # file: go-plus.owl
   # title: Gene Ontology
@@ -207,7 +207,7 @@
 #   file: ddanat.owl
 #   download: true
 #   title: Dictyostelium discoideum anatomy 
--
+#-
   # url:  http://purl.obolibrary.org/obo/cl.owl
   # file: cl.owl
   # download: true

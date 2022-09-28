@@ -53,6 +53,8 @@ rule Stats:
         config['FINAL_OUTPUT_FILE_FULL']
     output:
         config['REPORT_FILE_FULL']
+    log: 
+        config['BUILD_DIR'] + "/report_stats_on_json_kg" + config['TEST_SUFFIX'] + ".log"
     shell:
         config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/report_stats_on_json_kg.py {input} {output}"
 
