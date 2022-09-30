@@ -991,10 +991,10 @@ the following keys:
   present) no consitent format, unfortunately; it is usually not `null`.
   - `id`: a concatenated string of other edge attributes that uniquely identifies the edge. it
   follows the format `subject---relation---object---provided_by`.
-  - `original_predicate`: a CURIE ID for the relation as reported by the upstream
+  - `source_predicate`: a CURIE ID for the relation as reported by the upstream
     database source.
   - `provided_by`: _deprecated_. Refer to `knowledge_source`.
-  - `relation`: _deprecated_. See `original_predicate`.
+  - `relation`: _deprecated_. See `source_predicate`.
 
 ### `publications_info` slot
 
