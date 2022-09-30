@@ -332,11 +332,14 @@ CHEMBL.MECHANISM:releasing_agent:
   qualifiers:
     - object_aspect: expression
     - object_direction: increased
-#CHEMBL.MECHANISM:rnai_inhibitor:
-#  operation: keep
-#  core_predicate: regulates
-#  qualifiers:
-#    - object_direction: decreased
+CHEMBL.MECHANISM:rnai_inhibitor:
+ operation: keep
+ core_predicate: biolink:regulates
+ qualifiers:
+   - object_direction: decreased
+CHEMBL.MECHANISM:vaccine_antigen:
+  operation: keep
+  core_predicate: biolink:related_to
 CHEMBL.MECHANISM:sequestering_agent:
   operation: keep
   core_predicate: biolink:physically_interacts_with

@@ -143,6 +143,8 @@ if __name__ == '__main__':
             
         original_predicate_label = edge_dict['relation_label']
         predicate_label = original_predicate_label
+        if edge_dict.get('source_predicate') is None:
+            edge_dict['source_predicate'] = edge_dict.pop('original_predicate')
         original_predicate_curie = edge_dict['source_predicate']
         predicate_curie = original_predicate_curie
 
@@ -177,14 +179,16 @@ if __name__ == '__main__':
         # Convert the qualifiers to a dict for easier use
         qualifiers_list = pred_remap_info.get('qualifiers', None)
         qualifiers_dict = {}
+        qualified_predicate_object_aspect = None
+        qualified_predicate_object_direction = None
 
         if qualifiers_list is not None:
             for item in qualifiers_list:
                 qualifier = list(item.keys())[0]
                 value = item[qualifier]
                 qualifiers_dict[qualifier] = value
-            qualified_predicate_object_aspect = qualifiers_dict.get('object aspect', None)
-            qualified_predicate_object_direction = qualifiers_dict.get('object direction', None)
+            qualified_predicate_object_aspect = qualifiers_dict.get('object aspect')
+            qualified_predicate_object_direction = qualifiers_dict.get('object direction')
             if qualified_predicate_object_aspect is not None:
                 edge_dict['qualified_object_aspect'] = qualified_predicate_object_aspect
             if qualified_predicate_object_direction is not None:
@@ -234,9 +238,9 @@ if __name__ == '__main__':
 
         predicate_qualifier = ""
         if qualifiers_dict is not None:
-            if qualified_predicate_object_aspect:
+            if qualified_predicate_object_aspect is not None:
                 predicate_qualifier = " /// " + qualified_predicate_object_aspect
-            if qualified_predicate_object_direction:
+            if qualified_predicate_object_direction is not None:
                 predicate_qualifier += f" /// {qualified_predicate_object_direction}"
         edge_key = f'{edge_subject} {predicate} {predicate_qualifier} /// {edge_object}'
 

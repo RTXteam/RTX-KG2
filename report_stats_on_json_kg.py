@@ -92,7 +92,10 @@ def count_edges_by_source(edges: list):
 
 
 def count_edges_by_predicate_curie(edges: list):
-    curie_field = 'original_predicate' if not args.use_simplified_predicates else 'predicate'
+    curie_field = 'source_predicate' if not args.use_simplified_predicates else 'predicate'
+    for edge in edges:
+        if edge.get(curie_field) == None:
+            edge[curie_field] = edge.pop('original_predicate')
     return collections.Counter([edge.get(curie_field, None) for edge in edges])
 
 
@@ -102,13 +105,21 @@ def count_edges_by_predicate_type(edges: list):
 
 
 def count_edges_by_predicate_curie_prefix(edges: list):
-    curie_field = 'original_predicate' if not args.use_simplified_predicates else 'predicate'
+    curie_field = 'source_predicate' if not args.use_simplified_predicates else 'predicate'
+    for edge in edges:
+        if edge.get(curie_field) is None:
+            edge[curie_field] = edge.pop('original_predicate')
     return collections.Counter([get_prefix_from_curie_id(edge[curie_field]) for edge in edges])
 
 
 def count_predicates_by_predicate_curie_prefix(edges: list):
-    curie_field = 'original_predicate' if not args.use_simplified_predicates else 'predicate'
-    unique_relation_curies = set([edge.get(curie_field) for edge in edges])
+    curie_field = 'source_predicate' if not args.use_simplified_predicates else 'predicate'
+    unique_relation_curies = set()
+    for edge in edges: 
+        if edge.get(curie_field) is None: 
+            curie_field = 'original_predicate'
+        unique_relation_curies.add(edge.get(curie_field))
+        #unique_relation_curies = set([edge.get(curie_field) for edge in edges])
     return collections.Counter([get_prefix_from_curie_id(curie) for curie in unique_relation_curies])
 
 
