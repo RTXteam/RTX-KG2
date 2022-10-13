@@ -734,8 +734,6 @@ use_for_expansion_only:
   -
     oboInOwl: http://www.geneontology.org/formats/oboInOwl#
   -
-    OIO: ttp://www.geneontology.org/formats/oboInOwl#
-  -
     RXCUI: http://purl.bioontology.org/ontology/RXNORM/
   -
     WD: https://www.wikidata.org/wiki/
