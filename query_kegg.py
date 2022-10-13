@@ -89,39 +89,38 @@ def run_queries():
     for query in info_queries:
         info_dict = {}
         site_request = requests.get(query)
-        site_response = str(site_request.content)
-        for results in site_response.split('\n'):
+        site_response = str(site_request.content)[2:]
+        if site_response[:2].startswith("b"):
+            site_response = site_response[2:]
+        results = site_response.strip().split("\\n")
+        for result in results:
+            result = result.strip("kegg").strip().split()
             if len(results) < 1:
                 continue
-            results = results.strip('kegg').strip().split()
-            if results[0] == "Release":
-                info_dict['version'] = results[1].split('/')[0].strip('+')
-                info_dict['update_date'] = results[2] + '-' + results[3]
+            if result[0] == "Release":
+                info_dict['version'] = result[1].split('/')[0].strip('+')
+                info_dict['update_date'] = result[2] + '-' + result[3]
         results_dict['info'] = info_dict
     for query in list_queries:
         site_request = requests.get(query)
-        site_response = str(site_request.content)
-        for results in site_response.split('\n'):
-            if len(results) < 1:
+        site_response = str(site_request.content)[2:]
+        results = site_response.split("\\n")
+        for results in results:
+            result = result.split("\\t")
+            if len(results) < 2:
                 continue
-            # quick hack for a weird issue
-            if results.startswith('b'):
-                results = results[2:]
-            results = results.split('\\t')
-            results_dict[results[0]] = {'name': results[1]}
+            results_dict[result[0]] = {'name': result[1]}
     for query in conv_queries:
         site_request = requests.get(query)
-        site_response = str(site_request.content)
-        for results in site_response.split('\\n'):
-            if len(results) < 1:
+        site_response = str(site_request.content)[2:]
+        results = site_response.split("\\n")
+        for result in results:
+            if len(result) < 1:
                 continue
-            # quick hack for a weird issue
-            if results.startswith('b'):
-                results = results[2:]
-            results = results.split('\t')
-            if len(results) > 1:
-                results_dict[results[1]] = {}
-                results_dict[results[1]]['eq_id'] = results[0]
+            result = result.split('\\t')
+            if len(result) > 1:
+                results_dict[result[1]] = {}
+                results_dict[result[1]]['eq_id'] = result[0]
     kegg_ids = len(results_dict.keys())
     get_count = 0
     for kegg_id in results_dict:
