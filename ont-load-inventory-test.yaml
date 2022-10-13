@@ -8,11 +8,11 @@
 #   file: umls-semantictypes.ttl
 #   download: false
 #   title: UMLS Semantic Types
-- # maps to CURIE prefix: ATC
-  download: false
-  file: umls-atc.ttl
-  title: Anatomical Therapeutic Chemical Classification System
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ATC
+# - # maps to CURIE prefix: ATC
+#   download: false
+#   file: umls-atc.ttl
+#   title: Anatomical Therapeutic Chemical Classification System
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ATC
 # - # maps to CURIE prefix CPT
 #   download: false
 #   file: umls-cpt.ttl
@@ -28,11 +28,11 @@
 #   file: umls-fma.ttl
 #   title: Foundational Model of Anatomy
 #   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/FMA
-- # maps to CURIE prefix GO
-  download: false
-  file: umls-go.ttl
-  title: Gene Ontology
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/GO
+# - # maps to CURIE prefix GO
+#   download: false
+#   file: umls-go.ttl
+#   title: Gene Ontology
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/GO
 # - # maps to CURIE prefix HCPCS
 #   download: false
 #   file: umls-hcpcs.ttl
@@ -207,11 +207,11 @@
 #   file: ddanat.owl
 #   download: true
 #   title: Dictyostelium discoideum anatomy 
-#-
-  # url:  http://purl.obolibrary.org/obo/cl.owl
-  # file: cl.owl
-  # download: true
-  # title: Cell Ontology
+-
+  url:  http://purl.obolibrary.org/obo/cl.owl
+  file: cl.owl
+  download: true
+  title: Cell Ontology
 # -
 #   url:  http://purl.obolibrary.org/obo/chebi.owl
 #   file: chebi.owl
