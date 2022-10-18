@@ -1306,6 +1306,8 @@ def xref_as_a_publication(xref: str):
 def convert_bpv_predicate_to_curie(bpv_pred: str,
                                    uri_shortener: callable,
                                    curie_expander: callable) -> str:
+    if bpv_pred.startswith("ttp"):
+            bpv_pred = "h" + bpv_pred
     if kg2_util.is_a_valid_http_url(bpv_pred):
         bpv_pred_curie = uri_shortener(bpv_pred)
     else:

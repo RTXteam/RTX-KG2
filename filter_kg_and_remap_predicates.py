@@ -55,6 +55,8 @@ def make_arg_parser():
 def update_edge_id(edge_key_value: str, qualified_predicate=None, qualified_object_aspect=None,
                    qualified_object_direction=None):
     value_list = edge_key_value.split('---')
+    if len(value_list) == 7: 
+        return edge_key_value
     assert len(value_list) == 4
     if qualified_object_direction is None:
         qualified_object_direction = "None"
