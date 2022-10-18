@@ -4867,7 +4867,7 @@ RO:0013007:
   core_predicate: biolink:overlaps
 RO:0014001:
   operation: keep
-  core_predicate: biolink:
+  core_predicate: biolink:related_to
 # increased in magnitude relative to
 RO:0015007: 
   operation: delete
