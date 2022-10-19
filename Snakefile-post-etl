@@ -75,8 +75,10 @@ rule Slim:
         placeholder = config['SIMPLIFIED_OUTPUT_NODES_FILE_FULL']
     output:
         config['SLIM_OUTPUT_FILE_FULL']
+    log:
+        config['BUILD_DIR'] + "slim_kg2.log" + config['TEST_SUFFIX'] + ".log"
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/slim_kg2.py " + config['TEST_ARG'] + " {input.slim_real} {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/slim_kg2.py " + config['TEST_ARG'] + " {input.slim_real} {output} > {log} 2>&1"
 
 rule Simplify_Stats:
     input:
