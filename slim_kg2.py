@@ -32,7 +32,7 @@ if __name__ == "__main__":
     args = make_arg_parser().parse_args()
     test_mode = args.test
     reduced = {"nodes": [], "edges": []}
-    with open(args.inputFilepath, "r") as fp:0
+    with open(args.inputFilepath, "r") as fp:
         all_data = json.load(fp)
         reduced["build"] = all_data["build"]
         # num_nodes = len(all_data["nodes"])

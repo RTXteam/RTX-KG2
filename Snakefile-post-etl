@@ -76,7 +76,7 @@ rule Slim:
     output:
         config['SLIM_OUTPUT_FILE_FULL']
     log:
-        config['BUILD_DIR'] + "slim_kg2.log" + config['TEST_SUFFIX'] + ".log"
+        config['BUILD_DIR'] + "/slim_kg2" + config['TEST_SUFFIX'] + ".log"
     shell:
         config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/slim_kg2.py " + config['TEST_ARG'] + " {input.slim_real} {output} > {log} 2>&1"
 
