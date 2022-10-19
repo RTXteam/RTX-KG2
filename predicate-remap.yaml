@@ -3925,63 +3925,57 @@ OMIM:manifestation_of:
 OMIM:phenotype_of:
   operation: invert
   core_predicate: biolink:has_phenotype
-ORPHA:317343:
-  operation: keep
-  core_predicate: biolink:causes
-ORPHA:317344:
-  operation: keep
-  core_predicate: biolink:causes
-ORPHA:317346:
-  operation: keep
-  core_predicate: biolink:causes
-ORPHA:317348:
-  operation: keep
-  core_predicate: biolink:actively_involved_in
-ORPHA:317349:
-  operation: keep
-  core_predicate: biolink:actively_involved_in
-ORPHA:327767:
-  operation: keep
-  core_predicate: biolink:actively_involved_in
-ORPHA:410295:
-  operation: keep
-  core_predicate: biolink:causes
-ORPHA:410296:
-  operation: keep
-  core_predicate: biolink:causes
-ORPHA:465410:
-  operation: keep
-  core_predicate: biolink:biomarker_for
-# ORPHANET:317343:
+# ORPHA:317343:
 #   operation: keep
 #   core_predicate: biolink:causes
-# ORPHANET:317344:
+# ORPHA:317344:
 #   operation: keep
 #   core_predicate: biolink:causes
-ORPHANET:317345:
-  operation: keep
-  core_predicate: biolink:correlated_with
-# ORPHANET:317346:
+# ORPHA:317346:
 #   operation: keep
 #   core_predicate: biolink:causes
-# ORPHANET:317348:
-#   operation: keep
-#   core_predicate: biolink:actively_involved_in
-# ORPHANET:317349:
-#   operation: keep
-#   core_predicate: biolink:actively_involved_in
 # ORPHANET:327767:
 #   operation: keep
 #   core_predicate: biolink:actively_involved_in
-# ORPHANET:410295:
+# ORPHA:410295:
 #   operation: keep
 #   core_predicate: biolink:causes
-# ORPHANET:410296:
+# ORPHA:410296:
 #   operation: keep
 #   core_predicate: biolink:causes
-# ORPHANET:465410:
+# ORPHA:465410:
 #   operation: keep
 #   core_predicate: biolink:biomarker_for
+ORPHANET:317343:
+  operation: keep
+  core_predicate: biolink:causes
+ORPHANET:317344:
+  operation: keep
+  core_predicate: biolink:causes
+ORPHANET:317345:
+  operation: keep
+  core_predicate: biolink:correlated_with
+ORPHANET:317346:
+  operation: keep
+  core_predicate: biolink:causes
+ORPHANET:317348:
+  operation: keep
+  core_predicate: biolink:actively_involved_in
+ORPHANET:317349:
+  operation: keep
+  core_predicate: biolink:actively_involved_in
+ORPHANET:327767:
+  operation: keep
+  core_predicate: biolink:actively_involved_in
+ORPHANET:410295:
+  operation: keep
+  core_predicate: biolink:causes
+ORPHANET:410296:
+  operation: keep
+  core_predicate: biolink:causes
+ORPHANET:465410:
+  operation: keep
+  core_predicate: biolink:biomarker_for
 ORPHANET:C016:
   operation: keep
   core_predicate: biolink:related_to
@@ -4763,9 +4757,9 @@ RO:0003001:
 # RO:0003301:
 #   operation: keep
 #   core_predicate: biolink:model_of
-RO:0003303:
-  operation: keep
-  core_predicate: biolink:causes
+# RO:0003303:
+#   operation: keep
+#   core_predicate: biolink:causes
 RO:0003304:
   operation: keep
   core_predicate: biolink:contributes_to
