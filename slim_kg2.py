@@ -44,16 +44,31 @@ if __name__ == "__main__":
     args = make_arg_parser().parse_args()
     test_mode = args.test
     reduced = {"nodes": [], "edges": []}
+    # I think splitting this file into nodes and edges might be helpful in the future, 
+    # but I'm leaving it as is for nwo
+    # reduced_nodes = {"nodes": []}
+    # reduced_edges = {"edges": []}
     with open(args.inputFilepath, "r") as fp:
         
         # File is too big to use json.load()
         #all_data = json.load(fp)
 
-        build = ijson.items(fp, 'build.item')
-        print(f"{str(build)}")
+        for item in ijson.items(fp, "build"):
+            reduced["build"] = item
 
-    #     nodes = ijson.items(fp, 'nodes.item')
-
+        node_ctr = 0
+        num_nodes = 11117653  # Snagging this number for kg2-report.json for debugging purposes
+        for node in ijson.items(fp, "nodes"):
+            node_ctr += 1
+            if node_ctr % 1000000 == 0:
+                print(f"Processing node {str(node_ctr)} of {str(num_nodes)}")
+            temp_node = {}
+            for key, val in node:
+                if key in node_set:
+                    temp_node[key] = val
+            reduced["nodes"].append(temp_node)
+            print(temp_node)
+        print("Nodes completed")
 
     #     reduced["build"] = all_data["build"]
     #     num_nodes = len(all_data["nodes"])
