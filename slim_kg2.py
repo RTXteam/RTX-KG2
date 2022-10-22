@@ -16,6 +16,7 @@ import json
 import ijson
 import argparse
 import kg2_util
+import datetime
 
 
 def make_arg_parser():
@@ -33,47 +34,39 @@ if __name__ == "__main__":
     args = make_arg_parser().parse_args()
     test_mode = args.test
     reduced = {"nodes": [], "edges": []}
-    # I think splitting this file into nodes and edges might be helpful in the future, 
-    # but I'm leaving it as is for nwo
-    # reduced_nodes = {"nodes": []}
-    # reduced_edges = {"edges": []}
-    with open(args.inputFilepath, "r") as fp:
-
-        for item in ijson.items(fp, "build"):
-            reduced["build"] = item
-
+    start = datetime.datetime.now()
+    print(f"Start time: {start}")
+    
     with open(args.inputFilepath, "r") as fp:
 
         node_ctr = 0
-        num_nodes = 11117653  # Snagging this number for kg2-report.json for debugging purposes
-        
-        for node_list in ijson.items(fp, "nodes"):
-            for node in node_list:
+        edge_ctr = 0
+
+        for graph in ijson.items(fp, ""):
+            print(graph["build"])
+            reduced["build"] = graph["build"]
+            for node in graph["nodes"]:
                 node_ctr += 1
                 if node_ctr % 1000000 == 0:
-                    print(f"Processing node {str(node_ctr)} of {str(num_nodes)}")
+                    print(node_ctr)
                 temp_node = {}
                 for key, val in node.items():
                     if key in node_set:
                         temp_node[key] = val
                 reduced["nodes"].append(temp_node)
-        print("Nodes completed")
-
-    with open(args.inputFilepath, "r") as fp:
-
-        edge_ctr = 0
-        num_edges = 11117653  # Snagging this number for kg2-report.json for debugging purposes
-        
-        for edge_list in ijson.items(fp, "edges"):
-            for edge in edge_list:
+            print("Nodes completed")
+            for edge in graph["edges"]:
                 edge_ctr += 1
                 if edge_ctr % 1000000 == 0:
-                    print(f"Processing edge {str(edge_ctr)} of {str(num_edges)}")
+                    print(edge_ctr)
                 temp_edge = {}
                 for key, val in edge.items():
                     if key in edge_set:
                         temp_edge[key] = val
                 reduced["edges"].append(temp_edge)
-        print("Edges completed")
+            print("Edges completed")
+
+    finish = datetime.datetime.now()
+    print(f"Finish time: {finish} \nTotal time: {finish-start}")
 
     kg2_util.save_json(reduced, args.outputFilepath, test_mode)
