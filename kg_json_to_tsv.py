@@ -10,6 +10,7 @@ import csv as tsv
 import datetime
 import argparse
 import sys
+import ijson
 
 __author__ = 'Erica Wood'
 __copyright__ = 'Oregon State University'
@@ -122,17 +123,14 @@ def shorten_description_if_too_large(node_description_field, node_id):
         return node_description_field.replace("\n"," ")
 
 
-def nodes(graph, output_file_location):
+def nodes(nodes_list, output_file_location):
     """
-    :param graph: A dictionary containing KG2
+    :param nodes_list: A list containing KG2 nodes
     :param output_file_location: A string containing the
                                 path to the TSV output directory
     """
     # Generate list of output file names for the nodes TSV files
     nodes_file = output_files(output_file_location, "nodes")
-
-    # Create dictionary of nodes from KG2
-    nodes = graph["nodes"]
 
     # Open output TSV files
     tsvfile = open(nodes_file[0], 'w+')
@@ -150,13 +148,13 @@ def nodes(graph, output_file_location):
     # Set single loop to zero and get list of node properties, which will go
     # in the header, to compare other nodes to
     single_loop = 0
-    for node in nodes:
+    for node in nodes_list:
         single_loop += 1
         if single_loop == 1:
             nodekeys_official = list(sorted(node.keys()))
             nodekeys_official.append("category")
 
-    for node in nodes:
+    for node in nodes_list:
         # Inrease node counter by one each loop
         loop += 1
 
@@ -230,17 +228,14 @@ def limit_publication_info_size(key, pub_inf_dict):
     return pub_inf_dict
 
 
-def edges(graph, output_file_location):
+def edges(edges_list, output_file_location):
     """
-    :param graph: A dictionary containing KG2
+    :param edges_list: A list containing KG2 edges
     :param output_file_location: A string containing the path to the
                                 TSV output directory
     """
     # Generate list of output file names for the edges TSV files
     edges_file = output_files(output_file_location, "edges")
-
-    # Create dictionary of edges from KG2
-    edges = graph["edges"]
 
     # Open output TSV files
     tsvfile = open(edges_file[0], 'w+')
@@ -253,7 +248,7 @@ def edges(graph, output_file_location):
     tsvwrite = tsv.writer(tsvfile, delimiter="\t", quoting=tsv.QUOTE_MINIMAL)
     tsvwrite_h = tsv.writer(tsvfile_h, delimiter="\t",
                             quoting=tsv.QUOTE_MINIMAL)
-    for edge in edges:
+    for edge in edges_list:
         # Inrease edge counter by one each loop
         loop += 1
 
@@ -302,23 +297,22 @@ def edges(graph, output_file_location):
 
 
 if __name__ == '__main__':
-    print("Start time: ", date())
+    print(f"Start time: {date()}")
     parser = argparse.ArgumentParser()
     parser.add_argument("inputFile", type=str, help="Path to Knowledge Graph \
                         JSON File to Import")
     parser.add_argument("outputFileLocation", help="Path to Directory for Output\
                         TSV Files to Go", type=str)
     arguments = parser.parse_args()
-    print("Start load: ", date())
-    with open(arguments.inputFile) as json_file:
-        graph = json.load(json_file)
-        print("End load: ", date())
-        print("Start nodes: ", date())
-        output_file_location = arguments.outputFileLocation
-        nodes(graph, output_file_location)
-        print("Finish nodes: ", date())
-        print("Start edges: ", date())
-        edges(graph, output_file_location)
-        print("Finish edges: ", date())
-        json_file.close()
-        print("Finish time: ", date())
+    output_file_location = arguments.outputFileLocation
+    print(f"Start load: {date()}")
+    with open(arguments.inputFile, "r") as json_file:
+        for graph in ijson.items(json_file, ""):
+            print(f"End load: {date()}")
+            print(f"Start nodes: {date()}")
+            nodes(graph["nodes"], output_file_location)
+            print(f"Finish nodes: {date()}")
+            print(f"Start edges: {date()}")
+            edges(graph["edges"], output_file_location)
+            print(f"Finish edges: {date()}")
+    print(f"Completed: {date()}")
