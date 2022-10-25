@@ -1,4 +1,4 @@
-# 2.7.7
+# 2.8.0
 **Date:  2022.XX.XX**
 
 Counts:
@@ -9,16 +9,16 @@ Issues:
 - Issue [#220](https://github.com/RTXteam/RTX-KG2/issues/220)
 - Issue [#221](https://github.com/RTXteam/RTX-KG2/issues/221)
 - Issue [#222](https://github.com/RTXteam/RTX-KG2/issues/222)
-- Additional issues that arose during the build: #227, #228, #229, #230, #231, #232, #233, #234, #235, #236, #237, #238
+- Additional issues that arose during the build: #227, #228, #229, #230, #231, #232, #233, #234, #235, #236, #237, #238, #243
 
 Build info:
-- Biolink Model version: 2.4.2
+- Biolink Model version: 3.0.0
 - Build host: `buildkg2.rtx.ai`
 - Build directory: `/home/ubuntu/kg2-build`
 - Build code branch: `master`
-- Neo4j endpoint CNAME: `kg2-7-7.rtx.ai`
+- Neo4j endpoint CNAME: `kg2-8-0.rtx.ai`
 - Neo4j endpoint hostname: `kg2endpoint2.rtx.ai`
-- Tracking issue for the build: Issue [#202](https://github.com/RTXteam/RTX-KG2/issues/202)
+- Tracking issue for the build: Issue [#226](https://github.com/RTXteam/RTX-KG2/issues/226)
 - Major knowledge source versions:
   - SemMedDB: `23 (2021)`
   - UMLS: `2022AA`
