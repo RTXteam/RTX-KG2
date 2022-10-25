@@ -41,30 +41,36 @@ if __name__ == "__main__":
 
         node_ctr = 0
         edge_ctr = 0
+        generator = (row for row in ijson.kvitems(fp, ""))
 
-        for graph in ijson.items(fp, ""):
-            print(graph["build"])
-            reduced["build"] = graph["build"]
-            for node in graph["nodes"]:
-                node_ctr += 1
-                if node_ctr % 1000000 == 0:
-                    print(node_ctr)
-                temp_node = {}
-                for key, val in node.items():
-                    if key in node_set:
-                        temp_node[key] = val
-                reduced["nodes"].append(temp_node)
-            print("Nodes completed")
-            for edge in graph["edges"]:
-                edge_ctr += 1
-                if edge_ctr % 1000000 == 0:
-                    print(edge_ctr)
-                temp_edge = {}
-                for key, val in edge.items():
-                    if key in edge_set:
-                        temp_edge[key] = val
-                reduced["edges"].append(temp_edge)
-            print("Edges completed")
+        for row in generator:
+            key = row[0]
+            data = row[1]
+            if key == "build":
+                reduced["build"] = data
+                print(data)
+            elif key == "nodes":  # handling the list of all nodes
+                for node in data:  # handling a single node dict
+                    node_ctr += 1
+                    if node_ctr % 1000000 == 0:
+                        print(node_ctr)
+                    temp_node = {}
+                    for k, v in node.items():  # iterating over the node's items
+                        if k in node_set:
+                            temp_node[k] = v
+                    reduced["nodes"].append(temp_node)
+                print("Nodes completed")
+            elif key == "edges":
+                for edge in data:
+                    edge_ctr += 1
+                    if edge_ctr % 1000 == 0:
+                        print(edge_ctr)
+                    temp_edge = {}
+                    for k, v in edge.items():
+                        if k in edge_set:
+                            temp_edge[k] = v
+                    reduced["edges"].append(temp_edge)
+                print("Edges completed")
 
     finish = datetime.datetime.now()
     print(f"Finish time: {finish} \nTotal time: {finish-start}")
