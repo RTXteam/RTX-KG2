@@ -63,7 +63,7 @@ if __name__ == "__main__":
             elif key == "edges":
                 for edge in data:
                     edge_ctr += 1
-                    if edge_ctr % 1000 == 0:
+                    if edge_ctr % 1000000 == 0:
                         print(edge_ctr)
                     temp_edge = {}
                     for k, v in edge.items():
