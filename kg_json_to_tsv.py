@@ -307,12 +307,27 @@ if __name__ == '__main__':
     output_file_location = arguments.outputFileLocation
     print(f"Start load: {date()}")
     with open(arguments.inputFile, "r") as json_file:
-        for graph in ijson.items(json_file, ""):
-            print(f"End load: {date()}")
-            print(f"Start nodes: {date()}")
-            nodes(graph["nodes"], output_file_location)
-            print(f"Finish nodes: {date()}")
-            print(f"Start edges: {date()}")
-            edges(graph["edges"], output_file_location)
-            print(f"Finish edges: {date()}")
+        generator = (row for row in ijson.kvitems(json_file, ""))
+        print(f"End load: {date()}")
+
+        for row in generator:
+            key = row[0]
+            data = row[1]
+            if key == "nodes":
+                print(f"Start nodes: {date()}")
+                nodes(data, output_file_location)
+                print(f"Finish nodes: {date()}")
+            elif key == "edges":
+                print(f"Start edges: {date()}")
+                edges(data, output_file_location)
+                print(f"Finish edges: {date()}")
+
+        # for graph in ijson.items(json_file, ""):
+        #     print(f"End load: {date()}")
+        #     print(f"Start nodes: {date()}")
+        #     nodes(graph["nodes"], output_file_location)
+        #     print(f"Finish nodes: {date()}")
+        #     print(f"Start edges: {date()}")
+        #     edges(graph["edges"], output_file_location)
+        #     print(f"Finish edges: {date()}")
     print(f"Completed: {date()}")
