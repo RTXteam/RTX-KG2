@@ -123,9 +123,32 @@ def shorten_description_if_too_large(node_description_field, node_id):
         return node_description_field.replace("\n"," ")
 
 
-def nodes(nodes_list, output_file_location):
+def check_all_nodes_have_same_set(nodekeys_list):
     """
-    :param nodes_list: A list containing KG2 nodes
+    :param nodekeys_list: A list containing keys for a node
+    """
+    supported_node_keys = ["category",
+                           "category_label",
+                           "creation_date",
+                           "id",
+                           "iri",
+                           "name",
+                           "full_name",
+                           "description",
+                           "synonym",
+                           "publications",
+                           "update_date",
+                           "deprecated",
+                           "replaced_by",
+                           "knowledge_source",
+                           "has_biological_sequence"]
+    for node_label in nodekeys_list:
+        assert node_label in supported_node_keys, f"Node label not in supported list: {node_label}"
+
+
+def nodes(input_file, output_file_location):
+    """
+    :param input_file: The input file
     :param output_file_location: A string containing the
                                 path to the TSV output directory
     """
@@ -136,70 +159,52 @@ def nodes(nodes_list, output_file_location):
     tsvfile = open(nodes_file[0], 'w+')
     tsvfile_h = open(nodes_file[1], 'w+')
 
-    # Set loop (node counter) to zero
-    loop = 0
-
     # Set up TSV files to be written to
     tsvwrite = tsv.writer(tsvfile, delimiter="\t",
                           quoting=tsv.QUOTE_MINIMAL)
     tsvwrite_h = tsv.writer(tsvfile_h, delimiter="\t",
                             quoting=tsv.QUOTE_MINIMAL)
 
-    # Set single loop to zero and get list of node properties, which will go
-    # in the header, to compare other nodes to
-    single_loop = 0
-    for node in nodes_list:
-        single_loop += 1
-        if single_loop == 1:
-            nodekeys_official = list(sorted(node.keys()))
-            nodekeys_official.append("category")
+    with open(input_file, "r") as fp:
+        node_ctr = 0
+        generator = (row for row in ijson.items(fp, "nodes.item"))
+        for node in generator:
+            node_ctr += 1
+            if node_ctr % 1000000 == 0:
+                print(f"Processing node: {node_ctr}")
 
-    for node in nodes_list:
-        # Inrease node counter by one each loop
-        loop += 1
+            # Add all node property labels to a list and check if they are supported
+            nodekeys = list(sorted(node.keys()))
+            check_all_nodes_have_same_set(nodekeys)
+            nodekeys.append("category")
 
-        # Add all node property labels to a list in the same order
-        nodekeys = list(sorted(node.keys()))
-        nodekeys.append("category")
+            vallist = []
 
-        # Create list for values of node properties to be added to
-        vallist = []
+            for key in nodekeys:
+                assert key in nodekeys, key
+                if key == "synonym":
+                    value = truncate_node_synonyms_if_too_large(node[key], node['id'])
+                    value = str(value).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
+                elif key == "publications":
+                    value = str(node[key]).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
+                elif key == "description" and node[key] is not None:
+                    value = shorten_description_if_too_large(node[key], node['id'])
+                else:
+                    # If the property does exist, assign the property value
+                    value = node[key]
+                # Add the value of the property to the property value list
+                if type(value) == str:
+                    value = value.replace('\t', ' ').replace('\n', ' ').replace('\r', ' ')
+                vallist.append(value)
 
-        # Set index in list of node properties to zero, to be iterated through
-        key_count = 0
-        for key in nodekeys:
-            if key != nodekeys_official[key_count]:
-                # Add a property from the header list of node properties
-                # if it doesn't exist and make the value for that property " "
-                nodekeys.insert(key_count, nodekeys_official[key_count])
-                value = " "
-            elif key == "synonym":
-                value = truncate_node_synonyms_if_too_large(node[key], node['id'])
-                value = str(value).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
-            elif key == "publications":
-                value = str(node[key]).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
-            elif key == "description" and node[key] is not None:
-                value = shorten_description_if_too_large(node[key], node['id'])
-            else:
-                # If the property does exist, assign the property value
-                value = node[key]
-            # Add the value of the property to the property value list
-            if type(value)==str:
-                value = value.replace('\t', ' ').replace('\n', ' ').replace('\r', ' ')
-            vallist.append(value)
+            if node_ctr == 1:
+                nodekeys = no_space('id', nodekeys, 'id:ID')
+                nodekeys = no_space('publications', nodekeys, "publications:string[]")
+                nodekeys = no_space('synonym', nodekeys, "synonym:string[]")
+                nodekeys = no_space('category', nodekeys, ':LABEL')
+                tsvwrite_h.writerow(nodekeys)
 
-            # Increase the index count by one
-            key_count += 1
-
-        # Add the edge property labels to the edge header TSV file
-        # But only for the first edge
-        if loop == 1:
-            nodekeys = no_space('id', nodekeys, 'id:ID')
-            nodekeys = no_space('publications', nodekeys, "publications:string[]")
-            nodekeys = no_space('synonym', nodekeys, "synonym:string[]")
-            nodekeys = no_space('category', nodekeys, ':LABEL')
-            tsvwrite_h.writerow(nodekeys)
-        tsvwrite.writerow(vallist)
+            tsvwrite.writerow(vallist)
 
     # Close the TSV files to prevent a memory leak
     tsvfile.close()
@@ -228,9 +233,9 @@ def limit_publication_info_size(key, pub_inf_dict):
     return pub_inf_dict
 
 
-def edges(edges_list, output_file_location):
+def edges(input_file, output_file_location):
     """
-    :param edges_list: A list containing KG2 edges
+    :param input_file: The input file
     :param output_file_location: A string containing the path to the
                                 TSV output directory
     """
@@ -241,55 +246,58 @@ def edges(edges_list, output_file_location):
     tsvfile = open(edges_file[0], 'w+')
     tsvfile_h = open(edges_file[1], 'w+')
 
-    # Set loop (edge counter) to zero
-    loop = 0
-
     # Set up TSV files to be written to
     tsvwrite = tsv.writer(tsvfile, delimiter="\t", quoting=tsv.QUOTE_MINIMAL)
     tsvwrite_h = tsv.writer(tsvfile_h, delimiter="\t",
                             quoting=tsv.QUOTE_MINIMAL)
-    for edge in edges_list:
-        # Inrease edge counter by one each loop
-        loop += 1
 
-        # Add all edge property label to a list in the same order and test
-        # to make sure they are the same
-        edgekeys = list(sorted(edge.keys()))
-        check_all_edges_have_same_set(edgekeys)
+    with open(input_file, "r") as fp:
+        edge_ctr = 0
+        generator = (row for row in ijson.items(fp, "edges.item"))
 
-        # Add an extra property of "predicate" to the list so that predicates
-        # can be a property and a label
-        edgekeys.append('predicate')
-        edgekeys.append('subject')
-        edgekeys.append('object')
+        for edge in generator:
+            edge_ctr += 1
+            if edge_ctr % 1000000 == 0:
+                print(f"Processing edge: {edge_ctr}")
 
-        # Create list for values of edge properties to be added to
-        vallist = []
-        for key in edgekeys:
-            # Add the value for each edge property to the value list
-            # and limit the size of the publications_info dictionary
-            # to avoid Neo4j buffer size error
-            value = edge[key]
-            if key == "publications_info":
-                value = limit_publication_info_size(key, value)
-            elif key == 'knowledge_source':
-                value = str(value).replace("', '", "; ").replace("['", "").replace("']", "")
-            elif key == 'relation_label':  # fix for issue number 473 (hyphens in relation_labels)
-                value = value.replace('-', '_').replace('(', '').replace(')', '')
-            elif key == 'publications':
-                value = str(value).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
-            vallist.append(value)
+            # Add all edge property label to a list in the same order and test
+            # to make sure they are the same
+            edgekeys = list(sorted(edge.keys()))
+            check_all_edges_have_same_set(edgekeys)
 
-        # Add the edge property labels to the edge header TSV file
-        # But only for the first edge
-        if loop == 1:
-            edgekeys = no_space('knowledge_source', edgekeys, 'knowledge_source:string[]')
-            edgekeys = no_space('predicate', edgekeys, 'predicate:TYPE')
-            edgekeys = no_space('subject', edgekeys, ':START_ID')
-            edgekeys = no_space('object', edgekeys, ':END_ID')
-            edgekeys = no_space('publications', edgekeys, "publications:string[]")
-            tsvwrite_h.writerow(edgekeys)
-        tsvwrite.writerow(vallist)
+            # Add an extra property of "predicate" to the list so that predicates
+            # can be a property and a label
+            edgekeys.append('predicate')
+            edgekeys.append('subject')
+            edgekeys.append('object')
+
+            # Create list for values of edge properties to be added to
+            vallist = []
+            for key in edgekeys:
+                # Add the value for each edge property to the value list
+                # and limit the size of the publications_info dictionary
+                # to avoid Neo4j buffer size error
+                value = edge[key]
+                if key == "publications_info":
+                    value = limit_publication_info_size(key, value)
+                elif key == 'knowledge_source':
+                    value = str(value).replace("', '", "; ").replace("['", "").replace("']", "")
+                elif key == 'relation_label':  # fix for issue number 473 (hyphens in relation_labels)
+                    value = value.replace('-', '_').replace('(', '').replace(')', '')
+                elif key == 'publications':
+                    value = str(value).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
+                vallist.append(value)
+
+            # Add the edge property labels to the edge header TSV file
+            # But only for the first edge
+            if edge_ctr == 1:
+                edgekeys = no_space('knowledge_source', edgekeys, 'knowledge_source:string[]')
+                edgekeys = no_space('predicate', edgekeys, 'predicate:TYPE')
+                edgekeys = no_space('subject', edgekeys, ':START_ID')
+                edgekeys = no_space('object', edgekeys, ':END_ID')
+                edgekeys = no_space('publications', edgekeys, "publications:string[]")
+                tsvwrite_h.writerow(edgekeys)
+            tsvwrite.writerow(vallist)
 
     # Close the TSV files to prevent a memory leak
     tsvfile.close()
