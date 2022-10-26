@@ -312,30 +312,13 @@ if __name__ == '__main__':
     parser.add_argument("outputFileLocation", help="Path to Directory for Output\
                         TSV Files to Go", type=str)
     arguments = parser.parse_args()
+    input_file = arguments.inputFile
     output_file_location = arguments.outputFileLocation
-    print(f"Start load: {date()}")
-    with open(arguments.inputFile, "r") as json_file:
-        generator = (row for row in ijson.kvitems(json_file, ""))
-        print(f"End load: {date()}")
-
-        for row in generator:
-            key = row[0]
-            data = row[1]
-            if key == "nodes":
-                print(f"Start nodes: {date()}")
-                nodes(data, output_file_location)
-                print(f"Finish nodes: {date()}")
-            elif key == "edges":
-                print(f"Start edges: {date()}")
-                edges(data, output_file_location)
-                print(f"Finish edges: {date()}")
-
-        # for graph in ijson.items(json_file, ""):
-        #     print(f"End load: {date()}")
-        #     print(f"Start nodes: {date()}")
-        #     nodes(graph["nodes"], output_file_location)
-        #     print(f"Finish nodes: {date()}")
-        #     print(f"Start edges: {date()}")
-        #     edges(graph["edges"], output_file_location)
-        #     print(f"Finish edges: {date()}")
-    print(f"Completed: {date()}")
+    
+    print("Start nodes: ", date())
+    nodes(input_file, output_file_location)
+    print("Finish nodes: ", date())
+    print("Start edges: ", date())
+    edges(input_file, output_file_location)
+    print("Finish edges: ", date())
+    print("Finish time: ", date())
