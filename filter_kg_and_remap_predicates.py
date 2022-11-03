@@ -232,6 +232,7 @@ def process_edges(input_file_name, infores_remap_file_name, predicate_remap_file
             edge_dict['qualified_predicate'] = qualified_predicate
             edge_dict['qualified_object_aspect'] = qualified_object_aspect
             edge_dict['qualified_object_direction'] = qualified_object_direction
+            edge_id = edge_dict["id"]
             new_edge_id = update_edge_id(edge_id, qualified_predicate, qualified_object_aspect, qualified_object_direction)
             edge_dict["id"] = new_edge_id
 
