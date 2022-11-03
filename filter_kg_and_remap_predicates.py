@@ -171,7 +171,7 @@ def process_edges(input_file_name, infores_remap_file_name, predicate_remap_file
             if edge_ctr % 1000000 == 0:
                 print(f"Processing edge {edge_ctr}")
             if drop_negated and edge_dict['negated']:
-            continue
+                continue
             source_predicate_label = edge['relation_label']
             predicate_label = source_predicate_label
             if edge_dict.get('source_predicate') is None:
