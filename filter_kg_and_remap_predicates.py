@@ -53,7 +53,7 @@ def make_arg_parser():
     return arg_parser
 
 
-def update_edge_id(edge_key_value: str, qualified_predicate=None, qualified_object_aspect=None,
+def update_edge_id(edge_id: str, qualified_predicate=None, qualified_object_aspect=None,
                    qualified_object_direction=None):
     edge_id_keys = edge_id.split("---")
     subject = edge_id_keys[0]
