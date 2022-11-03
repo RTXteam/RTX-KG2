@@ -242,7 +242,7 @@ def process_edges(input_file_name, infores_remap_file_name, predicate_remap_file
                 # Create list of curies to complain about if not in biolink
                 if predicate_uri_prefix == predicate_curie_prefix:
                     source_predicate_curies_not_in_nodes.add(predicate_curie)
-
+            knowledge_source = edge_dict["knowledge_source"]
             infores_curie_dict = infores_remap_config.get(knowledge_source, None)
             if infores_curie_dict is None:
                 knowledge_source_curies_not_in_config_edges.add(knowledge_source)
