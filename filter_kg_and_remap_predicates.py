@@ -139,6 +139,7 @@ def process_nodes(input_file_name, infores_remap_file_name):
                 infores_curie = infores_curie_dict['infores_curie']
                 node_dict['knowledge_source'] = infores_curie
             nodes_dict[node_id] = node_dict
+    print(f"Completed nodes {kg2_util.date()}")
 
     return nodes_dict, knowledge_source_curies_not_in_config_nodes
 
@@ -167,17 +168,18 @@ def process_edges(input_file_name, infores_remap_file_name, predicate_remap_file
     edge_ctr = 0
     with open(input_file_name, "r") as fp:
         edges_generator = (row for row in ijson.items(fp, "edges.item"))
-        for edge in edges_generator:
+        print(f"Starting edges {kg2_util.date()}")
+        for edge_dict in edges_generator:
             edge_ctr += 1
             if edge_ctr % 1000000 == 0:
                 print(f"Processing edge {edge_ctr}")
             if drop_negated and edge_dict['negated']:
                 continue
-            source_predicate_label = edge['relation_label']
+            source_predicate_label = edge_dict['relation_label']
             predicate_label = source_predicate_label
             if edge_dict.get('source_predicate') is None:
                 edge_dict['source_predicate'] = edge_dict.pop('original_predicate')
-            source_predicate_curie = edge['source_predicate']
+            source_predicate_curie = edge_dict['source_predicate']
             predicate_curie = source_predicate_curie
 
             if record_of_source_predicate_curie_occurrences.get(source_predicate_curie, None) is not None:
@@ -217,21 +219,21 @@ def process_edges(input_file_name, infores_remap_file_name, predicate_remap_file
                     qualified_object_aspect = qualifiers_dict.get("object_aspect", "None")
                     qualified_object_direction = qualifiers_dict.get("object_direction", "None")
             if invert:
-                edge['relation_label'] = 'INVERTED:' + source_predicate_label
-                new_object = edge['subject']
-                edge['subject'] = edge['object']
-                edge['object'] = new_object
-            edge["predicate_label"] = predicate_label
+                edge_dict['relation_label'] = 'INVERTED:' + source_predicate_label
+                new_object = edge_dict['subject']
+                edge_dict['subject'] = edge_dict['object']
+                edge_dict['object'] = new_object
+            edge_dict["predicate_label"] = predicate_label
             if drop_self_edges_except is not None and \
-                    edge['subject'] == edge['object'] and \
+                    edge_dict['subject'] == edge_dict['object'] and \
                     predicate_label not in drop_self_edges_except:
                 continue
-            edge['source_predicate'] = predicate_curie
-            edge['qualified_predicate'] = qualified_predicate
-            edge['qualified_object_aspect'] = qualified_object_aspect
-            edge['qualified_object_direction'] = qualified_object_direction
+            edge_dict['source_predicate'] = predicate_curie
+            edge_dict['qualified_predicate'] = qualified_predicate
+            edge_dict['qualified_object_aspect'] = qualified_object_aspect
+            edge_dict['qualified_object_direction'] = qualified_object_direction
             new_edge_id = update_edge_id(edge_id, qualified_predicate, qualified_object_aspect, qualified_object_direction)
-            edge["id"] = new_edge_id
+            edge_dict["id"] = new_edge_id
 
             if predicate_curie not in nodes_dict:
                 predicate_curie_prefix = predicate_curie.split(':')[0]
@@ -257,12 +259,12 @@ def process_edges(input_file_name, infores_remap_file_name, predicate_remap_file
 
             if existing_edge is not None:
                 existing_edge['knowledge_source'] = sorted(
-                    list(set(existing_edge['knowledge_source'] + edge['knowledge_source'])))
-                existing_edge['publications'] += edge['publications']
-                existing_edge['publications_info'].update(edge['publications_info'])
+                    list(set(existing_edge['knowledge_source'] + edge_dict['knowledge_source'])))
+                existing_edge['publications'] += edge_dict['publications']
+                existing_edge['publications_info'].update(edge_dict['publications_info'])
             else:
                 new_edges[edge_key] = edge
-                
+    print(f"Finished edges {kg2_util.date()}")            
 
     return new_edges, source_predicate_curies_not_in_config, source_predicate_curies_not_in_nodes, knowledge_source_curies_not_in_config_edges, record_of_source_predicate_curie_occurrences
 
@@ -329,5 +331,7 @@ if __name__ == '__main__':
     pprint.pprint(build_info)
     graph["build"] = build_info
     graph["nodes"].append(build_node)
+    print(f"Saving simplified file {kg2_util.date()}")
     kg2_util.save_json(graph, output_file_name, test_mode)
+    print(f"Completed saving file {kg2_util.date()}")
     del graph
