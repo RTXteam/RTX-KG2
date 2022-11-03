@@ -18,6 +18,7 @@ import argparse
 import kg2_util
 import pprint
 import sys
+import ijson
 from datetime import datetime
 
 # 1. What is the indicator for negation?
