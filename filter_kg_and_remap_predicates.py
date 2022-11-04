@@ -183,13 +183,14 @@ def process_edges(input_file_name, infores_remap_config, predicate_remap_file_na
             predicate_curie = source_predicate_curie
 
             if record_of_source_predicate_curie_occurrences.get(source_predicate_curie, None) is not None:
-                record_of_source_predicate_curie_occurrences[source_predicate_curie] = True    
+                record_of_source_predicate_curie_occurrences[source_predicate_curie] = True 
+                pred_remap_info = predicate_remap_config.get(source_predicate_curie, None)   
             else:
                 # there is a original predicate CURIE in the graph that is not in the config file
                 source_predicate_curies_not_in_config.add(source_predicate_curie)
+                pred_remap_info = {'keep': None}
             
-            pred_remap_info = predicate_remap_config.get(source_predicate_curie, None)
-            assert pred_remap_info is not None
+            assert pred_remap_info is not None, f"Edge {edge_dict} missing {pred_remap_info}"
             
             invert = False
             get_new_rel_info = False
