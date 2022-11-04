@@ -154,8 +154,7 @@ def process_edges(input_file_name, infores_remap_file_name, predicate_remap_file
     source_predicate_curies_not_in_config = set()
     source_predicate_curies_not_in_nodes = set()
     knowledge_source_curies_not_in_config_edges = set()
-    record_of_source_predicate_curie_occurrences = {source_predicate_curie: False for source_predicate_curie in
-                                            predicate_remap_config.keys()}
+    record_of_source_predicate_curie_occurrences = dict()  # {source_predicate_curie: False for source_predicate_curie in predicate_remap_config.keys()}
 
     command_set = {'delete', 'keep', 'invert'}
     # The length of the 'command' could be 1 if it just has the operation, such as with 'delete'
@@ -194,18 +193,15 @@ def process_edges(input_file_name, infores_remap_file_name, predicate_remap_file
             invert = False
             get_new_rel_info = False
 
-            if pred_remap_info is None:
-                assert source_predicate_curie in source_predicate_curies_not_in_config
+            operation = pred_remap_info.get('operation', None)
+            if operation == "delete":
+                continue
+            elif operation == "invert":
+                invert = True
+                get_new_rel_info = True
             else:
-                operation = pred_remap_info.get('operation', None)
-                if operation == "delete":
-                    continue
-                elif operation == "invert":
-                    invert = True
-                    get_new_rel_info = True
-                else:
-                    assert operation == "keep"
-                    get_new_rel_info = True
+                assert operation == "keep"
+                get_new_rel_info = True
 
             if get_new_rel_info:
                 assert pred_remap_info.get("core_predicate", None) is not None
@@ -236,19 +232,20 @@ def process_edges(input_file_name, infores_remap_file_name, predicate_remap_file
             new_edge_id = update_edge_id(edge_id, qualified_predicate, qualified_object_aspect, qualified_object_direction)
             edge_dict["id"] = new_edge_id
 
-            if predicate_curie not in nodes_dict:
-                predicate_curie_prefix = predicate_curie.split(':')[0]
-                predicate_uri_prefix = curie_to_uri_expander(predicate_curie_prefix + ':')
-                # Create list of curies to complain about if not in biolink
-                if predicate_uri_prefix == predicate_curie_prefix:
-                    source_predicate_curies_not_in_nodes.add(predicate_curie)
+            # if predicate_curie not in nodes_dict:
+            #     predicate_curie_prefix = predicate_curie.split(':')[0]
+            #     predicate_uri_prefix = curie_to_uri_expander(predicate_curie_prefix + ':')
+            #     # Create list of curies to complain about if not in biolink
+            #     if predicate_uri_prefix == predicate_curie_prefix:
+            #         source_predicate_curies_not_in_nodes.add(predicate_curie)
             knowledge_source = edge_dict["knowledge_source"]
             infores_curie_dict = infores_remap_config.get(knowledge_source, None)
-            if infores_curie_dict is None:
-                knowledge_source_curies_not_in_config_edges.add(knowledge_source)
-            else:
-                infores_curie = infores_curie_dict['infores_curie']
-                edge_dict['knowledge_source'] = [infores_curie]
+            # if infores_curie_dict is None:
+            #     knowledge_source_curies_not_in_config_edges.add(knowledge_source)
+            # else:
+            #     infores_curie = infores_curie_dict['infores_curie']
+            #     edge_dict['knowledge_source'] = [infores_curie]
+            edge_dict['knowledge_source'] = [infores_curie]
 
             edge_subject = edge_dict['subject'] 
             edge_object = edge_dict['object']
@@ -267,7 +264,7 @@ def process_edges(input_file_name, infores_remap_file_name, predicate_remap_file
                 new_edges[edge_key] = edge_dict
     print(f"Finished edges {kg2_util.date()}")            
 
-    return new_edges, source_predicate_curies_not_in_config, source_predicate_curies_not_in_nodes, knowledge_source_curies_not_in_config_edges, record_of_source_predicate_curie_occurrences
+    return new_edges #, source_predicate_curies_not_in_config, source_predicate_curies_not_in_nodes, knowledge_source_curies_not_in_config_edges, record_of_source_predicate_curie_occurrences
 
 
 
@@ -296,7 +293,7 @@ if __name__ == '__main__':
 
     nodes_dict, knowledge_source_curies_not_in_config_nodes = process_nodes(input_file_name, infores_remap_file_name)
     
-    new_edges, source_predicate_curies_not_in_config, source_predicate_curies_not_in_nodes, knowledge_source_curies_not_in_config_edges, record_of_source_predicate_curie_occurrences  = process_edges(input_file_name, infores_remap_file_name, predicate_remap_file_name, curies_to_uri_file_name, drop_self_edges_except)
+    new_edges = process_edges(input_file_name, infores_remap_file_name, predicate_remap_file_name, curies_to_uri_file_name, drop_self_edges_except)
     
 
     # Releasing some memory
