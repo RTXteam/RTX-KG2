@@ -117,11 +117,10 @@ def warning_record_of_source_predicate_curie_occurrences(record_of_source_predic
                 file=sys.stderr)
 
 
-def process_nodes(input_file_name, infores_remap_file_name):
+def process_nodes(input_file_name, infores_remap_config):
     knowledge_source_curies_not_in_config_nodes = set()
     nodes_dict = dict()
 
-    infores_remap_config = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(infores_remap_file_name))
 
     node_ctr = 0
     with open(input_file_name, "r") as fp:
@@ -144,8 +143,7 @@ def process_nodes(input_file_name, infores_remap_file_name):
     return nodes_dict, knowledge_source_curies_not_in_config_nodes
 
 
-def process_edges(input_file_name, infores_remap_file_name, predicate_remap_file_name, curies_to_uri_file_name, drop_self_edges_except):
-    infores_remap_config = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(infores_remap_file_name))
+def process_edges(input_file_name, infores_remap_config, predicate_remap_file_name, curies_to_uri_file_name, drop_self_edges_except):
     predicate_remap_config = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(predicate_remap_file_name))
     map_dict = kg2_util.make_uri_curie_mappers(curies_to_uri_file_name)
 
@@ -279,6 +277,9 @@ if __name__ == '__main__':
     drop_negated = args.drop_negated
     drop_self_edges_except = args.drop_self_edges_except
 
+    infores_remap_config = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(infores_remap_file_name))
+
+
     graph = dict()
     new_edges = dict()
     nodes_dict = dict()
@@ -291,9 +292,9 @@ if __name__ == '__main__':
         assert type(drop_self_edges_except) == str
         drop_self_edges_except = set(drop_self_edges_except.split(','))
 
-    nodes_dict, knowledge_source_curies_not_in_config_nodes = process_nodes(input_file_name, infores_remap_file_name)
+    nodes_dict, knowledge_source_curies_not_in_config_nodes = process_nodes(input_file_name, infores_remap_config)
     
-    new_edges = process_edges(input_file_name, infores_remap_file_name, predicate_remap_file_name, curies_to_uri_file_name, drop_self_edges_except)
+    new_edges = process_edges(input_file_name, infores_remap_config, predicate_remap_file_name, curies_to_uri_file_name, drop_self_edges_except)
     
 
     # Releasing some memory
