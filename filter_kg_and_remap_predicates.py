@@ -264,7 +264,7 @@ def process_edges(input_file_name, infores_remap_file_name, predicate_remap_file
                 existing_edge['publications'] += edge_dict['publications']
                 existing_edge['publications_info'].update(edge_dict['publications_info'])
             else:
-                new_edges[edge_key] = edge
+                new_edges[edge_key] = edge_dict
     print(f"Finished edges {kg2_util.date()}")            
 
     return new_edges, source_predicate_curies_not_in_config, source_predicate_curies_not_in_nodes, knowledge_source_curies_not_in_config_edges, record_of_source_predicate_curie_occurrences
