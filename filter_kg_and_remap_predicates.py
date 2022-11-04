@@ -199,19 +199,21 @@ def process_edges(input_file_name, infores_remap_config, predicate_remap_file_na
             operation = pred_remap_info.get('operation', None)
             if operation == "delete":
                 continue
-            elif operation == "invert":
+            get_new_rel_info = True
+            if operation == "invert":
                 invert = True
-                get_new_rel_info = True
-            elif not source_predicate_curie.startswith("biolink:"):
+            elif pred_remap_info.get("core_predicate", None) is None:
                 assert operation == "keep"
-                get_new_rel_info = True
+                get_new_rel_info = False
+
+            qualified_predicate = "None"
+            qualified_object_aspect = "None"
+            qualified_object_direction = "None"
 
             if get_new_rel_info:
                 assert pred_remap_info.get("core_predicate", None) is not None
                 predicate_curie = pred_remap_info.get("core_predicate", "None")
                 qualified_predicate = pred_remap_info.get("qualified_predicate", "None")
-                qualified_object_aspect = "None"
-                qualified_object_direction = "None"
                 qualifiers = pred_remap_info.get("qualifiers", None)
                 if qualifiers is not None:
                     qualifiers_dict = qualifiers[0]
