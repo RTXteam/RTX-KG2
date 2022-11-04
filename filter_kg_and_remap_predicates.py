@@ -134,11 +134,11 @@ def process_nodes(input_file_name, infores_remap_config):
             infores_curie_dict = infores_remap_config.get(knowledge_source, None)
             infores_curie = infores_curie_dict['infores_curie']
             node_dict['knowledge_source'] = infores_curie
-            # if infores_curie_dict is None:
-            #     knowledge_source_curies_not_in_config_nodes.add(knowledge_source)
-            # else:
-            #     infores_curie = infores_curie_dict['infores_curie']
-            #     node_dict['knowledge_source'] = infores_curie
+            if infores_curie_dict is None:
+                knowledge_source_curies_not_in_config_nodes.add(knowledge_source)
+            else:
+                infores_curie = infores_curie_dict['infores_curie']
+                node_dict['knowledge_source'] = infores_curie
             nodes_dict[node_id] = node_dict
     print(f"Completed nodes {kg2_util.date()}")
     nodes_list = list(node_dict.values())
@@ -184,12 +184,12 @@ def process_edges(input_file_name, infores_remap_config, predicate_remap_file_na
             predicate_curie = source_predicate_curie
 
             if record_of_source_predicate_curie_occurrences.get(source_predicate_curie, None) is not None:
-                record_of_source_predicate_curie_occurrences[source_predicate_curie] = True
-                pred_remap_info = predicate_remap_config.get(source_predicate_curie, None)
+                record_of_source_predicate_curie_occurrences[source_predicate_curie] = True    
             else:
                 # there is a original predicate CURIE in the graph that is not in the config file
                 source_predicate_curies_not_in_config.add(source_predicate_curie)
-
+            
+            pred_remap_info = predicate_remap_config.get(source_predicate_curie, None)
             assert pred_remap_info is not None
             
             invert = False
