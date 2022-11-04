@@ -188,7 +188,7 @@ def process_edges(input_file_name, infores_remap_config, predicate_remap_file_na
             else:
                 # there is a original predicate CURIE in the graph that is not in the config file
                 source_predicate_curies_not_in_config.add(source_predicate_curie)
-                print(f"Source predicate curie missing {source_predicate_curie}")
+                #print(f"Source predicate curie missing {source_predicate_curie}")
                 pred_remap_info = {'operation': 'keep'}
             
             assert pred_remap_info is not None, f"Edge {edge_dict} missing {pred_remap_info}"
@@ -202,13 +202,13 @@ def process_edges(input_file_name, infores_remap_config, predicate_remap_file_na
             elif operation == "invert":
                 invert = True
                 get_new_rel_info = True
-            else:
+            elif not source_predicate_curie.startswith("biolink:"):
                 assert operation == "keep"
                 get_new_rel_info = True
 
             if get_new_rel_info:
                 assert pred_remap_info.get("core_predicate", None) is not None
-                predicate_curie = pred_remap_info.get("core_predicate")
+                predicate_curie = pred_remap_info.get("core_predicate", "None")
                 qualified_predicate = pred_remap_info.get("qualified_predicate", "None")
                 qualified_object_aspect = "None"
                 qualified_object_direction = "None"
