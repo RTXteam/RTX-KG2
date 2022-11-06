@@ -58,8 +58,8 @@ def update_edge_id(edge_id: str, qualified_predicate=None, qualified_object_aspe
     edge_id_keys = edge_id.split("---")
     subject = edge_id_keys[0]
     predicate = edge_id_keys[1]
-    object = edge_id_keys[2]
-    knowledge_source = edge_id_keys[3]
+    object = edge_id_keys[-2]
+    knowledge_source = edge_id_keys[-1]
     new_edge_id = f"{subject}---{predicate}---{qualified_predicate}---{qualified_object_aspect}---{qualified_object_direction}---{object}---{knowledge_source}"
     return new_edge_id
 

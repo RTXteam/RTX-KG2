@@ -42,6 +42,7 @@ import urllib.request
 import validators
 import yaml
 from typing import Dict, Optional
+from decimal import *
 
 TEMP_FILE_PREFIX = 'kg2'
 FIRST_CAP_RE = re.compile(r'(.)([A-Z][a-z]+)')
@@ -267,6 +268,13 @@ def convert_date(time):
 def date():
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, obj):
+        # If passed a Decimal object, return string
+        if isinstance(obj, Decimal):
+            return str(obj)
+        return json.JSONEncoder.default(self, obj)
+
 
 class MLStripper(html.parser.HTMLParser):
     def __init__(self):
@@ -306,7 +314,8 @@ def save_json(data, output_file_name: str, test_mode: bool = False):
     else:
         temp_output_file = gzip.GzipFile(temp_output_file_name, 'w')
         temp_output_file.write(json.dumps(data, indent=indent_num,
-                                          sort_keys=sort_keys).encode('utf-8'))
+                                          sort_keys=sort_keys).encode('utf-8'),
+                                          cls=DecimalEncoder)
     shutil.move(temp_output_file_name, output_file_name)
 
 
