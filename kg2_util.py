@@ -310,7 +310,7 @@ def save_json(data, output_file_name: str, test_mode: bool = False):
     if not output_file_name.endswith('.gz'):
         temp_output_file = open(temp_output_file_name, 'w')
         json.dump(data, temp_output_file, indent=indent_num,
-                  sort_keys=sort_keys)
+                  sort_keys=sort_keys, cls=DecimalEncoder)
     else:
         temp_output_file = gzip.GzipFile(temp_output_file_name, 'w')
         temp_output_file.write(json.dumps(data, indent=indent_num,
