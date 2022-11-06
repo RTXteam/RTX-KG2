@@ -205,6 +205,7 @@ def process_edges(input_file_name, infores_remap_config, predicate_remap_file_na
             elif pred_remap_info.get("core_predicate", None) is None:
                 assert operation == "keep"
                 get_new_rel_info = False
+                edge_dict["core_predicate"] = predicate_curie
 
             qualified_predicate = "None"
             qualified_object_aspect = "None"
