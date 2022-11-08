@@ -277,7 +277,7 @@ def edges(input_file, output_file_location):
                 # Add the value for each edge property to the value list
                 # and limit the size of the publications_info dictionary
                 # to avoid Neo4j buffer size error
-                value = edge[key]
+                value = edge.get(key)
                 if key == "publications_info":
                     value = limit_publication_info_size(key, value)
                 elif key == 'knowledge_source':
@@ -286,6 +286,8 @@ def edges(input_file, output_file_location):
                     value = value.replace('-', '_').replace('(', '').replace(')', '')
                 elif key == 'publications':
                     value = str(value).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
+                elif key == 'predicate':
+                    value = (edge['qualified_predicate'] if not "None" else edge['source_predicate'])
                 vallist.append(value)
 
             # Add the edge property labels to the edge header TSV file
