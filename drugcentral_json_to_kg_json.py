@@ -87,17 +87,17 @@ def process_external_ids(external_ids, update_date, test_mode):
                   'MMSL': None,
                   'UMLSCUI': kg2_util.CURIE_PREFIX_UMLS,
                   'ChEMBL_ID': kg2_util.CURIE_PREFIX_CHEMBL_COMPOUND}
-    for original_predicate in external_ids:
+    for source_predicate in external_ids:
         edge_count += 1
         if test_mode and edge_count > TEST_MODE_EDGE_COUNT:
             break
-        prefix = prefix_map.get(original_predicate['id_type'], None)
+        prefix = prefix_map.get(source_predicate['id_type'], None)
         if prefix is None or \
-           len(original_predicate['struct_id']) < 1 or \
-           len(original_predicate['identifier']) < 1:
+           len(source_predicate['struct_id']) < 1 or \
+           len(source_predicate['identifier']) < 1:
             continue
-        drug_central_id = format_drugcentral_id(original_predicate['struct_id'])
-        external_id = prefix + ':' + original_predicate['identifier']
+        drug_central_id = format_drugcentral_id(source_predicate['struct_id'])
+        external_id = prefix + ':' + source_predicate['identifier']
         predicate = kg2_util.EDGE_LABEL_BIOLINK_SAME_AS
         edge = format_edge(drug_central_id,
                            external_id,
@@ -110,14 +110,14 @@ def process_external_ids(external_ids, update_date, test_mode):
 def process_omop_relations(omop_relations, update_date, test_mode):
     edges = []
     edge_count = 0
-    for original_predicate in omop_relations:
+    for source_predicate in omop_relations:
         edge_count += 1
         if test_mode and edge_count > TEST_MODE_EDGE_COUNT:
             break
-        umls_id = original_predicate['umls_cui']
-        doid_id = original_predicate['doid']
-        drug_central_id = original_predicate['struct_id']
-        predicate = original_predicate['relationship_name'].replace(' ', '_')
+        umls_id = source_predicate['umls_cui']
+        doid_id = source_predicate['doid']
+        drug_central_id = source_predicate['struct_id']
+        predicate = source_predicate['relationship_name'].replace(' ', '_')
         if (len(doid_id) < 1 and len(umls_id) < 1) or \
            len(drug_central_id) < 1 or \
            len(predicate) < 1:
@@ -136,15 +136,15 @@ def process_omop_relations(omop_relations, update_date, test_mode):
 def process_faers_data(faers_edges, update_date, test_mode):
     edges = []
     edge_count = 0
-    for original_predicate in faers_edges:
+    for source_predicate in faers_edges:
         edge_count += 1
         if test_mode and edge_count > TEST_MODE_EDGE_COUNT:
             break
-        meddra_id = original_predicate['meddra_code']
-        drug_central_id = original_predicate['struct_id']
+        meddra_id = source_predicate['meddra_code']
+        drug_central_id = source_predicate['struct_id']
         predicate = 'has_faers'
-        likelihood = float(original_predicate['llr'])
-        likelihood_threshold = float(original_predicate['llr_threshold'])
+        likelihood = float(source_predicate['llr'])
+        likelihood_threshold = float(source_predicate['llr_threshold'])
         if likelihood < likelihood_threshold:
             continue
         if len(meddra_id) < 1 or len(drug_central_id) < 1:
@@ -159,12 +159,12 @@ def process_faers_data(faers_edges, update_date, test_mode):
 def process_atc_codes(atc_codes, update_date, test_mode):
     edges = []
     edge_count = 0
-    for original_predicate in atc_codes:
+    for source_predicate in atc_codes:
         edge_count += 1
         if test_mode and edge_count > TEST_MODE_EDGE_COUNT:
             break
-        atc_id = original_predicate['atc_code']
-        drug_central_id = original_predicate['struct_id']
+        atc_id = source_predicate['atc_code']
+        drug_central_id = source_predicate['struct_id']
         if len(atc_id) < 1 or len(drug_central_id) < 1:
             continue
         atc_id = kg2_util.CURIE_PREFIX_ATC + ':' + atc_id
@@ -183,24 +183,24 @@ def format_publication(url):
 def process_bioactivities(bioactivities, update_date, test_mode):
     edges = []
     edge_count = 0
-    for original_predicate in bioactivities:
+    for source_predicate in bioactivities:
         edge_count += 1
         if test_mode and edge_count > TEST_MODE_EDGE_COUNT:
             break
         publications = []
-        action_type = original_predicate['action_type'].lower().replace(' ', '_')
-        moa_source = original_predicate['moa_source']
-        moa_source_url = original_predicate['moa_source_url']
-        drug_central_id = format_drugcentral_id(original_predicate['struct_id'])
-        act_source = original_predicate['act_source']
-        act_source_url = original_predicate['act_source_url']
+        action_type = source_predicate['action_type'].lower().replace(' ', '_')
+        moa_source = source_predicate['moa_source']
+        moa_source_url = source_predicate['moa_source_url']
+        drug_central_id = format_drugcentral_id(source_predicate['struct_id'])
+        act_source = source_predicate['act_source']
+        act_source_url = source_predicate['act_source_url']
         if len(act_source_url) > 0 and act_source == "SCIENTIFIC LITERATURE":
             publications.append(format_publication(act_source_url))
         if len(moa_source_url) > 0 and moa_source == "SCIENTIFIC LITERATURE":
             publications.append(format_publication(moa_source_url))
         if len(action_type) < 1:
             continue
-        for accession in original_predicate['accession'].split('|'):
+        for accession in source_predicate['accession'].split('|'):
             if len(accession) < 1:
                 continue
             uniprot_id = kg2_util.CURIE_PREFIX_UNIPROT + ':' + accession
@@ -248,10 +248,12 @@ def make_nodes(drugcentral_ids, update_date):
         if drug_central_id not in reformatted_json:
             reformatted_json[drug_central_id] = dict()
             reformatted_json[drug_central_id]['synonyms'] = []
-        if name_row['preferred_name'] == "1":
-            reformatted_json[drug_central_id]['name'] = name
-        else:
-            reformatted_json[drug_central_id]['synonyms'].append(name)
+        # I'm not sure what to do with the "preferred name" condition since there aren't any synonyms that I see
+        # if name_row['preferred_name'] == "1":
+        #     reformatted_json[drug_central_id]['name'] = name
+        # else:
+        #     reformatted_json[drug_central_id]['synonyms'].append(name)
+        reformatted_json[drug_central_id]['name'] = name
     for node_id in reformatted_json:
         synonyms = reformatted_json[node_id]['synonyms']
         name = reformatted_json[node_id]['name']

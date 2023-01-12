@@ -210,7 +210,7 @@ which are in the `us-west-2` AWS region) and you will need to have an AWS
 authentication key pair that is configured to be able to read from (and write
 to) the bucket(s), so that the build script can download a copy of the full
 Unified Medical Language System (UMLS) distribution. The full UMLS distribution
-(including SNOMED CT) (`umls-2020AA-metathesaurus.zip`; IANAL, but it appears
+(including SNOMED CT) (`umls-2022AA-metathesaurus.zip`; IANAL, but it appears
 that the UMLS is encumbered by a license preventing redistribution so I have not
 hosted them on a public server for download; but you can get it for free at the
 [UMLS website](https://www.nlm.nih.gov/research/umls/) if you agree to the UMLS
@@ -991,10 +991,10 @@ the following keys:
   present) no consitent format, unfortunately; it is usually not `null`.
   - `id`: a concatenated string of other edge attributes that uniquely identifies the edge. it
   follows the format `subject---relation---object---provided_by`.
-  - `original_predicate`: a CURIE ID for the relation as reported by the upstream
+  - `source_predicate`: a CURIE ID for the relation as reported by the upstream
     database source.
   - `provided_by`: _deprecated_. Refer to `knowledge_source`.
-  - `relation`: _deprecated_. See `original_predicate`.
+  - `relation`: _deprecated_. See `source_predicate`.
 
 ### `publications_info` slot
 
@@ -1078,13 +1078,28 @@ ValueError: unable to expand CURIE: MONARCH:cliqueLeader
 would indicate that the CURIE prefix (in this case, `MONARCH`) needs to be added to the
 `use_for_bidirectional_mapping` section of `curies-to-urls-map.yaml` config file.
 
+## Error building DAG of jobs
+- In the case where Snakemake is forcibly quit due to a loss of power or other reason, it may result in the code directory becoming locked. To resolve, run:
+```
+/home/ubuntu/kg2-venv/bin/snakemake --snakefile /home/ubuntu/kg2-code/Snakefile --unlock
+```
+
 ## Authentication Error in `tsv-to-neo4j.sh`
-Soemtimes, when hosting KG2 in a Neo4j server on a new AWS instance, the initial password does not get set correctly, which will lead to an Authentication Error in `tsv-to-neo4j.sh`. To fix this, do the following:
+Sometimes, when hosting KG2 in a Neo4j server on a new AWS instance, the initial password does not get set correctly, which will lead to an Authentication Error in `tsv-to-neo4j.sh`. To fix this, do the following:
 1. Start up Neo4 (sudo service neo4j start)
 2. Wait one minute, then confirm Neo4j is running (sudo service neo4j status)
 3. Use a browser to connect to Neo4j via HTTP on port 7474. You should see a username/password authentication form.
 4. Fill in "neo4j" and "neo4j" for username and password, respectively, and submit the form. You should be immediately prompted to set a new password. At that 	time, type in our "usual" Neo4j password (you'll have to enter it twice).
 5. When you submit the form, Neo4j should be running and it should now have the correct password set.
+
+## Errors in Extraction rules
+
+### Role exists error
+Occasionally, when a database needs to be re-extracted, the error `ERROR:  role "jjyang" already exists` occurs.
+If the following is not in the extraction script, add it to the line above where the role is created.
+```
+sudo -u postgres psql -c "DROP ROLE IF EXISTS ${role}"
+```
 
 # For Developers
 

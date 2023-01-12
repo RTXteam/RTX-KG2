@@ -92,8 +92,9 @@ def count_edges_by_source(edges: list):
 
 
 def count_edges_by_predicate_curie(edges: list):
-    curie_field = 'original_predicate' if not args.use_simplified_predicates else 'predicate'
-    return collections.Counter([edge[curie_field] for edge in edges])
+    curie_field = 'source_predicate' if not args.use_simplified_predicates else 'qualified_predicate'
+    # When there isn't a qualified_predicate, use source_predicate
+    return collections.Counter([edge.get(curie_field, 'source_predicate') for edge in edges])
 
 
 def count_edges_by_predicate_type(edges: list):
@@ -102,13 +103,13 @@ def count_edges_by_predicate_type(edges: list):
 
 
 def count_edges_by_predicate_curie_prefix(edges: list):
-    curie_field = 'original_predicate' if not args.use_simplified_predicates else 'predicate'
-    return collections.Counter([get_prefix_from_curie_id(edge[curie_field]) for edge in edges])
+    curie_field = 'source_predicate' if not args.use_simplified_predicates else 'qualified_predicate'
+    return collections.Counter([get_prefix_from_curie_id(edge.get(curie_field, 'source_predicate')) for edge in edges])
 
 
 def count_predicates_by_predicate_curie_prefix(edges: list):
-    curie_field = 'original_predicate' if not args.use_simplified_predicates else 'predicate'
-    unique_relation_curies = set([edge[curie_field] for edge in edges])
+    curie_field = 'source_predicate' if not args.use_simplified_predicates else 'qualified_predicate'
+    unique_relation_curies = set([edge.get(curie_field, 'source_predicate') for edge in edges])
     return collections.Counter([get_prefix_from_curie_id(curie) for curie in unique_relation_curies])
 
 
@@ -150,7 +151,6 @@ if __name__ == '__main__':
 
     if 'nodes' not in graph:
         print("WARNING: 'nodes' property is missing from the input JSON.", file=sys.stderr)
-    nodes = graph.get('nodes', [])
     nodes = graph.get('nodes', [])
     for n in nodes[::-1]:  # search for build info node starting at end
         if n["name"] == "KG2:Build":  # should be the first node accessed

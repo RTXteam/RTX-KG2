@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 '''merge_graphs.py: merge two KGs that are in the KG2 JSON format
 
-   Usage: merge_graphs.py --kgFiles <kgFile1> ... <kgFile>
-                         [--kgFileOrphanEdges <kgFileOrphanEdges>]
-                         <output.json>
+   Usage: merge_graphs.py [--kgFileOrphanEdges <kgFileOrphanEdges>]
+                           --outpufFile <outputFile.json>
+                           <kgFile1> ... <kgFile>
 '''
 
 __author__ = 'Stephen Ramsey'

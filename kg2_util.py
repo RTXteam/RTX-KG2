@@ -42,6 +42,7 @@ import urllib.request
 import validators
 import yaml
 from typing import Dict, Optional
+from decimal import *
 
 TEMP_FILE_PREFIX = 'kg2'
 FIRST_CAP_RE = re.compile(r'(.)([A-Z][a-z]+)')
@@ -125,14 +126,14 @@ BASE_BASE_URL_IDENTIFIERS_ORG = 'https://identifiers.org/'
 
 BASE_URL_IDENTIFIERS_ORG_REGISTRY = \
     'https://registry.identifiers.org/registry/'
-BASE_URL_BIOLINK_CONCEPTS = 'https://w3id.org/linkml/'
+BASE_URL_BIOLINK_CONCEPTS = 'https://w3id.org/biolink/vocab/'
 BASE_URL_BIOLINK_ONTOLOGY = 'https://w3id.org/biolink/biolink-model'
 BASE_URL_BIOLINK_META = 'https://w3id.org/biolink/biolinkml/meta/'
 BASE_URL_CHEMBL_COMPOUND = BASE_BASE_URL_IDENTIFIERS_ORG + 'chembl.compound:'
 BASE_URL_CHEMBL_TARGET = BASE_BASE_URL_IDENTIFIERS_ORG + 'chembl.target:'
 BASE_URL_CHEMBL_MECHANISM = 'https://www.ebi.ac.uk/chembl#'
 BASE_URL_CLINICALTRIALS = BASE_BASE_URL_IDENTIFIERS_ORG + 'clinicaltrials:'
-BASE_URL_DGIDB = 'http://www.dgidb.org/'
+BASE_URL_DGIDB = 'https://www.dgidb.org/'
 BASE_URL_DISGENET = 'http://www.disgenet.org'
 BASE_URL_DRUGBANK = BASE_BASE_URL_IDENTIFIERS_ORG + 'drugbank:'
 BASE_URL_DRUGCENTRAL = 'https://drugcentral.org/drugcard/'
@@ -267,6 +268,13 @@ def convert_date(time):
 def date():
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, obj):
+        # If passed a Decimal object, return string
+        if isinstance(obj, Decimal):
+            return str(obj)
+        return json.JSONEncoder.default(self, obj)
+
 
 class MLStripper(html.parser.HTMLParser):
     def __init__(self):
@@ -302,11 +310,12 @@ def save_json(data, output_file_name: str, test_mode: bool = False):
     if not output_file_name.endswith('.gz'):
         temp_output_file = open(temp_output_file_name, 'w')
         json.dump(data, temp_output_file, indent=indent_num,
-                  sort_keys=sort_keys)
+                  sort_keys=sort_keys, cls=DecimalEncoder)
     else:
         temp_output_file = gzip.GzipFile(temp_output_file_name, 'w')
         temp_output_file.write(json.dumps(data, indent=indent_num,
-                                          sort_keys=sort_keys).encode('utf-8'))
+                                          sort_keys=sort_keys).encode('utf-8'),
+                                          cls=DecimalEncoder)
     shutil.move(temp_output_file_name, output_file_name)
 
 
@@ -691,7 +700,13 @@ def make_node(id: str,
 
 def make_edge_key(edge_dict: dict):
     return edge_dict['subject'] + '---' + \
-           edge_dict['original_predicate'] + '---' + \
+           edge_dict['source_predicate'] + '---' + \
+           (edge_dict['qualified_predicate'] if edge_dict['qualified_predicate'] is not None else 'None') + \
+           '---' + \
+           (edge_dict['qualified_object_aspect'] if edge_dict['qualified_object_aspect'] is not None else 'None') + \
+           '---' + \
+           (edge_dict['qualified_object_direction'] if edge_dict['qualified_object_direction'] is not None else 'None') + \
+           '---' + \
            edge_dict['object'] + '---' + \
            edge_dict['knowledge_source']
 
@@ -706,7 +721,10 @@ def make_edge(subject_id: str,
     edge = {'subject': subject_id,
             'object': object_id,
             'relation_label': relation_label,
-            'original_predicate': relation_curie,
+            'source_predicate': relation_curie,
+            'qualified_predicate': None,
+            'qualified_object_aspect': None,
+            'qualified_object_direction': None,
             'negated': False,
             'publications': [],
             'publications_info': {},

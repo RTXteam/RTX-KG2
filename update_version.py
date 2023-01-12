@@ -17,6 +17,9 @@ __maintainer__ = ''
 __email__ = ''
 __status__ = 'Prototype'
 
+VERSION = '2.8.0'
+VERSION_FILE = 'kg2-version.txt'
+
 
 def get_args():
     arg_parser = argparse.ArgumentParser(description='update_version.py: \
@@ -34,26 +37,32 @@ def get_args():
 
 
 if __name__ == '__main__':
-    args = get_args()
-    input_file_name = args.versionFile
-    increment_major = args.increment_major
-    increment_minor = args.increment_minor
-    assert not (increment_major and increment_minor), "cannot specify both --increment_major and --increment_minor at the same time"
-    input_file = open(input_file_name, "r")
-    for line in input_file:
-        input_file.close()
-        output_file = open(input_file_name, "w")
-        old_version = line.split(".")
-        graph_ver = old_version[0]
-        major_ver = int(old_version[1])
-        minor_ver = int(old_version[2])
-        if increment_major:
-            major_ver += 1
-            minor_ver = 0
-        elif increment_minor:
-            minor_ver += 1
-        new_version = graph_ver + "." + str(major_ver) + "." + str(minor_ver)
-        output_file.write(new_version)
-        output_file.close()
-        print("KG2 version: " + new_version)
-        break
+    output_file = open(VERSION_FILE, 'w')
+    output_file.write(VERSION)
+    output_file.close()
+    print(f"KG2 version: {VERSION}")
+
+
+    # args = get_args()
+    # input_file_name = args.versionFile
+    # increment_major = args.increment_major
+    # increment_minor = args.increment_minor
+    # assert not (increment_major and increment_minor), "cannot specify both --increment_major and --increment_minor at the same time"
+    # input_file = open(input_file_name, "r")
+    # for line in input_file:
+    #     input_file.close()
+    #     output_file = open(input_file_name, "w")
+    #     old_version = line.split(".")
+    #     graph_ver = old_version[0]
+    #     major_ver = int(old_version[1])
+    #     minor_ver = int(old_version[2])
+    #     if increment_major:
+    #         major_ver += 1
+    #         minor_ver = 0
+    #     elif increment_minor:
+    #         minor_ver += 1
+    #     new_version = graph_ver + "." + str(major_ver) + "." + str(minor_ver)
+    #     output_file.write(new_version)
+    #     output_file.close()
+    #     print("KG2 version: " + new_version)
+    #     break

@@ -56,8 +56,11 @@ ENSEMBL_LETTER_TO_CATEGORY = {'P': 'protein',
 
 
 def delete_ontobio_cachier_caches():
-    kg2_util.purge("~/.cachier", ".ontobio*")
-    kg2_util.purge("~/.cachier", ".prefixcommons*")
+    # This is causing issues in the current build because these files don't exist.
+    # Temporarily commenting out to avoid error.
+    # kg2_util.purge("~/.cachier", ".ontobio*")
+    # kg2_util.purge("~/.cachier", ".prefixcommons*")
+    pass
 
 
 def load_ont_file_return_ontology_and_metadata(file_name: str,
@@ -1303,6 +1306,8 @@ def xref_as_a_publication(xref: str):
 def convert_bpv_predicate_to_curie(bpv_pred: str,
                                    uri_shortener: callable,
                                    curie_expander: callable) -> str:
+    if bpv_pred.startswith("ttp"):
+            bpv_pred = "h" + bpv_pred
     if kg2_util.is_a_valid_http_url(bpv_pred):
         bpv_pred_curie = uri_shortener(bpv_pred)
     else:

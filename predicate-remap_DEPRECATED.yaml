@@ -1,0 +1,4869 @@
+BFO:0000050:
+  invert:
+  - has_part
+  - biolink:has_part
+BFO:0000051:
+  rename:
+  - has_part
+  - biolink:has_part
+BFO:0000054:
+  rename:
+  - related_to
+  - biolink:related_to
+BFO:0000055:
+  rename:
+  - has_part
+  - biolink:has_part
+# BFO:0000056:
+#   invert:
+#   - has_participant
+#   - biolink:has_participant
+BFO:0000062:
+  invert:
+  - precedes
+  - biolink:precedes
+BFO:0000063:
+  rename:
+  - precedes
+  - biolink:precedes
+BFO:0000066:
+  rename:
+  - occurs_in
+  - biolink:occurs_in
+BFO:0000067:
+  rename:
+  - occurs_in
+  - biolink:occurs_in
+BFO:0000068:
+  rename:
+  - related_to
+  - biolink:related_to
+BFO:0000069:
+  rename:
+  - related_to
+  - biolink:related_to
+BFO:0000117:
+  rename:
+  - has_part
+  - biolink:has_part
+BFO:0000167:
+  rename:
+  - has_participant
+  - biolink:has_participant
+BSPO:0000096:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0000097:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0000098:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0000099:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0000100:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0000102:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0000104:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0000107:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0000108:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0000110:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0000113:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0000120:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0000121:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0000122:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0000123:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0000124:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0000125:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0000126:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0001100:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0001101:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0001106:
+  invert:
+  - has_part
+  - biolink:has_part
+BSPO:0001107:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0001108:
+  invert:
+  - has_part
+  - biolink:has_part
+BSPO:0001113:
+  invert:
+  - has_part
+  - biolink:has_part
+BSPO:0001115:
+  invert:
+  - has_part
+  - biolink:has_part
+BSPO:0005001:
+  rename:
+  - overlaps
+  - biolink:overlaps
+BSPO:0015001:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0015002:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0015003:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0015005:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0015006:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0015007:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0015008:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0015009:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0015012:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0015014:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+BSPO:0015101:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0015102:
+  rename:
+  - located_in
+  - biolink:located_in
+BSPO:0015202:
+  rename:
+  - located_in
+  - biolink:located_in
+BTO:develops_from:
+  rename:
+  - develops_from
+  - biolink:develops_from
+BTO:related_to:
+  rename:
+  - related_to
+  - biolink:related_to
+CHEBI:has_functional_parent:
+  rename:
+  - chemically_similar_to
+  - biolink:chemically_similar_to
+CHEBI:has_parent_hydride:
+  rename:
+  - chemically_similar_to
+  - biolink:chemically_similar_to
+CHEBI:is_conjugate_acid_of:
+  rename:
+  - chemically_similar_to
+  - biolink:chemically_similar_to
+CHEBI:is_conjugate_base_of:
+  rename:
+  - chemically_similar_to
+  - biolink:chemically_similar_to
+CHEBI:is_enantiomer_of:
+  rename:
+  - chemically_similar_to
+  - biolink:chemically_similar_to
+CHEBI:is_substituent_group_from:
+  invert:
+  - has_part
+  - biolink:has_part
+CHEBI:is_tautomer_of:
+  rename:
+  - chemically_similar_to
+  - biolink:chemically_similar_to
+CHEMBL.MECHANISM:activator:
+  rename:
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
+CHEMBL.MECHANISM:agonist:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+CHEMBL.MECHANISM:allosteric_antagonist:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+CHEMBL.MECHANISM:antagonist:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+CHEMBL.MECHANISM:antisense_inhibitor:
+  rename:
+  - decreases_expression_of
+  - biolink:decreases_expression_of
+CHEMBL.MECHANISM:binding_agent:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+CHEMBL.MECHANISM:blocker:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+CHEMBL.MECHANISM:chelating_agent:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+CHEMBL.MECHANISM:cross-linking_agent:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+CHEMBL.MECHANISM:degrader:
+  rename:
+  - increases_degradation_of
+  - biolink:increases_degradation_of
+CHEMBL.MECHANISM:disrupting_agent:
+  rename:
+  - disrupts
+  - biolink:disrupts
+CHEMBL.MECHANISM:equivalent_to:
+  rename:
+  - same_as
+  - biolink:same_as
+CHEMBL.MECHANISM:hydrolytic_enzyme:
+  rename:
+  - increases_degradation_of
+  - biolink:increases_degradation_of
+CHEMBL.MECHANISM:inhibitor:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+CHEMBL.MECHANISM:inverse_agonist:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+CHEMBL.MECHANISM:modulator:
+  rename:
+  - entity_regulates_entity
+  - biolink:entity_regulates_entity
+CHEMBL.MECHANISM:negative_allosteric_modulator:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+CHEMBL.MECHANISM:negative_modulator:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+CHEMBL.MECHANISM:opener:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+CHEMBL.MECHANISM:other:
+  delete: null
+CHEMBL.MECHANISM:overlaps_with:
+  rename:
+  - overlaps
+  - biolink:overlaps
+CHEMBL.MECHANISM:oxidative_enzyme:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+CHEMBL.MECHANISM:partial_agonist:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+CHEMBL.MECHANISM:positive_allosteric_modulator:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+CHEMBL.MECHANISM:positive_modulator:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+CHEMBL.MECHANISM:proteolytic_enzyme:
+  rename:
+  - increases_degradation_of
+  - biolink:increases_degradation_of
+CHEMBL.MECHANISM:reducing_agent:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+CHEMBL.MECHANISM:releasing_agent:
+  rename:
+  - increases_expression_of
+  - biolink:increases_expression_of
+CHEMBL.MECHANISM:rnai_inhibitor:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+CHEMBL.MECHANISM:sequestering_agent:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+CHEMBL.MECHANISM:stabiliser:
+  rename:
+  - increases_stability_of
+  - biolink:increases_stability_of
+CHEMBL.MECHANISM:subset_of:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+CHEMBL.MECHANISM:substrate:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+CHEMBL.MECHANISM:superset_of:
+  invert:
+  - subclass_of
+  - biolink:subclass_of
+CL:has_completed:
+  rename:
+  - has_completed
+  - biolink:has_completed
+CL:has_high_plasma_membrane_amount:
+  rename:
+  - has_increased_amount
+  - biolink:has_increased_amount
+CL:has_low_plasma_membrane_amount:
+  rename:
+  - has_decreased_amount
+  - biolink:has_decreased_amount
+CL:has_not_completed:
+  rename:
+  - has_not_completed
+  - biolink:has_not_completed
+CL:lacks_part:
+  rename:
+  - lacks_part
+  - biolink:lacks_part
+CL:lacks_plasma_membrane_part:
+  rename:
+  - lacks_part
+  - biolink:lacks_part
+CPT:has_add_on_code:
+  rename:
+  - related_to
+  - biolink:related_to
+CPT:mapped_to:
+  rename:
+  - related_to
+  - biolink:related_to
+CTD:affects_abundance_of:
+  rename:
+  - affects_abundance_of
+  - biolink:affects_abundance_of
+CTD:affects_folding_of:
+  rename:
+  - affects_folding_of
+  - biolink:affects_folding_of
+CTD:affects_molecular_modification_of:
+  rename:
+  - affects_molecular_modification_of
+  - biolink:affects_molecular_modification_of
+CTD:affects_synthesis_of:
+  rename:
+  - affects_synthesis_of
+  - biolink:affects_synthesis_of
+CTD:decreases_folding_of:
+  rename:
+  - decreases_folding_of
+  - biolink:decreases_folding_of
+CTD:decreases_localization_of:
+  rename:
+  - decreases_localization_of
+  - biolink:decreases_localization_of
+CTD:decreases_metabolic_processing_of:
+  rename:
+  - decreases_metabolic_processing_of
+  - biolink:decreases_metabolic_processing_of
+CTD:decreases_molecular_modification_of:
+  rename:
+  - decreases_molecular_modification_of
+  - biolink:decreases_molecular_modification_of
+CTD:increases_folding_of:
+  rename:
+  - increases_folding_of
+  - biolink:increases_folding_of
+CTD:increases_localization_of:
+  rename:
+  - increases_localization_of
+  - biolink:increases_localization_of
+CTD:increases_metabolic_processing_of:
+  rename:
+  - increases_metabolic_processing_of
+  - biolink:increases_metabolic_processing_of
+CTD:increases_molecular_modification_of:
+  rename:
+  - increases_molecular_modification_of
+  - biolink:increases_molecular_modification_of
+CTD:increases_synthesis_of:
+  rename:
+  - increases_synthesis_of
+  - biolink:increases_synthesis_of
+DDANAT:develops_from:
+  rename:
+  - develops_from
+  - biolink:develops_from
+DGIdb:activator:
+  rename:
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
+# DGIdb:adduct:
+#   rename:
+#   - directly_interacts_with
+#   - biolink:directly_interacts_with
+DGIdb:affects:
+  rename:
+  - affects
+  - biolink:affects
+DGIdb:agonist:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DGIdb:allosteric_modulator:
+  rename:
+  - affects_activity_of
+  - biolink:affects_activity_of
+DGIdb:antagonist:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DGIdb:antibody:
+  rename:
+  - molecularly_interacts_with
+  - biolink:molecularly_interacts_with
+# DGIdb:antisense:
+#   rename:
+#   - decreases_expression_of
+#   - biolink:decreases_expression_of
+DGIdb:antisense_oligonucleotide:
+  rename:
+  - decreases_expression_of
+  - biolink:decreases_expression_of
+# DGIdb:binder:
+#   rename:
+#   - directly_interacts_with
+#   - biolink:directly_interacts_with
+DGIdb:blocker:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+# DGIdb:channel_blocker:
+#   rename:
+#   - decreases_activity_of
+#   - biolink:decreases_activity_of
+# DGIdb:chaperone:
+#   rename:
+#   - directly_interacts_with
+#   - biolink:directly_interacts_with
+# DGIdb:cleavage:
+#   rename:
+#   - affects_degradation_of
+#   - biolink:affects_degradation_of
+# DGIdb:cofactor:
+#   rename:
+#   - directly_interacts_with
+#   - biolink:directly_interacts_with
+# DGIdb:gating_inhibitor:
+#   rename:
+#   - decreases_activity_of
+#   - biolink:decreases_activity_of
+DGIdb:inducer:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DGIdb:inhibitor:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DGIdb:inhibitory_allosteric_modulator:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DGIdb:inverse_agonist:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+# DGIdb:ligand:
+#   rename:
+#   - directly_interacts_with
+#   - biolink:directly_interacts_with
+DGIdb:modulator:
+  rename:
+  - affects_activity_of
+  - biolink:affects_activity_of
+# DGIdb:multitarget:
+#   rename:
+#   - directly_interacts_with
+#   - biolink:directly_interacts_with
+DGIdb:negative_modulator:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DGIdb:partial_agonist:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+# DGIdb:partial_antagonist:
+#   rename:
+#   - decreases_activity_of
+#   - biolink:decreases_activity_of
+# DGIdb:positive_allosteric_modulator:
+#   rename:
+#   - increases_activity_of
+#   - biolink:increases_activity_of
+DGIdb:positive_modulator:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+# DGIdb:potentiator:
+#   rename:
+#   - increases_activity_of
+#   - biolink:increases_activity_of
+# DGIdb:product_of:
+#   rename:
+#   - derives_from
+#   - biolink:derives_from
+# DGIdb:stimulator:
+#   rename:
+#   - increases_activity_of
+#   - biolink:increases_activity_of
+# DGIdb:substrate:
+#   rename:
+#   - increases_degradation_of
+#   - biolink:increases_degradation_of
+DGIdb:suppressor:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DGIdb:vaccine:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+# DOID-PROPERTY:derives_from:
+#   rename:
+#   - derives_from
+#   - biolink:derives_from
+# DOID-PROPERTY:has_symptom:
+#   rename:
+#   - has_phenotype
+#   - biolink:has_phenotype
+DRUGBANK:activator:
+  rename:
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
+DRUGBANK:adduct:
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+DRUGBANK:aggregation_inhibitor:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DRUGBANK:agonist:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DRUGBANK:allosteric_modulator:
+  rename:
+  - affects_activity_of
+  - biolink:affects_activity_of
+DRUGBANK:antagonist:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DRUGBANK:antibody:
+  rename:
+  - molecularly_interacts_with
+  - biolink:molecularly_interacts_with
+DRUGBANK:antisense_oligonucleotide:
+  rename:
+  - decreases_expression_of
+  - biolink:decreases_expression_of
+DRUGBANK:atc-code:
+  rename:
+  - close_match
+  - biolink:close_match
+DRUGBANK:atc-code-level:
+  rename:
+  - related_to
+  - biolink:related_to
+DRUGBANK:binder:
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+DRUGBANK:binding:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+DRUGBANK:blocker:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+DRUGBANK:category:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+DRUGBANK:chaperone:
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+DRUGBANK:chelator:
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+DRUGBANK:cleavage:
+  rename:
+  - affects_degradation_of
+  - biolink:affects_degradation_of
+DRUGBANK:cofactor:
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+DRUGBANK:component_of:
+  invert:
+  - has_part
+  - biolink:has_part
+DRUGBANK:degradation:
+  rename:
+  - affects_degradation_of
+  - biolink:affects_degradation_of
+DRUGBANK:deoxidizer:
+  rename:
+  - decreases_molecular_modification_of
+  - biolink:decreases_molecular_modification_of
+DRUGBANK:desensitize_the_target:
+  rename:
+  - decreases_response_to
+  - biolink:decreases_response_to
+DRUGBANK:downregulator:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+DRUGBANK:drug-interaction:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+DRUGBANK:external-identifier:
+  rename:
+  - same_as
+  - biolink:same_as
+DRUGBANK:external-identifier-protein:
+  rename:
+  - derives_from
+  - biolink:derives_from
+DRUGBANK:gene_replacement:
+  rename:
+  - close_match
+  - biolink:close_match
+DRUGBANK:group:
+  rename:
+  - related_to
+  - biolink:related_to
+DRUGBANK:inactivator:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+DRUGBANK:incorporation_into_and_destabilization:
+  rename:
+  - affects_degradation_of
+  - biolink:affects_degradation_of
+DRUGBANK:inducer:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DRUGBANK:inhibition_of_synthesis:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+DRUGBANK:inhibitor:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+DRUGBANK:inhibitory_allosteric_modulator:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DRUGBANK:intercalation:
+  rename:
+  - molecularly_interacts_with
+  - biolink:molecularly_interacts_with
+DRUGBANK:inverse_agonist:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DRUGBANK:ligand:
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+DRUGBANK:modulator:
+  rename:
+  - entity_regulates_entity
+  - biolink:entity_regulates_entity
+DRUGBANK:multitarget:
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+DRUGBANK:negative_modulator:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+DRUGBANK:neutralizer:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DRUGBANK:nucleotide_exchange_blocker:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DRUGBANK:oxidizer:
+  rename:
+  - increases_molecular_modification_of
+  - biolink:increases_molecular_modification_of
+DRUGBANK:partial_agonist:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DRUGBANK:partial_antagonist:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DRUGBANK:pathway:
+  rename:
+  - has_participant
+  - biolink:has_participant
+DRUGBANK:positive_allosteric_modulator:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DRUGBANK:positive_modulator:
+  rename:
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
+DRUGBANK:potentiator:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DRUGBANK:product_of:
+  rename:
+  - derives_from
+  - biolink:derives_from
+DRUGBANK:regulator:
+  rename:
+  - entity_regulates_entity
+  - biolink:entity_regulates_entity
+DRUGBANK:stabilization:
+  rename:
+  - increases_stability_of
+  - biolink:increases_stability_of
+DRUGBANK:stimulator:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DRUGBANK:substrate:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+DRUGBANK:suppressor:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DRUGBANK:target:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+DRUGBANK:translocation_inhibitor:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+DRUGBANK:weak_inhibitor:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+# DrugCentral:5271:
+#   rename:
+#   - diagnoses
+#   - biolink:diagnoses
+DrugCentral:activator:
+  rename:
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
+DrugCentral:agonist:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DrugCentral:allosteric_antagonist:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DrugCentral:allosteric_modulator:
+  rename:
+  - affects_activity_of
+  - biolink:affects_activity_of
+DrugCentral:antagonist:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DrugCentral:antibody_binding:
+  rename:
+  - molecularly_interacts_with
+  - biolink:molecularly_interacts_with
+DrugCentral:antisense_inhibitor:
+  rename:
+  - decreases_expression_of
+  - biolink:decreases_expression_of
+DrugCentral:binding_agent:
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+DrugCentral:blocker:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+DrugCentral:contraindication:
+  rename:
+  - contraindicated_for
+  - biolink:contraindicated_for
+# DrugCentral:diagnosis: # A drug that helps diagnose a condition
+#   rename:
+#   - related_to
+#   - biolink:related_to
+DrugCentral:gating_inhibitor:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+# DrugCentral:has_faers:
+#   rename:
+#   - causes_adverse_event
+#   - biolink:causes_adverse_event
+DrugCentral:has_role:
+  rename:
+  - related_to
+  - biolink:related_to
+DrugCentral:indication:
+  rename:
+  - treats
+  - biolink:treats
+DrugCentral:inhibitor:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+DrugCentral:inverse_agonist:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+DrugCentral:modulator:
+  rename:
+  - entity_regulates_entity
+  - biolink:entity_regulates_entity
+DrugCentral:negative_allosteric_modulator:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+DrugCentral:negative_modulator:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+DrugCentral:off-label_use:
+  rename:
+  - treats
+  - biolink:treats
+DrugCentral:opener:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DrugCentral:PA: # PA stands for "Pharmacological Action"
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+DrugCentral:partial_agonist:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DrugCentral:pharmacological_chaperone:
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+DrugCentral:positive_allosteric_modulator:
+  rename:
+  - increases_activity_of
+  - biolink:increases_activity_of
+DrugCentral:positive_modulator:
+  rename:
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
+# DrugCentral:reduce_risk:
+#   rename:
+#   - prevents
+#   - biolink:prevents
+DrugCentral:releasing_agent:
+  rename:
+  - increases_expression_of
+  - biolink:increases_expression_of
+DrugCentral:struct2atc:
+  rename:
+  - close_match
+  - biolink:close_match
+DrugCentral:substrate:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+DrugCentral:symptomatic_treatment:
+  rename:
+  - treats
+  - biolink:treats
+EFO:0000784:
+  rename:
+  - located_in
+  - biolink:located_in
+EFO:0001697:
+  invert:
+  - related_to
+  - biolink:related_to
+EFO:0006351:
+  rename:
+  - related_to
+  - biolink:related_to
+EFO:is_executed_in:
+  rename:
+  - related_to
+  - biolink:related_to
+ENVO:01001307:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:SIB:
+  delete: null
+FMA:adheres_to:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+FMA:adjacent_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:afferent_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:anatomical_entity_observed_in:
+  delete: null
+FMA:anterior_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:anteroinferior_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:anterolateral_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:anteromedial_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:anterosuperior_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:arterial_supply_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:articulates_with:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:attaches_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:bounded_by:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:bounds:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:branch_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:connected_to:
+  rename:
+  - related_to
+  - biolink:related_to
+FMA:connection_type_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:constitutional_part_of:
+  invert:
+  - has_part
+  - biolink:has_part
+FMA:contained_in:
+  invert:
+  - has_part
+  - biolink:has_part
+FMA:contains:
+  rename:
+  - has_part
+  - biolink:has_part
+FMA:continuation_branch_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:continuous_distally_with:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:continuous_proximally_with:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:continuous_with:
+  rename:
+  - related_to
+  - biolink:related_to
+FMA:corresponds_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:derives:
+  invert:
+  - derives_from
+  - biolink:derives_from
+FMA:derives_from:
+  rename:
+  - derives_from
+  - biolink:derives_from
+FMA:development_type_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:developmental_stage_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:develops_from:
+  rename:
+  - develops_from
+  - biolink:develops_from
+FMA:develops_into:
+  rename:
+  - develops_from
+  - biolink:develops_from
+FMA:direct_cell_shape_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:direct_left_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:direct_right_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:distal_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:drains_into:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:efferent_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:external_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:formed_by:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:forms:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:full_grown_phenotype_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:fuses_with:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:fusion_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:germ_origin_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_adherent:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_arterial_supply:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_branch:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_connection_type:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_constitutional_part:
+  rename:
+  - has_part
+  - biolink:has_part
+FMA:has_continuation_branch:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_development_type:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_developmental_stage:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_direct_cell_shape:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_full_grown_phenotype:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_fusion:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_germ_origin:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_inherent_3d_shape:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_insertion:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_location:
+  rename:
+  - located_in
+  - biolink:located_in
+FMA:has_lymphatic_drainage:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_member:
+  rename:
+  - has_part
+  - biolink:has_part
+FMA:has_nerve_supply:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_observed_anatomical_entity:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_origin:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_part:
+  rename:
+  - has_part
+  - biolink:has_part
+FMA:has_primary_segmental_supply:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_projection:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_regional_part:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_related_developmental_entity:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_secondary_segmental_supply:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_segmental_composition:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_segmental_supply:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_tributary:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:has_venous_drainage:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:homonym_for:
+  delete: null
+FMA:homonym_of:
+  rename:
+  - related_to
+  - biolink:related_to
+FMA:inferior_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:inferolateral_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:inferomedial_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:inherent_3d_shape_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:insertion_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:internal_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:lateral_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:left_lateral_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:left_medial_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:location_of:
+  invert:
+  - located_in
+  - biolink:located_in
+FMA:lymphatic_drainage_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:matures_from:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:matures_into:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:medial_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:member_of:
+  invert:
+  - has_part
+  - biolink:has_part
+FMA:merges_with:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:nerve_supply_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:origin_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:part_of:
+  invert:
+  - has_part
+  - biolink:has_part
+FMA:posterior_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:posteroinferior_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:posterolateral_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:posteromedial_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:posterosuperior_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:primary_segmental_supply_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:projects_from:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:projects_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:proximal_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:receives_attachment_from:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:receives_drainage_from:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:receives_input_from:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:receives_projection:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:regional_part_of:
+  invert:
+  - has_part
+  - biolink:has_part
+FMA:related_developmental_entity_of:
+  invert:
+  - related_to
+  - biolink:related_to
+FMA:related_object:
+  rename:
+  - related_to
+  - biolink:related_to
+FMA:related_part:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:right_lateral_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:right_medial_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:secondary_segmental_supply_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:segmental_composition_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:segmental_supply_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:sends_output_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:superior_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:superolateral_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:superomedial_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:surrounded_by:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:surrounds:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:transforms_from:
+  invert:
+  - precedes
+  - biolink:precedes
+FMA:transforms_into:
+  rename:
+  - precedes
+  - biolink:precedes
+FMA:tributary_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FMA:venous_drainage_of:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+FOODON:00001301:
+  rename:
+  - model_of
+  - biolink:model_of
+FOODON:00001563:
+  rename:
+  - has_part
+  - biolink:has_part
+FOODON:00002420:
+  rename:
+  - has_part
+  - biolink:has_part
+GENEPIO:0001739:
+  invert:
+  - precedes
+  - biolink:precedes
+GO:SIB:
+  delete: null
+GO:acts_upstream_of:
+  rename:
+  - affects
+  - biolink:affects
+GO:acts_upstream_of_negative_effect:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+GO:acts_upstream_of_or_within:
+  rename:
+  - affects
+  - biolink:affects
+GO:acts_upstream_of_or_within_negative_effect:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+GO:acts_upstream_of_or_within_positive_effect:
+  rename:
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
+GO:acts_upstream_of_positive_effect:
+  rename:
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
+GO:colocalizes_with:
+  rename:
+  - colocalizes_with
+  - biolink:colocalizes_with
+GO:contributes_to:
+  rename:
+  - contributes_to
+  - biolink:contributes_to
+GO:enables:
+  rename:
+  - enables
+  - biolink:enables
+GO:ends_during:
+  rename:
+  - related_to
+  - biolink:related_to
+GO:happens_during:
+  rename:
+  - related_to
+  - biolink:related_to
+GO:has_occurrence:
+  rename:
+  - capable_of
+  - biolink:capable_of
+GO:has_part:
+  rename:
+  - has_part
+  - biolink:has_part
+GO:inverse_ends_during:
+  rename:
+  - related_to
+  - biolink:related_to
+GO:inverse_happens_during:
+  delete: null
+GO:inverse_isa:
+  invert:
+  - subclass_of
+  - biolink:subclass_of
+GO:involved_in:
+  invert:
+  - has_participant
+  - biolink:has_participant
+GO:is_active_in:
+  rename:
+  - actively_involved_in
+  - biolink:actively_involved_in
+GO:isa:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+GO:located_in:
+  rename:
+  - located_in
+  - biolink:located_in
+GO:negatively_regulated_by:
+  invert:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+GO:negatively_regulates:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+GO:occurs_in:
+  rename:
+  - occurs_in
+  - biolink:occurs_in
+GO:part_of:
+  invert:
+  - has_part
+  - biolink:has_part
+GO:positively_regulated_by:
+  invert:
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
+GO:positively_regulates:
+  rename:
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
+GO:regulated_by:
+  invert:
+  - entity_regulates_entity
+  - biolink:entity_regulates_entity
+GO:regulates:
+  rename:
+  - entity_regulates_entity
+  - biolink:entity_regulates_entity
+GOREL:0000040:
+  rename:
+  - causes
+  - biolink:causes
+GOREL:0002003:
+  rename:
+  - affects_localization_of
+  - biolink:affects_localization_of
+GOREL:0002004:
+  rename:
+  - increases_degradation_of
+  - biolink:increases_degradation_of
+# GOREL:0002005:
+#   rename:
+#   - related_to
+#   - biolink:related_to
+GOREL:0012006:
+  rename:
+  - related_to
+  - biolink:related_to
+HANCESTRO:0301:
+  rename:
+  - related_to
+  - biolink:related_to
+HANCESTRO:0308: # has country of origin
+  rename:
+  - related_to
+  - biolink:related_to
+HANCESTRO:0330:
+  rename:
+  - related_to
+  - biolink:related_to
+HCPCS:mapped_from:
+  delete: null
+HCPCS:mapped_to:
+  rename:
+  - related_to
+  - biolink:related_to
+HMDB:at_cellular_location:
+  rename:
+  - located_in
+  - biolink:located_in
+HMDB:at_tissue:
+  rename:
+  - located_in
+  - biolink:located_in
+HMDB:disease:
+  rename:
+  - related_to
+  - biolink:related_to
+HMDB:has_protein_association:
+  rename:
+  - related_to
+  - biolink:related_to
+HMDB:in_biospecimen:
+  rename:
+  - located_in
+  - biolink:located_in
+HMDB:in_pathway:
+  invert:
+  - has_participant
+  - biolink:has_participant
+HP:SIB:
+  delete: null
+IAO:0000039:
+  rename:
+  - related_to
+  - biolink:related_to
+IAO:0000136:
+  rename:
+  - related_to
+  - biolink:related_to
+IAO:0000219:
+  rename:
+  - related_to
+  - biolink:related_to
+ICD10PCS:SIB:
+  delete: null
+ICD9:SIB:
+  delete: null
+IDO:0000664:
+  invert:
+  - contributes_to
+  - biolink:contributes_to
+JensenLab:associated_with:
+  rename:
+  - gene_associated_with_condition
+  - biolink:gene_associated_with_condition
+KEGG:compound_to_enzyme:
+  rename:
+  - interacts_with
+  - biolink:interacts_with
+KEGG:compound_to_pathway:
+  invert:
+  - has_participant
+  - biolink:has_participant
+KEGG:compound_to_reaction:
+  invert:
+  - has_participant
+  - biolink:has_participant
+KEGG:enzyme_to_pathway:
+  invert:
+  - has_participant
+  - biolink:has_participant
+KEGG:enzyme_to_reaction:
+  rename:
+  - catalyzes
+  - biolink:catalyzes
+KEGG:glycan_to_enzyme:
+  rename:
+  - interacts_with
+  - biolink:interacts_with
+KEGG:glycan_to_pathway:
+  invert:
+  - has_participant
+  - biolink:has_participant
+KEGG:glycan_to_reaction:
+  invert:
+  - has_participant
+  - biolink:has_participant
+KEGG:pathway_to_compound:
+  rename:
+  - has_participant
+  - biolink:has_participant
+KEGG:pathway_to_drug:
+  rename:
+  - has_participant
+  - biolink:has_participant
+KEGG:pathway_to_glycan:
+  rename:
+  - has_participant
+  - biolink:has_participant
+KEGG:reaction_to_enzyme:
+  invert:
+  - catalyzes
+  - biolink:catalyzes
+KEGG:reaction_to_pathway:
+  invert:
+  - has_participant
+  - biolink:has_participant
+LOINC:adjustment_of:
+  delete: null
+LOINC:analyzed_by:
+  delete: null
+LOINC:analyzes:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:answer_to:
+  delete: null
+LOINC:archetype_of:
+  delete: null
+LOINC:associated_with:
+  rename:
+  - correlated_with
+  - biolink:correlated_with
+LOINC:challenge_of:
+  delete: null
+LOINC:class_of:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+LOINC:component_of:
+  invert:
+  - has_part
+  - biolink:has_part
+LOINC:count_of:
+  delete: null
+LOINC:divisor_of:
+  delete: null
+LOINC:evaluation_of:
+  delete: null
+LOINC:fragments_for_synonyms_of:
+  delete: null
+LOINC:has_action_guidance:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:has_adjustment:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:has_aggregation_view:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:has_answer:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:has_approach_guidance:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:has_archetype:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+LOINC:has_challenge:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:has_class:
+  invert:
+  - subclass_of
+  - biolink:subclass_of
+LOINC:has_component:
+  rename:
+  - has_part
+  - biolink:has_part
+LOINC:has_count:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:has_divisor:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:has_evaluation:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:has_exam:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:has_fragments_for_synonyms:
+  rename:
+  - has_input
+  - biolink:has_input
+LOINC:has_given_pharmaceutical_substance:
+  delete: null
+LOINC:has_imaged_location:
+  rename:
+  - occurs_in
+  - biolink:occurs_in
+LOINC:has_imaging_focus:
+  rename:
+  - located_in
+  - biolink:located_in
+LOINC:has_lateral_anatomic_location:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+LOINC:has_lateral_location_presence:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+LOINC:has_loinc_number:
+  delete: null
+LOINC:has_member:
+  rename:
+  - has_part
+  - biolink:has_part
+LOINC:has_method:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:has_modality_subtype:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:has_modality_type:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:has_multipart:
+  delete: null
+LOINC:has_object_guidance:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:has_parent_group:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+LOINC:has_pharmaceutical_route:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:has_presence_guidance:
+  delete: null
+LOINC:has_property:
+  delete: null
+LOINC:has_scale:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:has_subject:
+  rename:
+  - has_participant
+  - biolink:has_participant
+LOINC:has_suffix:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:has_supersystem:
+  invert:
+  - has_part
+  - biolink:has_part
+LOINC:has_system:
+  rename:
+  - has_input
+  - biolink:has_input
+LOINC:has_time_aspect:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:has_time_modifier:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:has_timing_of:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:has_view_type:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:is_action_guidance_for:
+  delete: null
+LOINC:is_aggregation_view_of:
+  delete: null
+LOINC:is_approach_guidance_for:
+  delete: null
+LOINC:is_exam_for:
+  delete: null
+LOINC:is_given_pharmaceutical_substance_for:
+  invert:
+  - has_participant
+  - biolink:has_participant
+LOINC:is_imaged_location_for:
+  delete: null
+LOINC:is_imaging_focus_of:
+  delete: null
+LOINC:is_lateral_anatomic_location_of:
+  delete: null
+LOINC:is_modality_subtype_for:
+  delete: null
+LOINC:is_modality_type_for:
+  delete: null
+LOINC:is_object_guidance_for:
+  delete: null
+LOINC:is_pharmaceutical_route_for:
+  delete: null
+LOINC:is_presence_guidance_for:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+LOINC:is_presence_of_lateral_location:
+  delete: null
+LOINC:is_subject_of:
+  delete: null
+LOINC:is_timing_for:
+  delete: null
+LOINC:is_view_type_for:
+  delete: null
+LOINC:loinc_number_of:
+  delete: null
+LOINC:mapped_from:
+  delete: null
+LOINC:mapped_to:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:measured_by:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:measures:
+  delete: null
+LOINC:member_of:
+  invert:
+  - has_part
+  - biolink:has_part
+LOINC:method_of:
+  delete: null
+LOINC:mth_expanded_form_of:
+  delete: null
+LOINC:mth_has_expanded_form:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:multipart_of:
+  invert:
+  - has_part
+  - biolink:has_part
+LOINC:parent_group_of:
+  delete: null
+LOINC:property_of:
+  rename:
+  - related_to
+  - biolink:related_to
+LOINC:scale_of:
+  delete: null
+LOINC:suffix_of:
+  delete: null
+LOINC:supersystem_of:
+  delete: null
+LOINC:system_of:
+  delete: null
+LOINC:time_aspect_of:
+  delete: null
+LOINC:time_modifier_of:
+  delete: null
+MESH:AQ:
+  delete: null
+MESH:QB:
+  delete: null
+MESH:RO:
+  rename:
+  - related_to
+  - biolink:related_to
+MESH:SIB:
+  delete: null
+MESH:has_mapping_qualifier:
+  rename:
+  - related_to
+  - biolink:related_to
+MESH:inverse_isa:
+  invert:
+  - subclass_of
+  - biolink:subclass_of
+MESH:isa:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+MESH:mapped_from:
+  delete: null
+MESH:mapped_to:
+  rename:
+  - related_to
+  - biolink:related_to
+MESH:mapping_qualifier_of:
+  delete: null
+MI:0192: # acetylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0194: # cleavage reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0195: # covalent bonding
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0197: # deacetylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0203: # dephosphorylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0204: # deubiquitination reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0210: # hydroxylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0211: # lipid addition
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0212: # lipoprotein cleavage reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0213: # methylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0214: # myristoylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0216: # palmitoylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0217: # phosphorylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0220: # ubiquitination reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0403: # colocalization
+  rename:
+  - colocalizes_with
+  - biolink:colocalizes_with
+MI:0407: # direct interaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0408: # disulfide bond
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0414: # enzymatic reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0556: # transglutamination reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0557: # adp_ribosylation_reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0559: # glycosylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0566: # sumoylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0567: # neddylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0569: # deneddylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0570: # protein cleavage
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0572: # dna cleavage
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0844: # phosphotransfer reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0871: # demethylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0882: # atpase reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0883: # gtpase reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0902: # rna reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:0914: # association
+  rename:
+  - interacts_with
+  - biolink:interacts_with
+MI:0915: # physical associaiton
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+MI:0945: # oxidoreductase activity electron transfer reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:1126: # self interaction
+  rename:
+  - interacts_with
+  - biolink:interacts_with
+MI:1127: # putative self interaction
+  rename:
+  - interacts_with
+  - biolink:interacts_with
+MI:1148: # ampylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:1237: # proline isomerization reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MI:1310: # de-ADP-ribosylation reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+  - biolink:mechanism_of_action
+MI:2364: # proximity
+  rename:
+  - colocalizes_with
+  - biolink:colocalizes_with
+MI:2252: # guanine nucleotide exchange factor reaction
+  rename:
+  - directly_interacts_with
+  - biolink:directly_interacts_with
+MONDO:0100332: # disease has primary infectious agent
+  invert:
+  - causes
+  - biolink:causes
+MONDO:0100333: # disease caused by reactivation of latent infectious agent
+  invert:
+  - causes
+  - biolink:causes
+MONDO:disease_causes_feature:
+  rename:
+  - causes
+  - biolink:causes
+MONDO:disease_has_basis_in_accumulation_of:
+  rename:
+  - disease_has_basis_in
+  - biolink:disease_has_basis_in
+MONDO:disease_has_basis_in_development_of:
+  rename:
+  - disease_has_basis_in
+  - biolink:disease_has_basis_in
+MONDO:disease_has_major_feature:
+  rename:
+  - has_part
+  - biolink:has_part
+MONDO:disease_responds_to:
+  invert:
+  - treats
+  - biolink:treats
+MONDO:disease_shares_features_of:
+  rename:
+  - related_to
+  - biolink:related_to
+MONDO:disease_triggers:
+  rename:
+  - causes
+  - biolink:causes
+MONDO:equivalentTo:
+  rename:
+  - same_as
+  - biolink:same_as
+MONDO:has_onset:
+  rename:
+  - related_to
+  - biolink:related_to
+MONDO:has_onset_before:
+  rename:
+  - related_to
+  - biolink:related_to
+MONDO:has_onset_during_or_after:
+  rename:
+  - related_to
+  - biolink:related_to
+MONDO:part_of_progression_of_disease:
+  invert:
+  - has_part
+  - biolink:has_part
+MONDO:predisposes_towards:
+  rename:
+  - contributes_to
+  - biolink:contributes_to
+# NBO-PROPERTY:by_means:
+#   rename:
+#   - actively_involved_in
+#   - biolink:actively_involved_in
+# NBO-PROPERTY:has_participant:
+#   rename: 
+#   - has_participant
+#   - biolink:has_participant
+# NBO-PROPERTY:in_response_to:
+#   invert:
+#   - causes
+#   - biolink:causes
+# NBO-PROPERTY:is_about:
+#   rename: 
+#   - related_to
+#   - biolink:related_to
+NCIT:abnormal_cell_affected_by_chemical_or_drug:
+  delete: null
+NCIT:abnormality_associated_with_allele:
+  delete: null
+NCIT:activity_of_allele:
+  delete: null
+NCIT:allele_absent_from_wild-type_chromosomal_location:
+  rename:
+  - located_in
+  - biolink:located_in
+NCIT:allele_has_abnormality:
+  rename:
+  - causes
+  - biolink:causes
+NCIT:allele_has_activity:
+  rename:
+  - has_molecular_consequence
+  - biolink:has_molecular_consequence
+NCIT:allele_in_chromosomal_location:
+  rename:
+  - located_in
+  - biolink:located_in
+NCIT:allele_plays_altered_role_in_process:
+  rename:
+  - affects
+  - biolink:affects
+NCIT:allele_plays_role_in_metabolism_of_chemical_or_drug:
+  rename:
+  - affects
+  - biolink:affects
+NCIT:anatomic_structure_has_location:
+  delete: null
+NCIT:anatomic_structure_is_physical_part_of:
+  invert:
+  - has_part
+  - biolink:has_part
+NCIT:anatomy_originated_from_biological_process:
+  delete: null
+NCIT:associated_with_malfunction_of_gene_product:
+  delete: null
+NCIT:biological_process_has_associated_location:
+  rename:
+  - affects
+  - biolink:affects
+NCIT:biological_process_has_initiator_chemical_or_drug:
+  delete: null
+NCIT:biological_process_has_initiator_process:
+  delete: null
+NCIT:biological_process_has_result_anatomy:
+  rename:
+  - has_output
+  - biolink:has_output
+NCIT:biological_process_has_result_biological_process:
+  rename:
+  - causes
+  - biolink:causes
+NCIT:biological_process_has_result_chemical_or_drug:
+  rename:
+  - produces
+  - biolink:produces
+NCIT:biological_process_involves_chemical_or_drug:
+  invert:
+  - actively_involved_in
+  - biolink:actively_involved_in
+NCIT:biological_process_involves_gene_product:
+  delete: null
+NCIT:biological_process_is_part_of_process:
+  delete: null
+NCIT:biological_process_results_from_biological_process:
+  delete: null
+NCIT:biomarker_type_includes_gene:
+  delete: null
+NCIT:biomarker_type_includes_gene_product:
+  delete: null
+# NCIT:C15220: # diagnosis
+#   rename:
+#   - diagnoses
+#   - biolink:diagnoses
+NCIT:cdrh_parent_of:
+  invert:
+  - subclass_of
+  - biolink:subclass_of
+NCIT:cell_type_is_associated_with_eo_disease:
+  delete: null
+NCIT:cell_type_or_tissue_affected_by_chemical_or_drug:
+  delete: null
+NCIT:chemical_or_drug_affects_abnormal_cell:
+  rename:
+  - affects
+  - biolink:affects
+NCIT:chemical_or_drug_affects_cell_type_or_tissue:
+  rename:
+  - affects
+  - biolink:affects
+NCIT:chemical_or_drug_affects_gene_product:
+  rename:
+  - affects
+  - biolink:affects
+NCIT:chemical_or_drug_has_mechanism_of_action:
+  rename:
+  - affects
+  - biolink:affects
+NCIT:chemical_or_drug_has_physiologic_effect:
+  rename:
+  - causes
+  - biolink:causes
+NCIT:chemical_or_drug_initiates_biological_process:
+  rename:
+  - causes
+  - biolink:causes
+NCIT:chemical_or_drug_is_metabolized_by_enzyme:
+  delete: null
+NCIT:chemical_or_drug_is_product_of_biological_process:
+  delete: null
+NCIT:chemical_or_drug_metabolism_is_associated_with_allele:
+  delete: null
+NCIT:chemical_or_drug_plays_role_in_biological_process:
+  delete: null
+NCIT:chemotherapy_regimen_has_component:
+  delete: null
+NCIT:chromosomal_location_of_allele:
+  delete: null
+NCIT:chromosomal_location_of_wild-type_gene:
+  delete: null
+NCIT:chromosome_involved_in_cytogenetic_abnormality:
+  delete: null
+NCIT:chromosome_mapped_to_disease:
+  rename:
+  - causes
+  - biolink:causes
+NCIT:completely_excised_anatomy_has_procedure:
+  delete: null
+NCIT:completely_excised_anatomy_may_have_procedure:
+  delete: null
+NCIT:complex_has_physical_part:
+  rename:
+  - has_part
+  - biolink:has_part
+NCIT:concept_in_subset:
+  delete: null
+NCIT:conceptual_part_of:
+  invert:
+  - has_part
+  - biolink:has_part
+NCIT:ctcae_5_parent_of:
+  invert:
+  - subclass_of
+  - biolink:subclass_of
+NCIT:cytogenetic_abnormality_involves_chromosome:
+  rename:
+  - affects
+  - biolink:affects
+NCIT:data_element_of:
+  delete: null
+NCIT:disease_excludes_abnormal_cell:
+  delete: null
+NCIT:disease_excludes_cytogenetic_abnormality:
+  delete: null
+NCIT:disease_excludes_finding:
+  delete: null
+NCIT:disease_excludes_metastatic_anatomic_site:
+  delete: null
+NCIT:disease_excludes_molecular_abnormality:
+  delete: null
+NCIT:disease_excludes_normal_cell_origin:
+  delete: null
+NCIT:disease_excludes_normal_tissue_origin:
+  delete: null
+NCIT:disease_excludes_primary_anatomic_site:
+  delete: null
+NCIT:disease_has_abnormal_cell:
+  delete: null
+NCIT:disease_has_accepted_treatment_with_regimen:
+  delete: null
+NCIT:disease_has_associated_anatomic_site:
+  rename:
+  - affects
+  - biolink:affects
+NCIT:disease_has_associated_disease:
+  rename: 
+  - has_real_world_evidence_of_association_with
+  - biolink:has_real_world_evidence_of_association_with
+NCIT:disease_has_associated_gene:
+  delete: null
+NCIT:disease_has_cytogenetic_abnormality:
+  delete: null
+NCIT:disease_has_finding:
+  invert:
+  - biomarker_for
+  - biolink:biomarker_for
+NCIT:disease_has_metastatic_anatomic_site:
+  rename:
+  - affects
+  - biolink:affects
+NCIT:disease_has_molecular_abnormality:
+  invert:
+  - biomarker_for
+  - biolink:biomarker_for
+NCIT:disease_has_normal_cell_origin:
+  delete: null
+NCIT:disease_has_normal_tissue_origin:
+  rename:
+  - causes
+  - biolink:causes
+NCIT:disease_has_primary_anatomic_site:
+  rename:
+  - affects
+  - biolink:affects
+NCIT:disease_is_grade:
+  rename:
+  - related_to
+  - biolink:related_to
+NCIT:disease_is_marked_by_gene:
+  invert:
+  - biomarker_for
+  - biolink:biomarker_for
+NCIT:disease_is_stage:
+  rename:
+  - related_to
+  - biolink:related_to
+NCIT:disease_mapped_to_chromosome:
+  delete: null
+NCIT:disease_mapped_to_gene:
+  delete: null
+NCIT:disease_may_have_abnormal_cell:
+  rename:
+  - affects
+  - biolink:affects
+NCIT:disease_may_have_associated_disease:
+  rename:
+  - related_to
+  - biolink:related_to
+NCIT:disease_may_have_cytogenetic_abnormality:
+  delete: null
+NCIT:disease_may_have_finding:
+  rename:
+  - has_phenotype
+  - biolink:has_phenotype
+NCIT:disease_may_have_molecular_abnormality:
+  rename:
+  - has_phenotype
+  - biolink:has_phenotype
+NCIT:disease_may_have_normal_cell_origin:
+  delete: null
+NCIT:endogenous_product_related_to:
+  delete: null
+NCIT:enzyme_metabolizes_chemical_or_drug:
+  rename:
+  - increases_metabolic_processing_of
+  - biolink:increases_metabolic_processing_of
+NCIT:eo_anatomy_is_associated_with_eo_disease:
+  delete: null
+NCIT:eo_disease_has_associated_cell_type:
+  rename:
+  - affects
+  - biolink:affects
+NCIT:eo_disease_has_associated_eo_anatomy:
+  rename:
+  - affects
+  - biolink:affects
+NCIT:eo_disease_has_property_or_attribute:
+  rename:
+  - related_to
+  - biolink:related_to
+NCIT:eo_disease_maps_to_human_disease:
+  delete: null
+NCIT:excised_anatomy_has_procedure:
+  delete: null
+NCIT:excised_anatomy_may_have_procedure:
+  delete: null
+NCIT:gene_associated_with_disease:
+  rename:
+  - gene_associated_with_condition
+  - biolink:gene_associated_with_condition
+NCIT:gene_encodes_gene_product:
+  invert:
+  - gene_product_of
+  - biolink:gene_product_of
+NCIT:gene_found_in_organism:
+  rename:
+  - in_taxon
+  - biolink:in_taxon
+NCIT:gene_has_abnormality:
+  delete: null
+NCIT:gene_has_physical_location:
+  rename:
+  - located_in
+  - biolink:located_in
+NCIT:gene_in_chromosomal_location:
+  rename:
+  - located_in
+  - biolink:located_in
+NCIT:gene_involved_in_molecular_abnormality:
+  rename:
+  - actively_involved_in
+  - biolink:actively_involved_in
+NCIT:gene_involved_in_pathogenesis_of_disease:
+  rename:
+  - gene_associated_with_condition
+  - biolink:gene_associated_with_condition
+NCIT:gene_is_biomarker_of:
+  rename:
+  - biomarker_for
+  - biolink:biomarker_for
+NCIT:gene_is_biomarker_type:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+NCIT:gene_is_element_in_pathway:
+  invert:
+  - has_participant
+  - biolink:has_participant
+NCIT:gene_mapped_to_disease:
+  rename:
+  - affects
+  - biolink:affects
+NCIT:gene_mutant_encodes_gene_product_sequence_variation:
+  invert:
+  - gene_product_of
+  - biolink:gene_product_of
+NCIT:gene_plays_role_in_process:
+  invert:
+  - has_participant
+  - biolink:has_participant
+NCIT:gene_product_affected_by_chemical_or_drug:
+  delete: null
+NCIT:gene_product_encoded_by_gene:
+  delete: null
+NCIT:gene_product_expressed_in_tissue:
+  rename:
+  - expressed_in
+  - biolink:expressed_in
+NCIT:gene_product_has_abnormality:
+  rename:
+  - affects
+  - biolink:affects
+NCIT:gene_product_has_associated_anatomy:
+  rename:
+  - expressed_in
+  - biolink:expressed_in
+NCIT:gene_product_has_biochemical_function:
+  rename:
+  - capable_of
+  - biolink:capable_of
+NCIT:gene_product_has_chemical_classification:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+NCIT:gene_product_has_gene_product_variant:
+  delete: null
+NCIT:gene_product_has_organism_source:
+  rename:
+  - in_taxon
+  - biolink:in_taxon
+NCIT:gene_product_has_structural_domain_or_motif:
+  rename:
+  - has_part
+  - biolink:has_part
+NCIT:gene_product_is_biomarker_of:
+  rename:
+  - biomarker_for
+  - biolink:biomarker_for
+NCIT:gene_product_is_biomarker_type:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+NCIT:gene_product_is_element_in_pathway:
+  invert:
+  - has_participant
+  - biolink:has_participant
+NCIT:gene_product_is_physical_part_of:
+  invert:
+  - has_participant
+  - biolink:has_participant
+NCIT:gene_product_malfunction_associated_with_disease:
+  rename:
+  - gene_associated_with_condition
+  - biolink:gene_associated_with_condition
+NCIT:gene_product_plays_role_in_biological_process:
+  invert:
+  - has_participant
+  - biolink:has_participant
+NCIT:gene_product_sequence_variation_encoded_by_gene_mutant:
+  rename:
+  - is_sequence_variant_of
+  - biolink:is_sequence_variant_of
+NCIT:gene_product_variant_of_gene_product:
+  rename:
+  - is_sequence_variant_of
+  - biolink:is_sequence_variant_of
+NCIT:genetic_biomarker_related_to:
+  rename:
+  - biomarker_for
+  - biolink:biomarker_for
+NCIT:has_cdrh_parent:
+  delete: null
+NCIT:has_conceptual_part:
+  delete: null
+NCIT:has_ctcae_5_parent:
+  delete: null
+NCIT:has_data_element:
+  rename:
+  - related_to
+  - biolink:related_to
+NCIT:has_free_acid_or_base_form:
+  delete: null
+NCIT:has_gene_product_element:
+  delete: null
+NCIT:has_inc_parent:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+NCIT:has_nichd_parent:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+NCIT:has_pharmaceutical_administration_method:
+  rename:
+  - related_to
+  - biolink:related_to
+NCIT:has_pharmaceutical_basic_dose_form:
+  rename:
+  - related_to
+  - biolink:related_to
+NCIT:has_pharmaceutical_intended_site:
+  rename:
+  - related_to
+  - biolink:related_to
+NCIT:has_pharmaceutical_release_characteristics:
+  rename:
+  - related_to
+  - biolink:related_to
+NCIT:has_pharmaceutical_state_of_matter:
+  rename:
+  - related_to
+  - biolink:related_to
+NCIT:has_pharmaceutical_transformation:
+  rename:
+  - related_to
+  - biolink:related_to
+NCIT:has_physical_part_of_anatomic_structure:
+  delete: null
+NCIT:has_salt_form:
+  rename:
+  - chemically_similar_to
+  - biolink:chemically_similar_to
+NCIT:has_target:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+NCIT:human_disease_maps_to_eo_disease:
+  rename:
+  - related_to
+  - biolink:related_to
+NCIT:inc_parent_of:
+  delete: null
+NCIT:imaged_anatomy_has_procedure:
+  delete: null
+NCIT:is_abnormal_cell_of_disease:
+  rename:
+  - related_to
+  - biolink:related_to
+NCIT:is_abnormality_of_gene:
+  delete: null
+NCIT:is_abnormality_of_gene_product:
+  delete: null
+NCIT:is_associated_anatomic_site_of:
+  delete: null
+NCIT:is_associated_anatomy_of_gene_product:
+  delete: null
+NCIT:is_associated_disease_of:
+  rename:
+  - correlated_with
+  - biolink:correlated_with
+NCIT:is_biochemical_function_of_gene_product:
+  delete: null
+NCIT:is_chemical_classification_of_gene_product:
+  delete: null
+NCIT:is_chromosomal_location_of_gene:
+  delete: null
+NCIT:is_component_of_chemotherapy_regimen:
+  invert:
+  - has_part
+  - biolink:has_part
+NCIT:is_cytogenetic_abnormality_of_disease:
+  invert:
+  - correlated_with
+  - biolink:correlated_with
+NCIT:is_finding_of_disease:
+  delete: null
+NCIT:is_grade_of_disease:
+  delete: null
+NCIT:is_location_of_anatomic_structure:
+  rename:
+  - located_in
+  - biolink:located_in
+NCIT:is_location_of_biological_process:
+  delete: null
+NCIT:is_marked_by_gene_product:
+  delete: null
+NCIT:is_mechanism_of_action_of_chemical_or_drug:
+  delete: null
+NCIT:is_metastatic_anatomic_site_of_disease:
+  delete: null
+NCIT:is_molecular_abnormality_of_disease:
+  rename:
+  - biomarker_for
+  - biolink:biomarker_for
+NCIT:is_normal_cell_origin_of_disease:
+  invert:
+  - derives_from
+  - biolink:derives_from
+NCIT:is_normal_tissue_origin_of_disease:
+  delete: null
+NCIT:is_not_abnormal_cell_of_disease:
+  delete: null
+NCIT:is_not_cytogenetic_abnormality_of_disease:
+  delete: null
+NCIT:is_not_finding_of_disease:
+  delete: null
+NCIT:is_not_metastatic_anatomic_site_of_disease:
+  delete: null
+NCIT:is_not_molecular_abnormality_of_disease:
+  delete: null
+NCIT:is_not_normal_cell_origin_of_disease:
+  delete: null
+NCIT:is_not_normal_tissue_origin_of_disease:
+  delete: null
+NCIT:is_not_primary_anatomic_site_of_disease:
+  delete: null
+NCIT:is_organism_source_of_gene_product:
+  invert:
+  - in_taxon
+  - biolink:in_taxon
+NCIT:is_physical_location_of_gene:
+  delete: null
+NCIT:is_physiologic_effect_of_chemical_or_drug:
+  delete: null
+NCIT:is_primary_anatomic_site_of_disease:
+  delete: null
+NCIT:is_property_or_attribute_of_eo_disease:
+  delete: null
+NCIT:is_qualified_by:
+  rename:
+  - related_to
+  - biolink:related_to
+NCIT:is_related_to_endogenous_product:
+  rename:
+  - related_to
+  - biolink:related_to
+NCIT:is_stage_of_disease:
+  delete: null
+NCIT:is_structural_domain_or_motif_of_gene_product:
+  delete: null
+NCIT:is_target:
+  delete: null
+NCIT:kind_is_domain_of:
+  delete: null
+NCIT:kind_is_range_of:
+  delete: null
+NCIT:may_be_abnormal_cell_of_disease:
+  delete: null
+NCIT:may_be_associated_disease_of_disease:
+  delete: null
+NCIT:may_be_cytogenetic_abnormality_of_disease:
+  delete: null
+NCIT:may_be_finding_of_disease:
+  delete: null
+NCIT:may_be_molecular_abnormality_of_disease:
+  delete: null
+NCIT:may_be_normal_cell_origin_of_disease:
+  invert:
+  - derives_from
+  - biolink:derives_from
+NCIT:molecular_abnormality_involves_gene:
+  delete: null
+NCIT:neoplasm_has_special_category:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+NCIT:nichd_parent_of:
+  delete: null
+NCIT:organism_has_gene:
+  invert:
+  - in_taxon
+  - biolink:in_taxon
+NCIT:partially_excised_anatomy_has_procedure:
+  delete: null
+NCIT:partially_excised_anatomy_may_have_procedure:
+  delete: null
+NCIT:pathogenesis_of_disease_involves_gene:
+  delete: null
+NCIT:pathway_has_gene_element:
+  rename:
+  - has_participant
+  - biolink:has_participant
+NCIT:pharmaceutical_administration_method_of:
+  delete: null
+NCIT:pharmaceutical_basic_dose_form_of:
+  delete: null
+NCIT:pharmaceutical_intended_site_of:
+  delete: null
+NCIT:pharmaceutical_release_characteristics_of:
+  delete: null
+NCIT:pharmaceutical_state_of_matter_of:
+  delete: null
+NCIT:pharmaceutical_transformation_of:
+  delete: null
+NCIT:procedure_has_completely_excised_anatomy:
+  rename:
+  - located_in
+  - biolink:located_in
+NCIT:procedure_has_excised_anatomy:
+  rename:
+  - located_in
+  - biolink:located_in
+NCIT:procedure_has_imaged_anatomy:
+  rename:
+  - located_in
+  - biolink:located_in
+NCIT:procedure_has_target_anatomy:
+  rename:
+  - located_in
+  - biolink:located_in
+NCIT:procedure_has_partially_excised_anatomy:
+  rename:
+  - located_in
+  - biolink:located_in
+NCIT:procedure_may_have_completely_excised_anatomy:
+  rename:
+  - located_in
+  - biolink:located_in
+NCIT:procedure_may_have_excised_anatomy:
+  rename:
+  - located_in
+  - biolink:located_in
+NCIT:procedure_may_have_partially_excised_anatomy:
+  rename:
+  - located_in
+  - biolink:located_in
+NCIT:process_altered_by_allele:
+  delete: null
+NCIT:process_includes_biological_process:
+  rename:
+  - has_participant
+  - biolink:has_participant
+NCIT:process_initiates_biological_process:
+  rename:
+  - causes
+  - biolink:causes
+NCIT:process_involves_gene:
+  rename:
+  - has_participant
+  - biolink:has_participant
+NCIT:qualifier_applies_to:
+  rename:
+  - related_to
+  - biolink:related_to
+# NCIT:R40:
+#   rename: 
+#   - located_in
+#   - biolink:located_in
+NCIT:R81:
+  rename:
+  - related_to
+  - biolink:related_to
+NCIT:R82:
+  rename:
+  - part_of
+  - biolink:part_of
+# NCIT:R88: # disease is stage
+#   rename: 
+#   - related_to
+#   - biolink:related_to
+# NCIT:R89:
+#   rename: 
+#   - has_phenotype
+#   - biolink:has_phenotype
+# NCIT:R108:
+#   rename: 
+#   - has_phenotype
+#   - biolink:has_phenotype
+# NCIT:R115:
+#   rename: 
+#   - has_phenotype
+#   - biolink:has_phenotype
+# NCIT:R145:
+#   rename: 
+#   - located_in
+#   - biolink:located_in
+# NCIT:R155:
+#   rename: 
+#   - located_in
+#   - biolink:located_in
+# NCIT:R156:
+#   rename: 
+#   - located_in
+#   - biolink:located_in
+NCIT:R163:
+  rename:
+  - related_to
+  - biolink:related_to
+# NCIT:R165:
+#   rename: 
+#   - located_in
+#   - biolink:located_in
+# NCIT:R166:
+#   rename: 
+#   - located_in
+#   - biolink:located_in
+# NCIT:R167:
+#   rename: 
+#   - located_in
+#   - biolink:located_in
+# NCIT:R168:
+#   rename: 
+#   - located_in
+#   - biolink:located_in
+# NCIT:R169:
+#   rename: 
+#   - located_in
+#   - biolink:located_in
+# NCIT:R170:
+#   rename: 
+#   - located_in
+#   - biolink:located_in
+# NCIT:R171:
+#   rename: 
+#   - located_in
+#   - biolink:located_in
+NCIT:regimen_has_accepted_use_for_disease:
+  rename:
+  - treats
+  - biolink:treats
+NCIT:related_to_genetic_biomarker:
+  delete: null
+NCIT:role_has_domain:
+  rename:
+  - related_to
+  - biolink:related_to
+NCIT:role_has_parent:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+NCIT:role_has_range:
+  rename:
+  - related_to
+  - biolink:related_to
+NCIT:role_is_parent_of:
+  delete: null
+NCIT:special_category_includes_neoplasm:
+  delete: null
+NCIT:subset_includes_concept:
+  invert:
+  - subclass_of
+  - biolink:subclass_of
+NCIT:target_anatomy_has_procedure:
+  delete: null
+NCIT:tissue_is_expression_site_of_gene_product:
+  delete: null
+NDDF:dose_form_of:
+  delete: null
+NDDF:has_dose_form:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+NDDF:has_ingredient:
+  rename:
+  - has_part
+  - biolink:has_part
+NDDF:ingredient_of:
+  invert:
+  - has_part
+  - biolink:has_part
+OBI:0000293:
+  rename:
+  - has_participant
+  - biolink:has_participant
+OBI:0000295:
+  invert:
+  - has_participant
+  - biolink:has_participant
+OBI:0000299:
+  rename:
+  - has_output
+  - biolink:has_output
+OBI:0000417: # achieves planned objective
+  rename:
+  - has_output
+  - biolink:has_output
+OBI:0001927:
+  invert:
+  - related_to
+  - biolink:related_to
+OBO:INO_0000154:
+  rename:
+  - related_to
+  - biolink:related_to
+OBO:bspo#parallel_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+# OBO:doid#has_symptom:
+#   rename:
+#   - has_phenotype
+#   - biolink:has_phenotype
+OBO:envo#has_increased_levels_of:
+  rename:
+  - related_to
+  - biolink:related_to
+OBO:exo#interacts_with:
+  rename:
+  - interacts_with
+  - biolink:interacts_with
+OBO:exo#interacts_with_an_exposure_stressor_via:
+  rename:
+  - interacts_with
+  - biolink:interacts_with
+OBO:exo#interacts_with_an_exposure_receptor_via:
+  rename:
+  - interacts_with
+  - biolink:interacts_with
+# OBO:exo.obo#interacts_with:
+#   rename:
+#   - interacts_with
+#   - biolink:interacts_with
+# OBO:exo.obo#interacts_with_an_exposure_stressor_via:
+#   rename:
+#   - interacts_with
+#   - biolink:interacts_with
+# OBO:exo.obo#interacts_with_an_exposure_receptor_via:
+#   rename:
+#   - interacts_with
+#   - biolink:interacts_with
+OBO:has_role:
+  rename:
+  - related_to
+  - biolink:related_to
+OBO:MF#manifestationOf:
+  rename:
+  - manifestation_of
+  - biolink:manifestation_of
+OBO:nbo#by_means:
+  invert:
+  - actively_involved_in
+  - biolink:actively_involved_in
+OBO:nbo#has_participant:
+  rename:
+  - has_participant
+  - biolink:has_participant
+OBO:nbo#in_response_to:
+  invert:
+  - causes
+  - biolink:causes
+OBO:nbo#is_about:
+  rename:
+  - related_to
+  - biolink:related_to
+# OBO:uo#is_unit_of:
+#   invert:
+#   - related_to
+#   - biolink:related_to
+# OIO:hasDbXref:
+#   rename: 
+#   - close_match
+#   - biolink:close_match
+OMIM:allelic_variant_of:
+  rename:
+  - is_sequence_variant_of
+  - biolink:is_sequence_variant_of
+OMIM:has_allelic_variant:
+  delete: null
+OMIM:has_inheritance_type:
+  rename:
+  - related_to
+  - biolink:related_to
+OMIM:has_manifestation:
+  invert:
+  - subclass_of
+  - biolink:subclass_of
+OMIM:has_phenotype:
+  rename:
+  - has_phenotype
+  - biolink:has_phenotype
+OMIM:inheritance_type_of:
+  delete: null
+OMIM:manifestation_of:
+  rename:
+  - manifestation_of
+  - biolink:manifestation_of
+OMIM:phenotype_of:
+  invert:
+  - has_phenotype
+  - biolink:has_phenotype
+ORPHANET:317343:
+  rename:
+  - causes
+  - biolink:causes
+ORPHANET:317344:
+  rename:
+  - causes
+  - biolink:causes
+ORPHANET:317345:
+  rename:
+  - correlated_with
+  - biolink:correlated_with
+ORPHANET:317346:
+  rename:
+  - causes
+  - biolink:causes
+ORPHANET:317348:
+  rename:
+  - actively_involved_in
+  - biolink:actively_involved_in
+ORPHANET:317349:
+  rename:
+  - actively_involved_in
+  - biolink:actively_involved_in
+ORPHANET:327767:
+  rename:
+  - actively_involved_in
+  - biolink:actively_involved_in
+ORPHANET:410295:
+  rename:
+  - causes
+  - biolink:causes
+ORPHANET:410296:
+  rename:
+  - causes
+  - biolink:causes
+ORPHANET:465410:
+  rename:
+  - biomarker_for
+  - biolink:biomarker_for
+ORPHANET:C016:
+  rename:
+  - related_to
+  - biolink:related_to
+ORPHANET:C017:
+  rename:
+  - related_to
+  - biolink:related_to
+# PATO:0000085: # sensitivity toward
+#   rename:
+#   - associated_with_sensitivity_to
+#   - biolink:associated_with_sensitivity_to
+# PATO:correlates_with:
+#   rename:
+#   - correlated_with
+#   - biolink:correlated_with
+PATO:decreased_in_magnitude_relative_to:
+  rename:
+  - related_to
+  - biolink:related_to
+PATO:has_cross_section:
+  rename:
+  - related_to
+  - biolink:related_to
+PATO:has_relative_magnitude:
+  rename:
+  - related_to
+  - biolink:related_to
+PATO:increased_in_magnitude_relative_to:
+  rename:
+  - related_to
+  - biolink:related_to
+PATO:reciprocal_of:
+  rename:
+  - related_to
+  - biolink:related_to
+PATO:towards:
+  invert:
+  - actively_involved_in
+  - biolink:actively_involved_in
+PDQ:associated_disease:
+  rename:
+  - correlated_with
+  - biolink:correlated_with
+PDQ:associated_genetic_condition:
+  delete: null
+PDQ:component_of:
+  invert:
+  - has_part
+  - biolink:has_part
+PDQ:has_component:
+  rename:
+  - has_part
+  - biolink:has_part
+PR:has_gene_template:
+  rename:
+  - gene_product_of
+  - biolink:gene_product_of
+PR:confers_resistance_to:
+  rename:
+  - decreases_activity_of
+  - biolink:decreases_activity_of
+PR:lacks_part:
+  rename:
+  - lacks_part
+  - biolink:lacks_part
+PR:non-covalently_bound_to:
+  rename:
+  - physically_interacts_with
+  - biolink:physically_interacts_with
+PSY:RO:
+  rename:
+  - related_to
+  - biolink:related_to
+PSY:RB:
+  invert:
+  - subclass_of
+  - biolink:subclass_of
+PSY:use:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+PSY:used_for: 
+  invert:
+  - has_input
+  - biolink:has_input
+PathWhiz:has_bound:
+  rename:
+  - has_participant
+  - biolink:has_participant
+PathWhiz:has_compound:
+  rename:
+  - has_participant
+  - biolink:has_participant
+PathWhiz:has_element_collection:
+  rename:
+  - has_participant
+  - biolink:has_participant
+PathWhiz:has_element_in_bound:
+  rename:
+  - has_part
+  - biolink:has_part
+PathWhiz:has_enzyme:
+  rename:
+  - has_participant
+  - biolink:has_participant
+PathWhiz:has_left_element:
+  rename:
+  - has_input
+  - biolink:has_input
+PathWhiz:has_location:
+  rename:
+  - occurs_in
+  - biolink:occurs_in
+PathWhiz:has_nucleic_acid:
+  rename:
+  - has_participant
+  - biolink:has_participant
+PathWhiz:has_protein:
+  rename:
+  - has_participant
+  - biolink:has_participant
+PathWhiz:has_protein_in_complex:
+  rename:
+  - has_part
+  - biolink:has_part
+PathWhiz:has_reaction:
+  rename:
+  - has_participant
+  - biolink:has_participant
+PathWhiz:has_right_element:
+  rename:
+  - has_output
+  - biolink:has_output
+PathWhiz:in_species:
+  rename:
+  - occurs_in
+  - biolink:occurs_in
+REACT:has_element:
+  rename:
+  - has_part
+  - biolink:has_part
+REACT:has_event:
+  rename:
+  - has_participant
+  - biolink:has_participant
+REACT:has_input:
+  rename:
+  - has_input 
+  - biolink:has_input
+REACT:has_member:
+  rename:
+  - has_part
+  - biolink:has_part
+REACT:has_output:
+  rename:
+  - has_output
+  - biolink:has_output
+REACT:in_species:
+  rename:
+  - occurs_in
+  - biolink:occurs_in
+REACT:linked_to_disease:
+  rename:
+  - related_to
+  - biolink:related_to
+REACT:negatively_regulates:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+REACT:negatively_regulates_gene_expression:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+REACT:positively_regulates:
+  rename:
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
+REACT:positively_regulates_gene_expression:
+  rename:
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
+REACT:related_to:
+  rename:
+  - related_to
+  - biolink:related_to
+REACT:is_requirement_for:
+  rename:
+  - entity_regulates_entity
+  - biolink:entity_regulates_entity
+REPODB:clinically_tested_approved_unknown_phase:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_suspended_phase_0:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_suspended_phase_1:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_suspended_phase_1_or_phase_2:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_suspended_phase_2:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_suspended_phase_2_or_phase_3:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_suspended_phase_3:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_terminated_phase_0:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_terminated_phase_1:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_terminated_phase_1_or_phase_2:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_terminated_phase_2:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_terminated_phase_2_or_phase_3:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_terminated_phase_3:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_withdrawn_phase_0:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_withdrawn_phase_1:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_withdrawn_phase_1_or_phase_2:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_withdrawn_phase_2:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_withdrawn_phase_2_or_phase_3:
+  rename:
+  - treats
+  - biolink:treats
+REPODB:clinically_tested_withdrawn_phase_3:
+  rename:
+  - treats
+  - biolink:treats
+RO:0000052:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0000053:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0000056:
+  invert:
+  - has_participant
+  - biolink:has_participant
+RO:0000057:
+  rename:
+  - has_participant
+  - biolink:has_participant
+RO:0000059:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0000086:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0000087:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0001000:
+  rename:
+  - derives_from
+  - biolink:derives_from
+RO:0001015:
+  invert:
+  - located_in
+  - biolink:located_in
+RO:0001019:
+  rename:
+  - has_part
+  - biolink:has_part
+RO:0001022:
+  invert:
+  - causes
+  - biolink:causes
+RO:0001025:
+  rename:
+  - located_in
+  - biolink:located_in
+RO:0002001:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002002:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002005:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002007:
+  invert:
+  - has_part
+  - biolink:has_part
+RO:0002008:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002082:
+  rename:
+  - temporally_related_to
+  - biolink:temporally_related_to
+RO:0002083:
+  rename:
+  - temporally_related_to
+  - biolink:temporally_related_to
+RO:0002087:
+  invert:
+  - precedes
+  - biolink:precedes
+RO:0002090:
+  rename:
+  - precedes
+  - biolink:precedes
+RO:0002092:
+  rename:
+  - temporally_related_to
+  - biolink:temporally_related_to
+RO:0002093:
+  rename:
+  - temporally_related_to
+  - biolink:temporally_related_to
+RO:0002100:
+  rename:
+  - overlaps
+  - biolink:overlaps
+RO:0002101: # fasciculates with
+  rename:
+  - overlaps
+  - biolink:overlaps  
+RO:0002102:
+  rename:
+  - overlaps
+  - biolink:overlaps
+RO:0002103:
+  rename:
+  - interacts_with
+  - biolink:interacts_with
+RO:0002104:
+  rename:
+  - has_plasma_membrane_part
+  - biolink:has_plasma_membrane_part
+RO:0002120:
+  rename:
+  - interacts_with
+  - biolink:interacts_with
+RO:0002130:
+  rename:
+  - interacts_with
+  - biolink:interacts_with
+RO:0002131:
+  rename:
+  - overlaps
+  - biolink:overlaps
+RO:0002134:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002150:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002159:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002160:
+  rename:
+  - in_taxon
+  - biolink:in_taxon
+RO:0002162:
+  rename:
+  - in_taxon
+  - biolink:in_taxon
+RO:0002170:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002176:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002177:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002178:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002179:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002180:
+  rename:
+  - has_part
+  - biolink:has_part
+RO:0002200:
+  rename:
+  - has_phenotype
+  - biolink:has_phenotype
+RO:0002202:
+  rename:
+  - develops_from
+  - biolink:develops_from
+RO:0002203:
+  rename:
+  - develops_from
+  - biolink:develops_from
+RO:0002207:
+  rename:
+  - develops_from
+  - biolink:develops_from
+RO:0002211:
+  rename:
+  - process_regulates_process
+  - biolink:process_regulates_process
+RO:0002212:
+  rename:
+  - process_negatively_regulates_process
+  - biolink:process_negatively_regulates_process
+RO:0002213:
+  rename:
+  - process_positively_regulates_process
+  - biolink:process_positively_regulates_process
+RO:0002215:
+  rename:
+  - capable_of
+  - biolink:capable_of
+RO:0002216:
+  invert:
+  - has_participant
+  - biolink:has_participant
+RO:0002219:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+RO:0002220:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+RO:0002221:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+RO:0002223:
+  rename:
+  - temporally_related_to
+  - biolink:temporally_related_to
+RO:0002224:
+  rename:
+  - temporally_related_to
+  - biolink:temporally_related_to
+RO:0002225:
+  rename:
+  - develops_from
+  - biolink:develops_from
+RO:0002226:
+  rename:
+  - develops_from
+  - biolink:develops_from
+RO:0002229:
+  rename:
+  - temporally_related_to
+  - biolink:temporally_related_to
+RO:0002230:
+  rename:
+  - temporally_related_to
+  - biolink:temporally_related_to
+RO:0002231:
+  rename:
+  - occurs_in
+  - biolink:occurs_in
+RO:0002232:
+  rename:
+  - occurs_in
+  - biolink:occurs_in
+RO:0002233:
+  rename:
+  - has_input
+  - biolink:has_input
+RO:0002234:
+  rename:
+  - has_output
+  - biolink:has_output
+RO:0002241:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002254:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002256:
+  rename:
+  - causes
+  - biolink:
+RO:0002263:
+  rename:
+  - acts_upstream_of
+  - biolink:acts_upstream_of
+RO:0002264:
+  rename:
+  - acts_upstream_of_or_within
+  - biolink:acts_upstream_of_or_within
+RO:0002285:
+  invert:
+  - precedes
+  - biolink:precedes
+RO:0002292:
+  invert:
+  - expressed_in
+  - biolink:expressed_in
+RO:0002295:
+  rename:
+  - entity_regulates_entity
+  - biolink:entity_regulates_entity
+RO:0002296:
+  rename:
+  - has_output
+  - biolink:has_output
+RO:0002297:
+  rename:
+  - has_output
+  - biolink:has_output
+RO:0002298:
+  rename:
+  - has_output
+  - biolink:has_output
+RO:0002299:
+  rename:
+  - has_output
+  - biolink:has_output
+RO:0002303:
+  rename:
+  - located_in
+  - biolink:located_in
+RO:0002309:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002313:
+  rename:
+  - affects_transport_of
+  - biolink:affects_transport_of
+RO:0002314:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002315:
+  rename:
+  - causes
+  - biolink:causes
+RO:0002322:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002328:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002331:
+  rename:
+  - actively_involved_in
+  - biolink:actively_involved_in
+RO:0002332:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002334:
+  invert:
+  - entity_regulates_entity
+  - biolink:entity_regulates_entity
+RO:0002338:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002339:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002340:
+  rename:
+  - affects_transport_of
+  - biolink:affects_transport_of
+RO:0002341:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002342:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002343:
+  rename:
+  - affects
+  - biolink:affects
+RO:0002344:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002345:
+  rename:
+  - affects_transport_of
+  - biolink:affects_transport_of
+RO:0002348:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002349:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002350:
+  invert:
+  - has_part
+  - biolink:has_part
+RO:0002351:
+  rename:
+  - has_part
+  - biolink:has_part
+RO:0002352:
+  invert:
+  - has_input
+  - biolink:has_input
+RO:0002353:
+  invert:
+  - has_output
+  - biolink:has_output
+RO:0002354:
+  invert:
+  - has_output
+  - biolink:has_output
+RO:0002355:
+  rename:
+  - affects
+  - biolink:affects
+RO:0002356:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002371:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002372:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002373:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002374:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002376:
+  invert:
+  - has_part
+  - biolink:has_part
+RO:0002380:
+  invert:
+  - has_part
+  - biolink:has_part
+RO:0002385:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002387:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002411:
+  rename:
+  - precedes
+  - biolink:precedes
+RO:0002412:
+  rename:
+  - precedes
+  - biolink:precedes
+RO:0002433:
+  rename:
+  - overlaps
+  - biolink:overlaps
+RO:0002434:
+  rename:
+  - interacts_with
+  - biolink:interacts_with
+RO:0002451:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002452: # has symptom
+  rename:
+  - has_phenotype
+  - biolink:has_phenotype  
+# RO:0002470:
+#   rename:
+#   - related_to
+#   - biolink:related_to
+RO:0002473:
+  rename:
+  - composed_primarily_of
+  - biolink:composed_primarily_of
+RO:0002488:
+  rename:
+  - temporally_related_to
+  - biolink:temporally_related_to
+RO:0002489:
+  rename:
+  - temporally_related_to
+  - biolink:temporally_related_to
+RO:0002491:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+RO:0002492:
+  rename:
+  - temporally_related_to
+  - biolink:temporally_related_to
+RO:0002493:
+  rename:
+  - temporally_related_to
+  - biolink:temporally_related_to
+RO:0002494:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002495:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002496:
+  rename:
+  - temporally_related_to
+  - biolink:temporally_related_to
+RO:0002497:
+  rename:
+  - temporally_related_to
+  - biolink:temporally_related_to
+RO:0002500:
+  rename:
+  - capable_of
+  - biolink:capable_of
+RO:0002503:
+  rename:
+  - actively_involved_in
+  - biolink:actively_involved_in
+RO:0002505:
+  rename:
+  - has_participant
+  - biolink:has_participant
+RO:0002507:
+  invert:
+  - causes
+  - biolink:causes
+RO:0002509:
+  invert:
+  - causes
+  - biolink:causes
+RO:0002524:
+  rename:
+  - has_part
+  - biolink:has_part
+RO:0002551:
+  rename:
+  - has_part
+  - biolink:has_part
+RO:0002565:
+  rename:
+  - has_participant
+  - biolink:has_participant
+RO:0002568:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002571:
+  invert:
+  - has_part
+  - biolink:has_part
+RO:0002572:
+  invert:
+  - has_part
+  - biolink:has_part
+RO:0002573:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0002576:
+  invert:
+  - has_part
+  - biolink:has_part
+# RO:0002578:
+#   rename:
+#   - entity_regulates_entity
+#   - biolink:entity_regulates_entity
+RO:0002588:
+  rename:
+  - has_output
+  - biolink:has_output
+RO:0002590:
+  rename:
+  - has_input
+  - biolink:has_input
+RO:0002591:
+  rename:
+  - affects
+  - biolink:affects
+RO:0002592:
+  rename:
+  - affects
+  - biolink:affects
+RO:0002608:
+  invert:
+  - causes
+  - biolink:causes
+RO:0002610:
+  rename:
+  - correlated_with
+  - biolink:correlated_with
+# RO:0002629:
+#   rename:
+#   - entity_positively_regulates_entity
+#   - biolink:entity_positively_regulates_entity
+# RO:0002630:
+#   rename:
+#   - entity_negatively_regulates_entity
+#   - biolink:entity_negatively_regulates_entity
+RO:0003000:
+  rename:
+  - produces
+  - biolink:produces
+RO:0003001:
+  invert:
+  - produces
+  - biolink:produces
+RO:0003003:
+  rename:
+  - increases_expression_of
+  - biolink:increases_expression_of
+RO:0003304:
+  rename:
+  - contributes_to
+  - biolink:contributes_to
+RO:0003309:
+  rename:
+  - exacerbates
+  - biolink:exacerbates
+RO:0004001:
+  rename:
+  - causes
+  - biolink:causes
+RO:0004007:
+  rename:
+  - has_participant
+  - biolink:has_participant
+RO:0004008:
+  rename:
+  - has_output
+  - biolink:has_output
+RO:0004009:
+  rename:
+  - has_input
+  - biolink:has_input
+RO:0004019:
+  invert:
+  - causes
+  - biolink:causes
+RO:0004020:
+  rename:
+  - has_participant
+  - biolink:has_participant
+RO:0004021:
+  rename:
+  - has_participant
+  - biolink:has_participant
+RO:0004022:
+  rename:
+  - has_phenotype
+  - biolink:has_phenotype
+RO:0004024:
+  rename:
+  - disrupts
+  - biolink:disrupts
+RO:0004025:
+  rename:
+  - disrupts
+  - biolink:disrupts
+RO:0004026:
+  rename:
+  - disease_has_location
+  - biolink:disease_has_location
+RO:0004027:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0004028:
+  invert:
+  - causes
+  - biolink:causes
+RO:0004029:
+  rename:
+  - associated_with
+  - biolink:associated_with
+# RO:0004030:
+#   invert:
+#   - causes
+#   - biolink:
+RO:0004032:
+  rename:
+  - acts_upstream_of_or_within_positive_effect
+  - biolink:acts_upstream_of_or_within_positive_effect
+RO:0004033:
+  rename:
+  - acts_upstream_of_or_within_negative_effect
+  - biolink:acts_upstream_of_or_within_negative_effect
+RO:0004034:
+  rename:
+  - acts_upstream_of_positive_effect
+  - biolink:acts_upstream_of_positive_effect
+RO:0004035:
+  rename:
+  - acts_upstream_of_negative_effect
+  - biolink:acts_upstream_of_negative_effect
+RO:0009001:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0009004:
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0009501:
+  invert:
+  - causes
+  - biolink:causes
+RO:0012003:
+  rename:
+  - affects
+  - biolink:affects
+RO:0012008: # results in fusion of
+  rename:
+  - affects
+  - biolink:affects
+RO:0013001: # has synaptic IO in
+  rename:
+  - related_to
+  - biolink:related_to
+RO:0014001: # disease has infectious agent
+  rename:
+  - related_to
+  - biolink:related_to
+RO:participates_in:
+  invert:
+  - has_participant
+  - biolink:has_participant
+RXNORM:consists_of:
+  rename:
+  - has_part
+  - biolink:has_part
+RXNORM:constitutes:
+  invert:
+  - has_part
+  - biolink:has_part
+RXNORM:contained_in:
+  invert:
+  - has_part
+  - biolink:has_part
+RXNORM:contains:
+  rename:
+  - has_part
+  - biolink:has_part
+RXNORM:dose_form_of:
+  delete: null
+RXNORM:doseformgroup_of:
+  delete: null
+RXNORM:form_of:
+  delete: null
+RXNORM:has_dose_form:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+RXNORM:has_doseformgroup:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+RXNORM:has_form:
+  rename:
+  - related_to
+  - biolink:related_to
+RXNORM:has_ingredient:
+  rename:
+  - has_part
+  - biolink:has_part
+RXNORM:has_ingredients:
+  delete: null
+RXNORM:has_part:
+  rename:
+  - has_part
+  - biolink:has_part
+RXNORM:has_precise_ingredient:
+  delete: null
+RXNORM:has_quantified_form:
+  rename:
+  - close_match
+  - biolink:close_match
+RXNORM:has_tradename:
+  rename:
+  - related_to
+  - biolink:related_to
+RXNORM:ingredient_of:
+  invert:
+  - has_part
+  - biolink:has_part
+RXNORM:ingredients_of:
+  invert:
+  - has_part
+  - biolink:has_part
+RXNORM:inverse_isa:
+  invert:
+  - subclass_of
+  - biolink:subclass_of
+RXNORM:isa:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+RXNORM:part_of:
+  invert:
+  - has_part
+  - biolink:has_part
+RXNORM:precise_ingredient_of:
+  invert:
+  - has_part
+  - biolink:has_part
+RXNORM:quantified_form_of:
+  delete: null
+RXNORM:reformulated_to:
+  rename:
+  - related_to
+  - biolink:related_to
+RXNORM:reformulation_of:
+  delete: null
+RXNORM:tradename_of:
+  delete: null
+SEMMEDDB:1532:
+  delete: null
+SEMMEDDB:administered_to:
+  rename:
+  - affects
+  - biolink:affects
+SEMMEDDB:affects:
+  rename:
+  - affects
+  - biolink:affects
+SEMMEDDB:associated_with:
+  rename:
+  - related_to
+  - biolink:related_to
+SEMMEDDB:augments:
+  rename:
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
+SEMMEDDB:causes:
+  rename:
+  - causes
+  - biolink:causes
+SEMMEDDB:coexists_with:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+SEMMEDDB:compared_with:
+  rename:
+  - related_to
+  - biolink:related_to
+SEMMEDDB:complicates:
+  rename:
+  - exacerbates
+  - biolink:exacerbates
+SEMMEDDB:converts_to:
+  invert:
+  - derives_from
+  - biolink:derives_from
+SEMMEDDB:diagnoses:
+  rename:
+  - diagnoses
+  - biolink:diagnoses
+SEMMEDDB:disrupts:
+  rename:
+  - disrupts
+  - biolink:disrupts
+SEMMEDDB:higher_than:
+  rename:
+  - related_to
+  - biolink:related_to
+SEMMEDDB:inhibits:
+  rename:
+  - entity_negatively_regulates_entity
+  - biolink:entity_negatively_regulates_entity
+SEMMEDDB:interacts_with:
+  rename:
+  - interacts_with
+  - biolink:interacts_with
+SEMMEDDB:isa:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+SEMMEDDB:location_of:
+  invert:
+  - located_in
+  - biolink:located_in
+SEMMEDDB:lower_than:
+  rename:
+  - related_to
+  - biolink:related_to
+SEMMEDDB:manifestation_of:
+  rename:
+  - manifestation_of
+  - biolink:manifestation_of
+SEMMEDDB:measurement_of:
+  delete: null
+SEMMEDDB:measures:
+  rename:
+  - related_to
+  - biolink:related_to
+SEMMEDDB:method_of:
+  delete: null
+SEMMEDDB:nom:
+  delete: null
+SEMMEDDB:occurs_in:
+  rename:
+  - occurs_in
+  - biolink:occurs_in
+SEMMEDDB:part_of:
+  invert:
+  - has_part
+  - biolink:has_part
+SEMMEDDB:precedes:
+  rename:
+  - precedes
+  - biolink:precedes
+SEMMEDDB:predisposes:
+  rename:
+  - predisposes
+  - biolink:predisposes
+SEMMEDDB:prep:
+  delete: null
+SEMMEDDB:prevents:
+  rename:
+  - prevents
+  - biolink:prevents
+SEMMEDDB:process_of:
+  rename:
+  - occurs_in
+  - biolink:occurs_in
+SEMMEDDB:produces:
+  rename:
+  - produces
+  - biolink:produces
+SEMMEDDB:same_as:
+  rename:
+  - close_match
+  - biolink:close_match
+SEMMEDDB:stimulates:
+  rename:
+  - entity_positively_regulates_entity
+  - biolink:entity_positively_regulates_entity
+SEMMEDDB:treats:
+  rename:
+  - treats
+  - biolink:treats
+SEMMEDDB:uses:
+  rename:
+  - has_input
+  - biolink:has_input
+SEMMEDDB:verb:
+  delete: null
+SEMMEDDB:xref:
+  rename:
+  - related_to
+  - biolink:related_to
+SIO:000001:
+  delete: null
+# SIO:000983:
+#   rename:
+#   - biomarker_for
+#   - biolink:biomarker_for
+# SIO:001331: # diagnosis
+#   rename:
+#   - diagnoses
+#   - biolink:diagnoses
+# SO:adjacent_to:
+#   rename:
+#   - coexists_with
+#   - biolink:coexists_with
+# SO:contains:
+#   rename:
+#   - has_part
+#   - biolink:has_part
+# SO:derives_from:
+#   rename:
+#   - coexists_with
+#   - biolink:coexists_with
+# SO:guided_by:
+#   rename:
+#   - related_to
+#   - biolink:related_to
+SO:has_origin:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+# SO:has_part:
+#   rename:
+#   - has_part
+#   - biolink:has_part
+# SO:has_quality:
+#   rename:
+#   - related_to
+#   - biolink:related_to
+# SO:non_functional_homolog_of:
+#   rename:
+#   - homologous_to
+#   - biolink:homologous_to
+# SO:member_of:
+#   invert:
+#   - has_part
+#   - biolink:has_part
+# SO:overlaps:
+#   rename:
+#   - overlaps
+#   - biolink:overlaps
+# SO:transcribed_from:
+#   rename:
+#   - gene_product_of
+#   - biolink:gene_product_of
+# SO:transcribed_to:
+#   invert:
+#   - gene_product_of
+#   - biolink:gene_product_of
+# UBERON:anastomoses_with:
+#   rename:
+#   - coexists_with
+#   - biolink:coexists_with
+# UBERON:anteriorly_connected_to:
+#   rename:
+#   - coexists_with
+#   - biolink:coexists_with
+# UBERON:channel_for:
+#   rename:
+#   - coexists_with
+#   - biolink:coexists_with
+# UBERON:channels_from:
+#   rename:
+#   - coexists_with
+#   - biolink:coexists_with
+# UBERON:channels_into:
+#   rename:
+#   - coexists_with
+#   - biolink:coexists_with
+# UBERON:conduit_for:
+#   rename:
+#   - coexists_with
+#   - biolink:coexists_with
+# UBERON:distally_connected_to:
+#   rename:
+#   - coexists_with
+#   - biolink:coexists_with
+# UBERON:existence_starts_and_ends_during:
+#   rename:
+#   - coexists_with
+#   - biolink:coexists_with
+# UBERON:extends_fibers_into:
+#   rename:
+#   - coexists_with
+#   - biolink:coexists_with
+# UBERON:filtered_through:
+#   rename:
+#   - coexists_with
+#   - biolink:coexists_with
+# UBERON:in_central_side_of:
+#   rename:
+#   - coexists_with
+#   - biolink:coexists_with
+# UBERON:in_innermost_side_of:
+#   rename:
+#   - coexists_with
+#   - biolink:coexists_with
+# UBERON:in_outermost_side_of:
+#   rename:
+#   - coexists_with
+#   - biolink:coexists_with
+# UBERON:indirectly_supplies:
+#   rename:
+#   - coexists_with
+#   - biolink:coexists_with
+# UBERON:posteriorly_connected_to:
+#   rename:
+#   - coexists_with
+#   - biolink:coexists_with
+# UBERON:protects:
+#   rename:
+#   - coexists_with
+#   - biolink:coexists_with
+# UBERON:proximally_connected_to:
+#   rename:
+#   - coexists_with
+#   - biolink:coexists_with
+# UBERON:sexually_homologous_to:
+#   rename:
+#   - coexists_with
+#   - biolink:coexists_with
+# UBERON:site_of:
+#   invert:
+#   - occurs_in
+#   - biolink:occurs_in
+# UBERON:subdivision_of:
+#   invert:
+#   - has_part
+#   - biolink:has_part
+# UBERON:synapsed_by:
+#   rename:
+#   - related_to
+#   - biolink:related_to
+UBERON_CORE:anastomoses_with:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON_CORE:anteriorly_connected_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON_CORE:channel_for:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON_CORE:channels_from:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON_CORE:channels_into:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON_CORE:conduit_for:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON_CORE:distally_connected_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON_CORE:extends_fibers_into:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON_CORE:filtered_through:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON_CORE:in_central_side_of:
+  rename:
+  - located_in
+  - biolink:located_in
+UBERON_CORE:in_innermost_side_of:
+  rename:
+  - located_in
+  - biolink:located_in
+UBERON_CORE:in_outermost_side_of:
+  rename:
+  - located_in
+  - biolink:located_in
+UBERON_CORE:indirectly_supplies:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON_CORE:posteriorly_connected_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON_CORE:protects:
+  rename:
+  - related_to
+  - biolink:related_to
+UBERON_CORE:proximally_connected_to:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+UBERON_CORE:sexually_homologous_to:
+  rename:
+  - homologous_to
+  - biolink:homologous_to
+UBERON_CORE:site_of:
+  rename:
+  - occurs_in
+  - biolink:occurs_in
+UBERON_CORE:subdivision_of:
+  rename:
+  - part_of
+  - biolink:part_of
+UBERON_CORE:synapsed_by:
+  rename:
+  - coexists_with
+  - biolink:coexists_with
+# UBERON_NONAMESPACE:connected_to:
+#   rename:
+#   - related_to
+#   - biolink:related_to
+# UBERON_NONAMESPACE:distally_connected_to:
+#   rename:
+#   - coexists_with
+#   - biolink:coexists_with
+# UBERON_NONAMESPACE:innervated_by:
+#   rename:
+#   - related_to
+#   - biolink:related_to
+# UBERON_NONAMESPACE:subdivision_of:
+#   rename:
+#   - coexists_with
+#   - biolink:coexists_with
+UMLS:has_physiologic_effect:
+  rename:
+  - causes
+  - biolink:causes
+UMLS:RB:
+  rename:
+  - related_to
+  - biolink:related_to
+# UMLS:RN:
+#   rename:
+#   - related_to
+#   - biolink:related_to
+UMLS:RO:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:RQ:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:SIB:
+  delete: null
+UMLS:SY:
+  rename:
+  - close_match
+  - biolink:close_match
+UMLS:class_code_classified_by:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:classifies_class_code:
+  delete: null
+UMLS:component_of:
+  invert:
+  - has_part
+  - biolink:has_part
+UMLS:context_binding_of:
+  delete: null
+UMLS:exhibited_by:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:exhibits:
+  delete: null
+UMLS:form_of:
+  delete: null
+UMLS:has_component:
+  rename:
+  - has_part
+  - biolink:has_part
+UMLS:has_context_binding:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:has_form:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:has_mapping_qualifier:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:has_owning_affiliate:
+  invert:
+  - has_part
+  - biolink:has_part
+UMLS:has_owning_section:
+  delete: null
+UMLS:has_owning_subsection:
+  delete: null
+UMLS:has_structural_class:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:has_supported_concept_property:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:has_supported_concept_relationship:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:larger_than:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:mapped_from:
+  delete: null
+UMLS:mapped_to:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:may_be_qualified_by:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:may_qualify:
+  delete: null
+UMLS:measured_by:
+  delete: null
+UMLS:measures:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:owning_affiliate_of:
+  delete: null
+UMLS:owning_section_of:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:owning_subsection_of:
+  invert:
+  - has_part
+  - biolink:has_part
+UMLS:related_to:
+  rename:
+  - related_to
+  - biolink:related_to
+UMLS:supported_concept_property_in:
+  delete: null
+UMLS:supported_concept_relationship_in:
+  delete: null
+# UO-PROPERTY:is_unit_of:
+#   rename:
+#   - related_to
+#   - biolink:related_to
+VANDF:has_ingredient:
+  rename:
+  - has_part
+  - biolink:has_part
+VANDF:ingredient_of:
+  invert:
+  - has_part
+  - biolink:has_part
+VANDF:inverse_isa:
+  invert:
+  - subclass_of
+  - biolink:subclass_of
+VANDF:isa:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+biolink:in_taxon:
+  keep: null
+biolink:part_of:
+  invert:
+  - has_part
+  - biolink:has_part
+biolink:subclass_of:
+  keep: null
+oboFormat:xref:
+  rename:
+  - close_match
+  - biolink:close_match
+owl:inverseOf:
+  rename:
+  - related_to
+  - biolink:related_to
+owl:sameAs:
+  rename:
+  - same_as
+  - biolink:same_as
+rdf:type:
+  rename:
+  - related_to
+  - biolink:related_to
+rdfs:subClassOf:
+  rename:
+  - subclass_of
+  - biolink:subclass_of
+rdfs:subPropertyOf:
+  rename:
+  - subclass_of
+  - biolink:subclass_of

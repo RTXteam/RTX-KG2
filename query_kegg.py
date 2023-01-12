@@ -10,11 +10,12 @@ from cache_control_helper import CacheControlHelper
 import datetime
 import argparse
 import kg2_util
+import requests
 
 
 __author__ = 'Erica Wood'
 __copyright__ = 'Oregon State University'
-__credits__ = ['Stephen Ramsey', 'Erica Wood', 'Deqing Qu']
+__credits__ = ['Stephen Ramsey', 'Erica Wood', 'Deqing Qu', 'Liliana Acevedo']
 __license__ = 'MIT'
 __version__ = '0.1.0'
 __maintainer__ = ''
@@ -74,7 +75,7 @@ def process_get_query(get_results, results_dict, kegg_id):
 
 def run_queries():
     results_dict = {}
-    info_queries = ["http://rest.kegg.jp/info/kegg"]
+    info_queries = ["http://rest.kegg.jp/info/kegg/"]
     list_queries = ["http://rest.kegg.jp/list/pathway/hsa",
                     "http://rest.kegg.jp/list/compound",
                     "http://rest.kegg.jp/list/glycan",
@@ -87,26 +88,39 @@ def run_queries():
     get_base_query = "http://rest.kegg.jp/get/"
     for query in info_queries:
         info_dict = {}
-        for results in send_query(query).split('\n'):
+        site_request = requests.get(query)
+        site_response = str(site_request.content)[2:]
+        if site_response[:2].startswith("b"):
+            site_response = site_response[2:]
+        results = site_response.strip().split("\\n")
+        for result in results:
+            result = result.strip("kegg").strip().split()
             if len(results) < 1:
                 continue
-            results = results.strip('kegg').strip().split()
-            if results[0] == "Release":
-                info_dict['version'] = results[1].split('/')[0].strip('+')
-                info_dict['update_date'] = results[2] + '-' + results[3]
+            if result[0] == "Release":
+                info_dict['version'] = result[1].split('/')[0].strip('+')
+                info_dict['update_date'] = result[2] + '-' + result[3]
         results_dict['info'] = info_dict
     for query in list_queries:
-        for results in send_query(query).split('\n'):
-            if len(results) < 1:
+        site_request = requests.get(query)
+        site_response = str(site_request.content)[2:]
+        results = site_response.split("\\n")
+        for results in results:
+            result = result.split("\\t")
+            if len(results) < 2:
                 continue
-            results = results.split('\t')
-            results_dict[results[0]] = {'name': results[1]}
+            results_dict[result[0]] = {'name': result[1]}
     for query in conv_queries:
-        for results in send_query(query).split('\n'):
-            if len(results) < 1:
+        site_request = requests.get(query)
+        site_response = str(site_request.content)[2:]
+        results = site_response.split("\\n")
+        for result in results:
+            if len(result) < 1:
                 continue
-            results = results.split('\t')
-            results_dict[results[1]]['eq_id'] = results[0]
+            result = result.split('\\t')
+            if len(result) > 1:
+                results_dict[result[1]] = {}
+                results_dict[result[1]]['eq_id'] = result[0]
     kegg_ids = len(results_dict.keys())
     get_count = 0
     for kegg_id in results_dict:

@@ -3,11 +3,11 @@
   file: biolink-model.owl.ttl
   download: true
   title: Biolink meta-model
-- # maps to CURIE prefix: UMLSSC (the trailling slash here is important:)
-  url: http://purl.bioontology.org/ontology/STY/
-  file: umls-semantictypes.ttl
-  download: false
-  title: UMLS Semantic Types
+# - # maps to CURIE prefix: UMLSSC (the trailling slash here is important:)
+#   url: http://purl.bioontology.org/ontology/STY/
+#   file: umls-semantictypes.ttl
+#   download: false
+#   title: UMLS Semantic Types
 # - # maps to CURIE prefix: ATC
 #   download: false
 #   file: umls-atc.ttl
@@ -18,21 +18,21 @@
 #   file: umls-cpt.ttl
 #   title: Current Procedural Terminology
 #   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/CPT
-- # maps to CURIE prefix DRUGBANK
-  download: false
-  file: umls-drugbank.ttl
-  title: DrugBank
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/DRUGBANK
+# - # maps to CURIE prefix DRUGBANK
+#   download: false
+#   file: umls-drugbank.ttl
+#   title: DrugBank
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/DRUGBANK
 # - # maps to CURIE prefix FMA
 #   download: false
 #   file: umls-fma.ttl
 #   title: Foundational Model of Anatomy
 #   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/FMA
-- # maps to CURIE prefix GO
-  download: false
-  file: umls-go.ttl
-  title: Gene Ontology
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/GO
+# - # maps to CURIE prefix GO
+#   download: false
+#   file: umls-go.ttl
+#   title: Gene Ontology
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/GO
 # - # maps to CURIE prefix HCPCS
 #   download: false
 #   file: umls-hcpcs.ttl
@@ -43,11 +43,11 @@
 #   file: umls-hcpt.ttl
 #   title: CPT in HCPCS
 #   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/HCPT
-- # maps to CURIE prefix HGNC
-  download: false
-  file: umls-hgnc.ttl
-  title: HUGO Gene Nomenclature Committee
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/HGNC
+# - # maps to CURIE prefix HGNC
+#   download: false
+#   file: umls-hgnc.ttl
+#   title: HUGO Gene Nomenclature Committee
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/HGNC
 # - # maps to CURIE prefix umls
 #   download: false
 #   file: umls-hl7.ttl
@@ -88,11 +88,11 @@
 #   file: umls-lnc.ttl
 #   title: Logical Observation Identifiers Names and Codes
 #   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/LNC
-- # maps to CURIE prefix MEDDRA
-   download: false
-   file: umls-mdr.ttl
-   title: MedDRA
-   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MEDDRA
+# - # maps to CURIE prefix MEDDRA
+#    download: false
+#    file: umls-mdr.ttl
+#    title: MedDRA
+#    url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MEDDRA
 # - # maps to CURIE prefix umls
 #   download: false
 #   file: umls-med-rt.ttl
@@ -110,9 +110,9 @@
 #   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MSH
 # - # maps to CURIE prefix umls
 #   download: false
-#   file: umls-mth.ttl
-#   title: Metathesaurus Names
-#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MTH
+  # file: umls-mth.ttl
+  # title: Metathesaurus Names
+  # url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MTH
 # - # maps to CURIE prefix NCBITaxon
 #   download: false
 #   file: umls-ncbi.ttl
@@ -177,11 +177,11 @@
 #   file: bfo.owl
 #   download: true
 #   title: Basic Formal Ontology
-- # maps to CURIE prefix: GO
-  url:  http://purl.obolibrary.org/obo/go/extensions/go-plus.owl
-  file: go-plus.owl
-  title: Gene Ontology
-  download: true
+#-  maps to CURIE prefix: GO
+  # url:  http://purl.obolibrary.org/obo/go/extensions/go-plus.owl
+  # file: go-plus.owl
+  # title: Gene Ontology
+  # download: true
 # - # maps to CURIE prefix: RO
 #   url:  http://purl.obolibrary.org/obo/ro.owl
 #   file: ro.owl
@@ -218,10 +218,10 @@
 #   download: true
 #   title: Chemical Entities of Biological Interest
 # -
-#   url: http://purl.obolibrary.org/obo/foodon.owl 
-#   file: foodon.owl
-#   download: true
-#   title: FOODON (Food Ontology)
+  # url: http://purl.obolibrary.org/obo/foodon.owl 
+  # file: foodon.owl
+  # download: false
+  # title: FOODON (Food Ontology)
 # -
 #   url:  http://data.bioontology.org/ontologies/ORDO/submissions/15/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
 #   file: ordo.owl
@@ -237,11 +237,11 @@
 #   file: bspo.owl
 #   download: true
 #   title: Biological Spatial Ontology
--
-  url:  http://purl.obolibrary.org/obo/hp.owl
-  file: hp.owl
-  download: true
-  title: Human Phenotype Ontology
+# -
+#   url:  http://purl.obolibrary.org/obo/hp.owl
+#   file: hp.owl
+#   download: true
+#   title: Human Phenotype Ontology
 # -
 #   url:  http://purl.obolibrary.org/obo/nbo.owl
 #   file: nbo.owl
