@@ -18,7 +18,7 @@ Build info:
 - Neo4j endpoint hostname: `kg2endpoint2.rtx.ai`
 - Tracking issue for the build: Issue [#252](https://github.com/RTXteam/RTX-KG2/issues/252)
 - Major knowledge source versions:
-  - SemMedDB: `23 (2021)`
+  - SemMedDB: `43 (2023)`
   - UMLS: `2022AA`
   - ChEMBL: `30`
   - DrugBank: `5.1.9`
