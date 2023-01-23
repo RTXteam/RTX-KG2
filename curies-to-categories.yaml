@@ -242,15 +242,15 @@ term-mappings:
     OBI:1110122: pathological process
     OGMS:0000060: physiological process
     OGMS:0000087: individual organism
-    ORPHANET:410298: gene
-    ORPHANET:410299: noncoding RNA product
-    ORPHANET:410297: nucleic acid entity # formerly genomic entity, definition is "Chromosomal region associated with a hereditary disorder but without any precision on the possible associated gene."
-    ORPHANET:C023: life stage
-    ORPHANET:C001: disease
-    ORPHANET:409967: named thing # formerly frequency value
-    ORPHANET:C004: named thing # formerly frequency value
-    ORPHANET:409973: named thing # formerly frequency value
-    ORPHANET:C005: phenotypic feature
+    orphanet:410298: gene
+    orphanet:410299: noncoding RNA product
+    orphanet:410297: nucleic acid entity # formerly genomic entity, definition is "Chromosomal region associated with a hereditary disorder but without any precision on the possible associated gene."
+    orphanet:C023: life stage
+    orphanet:C001: disease
+    orphanet:409967: named thing # formerly frequency value
+    orphanet:C004: named thing # formerly frequency value
+    orphanet:409973: named thing # formerly frequency value
+    orphanet:C005: phenotypic feature
     owl:Thing: named thing
     PATO:0000001: named thing # formerly phenotypic quality
     PR:000000001: protein

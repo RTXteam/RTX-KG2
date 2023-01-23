@@ -6,11 +6,14 @@ Counts:
 - Edges: 54,078,936
 
 Issues:
+- Issue [#253](https://github.com/RTXteam/RTX-KG2/issues/253)
 - Issue [#251](https://github.com/RTXteam/RTX-KG2/issues/251)
+- Issue [#250](https://github.com/RTXteam/RTX-KG2/issues/250)
+- Issue [#246](https://github.com/RTXteam/RTX-KG2/issues/246)
 - Additional issues that arose during the build: 
 
 Build info:
-- Biolink Model version: 3.0.0
+- Biolink Model version: 3.1.2
 - Build host: `buildkg2.rtx.ai`
 - Build directory: `/home/ubuntu/kg2-build`
 - Build code branch: `issue-252`
