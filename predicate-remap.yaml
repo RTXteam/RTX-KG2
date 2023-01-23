@@ -193,6 +193,7 @@ CHEBI:is_tautomer_of:
 CHEMBL.MECHANISM:activator: 
   operation: keep  
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: increased
 CHEMBL.MECHANISM:agonist:
@@ -229,6 +230,7 @@ CHEMBL.MECHANISM:binding_agent:
 CHEMBL.MECHANISM:blocker:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: decreased
 CHEMBL.MECHANISM:chelating_agent:
@@ -260,6 +262,7 @@ CHEMBL.MECHANISM:hydrolytic_enzyme:
 CHEMBL.MECHANISM:inhibitor:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: decreased
 CHEMBL.MECHANISM:inverse_agonist:
@@ -275,11 +278,13 @@ CHEMBL.MECHANISM:modulator:
 CHEMBL.MECHANISM:negative_allosteric_modulator:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: decreased
 CHEMBL.MECHANISM:negative_modulator:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: decreased
 CHEMBL.MECHANISM:opener:
@@ -338,6 +343,7 @@ CHEMBL.MECHANISM:releasing_agent:
 CHEMBL.MECHANISM:rnai_inhibitor:
  operation: keep
  core_predicate: biolink:regulates
+ qualified_predicate: biolink:causes
  qualifiers:
    - object_direction: decreased
 CHEMBL.MECHANISM:vaccine_antigen:
@@ -1322,6 +1328,7 @@ DDANAT:develops_from:
 DGIdb:activator:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: increased
 # DGIdb:adduct:
@@ -1340,6 +1347,7 @@ DGIdb:agonist:
 DGIdb:allosteric_modulator:
   operation: keep
   core_predicate: biolink:affects
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
 DGIdb:antagonist:
@@ -1508,6 +1516,7 @@ DGIdb:vaccine:
 DRUGBANK:activator:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: increased
 # DRUGBANK:adduct:
@@ -1530,6 +1539,7 @@ DRUGBANK:agonist:
 DRUGBANK:allosteric_modulator:
   operation: keep
   core_predicate: biolink:affects
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
 DRUGBANK:antagonist:
@@ -1578,6 +1588,7 @@ DRUGBANK:chelator:
 DRUGBANK:cleavage:
   operation: keep
   core_predicate: biolink:affects
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: degradation
 DRUGBANK:cofactor:
@@ -1589,6 +1600,7 @@ DRUGBANK:component_of:
 DRUGBANK:degradation:
   operation: keep
   core_predicate: biolink:affects
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: degradation
 # DRUGBANK:deoxidizer:
@@ -1604,6 +1616,7 @@ DRUGBANK:degradation:
 DRUGBANK:downregulator:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: decreased
 DRUGBANK:drug-interaction:
@@ -1624,11 +1637,13 @@ DRUGBANK:group:
 DRUGBANK:inactivator:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: decreased
 DRUGBANK:incorporation_into_and_destabilization:
   operation: keep
   core_predicate: biolink:affects
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: degradation
 DRUGBANK:inducer:
@@ -1641,11 +1656,13 @@ DRUGBANK:inducer:
 DRUGBANK:inhibition_of_synthesis:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: decreased
 DRUGBANK:inhibitor:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: decreased
 DRUGBANK:inhibitory_allosteric_modulator:
@@ -1677,6 +1694,7 @@ DRUGBANK:multitarget:
 DRUGBANK:negative_modulator:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: decreased
 DRUGBANK:neutralizer:
@@ -1727,6 +1745,7 @@ DRUGBANK:positive_allosteric_modulator:
 # DRUGBANK:positive_modulator:
 #   operation: keep
 #   core_predicate: biolink:regulates
+#   qualified_predicate: biolink:causes
 #   qualifiers:
 #     - object_direction: increased
 DRUGBANK:potentiator:
@@ -1772,6 +1791,7 @@ DRUGBANK:target:
 DRUGBANK:translocation_inhibitor:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: decreased
 # DRUGBANK:treats:
@@ -1780,6 +1800,7 @@ DRUGBANK:translocation_inhibitor:
 DRUGBANK:weak_inhibitor:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: decreased
 # DrugCentral:5271:
@@ -1793,6 +1814,7 @@ DrugCentral:PA:
 DrugCentral:activator:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: increased
 DrugCentral:agonist:
@@ -1812,6 +1834,7 @@ DrugCentral:allosteric_antagonist:
 DrugCentral:allosteric_modulator:
   operation: keep
   core_predicate: biolink:affects
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: activity
 DrugCentral:antagonist:
@@ -1873,11 +1896,13 @@ DrugCentral:modulator:
 DrugCentral:negative_allosteric_modulator:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: decreased
 DrugCentral:negative_modulator:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: decreased
 DrugCentral:off-label_use:
@@ -1910,6 +1935,7 @@ DrugCentral:positive_allosteric_modulator:
 DrugCentral:positive_modulator:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: increased
 DrugCentral:releasing_agent:
@@ -2356,6 +2382,7 @@ GO:acts_upstream_of:
 GO:acts_upstream_of_negative_effect:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: decreased
 GO:acts_upstream_of_or_within:
@@ -2364,16 +2391,19 @@ GO:acts_upstream_of_or_within:
 GO:acts_upstream_of_or_within_negative_effect:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: decreased
 GO:acts_upstream_of_or_within_positive_effect:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: increased
 GO:acts_upstream_of_positive_effect:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: increased
 GO:colocalizes_with:
@@ -2420,11 +2450,13 @@ GO:located_in:
 GO:negatively_regulated_by:
   operation: invert
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: decreased
 GO:negatively_regulates:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: decreased
 GO:occurs_in:
@@ -2436,11 +2468,13 @@ GO:part_of:
 GO:positively_regulated_by:
   operation: invert
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: increased
 GO:positively_regulates:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: increased
 GO:regulated_by:
@@ -2461,6 +2495,7 @@ GOREL:0000040:
 GOREL:0002003:
   operation: keep
   core_predicate: biolink:affects
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_aspect: localization
 GOREL:0002004:
@@ -4114,21 +4149,25 @@ REACT:linked_to_disease:
 REACT:negatively_regulates:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: decreased
 REACT:negatively_regulates_gene_expression:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: decreased
 REACT:positively_regulates:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: increased
 REACT:positively_regulates_gene_expression:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: increased
 REACT:related_to:
@@ -4356,11 +4395,13 @@ RO:0002211:
 RO:0002212:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: decreased
 RO:0002213:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: increased
 RO:0002215:
@@ -4459,6 +4500,7 @@ RO:0002309:
 # RO:0002313:
 #   operation: keep
 #   core_predicate: biolink:affects
+#   qualified_predicate: biolink:causes
 #   qualifiers:
 #     - object_aspect: transport
 RO:0002314:
@@ -4497,6 +4539,7 @@ RO:0002339:
 # RO:0002340:
 #   operation: keep
 #   core_predicate: biolink:affects
+#   qualified_predicate: biolink:causes
 #   qualifiers:
 #     - object_aspect: transport
 RO:0002341:
@@ -4514,6 +4557,7 @@ RO:0002344:
 # RO:0002345:
 #   operation: keep
 #   core_predicate: biolink:affects
+#   qualified_predicate: biolink:causes
 #   qualifiers:
 #     - object_aspect: transport
 RO:0002348:
@@ -4597,11 +4641,13 @@ RO:0002433:
 # RO:0002449:
 #   operation: keep
 #   core_predicate: biolink:regulates
+#   qualified_predicate: biolink:causes
 #   qualifiers:
 #     - object_direction: decreased
 # RO:0002450:
 #   operation: keep
 #   core_predicate: biolink:regulates
+#   qualified_predicate: biolink:causes
 #   qualifiers:
 #     - object_direction: increased
 RO:0002451:
@@ -4727,11 +4773,13 @@ RO:0002610:
 # RO:0002629:
 #   operation: keep
 #   core_predicate: biolink:regulates
+#   qualified_predicate: biolink:causes
 #   qualifiers:
 #     - object_direction: increased
 # RO:0002630:
 #   operation: keep
 #   core_predicate: biolink:regulates
+#   qualified_predicate: biolink:causes
 #   qualifiers:
 #     - object_direction: decreased
 RO:0003000:
@@ -4894,12 +4942,14 @@ RO:0019000:
 RO:0019001:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
   - object_direction: increased
 # negatively regulates characteristic
 RO:0019002:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
   - object_direction: decreased
 # RO:HOM0000000:
@@ -4991,10 +5041,14 @@ SEMMEDDB:affects:
   core_predicate: biolink:affects
 SEMMEDDB:associated_with:
   operation: keep
-  core_predicate: biolink:associated_with
+  core_predicate: biolink:related_to
+SEMMEDDB:ASSOCIATED_WITH:
+  operation: keep
+  core_predicate: biolink:related_to
 SEMMEDDB:augments:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: increased
 SEMMEDDB:causes:
@@ -5024,12 +5078,16 @@ SEMMEDDB:higher_than:
 SEMMEDDB:inhibits:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: decreased
 SEMMEDDB:interacts_with:
   operation: keep
   core_predicate: biolink:interacts_with
 SEMMEDDB:isa:
+  operation: keep
+  core_predicate: biolink:subclass_of
+SEMMEDDB:ISA:
   operation: keep
   core_predicate: biolink:subclass_of
 SEMMEDDB:location_of:
@@ -5079,6 +5137,7 @@ SEMMEDDB:same_as:
 SEMMEDDB:stimulates:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: increased
 SEMMEDDB:treats:
@@ -5519,6 +5578,7 @@ rdf:type:
 rdfs:negatively_regulates:
   operation: keep
   core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: decreased
 rdfs:subClassOf: 
