@@ -26,8 +26,8 @@ Build info:
   - ChEMBL: `30`
   - DrugBank: `5.1.9`
   - Ensembl: `106`
-  - GO annotations: `2021-07-01`
-  - UniProtKB: `2022_02`
+  - GO annotations: `2022-11-17`
+  - UniProtKB: `2022_03`
   - UniChem: `385`
   - DrugCentral: `48`
   - KEGG: `105.0`
