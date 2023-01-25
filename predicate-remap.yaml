@@ -561,6 +561,12 @@ CTD:affects_binding:
 #   qualified_predicate: biolink:causes
 #   qualifiers:
 #     - object_aspect: molecular_modification
+CTD:affects_localization_of:
+  operation: keep
+  core_predicate: biolink:affects
+  qualified_predicate: biolink:affects
+  qualifiers:
+  - object_aspect: localization
 # CTD:affects_methylation:
 #   operation: keep
 #   core_predicate: biolink:affects
@@ -2561,7 +2567,7 @@ GOREL:0000040:
 GOREL:0002003:
   operation: keep
   core_predicate: biolink:affects
-  qualified_predicate: biolink:causes
+  qualified_predicate: biolink:affects
   qualifiers:
     - object_aspect: localization
 GOREL:0002004:
@@ -4466,13 +4472,13 @@ RO:0002212:
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: decreased
+    - object_direction: downregulated
 RO:0002213:
   operation: keep
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: increased
+    - object_direction: upregulated
 RO:0002215:
   operation: keep
   core_predicate: biolink:capable_of
@@ -4571,7 +4577,8 @@ RO:0002309:
 #   core_predicate: biolink:affects
 #   qualified_predicate: biolink:causes
 #   qualifiers:
-#     - object_aspect: transport
+#   - object_aspect: transport
+#   - object_direction: increased
 RO:0002314:
   operation: keep
   core_predicate: biolink:related_to
@@ -4610,7 +4617,8 @@ RO:0002339:
 #   core_predicate: biolink:affects
 #   qualified_predicate: biolink:causes
 #   qualifiers:
-#     - object_aspect: transport
+#   - object_aspect: transport
+#   - object_direction: increased 
 RO:0002341:
   operation: keep
   core_predicate: biolink:related_to
@@ -4629,6 +4637,7 @@ RO:0002344:
 #   qualified_predicate: biolink:causes
 #   qualifiers:
 #     - object_aspect: transport
+#     - object_direction: increased
 RO:0002348:
   operation: keep
   core_predicate: biolink:related_to
@@ -4712,13 +4721,13 @@ RO:0002436:
 #   core_predicate: biolink:regulates
 #   qualified_predicate: biolink:causes
 #   qualifiers:
-#     - object_direction: decreased
+#     - object_direction: downregulated
 # RO:0002450:
 #   operation: keep
 #   core_predicate: biolink:regulates
 #   qualified_predicate: biolink:causes
 #   qualifiers:
-#     - object_direction: increased
+#     - object_direction: upregulated
 RO:0002451:
   operation: keep
   core_predicate: biolink:related_to
