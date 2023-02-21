@@ -28,6 +28,7 @@ import urllib.parse
 import urllib.request
 from typing import Dict
 import json # temporary addition for Ontobio Issue #507
+import datetime
 
 # -------------- define globals here ---------------
 
@@ -553,7 +554,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
         if ontology_curie_id is None or len(ontology_curie_id) == 0:
             ontology_curie_id = iri_of_ontology
 
-        print(f"processing ontology: {ontology_curie_id}", file=sys.stderr)
+        print(f"processing ontology: {ontology_curie_id} start {datetime.datetime.now()}", file=sys.stderr)
 
         umls_sver = ontology_info_dict.get('umls-sver', None)
         ont_version = ontology_info_dict.get('version', None)
