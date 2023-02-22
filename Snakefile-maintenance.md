@@ -278,7 +278,7 @@ ___
 
 #### General Steps
 
-(1) Determine if your code can run in parallel with [run-validation-tests.sh](https://github.com/RTXteam/RTX/blob/master/code/kg2/run-validation-tests.sh). If it can go to 2a. If it must run after `run-validation-tests.sh`, go to 2b. If it must run before `run-validation-tests.sh`, go to 2c. 
+(1) Determine if your code can run in parallel with [run-validation-tests.sh](https://github.com/RTXteam/RTX-KG2/blob/master/run-validation-tests.sh). If it can go to 2a. If it must run after `run-validation-tests.sh`, go to 2b. If it must run before `run-validation-tests.sh`, go to 2c. 
 
 (2a) In parallel with `run-validation-tests.sh`: you don't need an `input`, so configure the rule to have an `output`, whether a data file or a placeholder (which you will need to `touch` in your `shell` command). Use that `output` as another input for the ETL Extraction Script rules (discussed in [Adding to Snakemake Build System->Adding an ETL Script->Editing `Snakefile`->General Steps->Step 1](#general-steps)). Make sure to put a comma after the first input line. Finally, add your Bash command to the `shell` field (and a `log` file as necessary).
 
