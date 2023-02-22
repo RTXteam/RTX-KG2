@@ -5,7 +5,7 @@ ______
 
 **located in RTX-KG2/misc-tools**
 
-This script is intended to be run on a build server, and could probably be integrated into [drugbank_xml_to_kg_json.py](https://github.com/RTXteam/RTX/blob/lindsey_covid_proj/code/kg2/drugbank_xml_to_kg_json.py) to save on load time if it's going to be used consistently. It generates a csv file of drugbank drugs that are in the approved group, parsed from drugbank.xml.
+This script is intended to be run on a build server, and could probably be integrated into [drugbank_xml_to_kg_json.py](https://github.com/RTXteam/RTX-KG2/blob/master/drugbank_xml_to_kg_json.py) to save on load time if it's going to be used consistently. It generates a csv file of drugbank drugs that are in the approved group, parsed from drugbank.xml.
 
 Usage:
 ``` bash
