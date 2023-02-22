@@ -97,6 +97,8 @@ BSPO:0001100:
 BSPO:0001101: 
   operation: keep
   core_predicate: biolink:located_in
+BSPO:0001102:
+  operation: delete
 BSPO:0001106: 
   operation: invert
   core_predicate: biolink:has_part
@@ -2629,9 +2631,9 @@ IAO:0000039:
 IAO:0000136:
   operation: keep
   core_predicate: biolink:related_to
-# IAO:0000142:
-#   operation: keep
-#   core_predicate: biolink:mentions
+IAO:0000142:
+  operation: keep
+  core_predicate: biolink:mentions
 IAO:0000219:
   operation: keep
   core_predicate: biolink:related_to
@@ -3075,6 +3077,8 @@ MONDO:0100332:
 MONDO:0100333:
   operation: invert
   core_predicate: biolink:causes
+MONDO:0700097:
+  operation: delete
 MONDO:disease_causes_feature:
   operation: keep
   core_predicate: biolink:causes
@@ -4056,40 +4060,43 @@ OMIM:phenotype_of:
 # ORPHA:465410:
 #   operation: keep
 #   core_predicate: biolink:biomarker_for
-orphanet:317343:
+ORPHANET:317343:
   operation: keep
   core_predicate: biolink:causes
-orphanet:317344:
+ORPHANET:317344:
   operation: keep
   core_predicate: biolink:causes
-orphanet:317345:
+ORPHANET:317345:
   operation: keep
   core_predicate: biolink:correlated_with
 orphanet:317346:
   operation: keep
   core_predicate: biolink:causes
-orphanet:317348:
-  operation: keep
-  core_predicate: biolink:actively_involved_in
-orphanet:317349:
-  operation: keep
-  core_predicate: biolink:actively_involved_in
-orphanet:327767:
-  operation: keep
-  core_predicate: biolink:actively_involved_in
-orphanet:410295:
+ORPHANET:317346:
   operation: keep
   core_predicate: biolink:causes
-orphanet:410296:
+ORPHANET:317348:
+  operation: keep
+  core_predicate: biolink:actively_involved_in
+ORPHANET:317349:
+  operation: keep
+  core_predicate: biolink:actively_involved_in
+ORPHANET:327767:
+  operation: keep
+  core_predicate: biolink:actively_involved_in
+ORPHANET:410295:
   operation: keep
   core_predicate: biolink:causes
-orphanet:465410:
+ORPHANET:410296:
+  operation: keep
+  core_predicate: biolink:causes
+ORPHANET:465410:
   operation: keep
   core_predicate: biolink:biomarker_for
-orphanet:C016:
+ORPHANET:C016:
   operation: keep
   core_predicate: biolink:related_to
-orphanet:C017:
+ORPHANET:C017:
   operation: keep
   core_predicate: biolink:related_to
 # PATO:0000085:
@@ -4689,6 +4696,8 @@ RO:0002385:
 RO:0002387:
   operation: keep
   core_predicate: biolink:related_to
+RO:0002388:
+  operation: delete
 # RO:0002410:
 #   operation: keep
 #   core_predicate: biolink:causes
@@ -4848,18 +4857,18 @@ RO:0002608:
 RO:0002610:
   operation: keep
   core_predicate: biolink:correlated_with
-# RO:0002629:
-#   operation: keep
-#   core_predicate: biolink:regulates
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_direction: increased
-# RO:0002630:
-#   operation: keep
-#   core_predicate: biolink:regulates
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_direction: decreased
+RO:0002629:
+  operation: keep
+  core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
+  qualifiers:
+  - object_direction: increased
+RO:0002630:
+  operation: keep
+  core_predicate: biolink:regulates
+  qualified_predicate: biolink:causes
+  qualifiers:
+  - object_direction: decreased
 RO:0003000:
   operation: keep
   core_predicate: biolink:produces
@@ -5030,6 +5039,8 @@ RO:0019002:
   qualified_predicate: biolink:causes
   qualifiers:
   - object_direction: decreased
+RO:0040036:
+  operation: delete
 # RO:HOM0000000:
 #   operation: keep
 #   core_predicate: biolink:similar_to
@@ -5114,12 +5125,28 @@ SEMMEDDB:1532:
 SEMMEDDB:ADMINISTERED_TO:
   operation: keep
   core_predicate: biolink:affects
+SEMMEDDB:administered_to:
+  operation: keep
+  core_predicate: biolink:affects
 SEMMEDDB:AFFECTS:
+  operation: keep
+  core_predicate: biolink:affects
+SEMMEDDB:affects:
   operation: keep
   core_predicate: biolink:affects
 SEMMEDDB:ASSOCIATED_WITH:
   operation: keep
   core_predicate: biolink:related_to
+SEMMEDDB:associated_with:
+  operation: keep
+  core_predicate: biolink:related_to
+SEMMEDDB:AUGMENTS:
+  operation: keep
+  core_predicate: biolink:affects
+  qualified_predicate: biolink:causes
+  qualifiers:
+    - object_aspect: activity or abundance
+    - object_direction: increased
 SEMMEDDB:AUGMENTS:
   operation: keep
   core_predicate: biolink:affects
@@ -5130,25 +5157,49 @@ SEMMEDDB:AUGMENTS:
 SEMMEDDB:CAUSES:
   operation: keep
   core_predicate: biolink:causes
+SEMMEDDB:causes:
+  operation: keep
+  core_predicate: biolink:causes
 SEMMEDDB:COEXISTS_WITH:
+  operation: keep
+  core_predicate: biolink:coexists_with
+SEMMEDDB:coexists_with:
   operation: keep
   core_predicate: biolink:coexists_with
 SEMMEDDB:COMPARED_WITH:
   operation: keep
   core_predicate: biolink:related_to
+SEMMEDDB:compared_with:
+  operation: keep
+  core_predicate: biolink:related_to
 SEMMEDDB:COMPLICATES:
+  operation: keep
+  core_predicate: biolink:exacerbates
+SEMMEDDB:complicates:
   operation: keep
   core_predicate: biolink:exacerbates
 SEMMEDDB:CONVERTS_TO:
   operation: invert
   core_predicate: biolink:derives_from
+SEMMEDDB:converts_to:
+  operation: invert
+  core_predicate: biolink:derives_from
 SEMMEDDB:DIAGNOSES:
+  operation: keep
+  core_predicate: biolink:diagnoses
+SEMMEDDB:diagnoses:
   operation: keep
   core_predicate: biolink:diagnoses
 SEMMEDDB:DISRUPTS:
   operation: keep
   core_predicate: biolink:disrupts
+SEMMEDDB:disrupts:
+  operation: keep
+  core_predicate: biolink:disrupts
 SEMMEDDB:HIGHER_THAN:
+  operation: keep
+  core_predicate: biolink:related_to
+SEMMEDDB:higher_than:
   operation: keep
   core_predicate: biolink:related_to
 SEMMEDDB:INHIBITS:
@@ -5158,54 +5209,111 @@ SEMMEDDB:INHIBITS:
   qualifiers:
     - object_aspect: activity
     - object_direction: decreased
+SEMMEDDB:inhibits:
+  operation: keep
+  core_predicate: biolink:affects
+  qualified_predicate: biolink:causes
+  qualifiers:
+    - object_aspect: activity
+    - object_direction: decreased
 SEMMEDDB:INTERACTS_WITH:
+  operation: keep
+  core_predicate: biolink:interacts_with
+SEMMEDDB:interacts_with:
   operation: keep
   core_predicate: biolink:interacts_with
 SEMMEDDB:ISA:
   operation: keep
   core_predicate: biolink:subclass_of
+SEMMEDDB:isa:
+  operation: keep
+  core_predicate: biolink:subclass_of
 SEMMEDDB:LOCATION_OF:
+  operation: invert
+  core_predicate: biolink:located_in
+SEMMEDDB:location_of:
   operation: invert
   core_predicate: biolink:located_in
 SEMMEDDB:LOWER_THAN:
   operation: keep
   core_predicate: biolink:related_to
+SEMMEDDB:lower_than:
+  operation: keep
+  core_predicate: biolink:related_to
 SEMMEDDB:MANIFESTATION_OF:
+  operation: keep
+  core_predicate: biolink:manifestation_of
+SEMMEDDB:manifestation_of:
   operation: keep
   core_predicate: biolink:manifestation_of
 SEMMEDDB:MEASUREMENT_OF:
   operation: delete
+SEMMEDDB:measurement_of:
+  operation: delete
 SEMMEDDB:MEASURES:
+  operation: keep
+  core_predicate: biolink:related_to
+SEMMEDDB:measures:
   operation: keep
   core_predicate: biolink:related_to
 SEMMEDDB:METHOD_OF:
   operation: delete
+SEMMEDDB:method_of:
+  operation: delete
 SEMMEDDB:NOM:
   operation: delete
+SEMMEDDB:nom:
+  operation: delete
 SEMMEDDB:OCCURS_IN:
+  operation: keep
+  core_predicate: biolink:occurs_in
+SEMMEDDB:occurs_in:
   operation: keep
   core_predicate: biolink:occurs_in
 SEMMEDDB:PART_OF:
   operation: invert
   core_predicate: biolink:has_part
+SEMMEDDB:part_of:
+  operation: invert
+  core_predicate: biolink:has_part
 SEMMEDDB:PRECEDES:
+  operation: keep
+  core_predicate: biolink:precedes
+SEMMEDDB:precedes:
   operation: keep
   core_predicate: biolink:precedes
 SEMMEDDB:PREDISPOSES:
   operation: keep
   core_predicate: biolink:predisposes
+SEMMEDDB:predisposes:
+  operation: keep
+  core_predicate: biolink:predisposes
 SEMMEDDB:PREP:
   operation: delete
+SEMMEDDB:prep:
+  operation: delete
 SEMMEDDB:PREVENTS:
+  operation: keep
+  core_predicate: biolink:prevents
+SEMMEDDB:prevents:
   operation: keep
   core_predicate: biolink:prevents
 SEMMEDDB:PROCESS_OF:
   operation: keep
   core_predicate: biolink:occurs_in
+SEMMEDDB:process_of:
+  operation: keep
+  core_predicate: biolink:occurs_in
 SEMMEDDB:PRODUCES:
   operation: keep
   core_predicate: biolink:produces
+SEMMEDDB:produces:
+  operation: keep
+  core_predicate: biolink:produces
 SEMMEDDB:SAME_AS:
+  operation: keep
+  core_predicate: biolink:close_match
+SEMMEDDB:same_as:
   operation: keep
   core_predicate: biolink:close_match
 SEMMEDDB:STIMULATES:
@@ -5215,15 +5323,33 @@ SEMMEDDB:STIMULATES:
   qualifiers:
     - object_aspect: activity
     - object_direction: increased
+SEMMEDDB:stimulates:
+  operation: keep
+  core_predicate: biolink:affects
+  qualified_predicate: biolink:causes
+  qualifiers:
+    - object_aspect: activity
+    - object_direction: increased
 SEMMEDDB:TREATS:
+  operation: keep
+  core_predicate: biolink:treats
+SEMMEDDB:treats:
   operation: keep
   core_predicate: biolink:treats
 SEMMEDDB:USES:
   operation: keep
   core_predicate: biolink:has_input
+SEMMEDDB:uses:
+  operation: keep
+  core_predicate: biolink:has_input
 SEMMEDDB:VERB:
   operation: delete
+SEMMEDDB:verb:
+  operation: delete
 SEMMEDDB:XREF:
+  operation: keep
+  core_predicate: biolink:related_to
+SEMMEDDB:xref:
   operation: keep
   core_predicate: biolink:related_to
 SIO:000001:
