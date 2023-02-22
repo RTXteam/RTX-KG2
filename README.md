@@ -46,7 +46,7 @@ http://kg2endpoint.rtx.ai:7474
 
 # What data sources are used in KG2?
 
-Information from many knowledge databases is combined in building KG2. The table below was compiled from the [Snakemake diagram](https://user-images.githubusercontent.com/36611732/114226788-ea163e80-9928-11eb-808d-5d77e633d278.png) and [ont-load-inventory.yaml](https://github.com/RTXteam/RTX/blob/master/code/kg2/ont-load-inventory.yaml).
+Information from many knowledge databases is combined in building KG2. The table below was compiled from the [Snakemake diagram](https://user-images.githubusercontent.com/36611732/114226788-ea163e80-9928-11eb-808d-5d77e633d278.png) and [ont-load-inventory.yaml](https://github.com/RTXteam/RTX-KG2/blob/master/ont-load-inventory.yaml).
 
 
 
