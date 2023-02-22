@@ -195,7 +195,7 @@ which you can do using the following `bash` command, which requires `curl`:
 (WARNING! Please don't run this command without first making a backup image of
 your system, such as an AMI):
 
-    source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/delete-mysql-ubuntu.sh)
+    source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX-KG2/master/delete-mysql-ubuntu.sh)
 
 The KG2 build system has been tested *only* under Ubuntu 18.04. If you want to
 build KG2 but don't have a native installation of Ubuntu 18.04 available, your
@@ -1037,7 +1037,7 @@ project area.
 ## What licenses cover KG2?
 
 It's complicated. The KG2 build software is provided free-of-charge via the
-[MIT license](/RTXteam/RTX/blob/master/LICENSE). All documentation for KG2 and
+[MIT license](/RTXteam/RTX-KG2/blob/master/LICENSE). All documentation for KG2 and
 any downloadable build artifacts hosted on GitHub or S3 are provided
 free-of-charge via the (CC-BY
 license)[https://creativecommons.org/licenses/by/4.0/]. If you are using KG2 in
