@@ -40,7 +40,7 @@ bioRxiv (2021). [doi:10.1101/2021.10.17.464747](https://doi.org/10.1101/2021.10.
 
 ## Neo4j read-only endpoint for RTX KG2 as a graph database
 
-http://kg2endpoint.rtx.ai:7474
+http://kg2-8-0c.rtx.ai:7474/browser/
 
 (contact the KG2 maintainer for the username and password)
 
