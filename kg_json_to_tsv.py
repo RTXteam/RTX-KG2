@@ -80,7 +80,7 @@ def check_all_edges_have_same_set(edgekeys_list):
     supported_ls = ["relation_label",
                     "negated",
                     "object",
-                    "knowledge_source",
+                    "primary_knowledge_source",
                     "publications",
                     "publications_info",
                     "source_predicate",
@@ -140,7 +140,7 @@ def check_all_nodes_have_same_set(nodekeys_list):
                            "update_date",
                            "deprecated",
                            "replaced_by",
-                           "knowledge_source",
+                           "provided_by",
                            "has_biological_sequence"]
     for node_label in nodekeys_list:
         assert node_label in supported_node_keys, f"Node label not in supported list: {node_label}"
@@ -280,8 +280,6 @@ def edges(input_file, output_file_location):
                 value = edge.get(key)
                 if key == "publications_info":
                     value = limit_publication_info_size(key, value)
-                elif key == 'knowledge_source':
-                    value = str(value).replace("', '", "; ").replace("['", "").replace("']", "")
                 elif key == 'relation_label':  # fix for issue number 473 (hyphens in relation_labels)
                     value = value.replace('-', '_').replace('(', '').replace(')', '')
                 elif key == 'publications':
@@ -293,7 +291,6 @@ def edges(input_file, output_file_location):
             # Add the edge property labels to the edge header TSV file
             # But only for the first edge
             if edge_ctr == 1:
-                edgekeys = no_space('knowledge_source', edgekeys, 'knowledge_source:string[]')
                 edgekeys = no_space('predicate', edgekeys, 'predicate:TYPE')
                 edgekeys = no_space('subject', edgekeys, ':START_ID')
                 edgekeys = no_space('object', edgekeys, ':END_ID')
