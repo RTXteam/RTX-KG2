@@ -68,7 +68,7 @@ with open(input_file_name_full, "r") as input_file:
 edge_fields = ['subject',
                'object',
                'predicate',
-               'knowledge_source',
+               'primary_knowledge_source',
                'publications',
                'publications_info',
                'id']
@@ -93,9 +93,7 @@ with open(log_file_name, 'a') as log_file:
             output_file.write(check_tab(item['subject']) + '\t')
             output_file.write(check_tab(item['object']) + '\t')
             output_file.write(check_tab(item['predicate']) + '\t')
-            # knowledge source is a list
-            ks_list = [check_tab(ks) for ks in item['knowledge_source']]
-            output_file.write('|'.join(ks_list) + '\t')
+            output_file.write(check_tab(item['primary_knowledge_source']) + '\t')
             # publications is a list
             pubs_list = [check_tab(pub) for pub in item['publications']]
             output_file.write('|'.join(pubs_list) + '\t')
@@ -108,7 +106,7 @@ with open(log_file_name, 'a') as log_file:
     print("--- Edges.tsv completed --- ", file=log_file)
 
     # Populate nodes header row
-    node_fields = ['id', 'name', 'category', 'iri', 'description', 'publications']
+    node_fields = ['id', 'name', 'category', 'iri', 'description', 'publications', 'provided_by']
 
     # Begin writing nodes.tsv
     print("--- Begin writing nodes.tsv ---", file=log_file)
@@ -139,7 +137,9 @@ with open(log_file_name, 'a') as log_file:
             output_file.write(desc + '\t')
             # publications is a list
             pub_list = [check_tab(publication) for publication in item['publications']]
-            output_file.write('|'.join(pub_list) + '\n')
+            output_file.write('|'.join(pub_list) + '\t')
+            provided_by_list = [check_tab(provided_by) for provided_by in item['provided_by']]
+            output_file.write('|'.join(provided_by_list) + '\n')
         num_nodes += 1
 
     output_file.close()
