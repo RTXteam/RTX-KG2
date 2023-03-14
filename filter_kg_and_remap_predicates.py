@@ -134,12 +134,12 @@ def process_nodes(input_file_name, infores_remap_config):
             knowledge_source = node_dict['knowledge_source']
             infores_curie_dict = infores_remap_config.get(knowledge_source, None)
             infores_curie = infores_curie_dict['infores_curie']
-            node_dict['knowledge_source'] = infores_curie
             if infores_curie_dict is None:
                 knowledge_source_curies_not_in_config_nodes.add(knowledge_source)
             else:
                 infores_curie = infores_curie_dict['infores_curie']
-                node_dict['knowledge_source'] = infores_curie
+            node_dict['provided_by'] = [infores_curie]
+            del node_dict['knowledge_source']
             nodes_dict[node_id] = node_dict
     print(f"Completed nodes {kg2_util.date()}")
 
@@ -250,18 +250,16 @@ def process_edges(input_file_name, infores_remap_config, predicate_remap_file_na
                 knowledge_source_curies_not_in_config_edges.add(knowledge_source)
             else:
                 infores_curie = infores_curie_dict['infores_curie']
-                edge_dict['knowledge_source'] = [infores_curie]
+                edge_dict['primary_knowledge_source'] = infores_curie
 
             edge_subject = edge_dict['subject'] 
             edge_object = edge_dict['object']
 
-            edge_key = f"{edge_subject} /// {predicate_curie} /// {qualified_predicate} /// {qualified_object_aspect} /// {qualified_object_direction} /// {edge_object}"
+            edge_key = f"{edge_subject} /// {predicate_curie} /// {qualified_predicate} /// {qualified_object_aspect} /// {qualified_object_direction} /// {edge_object} /// {knowledge_source}"
 
             existing_edge = new_edges.get(edge_key, None)
 
             if existing_edge is not None:
-                existing_edge['knowledge_source'] = sorted(
-                    list(set(existing_edge['knowledge_source'] + edge_dict['knowledge_source'])))
                 existing_edge['publications'] += edge_dict['publications']
                 existing_edge['publications_info'].update(edge_dict['publications_info'])
             else:
