@@ -5147,7 +5147,7 @@ SEMMEDDB:AUGMENTS:
   qualifiers:
     - object_aspect: activity or abundance
     - object_direction: increased
-SEMMEDDB:AUGMENTS:
+SEMMEDDB:augments:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes

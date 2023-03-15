@@ -389,7 +389,7 @@ term-mappings:
     STY:T125: chemical entity # formerly chemical substance
     STY:T126: protein
     STY:T127: vitamin
-    STY:T129: chemical entity # formerly chemical substance
+    STY:T129: biological entity # formerly chemical substance
     STY:T130: chemical entity
     STY:T131: chemical entity # formerly chemical substance
     STY:T167: chemical entity # formerly chemical substance
