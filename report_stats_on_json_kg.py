@@ -58,18 +58,18 @@ def count_nodes_by_category(nodes: list):
 
 
 def count_nodes_by_source(nodes: list):
-    return collections.Counter([node['knowledge_source'] for node in nodes])
+    return collections.Counter([node['provided_by'] for node in nodes])
 
 
 def count_number_of_nodes_by_source_and_category(nodes: list):
     fulldict = {}
-    sourcedict = collections.Counter([node['knowledge_source'] for node in nodes])
+    sourcedict = collections.Counter([node['provided_by'] for node in nodes])
     sourcecatdict = {}
     categorylist = []
     for source in sourcedict:
         categorylist = []
         for node in nodes:
-            if node['knowledge_source'] == source:
+            if node['provided_by'] == source:
                 categorylist.append(node['category_label'])
         sourcecatdict.update({source: categorylist})
     for defintion in sourcecatdict:
@@ -80,20 +80,8 @@ def count_number_of_nodes_by_source_and_category(nodes: list):
 
 def count_edges_by_source(edges: list):
     ret_data = None
-    if type(edges[0]['knowledge_source']) == str:
-        ret_data = collections.Counter([edge['knowledge_source'] for edge in edges])
-    else:
-        assert type(edges[0]['knowledge_source'] == list)
-        provby_list = []
-        for edge in edges:
-            provby_list += edge['knowledge_source']
-        ret_data = collections.Counter(provby_list)
-    return ret_data
-
-
-def count_edges_by_predicate_curie(edges: list):
-    curie_field = 'source_predicate' if not args.use_simplified_predicates else 'qualified_predicate'
-    # When there isn't a qualified_predicate, use source_predicate
+    assert type(edges[0]['primary_knowledge_source'] == str)
+    ret_data = collections.Counter([edge['primary_knowledge_source'] for edge in edges])
     return collections.Counter([edge.get(curie_field, 'source_predicate') for edge in edges])
 
 

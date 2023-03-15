@@ -61,18 +61,18 @@ def count_nodes_by_category(session):
 
 
 def count_nodes_by_source(session):
-    res = session.run('MATCH (n) RETURN n.knowledge_source AS Source, count(n) AS\
-    Number ORDER BY n.knowledge_source')
+    res = session.run('MATCH (n) RETURN n.provided_by AS Source, count(n) AS\
+    Number ORDER BY n.provided_by')
     return {record[0]: record[1] for record in res.records()}
 
 
 def count_nodes_by_source_and_category(session):
-    res = session.run('MATCH (n) RETURN DISTINCT n.knowledge_source AS Source \
-    ORDER BY n.knowledge_source')
+    res = session.run('MATCH (n) RETURN DISTINCT n.provided_by AS Source \
+    ORDER BY n.provided_by')
 
-    restwo = session.run('MATCH (n) WHERE NOT n.knowledge_source is null \
-    RETURN DISTINCT n.knowledge_source AS Source, n.category_label AS Category, \
-    count(n) AS Count ORDER BY n.knowledge_source')
+    restwo = session.run('MATCH (n) WHERE NOT n.provided_by is null \
+    RETURN DISTINCT n.provided_by AS Source, n.category_label AS Category, \
+    count(n) AS Count ORDER BY n.provided_by')
 
     categorycountlist = []
     fulldict = {}
@@ -103,8 +103,8 @@ def count_nodes_by_source_and_category(session):
 
 
 def count_edges_by_source(session):
-    res = session.run('MATCH ()-[r]->() RETURN r.knowledge_source AS Source,\
-    count(r) AS NumberofRelationships ORDER BY r.knowledge_source')
+    res = session.run('MATCH ()-[r]->() RETURN r.primary_knowledge_source AS Source,\
+    count(r) AS NumberofRelationships ORDER BY r.primary_knowledge_source')
     return {record[0]: record[1] for record in res.records()}
 
 
