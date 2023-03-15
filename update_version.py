@@ -17,7 +17,7 @@ __maintainer__ = ''
 __email__ = ''
 __status__ = 'Prototype'
 
-VERSION = '2.8.0'
+VERSION = '2.8.2'
 VERSION_FILE = 'kg2-version.txt'
 
 
