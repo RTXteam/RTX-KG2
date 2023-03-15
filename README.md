@@ -46,7 +46,7 @@ http://kg2endpoint.rtx.ai:7474
 
 # What data sources are used in KG2?
 
-Information from many knowledge databases is combined in building KG2. The table below was compiled from the [Snakemake diagram](https://user-images.githubusercontent.com/36611732/114226788-ea163e80-9928-11eb-808d-5d77e633d278.png) and [ont-load-inventory.yaml](https://github.com/RTXteam/RTX/blob/master/code/kg2/ont-load-inventory.yaml).
+Information from many knowledge databases is combined in building KG2. The table below was compiled from the [Snakemake diagram](https://user-images.githubusercontent.com/36611732/114226788-ea163e80-9928-11eb-808d-5d77e633d278.png) and [ont-load-inventory.yaml](https://github.com/RTXteam/RTX-KG2/blob/master/ont-load-inventory.yaml).
 
 
 
@@ -170,7 +170,7 @@ software will not be atomic and interruption of `build-kg2.sh` or its
 subprocesses could then leave a source data file in a half-downloaded (i.e.,
 broken) state. 
 
-**Build Frequency:** Per the discussion in [#1118](/RTXteam/RTX/issues/1118), we
+**Build Frequency:** We
 are currently aiming to build KG2 approximately once per month, to keep it as
 current as feasible given the cost to build and validate KG2 from its upstream
 sources.
@@ -195,7 +195,7 @@ which you can do using the following `bash` command, which requires `curl`:
 (WARNING! Please don't run this command without first making a backup image of
 your system, such as an AMI):
 
-    source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX/master/code/kg2/delete-mysql-ubuntu.sh)
+    source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX-KG2/master/delete-mysql-ubuntu.sh)
 
 The KG2 build system has been tested *only* under Ubuntu 18.04. If you want to
 build KG2 but don't have a native installation of Ubuntu 18.04 available, your
@@ -1037,7 +1037,7 @@ project area.
 ## What licenses cover KG2?
 
 It's complicated. The KG2 build software is provided free-of-charge via the
-[MIT license](/RTXteam/RTX/blob/master/LICENSE). All documentation for KG2 and
+[MIT license](/RTXteam/RTX-KG2/blob/master/LICENSE). All documentation for KG2 and
 any downloadable build artifacts hosted on GitHub or S3 are provided
 free-of-charge via the (CC-BY
 license)[https://creativecommons.org/licenses/by/4.0/]. If you are using KG2 in
