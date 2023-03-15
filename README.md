@@ -32,9 +32,10 @@ this project.
 
 # Is RTX-KG2 published?
 
-Please see our preprint: E.C. Wood, A.K. Glen, et al. _RTX-KG2: a system for building a
-semantically standardized knowledge graph for translational biomedicine._ 
-bioRxiv (2021). [doi:10.1101/2021.10.17.464747](https://doi.org/10.1101/2021.10.17.464747).
+Yes, please see:
+>Wood, E.C., Glen, A.K., Kvarfordt, L.G. et al. RTX-KG2: a system for building a semantically standardized knowledge graph for translational biomedicine. BMC Bioinformatics 23, 400 (2022). [https://doi.org/10.1186/s12859-022-04932-3](https://doi.org/10.1186/s12859-022-04932-3)
+
+The preprint can be found at: [doi:10.1101/2021.10.17.464747](https://doi.org/10.1101/2021.10.17.464747).
 
 # How to access RTX-KG2
 
