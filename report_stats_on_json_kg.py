@@ -37,6 +37,7 @@ def make_arg_parser():
 
 def get_prefix_from_curie_id(curie_id: str):
     assert ':' in curie_id
+    
     return curie_id.split(':')[0]
 
 
@@ -104,12 +105,12 @@ def count_edges_by_predicate_type(edges: list):
 
 def count_edges_by_predicate_curie_prefix(edges: list):
     curie_field = 'source_predicate' if not args.use_simplified_predicates else 'qualified_predicate'
-    return collections.Counter([get_prefix_from_curie_id(edge.get(curie_field, 'source_predicate')) for edge in edges])
+    return collections.Counter([str(get_prefix_from_curie_id(edge.get('source_predicate'))) for edge in edges])
 
 
 def count_predicates_by_predicate_curie_prefix(edges: list):
     curie_field = 'source_predicate' if not args.use_simplified_predicates else 'qualified_predicate'
-    unique_relation_curies = set([edge.get(curie_field, 'source_predicate') for edge in edges])
+    unique_relation_curies = set([str(edge.get('source_predicate')) for edge in edges])
     return collections.Counter([get_prefix_from_curie_id(curie) for curie in unique_relation_curies])
 
 
@@ -178,5 +179,5 @@ if __name__ == '__main__':
 
     temp_output_file = tempfile.mkstemp(prefix='kg2-')[1]
     with open(temp_output_file, 'w') as outfile:
-        json.dump(stats, outfile, indent=4, sort_keys=True)
+        json.dump(stats, outfile, indent=4)
     shutil.move(temp_output_file, args.outputFile)

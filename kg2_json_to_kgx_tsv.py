@@ -92,7 +92,7 @@ with open(log_file_name, 'a') as log_file:
         if max_rows is None or num_edges < max_rows:
             output_file.write(check_tab(item['subject']) + '\t')
             output_file.write(check_tab(item['object']) + '\t')
-            output_file.write(check_tab(item['predicate']) + '\t')
+            output_file.write(check_tab(item['source_predicate']) + '\t')
             # knowledge source is a list
             ks_list = [check_tab(ks) for ks in item['knowledge_source']]
             output_file.write('|'.join(ks_list) + '\t')
