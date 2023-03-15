@@ -257,9 +257,11 @@ def process_references(data_dict):
 
 
 def get_node_basics(data_dict):
-    node_name = data_dict.get('name', '')
-    synonym = [syn.strip() for syn in node_name.split(';')]
-    node_name = synonym.pop(0)
+    # node_name returns a list type
+    node_name = data_dict.get('NAME', 'name')
+    synonym = [syn.replace(';', '').strip() for syn in node_name]
+    if synonym != []:
+        node_name = synonym.pop(0)
     xrefs = data_dict.get('DBLINKS', '')
     if isinstance(xrefs, str):
         xrefs = [xrefs]

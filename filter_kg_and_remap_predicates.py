@@ -205,21 +205,24 @@ def process_edges(input_file_name, infores_remap_config, predicate_remap_file_na
             elif pred_remap_info.get("core_predicate", None) is None:
                 assert operation == "keep"
                 get_new_rel_info = False
-                edge_dict["core_predicate"] = predicate_curie
+            edge_dict["core_predicate"] = predicate_curie
 
-            qualified_predicate = "None"
-            qualified_object_aspect = "None"
-            qualified_object_direction = "None"
+            qualified_predicate = None
+            qualified_object_aspect = None
+            qualified_object_direction = None
 
             if get_new_rel_info:
                 assert pred_remap_info.get("core_predicate", None) is not None
-                predicate_curie = pred_remap_info.get("core_predicate", "None")
-                qualified_predicate = pred_remap_info.get("qualified_predicate", "None")
+                core_predicate_curie = pred_remap_info.get("core_predicate")
+                qualified_predicate = pred_remap_info.get("qualified_predicate", None)
                 qualifiers = pred_remap_info.get("qualifiers", None)
                 if qualifiers is not None:
                     qualifiers_dict = qualifiers[0]
-                    qualified_object_aspect = qualifiers_dict.get("object_aspect", "None")
-                    qualified_object_direction = qualifiers_dict.get("object_direction", "None")
+                    qualified_object_aspect = qualifiers_dict.get("object_aspect", None)
+                    qualified_object_direction = qualifiers_dict.get("object_direction", None)
+                if qualified_object_aspect is not None and qualified_object_direction is not None and \
+                        qualifiers is None:
+                    assert qualified_predicate is not None, f"Qualifier but not qualified predicate {edge_dict}"
             if invert:
                 edge_dict['relation_label'] = 'INVERTED:' + source_predicate_label
                 new_object = edge_dict['subject']
@@ -234,6 +237,7 @@ def process_edges(input_file_name, infores_remap_config, predicate_remap_file_na
             edge_dict['qualified_predicate'] = qualified_predicate
             edge_dict['qualified_object_aspect'] = qualified_object_aspect
             edge_dict['qualified_object_direction'] = qualified_object_direction
+            edge_dict['core_predicate'] = core_predicate_curie
             edge_id = edge_dict["id"]
             new_edge_id = update_edge_id(edge_id, qualified_predicate, qualified_object_aspect, qualified_object_direction)
             edge_dict["id"] = new_edge_id

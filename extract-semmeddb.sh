@@ -23,7 +23,7 @@ semmed_output_file=${1:-"${BUILD_DIR}/kg2-semmeddb-tuplelist.json"}
 build_flag=${2:-""}
 
 semmed_ver=VER43
-semmed_year=2021
+semmed_year=2023
 semmed_dir=${BUILD_DIR}/semmeddb
 semmed_output_dir=`dirname "${semmed_output_file}"`
 semmed_sql_file=semmed${semmed_ver}_${semmed_year}_R_WHOLEDB.sql

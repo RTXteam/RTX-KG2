@@ -374,6 +374,8 @@ use_for_bidirectional_mapping:
   -
     OPL: http://purl.obolibrary.org/obo/OPL_
   -
+    orphanet: 'http://www.orpha.net/ORDO/Orphanet_'
+  -
     ORPHANET: http://purl.bioontology.org/ontology/ORDO/
   -
     owl: http://www.w3.org/2002/07/owl#

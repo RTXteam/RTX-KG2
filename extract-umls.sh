@@ -20,9 +20,9 @@ source ${config_dir}/master-config.shinc
 output_dir=${1:-${BUILD_DIR}}
 umls_cui_file=${2:-${BUILD_DIR}/umls_cuis.tsv}
 
-umls_ver=2022AA
+umls_ver=2022AB
 umls_file_base=${umls_ver}-metathesaurus
-umls2rdf_release=rtx-2.2
+umls2rdf_release=rtx-2.8
 umls2rdf_pkgname=umls2rdf-${umls2rdf_release}
 umls2rdf_dir=${umls_dir}/${umls2rdf_pkgname}
 config_file=${umls_dir}/config.prop
@@ -46,7 +46,7 @@ cp ${CODE_DIR}/umls-config.prop ${config_file}
 ## unpack UMLS zip archive
 unzip ${umls_dir}/umls-${umls_file_base}.zip -d ${umls_dir}/
 
-mv ${umls_dir}/2022AA/META/* ${umls_dest_dir} 
+mv ${umls_dir}/2022AB/META/* ${umls_dest_dir} 
 
 mysql_user=`grep 'user = ' ${mysql_conf} | sed 's/user = //g'`
 mysql_password=`grep 'password = ' ${mysql_conf} | sed 's/password = //g'`

@@ -92,7 +92,7 @@ with open(log_file_name, 'a') as log_file:
         if max_rows is None or num_edges < max_rows:
             output_file.write(check_tab(item['subject']) + '\t')
             output_file.write(check_tab(item['object']) + '\t')
-            output_file.write(check_tab(item['predicate']) + '\t')
+            output_file.write(check_tab(item['source_predicate']) + '\t')
             output_file.write(check_tab(item['primary_knowledge_source']) + '\t')
             # publications is a list
             pubs_list = [check_tab(pub) for pub in item['publications']]
