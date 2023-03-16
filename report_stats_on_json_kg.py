@@ -83,8 +83,9 @@ def count_number_of_nodes_by_source_and_category(nodes: list):
 
 def count_edges_by_source(edges: list):
     ret_data = None
-    assert type(edges[0]['primary_knowledge_source'] == str)
-    ret_data = collections.Counter([edge['primary_knowledge_source'] for edge in edges])
+    label_field = 'knowledge_source' if not args.use_simplified_predicates else 'primary_knowledge_source'
+    assert type(edges[0][label_field] == str)
+    ret_data = collections.Counter([edge[label_field] for edge in edges])
     return collections.Counter([edge.get(curie_field, 'source_predicate') for edge in edges])
 
 
