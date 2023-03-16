@@ -88,6 +88,12 @@ def count_edges_by_source(edges: list):
     return collections.Counter([edge.get(curie_field, 'source_predicate') for edge in edges])
 
 
+def count_edges_by_predicate_curie(edges: list):
+    curie_field = 'source_predicate' if not args.use_simplified_predicates else 'qualified_predicate'
+    # When there isn't a qualified_predicate, use source_predicate
+    return collections.Counter([edge.get(curie_field, 'source_predicate') for edge in edges])
+   
+
 def count_edges_by_predicate_type(edges: list):
     label_field = 'relation_label' if not args.use_simplified_predicates else 'predicate_label'
     return collections.Counter([edge[label_field] for edge in edges])
