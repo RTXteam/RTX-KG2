@@ -86,7 +86,7 @@ def count_edges_by_source(edges: list):
     label_field = 'knowledge_source' if not args.use_simplified_predicates else 'primary_knowledge_source'
     assert type(edges[0][label_field] == str)
     ret_data = collections.Counter([edge[label_field] for edge in edges])
-    return collections.Counter([edge.get(curie_field, 'source_predicate') for edge in edges])
+    return collections.Counter([edge.get(label_field, 'source_predicate') for edge in edges])
 
 
 def count_edges_by_predicate_curie(edges: list):
