@@ -59,18 +59,20 @@ def count_nodes_by_category(nodes: list):
 
 
 def count_nodes_by_source(nodes: list):
-    return collections.Counter([node['provided_by'] for node in nodes])
+    label_field = 'knowledge_source' if not args.use_simplified_predicates else 'provided_by' 
+    return collections.Counter([node[label_field] for node in nodes])
 
 
 def count_number_of_nodes_by_source_and_category(nodes: list):
     fulldict = {}
-    sourcedict = collections.Counter([node['provided_by'] for node in nodes])
+    label_field = 'knowledge_source' if not args.use_simplified_predicates else 'provided_by'
+    sourcedict = collections.Counter([node[label_field] for node in nodes])
     sourcecatdict = {}
     categorylist = []
     for source in sourcedict:
         categorylist = []
         for node in nodes:
-            if node['provided_by'] == source:
+            if node[label_field] == source:
                 categorylist.append(node['category_label'])
         sourcecatdict.update({source: categorylist})
     for defintion in sourcecatdict:
