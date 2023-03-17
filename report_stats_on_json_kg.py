@@ -60,7 +60,14 @@ def count_nodes_by_category(nodes: list):
 
 def count_nodes_by_source(nodes: list):
     label_field = 'knowledge_source' if not args.use_simplified_predicates else 'provided_by' 
-    return collections.Counter([node[label_field] for node in nodes])
+    if args.use_simplified_predicates:
+      provided_by_list = []
+      for node in nodes:
+         provided_by_list += node['provided_by']
+      ret_data = collections.Counter(provided_by_list)
+    else:
+      return collections.Counter([node[label_field] for node in nodes])
+   return ret_data
 
 
 def count_number_of_nodes_by_source_and_category(nodes: list):
