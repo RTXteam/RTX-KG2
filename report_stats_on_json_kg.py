@@ -65,9 +65,9 @@ def count_nodes_by_source(nodes: list):
       for node in nodes:
          provided_by_list += node['provided_by']
       ret_data = collections.Counter(provided_by_list)
+      return ret_data
     else:
       return collections.Counter([node[label_field] for node in nodes])
-   return ret_data
 
 
 def count_number_of_nodes_by_source_and_category(nodes: list):
