@@ -10,6 +10,7 @@ import json
 import sys
 import os
 import argparse
+import ijson
 
 __author__ = 'Liliana Acevedo'
 __copyright__ = 'Oregon State University'
