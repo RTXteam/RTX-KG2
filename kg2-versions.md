@@ -1,3 +1,35 @@
+# 2.8.2
+**Date:  2023.03.21**
+
+Counts:
+- Nodes: 11,342,763
+- Edges: 57,401,248
+
+Issues:
+
+- Additional issues that arose during the build: 
+
+Build info:
+- Biolink Model version: 3.1.2
+- Build host: `buildkg2.rtx.ai`
+- Build directory: `/home/ubuntu/kg2-build`
+- Build code branch: `issue-263`
+- Neo4j endpoint CNAME: `kg2-8-2.rtx.ai`
+- Neo4j endpoint hostname: `kg2endpoint4.rtx.ai`
+- Tracking issue for the build: Issue [#264](https://github.com/RTXteam/RTX-KG2/issues/264)
+- Major knowledge source versions:
+  - SemMedDB: `43 (2023)`
+  - UMLS: `2022AA`
+  - ChEMBL: `31`
+  - DrugBank: `5.1.9`
+  - Ensembl: `106`
+  - GO annotations: `2022-11-17`
+  - UniProtKB: `2022_05`
+  - UniChem: `385`
+  - DrugCentral: `52`
+  - KEGG: `105.0`
+
+
 # 2.8.1
 **Date:  2022.XX.XX**
 
