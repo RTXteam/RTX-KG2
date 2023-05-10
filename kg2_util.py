@@ -678,7 +678,7 @@ def make_node(id: str,
               name: str,
               category_label: str,
               update_date: str,
-              knowledge_source: str):
+              provided_by: str):
     if '-' in category_label:
         raise ValueError('underscore character detected in category_label argument to function kg2_util.make_node: ' + category_label)
     return {'id': id,
@@ -694,7 +694,7 @@ def make_node(id: str,
             'update_date': update_date,
             'deprecated': False,
             'replaced_by': None,
-            'knowledge_source': knowledge_source,
+            'provided_by': provided_by,
             'has_biological_sequence': None}
 
 
@@ -708,14 +708,14 @@ def make_edge_key(edge_dict: dict):
            (edge_dict['qualified_object_direction'] if edge_dict['qualified_object_direction'] is not None else 'None') + \
            '---' + \
            edge_dict['object'] + '---' + \
-           edge_dict['knowledge_source']
+           edge_dict['primary_knowledge_source']
 
 
 def make_edge(subject_id: str,
               object_id: str,
               relation_curie: str,
               relation_label: str,
-              knowledge_source: str,
+              primary_knowledge_source: str,
               update_date: str = None):
 
     edge = {'subject': subject_id,
@@ -729,7 +729,7 @@ def make_edge(subject_id: str,
             'publications': [],
             'publications_info': {},
             'update_date': update_date,
-            'knowledge_source': knowledge_source}
+            'primary_knowledge_source': primary_knowledge_source}
     edge_id = make_edge_key(edge)
     edge["id"] = edge_id
     return edge

@@ -81,6 +81,7 @@ def check_all_edges_have_same_set(edgekeys_list):
                     "negated",
                     "object",
                     "primary_knowledge_source",
+                    "knowledge_source",
                     "publications",
                     "publications_info",
                     "source_predicate",
@@ -173,9 +174,15 @@ def nodes(input_file, output_file_location):
             node_ctr += 1
             if node_ctr % 1000000 == 0:
                 print(f"Processing node: {node_ctr}")
-
+            #if node_ctr < 11000000:
+            #    pass
             # Add all node property labels to a list and check if they are supported
             nodekeys = list(sorted(node.keys()))
+            if nodekeys.count("knowledge_source") > 0:
+                print(node)
+                #value = node["knowledge_source"]
+                #node.pop("knowledge_souce")
+                #node["provided_by"] = value
             check_all_nodes_have_same_set(nodekeys)
             nodekeys.append("category")
 
@@ -258,6 +265,7 @@ def edges(input_file, output_file_location):
 
         for edge in generator:
             edge_ctr += 1
+            #print(edge)
             if edge_ctr % 1000000 == 0:
                 print(f"Processing edge: {edge_ctr}")
 
@@ -287,6 +295,8 @@ def edges(input_file, output_file_location):
                     value = str(value).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
                 elif key == 'predicate':
                     value = (edge['qualified_predicate'] if not "None" else edge['source_predicate'])
+                elif key == 'knowledge_source':
+                    pass
                 vallist.append(value)
 
             # Add the edge property labels to the edge header TSV file

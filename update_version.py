@@ -37,9 +37,9 @@ def get_args():
 
 
 if __name__ == '__main__':
-    output_file = open(VERSION_FILE, 'w')
-    output_file.write(VERSION)
-    output_file.close()
+    #output_file = open(VERSION_FILE, 'w')
+    #output_file.write(VERSION)
+    #output_file.close()
     print(f"KG2 version: {VERSION}")
 
 

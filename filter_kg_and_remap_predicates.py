@@ -171,6 +171,8 @@ def process_edges(input_file_name, infores_remap_config, predicate_remap_file_na
         print(f"Starting edges {kg2_util.date()}")
         for edge_dict in edges_generator:
             edge_ctr += 1
+            if edge_ctr == 1:
+                print(edge_dict)
             if edge_ctr % 1000000 == 0:
                 print(f"Processing edge {edge_ctr}")
             if drop_negated and edge_dict['negated']:
@@ -248,18 +250,19 @@ def process_edges(input_file_name, infores_remap_config, predicate_remap_file_na
                 # Create list of curies to complain about if not in biolink
                 if predicate_uri_prefix == predicate_curie_prefix:
                     source_predicate_curies_not_in_nodes.add(predicate_curie)
-            knowledge_source = edge_dict["knowledge_source"]
-            infores_curie_dict = infores_remap_config.get(knowledge_source, None)
+            primary_knowledge_source = edge_dict["knowledge_source"]
+            infores_curie_dict = infores_remap_config.get(primary_knowledge_source, None)
             if infores_curie_dict is None:
-                knowledge_source_curies_not_in_config_edges.add(knowledge_source)
+                knowledge_source_curies_not_in_config_edges.add(primary_knowledge_source)
             else:
                 infores_curie = infores_curie_dict['infores_curie']
                 edge_dict['primary_knowledge_source'] = infores_curie
+            edge_dict.pop("knowledge_source")
 
             edge_subject = edge_dict['subject'] 
             edge_object = edge_dict['object']
 
-            edge_key = f"{edge_subject} /// {predicate_curie} /// {qualified_predicate} /// {qualified_object_aspect} /// {qualified_object_direction} /// {edge_object} /// {knowledge_source}"
+            edge_key = f"{edge_subject} /// {predicate_curie} /// {qualified_predicate} /// {qualified_object_aspect} /// {qualified_object_direction} /// {edge_object} /// {primary_knowledge_source}"
 
             existing_edge = new_edges.get(edge_key, None)
 
@@ -268,6 +271,8 @@ def process_edges(input_file_name, infores_remap_config, predicate_remap_file_na
                 existing_edge['publications_info'].update(edge_dict['publications_info'])
             else:
                 new_edges[edge_key] = edge_dict
+            if edge_ctr == 1:
+                print(new_edges)
     print(f"Finished edges {kg2_util.date()}") 
     edges_list = list(new_edges.values())  
     del edge_dict
