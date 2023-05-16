@@ -59,7 +59,7 @@ def count_nodes_by_category(nodes: list):
 
 
 def count_nodes_by_source(nodes: list):
-    label_field = 'knowledge_source' if not args.use_simplified_predicates else 'provided_by' 
+    label_field = 'provided_by' if not args.use_simplified_predicates else 'provided_by' 
     if args.use_simplified_predicates:
       provided_by_list = []
       for node in nodes:
@@ -72,8 +72,12 @@ def count_nodes_by_source(nodes: list):
 
 def count_number_of_nodes_by_source_and_category(nodes: list):
     fulldict = {}
-    label_field = 'knowledge_source' if not args.use_simplified_predicates else 'provided_by'
-    sourcedict = collections.Counter([node[label_field] for node in nodes])
+    label_field = 'provided_by' # if not args.use_simplified_predicates else 'provided_by'
+    # provided by is a list in simplified
+    if not args.use_simplified_predicates:
+        sourcedict = collections.Counter([node[label_field] for node in nodes])
+    else:
+        sourcedict = collections.Counter([node[label_field][0] for node in nodes])
     sourcecatdict = {}
     categorylist = []
     for source in sourcedict:
@@ -90,7 +94,8 @@ def count_number_of_nodes_by_source_and_category(nodes: list):
 
 def count_edges_by_source(edges: list):
     ret_data = None
-    label_field = 'knowledge_source' if not args.use_simplified_predicates else 'primary_knowledge_source'
+    label_field = 'primary_knowledge_source' if not args.use_simplified_predicates else 'primary_knowledge_source'
+    print(f"{edges[0]}")
     assert type(edges[0][label_field] == str)
     ret_data = collections.Counter([edge[label_field] for edge in edges])
     return collections.Counter([edge.get(label_field, 'source_predicate') for edge in edges])

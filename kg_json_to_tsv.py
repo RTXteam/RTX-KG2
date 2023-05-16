@@ -81,7 +81,6 @@ def check_all_edges_have_same_set(edgekeys_list):
                     "negated",
                     "object",
                     "primary_knowledge_source",
-                    "knowledge_source",
                     "publications",
                     "publications_info",
                     "source_predicate",
@@ -92,8 +91,7 @@ def check_all_edges_have_same_set(edgekeys_list):
                     "id",
                     "qualified_predicate",
                     "qualified_object_aspect",
-                    "qualified_object_direction",
-                    "core_predicate"]
+                    "qualified_object_direction"]
     for edgelabel in edgekeys_list:
         if edgelabel not in supported_ls:
             raise ValueError("relation_label not in supported list: " + edgelabel)
@@ -293,10 +291,6 @@ def edges(input_file, output_file_location):
                     value = value.replace('-', '_').replace('(', '').replace(')', '')
                 elif key == 'publications':
                     value = str(value).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
-                elif key == 'predicate':
-                    value = (edge['qualified_predicate'] if not "None" else edge['source_predicate'])
-                elif key == 'knowledge_source':
-                    pass
                 vallist.append(value)
 
             # Add the edge property labels to the edge header TSV file
