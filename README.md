@@ -41,9 +41,7 @@ The preprint can be found at: [doi:10.1101/2021.10.17.464747](https://doi.org/10
 
 ## Neo4j read-only endpoint for RTX KG2 as a graph database
 
-http://kg2-8-0c.rtx.ai:7474/browser/
-
-(contact the KG2 maintainer for the username and password)
+(RTX-KG2 team members only: contact the KG2 maintainer for the endpoint, username, and password)
 
 # What data sources are used in KG2?
 
