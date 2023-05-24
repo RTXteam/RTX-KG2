@@ -614,6 +614,9 @@ to a file `~/kg2-build/build-kg2-ont-stderr.log`.
 
 #### Partial build of KG2
 
+Caution: Be sure to remove any files that should not be in the build. Highly recommend 
+    rm kg2-build/kg2*json
+	
 Like with the parallel build system, you can run a sequential partial build. To do a partial
 build, in Step (8) above, you would run
 
