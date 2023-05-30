@@ -847,11 +847,11 @@ at the CLI to set the password, Neo4j doesn't know this and it reports a limit w
 (4) Look in the log file `${HOME}/setup-kg2-neo4j.log` to see if the script
 completed successfully; it should end with `======= script finished ======`.
 
-(5) Load KG2 into Neo4j:
+(5) Start up a `screen` session, and within that screen session, load KG2 into Neo4j:
 
     RTX-KG2/tsv-to-neo4j.sh > ~/kg2-build/tsv-to-neo4j.log 2>&1
 
-This script takes about an hour. You may wish to run it in a `screen` session.
+This script takes over three hours to complete.
 
 (6) Look in the log file `~/kg2-build/tsv-to-neo4j.log` to see if the script
 completed successfully; it should end with `======= script finished ======`.
