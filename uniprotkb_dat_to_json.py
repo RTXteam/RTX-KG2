@@ -16,7 +16,6 @@ __status__ = 'Prototype'
 
 import argparse
 import kg2_util
-import os
 import re
 import sys
 
@@ -36,8 +35,15 @@ REGEX_GENE_SYNONYMS = re.compile(r'Synonyms=([^\;]+)')
 REGEX_HGNC = re.compile(r'^HGNC; (HGNC:\d+)')
 REGEX_NCBIGeneID = re.compile(r'^GeneID; (\d+)')
 REGEX_XREF = re.compile(r'Xref=([^\;]+)\;')
+REGEX_MIM = re.compile(r'\[MIM:([^\:\)]+)\]')
 REGEX_EC_XREF = re.compile(r'EC=([\d\.]+)')
 REGEX_SEPARATE_EVIDENCE_CODES = re.compile(r'(.*?)(\{(.*?)\})')
+REGEX_HEADER = re.compile(r'([^\:]*)\: (.*)')
+REGEX_BRACES = re.compile(r'\{[PE](?:[^\}]*)\}')
+REGEX_PARENS = re.compile(r'\((?:PMID|PubMed|ECO)\:(?:[^\)]*)\)')
+REGEX_SHORT = re.compile(r'Short=([^\;]*)')
+REGEX_SHORT_DROP = re.compile(r'Short=(?:[^\;]*)')
+
 LICENSE_TEXT = '---------------------------------------------------------------------------' \
                'Copyrighted by the UniProt Consortium, see https://www.uniprot.org/terms Di' \
                'stributed under the Creative Commons Attribution (CC BY 4.0) License ------' \
@@ -46,9 +52,32 @@ LICENSE_TEXT = '----------------------------------------------------------------
 DESIRED_SPECIES_INTS = set([kg2_util.NCBI_TAXON_ID_HUMAN])
 
 
+def scrub_braces_text(t: str) -> str:
+    return ''.join(REGEX_PARENS.split(''.join(REGEX_BRACES.split(t))))
+
+
 def init_record():
     return {'organism': None,
             'organism_host': []}
+
+
+def re_match_to_tuple(m: re.Match) -> tuple:
+    return tuple(m[i] for i in range(0, m.lastindex + 1))
+
+
+def fix_publications(pub_curie: str) -> str:
+    return pub_curie.replace('PubMed:', kg2_util.CURIE_PREFIX_PMID + ':')
+
+def description_to_dict(untidy_description: str) -> dict:
+    fields = untidy_description.split('-!- ')
+    pairs = [re_match_to_tuple(REGEX_HEADER.match(field))[1:3] for field in fields if len(field.strip()) > 0]
+    ret_dict = dict()
+    for k, v in pairs:
+        if k not in ret_dict:
+            ret_dict[k] = [v]
+        else:
+            ret_dict[k].append(v)
+    return ret_dict
 
 
 def parse_records_from_uniprot_dat(uniprot_dat_file_name: str,
@@ -165,7 +194,20 @@ def make_edges(records: list, nodes_dict: dict):
                                                                kg2_util.EDGE_LABEL_BIOLINK_GENE_PRODUCT_OF,
                                                                UNIPROTKB_PROVIDED_BY_CURIE_ID,
                                                                update_date))
-
+        if 'disease' in record_dict:
+            for disease_rec in record_dict['disease']:
+                m = REGEX_MIM.findall(disease_rec)
+                assert len(m) < 2
+                if len(m) == 1:
+                    mp = REGEX_PUBLICATIONS.findall(disease_rec)
+                    pubs = [fix_publications(pub) for pub in mp]
+                    e = kg2_util.make_edge_biolink(curie_id,
+                                                   kg2_util.CURIE_PREFIX_OMIM + ':' + m[0],
+                                                   kg2_util.EDGE_LABEL_BIOLINK_CAUSES, 
+                                                   UNIPROTKB_PROVIDED_BY_CURIE_ID,
+                                                   update_date)
+                    e['publications'] = pubs
+                    ret_list.append(e)
     for node_id, node_dict in nodes_dict.items():
         xrefs = node_dict['xrefs']
         if xrefs is not None and len(xrefs) > 0:
@@ -198,7 +240,7 @@ def fix_xref(raw_xref: str):
     return xref
 
 
-def seperate_evidence_codes(string: str):
+def separate_evidence_codes(string: str):
     remaining_str = string
     ev_codes = ''
     match = REGEX_SEPARATE_EVIDENCE_CODES.match(string)
@@ -231,28 +273,31 @@ def make_nodes(records: list):
         short_name = None
         desc_ctr = 0
         description = record_dict.get('CC', '')
+        hit_contains = False
         for description_str in description_list:
             description_str = description_str.lstrip()
             if description_str.startswith('RecName: '):
-                full_name = description_str.replace('RecName: Full=', '')
-                if desc_ctr < len(description_list) - 1:
-                    next_desc = description_list[desc_ctr + 1].lstrip()
-                    if next_desc.startswith('Short='):
-                        short_name = next_desc.replace('Short=', '')
-                        synonyms += [short_name]
-#                        continue
+                if not hit_contains:
+                    full_name = description_str.replace('RecName: Full=', '')
+                    if desc_ctr < len(description_list) - 1:
+                        next_desc = description_list[desc_ctr + 1].lstrip()
+                        if next_desc.startswith('Short='):
+                            short_name = next_desc.replace('Short=', '')
+                            synonyms += [short_name]
             elif description_str.startswith('AltName: Full='):
                 synonyms.append(description_str.replace('AltName: Full=', ''))
             elif description_str.startswith('AltName: CD_antigen='):
                 synonyms.append(description_str.replace(
                     'AltName: CD_antigen=', ''))
+            elif description_str.startswith('Contains:'):
+                hit_contains = True
             elif description_str.startswith('EC='):
                 ec_match = REGEX_EC_XREF.search(description_str)
                 if ec_match is not None:
                     xrefs.add(kg2_util.CURIE_PREFIX_KEGG +
                               ':' + 'EC:' + ec_match[1])
-            elif not description_str.startswith('Flags:') and not description_str.startswith('Contains:'):
-                description += '; ' + description_str
+            else:
+                pass
             desc_ctr += 1
         date_fields = record_dict['DT']
         date_ctr = 0
@@ -277,8 +322,7 @@ def make_nodes(records: list):
             publications = []
         assert type(publications) == list
         assert type(description) == str
-        publications += [pub.replace('PubMed:', kg2_util.CURIE_PREFIX_PMID + ':')
-                         for pub in REGEX_PUBLICATIONS.findall(description)]
+        publications += [fix_publications(pub) for pub in REGEX_PUBLICATIONS.findall(description)]
         publications = sorted(list(set(publications)))
         gene_names_str = record_dict.get('GN', None)
         gene_symbol = None
@@ -294,7 +338,7 @@ def make_nodes(records: list):
                         gene_names_str_item)
                     if gene_synonyms_match is not None:
                         # evidence codes from gene synonyms are not preserved
-                        synonyms += [seperate_evidence_codes(syn)[0].strip()
+                        synonyms += [separate_evidence_codes(syn)[0].strip()
                                      for syn in gene_synonyms_match[1].split(',')]
         if gene_symbol is not None:
             name = gene_symbol
@@ -303,9 +347,8 @@ def make_nodes(records: list):
                 name = short_name
             else:
                 name = full_name
-        # move evidence codes from name to description (issue #1171)
-        name, ev_codes = seperate_evidence_codes(name)
-        description += f"Evidence Codes from Name: {ev_codes} "
+        # remove evidence codes from name (issue #1171)
+        name, _ = separate_evidence_codes(name)
 
         # append species name to name if not human (issue #1171)
         species = record_dict.get('OS', 'unknown species').rstrip(".")
@@ -320,13 +363,34 @@ def make_nodes(records: list):
                                        category_label,
                                        update_date,
                                        UNIPROTKB_PROVIDED_BY_CURIE_ID)
-        node_dict['full_name'] = full_name
+        node_dict['full_name'] = scrub_braces_text(full_name)
         if not description.endswith(' '):
             description += ' '
         sequence = record_dict.get('SQ', '').strip('SEQUENCE   ')
         node_dict['has_biological_sequence'] = sequence
         description = description.replace(LICENSE_TEXT, '')
-        node_dict['description'] = description
+        description_dict = description_to_dict(description)
+        if 'FUNCTION' in description_dict:
+            function_text = ''.join(scrub_braces_text(t) for t in description_dict['FUNCTION'])
+        else:
+            function_text = ''
+        if 'SIMILARITY' in description_dict:
+            similarity_text = ''.join(scrub_braces_text(t) for t in description_dict['SIMILARITY'])
+        else:
+            similarity_text = ''
+        description = ' '.join([function_text, similarity_text]).strip().replace(' . ', '')
+        if ';' in description:
+            got_short = False
+            description_list = description.split(';')
+            for s in description_list:
+                m = REGEX_SHORT.match(s)
+                if m is not None:
+                    synonyms += m[1]
+                    got_short = True
+            if got_short:
+                description = ''.join(REGEX_SHORT_DROP.split(description))
+        node_dict['description'] = description.replace('. .', '.')
+        record_dict['disease'] = description_dict.get('DISEASE', [])
         if len(synonyms) > 0:
             synonyms = [synonyms[0]] + list(set(synonyms) - {synonyms[0]})
         node_dict['synonym'] = synonyms

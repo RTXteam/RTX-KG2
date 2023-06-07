@@ -249,6 +249,7 @@ EDGE_LABEL_BIOLINK_SUBCLASS_OF = 'subclass_of'
 EDGE_LABEL_BIOLINK_TRANSCRIBED_FROM = 'transcribed_from'
 EDGE_LABEL_BIOLINK_TRANSLATES_TO = 'translates_to'
 EDGE_LABEL_BIOLINK_TREATS = 'treats'
+EDGE_LABEL_BIOLINK_CAUSES = 'causes'
 
 RDFS_EDGE_NAMES_SET = {'subClassOf', 'subPropertyOf'}
 OWL_EDGE_NAMES_SET = {'equivalentClass', 'equivalentProperty', 'sameAs',
