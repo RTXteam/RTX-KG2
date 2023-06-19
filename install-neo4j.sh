@@ -20,7 +20,7 @@ sudo apt-get install -y zulu-8
 
 # install Neo4j
 wget --no-check-certificate -O - https://debian.neo4j.com/neotechnology.gpg.key | sudo apt-key add -
-echo 'deb http://debian.neo4j.com stable latest' > /tmp/neo4j.list
+echo 'deb http://debian.neo4j.com stable 3.5' > /tmp/neo4j.list
 sudo mv /tmp/neo4j.list /etc/apt/sources.list.d/neo4j.list
 sudo apt-get update
 sudo apt-get install -y neo4j=1:3.5.13

@@ -37,7 +37,14 @@ sudo apt-get install -y \
      zip \
      curl \
      software-properties-common \
-     wget
+     wget \
+     gcc \   ## from gcc to gfortran, these are to address the use-case of a "minimal" Ubuntu (bionic)
+     g++ \
+     libblas3 \
+     liblapack3 \
+     liblapack-dev \
+     libblas-dev \
+     gfortran
 
 ## this is for convenience when I am remote working
 sudo apt-get install -y emacs
