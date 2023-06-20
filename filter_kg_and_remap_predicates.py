@@ -351,6 +351,7 @@ if __name__ == '__main__':
                                     kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                                     update_date,
                                     kg2_util.CURIE_PREFIX_RTX + ':')
+    build_node['provided_by'] = [build_node['provided_by']]
     build_info = {'version': build_node['name'], 'timestamp_utc': build_node['update_date']}
     pprint.pprint(build_info)
     graph["build"] = build_info
