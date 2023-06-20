@@ -18,7 +18,7 @@ date
 config_dir=`dirname "$0"`
 source ${config_dir}/master-config.shinc
 
-drugbank_version=5.1.9
+drugbank_version=5.1.10
 output_file=${1:-"${BUILD_DIR}/drugbank.xml"}
 
 xml_filename=drugbank_${drugbank_version}.xml.gz

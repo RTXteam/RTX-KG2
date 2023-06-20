@@ -67,7 +67,7 @@ def count_nodes_by_source(nodes: list):
       ret_data = collections.Counter(provided_by_list)
       return ret_data
     else:
-      return collections.Counter([node.get(label_field) for node in nodes])
+      return collections.Counter([node[label_field][0] for node in nodes])
 
 
 def count_number_of_nodes_by_source_and_category(nodes: list):
@@ -75,7 +75,7 @@ def count_number_of_nodes_by_source_and_category(nodes: list):
     label_field = 'provided_by' # if not args.use_simplified_predicates else 'provided_by'
     # provided by is a list in simplified
     if not args.use_simplified_predicates:
-        sourcedict = collections.Counter([node.get(label_field) for node in nodes])
+        sourcedict = collections.Counter([node[label_field][0] for node in nodes])
     else:
         sourcedict = collections.Counter([node[label_field][0] for node in nodes])
     sourcecatdict = {}
