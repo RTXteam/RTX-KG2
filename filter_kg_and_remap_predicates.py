@@ -131,6 +131,8 @@ def process_nodes(input_file_name, infores_remap_config):
             if node_ctr % 1000000 == 0:
                 print(f"Processing node {node_ctr}")
             node_id = node_dict["id"]
+            if node_dict.get('provided_by') is None:
+                    node_dict['provided_by'] = node_dict.pop('knowledge_source')
             knowledge_source = node_dict['provided_by']
             infores_curie_dict = infores_remap_config.get(knowledge_source, None)
             infores_curie = infores_curie_dict['infores_curie']
@@ -205,7 +207,7 @@ def process_edges(input_file_name, infores_remap_config, predicate_remap_file_na
             get_new_rel_info = True
             if operation == "invert":
                 invert = True
-            elif pred_remap_info.get("core_predicate", None) is None:
+            elif pred_remap_info.get("core_predicate") is None:
                 assert operation == "keep"
                 get_new_rel_info = False
 
@@ -214,7 +216,7 @@ def process_edges(input_file_name, infores_remap_config, predicate_remap_file_na
             qualified_object_direction = None
 
             if get_new_rel_info:
-                assert pred_remap_info.get("core_predicate", None) is not None
+                assert pred_remap_info.get("core_predicate") is not None
                 core_predicate_curie = pred_remap_info.get("core_predicate")
                 qualified_predicate = pred_remap_info.get("qualified_predicate", None)
                 qualifiers = pred_remap_info.get("qualifiers", None)
@@ -235,7 +237,7 @@ def process_edges(input_file_name, infores_remap_config, predicate_remap_file_na
                     edge_dict['subject'] == edge_dict['object'] and \
                     predicate_label not in drop_self_edges_except:
                 continue
-            edge_dict['source_predicate'] = predicate_curie
+            edge_dict['predicate'] = predicate_curie
             edge_dict['qualified_predicate'] = qualified_predicate
             edge_dict['qualified_object_aspect'] = qualified_object_aspect
             edge_dict['qualified_object_direction'] = qualified_object_direction
@@ -252,6 +254,9 @@ def process_edges(input_file_name, infores_remap_config, predicate_remap_file_na
                 # Create list of curies to complain about if not in biolink
                 if predicate_uri_prefix == predicate_curie_prefix:
                     source_predicate_curies_not_in_nodes.add(predicate_curie)
+            if edge_dict.get("primary_knowledge_source") is None:
+                #print(f"{edge_dict}")
+                edge_dict["primary_knowledge_source"] = edge_dict.pop("knowledge_source")
             primary_knowledge_source = edge_dict["primary_knowledge_source"]
             infores_curie_dict = infores_remap_config.get(primary_knowledge_source, None)
             if infores_curie_dict is None:
@@ -266,12 +271,14 @@ def process_edges(input_file_name, infores_remap_config, predicate_remap_file_na
             edge_key = f"{edge_subject} /// {predicate_curie} /// {qualified_predicate} /// {qualified_object_aspect} /// {qualified_object_direction} /// {edge_object} /// {primary_knowledge_source}"
 
             existing_edge = new_edges.get(edge_key, None)
+            new_edges[edge_key] = edge_dict
 
-            if existing_edge is not None:
-                existing_edge['publications'] += edge_dict['publications']
-                existing_edge['publications_info'].update(edge_dict['publications_info'])
-            else:
-                new_edges[edge_key] = edge_dict
+            # do not merge edges
+            #if existing_edge is not None:
+            #    existing_edge['publications'] += edge_dict['publications']
+            #    existing_edge['publications_info'].update(edge_dict['publications_info'])
+            #else:
+            #    new_edges[edge_key] = edge_dict
             if edge_ctr == 1:
                 print(new_edges)
     print(f"Finished edges {kg2_util.date()}") 

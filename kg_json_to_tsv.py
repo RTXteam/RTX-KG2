@@ -146,6 +146,11 @@ def check_all_nodes_have_same_set(nodekeys_list):
         assert node_label in supported_node_keys, f"Node label not in supported list: {node_label}"
 
 
+import yaml
+with open('kg2-code/kg2-provided-by-curie-to-infores-curie.yaml', 'r') as yaml_file:
+    ir_map = yaml.safe_load(yaml_file)
+    map_ks_curie_to_infores_curie = {k: d['infores_curie'] for k, d in ir_map.items()}
+    
 def nodes(input_file, output_file_location):
     """
     :param input_file: The input file
@@ -175,9 +180,23 @@ def nodes(input_file, output_file_location):
             #if node_ctr < 11000000:
             #    pass
             # Add all node property labels to a list and check if they are supported
+            knowledge_source = node.get('knowledge_source')
+            if knowledge_source is not None:
+                assert type(knowledge_source)==str, "expected a string type"
+                knowledge_source_infores = map_ks_curie_to_infores_curie.get(knowledge_source)
+                if knowledge_source_infores is not None:
+                    provided_by = node.get('provided_by')
+                    if provided_by is not None:
+                        assert type(provided_by)==list, "expected a list type"
+                        provided_by = list(set(provided_by + [knowledge_source_infores]))
+                        node['provided_by'] = provided_by
+                    else:
+                        node['provided_by'] = [knowledge_source_infores]
+                del node['knowledge_source']
+                    
             nodekeys = list(sorted(node.keys()))
-            if nodekeys.count("knowledge_source") > 0:
-                print(node)
+            # if nodekeys.count("knowledge_source") > 0:
+            #     print(node)
                 #value = node["knowledge_source"]
                 #node.pop("knowledge_souce")
                 #node["provided_by"] = value

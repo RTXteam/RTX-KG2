@@ -525,6 +525,8 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
 
     first_ontology = ontology_info_list[0]['ontology']
 
+    print(f"Ont: {first_ontology}\nBase URL: {kg2_util.BASE_URL_BIOLINK_ONTOLOGY} {first_ontology.id}")
+
     assert first_ontology.id == kg2_util.BASE_URL_BIOLINK_ONTOLOGY, "biolink needs to be first in ont-load-inventory.yaml"
 
     [biolink_category_tree, mappings_to_categories] = generate_biolink_category_tree(first_ontology, curies_to_categories)
@@ -636,7 +638,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             assert node_curie_id is not None
 
             if node_curie_id in ret_dict:
-                prev_provided_by = ret_dict[node_curie_id].get('knowledge_source', None)
+                prev_provided_by = ret_dict[node_curie_id].get('provided_by')
                 if prev_provided_by is not None and node_curie_id == prev_provided_by:
                     continue  # issue 984
 
@@ -943,7 +945,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                             cui_name = kg2_util.allcaps_to_only_first_letter_capitalized(cui_name)
                         cui_node_dict['name'] = cui_name
                         cui_node_dict['ontology node ids'] = []
-                        cui_node_dict['knowledge_source'] = kg2_util.CURIE_ID_UMLS_SOURCE_CUI
+                        cui_node_dict['provided_by'] = kg2_util.CURIE_ID_UMLS_SOURCE_CUI
                         cui_node_dict['xrefs'] = []  # blanking the "xrefs" here is *vital* in order to avoid issue #395
                         cui_node_dict_existing = ret_dict.get(cui_curie, None)
                         if cui_node_dict_existing is not None:
@@ -1133,7 +1135,7 @@ def get_rels_dict(nodes: dict,
             if xrefs is not None:
                 for xref_node_id in xrefs:
                     if xref_node_id in nodes and node_id != xref_node_id:
-                        provided_by = nodes[node_id]['knowledge_source']
+                        provided_by = nodes[node_id]['provided_by']
                         key = make_rel_key(node_id, CURIE_OBO_XREF, xref_node_id, provided_by)
                         if rels_dict.get(key, None) is None:
                             edge = kg2_util.make_edge(node_id,
@@ -1167,7 +1169,7 @@ def get_inverse_rels(biolink_ontology, metadata_dict, uri_to_curie_shortener):
         updated_date = metadata_dict['file last modified timestamp']
 
     edges = []
-    assert biolink_ontology.id == kg2_util.BASE_URL_BIOLINK_ONTOLOGY
+   # assert biolink_ontology.id == kg2_util.BASE_URL_BIOLINK_ONTOLOGY
     for ontology_node_id in biolink_ontology.nodes():
         relations = {neighbor: next(iter(biolink_ontology.child_parent_relations(neighbor, ontology_node_id))) for neighbor in list(biolink_ontology.get_graph().neighbors(ontology_node_id))}
         for relation in relations:

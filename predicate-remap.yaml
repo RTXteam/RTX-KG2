@@ -4976,6 +4976,9 @@ RO:0007001:
 RO:0009001:
   operation: keep
   core_predicate: biolink:related_to
+RO:0009003: # immersed_in
+  operation: keep
+  core_predicate: biolink:related_to
 RO:0009004:
   operation: keep
   core_predicate: biolink:related_to

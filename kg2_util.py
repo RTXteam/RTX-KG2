@@ -127,7 +127,7 @@ BASE_BASE_URL_IDENTIFIERS_ORG = 'https://identifiers.org/'
 BASE_URL_IDENTIFIERS_ORG_REGISTRY = \
     'https://registry.identifiers.org/registry/'
 BASE_URL_BIOLINK_CONCEPTS = 'https://w3id.org/biolink/vocab/'
-BASE_URL_BIOLINK_ONTOLOGY = 'https://w3id.org/biolink/biolink-model.owl.ttl'
+BASE_URL_BIOLINK_ONTOLOGY = 'https://w3id.org/biolink/biolink-model'
 BASE_URL_BIOLINK_META = 'https://w3id.org/biolink/biolinkml/meta/'
 BASE_URL_CHEMBL_COMPOUND = BASE_BASE_URL_IDENTIFIERS_ORG + 'chembl.compound:'
 BASE_URL_CHEMBL_TARGET = BASE_BASE_URL_IDENTIFIERS_ORG + 'chembl.target:'
@@ -694,7 +694,7 @@ def make_node(id: str,
             'update_date': update_date,
             'deprecated': False,
             'replaced_by': None,
-            'provided_by': provided_by,
+            'provided_by': [provided_by],
             'has_biological_sequence': None}
 
 
@@ -722,6 +722,7 @@ def make_edge(subject_id: str,
             'object': object_id,
             'relation_label': relation_label,
             'source_predicate': relation_curie,
+            'predicate': None,
             'qualified_predicate': None,
             'qualified_object_aspect': None,
             'qualified_object_direction': None,
