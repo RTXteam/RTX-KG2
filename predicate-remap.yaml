@@ -372,8 +372,8 @@ CHEMBL.MECHANISM:substrate:
   operation: keep
   core_predicate: biolink:physically_interacts_with
 CHEMBL.MECHANISM:superset_of:
-  operation: invert
-  core_predicate: biolink:subclass_of
+  operation: keep
+  core_predicate: biolink:superclass_of
 CL:has_completed:
   operation: keep
   core_predicate: biolink:has_completed
@@ -2507,8 +2507,8 @@ GO:inverse_ends_during:
 GO:inverse_happens_during:
   operation: delete
 GO:inverse_isa:
-  operation: invert
-  core_predicate: biolink:subclass_of
+  operation: keep
+  core_predicate: biolink:superclass_of
 GO:involved_in:
   operation: invert
   core_predicate: biolink:has_participant
@@ -2649,7 +2649,7 @@ JensenLab:associated_with:
   core_predicate: biolink:gene_associated_with_condition
 KEGG:compound_to_enzyme:
   operation: keep
-  core_predicate: biolink:interacts_with
+  core_predicate: biolink:physically_interacts_with
 KEGG:compound_to_pathway:
   operation: invert
   core_predicate: biolink:has_participant
@@ -2664,7 +2664,7 @@ KEGG:enzyme_to_reaction:
   core_predicate: biolink:catalyzes
 KEGG:glycan_to_enzyme:
   operation: keep
-  core_predicate: biolink:interacts_with
+  core_predicate: biolink:physically_interacts_with
 KEGG:glycan_to_pathway:
   operation: invert
   core_predicate: biolink:has_participant
@@ -2936,8 +2936,8 @@ MESH:has_mapping_qualifier:
   operation: keep
   core_predicate: biolink:related_to
 MESH:inverse_isa:
-  operation: invert
-  core_predicate: biolink:subclass_of
+  operation: keep
+  core_predicate: biolink:superclass_of
 MESH:isa:
   operation: keep
   core_predicate: biolink:subclass_of
@@ -3043,7 +3043,7 @@ MI:0902:
   core_predicate: biolink:directly_physically_interacts_with
 MI:0914:
   operation: keep
-  core_predicate: biolink:interacts_with
+  core_predicate: biolink:physically_interacts_with
 MI:0915:
   operation: keep
   core_predicate: biolink:physically_interacts_with
@@ -3052,10 +3052,10 @@ MI:0945:
   core_predicate: biolink:directly_physically_interacts_with
 MI:1126:
   operation: keep
-  core_predicate: biolink:interacts_with
+  core_predicate: biolink:physically_interacts_with
 MI:1127:
   operation: keep
-  core_predicate: biolink:interacts_with
+  core_predicate: biolink:physically_interacts_with
 MI:1148:
   operation: keep
   core_predicate: biolink:directly_physically_interacts_with
@@ -3435,8 +3435,8 @@ NCIT:conceptual_part_of:
   operation: invert
   core_predicate: biolink:has_part
 NCIT:ctcae_5_parent_of:
-  operation: invert
-  core_predicate: biolink:subclass_of
+  operation: keep
+  core_predicate: biolink:superclass_of
 NCIT:is_ctdc_value_of:
   operation: delete
 NCIT:cytogenetic_abnormality_involves_chromosome:
@@ -3929,8 +3929,8 @@ NCIT:role_is_parent_of:
 NCIT:special_category_includes_neoplasm:
   operation: delete
 NCIT:subset_includes_concept:
-  operation: invert
-  core_predicate: biolink:subclass_of
+  operation: keep
+  core_predicate: biolink:superclass_of
 NCIT:target_anatomy_has_procedure:
   operation: delete
 NCIT:tissue_is_expression_site_of_gene_product:
@@ -4027,7 +4027,7 @@ OMIM:has_inheritance_type:
   core_predicate: biolink:related_to
 OMIM:has_manifestation:
   operation: invert
-  core_predicate: biolink:subclass_of
+  core_predicate: biolink:manifestation_of
 OMIM:has_phenotype:
   operation: keep
   core_predicate: biolink:has_phenotype
@@ -4974,6 +4974,9 @@ RO:0007001:
   operation: keep
   core_predicate: biolink:related_to
 RO:0009001:
+  operation: keep
+  core_predicate: biolink:related_to
+RO:0009003: # immersed_in
   operation: keep
   core_predicate: biolink:related_to
 RO:0009004:

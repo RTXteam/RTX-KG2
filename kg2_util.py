@@ -679,7 +679,7 @@ def make_node(id: str,
               name: str,
               category_label: str,
               update_date: str,
-              knowledge_source: str):
+              provided_by: str):
     if '-' in category_label:
         raise ValueError('underscore character detected in category_label argument to function kg2_util.make_node: ' + category_label)
     return {'id': id,
@@ -695,7 +695,7 @@ def make_node(id: str,
             'update_date': update_date,
             'deprecated': False,
             'replaced_by': None,
-            'knowledge_source': knowledge_source,
+            'provided_by': [provided_by],
             'has_biological_sequence': None}
 
 
@@ -709,20 +709,21 @@ def make_edge_key(edge_dict: dict):
            (edge_dict['qualified_object_direction'] if edge_dict['qualified_object_direction'] is not None else 'None') + \
            '---' + \
            edge_dict['object'] + '---' + \
-           edge_dict['knowledge_source']
+           edge_dict['primary_knowledge_source']
 
 
 def make_edge(subject_id: str,
               object_id: str,
               relation_curie: str,
               relation_label: str,
-              knowledge_source: str,
+              primary_knowledge_source: str,
               update_date: str = None):
 
     edge = {'subject': subject_id,
             'object': object_id,
             'relation_label': relation_label,
             'source_predicate': relation_curie,
+            'predicate': None,
             'qualified_predicate': None,
             'qualified_object_aspect': None,
             'qualified_object_direction': None,
@@ -730,7 +731,7 @@ def make_edge(subject_id: str,
             'publications': [],
             'publications_info': {},
             'update_date': update_date,
-            'knowledge_source': knowledge_source}
+            'primary_knowledge_source': primary_knowledge_source}
     edge_id = make_edge_key(edge)
     edge["id"] = edge_id
     return edge
@@ -808,11 +809,11 @@ def make_ontology_from_local_file(file_name: str, save_pickle: bool = False):
             size = os.path.getsize(file_name)
             log_message(message="Reading ontology file: " + file_name + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
                         ontology_name=None)
-            cp = subprocess.run(['owltools', file_name, '-o', '-f', 'json', temp_file_name],
-                                check=True)
+            #cp = subprocess.run(['owltools', file_name, '-o', '-f', 'json', temp_file_name],
+            #                    check=True)
             # robot commented out because it is giving a NullPointerException on umls-semantictypes.owl
             # Once robot no longer gives a NullPointerException, we can use it like this:
-            #        cp = subprocess.run(['robot', 'convert', '--input', file_name, '--output', temp_file_name])
+            cp = subprocess.run(['robot', 'convert', '--input', file_name, '--output', temp_file_name])
             if cp.stdout is not None:
                 log_message(message="OWL convert result: " + cp.stdout, ontology_name=None, output_stream=sys.stdout)
             if cp.stderr is not None:

@@ -60,20 +60,19 @@ if os.path.exists('nodes.tsv'):
     os.remove('nodes.tsv')
 
 # Read the input file kg2-simplified.json
-with open(input_file_name_full, "r") as input_file:
-    input_data = json.load(input_file)
-    input_file.close()
+with open(input_file_name_full, "r") as input_file, open(log_file_name, 'a') as log_file:
+    # Handle edges data
+    edges_data = (row for row in ijson.items(input_file, "edges.item"))
 
-# Populate edges header row
-edge_fields = ['subject',
-               'object',
-               'predicate',
-               'knowledge_source',
-               'publications',
-               'publications_info',
-               'id']
+    # Populate edges header row
+    edge_fields = ['subject',
+                   'object',
+                   'predicate',
+                   'primary_knowledge_source',
+                   'publications',
+                   'publications_info',
+                   'id']
 
-with open(log_file_name, 'a') as log_file:
     # Begin writing edges.tsv
     print("--- Begin writing edges.tsv ---", file=log_file)
     output_file = open('edges.tsv', 'a')
@@ -87,15 +86,14 @@ with open(log_file_name, 'a') as log_file:
 
     # Write edges.tsv
     num_edges = 0
-    edges_data = input_data['edges']
     for item in edges_data:
+        if num_edges % 1000000 == 0:
+            print(f"Processed edge {num_edges}", file=log_file)
         if max_rows is None or num_edges < max_rows:
             output_file.write(check_tab(item['subject']) + '\t')
             output_file.write(check_tab(item['object']) + '\t')
             output_file.write(check_tab(item['source_predicate']) + '\t')
-            # knowledge source is a list
-            ks_list = [check_tab(ks) for ks in item['knowledge_source']]
-            output_file.write('|'.join(ks_list) + '\t')
+            output_file.write(check_tab(item['primary_knowledge_source']) + '\t')
             # publications is a list
             pubs_list = [check_tab(pub) for pub in item['publications']]
             output_file.write('|'.join(pubs_list) + '\t')
@@ -106,9 +104,12 @@ with open(log_file_name, 'a') as log_file:
 
     output_file.close()
     print("--- Edges.tsv completed --- ", file=log_file)
+    
+    # Handle nodes data
+    nodes_data = (row for row in ijson.items(input_file, "nodes.item"))
 
     # Populate nodes header row
-    node_fields = ['id', 'name', 'category', 'iri', 'description', 'publications']
+    node_fields = ['id', 'name', 'category', 'iri', 'description', 'publications', 'provided_by']
 
     # Begin writing nodes.tsv
     print("--- Begin writing nodes.tsv ---", file=log_file)
@@ -120,12 +121,12 @@ with open(log_file_name, 'a') as log_file:
         else:
             output_file.write(item + '\t')
     print("--- Headers written to nodes.tsv ---", file=log_file)
-    nodes_data = input_data['nodes']
 
     # Write nodes.tsv
     num_nodes = 0
-    nodes_data = input_data['nodes']
     for item in nodes_data:
+        if num_edges % 1000000 == 0:
+            print(f"Processed edge {num_edges}", file=log_file)
         if max_rows is None or num_nodes < max_rows:
             output_file.write(check_tab(item['id']) + '\t')
             output_file.write(check_tab(str(item['name'])) + '\t')
@@ -139,7 +140,9 @@ with open(log_file_name, 'a') as log_file:
             output_file.write(desc + '\t')
             # publications is a list
             pub_list = [check_tab(publication) for publication in item['publications']]
-            output_file.write('|'.join(pub_list) + '\n')
+            output_file.write('|'.join(pub_list) + '\t')
+            provided_by_list = [check_tab(provided_by) for provided_by in item['provided_by']]
+            output_file.write('|'.join(provided_by_list) + '\n')
         num_nodes += 1
 
     output_file.close()

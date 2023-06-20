@@ -86,8 +86,10 @@ rule Simplify_Stats:
         placeholder = config['SLIM_OUTPUT_FILE_FULL']
     output:
         config['SIMPLIFIED_REPORT_FILE_FULL']
+    log:
+        config['BUILD_DIR'] + "/report_stats_on_json_kg_simplified" + config['TEST_SUFFIX'] + ".log"
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/report_stats_on_json_kg.py --useSimplifiedPredicates {input.real} {output}"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/report_stats_on_json_kg.py --useSimplifiedPredicates {input.real} {output} > {log} 2>&1"
 
 rule TSV:
     input:

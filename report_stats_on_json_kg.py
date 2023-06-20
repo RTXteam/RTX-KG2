@@ -59,18 +59,31 @@ def count_nodes_by_category(nodes: list):
 
 
 def count_nodes_by_source(nodes: list):
-    return collections.Counter([node['knowledge_source'] for node in nodes])
+    label_field = 'provided_by' 
+    if args.use_simplified_predicates:
+      provided_by_list = []
+      for node in nodes:
+         provided_by_list += node['provided_by']
+      ret_data = collections.Counter(provided_by_list)
+      return ret_data
+    else:
+      return collections.Counter([node.get(label_field) for node in nodes])
 
 
 def count_number_of_nodes_by_source_and_category(nodes: list):
     fulldict = {}
-    sourcedict = collections.Counter([node['knowledge_source'] for node in nodes])
+    label_field = 'provided_by' # if not args.use_simplified_predicates else 'provided_by'
+    # provided by is a list in simplified
+    if not args.use_simplified_predicates:
+        sourcedict = collections.Counter([node.get(label_field) for node in nodes])
+    else:
+        sourcedict = collections.Counter([node[label_field][0] for node in nodes])
     sourcecatdict = {}
     categorylist = []
     for source in sourcedict:
         categorylist = []
         for node in nodes:
-            if node['knowledge_source'] == source:
+            if node.get(label_field) == source:
                 categorylist.append(node['category_label'])
         sourcecatdict.update({source: categorylist})
     for defintion in sourcecatdict:
@@ -81,22 +94,20 @@ def count_number_of_nodes_by_source_and_category(nodes: list):
 
 def count_edges_by_source(edges: list):
     ret_data = None
-    if type(edges[0]['knowledge_source']) == str:
-        ret_data = collections.Counter([edge['knowledge_source'] for edge in edges])
+    if type(edges[0]['primary_knowledge_source']) == str:
+        #print(f"{edges[0]}")
+        ret_data = collections.Counter([edge.get('primary_knowledge_source') for edge in edges])
     else:
-        assert type(edges[0]['knowledge_source'] == list)
-        provby_list = []
-        for edge in edges:
-            provby_list += edge['knowledge_source']
-        ret_data = collections.Counter(provby_list)
+        # primary knowledge source should be a string, we should not get here
+        assert type(edges[0].get('primary_knowledge_source') == str), f"Problem with edges source type"
     return ret_data
 
 
 def count_edges_by_predicate_curie(edges: list):
-    curie_field = 'source_predicate' if not args.use_simplified_predicates else 'qualified_predicate'
-    # When there isn't a qualified_predicate, use source_predicate
-    return collections.Counter([edge.get(curie_field, 'source_predicate') for edge in edges])
-
+    curie_field = 'source_predicate' if not args.use_simplified_predicates else 'predicate'
+    # Every simplified edge should have a predicate. 
+    return collections.Counter([edge.get(curie_field) for edge in edges])
+   
 
 def count_edges_by_predicate_type(edges: list):
     label_field = 'relation_label' if not args.use_simplified_predicates else 'predicate_label'
@@ -104,13 +115,13 @@ def count_edges_by_predicate_type(edges: list):
 
 
 def count_edges_by_predicate_curie_prefix(edges: list):
-    curie_field = 'source_predicate' if not args.use_simplified_predicates else 'qualified_predicate'
-    return collections.Counter([str(get_prefix_from_curie_id(edge.get('source_predicate'))) for edge in edges])
+    curie_field = 'source_predicate' if not args.use_simplified_predicates else 'predicate'
+    return collections.Counter([get_prefix_from_curie_id(edge.get(curie_field)) for edge in edges])
 
 
 def count_predicates_by_predicate_curie_prefix(edges: list):
-    curie_field = 'source_predicate' if not args.use_simplified_predicates else 'qualified_predicate'
-    unique_relation_curies = set([str(edge.get('source_predicate')) for edge in edges])
+    curie_field = 'source_predicate' if not args.use_simplified_predicates else 'predicate'
+    unique_relation_curies = set([edge.get(curie_field) for edge in edges])
     return collections.Counter([get_prefix_from_curie_id(curie) for curie in unique_relation_curies])
 
 

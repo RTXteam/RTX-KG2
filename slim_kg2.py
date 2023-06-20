@@ -28,8 +28,9 @@ def make_arg_parser():
 
 
 if __name__ == "__main__":
-    node_set = set(["name", "id", "full_name", "category", "knowledge_source"])
-    edge_set = set(["core_predicate", "subject", "object", "predicate_label", "knowledge_source"])
+    node_set = set(["name", "id", "full_name", "category", "provided_by"])
+    edge_set = set(["core_predicate", "subject", "object", "predicate_label", 
+"primary_knowledge_source"])
 
     args = make_arg_parser().parse_args()
     test_mode = args.test

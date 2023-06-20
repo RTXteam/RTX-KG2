@@ -80,7 +80,7 @@ def check_all_edges_have_same_set(edgekeys_list):
     supported_ls = ["relation_label",
                     "negated",
                     "object",
-                    "knowledge_source",
+                    "primary_knowledge_source",
                     "publications",
                     "publications_info",
                     "source_predicate",
@@ -91,8 +91,7 @@ def check_all_edges_have_same_set(edgekeys_list):
                     "id",
                     "qualified_predicate",
                     "qualified_object_aspect",
-                    "qualified_object_direction",
-                    "core_predicate"]
+                    "qualified_object_direction"]
     for edgelabel in edgekeys_list:
         if edgelabel not in supported_ls:
             raise ValueError("relation_label not in supported list: " + edgelabel)
@@ -141,12 +140,17 @@ def check_all_nodes_have_same_set(nodekeys_list):
                            "update_date",
                            "deprecated",
                            "replaced_by",
-                           "knowledge_source",
+                           "provided_by",
                            "has_biological_sequence"]
     for node_label in nodekeys_list:
         assert node_label in supported_node_keys, f"Node label not in supported list: {node_label}"
 
 
+import yaml
+with open('kg2-code/kg2-provided-by-curie-to-infores-curie.yaml', 'r') as yaml_file:
+    ir_map = yaml.safe_load(yaml_file)
+    map_ks_curie_to_infores_curie = {k: d['infores_curie'] for k, d in ir_map.items()}
+    
 def nodes(input_file, output_file_location):
     """
     :param input_file: The input file
@@ -173,9 +177,29 @@ def nodes(input_file, output_file_location):
             node_ctr += 1
             if node_ctr % 1000000 == 0:
                 print(f"Processing node: {node_ctr}")
-
+            #if node_ctr < 11000000:
+            #    pass
             # Add all node property labels to a list and check if they are supported
+            knowledge_source = node.get('knowledge_source')
+            if knowledge_source is not None:
+                assert type(knowledge_source)==str, "expected a string type"
+                knowledge_source_infores = map_ks_curie_to_infores_curie.get(knowledge_source)
+                if knowledge_source_infores is not None:
+                    provided_by = node.get('provided_by')
+                    if provided_by is not None:
+                        assert type(provided_by)==list, "expected a list type"
+                        provided_by = list(set(provided_by + [knowledge_source_infores]))
+                        node['provided_by'] = provided_by
+                    else:
+                        node['provided_by'] = [knowledge_source_infores]
+                del node['knowledge_source']
+                    
             nodekeys = list(sorted(node.keys()))
+            # if nodekeys.count("knowledge_source") > 0:
+            #     print(node)
+                #value = node["knowledge_source"]
+                #node.pop("knowledge_souce")
+                #node["provided_by"] = value
             check_all_nodes_have_same_set(nodekeys)
             nodekeys.append("category")
 
@@ -258,6 +282,7 @@ def edges(input_file, output_file_location):
 
         for edge in generator:
             edge_ctr += 1
+            #print(edge)
             if edge_ctr % 1000000 == 0:
                 print(f"Processing edge: {edge_ctr}")
 
@@ -281,20 +306,15 @@ def edges(input_file, output_file_location):
                 value = edge.get(key)
                 if key == "publications_info":
                     value = limit_publication_info_size(key, value)
-                elif key == 'knowledge_source':
-                    value = str(value).replace("', '", "; ").replace("['", "").replace("']", "")
                 elif key == 'relation_label':  # fix for issue number 473 (hyphens in relation_labels)
                     value = value.replace('-', '_').replace('(', '').replace(')', '')
                 elif key == 'publications':
                     value = str(value).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
-                elif key == 'predicate':
-                    value = (edge['qualified_predicate'] if not "None" else edge['source_predicate'])
                 vallist.append(value)
 
             # Add the edge property labels to the edge header TSV file
             # But only for the first edge
             if edge_ctr == 1:
-                edgekeys = no_space('knowledge_source', edgekeys, 'knowledge_source:string[]')
                 edgekeys = no_space('predicate', edgekeys, 'predicate:TYPE')
                 edgekeys = no_space('subject', edgekeys, ':START_ID')
                 edgekeys = no_space('object', edgekeys, ':END_ID')
