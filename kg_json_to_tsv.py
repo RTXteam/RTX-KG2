@@ -161,8 +161,9 @@ def nodes(input_file, output_file_location):
     nodes_file = output_files(output_file_location, "nodes")
 
     # Open output TSV files
-    tsvfile = open(nodes_file[0], 'w+')
-    tsvfile_h = open(nodes_file[1], 'w+')
+    # To address #278, added newline='' per https://docs.python.org/3/library/csv.html#id1
+    tsvfile = open(nodes_file[0], 'w+', newline='')
+    tsvfile_h = open(nodes_file[1], 'w+', newline='')
 
     # Set up TSV files to be written to
     tsvwrite = tsv.writer(tsvfile, delimiter="\t",
@@ -268,8 +269,9 @@ def edges(input_file, output_file_location):
     edges_file = output_files(output_file_location, "edges")
 
     # Open output TSV files
-    tsvfile = open(edges_file[0], 'w+')
-    tsvfile_h = open(edges_file[1], 'w+')
+    # To address #278, added newline='' per https://docs.python.org/3/library/csv.html#id1
+    tsvfile = open(edges_file[0], 'w+', newline='')
+    tsvfile_h = open(edges_file[1], 'w+', newline='')
 
     # Set up TSV files to be written to
     tsvwrite = tsv.writer(tsvfile, delimiter="\t", quoting=tsv.QUOTE_MINIMAL)
