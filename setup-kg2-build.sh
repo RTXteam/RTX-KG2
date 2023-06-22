@@ -78,7 +78,8 @@ sudo apt-get install -y \
      libtool \
      automake \
      git \
-     libssl-dev
+     libssl-dev \
+     make
 
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password ${mysql_password}"
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password ${mysql_password}"
@@ -164,6 +165,11 @@ EOF
     wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
     sudo apt-get update
     sudo apt-get -y install postgresql
+    
+    # Addresses permission issues
+    # https://stackoverflow.com/questions/38470952/postgres-can-not-change-directory-in-ubuntu-14-04
+    cd ~postgres/
+
     sudo -u postgres psql -c "DO \$do\$ BEGIN IF NOT EXISTS ( SELECT FROM pg_catalog.pg_roles WHERE rolname = '${psql_user}' ) THEN CREATE ROLE ${psql_user} LOGIN PASSWORD null; END IF; END \$do\$;"
     sudo -u postgres psql -c "ALTER USER ${psql_user} WITH password null"
 fi
