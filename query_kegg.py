@@ -36,13 +36,8 @@ def get_args():
 
 def send_query(query):
     site_request = requests.get(query)
-    print(site_request.content)
     site_response = str(site_request.content)[2:]
-    if site_response[:2].startswith("b"):
-        print("============HI================")
-        site_response = site_response[2:]
     results = site_response.strip().split("\\n")
-    print(json.dumps(results, indent=4, sort_keys=True))
     return results
 
 
@@ -114,7 +109,6 @@ def run_queries():
     kegg_ids = len(results_dict.keys())
     get_count = 0
     for kegg_id in results_dict:
-        print("KEGG ID:", kegg_id)
         previous_line_starter = ''
         results = send_query(get_base_query + kegg_id)
         results_dict = process_get_query(results, results_dict, kegg_id)
