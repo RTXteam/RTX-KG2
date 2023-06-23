@@ -163,6 +163,25 @@ def get_deprecated_nodes(nodes: list):
 
     return deprecated_nodes
 
+def count_orphan_nodes(nodes: list, edges: list):
+    orphan_nodes = dict()
+    provided_by_label = 'provided_by'
+
+    nodes_on_edges = set()
+    for edge in edges:
+        nodes_on_edges.add(edge.get('subject', ""))
+        nodes_on_edges.add(edge.get('object', ""))
+
+    for node in nodes:
+        source = node[provided_by_label][0]
+
+        if node.get('id', "") not in nodes_on_edges:
+            if source not in orphan_nodes:
+                orphan_nodes[source] = 0
+            orphan_nodes[source] += 1
+
+    return orphan_nodes
+
 
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
@@ -207,7 +226,8 @@ if __name__ == '__main__':
              'types_of_pairs_of_curies_for_equivs': dict(count_types_of_pairs_of_curies_for_equivs(edges)),
              'number_of_nodes_by_source_and_category': dict(count_number_of_nodes_by_source_and_category(nodes)),
              'sources': get_sources(nodes),
-             'deprecated_nodes': get_deprecated_nodes(nodes)}
+             'number_of_deprecated_nodes': get_deprecated_nodes(nodes),
+             'number_of_orphan_nodes': count_orphan_nodes(nodes, edges)}
 
     temp_output_file = tempfile.mkstemp(prefix='kg2-')[1]
     with open(temp_output_file, 'w') as outfile:
