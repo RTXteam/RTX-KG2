@@ -147,6 +147,22 @@ def count_types_of_pairs_of_curies_for_equivs(edges: list):
 def get_sources(nodes: list):
     return [node.get('name') for node in nodes if node.get('category_label') == 'information_resource']
 
+def get_deprecated_nodes(nodes: list):
+    deprecated_nodes = dict()
+    provided_by_label = 'provided_by'
+    deprecated_label = 'deprecated'
+
+    for node in nodes:
+        source = node[provided_by_label][0]
+        deprecated = node[deprecated_label]
+
+        if deprecated:
+            if source not in deprecated_nodes:
+                deprecated_nodes[source] = 0
+            deprecated_nodes[source] += 1
+
+    return deprecated_nodes
+
 
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
@@ -190,7 +206,8 @@ if __name__ == '__main__':
              'types_of_pairs_of_curies_for_xrefs': dict(count_types_of_pairs_of_curies_for_xrefs(edges)),
              'types_of_pairs_of_curies_for_equivs': dict(count_types_of_pairs_of_curies_for_equivs(edges)),
              'number_of_nodes_by_source_and_category': dict(count_number_of_nodes_by_source_and_category(nodes)),
-             'sources': get_sources(nodes)}
+             'sources': get_sources(nodes),
+             'deprecated_nodes': get_deprecated_nodes(nodes)}
 
     temp_output_file = tempfile.mkstemp(prefix='kg2-')[1]
     with open(temp_output_file, 'w') as outfile:
