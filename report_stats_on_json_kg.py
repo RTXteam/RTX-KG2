@@ -144,6 +144,9 @@ def count_types_of_pairs_of_curies_for_equivs(edges: list):
             prefix_pairs_list.append(key)
     return collections.Counter(prefix_pairs_list)
 
+def get_sources(nodes: list):
+    return [node.get('name') for node in nodes if node.get('category_label') == 'information_resource']
+
 
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
@@ -159,16 +162,22 @@ if __name__ == '__main__':
         print("WARNING: 'nodes' property is missing from the input JSON.", file=sys.stderr)
     nodes = graph.get('nodes', [])
     for n in nodes[::-1]:  # search for build info node starting at end
-        if n["name"] == "KG2:Build":  # should be the first node accessed
+        if n["id"] == kg2_util.CURIE_PREFIX_RTX + ':' + 'KG2':  # should be the first node accessed
             nodes.remove(n) # remove it so stats aren't reported
             break
     if 'edges' not in graph:
         print("WARNING: 'edges' property is missing from the input JSON.", file=sys.stderr)
     edges = graph.get('edges', [])
 
+    if 'build' not in graph:
+        print("WARNING: 'build' property is missing from the input JSON.", file=sys.stderr)
+    build_info = graph.get('build', dict())
+
     stats = {'_number_of_nodes': len(nodes),   # underscore is to make sure it sorts to the top of the report
              '_number_of_edges': len(edges),   # underscore is to make sure it sorts to the top of the report
              '_report_datetime': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+             '_build_version': build_info.get('version', ""),
+             '_build_time': build_info.get('timestamp_utc', ""),
              'number_of_nodes_by_curie_prefix': dict(count_nodes_by_curie_prefix(nodes)),
              'number_of_nodes_without_category__by_curie_prefix': dict(count_nodes_by_curie_prefix_given_no_category(nodes)),
              'number_of_nodes_by_category_label': dict(count_nodes_by_category(nodes)),
@@ -180,7 +189,8 @@ if __name__ == '__main__':
              'number_of_edges_by_source': dict(count_edges_by_source(edges)),
              'types_of_pairs_of_curies_for_xrefs': dict(count_types_of_pairs_of_curies_for_xrefs(edges)),
              'types_of_pairs_of_curies_for_equivs': dict(count_types_of_pairs_of_curies_for_equivs(edges)),
-             'number_of_nodes_by_source_and_category': dict(count_number_of_nodes_by_source_and_category(nodes))}
+             'number_of_nodes_by_source_and_category': dict(count_number_of_nodes_by_source_and_category(nodes)),
+             'sources': get_sources(nodes)}
 
     temp_output_file = tempfile.mkstemp(prefix='kg2-')[1]
     with open(temp_output_file, 'w') as outfile:
