@@ -5,7 +5,7 @@ bmt==0.7.6
 CacheControl==0.12.6
 cachetools==5.1.0
 cachier==1.2.5
-certifi==2019.3.9
+certifi==2022.12.07
 chardet==3.0.4
 Click==8.0.0
 conf==0.4.
@@ -26,7 +26,7 @@ marshmallow==3.0.0b11
 mysqlclient==1.4.4
 neo4j==4.3
 networkx==2.5
-numpy==1.21.0
+numpy==1.22
 ontobio==2.8.0
 pandas==1.0.3
 pathtools==0.1.2
@@ -40,7 +40,7 @@ python-dateutil==2.8.1
 pytz==2022.2
 PyYAML==5.4
 rdflib==6.0.0
-requests==2.25.1
+requests==2.31.0
 scipy==1.2.1
 six==1.12.0
 snakemake==5.5.4
