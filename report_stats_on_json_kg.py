@@ -168,13 +168,16 @@ def count_orphan_nodes(nodes: list, edges: list):
     provided_by_label = 'provided_by'
 
     nodes_on_edges = set()
-    for edge in edges:
-        nodes_on_edges.add(edge.get('subject', ""))
-        nodes_on_edges.add(edge.get('object', ""))
+
+    edge_count = len(edges)
+    for edge_index in range(0, edge_count):
+        nodes_on_edges.add(edges[edge_index].get('subject', ""))
+        nodes_on_edges.add(edges[edge_index].get('object', ""))
+        edges[edge_index] = dict()
+        if edge_index > 0 and edge_index % 1000000 == 0:
 
     for node in nodes:
         source = node[provided_by_label][0]
-
         if node.get('id', "") not in nodes_on_edges:
             if source not in orphan_nodes:
                 orphan_nodes[source] = 0
