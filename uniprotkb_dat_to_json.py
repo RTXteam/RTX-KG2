@@ -196,13 +196,12 @@ def make_edges(records: list, nodes_dict: dict):
                                                                update_date))
         if 'disease' in record_dict:
             for disease_rec in record_dict['disease']:
-                m = REGEX_MIM.findall(disease_rec)
-                assert len(m) < 2
-                if len(m) == 1:
+                mims = REGEX_MIM.findall(disease_rec)
+                for m in mims:
                     mp = REGEX_PUBLICATIONS.findall(disease_rec)
                     pubs = [fix_publications(pub) for pub in mp]
                     e = kg2_util.make_edge_biolink(curie_id,
-                                                   kg2_util.CURIE_PREFIX_OMIM + ':' + m[0],
+                                                   kg2_util.CURIE_PREFIX_OMIM + ':' + m,
                                                    kg2_util.EDGE_LABEL_BIOLINK_CAUSES, 
                                                    UNIPROTKB_PROVIDED_BY_CURIE_ID,
                                                    update_date)
