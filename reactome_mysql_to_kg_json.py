@@ -553,7 +553,7 @@ def get_event_characteristics(connection, test):
     # description to its edge counterpart's publications info field. Since on
     # edge can have multiple PMIDs, the query uses GROUP_CONCAT and DISTINCT
     # to ensure that each edge is not represented more than once.
-    # To retreive the PMIDs, this query uses Regulation_2_summation
+    # To retreive the PMIDs, this query uses Event_2_summation
     # to connect the Regulation to its description. Then, it uses
     # Summation_2_literatureReference to connect that description
     # to its PMIDs. Finally, the query uses the LiteratureReference table
@@ -579,8 +579,8 @@ def get_event_characteristics(connection, test):
                       ON dbobj_sub.DB_ID=reg.regulator \
                       INNER JOIN StableIdentifier si_sub \
                       ON si_sub.DB_ID=dbobj_sub.stableIdentifier \
-                      LEFT JOIN Regulation_2_summation reg_sum \
-                      ON reg_sum.DB_ID=dbobj_reg.DB_ID \
+                      LEFT JOIN Event_2_summation reg_sum \
+                      ON reg_sum.DB_ID=rl_rb.DB_ID \
                       LEFT JOIN Summation sum_fr_r \
                       ON sum_fr_r.DB_ID=reg_sum.summation \
                       LEFT JOIN Summation_2_literatureReference sum_lit \
