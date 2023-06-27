@@ -13,6 +13,11 @@
   file: umls-atc.ttl
   title: Anatomical Therapeutic Chemical Classification System
   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ATC
+- # maps to CURIE prefix CHV
+  download: false
+  file: umls-chv.ttl
+  title: Consumer Health Vocabulary
+  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/CHV
 # - # maps to CURIE prefix CPT
 #   download: false
 #   file: umls-cpt.ttl
