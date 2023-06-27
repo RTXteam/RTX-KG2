@@ -336,6 +336,17 @@ this command:
 
     touch ~/kg2-build/major-release
 
+[**MORE COMMON ALTERNATIVE**] For regular releases, you want to increment the "minor"
+release number. This is for situations where changes to the code have been made and
+the build will likely be deployed. If you want to increment the "minor" release number
+for KG2, you would run this command:
+
+    touch ~/kg2-build/minor-release
+
+If you don't increment the release number at all, you should not be planning to deploy
+the build. This is useful for cases where you are testing the build system, but not
+necessarily different code or bug fixes.
+
 (7) Run a "dry-run" build:
 
     bash -x ~/kg2-code/build-kg2-snakemake.sh all -F -n
