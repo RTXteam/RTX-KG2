@@ -26,7 +26,19 @@ semmed_ver=VER43
 semmed_year=2023
 semmed_dir=${BUILD_DIR}/semmeddb
 semmed_output_dir=`dirname "${semmed_output_file}"`
-semmed_sql_file=semmed${semmed_ver}_${semmed_year}_R_WHOLEDB.sql
+
+## SQL files
+base_filename=semmed${semmed_ver}_${semmed_year}_R_
+
+citations_sql_file=${base_filename}CITATIONS.sql.gz
+entity_sql_file=${base_filename}ENTITY.sql.gz
+generic_concept_sql_file=${base_filename}GENERIC_CONCEPT.sql.gz
+predication_sql_file=${base_filename}PREDICATION.sql.gz
+predication_aux_sql_file=${base_filename}PREDICATION_AUX.sql.gz
+sentence_sql_file=${base_filename}SENTENCE.sql.gz
+
+semmed_dump=${base_filename}WHOLEDB.tar.gz
+
 mysql_dbname=semmeddb
 
 mkdir -p ${semmed_dir}
@@ -35,7 +47,9 @@ mkdir -p ${semmed_output_dir}
 ## estimate amount of system ram, in GB
 mem_gb=`${CODE_DIR}/get-system-memory-gb.sh`
 
-${s3_cp_cmd} s3://${s3_bucket}/${semmed_sql_file}.gz ${semmed_dir}/
+${s3_cp_cmd} s3://${s3_bucket}/${semmed_dump} ${semmed_dir}/
+
+tar -xf ${semmed_dir}/${semmed_dump}
 
 ## if a "semmeddb" database already exists, delete it
     mysql --defaults-extra-file=${mysql_conf} \
@@ -45,7 +59,12 @@ ${s3_cp_cmd} s3://${s3_bucket}/${semmed_sql_file}.gz ${semmed_dir}/
     mysql --defaults-extra-file=${mysql_conf} \
           -e "CREATE DATABASE IF NOT EXISTS ${mysql_dbname} CHARACTER SET utf8 COLLATE utf8_unicode_ci"
 	
-zcat ${semmed_dir}/${semmed_sql_file}.gz | mysql --defaults-extra-file=${mysql_conf} --database=${mysql_dbname}
+zcat ${semmed_dir}/${citations_sql_file} | mysql --defaults-extra-file=${mysql_conf} --database=${mysql_dbname}
+zcat ${semmed_dir}/${entity_sql_file} | mysql --defaults-extra-file=${mysql_conf} --database=${mysql_dbname}
+zcat ${semmed_dir}/${generic_concept_sql_file} | mysql --defaults-extra-file=${mysql_conf} --database=${mysql_dbname}
+zcat ${semmed_dir}/${predication_sql_file} | mysql --defaults-extra-file=${mysql_conf} --database=${mysql_dbname}
+zcat ${semmed_dir}/${predication_aux_sql_file} | mysql --defaults-extra-file=${mysql_conf} --database=${mysql_dbname}
+zcat ${semmed_dir}/${sentence_sql_file} | mysql --defaults-extra-file=${mysql_conf} --database=${mysql_dbname}
 
 if [[ "${build_flag}" == "test" || "${build_flag}" == 'alltest' ]]
 then
