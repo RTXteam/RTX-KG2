@@ -69,6 +69,8 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/save_owl_datatypeproperties.py \
            ${BUILD_DIR}/umls-omim.owl \
            --outputFile ${node_datatype_properties_file}
 
+${s3_cp_cmd} s3://${s3_bucket}/foodon.pickle ${BUILD_DIR}/
+
 ## run the multi_ont_to_json_kg.py script
 cd ${BUILD_DIR} && ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/multi_ont_to_json_kg.py \
            ${test_arg} \
