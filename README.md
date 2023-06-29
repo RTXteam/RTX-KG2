@@ -186,7 +186,7 @@ running **Ubuntu 18.04**.  Your build environment should have the following
 - if you are on the RTX-KG2 team: ideally your build system should be in the AWS
   region `us-west-2` since that is where the RTX KG2 S3 buckets are located
 
-## The KG2 build system assumes there is no MySQL database already present
+## The KG2 build system assumes there is no MySQL already installed
 
 The target Ubuntu system in which you will run the KG2 build should *not* have
 MySQL installed; if MySQL is already installed, you will need to delete it,
