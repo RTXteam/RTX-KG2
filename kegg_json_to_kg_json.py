@@ -21,12 +21,12 @@ __maintainer__ = ''
 __email__ = ''
 __status__ = 'Prototype'
 
-KEGG_COMPOUND_PREFIX = 'cpd:'
-KEGG_PATHWAY_PREFIX = 'hsa'
+KEGG_COMPOUND_PREFIX = re.compile(r'(cpd:|C)')
+KEGG_PATHWAY_PREFIX = re.compile(r'(hsa)')
 KEGG_ENZYME_PREFIX = re.compile(r'[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')
-KEGG_GLYCAN_PREFIX = 'gl:'
-KEGG_DRUG_PREFIX = 'dr:'
-KEGG_REACTION_PREFIX = 'R'
+KEGG_GLYCAN_PREFIX = re.compile(r'(gl:|G)')
+KEGG_DRUG_PREFIX = re.compile(r'(dr:|D)')
+KEGG_REACTION_PREFIX = re.compile(r'(R)')
 
 KEGG_PATHWAY_CURIE_PREFIX = kg2_util.CURIE_PREFIX_KEGG
 KEGG_COMPOUND_CURIE_PREFIX = kg2_util.CURIE_PREFIX_KEGG_COMPOUND
@@ -271,7 +271,7 @@ def get_node_basics(data_dict):
 
 
 def process_compound(compound_dict, kegg_id, update_date):
-    node_id = kegg_id.replace(KEGG_COMPOUND_PREFIX, '')
+    node_id = kegg_id.replace('cpd:', '')
     node_name, synonym, processed_xrefs = get_node_basics(compound_dict)
 
     enzymes = pull_out_enzymes(compound_dict)
@@ -328,7 +328,7 @@ def process_reaction(reaction_dict, kegg_id, update_date):
 
 
 def process_pathway(pathway_dict, kegg_id, update_date):
-    node_id = kegg_id.replace(KEGG_PATHWAY_PREFIX, '')
+    node_id = kegg_id.replace('hsa', '')
     node_name, synonym, processed_xrefs = get_node_basics(pathway_dict)
     compounds = pull_out_compounds(pathway_dict)
     drugs = pull_out_drugs(pathway_dict)
@@ -365,7 +365,7 @@ def process_pathway(pathway_dict, kegg_id, update_date):
 
 
 def process_drug(drug_dict, kegg_id, update_date):
-    node_id = kegg_id.replace(KEGG_DRUG_PREFIX, '')
+    node_id = kegg_id.replace('dr:', '')
     node_name, synonym, processed_xrefs = get_node_basics(drug_dict)
     description = drug_dict.get('COMMENT', '')
     if isinstance(description, list):
@@ -388,7 +388,7 @@ def process_drug(drug_dict, kegg_id, update_date):
 
 
 def process_glycan(glycan_dict, kegg_id, update_date):
-    node_id = kegg_id.replace(KEGG_GLYCAN_PREFIX, '')
+    node_id = kegg_id.replace('gl:', '')
     node_name, synonym, processed_xrefs = get_node_basics(glycan_dict)
     reactions = pull_out_reactions(glycan_dict)
     pathways = pull_out_pathways(glycan_dict)
@@ -474,23 +474,23 @@ def make_kg2_graph(kegg, update_date):
         if kegg_id == 'info':
             continue
         kegg_dict = kegg[kegg_id]
-        if kegg_id.startswith(KEGG_COMPOUND_PREFIX):
+        if KEGG_COMPOUND_PREFIX.match(kegg_id) is not None:
             node, compound_edges = process_compound(kegg_dict, kegg_id, update_date)
             nodes.append(node)
             edges += compound_edges
-        if kegg_id.startswith(KEGG_REACTION_PREFIX):
+        if KEGG_REACTION_PREFIX.match(kegg_id) is not None:
             node, reaction_edges = process_reaction(kegg_dict, kegg_id, update_date)
             nodes.append(node)
             edges += reaction_edges
-        if kegg_id.startswith(KEGG_PATHWAY_PREFIX):
+        if KEGG_PATHWAY_PREFIX.match(kegg_id) is not None:
             node, pathway_edges = process_pathway(kegg_dict, kegg_id, update_date)
             nodes.append(node)
             edges += pathway_edges
-        if kegg_id.startswith(KEGG_DRUG_PREFIX):
+        if KEGG_DRUG_PREFIX.match(kegg_id) is not None:
             node, drug_edges = process_drug(kegg_dict, kegg_id, update_date)
             nodes.append(node)
             edges += drug_edges
-        if kegg_id.startswith(KEGG_GLYCAN_PREFIX):
+        if KEGG_GLYCAN_PREFIX.match(kegg_id) is not None:
             node, glycan_edges = process_glycan(kegg_dict, kegg_id, update_date)
             nodes.append(node)
             edges += glycan_edges
