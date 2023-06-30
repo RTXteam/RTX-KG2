@@ -194,9 +194,10 @@ CHEBI:is_tautomer_of:
   core_predicate: biolink:close_match
 CHEMBL.MECHANISM:activator: 
   operation: keep  
-  core_predicate: biolink:regulates
+  core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
+    - object_aspect: activity
     - object_direction: increased
 CHEMBL.MECHANISM:agonist:
   operation: keep
@@ -224,8 +225,8 @@ CHEMBL.MECHANISM:antisense_inhibitor:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    - object_aspect: degradation
+    - object_direction: increased
 CHEMBL.MECHANISM:binding_agent:
   operation: keep
   core_predicate: biolink:physically_interacts_with
@@ -347,11 +348,12 @@ CHEMBL.MECHANISM:releasing_agent:
     - object_aspect: activity
     - object_direction: increased
 CHEMBL.MECHANISM:rnai_inhibitor:
- operation: keep
- core_predicate: biolink:regulates
- qualified_predicate: biolink:causes
- qualifiers:
-   - object_direction: decreased
+  operation: keep
+  core_predicate: biolink:affects
+  qualified_predicate: biolink:causes
+  qualifiers:
+    - object_aspect: abundance
+    - object_direction: decreased
 CHEMBL.MECHANISM:vaccine_antigen:
   operation: keep
   core_predicate: biolink:related_to
@@ -392,1008 +394,13 @@ CL:lacks_part:
 CL:lacks_plasma_membrane_part:
   operation: keep
   core_predicate: biolink:lacks_part
-# CPT:has_add_on_code:
-#   operation: keep
-#   core_predicate: biolink:related_to
-# CPT:mapped_to:
-#   operation: keep
-#   core_predicate: biolink:related_to
-# CPT:panel_element_of:
-#   operation: invert
-#   core_predicate: biolink:has_part
-# CPT:panel_element_of_possibly_included:
-#   operation: invert
-#   core_predicate: biolink:has_part
-# CTD:affects_ADP-ribosylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_N-linked_glycosylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_O-linked_glycosylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_RNA_splicing:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: splicing
-# CTD:affects_abundance_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:affects
-#   qualifiers:
-#     - object_aspect: abundance
-# CTD:affects_acetylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_acylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_alkylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_amination:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-CTD:affects_binding:
-  operation: keep
-  core_predicate: biolink:directly_physically_interacts_with
-# CTD:affects_carbamoylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_carboxylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_cleavage:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: degradation
-# CTD:affects_degradation_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: degradation
-# CTD:affects_ethylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_export:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: secretion
-# CTD:affects_farnesylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_folding_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:affects
-#   qualifiers:
-#     - object_aspect: folding
-# CTD:affects_geranoylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_glucuronidation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_glutathionylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_glycation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_glycosylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_hydrolysis:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: degradation
-# CTD:affects_hydroxylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_import:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: uptake
-# CTD:affects_lipidation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-CTD:affects_localization_of:
-  operation: keep
-  core_predicate: biolink:affects
-  qualified_predicate: biolink:affects
-  qualifiers:
-  - object_aspect: localization
-# CTD:affects_methylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_molecular_modification_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_mutation_rate_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: mutation_rate
-# CTD:affects_myristoylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_nitrosation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_nucleotidylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_oxidation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_palmitoylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_phosphorylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_prenylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_reduction:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_response_to:
-#   operation: keep
-#   core_predicate: biolink:affects_response_to
-# CTD:affects_ribosylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_secretion_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: secretion
-# CTD:affects_splicing_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: splicing
-# CTD:affects_sulfation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_sumoylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_synthesis_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: synthesis
-# CTD:affects_transport_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: transport
-# CTD:affects_ubiquitination:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-# CTD:affects_uptake_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: uptake
-# CTD:decreases_ADP-ribosylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_N-linked_glycosylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_O-linked_glycosylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_RNA_splicing:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: splicing
-#     - object_direction: decreased
-# CTD:decreases_acetylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_acylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_alkylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_amination:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_carbamoylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_carboxylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_cleavage:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: degradation
-#     - object_direction: decreased
-# CTD:decreases_degradation_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: degradation
-#     - object_direction: decreased
-# CTD:decreases_ethylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_export:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: secretion
-#     - object_direction: decreased
-CTD:decreases_expression_of:
-  operation: keep
-  core_predicate: biolink:affects
-  qualified_predicate: biolink:causes
-  qualifiers:
-  - object_aspect: expression
-  - object_direction: decreased
-# CTD:decreases_farnesylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_folding_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: folding
-#     - object_direction: decreased
-# CTD:decreases_geranoylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_glucuronidation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_glutathionylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_glycation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_glycosylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_hydrolysis:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: degradation
-#     - object_direction: decreased
-# CTD:decreases_hydroxylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_import:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: uptake
-#     - object_direction: decreased
-# CTD:decreases_lipidation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_localization_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: localization
-#     - object_direction: decreased
-# CTD:decreases_metabolic_processing_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: localization
-#     - object_direction: decreased
-# CTD:decreases_methylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_molecular_interaction_with:
-#   operation: keep
-#   core_predicate: biolink:physically_interacts_with
-# CTD:decreases_molecular_modification_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_mutagenesis:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: mutation_rate
-#     - object_direction: decreased
-# CTD:decreases_mutation_rate_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: mutation_rate
-#     - object_direction: decreased
-# CTD:decreases_myristoylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_nitrosation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_nucleotidylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_oxidation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_palmitoylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_phosphorylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_prenylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_reduction:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_response_to:
-#   operation: keep
-#   core_predicate: biolink:decreases_response_to
-# CTD:decreases_response_to_substance:
-#   operation: keep
-#   core_predicate: biolink:decreases_response_to
-# CTD:decreases_ribosylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_secretion_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: secretion
-#     - object_direction: decreased
-# CTD:decreases_splicing_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: splicing
-#     - object_direction: decreased
-# CTD:decreases_stability_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: stability
-#     - object_direction: decreased
-# CTD:decreases_sulfation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_sumoylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_transport_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: transport
-#     - object_direction: decreased
-# CTD:decreases_ubiquitination:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
-# CTD:decreases_uptake_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: uptake
-#     - object_direction: decreased
-# CTD:increases_ADP-ribosylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_N-linked_glycosylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_O-linked_glycosylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_RNA_splicing:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: splicing
-#     - object_direction: increased
-# CTD:increases_acetylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_acylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_alkylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_amination:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_carbamoylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_carboxylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_cleavage:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: degradation
-#     - object_direction: increased
-# CTD:increases_ethylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_export:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: secretion
-#     - object_direction: increased
 CTD:increases_expression_of:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-  - object_aspect: expression
-  - object_direction: increased
-# CTD:increases_farnesylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_folding_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: folding
-#     - object_direction: increased
-# CTD:increases_geranoylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_glucuronidation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_glutathionylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_glycation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_glycosylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_hydrolysis:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: degradation
-#     - object_direction: increased
-# CTD:increases_hydroxylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_import:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: uptake
-#     - object_direction: increased
-# CTD:increases_lipidation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_localization_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: localization
-#     - object_direction: increased
-# CTD:increases_metabolic_processing_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: localization
-#     - object_direction: increased
-# CTD:increases_methylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_molecular_interaction_with:
-#   operation: keep
-#   core_predicate: biolink:physically_interacts_with
-# CTD:increases_molecular_modification_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_mutagenesis:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: mutation_rate
-#     - object_direction: increased
-# CTD:increases_mutation_rate_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: mutation_rate
-#     - object_direction: increased
-# CTD:increases_myristoylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_nitrosation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_nucleotidylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_oxidation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_palmitoylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_phosphorylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_prenylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_reduction:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_response_to:
-#   operation: keep
-#   core_predicate: biolink:increases_response_to
-# CTD:increases_ribosylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_secretion_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: secretion
-#     - object_direction: increased
-# CTD:increases_splicing_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: splicing
-#     - object_direction: increased
-# CTD:increases_sulfation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_sumoylation:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_synthesis_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: synthesis
-#     - object_direction: increased
-# CTD:increases_ubiquitination:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: increased
-# CTD:increases_uptake_of:
-#   operation: keep
-#   core_predicate: biolink:affects
-#   qualified_predicate: biolink:causes
-#   qualifiers:
-#     - object_aspect: uptake
-#     - object_direction: increased
-# CTD:inferred:
-#   operation: keep
-#   core_predicate: biolink:affects
-# CTD:marker_mechanism:
-#   operation: keep
-#   core_predicate: biolink:contributes_to
-# CTD:negative_correlation:
-#   operation: keep
-#   core_predicate: biolink:negatively_correlated_with
-# CTD:positive_correlation:
-#   operation: keep
-#   core_predicate: biolink:positively_correlated_with
-# CTD:prediction_hypothesis:
-#   operation: keep
-#   core_predicate: biolink:affects
+    - object_aspect: expression
+    - object_direction: increased
 DDANAT:develops_from:
   operation: keep
   core_predicate: biolink:develops_from
@@ -1509,9 +516,6 @@ DGIdb:inverse_agonist:
 DGIdb:modulator:
   operation: keep
   core_predicate: biolink:affects
-  qualified_predicate: biolink:affects
-  qualifiers:
-    - object_aspect: activity
 # DGIdb:multitarget:
 #   operation: keep
 #   core_predicate: biolink:directly_physically_interacts_with
@@ -1589,9 +593,10 @@ DGIdb:vaccine:
 #   core_predicate: biolink:has_phenotype
 DRUGBANK:activator:
   operation: keep
-  core_predicate: biolink:regulates
+  core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
+    - object_aspect: activity
     - object_direction: increased
 # DRUGBANK:adduct:
 #   operation: keep
@@ -1647,8 +652,10 @@ DRUGBANK:binding:
   core_predicate: biolink:physically_interacts_with
 DRUGBANK:blocker:
   operation: keep
-  core_predicate: biolink:regulates
+  core_predicate: biolink:affects
+  qualified_predicate: biolink:causes
   qualifiers:
+    - object_aspect: activity_or_abundance
     - object_direction: decreased
 DRUGBANK:category:
   operation: keep
@@ -1692,7 +699,7 @@ DRUGBANK:downregulator:
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: decreased
+    - object_direction: downregulated
 DRUGBANK:drug-interaction:
   operation: keep
   core_predicate: biolink:physically_interacts_with
@@ -1710,9 +717,10 @@ DRUGBANK:group:
   core_predicate: biolink:related_to
 DRUGBANK:inactivator:
   operation: keep
-  core_predicate: biolink:regulates
+  core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
+    - object_aspect: activity
     - object_direction: decreased
 DRUGBANK:incorporation_into_and_destabilization:
   operation: keep
@@ -1729,15 +737,17 @@ DRUGBANK:inducer:
     - object_direction: increased
 DRUGBANK:inhibition_of_synthesis:
   operation: keep
-  core_predicate: biolink:regulates
+  core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
+    - object_aspect: synthesis
     - object_direction: decreased
 DRUGBANK:inhibitor:
   operation: keep
-  core_predicate: biolink:regulates
+  core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
+    - object_aspect: activity
     - object_direction: decreased
 DRUGBANK:inhibitory_allosteric_modulator:
   operation: keep
@@ -1761,15 +771,16 @@ DRUGBANK:ligand:
   core_predicate: biolink:directly_physically_interacts_with
 DRUGBANK:modulator:
   operation: keep
-  core_predicate: biolink:regulates
+  core_predicate: biolink:affects
 DRUGBANK:multitarget:
   operation: keep
   core_predicate: biolink:directly_physically_interacts_with
 DRUGBANK:negative_modulator:
   operation: keep
-  core_predicate: biolink:regulates
+  core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
+    - object_aspect: activity
     - object_direction: decreased
 DRUGBANK:neutralizer:
   operation: keep
@@ -1864,18 +875,20 @@ DRUGBANK:target:
   core_predicate: biolink:physically_interacts_with
 DRUGBANK:translocation_inhibitor:
   operation: keep
-  core_predicate: biolink:regulates
+  core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
+    - object_aspect: activity
     - object_direction: decreased
 # DRUGBANK:treats:
 #   operation: keep
 #   core_predicate: biolink:treats
 DRUGBANK:weak_inhibitor:
   operation: keep
-  core_predicate: biolink:regulates
+  core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
+    - object_aspect: activity
     - object_direction: decreased
 # DrugCentral:5271:
 #   operation: keep
@@ -1887,9 +900,10 @@ DrugCentral:PA:
   core_predicate: biolink:subclass_of
 DrugCentral:activator:
   operation: keep
-  core_predicate: biolink:regulates
+  core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
+    - object_aspect: activity
     - object_direction: increased
 DrugCentral:agonist:
   operation: keep
@@ -1933,8 +947,10 @@ DrugCentral:binding_agent:
   core_predicate: biolink:directly_physically_interacts_with
 DrugCentral:blocker:
   operation: keep
-  core_predicate: biolink:regulates
+  core_predicate: biolink:affects
+  qualified_predicate: biolink:causes
   qualifiers:
+    - object_aspect: activity_or_abundance
     - object_direction: decreased
 DrugCentral:contraindication:
   operation: keep
@@ -1954,8 +970,10 @@ DrugCentral:indication:
   core_predicate: biolink:treats
 DrugCentral:inhibitor:
   operation: keep
-  core_predicate: biolink:regulates
+  core_predicate: biolink:affects
+  qualified_predicate: biolink:causes
   qualifiers:
+    - object_aspect: activity_or_abundance
     - object_direction: decreased
 DrugCentral:inverse_agonist:
   operation: keep
@@ -1966,16 +984,16 @@ DrugCentral:inverse_agonist:
     - object_direction: decreased
 DrugCentral:modulator:
   operation: keep
-  core_predicate: biolink:regulates
+  core_predicate: biolink:affects
 DrugCentral:negative_allosteric_modulator:
   operation: keep
-  core_predicate: biolink:regulates
+  core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: decreased
 DrugCentral:negative_modulator:
   operation: keep
-  core_predicate: biolink:regulates
+  core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: decreased
@@ -2008,9 +1026,10 @@ DrugCentral:positive_allosteric_modulator:
     - object_direction: increased
 DrugCentral:positive_modulator:
   operation: keep
-  core_predicate: biolink:regulates
+  core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
+    - object_aspect: activity
     - object_direction: increased
 DrugCentral:releasing_agent:
   operation: keep
@@ -2458,7 +1477,7 @@ GO:acts_upstream_of_negative_effect:
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: decreased
+    - object_direction: downregulated
 GO:acts_upstream_of_or_within:
   operation: keep
   core_predicate: biolink:affects
@@ -2473,12 +1492,14 @@ GO:acts_upstream_of_or_within_positive_effect:
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
+    - object_aspect: activity
     - object_direction: increased
 GO:acts_upstream_of_positive_effect:
   operation: keep
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
+    - object_aspect: activity
     - object_direction: increased
 GO:colocalizes_with:
   operation: keep
@@ -2526,13 +1547,13 @@ GO:negatively_regulated_by:
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: decreased
+    - object_direction: downregulated
 GO:negatively_regulates:
   operation: keep
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: decreased
+    - object_direction: downregulated
 GO:occurs_in:
   operation: keep
   core_predicate: biolink:occurs_in
@@ -2544,13 +1565,13 @@ GO:positively_regulated_by:
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: increased
+    - object_direction: upregulated
 GO:positively_regulates:
   operation: keep
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: increased
+    - object_direction: upregulated
 GO:regulated_by:
   operation: invert
   core_predicate: biolink:regulates
@@ -3977,16 +2998,16 @@ OBO:bspo#parallel_to:
 #   core_predicate: biolink:has_phenotype
 OBO:envo#has_increased_levels_of:
   operation: keep
-  core_predicate: biolink:related_to
+  core_predicate: biolink:affects
 OBO:exo#interacts_with:
   operation: keep
-  core_predicate: biolink:interacts_with
+  core_predicate: biolink:indirectly_physically_interacts_with
 OBO:exo#interacts_with_an_exposure_receptor_via:
   operation: keep
-  core_predicate: biolink:interacts_with
+  core_predicate: biolink:indirectly_physically_interacts_with
 OBO:exo#interacts_with_an_exposure_stressor_via:
   operation: keep
-  core_predicate: biolink:interacts_with
+  core_predicate: biolink:indirectly_physically_interacts_with
 # OBO:exo.obo#interacts_with:
 #   operation: keep
 #   core_predicate: biolink:interacts_with
@@ -4026,8 +3047,8 @@ OMIM:has_inheritance_type:
   operation: keep
   core_predicate: biolink:related_to
 OMIM:has_manifestation:
-  operation: invert
-  core_predicate: biolink:manifestation_of
+  operation: keep
+  core_predicate: biolink:superclass_of
 OMIM:has_phenotype:
   operation: keep
   core_predicate: biolink:has_phenotype
@@ -4222,7 +3243,7 @@ REACT:has_output:
 REACT:in_species:
   operation: keep
   core_predicate: biolink:occurs_in
-REACT:is_requirement_for:
+REACT:is_requirement_for:  # SAR: not sure if this is correct; need to look into it
   operation: keep
   core_predicate: biolink:regulates
 REACT:linked_to_disease:
@@ -4233,25 +3254,25 @@ REACT:negatively_regulates:
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: decreased
+    - object_direction: downregulated
 REACT:negatively_regulates_gene_expression:
   operation: keep
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: decreased
+    - object_direction: downregulated
 REACT:positively_regulates:
   operation: keep
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: increased
+    - object_direction: upregulated
 REACT:positively_regulates_gene_expression:
   operation: keep
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: increased
+    - object_direction: upregulated
 REACT:related_to:
   operation: keep
   core_predicate: biolink:related_to
@@ -4408,18 +3429,18 @@ RO:0002101:
 RO:0002102:
   operation: keep
   core_predicate: biolink:overlaps
-RO:0002103:
+RO:0002103:  # synapsed by
   operation: keep
-  core_predicate: biolink:interacts_with
+  core_predicate: biolink:physically_interacts_with
 RO:0002104:
   operation: keep
   core_predicate: biolink:has_plasma_membrane_part
-RO:0002120:
+RO:0002120:  # synapsed to
   operation: keep
-  core_predicate: biolink:interacts_with
-RO:0002130:
+  core_predicate: biolink:physically_interacts_with
+RO:0002130:  # has synaptic terminal in
   operation: keep
-  core_predicate: biolink:interacts_with
+  core_predicate: biolink:indirectly_physically_interacts_with
 RO:0002131:
   operation: keep
   core_predicate: biolink:overlaps
@@ -4471,16 +3492,16 @@ RO:0002203:
 RO:0002207:
   operation: keep
   core_predicate: biolink:develops_from
-RO:0002211:
+RO:0002211:  # regulates
   operation: keep
   core_predicate: biolink:regulates
-RO:0002212:
+RO:0002212:  # negatively regulates
   operation: keep
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
     - object_direction: downregulated
-RO:0002213:
+RO:0002213:  # positively regulates
   operation: keep
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
@@ -4555,10 +3576,10 @@ RO:0002285:
 RO:0002292:
   operation: invert
   core_predicate: biolink:expressed_in
-RO:0002295:
+RO:0002295: # results in developmental progression of
   operation: keep
   core_predicate: biolink:regulates
-RO:0002296:
+RO:0002296: # results in development of
   operation: keep
   core_predicate: biolink:has_output
 RO:0002297:
@@ -4610,7 +3631,7 @@ RO:0002332:
 # RO:0002333:
 #   operation: invert
 #   core_predicate: biolink:enables
-RO:0002334:
+RO:0002334: # regulated by
   operation: invert
   core_predicate: biolink:regulates
 RO:0002338:
@@ -4857,18 +3878,18 @@ RO:0002608:
 RO:0002610:
   operation: keep
   core_predicate: biolink:correlated_with
-RO:0002629:
+RO:0002629:  # directly positively regulates
   operation: keep
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-  - object_direction: increased
-RO:0002630:
+    - object_direction: upregulated
+RO:0002630:  # directly negatively regulates
   operation: keep
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-  - object_direction: decreased
+    - object_direction: downregulated
 RO:0003000:
   operation: keep
   core_predicate: biolink:produces
@@ -5029,19 +4050,19 @@ RO:0019000:
   operation: keep
   core_predicate: biolink:regulates
 # positively regulates characteristic
-RO:0019001:
+RO:0019001: 
   operation: keep
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-  - object_direction: increased
+    - object_direction: upregulated
 # negatively regulates characteristic
 RO:0019002:
   operation: keep
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-  - object_direction: decreased
+    - object_direction: downregulated
 RO:0040036:
   operation: delete
 # RO:HOM0000000:
@@ -5148,14 +4169,14 @@ SEMMEDDB:AUGMENTS:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity or abundance
+    - object_aspect: activity_or_abundance
     - object_direction: increased
 SEMMEDDB:augments:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity or abundance
+    - object_aspect: activity_or_abundance
     - object_direction: increased
 SEMMEDDB:CAUSES:
   operation: keep
@@ -5221,10 +4242,10 @@ SEMMEDDB:inhibits:
     - object_direction: decreased
 SEMMEDDB:INTERACTS_WITH:
   operation: keep
-  core_predicate: biolink:interacts_with
+  core_predicate: biolink:physically_interacts_with
 SEMMEDDB:interacts_with:
   operation: keep
-  core_predicate: biolink:interacts_with
+  core_predicate: biolink:physically_interacts_with
 SEMMEDDB:ISA:
   operation: keep
   core_predicate: biolink:subclass_of
@@ -5784,7 +4805,7 @@ rdfs:negatively_regulates:
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: decreased
+    - object_direction: downregulated
 rdfs:subClassOf: 
   operation: keep
   core_predicate: biolink:subclass_of
