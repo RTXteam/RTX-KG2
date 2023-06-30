@@ -348,7 +348,7 @@ def make_rel_key(subject_id: str,
                  ontology_id: str = None):
     key = subject_id + ';' + predicate_name + ';' + object_id
     if ontology_id is not None:
-        key += ';' + ontology_id
+        key += ';' + str(ontology_id)
     return key
 
 
