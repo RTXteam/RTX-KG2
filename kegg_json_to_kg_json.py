@@ -517,4 +517,4 @@ if __name__ == '__main__':
         update_date = kg2_util.convert_date(os.path.getmtime(args.inputFile))
         kegg = json.load(kegg_file)
     graph = make_kg2_graph(kegg, update_date)
-    kg2_util.save_json(graph, args.outputFile, True)
+    kg2_util.save_json(graph, args.outputFile, args.test)
