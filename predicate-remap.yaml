@@ -1590,7 +1590,6 @@ GOREL:0000040:
 GOREL:0002003:
   operation: keep
   core_predicate: biolink:affects
-  qualified_predicate: biolink:affects
   qualifiers:
     - object_aspect: localization
 GOREL:0002004:
