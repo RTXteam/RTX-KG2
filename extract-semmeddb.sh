@@ -31,7 +31,6 @@ semmed_output_dir=`dirname "${semmed_output_file}"`
 base_filename=semmed${semmed_ver}_${semmed_year}_R_
 
 citations_sql_file=${base_filename}CITATIONS.sql.gz
-entity_sql_file=${base_filename}ENTITY.sql.gz
 generic_concept_sql_file=${base_filename}GENERIC_CONCEPT.sql.gz
 predication_sql_file=${base_filename}PREDICATION.sql.gz
 predication_aux_sql_file=${base_filename}PREDICATION_AUX.sql.gz
@@ -58,9 +57,8 @@ tar -xf ${semmed_dir}/${semmed_dump}
 ## create the "semmeddb" database
     mysql --defaults-extra-file=${mysql_conf} \
           -e "CREATE DATABASE IF NOT EXISTS ${mysql_dbname} CHARACTER SET utf8 COLLATE utf8_unicode_ci"
-	
+
 zcat ${semmed_dir}/${citations_sql_file} | mysql --defaults-extra-file=${mysql_conf} --database=${mysql_dbname}
-zcat ${semmed_dir}/${entity_sql_file} | mysql --defaults-extra-file=${mysql_conf} --database=${mysql_dbname}
 zcat ${semmed_dir}/${generic_concept_sql_file} | mysql --defaults-extra-file=${mysql_conf} --database=${mysql_dbname}
 zcat ${semmed_dir}/${predication_sql_file} | mysql --defaults-extra-file=${mysql_conf} --database=${mysql_dbname}
 zcat ${semmed_dir}/${predication_aux_sql_file} | mysql --defaults-extra-file=${mysql_conf} --database=${mysql_dbname}
