@@ -174,7 +174,6 @@ def count_orphan_nodes(nodes: list, edges: list):
         nodes_on_edges.add(edges[edge_index].get('subject', ""))
         nodes_on_edges.add(edges[edge_index].get('object', ""))
         edges[edge_index] = dict()
-        if edge_index > 0 and edge_index % 1000000 == 0:
 
     for node in nodes:
         source = node[provided_by_label][0]
