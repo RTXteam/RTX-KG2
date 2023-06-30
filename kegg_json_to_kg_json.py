@@ -25,7 +25,7 @@ KEGG_PATHWAY_PREFIX = 'hsa'
 KEGG_ENZYME_PREFIX = 'ec:'
 KEGG_GLYCAN_PREFIX = 'gl:'
 KEGG_DRUG_PREFIX = 'dr:'
-KEGG_REACTION_PREFIX = 'rn:'
+KEGG_REACTION_PREFIX = 'R'
 
 KEGG_PATHWAY_CURIE_PREFIX = kg2_util.CURIE_PREFIX_KEGG
 KEGG_COMPOUND_CURIE_PREFIX = kg2_util.CURIE_PREFIX_KEGG_COMPOUND
@@ -257,11 +257,9 @@ def process_references(data_dict):
 
 
 def get_node_basics(data_dict):
-    # node_name returns a list type
-    node_name = data_dict.get('NAME', 'name')
-    synonym = [syn.replace(';', '').strip() for syn in node_name]
-    if synonym != []:
-        node_name = synonym.pop(0)
+    node_name = data_dict.get('name', '')
+    synonym = [syn.strip() for syn in node_name.split(';')]
+    node_name = synonym.pop(0)
     xrefs = data_dict.get('DBLINKS', '')
     if isinstance(xrefs, str):
         xrefs = [xrefs]
@@ -302,7 +300,7 @@ def process_compound(compound_dict, kegg_id, update_date):
 
 
 def process_reaction(reaction_dict, kegg_id, update_date):
-    node_id = kegg_id.replace(KEGG_REACTION_PREFIX, '')
+    node_id = kegg_id
     description = reaction_dict.get('DEFINITION', '').strip()
     node_name, synonym, xrefs = get_node_basics(reaction_dict)
     enzymes = pull_out_enzymes(reaction_dict)
