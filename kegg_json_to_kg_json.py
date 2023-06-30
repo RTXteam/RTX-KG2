@@ -10,6 +10,7 @@ import json
 import kg2_util
 import argparse
 import os
+import re
 
 __author__ = 'Erica Wood'
 __copyright__ = 'Oregon State University'
@@ -22,7 +23,7 @@ __status__ = 'Prototype'
 
 KEGG_COMPOUND_PREFIX = 'cpd:'
 KEGG_PATHWAY_PREFIX = 'hsa'
-KEGG_ENZYME_PREFIX = 'ec:'
+KEGG_ENZYME_PREFIX = re.compile(r'[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')
 KEGG_GLYCAN_PREFIX = 'gl:'
 KEGG_DRUG_PREFIX = 'dr:'
 KEGG_REACTION_PREFIX = 'R'
@@ -438,7 +439,7 @@ def pull_out_enzyme_reactions(data_dict):
 
 
 def process_enzyme(enzyme_dict, kegg_id, update_date):
-    node_id = kegg_id.replace(KEGG_ENZYME_PREFIX, '')
+    node_id = kegg_id
     node_name, synonym, processed_xrefs = get_node_basics(enzyme_dict)
     description = enzyme_dict.get('COMMENT', '')
     if isinstance(description, list):
@@ -493,7 +494,7 @@ def make_kg2_graph(kegg, update_date):
             node, glycan_edges = process_glycan(kegg_dict, kegg_id, update_date)
             nodes.append(node)
             edges += glycan_edges
-        if kegg_id.startswith(KEGG_ENZYME_PREFIX):
+        if KEGG_ENZYME_PREFIX.match(kegg_id) is not None:
             node, enzyme_edges = process_enzyme(kegg_dict, kegg_id, update_date)
             nodes.append(node)
             edges += enzyme_edges
@@ -516,4 +517,4 @@ if __name__ == '__main__':
         update_date = kg2_util.convert_date(os.path.getmtime(args.inputFile))
         kegg = json.load(kegg_file)
     graph = make_kg2_graph(kegg, update_date)
-    kg2_util.save_json(graph, args.outputFile, args.test)
+    kg2_util.save_json(graph, args.outputFile, True)
