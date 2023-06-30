@@ -21,7 +21,7 @@ __email__ = ''
 __status__ = 'Prototype'
 
 KEGG_COMPOUND_PREFIX = 'cpd:'
-KEGG_PATHWAY_PREFIX = 'path:'
+KEGG_PATHWAY_PREFIX = 'hsa'
 KEGG_ENZYME_PREFIX = 'ec:'
 KEGG_GLYCAN_PREFIX = 'gl:'
 KEGG_DRUG_PREFIX = 'dr:'
