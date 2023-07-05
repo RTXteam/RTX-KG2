@@ -19,6 +19,8 @@ source ${config_dir}/master-config.shinc
 echo "================= starting run-validation-tests.sh ================="
 date
 
+export PATH=$PATH:${BUILD_DIR}
+
 biolink_base_url_no_version=https://raw.githubusercontent.com/biolink/biolink-model/
 biolink_raw_base_url=${biolink_base_url_no_version}v${biolink_model_version}/
 curies_urls_map_replace_string="\    biolink_download_source: ${biolink_raw_base_url}"
@@ -44,6 +46,11 @@ then
 else
     python_command="python"
 fi
+
+rm -f ${biolink_model_owl_local_file}
+rm -f ${biolink_model_yaml_local_file}
+
+cd ${BUILD_DIR}
 
 ${python_command} -u ${CODE_DIR}/validate_curies_to_categories_yaml.py \
            ${curies_to_categories_file} \
