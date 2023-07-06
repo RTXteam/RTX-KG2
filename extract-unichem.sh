@@ -19,8 +19,8 @@ unichem_dir=${BUILD_DIR}/unichem
 unichem_output_dir=`dirname ${output_tsv_file}`
 unichem_ftp_site=ftp://ftp.ebi.ac.uk/pub/databases/chembl/UniChem/data/table_dumps
 
-uc_xref_filename=reference.txt.gz
-uc_source_filename=source.txt.gz
+uc_xref_filename=reference.tsv.gz
+uc_source_filename=source.tsv.gz
 
 rm -r -f ${unichem_dir}
 mkdir -p ${unichem_dir}
@@ -29,12 +29,12 @@ mkdir -p ${unichem_output_dir}
 ${curl_get} ${unichem_ftp_site}/${uc_xref_filename} -o ${unichem_dir}/${uc_xref_filename}
 ${curl_get} ${unichem_ftp_site}/${uc_source_filename} -o ${unichem_dir}/${uc_source_filename}
 
-chembl_src_id=`zcat ${unichem_dir}/UC_SOURCE.txt.gz | awk '{if ($2 == "chembl") {printf "%s", $1}}'`
-chebi_src_id=`zcat ${unichem_dir}/UC_SOURCE.txt.gz | awk '{if ($2 == "chebi") {printf "%s", $1}}'`
-drugbank_src_id=`zcat ${unichem_dir}/UC_SOURCE.txt.gz | awk '{if ($2 == "drugbank") {printf "%s", $1}}'`
-kegg_src_id=`zcat ${unichem_dir}/UC_SOURCE.txt.gz | awk '{if ($2 == "kegg_ligand") {printf "%s", $1}}'`
-drugcentral_src_id=`zcat ${unichem_dir}/UC_SOURCE.txt.gz | awk '{if ($2 == "drugcentral") {printf "%s", $1}}'`
-hmdb_src_id=`zcat ${unichem_dir}/UC_SOURCE.txt.gz | awk '{if ($2 == "hmdb") {printf "%s", $1}}'`
+chembl_src_id=`zcat ${unichem_dir}/${uc_source_filename} | awk '{if ($2 == "chembl") {printf "%s", $1}}'`
+chebi_src_id=`zcat ${unichem_dir}/${uc_source_filename} | awk '{if ($2 == "chebi") {printf "%s", $1}}'`
+drugbank_src_id=`zcat ${unichem_dir}/${uc_source_filename} | awk '{if ($2 == "drugbank") {printf "%s", $1}}'`
+kegg_src_id=`zcat ${unichem_dir}/${uc_source_filename} | awk '{if ($2 == "kegg_ligand") {printf "%s", $1}}'`
+drugcentral_src_id=`zcat ${unichem_dir}/${uc_source_filename} | awk '{if ($2 == "drugcentral") {printf "%s", $1}}'`
+hmdb_src_id=`zcat ${unichem_dir}/${uc_source_filename} | awk '{if ($2 == "hmdb") {printf "%s", $1}}'`
 
 zcat ${unichem_dir}/${uc_xref_filename} | awk '{if ($2 == '${chebi_src_id}') {print $1 "\tCHEBI:" $3}}' | sort -k1 > ${unichem_dir}/chebi.txt
 zcat ${unichem_dir}/${uc_xref_filename} | awk '{if ($2 == '${chembl_src_id}') {print $1 "\tCHEMBL.COMPOUND:" $3}}' | sort -k1 > ${unichem_dir}/chembl.txt
