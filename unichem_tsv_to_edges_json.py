@@ -69,7 +69,7 @@ if __name__ == '__main__':
 
     unichem_kp_node = kg2_util.make_node(UNICHEM_KB_CURIE,
                                          UNICHEM_KB_IRI,
-                                         "UniChem database v" + version,
+                                         "UniChem database",
                                          kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
                                          update_date,
                                          UNICHEM_KB_CURIE)
