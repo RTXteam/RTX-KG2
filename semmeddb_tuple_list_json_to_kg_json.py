@@ -230,7 +230,7 @@ if __name__ == '__main__':
                                                        name=predicate.lower(),
                                                        category_label=kg2_util.BIOLINK_CATEGORY_NAMED_THING,
                                                        update_date=curr_timestamp,
-                                                       knowledge_source=SEMMEDDB_CURIE_PREFIX + ':')
+                                                       provided_by=SEMMEDDB_CURIE_PREFIX + ':')
 
     del input_data
 
@@ -241,7 +241,7 @@ if __name__ == '__main__':
         name='Semantic Medline Database (SemMedDB) v' + version_number,
         category_label=kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
         update_date=update_date_dt.strftime('%Y-%m-%d %H:%M:%S'),
-        knowledge_source=semmeddb_kb_curie_id)
+        provided_by=semmeddb_kb_curie_id)
 
     out_graph = {'edges': [rel_dict for rel_dict in edges_dict.values()],
                  'nodes': [node_dict for node_dict in nodes_dict.values()]}
