@@ -96,7 +96,7 @@ if __name__ == '__main__':
     kp_node = kg2_util.make_node(DISGENET_KB_CURIE,
                                  DISGENET_BASE_IRI,
                                  "DisGeNET",
-                                 kg2_util.BIOLINK_CATEGORY_RETRIEVAL_SOURCE,
+                                 kg2_util.SOURCE_NODE_CATEGORY,
                                  None,
                                  DISGENET_KB_CURIE)
     nodes.append(kp_node)

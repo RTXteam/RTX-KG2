@@ -202,6 +202,9 @@ BIOLINK_CATEGORY_RETRIEVAL_SOURCE = 'retrieval source'
 BIOLINK_CATEGORY_SMALL_MOLECULE = 'small molecule'
 BIOLINK_CATEGORY_TRANSCRIPT = 'transcript'
 
+# Since this has changed 2(?) times now, this will make it easier going forward if things change again
+SOURCE_NODE_CATEGORY = BIOLINK_CATEGORY_RETRIEVAL_SOURCE
+
 CURIE_ID_DCTERMS_ISSUED = CURIE_PREFIX_DCTERMS + ':' + 'issued'
 CURIE_ID_DISGENET = 'DisGeNET:'
 CURIE_ID_DRUGCENTRAL_SOURCE = CURIE_PREFIX_DRUGCENTRAL + ':'

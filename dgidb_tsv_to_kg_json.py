@@ -143,7 +143,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
     dgidb_kp_node = kg2_util.make_node(DGIDB_KB_CURIE,
                                        DGIDB_BASE_IRI,
                                        'The Drug Gene Interaction Database',
-                                       kg2_util.BIOLINK_CATEGORY_RETRIEVAL_SOURCE,
+                                       kg2_util.SOURCE_NODE_CATEGORY,
                                        update_date,
                                        DGIDB_KB_CURIE)
     nodes.append(dgidb_kp_node)

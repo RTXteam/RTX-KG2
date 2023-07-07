@@ -420,7 +420,7 @@ if __name__ == '__main__':
     ont_node = kg2_util.make_node(ontology_curie_id,
                                   UNIPROT_KB_URL,
                                   'UniProtKB v' + version,
-                                  kg2_util.BIOLINK_CATEGORY_RETRIEVAL_SOURCE,
+                                  kg2_util.SOURCE_NODE_CATEGORY,
                                   update_date,
                                   ontology_curie_id)
     nodes_list = [ont_node] + [node_dict for node_dict in nodes_dict.values()]
