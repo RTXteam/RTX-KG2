@@ -24,7 +24,8 @@ jobs:
       run: |
         ls
         git clone https://github.com/RTXteam/RTX-KG2
-        ls
+        cd RTX-KG2
+        pwd
         cd ~/RTX-KG2/
         bash -x ./setup-kg2-build.sh travisci
     - name: Run Tests
