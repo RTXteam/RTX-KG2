@@ -20,7 +20,7 @@ jobs:
     - name: Export Path
       run: |
         export PATH=$PATH:~/kg2-build/
-    - name: Setup KG2 Build
+    - name: Run Tests
       run: |
         ls
         ls /home/runner/work/
@@ -33,6 +33,7 @@ jobs:
         bash -x ./setup-kg2-build.sh travisci
     - name: Run Tests
       run: |
+        cd /home/runner/work/RTX-KG2/RTX-KG2/RTX-KG2
         bash -x ./run-validation-tests.sh travisci
         bash -x ./build-kg2-snakemake.sh all -n travisci
         bash -x ./build-kg2-snakemake.sh all -n travisci
