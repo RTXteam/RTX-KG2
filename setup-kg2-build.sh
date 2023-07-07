@@ -41,8 +41,9 @@ fi
 
 mkdir -p ${BUILD_DIR}
 setup_log_file=${BUILD_DIR}/setup-kg2-build${test_str}.log
-
+echo "Here"
 # {
+echo "Down here"
 echo "================= starting setup-kg2.sh ================="
 date
 
