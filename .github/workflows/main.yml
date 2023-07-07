@@ -23,6 +23,8 @@ jobs:
     - name: Setup KG2 Build
       run: |
         ls
+        ls /home/runner/work/
+        ls /home/runner/work/RTX-KG2/
         pwd
         git clone https://github.com/RTXteam/RTX-KG2
         cd RTX-KG2
