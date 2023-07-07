@@ -28,6 +28,7 @@ jobs:
         pwd
         git clone https://github.com/RTXteam/RTX-KG2
         cd RTX-KG2
+        git checkout kg2.8.4prep
         pwd
         bash -x ./setup-kg2-build.sh travisci
     - name: Run Tests
