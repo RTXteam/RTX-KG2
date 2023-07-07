@@ -145,7 +145,7 @@ def count_types_of_pairs_of_curies_for_equivs(edges: list):
     return collections.Counter(prefix_pairs_list)
 
 def get_sources(nodes: list):
-    return [node.get('name') for node in nodes if node.get('category_label') == 'information_resource']
+    return [node.get('name') for node in nodes if node.get('category_label') == BIOLINK_CATEGORY_RETRIEVAL_SOURCE]
 
 def get_deprecated_nodes(nodes: list):
     deprecated_nodes = dict()
