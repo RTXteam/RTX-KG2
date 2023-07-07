@@ -22,11 +22,6 @@ jobs:
         export PATH=$PATH:~/kg2-build/
     - name: Setup KG2 Build
       run: |
-        ls
-        git clone https://github.com/RTXteam/RTX-KG2
-        cd RTX-KG2
-        pwd
-        cd ~/RTX-KG2/
         bash -x ./setup-kg2-build.sh travisci
     - name: Run Tests
       run: |
