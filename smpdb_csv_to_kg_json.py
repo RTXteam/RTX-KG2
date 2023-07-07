@@ -1358,13 +1358,13 @@ def make_kg2_graph(smpdb_dir: str, test_mode: bool):
     smpdb_kp_node = kg2_util.make_node(SMPDB_PROVIDED_BY_CURIE_ID,
                                        SMPDB_KB_IRI,
                                        "Small Molecule Pathway Database",
-                                       kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
+                                       kg2_util.BIOLINK_CATEGORY_RETRIEVAL_SOURCE,
                                        csv_update_date,
                                        SMPDB_PROVIDED_BY_CURIE_ID)
     pw_kp_node = kg2_util.make_node(PW_PROVIDED_BY_CURIE_ID,
                                     PW_BASE_IRI,
                                     "PathWhiz",
-                                    kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
+                                    kg2_util.BIOLINK_CATEGORY_RETRIEVAL_SOURCE,
                                     csv_update_date,
                                     PW_PROVIDED_BY_CURIE_ID)
     nodes = []

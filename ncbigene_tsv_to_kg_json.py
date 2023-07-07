@@ -64,7 +64,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
     ens_kp_node = kg2_util.make_node(ontology_curie_id,
                                      NCBI_KB_URL,
                                      'NCBI Genes',
-                                     kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
+                                     kg2_util.BIOLINK_CATEGORY_RETRIEVAL_SOURCE,
                                      update_date,
                                      ontology_curie_id)
     nodes.append(ens_kp_node)

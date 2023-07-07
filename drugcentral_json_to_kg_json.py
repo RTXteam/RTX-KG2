@@ -301,7 +301,7 @@ if __name__ == '__main__':
         kp_node = kg2_util.make_node(DRUGCENTRAL_SOURCE,
                                      BASE_URL_DRUGCENTRAL,
                                      'DrugCentral v' + version_number,
-                                     kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
+                                     kg2_util.BIOLINK_CATEGORY_RETRIEVAL_SOURCE,
                                      update_date,
                                      DRUGCENTRAL_SOURCE)
         nodes.append(kp_node)
