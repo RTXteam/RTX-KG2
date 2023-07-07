@@ -14,6 +14,7 @@ assignees: ''
 - [ ] Check `~/kg2-build/setup-kg2-build.log` to ensure setup completed successfully 
 - [ ] Run a dry build using `bash -x ~/kg2-code/build-kg2-snakemake.sh all -F -n`
 - [ ] Check `~/kg2-build/build-kg2-snakemake-n.log` to ensure all rules are included
+- [ ] Run `touch ~/kg2-build/minor-release` for a minor release or `touch ~/kg2-build/major-release` for a major release. If you don't want to change the version number, ignore this step.
 - [ ] Initiate a screen session `screen -S buildkg2`
 - [ ] Start the build `bash -x ~/kg2-code/build-kg2-snakemake.sh all -F`
 - [ ] Verify build completed by checking `~/kg2-build/build-kg2-snakemake.log`
