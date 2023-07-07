@@ -19,10 +19,10 @@ build_flag=${1:-""}
 
 ## setup the shell variables for various directories
 config_dir=`dirname "$0"`
-# if [[ "${build_flag}" == "travisci" ]]
-# then
-#     sed -i "\@CODE_DIR=~/kg2-code@cCODE_DIR=/home/travis/build/RTXteam/RTX-KG2" ${config_dir}/master-config.shinc
-# fi
+if [[ "${build_flag}" == "travisci" ]]
+then
+    sed -i "\@CODE_DIR=~/kg2-code@cCODE_DIR=/home/runner/work/RTX-KG2/RTX-KG2/RTX-KG2" ${config_dir}/master-config.shinc
+fi
 source ${config_dir}/master-config.shinc
 
 if [[ "${build_flag}" != "test" ]]
