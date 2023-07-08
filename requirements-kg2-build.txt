@@ -23,7 +23,7 @@ jsonlines==3.0.0
 jsonpickle==1.0.0
 kgx==1.5.6
 lockfile==0.12.2
-marshmallow==3.0.0b11
+marshmallow==3.19.0
 mysqlclient==1.4.4
 neo4j==4.3
 networkx==2.5
