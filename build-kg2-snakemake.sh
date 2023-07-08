@@ -69,8 +69,8 @@ touch ${build_kg2_log_file}
 if [[ "${travisci_flag}" == "travisci" ]]
 then
     trap "cat ${build_kg2_log_file}" EXIT
-fi
-{
+# fi
+# {
 echo "================= starting build-kg2-snakemake.sh =================="
 date
 
@@ -159,7 +159,7 @@ eval "$command"
 
 date
 echo "================ script finished ============================"
-} > ${build_kg2_log_file} 2>&1
+# } > ${build_kg2_log_file} 2>&1
 
 if [[ "${travisci_flag}" != "travisci" && "${dryrun}" != "-n" ]]
 then

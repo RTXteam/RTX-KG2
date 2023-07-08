@@ -20,7 +20,7 @@ jobs:
     - name: Export Path
       run: |
         export PATH=$PATH:~/kg2-build/
-    - name: Run Tests
+    - name: Setup KG2 Build
       run: |
         ls
         ls /home/runner/work/
