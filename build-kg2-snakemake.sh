@@ -68,7 +68,7 @@ build_kg2_log_file=${BUILD_DIR}/build-kg2-snakemake${dryrun}${test_suffix}.log
 touch ${build_kg2_log_file}
 if [[ "${ci_flag}" == "ci" ]]
 then
-    trap "cat ${build_kg2_log_file}" EXIT
+    trap "echo TESTLINETESTLINE && cat ${build_kg2_log_file}" EXIT
 fi
 {
 echo "================= starting build-kg2-snakemake.sh =================="
@@ -118,9 +118,9 @@ then
     sed -i '/\        shell("gzip -fk {input.simplified_output_nodes_file_full}")/d' ${CODE_DIR}/Snakefile-finish
     sed -i "/\        shell(config\['S3_CP_CMD'\] + ' {input.simplified_output_nodes_file_full}.gz s3:\/\/' + config\['S3_BUCKET'\])/d" ${CODE_DIR}/Snakefile-finish
 else
-        git fetch origin
-        git checkout -- ${CODE_DIR}/Snakefile-post-etl
-        git checkout -- ${CODE_DIR}/Snakefile-finish
+    git fetch origin
+    git checkout -- ${CODE_DIR}/Snakefile-post-etl
+    git checkout -- ${CODE_DIR}/Snakefile-finish
 fi
 
 echo configfile: \"${snakemake_config_file}\" > ${snakefile}
