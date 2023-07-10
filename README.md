@@ -1,4 +1,4 @@
-![Build Status]((https://github.com/RTXteam/RTX-KG2/actions/workflows/main.yml/badge.svg?branch=kg2.8.4prep_ci))
+![Build Status]((https://github.com/RTXteam/RTX-KG2/actions/workflows/main.yml/badge.svg?event=push))
 # KG2: the second-generation RTX knowledge graph
 
 KG2 is the second-generation knowledge graph for the
