@@ -44,7 +44,7 @@ setup_log_file=${BUILD_DIR}/setup-kg2-build${test_str}.log
 
 touch ${setup_log_file}
 
-if [[ "${ci_flag}" == "ci" ]]
+if [[ "${build_flag}" == "ci" ]]
 then
     trap "cat ${setup_log_file}" EXIT
 fi
