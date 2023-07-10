@@ -68,10 +68,9 @@ build_kg2_log_file=${BUILD_DIR}/build-kg2-snakemake${dryrun}${test_suffix}.log
 touch ${build_kg2_log_file}
 if [[ "${ci_flag}" == "ci" ]]
 then
-    trap "echo TESTLINETESTLINE && cat ${build_kg2_log_file} && exit 1" EXIT
+    trap "cat ${build_kg2_log_file}" EXIT
 fi
 
-echo "TESTIFINTRAP"
 {
 echo "================= starting build-kg2-snakemake.sh =================="
 date
