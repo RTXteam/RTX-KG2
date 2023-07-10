@@ -148,12 +148,7 @@ then
     echo 'include: "Snakefile-generate-nodes"' >> ${snakefile}
 fi
 
-if [[ "${travisci_flag}" != "travisci" ]]
-then
-    command="cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} ${run_flag} -R Finish -j 16 ${dryrun} ${graphic}"
-else
-    command="cd ~ && snakemake --snakefile ${snakefile} ${run_flag} -j 16 ${dryrun} ${graphic}"
-fi
+command="cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} ${run_flag} -R Finish -j 16 ${dryrun} ${graphic}"
 
 eval "$command"
 

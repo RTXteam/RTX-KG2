@@ -40,12 +40,7 @@ sed -i "\@${biolink_base_url_no_version}@c${ont_load_inventory_replace_string}" 
         ${ont_load_inventory_file}
 
 
-if [[ ${build_flag} != "travisci" ]]
-then
-    python_command="${VENV_DIR}/bin/python3"
-else
-    python_command="python"
-fi
+python_command="${VENV_DIR}/bin/python3"
 
 rm -f ${biolink_model_owl_local_file}
 rm -f ${biolink_model_yaml_local_file}
