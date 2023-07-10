@@ -24,7 +24,7 @@ jobs:
       run: |
         git clone https://github.com/RTXteam/RTX-KG2
         cd RTX-KG2
-        git checkout $GITHUB_BASE_REF
+        git checkout $GITHUB_REF_NAME
         bash -x ./setup-kg2-build.sh travisci
     - name: Run Tests
       run: |
