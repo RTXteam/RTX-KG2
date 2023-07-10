@@ -69,12 +69,12 @@ Here are the available options: (Format: `flag` [slots it works in, starting at 
 - `-R_*` [1-3]: This is our version of Snakemake's `-R` flag. However, rather than using it in the form `-R Rule` (ex. `-R Merge`), we add an underscore between them (`-R_Rule`) to simplify the command line options decoding process. This forces a rerun of all the rules that provide an input to the rule listed. For example, if you wanted to rerun all of the conversion rules, you might use `-R_Merge`. This one is more tricky to use and I'd recommend both reading up on what Snakemake says about it and doing dryruns until you get the effect you are looking for.
 - `-F` [1-3]: This flag forces a rerun of all of the rules that lead up to the first rule in the Snakefile, which is `Finish` and depends on all of the rules. Thus, this will rebuild everything.
 - `graphic` [1-3]: This flag generates the PNG diagram of the Snakemake workflow
-- `travisci` [3-5]: This flag should only be used in the `.travis.yml` file (for usage on a Travis CI instance). It ensures that the commands are configured to run on a Travis CI instance (where we can't use a virtualenv).
+- `ci` [3-5]: This flag should only be used in the `.github/workflows/main.yml` file (for usage on a GitHub Actions instance). It ensures that the commands are configured to run on a GitHub Actions instance (where certain paths are required to be different).
 
 Examples:
 
 - Bad: `bash -x build-kg2-snakemake.sh -n test` (`test` flag **must** be in position 1)
-- Good: `bash -x build-kg2-snakemake.sh all -F nodes -n travisci` (every flag is in an allowable position for it)
+- Good: `bash -x build-kg2-snakemake.sh all -F nodes -n ci` (every flag is in an allowable position for it)
 
 
 

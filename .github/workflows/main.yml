@@ -21,17 +21,17 @@ jobs:
         git clone https://github.com/RTXteam/RTX-KG2
         cd RTX-KG2
         git checkout $GITHUB_REF_NAME
-        bash -x ./setup-kg2-build.sh travisci
+        bash -x ./setup-kg2-build.sh ci
     - name: Run Tests
       run: |
         cd /home/runner/work/RTX-KG2/RTX-KG2/RTX-KG2
-        bash -x ./run-validation-tests.sh travisci
-        bash -x ./build-kg2-snakemake.sh all -n travisci
-        bash -x ./build-kg2-snakemake.sh all -n travisci
-        bash -x ./build-kg2-snakemake.sh all -n nodes travisci
-        bash -x ./build-kg2-snakemake.sh all -R_Merge -n travisci
-        bash -x ./build-kg2-snakemake.sh all -R_Finish -n travisci
-        bash -x ./build-kg2-snakemake.sh all -F -n travisci
-        bash -x ./build-kg2-snakemake.sh all -R_Merge -n nodes travisci
-        bash -x ./build-kg2-snakemake.sh all -R_Finish -n nodes travisci
-        bash -x ./build-kg2-snakemake.sh all -F -n nodes travisci
+        bash -x ./run-validation-tests.sh
+        bash -x ./build-kg2-snakemake.sh all -n ci
+        bash -x ./build-kg2-snakemake.sh all -n ci
+        bash -x ./build-kg2-snakemake.sh all -n nodes ci
+        bash -x ./build-kg2-snakemake.sh all -R_Merge -n ci
+        bash -x ./build-kg2-snakemake.sh all -R_Finish -n ci
+        bash -x ./build-kg2-snakemake.sh all -F -n ci
+        bash -x ./build-kg2-snakemake.sh all -R_Merge -n nodes ci
+        bash -x ./build-kg2-snakemake.sh all -R_Finish -n nodes ci
+        bash -x ./build-kg2-snakemake.sh all -F -n nodes ci

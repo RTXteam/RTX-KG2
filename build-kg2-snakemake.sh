@@ -7,12 +7,12 @@ set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     echo Usage: "$0 [test|alltest|all|-n|nodes|graphic|-R_*|-F] [-n|nodes|graphic|-R_*|-F] "
-    echo "[-n|nodes|graphic|-R_*|-F|travisci] [nodes|travisci|-n] [travisci]"
+    echo "[-n|nodes|graphic|-R_*|-F|ci] [nodes|ci|-n] [ci]"
     exit 2
 fi
 
 # Usage: build-kg2-snakemake.sh [test|alltest|all|-n|nodes|graphic|-R_*|-F] [-n|nodes|graphic|-R_*|-F] 
-#                               [-n|nodes|graphic|-R_*|-F|travisci] [nodes|travisci|-n] [travisci]
+#                               [-n|nodes|graphic|-R_*|-F|ci] [nodes|ci|-n] [ci]
 
 config_dir=`dirname "$0"`
 source ${config_dir}/master-config.shinc
@@ -23,10 +23,10 @@ tertiary_build_flag=${3-""}
 quaternary_build_flag=${4-""}
 quinary_build_flag=${5-""}
 
-travisci_flag=""
-if [[ "${tertiary_build_flag}" == "travisci" || "${quaternary_build_flag}" == "travisci" || "${quinary_build_flag}" == "travisci" ]]
+ci_flag=""
+if [[ "${tertiary_build_flag}" == "ci" || "${quaternary_build_flag}" == "ci" || "${quinary_build_flag}" == "ci" ]]
 then
-    travisci_flag="travisci"
+    ci_flag="ci"
 fi
 
 if [[ "${build_flag}" == "test" || "${build_flag}" == "alltest" ]]
@@ -66,18 +66,18 @@ fi
 
 build_kg2_log_file=${BUILD_DIR}/build-kg2-snakemake${dryrun}${test_suffix}.log
 touch ${build_kg2_log_file}
-if [[ "${travisci_flag}" == "travisci" ]]
+if [[ "${ci_flag}" == "ci" ]]
 then
     trap "cat ${build_kg2_log_file}" EXIT
 fi
-# {
+{
 echo "================= starting build-kg2-snakemake.sh =================="
 date
 
 snakemake_config_file=${CODE_DIR}/snakemake-config.yaml
 snakefile=${CODE_DIR}/Snakefile
 
-if [[ "${travisci_flag}" != "travisci" ]]
+if [[ "${ci_flag}" != "ci" ]]
 then
     ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/generate_snakemake_config_file.py ${test_arg} ${config_dir}/master-config.shinc \
                             ${CODE_DIR}/snakemake-config-var.yaml ${snakemake_config_file}
@@ -154,9 +154,9 @@ eval "$command"
 
 date
 echo "================ script finished ============================"
-# } > ${build_kg2_log_file} 2>&1
+} > ${build_kg2_log_file} 2>&1
 
-if [[ "${travisci_flag}" != "travisci" && "${dryrun}" != "-n" ]]
+if [[ "${ci_flag}" != "ci" && "${dryrun}" != "-n" ]]
 then
     ${s3_cp_cmd} ${build_kg2_log_file} s3://${s3_bucket_public}/
     ${s3_cp_cmd} ${build_kg2_log_file} s3://${s3_bucket_versioned}/

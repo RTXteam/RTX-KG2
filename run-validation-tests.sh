@@ -5,13 +5,11 @@
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0 [travisci]"
+    echo Usage: "$0"
     exit 2
 fi
 
 ## load the master config file
-
-build_flag=${1:-""}
 
 config_dir=`dirname "$0"`
 source ${config_dir}/master-config.shinc
