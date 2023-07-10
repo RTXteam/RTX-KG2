@@ -49,7 +49,7 @@ then
     trap "cat ${setup_log_file}" EXIT
 fi
 echo "TESTIFINTRAP"
-{
+# {
 echo "================= starting setup-kg2.sh ================="
 date
 
@@ -119,7 +119,7 @@ chmod +x ${BUILD_DIR}/robot
 ${curl_get} ${BUILD_DIR} https://github.com/RTXteam/owltools/releases/download/v0.3.0/owltools > ${BUILD_DIR}/owltools
 chmod +x ${BUILD_DIR}/owltools
 
-} >${setup_log_file} 2>&1
+# } >${setup_log_file} 2>&1
 
 if [[ "${build_flag}" != "ci" ]]
 then
@@ -131,7 +131,7 @@ then
     fi
 fi
 
-{
+# {
 RAPTOR_NAME=raptor2-2.0.15
 # setup raptor (used by the "checkOutputSyntax.sh" script in the umls2rdf package)
 ${curl_get} -o ${BUILD_DIR}/${RAPTOR_NAME}.tar.gz http://download.librdf.org/source/${RAPTOR_NAME}.tar.gz
@@ -180,7 +180,7 @@ fi
 date
 
 echo "================= script finished ================="
-} >> ${setup_log_file} 2>&1
+# } >> ${setup_log_file} 2>&1
 
 if [[ "${build_flag}" != "ci" ]]
 then
