@@ -79,14 +79,8 @@ date
 snakemake_config_file=${CODE_DIR}/snakemake-config.yaml
 snakefile=${CODE_DIR}/Snakefile
 
-if [[ "${ci_flag}" != "ci" ]]
-then
-    ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/generate_snakemake_config_file.py ${test_arg} ${config_dir}/master-config.shinc \
+${VENV_DIR}/bin/python3 -u ${CODE_DIR}/generate_snakemake_config_file.py ${test_arg} ${config_dir}/master-config.shinc \
                             ${CODE_DIR}/snakemake-config-var.yaml ${snakemake_config_file}
-else
-    python3 -u ${CODE_DIR}/generate_snakemake_config_file.py ${test_arg} ${config_dir}/master-config.shinc \
-            ${CODE_DIR}/snakemake-config-var.yaml ${snakemake_config_file}
-fi
 
 # Run snakemake from the virtualenv but run the snakefile in kg2-code
 # -F: Run all of the rules in the snakefile
