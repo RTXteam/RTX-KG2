@@ -70,6 +70,8 @@ if [[ "${ci_flag}" == "ci" ]]
 then
     trap "echo TESTLINETESTLINE && cat ${build_kg2_log_file}" EXIT
 fi
+
+echo "TESTIFINTRAP"
 {
 echo "================= starting build-kg2-snakemake.sh =================="
 date
