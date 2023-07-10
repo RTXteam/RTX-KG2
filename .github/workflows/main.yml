@@ -4,9 +4,9 @@ name: RTX-KG2 Continous Integration
 
 on:
   push:
-    branches: [ "master", "kg2.8.4prep_ci" ]
+    branches: [ "master", $GITHUB_REF_NAME ]
   pull_request:
-    branches: [ "master", "kg2.8.4prep_ci" ]
+    branches: [ "master", $GITHUB_REF_NAME ]
 
 permissions:
   contents: read
