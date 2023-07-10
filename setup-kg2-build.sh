@@ -4,24 +4,24 @@
 
 # Options:
 # ./setup-kg2-build.sh test       Generates a logfile `setup-kg2-build-test.log` instead of `setup-kg2-build.log`
-# ./setup-kg2-build.sh travisci   Accommodate Travis CI's special runtime environment
+# ./setup-kg2-build.sh ci   Accommodate Travis CI's special runtime environment
 
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0 [travisci|test]" 
+    echo Usage: "$0 [ci|test]" 
     exit 2
 fi
 
-# Usage: setup-kg2-build.sh [travisci|test]
+# Usage: setup-kg2-build.sh [ci|test]
 
 build_flag=${1:-""}
 
 ## setup the shell variables for various directories
 config_dir=`dirname "$0"`
-if [[ "${build_flag}" == "travisci" ]]
+if [[ "${build_flag}" == "ci" ]]
 then
-    sed -i "\@CODE_DIR=~/kg2-code@cCODE_DIR=/home/travis/build/RTXteam/RTX-KG2" ${config_dir}/master-config.shinc
+    sed -i "\@CODE_DIR=~/kg2-code@cCODE_DIR=/home/runner/work/RTX-KG2/RTX-KG2/RTX-KG2" ${config_dir}/master-config.shinc
 fi
 source ${config_dir}/master-config.shinc
 
@@ -34,14 +34,13 @@ fi
 
 mysql_user=ubuntu
 mysql_password=1337
-if [[ "${build_flag}" != "travisci" ]]
+if [[ "${build_flag}" != "ci" ]]
 then
     psql_user=ubuntu
 fi
 
 mkdir -p ${BUILD_DIR}
 setup_log_file=${BUILD_DIR}/setup-kg2-build${test_str}.log
-
 {
 echo "================= starting setup-kg2.sh ================="
 date
@@ -50,7 +49,7 @@ echo `hostname`
 
 ## sym-link into RTX-KG2/
 if [ ! -L ${CODE_DIR} ]; then
-    if [[ "${build_flag}" != "travisci" ]]
+    if [[ "${build_flag}" != "ci" ]]
     then
         ln -sf ~/RTX-KG2 ${CODE_DIR}
     fi
@@ -90,21 +89,15 @@ sudo apt-get install -y mysql-server \
      python3-mysqldb
 
 sudo service mysql start
-if [[ "${build_flag}" != "travisci" ]]
+if [[ "${build_flag}" != "ci" ]]
 then
     ## this is for convenience when I am remote working
     sudo apt-get install -y emacs
 fi
 
 # we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
-if [[ "${build_flag}" != "travisci" ]]
-then
-    source ${CODE_DIR}/setup-python37-with-pip3-in-ubuntu.shinc
-    ${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
-else
-    pip install -r ${CODE_DIR}/requirements-kg2-build.txt
-fi
-
+source ${CODE_DIR}/setup-python37-with-pip3-in-ubuntu.shinc
+${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
 
 ## install ROBOT (software: ROBOT is an OBO Tool) by downloading the jar file
 ## distribution and cURLing the startup script (note github uses URL redirection
@@ -120,7 +113,7 @@ chmod +x ${BUILD_DIR}/owltools
 
 } >${setup_log_file} 2>&1
 
-if [[ "${build_flag}" != "travisci" ]]
+if [[ "${build_flag}" != "ci" ]]
 then
     ## setup AWS CLI
     if ! ${s3_cp_cmd} s3://${s3_bucket}/test-file-do-not-delete /tmp/; then
@@ -143,7 +136,7 @@ make check
 sudo make install
 sudo ldconfig
 
-if [[ "${build_flag}" != "travisci" ]]
+if [[ "${build_flag}" != "ci" ]]
 then
     # setup MySQL
     MYSQL_PWD=${mysql_password} mysql -u root -e "CREATE USER IF NOT EXISTS '${mysql_user}'@'localhost' IDENTIFIED BY '${mysql_password}'"
@@ -172,10 +165,7 @@ EOF
 
     sudo -u postgres psql -c "DO \$do\$ BEGIN IF NOT EXISTS ( SELECT FROM pg_catalog.pg_roles WHERE rolname = '${psql_user}' ) THEN CREATE ROLE ${psql_user} LOGIN PASSWORD null; END IF; END \$do\$;"
     sudo -u postgres psql -c "ALTER USER ${psql_user} WITH password null"
-fi
-
-if [[ "${build_flag}" == "travisci" ]]
-then
+else
     export PATH=$PATH:${BUILD_DIR}
 fi
 
@@ -184,7 +174,7 @@ date
 echo "================= script finished ================="
 } >> ${setup_log_file} 2>&1
 
-if [[ "${build_flag}" != "travisci" ]]
+if [[ "${build_flag}" != "ci" ]]
 then
     ${s3_cp_cmd} ${setup_log_file} s3://${s3_bucket_versioned}/
 fi
