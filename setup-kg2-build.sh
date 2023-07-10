@@ -41,15 +41,13 @@ fi
 
 mkdir -p ${BUILD_DIR}
 setup_log_file=${BUILD_DIR}/setup-kg2-build${test_str}.log
-<<<<<<< HEAD
+
 touch ${setup_log_file}
 
 if [[ "${ci_flag}" == "ci" ]]
 then
     trap "cat ${setup_log_file}" EXIT
 fi
-=======
->>>>>>> 458561cb2eec39081d8575b98c69254790037255
 
 {
 echo "================= starting setup-kg2.sh ================="
