@@ -21,7 +21,7 @@ build_flag=${1:-""}
 config_dir=`dirname "$0"`
 if [[ "${build_flag}" == "travisci" ]]
 then
-    sed -i "\@CODE_DIR=~/kg2-code@cCODE_DIR=/home/runner/work/RTX-KG2/RTX-KG2/RTX-KG2" ${config_dir}/master-config.shinc
+    sed -i "\@CODE_DIR=~/kg2-code@cCODE_DIR=/home/travis/build/RTXteam/RTX-KG2" ${config_dir}/master-config.shinc
 fi
 source ${config_dir}/master-config.shinc
 
@@ -40,10 +40,9 @@ then
 fi
 
 mkdir -p ${BUILD_DIR}
-# setup_log_file=${BUILD_DIR}/setup-kg2-build${test_str}.log
-echo "Here"
-# {
-echo "Down here"
+setup_log_file=${BUILD_DIR}/setup-kg2-build${test_str}.log
+
+{
 echo "================= starting setup-kg2.sh ================="
 date
 
@@ -119,7 +118,7 @@ chmod +x ${BUILD_DIR}/robot
 ${curl_get} ${BUILD_DIR} https://github.com/RTXteam/owltools/releases/download/v0.3.0/owltools > ${BUILD_DIR}/owltools
 chmod +x ${BUILD_DIR}/owltools
 
-# } >${setup_log_file} 2>&1
+} >${setup_log_file} 2>&1
 
 if [[ "${build_flag}" != "travisci" ]]
 then
@@ -131,7 +130,7 @@ then
     fi
 fi
 
-# {
+{
 RAPTOR_NAME=raptor2-2.0.15
 # setup raptor (used by the "checkOutputSyntax.sh" script in the umls2rdf package)
 ${curl_get} -o ${BUILD_DIR}/${RAPTOR_NAME}.tar.gz http://download.librdf.org/source/${RAPTOR_NAME}.tar.gz
@@ -183,7 +182,7 @@ fi
 date
 
 echo "================= script finished ================="
-# } >> ${setup_log_file} 2>&1
+} >> ${setup_log_file} 2>&1
 
 if [[ "${build_flag}" != "travisci" ]]
 then
