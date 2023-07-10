@@ -103,7 +103,8 @@ then
     source ${CODE_DIR}/setup-python37-with-pip3-in-ubuntu.shinc
     ${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
 else
-    pip install -r ${CODE_DIR}/requirements-kg2-build.txt
+    source ${CODE_DIR}/setup-python37-with-pip3-in-ubuntu.shinc
+    ${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
 fi
 
 
