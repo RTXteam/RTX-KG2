@@ -14,6 +14,14 @@ fi
 config_dir=`dirname "$0"`
 source ${config_dir}/master-config.shinc
 
+run_validation_tests_log_file=${BUILD_DIR}/run-validation-tests.log
+touch ${run_validation_tests_log_file}
+if [[ "${ci_flag}" == "ci" ]]
+then
+    trap "cat ${run_validation_tests_log_file}" EXIT
+fi
+
+{
 echo "================= starting run-validation-tests.sh ================="
 date
 
@@ -75,4 +83,4 @@ ${python_command} -u ${CODE_DIR}/validate_ont_load_inventory.py \
 
 date
 echo "================= finished run-validation-tests.sh ================="
-
+} > ${run_validation_tests_log_file} 2>&1

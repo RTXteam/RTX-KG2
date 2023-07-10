@@ -68,7 +68,7 @@ build_kg2_log_file=${BUILD_DIR}/build-kg2-snakemake${dryrun}${test_suffix}.log
 touch ${build_kg2_log_file}
 if [[ "${ci_flag}" == "ci" ]]
 then
-    trap "echo TESTLINETESTLINE && cat ${build_kg2_log_file}" EXIT
+    trap "echo TESTLINETESTLINE && cat ${build_kg2_log_file} && exit 1" EXIT
 fi
 
 echo "TESTIFINTRAP"
@@ -144,9 +144,7 @@ then
     echo 'include: "Snakefile-generate-nodes"' >> ${snakefile}
 fi
 
-command="cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} ${run_flag} -R Finish -j 16 ${dryrun} ${graphic}"
-
-eval "$command"
+cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} ${run_flag} -R Finish -j 16 ${dryrun} ${graphic}
 
 date
 echo "================ script finished ============================"
