@@ -21,7 +21,7 @@ build_flag=${1:-""}
 config_dir=`dirname "$0"`
 if [[ "${build_flag}" == "ci" ]]
 then
-    sed -i "\@CODE_DIR=~/kg2-code@cCODE_DIR=/home/runner/work/RTX-KG2/RTX-KG2/RTX-KG2" ${config_dir}/master-config.shinc
+    sed -i "\@CODE_DIR=~/kg2-code@cCODE_DIR=/home/travis/build/RTXteam/RTX-KG2" ${config_dir}/master-config.shinc
 fi
 source ${config_dir}/master-config.shinc
 
@@ -41,12 +41,15 @@ fi
 
 mkdir -p ${BUILD_DIR}
 setup_log_file=${BUILD_DIR}/setup-kg2-build${test_str}.log
+<<<<<<< HEAD
 touch ${setup_log_file}
 
 if [[ "${ci_flag}" == "ci" ]]
 then
     trap "cat ${setup_log_file}" EXIT
 fi
+=======
+>>>>>>> 458561cb2eec39081d8575b98c69254790037255
 
 {
 echo "================= starting setup-kg2.sh ================="
