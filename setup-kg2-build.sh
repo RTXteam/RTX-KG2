@@ -48,7 +48,7 @@ if [[ "${build_flag}" == "ci" ]]
 then
     trap "cat ${setup_log_file}" EXIT
 fi
-
+echo "TESTIFINTRAP"
 {
 echo "================= starting setup-kg2.sh ================="
 date
