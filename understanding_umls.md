@@ -65,6 +65,16 @@ MRXW_SPA |
 MRXW_SWE |
 MRXW_TUR |
 
+Tables that `umls2rdf.py` uses:
+- MRSTY
+- MRCONSO
+- MRSAB
+- MRREL
+- MRDEF
+- MRSAT
+- MRRANK
+- MRDOC
+
 ```
 mysql> select * from MRCUI limit 10;
 ```
@@ -80,352 +90,6 @@ C0000158 | 1993AA | DEL | NULL | NULL | NULL | NULL |
 C0000164 | 2003AB | RO | NULL | NULL | C0000163 | Y |
 C0000177 | 1993AA | SY | NULL | NULL | C0014924 | Y |
 C0000219 | 1993AA | DEL | NULL | NULL | NULL | NULL |
-
-```
-mysql> select * from MRCOLS;
-```
-
-COL | DES | REF | MIN | AV | MAX | FIL | DTY |
---|--|--|--|--|--|--|--
-ATNL | Attribute name list for a source. | NULL | 0 | 69.84 | 1178 | MRSAB.RRF | varchar(4000) |
-ATN | Attribute name | NULL | 2 | 10.38 | 62 | MRSAT.RRF | varchar(100) |
-ATUI | Unique identifier for attribute. | NULL | 10 | 10.64 | 11 | MRSTY.RRF | varchar(11) |
-ATUI | Unique identifier for attribute. | NULL | 10 | 10.85 | 11 | MRSAT.RRF | varchar(11) |
-ATUI | Unique identifier for attribute. | NULL | 10 | 10.86 | 11 | MRDEF.RRF | varchar(11) |
-ATV | Attribute value | NULL | 1 | 12.69 | 35985 | MRSAT.RRF | varchar(65000) |
-AUI1 | Unique identifier for first atom | NULL | 0 | 8.52 | 9 | MRREL.RRF | varchar(9) |
-AUI1 | Unique identifier for first atom | NULL | 8 | 8.54 | 9 | MRAUI.RRF | varchar(9) |
-AUI2 | Unique identifier for second atom | NULL | 0 | 8.52 | 9 | MRREL.RRF | varchar(9) |
-AUI2 | Unique identifier for second atom | NULL | 8 | 8.54 | 9 | MRAUI.RRF | varchar(9) |
-AUI | Unique identifier for atom | NULL | 8 | 8.58 | 9 | MRHIER.RRF | varchar(9) |
-AUI | Unique identifier for atom | NULL | 8 | 8.74 | 9 | MRDEF.RRF | varchar(9) |
-AUI | Unique identifier for atom | NULL | 8 | 8.77 | 9 | MRCONSO.RRF | varchar(9) |
-AV | Average Length, Characters | NULL | 4 | 4.12 | 6 | MRCOLS.RRF | numeric(5,2) |
-BTS | Size in Bytes | NULL | 1 | 7.19 | 10 | MRFILES.RRF | integer |
-CENC | Character encoding of a source as specified by IANA | NULL | 5 | 5.00 | 5 | MRSAB.RRF | varchar(20) |
-CFR | CUI frequency for a source | NULL | 1 | 4.18 | 6 | MRSAB.RRF | integer |
-CHANGEKEY | CONCEPTSTATUS (if history relates to a SNOMED CT concept) or DESCRIPTIONSTATUS (if history relates to a SNOMED CT atom or "description") | NULL | 0 | 0.00 | 0 | MRHIST.RRF | varchar(1000) |
-CHANGETYPE | Source asserted code for type of change | NULL | 0 | 0.00 | 0 | MRHIST.RRF | varchar(1000) |
-CHANGEVAL | SNOMED CT CONCEPTSTATUS or DESCRIPTIONSTATUS value after the change took place | NULL | 0 | 0.00 | 0 | MRHIST.RRF | varchar(1000) |
-CLS | Number of columns | NULL | 1 | 1.12 | 2 | MRFILES.RRF | integer |
-CODE | Unique Identifier or code for string in source | NULL | 0 | 4.46 | 56 | MRSAT.RRF | varchar(100) |
-CODE | Unique Identifier or code for string in source | NULL | 1 | 7.50 | 95 | MRCONSO.RRF | varchar(100) |
-COL | Column or data element name | NULL | 2 | 3.71 | 11 | MRCOLS.RRF | varchar(20) |
-CUI1 | Unique identifier for first concept | NULL | 8 | 8.00 | 8 | MRAUI.RRF | char(8) |
-CUI1 | Unique identifier for first concept | NULL | 8 | 8.00 | 8 | MRCUI.RRF | char(8) |
-CUI1 | Unique identifier for first concept | NULL | 8 | 8.00 | 8 | MRREL.RRF | char(8) |
-CUI2 | Unique identifier for second concept | NULL | 0 | 3.33 | 8 | MRCUI.RRF | char(8) |
-CUI2 | Unique identifier for second concept | NULL | 8 | 8.00 | 8 | MRAUI.RRF | char(8) |
-CUI2 | Unique identifier for second concept | NULL | 8 | 8.00 | 8 | MRREL.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 0 | 0.00 | 0 | MRHIST.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | AMBIGLUI.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | AMBIGSUI.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | CHANGE/MERGEDCUI.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRCONSO.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRDEF.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRHIER.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRSAT.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRSTY.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXNS_ENG.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXNW_ENG.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXW_ARA.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXW_BAQ.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXW_CHI.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXW_CZE.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXW_DAN.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXW_DUT.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXW_ENG.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXW_EST.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXW_FIN.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXW_FRE.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXW_GER.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXW_GRE.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXW_HEB.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXW_HUN.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXW_ITA.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXW_JPN.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXW_KOR.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXW_LAV.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXW_NOR.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXW_POL.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXW_POR.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXW_RUS.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXW_SCR.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXW_SPA.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXW_SWE.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXW_TUR.RRF | char(8) |
-CUI | Unique identifier for concept | NULL | 8 | 8.00 | 8 | MRXW_UKR.RRF | char(8) |
-CURVER | Current Version flag | NULL | 1 | 1.00 | 1 | MRSAB.RRF | char(1) |
-CVF | Content view flag | NULL | 0 | 0.00 | 0 | MRDEF.RRF | varchar(50) |
-CVF | Content view flag | NULL | 0 | 0.00 | 0 | MRHIER.RRF | varchar(50) |
-CVF | Content view flag | NULL | 0 | 0.00 | 0 | MRHIST.RRF | varchar(50) |
-CVF | Content view flag | NULL | 0 | 0.00 | 0 | MRMAP.RRF | varchar(50) |
-CVF | Content view flag | NULL | 0 | 0.00 | 0 | MRREL.RRF | varchar(50) |
-CVF | Content view flag | NULL | 0 | 0.00 | 0 | MRSAT.RRF | varchar(50) |
-CVF | Content view flag | NULL | 0 | 0.00 | 0 | MRSMAP.RRF | varchar(50) |
-CVF | Content view flag | NULL | 0 | 1.22 | 5 | MRCONSO.RRF | varchar(50) |
-CVF | Content view flag | NULL | 0 | 2.13 | 5 | MRSTY.RRF | varchar(50) |
-CXN | The context number if the atom has multiple contexts | NULL | 1 | 2.17 | 5 | MRHIER.RRF | integer |
-CXTY | Context type for a source | NULL | 0 | 5.14 | 13 | MRSAB.RRF | varchar(50) |
-DEF | Definition | NULL | 1 | 232.23 | 10939 | MRDEF.RRF | varchar(16000) |
-DES | Descriptive Name | NULL | 5 | 28.81 | 136 | MRCOLS.RRF | varchar(200) |
-DES | Descriptive Name | NULL | 8 | 18.25 | 42 | MRFILES.RRF | varchar(200) |
-DIR | Source asserted directionality flag | NULL | 0 | 0.13 | 1 | MRREL.RRF | varchar(1) |
-DOCKEY | Key to be documented | NULL | 2 | 3.65 | 8 | MRDOC.RRF | varchar(50) |
-DTY | SQL-92 data type for this column | NULL | 7 | 10.02 | 14 | MRCOLS.RRF | varchar(20) |
-EXPL | Detailed explanation | NULL | 0 | 26.57 | 941 | MRDOC.RRF | varchar(1000) |
-FIL | Physical FILENAME | NULL | 9 | 10.99 | 21 | MRCOLS.RRF | varchar(50) |
-FIL | Physical FILENAME | NULL | 9 | 12.12 | 21 | MRFILES.RRF | varchar(50) |
-FMT | Comma separated list of COL | NULL | 7 | 29.69 | 190 | MRFILES.RRF | varchar(300) |
-FROMEXPR | The expression that a mapping is mapped from | NULL | 1 | 6.93 | 9 | MRSMAP.RRF | varchar(4000) |
-FROMEXPR | The expression that a mapping is mapped from | NULL | 1 | 8.29 | 18 | MRMAP.RRF | varchar(4000) |
-FROMID | Metathesaurus identifier for the entity being mapped from | NULL | 1 | 7.31 | 18 | MRMAP.RRF | varchar(50) |
-FROMRES | Restriction applicable to the entity being mapped from | NULL | 0 | 0.00 | 0 | MRMAP.RRF | varchar(4000) |
-FROMRULE | Machine processible rule applicable to the entity being mapped from | NULL | 0 | 0.00 | 0 | MRMAP.RRF | varchar(4000) |
-FROMSID | Source asserted identifier for the entity being mapped from | NULL | 0 | 0.00 | 0 | MRMAP.RRF | varchar(50) |
-FROMTYPE | The type of expression that a mapping is mapped from | NULL | 3 | 3.98 | 4 | MRSMAP.RRF | varchar(50) |
-FROMTYPE | The type of expression that a mapping is mapped from | NULL | 3 | 3.99 | 4 | MRMAP.RRF | varchar(50) |
-HCD | Source asserted hierarchical number or code of context member (if it exists) | NULL | 0 | 0.48 | 51 | MRHIER.RRF | varchar(100) |
-IMETA | Version of the Metathesaurus that a source was added | NULL | 6 | 6.00 | 6 | MRSAB.RRF | varchar(10) |
-ISPREF | Indicates whether AUI is preferred | NULL | 1 | 1.00 | 1 | MRCONSO.RRF | char(1) |
-LAT | Language of Term(s) | NULL | 0 | 0.00 | 0 | CHANGE/DELETEDSUI.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 0 | 2.97 | 3 | MRSAB.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRCONSO.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXNS_ENG.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXNW_ENG.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXW_ARA.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXW_BAQ.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXW_CHI.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXW_CZE.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXW_DAN.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXW_DUT.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXW_ENG.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXW_EST.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXW_FIN.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXW_FRE.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXW_GER.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXW_GRE.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXW_HEB.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXW_HUN.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXW_ITA.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXW_JPN.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXW_KOR.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXW_LAV.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXW_NOR.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXW_POL.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXW_POR.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXW_RUS.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXW_SCR.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXW_SPA.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXW_SWE.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXW_TUR.RRF | char(3) |
-LAT | Language of Term(s) | NULL | 3 | 3.00 | 3 | MRXW_UKR.RRF | char(3) |
-LUI | Unique identifier for term | NULL | 0 | 0.00 | 0 | CHANGE/MERGEDLUI.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 0 | 4.50 | 9 | MRSAT.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 8 | 8.00 | 8 | MRXW_BAQ.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 8 | 8.00 | 8 | MRXW_DAN.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 8 | 8.00 | 8 | MRXW_FIN.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 8 | 8.00 | 8 | MRXW_HEB.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 8 | 8.17 | 9 | MRXW_SCR.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 8 | 8.20 | 9 | MRXW_JPN.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 8 | 8.22 | 9 | AMBIGLUI.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 8 | 8.43 | 9 | MRXW_ENG.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 8 | 8.44 | 9 | MRCONSO.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 8 | 8.44 | 9 | MRXNS_ENG.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 8 | 8.44 | 9 | MRXNW_ENG.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 8 | 8.48 | 9 | MRXW_CZE.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 8 | 8.52 | 9 | MRXW_DUT.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 8 | 8.58 | 9 | MRXW_GER.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 8 | 8.67 | 9 | MRXW_SPA.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 8 | 8.77 | 9 | MRXW_POR.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 8 | 8.77 | 9 | MRXW_RUS.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 8 | 8.78 | 9 | MRXW_ITA.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 8 | 8.78 | 9 | MRXW_POL.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 8 | 8.80 | 9 | MRXW_FRE.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 8 | 8.82 | 9 | MRXW_SWE.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 8 | 8.90 | 9 | MRXW_KOR.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 8 | 8.98 | 9 | MRXW_NOR.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 8 | 8.99 | 9 | MRXW_HUN.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 8 | 8.99 | 9 | MRXW_LAV.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 9 | 9.00 | 9 | MRXW_ARA.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 9 | 9.00 | 9 | MRXW_CHI.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 9 | 9.00 | 9 | MRXW_EST.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 9 | 9.00 | 9 | MRXW_GRE.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 9 | 9.00 | 9 | MRXW_TUR.RRF | varchar(10) |
-LUI | Unique identifier for term | NULL | 9 | 9.00 | 9 | MRXW_UKR.RRF | varchar(10) |
-MAPATN | Mapping attribute name (for future use) | NULL | 0 | 2.82 | 6 | MRMAP.RRF | varchar(20) |
-MAPATV | Mapping attribute value (for future use) | NULL | 0 | 0.00 | 1 | MRMAP.RRF | varchar(4000) |
-MAPID | Metathesaurus asserted identifier for mapping | NULL | 10 | 10.98 | 11 | MRSMAP.RRF | varchar(50) |
-MAPID | Metathesaurus asserted identifier for mapping | NULL | 10 | 10.99 | 11 | MRMAP.RRF | varchar(50) |
-MAPIN | Mapping in current subset | NULL | 0 | 0.42 | 1 | MRCUI.RRF | char(1) |
-MAPIN | Mapping in current subset | NULL | 1 | 1.00 | 1 | MRAUI.RRF | char(1) |
-MAPRANK | Order in which mappings in a subset should be applied | NULL | 0 | 0.49 | 2 | MRMAP.RRF | integer |
-MAPREASON | Reason for mapping | NULL | 0 | 0.00 | 4 | MRCUI.RRF | varchar(4000) |
-MAPREASON | Reason for mapping | NULL | 4 | 4.00 | 4 | MRAUI.RRF | varchar(4000) |
-MAPRES | Restriction applicable to this mapping | NULL | 0 | 34.78 | 429 | MRMAP.RRF | varchar(4000) |
-MAPRULE | Machine processible rule applicable to this mapping | NULL | 0 | 9.57 | 336 | MRMAP.RRF | varchar(4000) |
-MAPSETCUI | CUI of the map set | NULL | 8 | 8.00 | 8 | MRMAP.RRF | char(8) |
-MAPSETCUI | CUI of the map set | NULL | 8 | 8.00 | 8 | MRSMAP.RRF | char(8) |
-MAPSETSAB | SAB of the map set | NULL | 3 | 10.60 | 13 | MRSMAP.RRF | varchar(40) |
-MAPSETSAB | SAB of the map set | NULL | 3 | 10.71 | 13 | MRMAP.RRF | varchar(40) |
-MAPSID | Source asserted identifier for mapping | NULL | 0 | 0.00 | 0 | MRSMAP.RRF | varchar(50) |
-MAPSID | Source asserted identifier for mapping | NULL | 0 | 0.01 | 36 | MRMAP.RRF | varchar(50) |
-MAPSUBSETID | Map subset identifier used to identify a subset of related mappings within a map set | NULL | 0 | 0.49 | 1 | MRMAP.RRF | varchar(10) |
-MAPTYPE | Type of mapping | NULL | 0 | 4.26 | 9 | MRMAP.RRF | varchar(50) |
-MAX | Maximum Length | NULL | 1 | 1.37 | 5 | MRCOLS.RRF | integer |
-METAUI | Metathesaurus asserted unique identifier | NULL | 0 | 7.85 | 10 | MRSAT.RRF | varchar(50) |
-MIN | Minimum Length | NULL | 1 | 1.02 | 2 | MRCOLS.RRF | integer |
-NSTR | Normalized string | NULL | 1 | 38.86 | 2460 | MRXNS_ENG.RRF | varchar(3000) |
-NWD | Normalized word | NULL | 1 | 6.55 | 80 | MRXNW_ENG.RRF | varchar(100) |
-PAUI | Unique identifier for parent atom | NULL | 0 | 8.46 | 9 | MRHIER.RRF | varchar(9) |
-PCUI | Concept unique identifier in the previous Metathesaurus | NULL | 8 | 8.00 | 8 | CHANGE/DELETEDCUI.RRF | char(8) |
-PCUI | Concept unique identifier in the previous Metathesaurus | NULL | 8 | 8.00 | 8 | CHANGE/MERGEDCUI.RRF | char(8) |
-PLUI | Lexical unique identifier in the previous Metathesaurus | NULL | 0 | 0.00 | 0 | CHANGE/DELETEDLUI.RRF | varchar(10) |
-PLUI | Lexical unique identifier in the previous Metathesaurus | NULL | 0 | 0.00 | 0 | CHANGE/MERGEDLUI.RRF | varchar(10) |
-PSTR | Preferred name in the previous Metathesaurus | NULL | 0 | 0.00 | 0 | CHANGE/DELETEDLUI.RRF | varchar(3000) |
-PSTR | Preferred name in the previous Metathesaurus | NULL | 0 | 0.00 | 0 | CHANGE/DELETEDSUI.RRF | varchar(3000) |
-PSTR | Preferred name in the previous Metathesaurus | NULL | 4 | 4.00 | 4 | CHANGE/DELETEDCUI.RRF | varchar(3000) |
-PSUI | String unique identifier in the previous Metathesaurus | NULL | 0 | 0.00 | 0 | CHANGE/DELETEDSUI.RRF | varchar(10) |
-PTR | Path to root | NULL | 0 | 103.81 | 345 | MRHIER.RRF | varchar(1000) |
-RANK | Termgroup ranking | NULL | 4 | 4.00 | 4 | MRRANK.RRF | integer |
-RCUI | Unique identifier for root SRC concept | NULL | 8 | 8.00 | 8 | MRSAB.RRF | char(8) |
-REASON | Explanation of change, if present | NULL | 0 | 0.00 | 0 | MRHIST.RRF | varchar(1000) |
-REF | Documentation Section Number | NULL | 0 | 0.00 | 0 | MRCOLS.RRF | varchar(20) |
-RELA | Additional relationship label | NULL | 0 | 0.00 | 0 | MRAUI.RRF | varchar(100) |
-RELA | Additional relationship label | NULL | 0 | 0.00 | 0 | MRCUI.RRF | varchar(100) |
-RELA | Additional relationship label | NULL | 0 | 10.69 | 54 | MRREL.RRF | varchar(100) |
-RELA | Additional relationship label | NULL | 0 | 14.07 | 37 | MRMAP.RRF | varchar(100) |
-RELA | Additional relationship label | NULL | 0 | 19.91 | 37 | MRSMAP.RRF | varchar(100) |
-RELA | Additional relationship label | NULL | 0 | 2.71 | 12 | MRHIER.RRF | varchar(100) |
-REL | Relationship label | NULL | 0 | 0.00 | 0 | MRAUI.RRF | varchar(4) |
-REL | Relationship label | NULL | 2 | 2.00 | 2 | MRMAP.RRF | varchar(4) |
-REL | Relationship label | NULL | 2 | 2.00 | 2 | MRSMAP.RRF | varchar(4) |
-REL | Relationship label | NULL | 2 | 2.24 | 3 | MRREL.RRF | varchar(4) |
-REL | Relationship label | NULL | 2 | 2.65 | 4 | MRCUI.RRF | varchar(4) |
-RG | Relationship group | NULL | 0 | 0.06 | 2 | MRREL.RRF | varchar(10) |
-RMETA | Version of the Metathesaurus where a version is removed | NULL | 0 | 0.09 | 6 | MRSAB.RRF | varchar(10) |
-RSAB | Root source abbreviation | NULL | 2 | 5.94 | 15 | MRSAB.RRF | varchar(40) |
-RUI | Unique identifier for relationship | NULL | 9 | 9.82 | 10 | MRREL.RRF | varchar(10) |
-RWS | Number of rows | NULL | 1 | 5.56 | 8 | MRFILES.RRF | integer |
-SABIN | Source in current subset | NULL | 1 | 1.00 | 1 | MRSAB.RRF | char(1) |
-SAB | Source abbreviation | NULL | 0 | 0.00 | 0 | MRHIST.RRF | varchar(40) |
-SAB | Source abbreviation | NULL | 2 | 4.12 | 11 | MRDEF.RRF | varchar(40) |
-SAB | Source abbreviation | NULL | 2 | 5.31 | 15 | MRRANK.RRF | varchar(40) |
-SAB | Source abbreviation | NULL | 2 | 5.48 | 15 | MRREL.RRF | varchar(40) |
-SAB | Source abbreviation | NULL | 2 | 5.70 | 15 | MRCONSO.RRF | varchar(40) |
-SAB | Source abbreviation | NULL | 2 | 5.75 | 13 | MRSAT.RRF | varchar(40) |
-SAB | Source abbreviation | NULL | 2 | 7.90 | 13 | MRHIER.RRF | varchar(40) |
-SATUI | Source asserted attribute identifier | NULL | 0 | 0.47 | 16 | MRDEF.RRF | varchar(50) |
-SATUI | Source asserted attribute identifier | NULL | 0 | 3.24 | 36 | MRSAT.RRF | varchar(50) |
-SAUI | Source asserted atom identifier | NULL | 0 | 1.73 | 18 | MRCONSO.RRF | varchar(100) |
-SCC | Content contact info for a source | NULL | 0 | 152.05 | 332 | MRSAB.RRF | varchar(1000) |
-SCIT | Source citation | NULL | 54 | 164.09 | 674 | MRSAB.RRF | varchar(4000) |
-SCUI | Source asserted concept identifier | NULL | 0 | 5.28 | 95 | MRCONSO.RRF | varchar(100) |
-SDUI | Source asserted descriptor identifier | NULL | 0 | 2.73 | 13 | MRCONSO.RRF | varchar(100) |
-SF | Source Family | NULL | 2 | 4.20 | 13 | MRSAB.RRF | varchar(40) |
-SLC | License contact info for a source | NULL | 12 | 167.35 | 346 | MRSAB.RRF | varchar(1000) |
-SL | Source of relationship labels | NULL | 2 | 5.48 | 15 | MRREL.RRF | varchar(40) |
-SON | Source Official Name | NULL | 10 | 48.65 | 145 | MRSAB.RRF | varchar(3000) |
-SOURCEUI | Source asserted unique identifier | NULL | 0 | 0.00 | 0 | MRHIST.RRF | varchar(50) |
-SRL | Source Restriction Level | NULL | 1 | 1.00 | 1 | MRCONSO.RRF | integer |
-SRL | Source Restriction Level | NULL | 1 | 1.00 | 1 | MRSAB.RRF | integer |
-SRUI | Source attributed relationship identifier | NULL | 0 | 1.20 | 36 | MRREL.RRF | varchar(50) |
-SSN | Source short name | NULL | 3 | 26.96 | 89 | MRSAB.RRF | varchar(3000) |
-STN | Semantic type tree number | NULL | 1 | 7.85 | 14 | MRSTY.RRF | varchar(100) |
-STR | String | NULL | 1 | 38.20 | 2930 | MRCONSO.RRF | varchar(3000) |
-STT | String type | NULL | 2 | 2.01 | 3 | MRCONSO.RRF | varchar(3) |
-STYPE1 | The name of the column in MRCONSO.RRF that contains the first identifier to which the relationship is attached | NULL | 3 | 3.62 | 4 | MRREL.RRF | varchar(50) |
-STYPE2 | The name of the column in MRCONSO.RRF that contains the second identifier to which the relationship is attached | NULL | 3 | 3.62 | 4 | MRREL.RRF | varchar(50) |
-STYPE | The name of the column in MRCONSO.RRF or MRREL.RRF that contains the identifier to which the attribute is attached | NULL | 3 | 3.25 | 4 | MRSAT.RRF | varchar(50) |
-STY | Semantic type | NULL | 4 | 17.65 | 39 | MRSTY.RRF | varchar(50) |
-SUI | Unique identifier for string | NULL | 0 | 4.57 | 9 | MRSAT.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 8 | 8.00 | 8 | MRXW_BAQ.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 8 | 8.00 | 8 | MRXW_DAN.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 8 | 8.00 | 8 | MRXW_FIN.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 8 | 8.00 | 8 | MRXW_HEB.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 8 | 8.35 | 9 | AMBIGSUI.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 8 | 8.35 | 9 | MRXW_JPN.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 8 | 8.53 | 9 | MRXW_DUT.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 8 | 8.58 | 9 | MRCONSO.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 8 | 8.61 | 9 | MRXW_GER.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 8 | 8.64 | 9 | MRXNS_ENG.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 8 | 8.67 | 9 | MRXNW_ENG.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 8 | 8.67 | 9 | MRXW_ENG.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 8 | 8.71 | 9 | MRXW_SPA.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 8 | 8.79 | 9 | MRXW_POR.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 8 | 8.79 | 9 | MRXW_RUS.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 8 | 8.82 | 9 | MRXW_ITA.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 8 | 8.84 | 9 | MRXW_SWE.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 8 | 8.85 | 9 | MRXW_CZE.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 8 | 8.85 | 9 | MRXW_FRE.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 8 | 8.98 | 9 | MRXW_NOR.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 8 | 8.99 | 9 | MRXW_HUN.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 9 | 9.00 | 9 | MRXW_ARA.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 9 | 9.00 | 9 | MRXW_CHI.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 9 | 9.00 | 9 | MRXW_EST.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 9 | 9.00 | 9 | MRXW_GRE.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 9 | 9.00 | 9 | MRXW_KOR.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 9 | 9.00 | 9 | MRXW_LAV.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 9 | 9.00 | 9 | MRXW_POL.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 9 | 9.00 | 9 | MRXW_SCR.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 9 | 9.00 | 9 | MRXW_TUR.RRF | varchar(10) |
-SUI | Unique identifier for string | NULL | 9 | 9.00 | 9 | MRXW_UKR.RRF | varchar(10) |
-SUPPRESS | Suppressible flag | NULL | 1 | 1.00 | 1 | MRCONSO.RRF | char(1) |
-SUPPRESS | Suppressible flag | NULL | 1 | 1.00 | 1 | MRDEF.RRF | char(1) |
-SUPPRESS | Suppressible flag | NULL | 1 | 1.00 | 1 | MRRANK.RRF | char(1) |
-SUPPRESS | Suppressible flag | NULL | 1 | 1.00 | 1 | MRREL.RRF | char(1) |
-SUPPRESS | Suppressible flag | NULL | 1 | 1.00 | 1 | MRSAT.RRF | char(1) |
-SVER | Release date or version number of a source | NULL | 0 | 0.00 | 0 | MRHIST.RRF | varchar(20) |
-SVER | Release date or version number of a source | NULL | 0 | 5.08 | 15 | MRSAB.RRF | varchar(20) |
-TFR | Term frequency for a source | NULL | 1 | 4.41 | 7 | MRSAB.RRF | integer |
-TOEXPR | The expression that a mapping is mapped to | NULL | 0 | 6.03 | 242 | MRMAP.RRF | varchar(4000) |
-TOEXPR | The expression that a mapping is mapped to | NULL | 1 | 6.92 | 242 | MRSMAP.RRF | varchar(4000) |
-TOID | Metathesaurus identifier for the entity being mapped to | NULL | 0 | 5.18 | 18 | MRMAP.RRF | varchar(50) |
-TORES | Restriction applicable to the entity being mapped to | NULL | 0 | 0.00 | 0 | MRMAP.RRF | varchar(4000) |
-TORULE | Machine processible rule applicable to the entity being mapped to | NULL | 0 | 0.00 | 0 | MRMAP.RRF | varchar(4000) |
-TOSID | Source asserted identifier for the entity being mapped to | NULL | 0 | 0.00 | 0 | MRMAP.RRF | varchar(50) |
-TOTYPE | The type of expression that a mapping is mapped to | NULL | 0 | 3.98 | 23 | MRMAP.RRF | varchar(50) |
-TOTYPE | The type of expression that a mapping is mapped to | NULL | 4 | 4.36 | 22 | MRSMAP.RRF | varchar(50) |
-TS | Term status | NULL | 1 | 1.00 | 1 | MRCONSO.RRF | char(1) |
-TTYL | Term type list for a source | NULL | 0 | 11.76 | 86 | MRSAB.RRF | varchar(400) |
-TTY | Term type in source | NULL | 2 | 2.35 | 11 | MRCONSO.RRF | varchar(20) |
-TTY | Term type in source | NULL | 2 | 2.58 | 11 | MRRANK.RRF | varchar(20) |
-TUI | Unique identifier of Semantic type | NULL | 4 | 4.00 | 4 | MRSTY.RRF | char(4) |
-TYPE | Type of information | NULL | 3 | 13.14 | 21 | MRDOC.RRF | varchar(50) |
-VALUE | Value | NULL | 0 | 15.98 | 62 | MRDOC.RRF | varchar(200) |
-VCUI | Unique identifier for versioned SRC concept | NULL | 0 | 7.71 | 8 | MRSAB.RRF | char(8) |
-VEND | Valid end date for a source | NULL | 0 | 0.00 | 0 | MRSAB.RRF | char(8) |
-VER | Last release version in which CUI1 was valid | NULL | 6 | 6.00 | 6 | MRAUI.RRF | varchar(10) |
-VER | Last release version in which CUI1 was valid | NULL | 6 | 6.00 | 6 | MRCUI.RRF | varchar(10) |
-VSAB | Versioned source abbreviation | NULL | 3 | 11.35 | 24 | MRSAB.RRF | varchar(40) |
-VSTART | Valid start date for a source | NULL | 0 | 0.00 | 0 | MRSAB.RRF | char(8) |
-WD | Word in lower-case | NULL | 1 | 10.53 | 54 | MRXW_FIN.RRF | varchar(500) |
-WD | Word in lower-case | NULL | 1 | 2.90 | 38 | MRXW_KOR.RRF | varchar(500) |
-WD | Word in lower-case | NULL | 1 | 3.65 | 68 | MRXW_CHI.RRF | varchar(500) |
-WD | Word in lower-case | NULL | 1 | 4.58 | 35 | MRXW_EST.RRF | varchar(500) |
-WD | Word in lower-case | NULL | 1 | 5.23 | 37 | MRXW_TUR.RRF | varchar(500) |
-WD | Word in lower-case | NULL | 1 | 5.47 | 22 | MRXW_ARA.RRF | varchar(500) |
-WD | Word in lower-case | NULL | 1 | 5.71 | 38 | MRXW_POR.RRF | varchar(500) |
-WD | Word in lower-case | NULL | 1 | 5.91 | 38 | MRXW_ITA.RRF | varchar(500) |
-WD | Word in lower-case | NULL | 1 | 6.12 | 19 | MRXW_HEB.RRF | varchar(500) |
-WD | Word in lower-case | NULL | 1 | 6.13 | 24 | MRXW_UKR.RRF | varchar(500) |
-WD | Word in lower-case | NULL | 1 | 6.23 | 80 | MRXW_ENG.RRF | varchar(500) |
-WD | Word in lower-case | NULL | 1 | 6.38 | 25 | MRXW_DAN.RRF | varchar(500) |
-WD | Word in lower-case | NULL | 1 | 6.67 | 46 | MRXW_SPA.RRF | varchar(500) |
-WD | Word in lower-case | NULL | 1 | 6.83 | 39 | MRXW_FRE.RRF | varchar(500) |
-WD | Word in lower-case | NULL | 1 | 7.14 | 40 | MRXW_RUS.RRF | varchar(500) |
-WD | Word in lower-case | NULL | 1 | 7.17 | 18 | MRXW_BAQ.RRF | varchar(500) |
-WD | Word in lower-case | NULL | 1 | 7.50 | 34 | MRXW_GRE.RRF | varchar(500) |
-WD | Word in lower-case | NULL | 1 | 7.55 | 48 | MRXW_POL.RRF | varchar(500) |
-WD | Word in lower-case | NULL | 1 | 7.57 | 52 | MRXW_CZE.RRF | varchar(500) |
-WD | Word in lower-case | NULL | 1 | 7.89 | 51 | MRXW_DUT.RRF | varchar(500) |
-WD | Word in lower-case | NULL | 1 | 7.97 | 27 | MRXW_HUN.RRF | varchar(500) |
-WD | Word in lower-case | NULL | 1 | 7.98 | 29 | MRXW_LAV.RRF | varchar(500) |
-WD | Word in lower-case | NULL | 1 | 8.02 | 37 | MRXW_SCR.RRF | varchar(500) |
-WD | Word in lower-case | NULL | 1 | 8.37 | 41 | MRXW_GER.RRF | varchar(500) |
-WD | Word in lower-case | NULL | 1 | 8.61 | 39 | MRXW_SWE.RRF | varchar(500) |
-WD | Word in lower-case | NULL | 1 | 8.91 | 85 | MRXW_JPN.RRF | varchar(500) |
-WD | Word in lower-case | NULL | 1 | 9.11 | 44 | MRXW_NOR.RRF | varchar(500) |
 
 ```
 mysql> select * from MRREL limit 10;
@@ -597,3 +261,152 @@ C4550264 | C3251798 | CCC2_5_2018 | CCC | Clinical Care Classification, 2_5_2018
 C1140221 | C1140220 | CCPSS99 | CCPSS | Canonical Clinical Problem Statement System, 1999 | CCPSS | 1999 | NULL | NULL | 2000AA | NULL | Steven Brown, M.D.;Associate Professor, Biomedical Informatics;Eskind Biomedical Library, Vanderbilt University Medical Center;2209 Garland Ave;Room 442;Nashville;TN;United States;37232-8340;(615) 321-6335;;sbrown@vumclib.mc.vanderbilt.edu; | Steven Brown, MD;;Department of Biomedical Informatics Vanderbilt University;;;;;;;;;; | 3 | 15777 | 15245 | NULL | MP,PT,TX | CCF | ENG | UTF-8 | Y | Y | Clinical Problem Statements | ;;;;Canonical Clincial Problem Statement System;;;Version 1.0;;;June 23, 1999;;;;;;ENG;Contact: sbrown@vumclib.mc.vanderbilt.edu; |
 C1541964 | C1140228 | CCS2005 | CCS | Clinical Classifications Software, 2005 | CCS | 2005 | NULL | NULL | 2005AC | NULL | Anne Elixhauser, Ph.D.;Senior Research Scientist;Agency for Healthcare Research and Quality;540 Gaither Road;;Rockville;MD;United States;20850;(301) 427-1411, 1-800-358-9295;(301) 594-1430;AElixhau@AHRQ.gov; | Anne Elixhauser, Ph.D.;Senior Research Scientist;Agency for Healthcare Research and Quality;540 Gaither Road;;Rockville;MD;United States;20850;1-800-358-9295;(301)-594-1430;AElixhau@AHRQ.gov; | 0 | 1617 | 1109 | FULL | HT,MD,MV,SD,SP,XM | CCI,FROMRSAB,FROMVSAB,MAPSETRSAB,MAPSETVERSION,MAPSETVSAB,MTH_MAPFROMCOMPLEXITY,MTH_MAPFROMEXHAUSTIVE,MTH_MAPSETCOMPLEXITY,MTH_MAPTOCOMPLEXITY,MTH_MAPTOEXHAUSTIVE,SOS,TORSAB,TOVSAB | ENG | UTF-8 | Y | Y | Clinical Classifications Software | ;;Agency for Healthcare Research and Quality (AHRQ);;Clinical Classifications Software (CCS);;;;;;April 2005;;Rockville,MD;;; http://www.hcup-us.ahrq.gov/toolssoftware/ccs/ccs.jsp;ENG;Phone: 301-594-1364.; |
 C5770268 | C5400755 | CCSR_ICD10CM_2023 | CCSR_ICD10CM | Clinical Classifications Software Refined for ICD-10-CM, 2023 | CCS | 2023 | NULL | NULL | 2023AA | NULL | ;;Agency for Healthcare Research and Quality;5600 Fishers Lane;Mail Stop 07N94A;Rockville;MD;United States;20857;1-866-290-HCUP;(301) 594-1430;hcup@ahrq.gov;https://www.hcup-us.ahrq.gov/toolssoftware/ccsr/ccs_refined.jsp; | ;;Agency for Healthcare Research and Quality;5600 Fishers Lane;Mail Stop 07N94A;Rockville;MD;United States;20857;1-866-290-HCUP;(301)-594-1430;hcup@ahrq.gov;https://www.hcup-us.ahrq.gov/toolssoftware/ccsr/ccs_refined.jsp; | 0 | 546 | 545 | NULL | SD,XM | FROMRSAB,FROMVSAB,MAPSETRSAB,MAPSETVERSION,MAPSETVSAB,MTH_MAPFROMCOMPLEXITY,MTH_MAPFROMEXHAUSTIVE,MTH_MAPSETCOMPLEXITY,MTH_MAPTOCOMPLEXITY,MTH_MAPTOEXHAUSTIVE,TORSAB,TOVSAB | ENG | UTF-8 | Y | Y | Clinical Classifications Software Refined for ICD-10-CM | ;;Healthcare Cost and Utilization Project (HCUP);;Clinical Classifications Software Refined for ICD-10-CM;;;;;Agency for Healthcare Research and Quality (AHRQ);;November 2022;Rockville, MD;;;;ENG;; |
+
+
+
+```
+mysql> select * from MRDEF limit 10;
+```
+CUI | AUI | ATUI | SATUI | SAB | DEF | SUPPRESS | CVF |
+--|--|--|--|--|--|--|--
+C0007662 | A15587413 | AT100258389 | NULL | MSH | Areas set apart as burial grounds. | N | NULL |
+C0031705 | A0101053 | AT100258390 | NULL | MSH | A non-metal element that has the atomic symbol P, atomic number 15, and atomic weight 31. It is an essential element that takes part in a broad variety of biochemical reactions. | N | NULL |
+C0319858 | A15585286 | AT100258391 | NULL | MSH | A genus of ectomycorrhizae basidiomycetous fungi in the family Cortinariaceae. Some species are poisonous. | N | NULL |
+C0026655 | A0088287 | AT100258392 | NULL | MSH | A republic in southern Africa, south of TANZANIA, east of ZAMBIA and ZIMBABWE, bordered on the west by the Indian Ocean. Its capital is Maputo. It was formerly called Portuguese East Africa. | N | NULL |
+C2350764 | A26632051 | AT100258393 | NULL | MSH | The flow of ions into or out of cells that cause EXCITATORY POSTSYNAPTIC POTENTIALS. | N | NULL |
+C2350395 | A15587282 | AT100258394 | NULL | MSH | Timing the acquisition of imaging data to specific points in the cardiac cycle to minimize image blurring and other motion artifacts. | N | NULL |
+C2350340 | A26678303 | AT100258395 | NULL | MSH | The ion flow that effects the POSTSYNAPTIC POTENTIAL. | N | NULL |
+C0073209 | A12983302 | AT100258396 | NULL | MSH | A PROTEIN-SERINE-THREONINE KINASE that is found in PHOTORECEPTOR CELLS. It mediates light-dependent PHOSPHORYLATION of RHODOPSIN and plays an important role in PHOTOTRANSDUCTION. | N | NULL |
+C0872279 | A15585197 | AT100258397 | NULL | MSH | A type of strength-building exercise program that requires the body muscle to exert a force against some form of resistance, such as weight, stretch bands, water, or immovable objects. Resistance exercise is a combination of static and dynamic contractions involving shortening and lengthening of skeletal muscles. | N | NULL |
+C2350288 | A26632695 | AT100258398 | NULL | MSH | The duration of time from initiation to discontinuation of drug therapy. | N | NULL |
+
+```
+mysql> select * from MRDEF where SAB != "MSH" limit 10;
+```
+CUI | AUI | ATUI | SATUI | SAB | DEF | SUPPRESS | CVF |
+--|--|--|--|--|--|--|--
+C1965760 | A15884584 | AT104406511 | NULL | ALT | Mapping the practitioner type or specialty to a non-specified emergency or non-emergency transportation, travel, or delivery expense or service code. Use associated HCPCS II codes to bill for expense(s) or service(s). This code is used for scope-of-practice mapping, not for billing. | N | NULL |
+C2366573 | A15884545 | AT104406512 | NULL | ALT | Mapping the practitioner type or specialty to a non-specified physician service or procedure code. Use associated HCPCS II codes to bill for physician service(s). This code is used for scope-of-practice mapping, not for billing. | N | NULL |
+C2366625 | A15884463 | AT104406513 | NULL | ALT | Mapping the practitioner type or specialty to a nutritional therapy service code. Use associated HCPCS II codes to bill for nutrition service(s). This code is used for scope-of-practice mapping, not for billing. | N | NULL |
+C2366594 | A15884632 | AT104406514 | NULL | ALT | Mapping the practitioner type or specialty to a wound care an/or therapy service code. Use associated HCPCS II codes to bill for wound care service(s). This code is used for scope-of-practice mapping, not for billing. | N | NULL |
+C2366609 | A15884637 | AT104406515 | NULL | ALT | Mapping the practitioner type or specialty to a stabilizing, traction and/or restraining device or equipment code. Use associated HCPCS II codes to bill for stabilizing, traction or restraining device(s) or equipment. This code is used for scope-of-practice mapping, not for billing. | N | NULL |
+C1535681 | A15884507 | AT104406516 | NULL | ALT | Mapping the practitioner type or specialty to a non-specified gastroenterology procedure. Use CPT® and/or HCPCS II codes to bill for all gastroenterology service(s). This code is used for scope-of-practice mapping, not for billing. | N | NULL |
+C2366582 | A15884518 | AT104406517 | NULL | ALT | Mapping the practitioner type or specialty to a dental service adjunctive general code. Use associated HCPCS II codes to bill for dental service(s). This code is used for scope-of-practice mapping, not for billing. | N | NULL |
+C2366655 | A15884685 | AT104406518 | NULL | ALT | Mapping the practitioner type or specialty to a prescription documentation service code. Use associated HCPCS II codes to bill for documentation service(s). This code is used for scope-of-practice mapping, not for billing. | N | NULL |
+C2366632 | A15884500 | AT104406519 | NULL | ALT | Mapping the practitioner type or specialty to a vision rehab service code. Use associated HCPCS II codes to bill for vision service(s). This code is used for scope-of-practice mapping, not for billing. | N | NULL |
+C1535683 | A15884654 | AT104406520 | NULL | ALT | Mapping the practitioner type or specialty to a non-specified diagnostic infusion procedure. Use CPT® and/or HCPCS II codes to bill for all infusion service(s). This code is used for scope-of-practice mapping, not for billing. | N | NULL |
+
+```
+mysql> select * from MRDEF where SAB != "MSH" and SAB != "ALT" limit 10;
+```
+CUI | AUI | ATUI | SATUI | SAB | DEF | SUPPRESS | CVF |
+--|--|--|--|--|--|--|--
+C0032226 | A18556325 | AT130670828 | NULL | CHV | disease causing increase of the fluid amount in the chest wall cavity | N | NULL |
+C0032226 | A18593399 | AT130670829 | NULL | CHV | disease causing increase of the fluid amount in the chest wall cavity | N | NULL |
+C0032226 | A18649215 | AT130670830 | NULL | CHV | disease causing increase of the fluid amount in the chest wall cavity | N | NULL |
+C0078049 | A18558170 | AT130670831 | NULL | CHV | a substance used to prevent chickenpox | N | NULL |
+C0078049 | A18576590 | AT130670832 | NULL | CHV | a substance used to prevent chickenpox | N | NULL |
+C0078049 | A18632385 | AT130670833 | NULL | CHV | a substance used to prevent chickenpox | N | NULL |
+C0078049 | A18688022 | AT130670834 | NULL | CHV | a substance used to prevent chickenpox | N | NULL |
+C0543431 | A18565798 | AT130670835 | NULL | CHV | a unit of radiation dose | N | NULL |
+C0556645 | A18566010 | AT130670836 | NULL | CHV | a unit of radiation dose | N | NULL |
+C0560132 | A18566104 | AT130670837 | NULL | CHV | a unit of radiation dose | N | NULL |
+
+```
+mysql> select SAB, count(*) from MRDEF group by SAB;
+```
+SAB | count(*) |
+--|--
+AIR | 160 |
+ALT | 4281 |
+AOT | 240 |
+CCC | 408 |
+CHV | 2657 |
+CSP | 8265 |
+FMA | 2147 |
+GO | 43648 |
+HL7V3.0 | 8270 |
+HPO | 14040 |
+ICF | 767 |
+ICF-CY | 906 |
+JABL | 724 |
+LNC | 511 |
+MCM | 18 |
+MDR | 230 |
+MDRARA | 230 |
+MDRBPO | 230 |
+MDRCZE | 230 |
+MDRDUT | 230 |
+MDRFRE | 230 |
+MDRGER | 230 |
+MDRGRE | 230 |
+MDRHUN | 230 |
+MDRITA | 230 |
+MDRJPN | 230 |
+MDRKOR | 230 |
+MDRLAV | 230 |
+MDRPOL | 230 |
+MDRPOR | 230 |
+MDRRUS | 230 |
+MDRSPA | 230 |
+MDRSWE | 230 |
+MEDLINEPLUS | 1023 |
+MSH | 32702 |
+MSHCZE | 22345 |
+MSHFRE | 138 |
+MSHNOR | 7460 |
+MSHPOR | 30811 |
+MSHSCR | 1 |
+MSHSPA | 30647 |
+MSHSWE | 17142 |
+NANDA-I | 304 |
+NCI | 137609 |
+NEU | 2660 |
+NIC | 602 |
+NOC | 581 |
+NUCCHCPT | 589 |
+OMS | 134 |
+ORPHANET | 6669 |
+PDQ | 6356 |
+PNDS | 265 |
+PSY | 2212 |
+SCTSPA | 7511 |
+SNOMEDCT_US | 9413 |
+SPN | 4204 |
+UMD | 12259 |
+UWDA | 442 |
+
+```
+mysql> select * from MRSAT limit 10;
+```
+CUI | LUI | SUI | METAUI | STYPE | CODE | ATUI | SATUI | ATN | SAB | ATV | SUPPRESS | CVF |
+--|--|--|--|--|--|--|--|--|--|--|--|--
+C0002797 | NULL | NULL | NULL | CUI | NULL | AT00000003 | NULL | DA | MTH | 19900930 | N | NULL |
+C0002804 | NULL | NULL | NULL | CUI | NULL | AT00000004 | NULL | DA | MTH | 19900930 | N | NULL |
+C0197800 | NULL | NULL | NULL | CUI | NULL | AT00000007 | NULL | DA | MTH | 19940412 | N | NULL |
+C0002808 | NULL | NULL | NULL | CUI | NULL | AT00000008 | NULL | DA | MTH | 19900930 | N | NULL |
+C0002810 | NULL | NULL | NULL | CUI | NULL | AT00000009 | NULL | DA | MTH | 19900930 | N | NULL |
+C0002811 | NULL | NULL | NULL | CUI | NULL | AT00000010 | NULL | DA | MTH | 19900930 | N | NULL |
+C0197801 | NULL | NULL | NULL | CUI | NULL | AT00000011 | NULL | DA | MTH | 19940412 | N | NULL |
+C0002812 | NULL | NULL | NULL | CUI | NULL | AT00000012 | NULL | DA | MTH | 19900930 | N | NULL |
+C0002813 | NULL | NULL | NULL | CUI | NULL | AT00000013 | NULL | DA | MTH | 19900930 | N | NULL |
+C0197803 | NULL | NULL | NULL | CUI | NULL | AT00000014 | NULL | DA | MTH | 19940412 | N | NULL |
+
+```
+mysql> select * from MRSAT where SAB != "MTH" limit 10;
+```
+CUI | LUI | SUI | METAUI | STYPE | CODE | ATUI | SATUI | ATN | SAB | ATV | SUPPRESS | CVF |
+--|--|--|--|--|--|--|--|--|--|--|--|--
+C0226631 | L7947353 | S9261161 | A15487314 | AUI | 77500 | AT100000001 | NULL | LANGUAGE | FMA | Latin | N | NULL |
+C0226476 | L1658590 | S1869222 | A15487357 | AUI | 43921 | AT100000002 | NULL | LANGUAGE | FMA | Latin | N | NULL |
+C0226476 | L1658578 | S1869210 | A15487358 | AUI | 43921 | AT100000003 | NULL | LANGUAGE | FMA | Latin | N | NULL |
+C1184758 | L7921465 | S9257177 | A15487423 | AUI | 75484 | AT100000004 | NULL | LANGUAGE | FMA | Latin | N | NULL |
+C0224224 | L7917062 | S9255685 | A15487425 | AUI | 46777 | AT100000005 | NULL | LANGUAGE | FMA | Latin | N | NULL |
+C1306642 | L7941514 | S9244381 | A15487435 | AUI | 71875 | AT100000006 | NULL | LANGUAGE | FMA | Latin | N | NULL |
+C0227302 | L7921706 | S9259748 | A15487449 | AUI | 14929 | AT100000007 | NULL | LANGUAGE | FMA | Latin | N | NULL |
+C0694589 | L1456954 | S1742895 | A15487461 | AUI | 67962 | AT100000008 | NULL | LANGUAGE | FMA | Latin | N | NULL |
+C0152374 | L1457021 | S1742970 | A15487464 | AUI | 72455 | AT100000009 | NULL | LANGUAGE | FMA | Latin | N | NULL |
+C0224086 | L7915107 | S9234531 | A15487481 | AUI | 9719 | AT100000010 | NULL | LANGUAGE | FMA | Latin | N | NULL |
+
+As you can see from the image below, the `CODE` column of the table corresponds to the FMA ID for that node.
+![image](https://github.com/RTXteam/RTX-KG2/assets/36611732/c3a043fc-6e29-47c9-9598-f5b67dbec917)
