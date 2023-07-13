@@ -79,8 +79,8 @@ ${python_command} -u ${CODE_DIR}/validate_ont_load_inventory.py \
            ${biolink_model_owl_local_file}
 
 ${python_command} -u ${CODE_DIR}/validate_provided_by_to_infores_map_yaml.py \
-           ${infores_catalog_yaml} \
-           ${infores_mapping_file}
+           ${infores_mapping_file} \
+           ${infores_catalog_yaml}
 
 date
 echo "================= finished run-validation-tests.sh ================="
