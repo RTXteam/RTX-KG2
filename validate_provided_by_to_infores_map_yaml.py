@@ -29,9 +29,8 @@ def get_args():
 
 def make_infores_look_up(infores_catalog):
     infores_dict = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(infores_catalog))
-    print(json.dumps(infores_dict, indent=4, sort_keys=True))
     infores_look_up = dict()
-    for infores_entry in infores_dict:
+    for infores_entry in infores_dict['information_resources']:
         infores_name = infores_entry['name']
         infores_curie = infores_entry['id']
         if infores_name not in infores_look_up:
