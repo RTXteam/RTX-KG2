@@ -558,8 +558,6 @@ use_for_contraction_only:
   -
     EDAM: http://edamontology.org/
   -
-    EFO: http://www.ebi.ac.uk/efo/EFO_
-  -
     EFO: http://www.ebi.ac.uk/efo/
   -
     EFO: http://www.ebi.ac.uk/efoIri
@@ -575,8 +573,6 @@ use_for_contraction_only:
     GO: "http://purl.bioontology.org/ontology/GO/GO%3A"
   -
     GO: http://purl.bioontology.org/ontology/GO/
-  -
-    HANCESTRO: http://www.ebi.ac.uk/ancestro/ancestro_
   -
     HCPCS: https://hcpcs.codes/a-codes/
   -
