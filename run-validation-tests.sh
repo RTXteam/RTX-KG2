@@ -58,7 +58,7 @@ ${python_command} -u ${CODE_DIR}/validate_curies_to_categories_yaml.py \
 
 ${python_command} -u ${CODE_DIR}/validate_curies_to_urls_map_yaml.py \
            ${curies_to_urls_file} \
-           ${biolink_url_context_jsonld}
+           ${biolink_model_yaml_url}
 
 ${python_command} -u ${CODE_DIR}/validate_kg2_util_curies_urls_categories.py \
            ${curies_to_urls_file} \

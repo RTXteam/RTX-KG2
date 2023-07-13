@@ -14,8 +14,8 @@ __status__ = 'Prototype'
 import argparse
 import json
 import sys
-import urllib.request
 import yaml
+import kg2_util
 
 BIDIR = 'use_for_bidirectional_mapping'
 CONT = 'use_for_contraction_only'
