@@ -171,7 +171,7 @@ identifiers_org_registry:goa:
   infores_curie: infores:goa
   knowledge_type: primary_knowledge_source
 identifiers_org_registry:hmdb:
-  source_name: Human Metabolome Database
+  source_name: 'Human Metabolome Database '
   infores_curie: infores:hmdb
   knowledge_type: knowledge_source
 identifiers_org_registry:intact:
