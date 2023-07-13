@@ -27,7 +27,7 @@ HP:hp.owl:
   infores_curie: infores:diseases
   knowledge_type: knowledge_source
 'KEGG_source:':
-  source_name: Kyoto Encyclopedia of Genes and Genomes
+  source_name: Kyoto Encyclopedia of Genes and Genomes (KEGG)
   infores_curie: infores:kegg
   knowledge_type: knowledge_source
 OBO:bfo.owl:
@@ -179,7 +179,7 @@ identifiers_org_registry:intact:
   infores_curie: infores:intact
   knowledge_type: knowledge_source
 identifiers_org_registry:kegg.compound:
-  source_name: Kyoto Encyclopedia of Genes and Genomes
+  source_name: Kyoto Encyclopedia of Genes and Genomes (KEGG)
   infores_curie: infores:kegg
   knowledge_type: original_knowledge_source
 identifiers_org_registry:mirbase:
