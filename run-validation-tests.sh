@@ -31,6 +31,8 @@ biolink_model_owl_url=${biolink_raw_base_url}${biolink_model_owl}
 biolink_model_yaml=biolink-model.yaml
 biolink_model_yaml_url=${biolink_raw_base_url}${biolink_model_yaml}
 biolink_model_yaml_local_file=${BUILD_DIR}/${biolink_model_yaml}
+infores_catalog_yaml=infores_catalog.yaml
+infores_catalog_yaml_url=${biolink_raw_base_url}${infores_catalog_yaml}
 
 sed -i "\@${biolink_base_url_no_version}@c${curies_urls_map_replace_string}" \
         ${curies_to_urls_file}
@@ -45,6 +47,8 @@ rm -f ${biolink_model_owl_local_file}
 rm -f ${biolink_model_yaml_local_file}
 
 cd ${BUILD_DIR}
+
+${curl_get} ${infores_catalog_yaml_url} -o ${infores_catalog_yaml}
 
 ${python_command} -u ${CODE_DIR}/validate_curies_to_categories_yaml.py \
            ${curies_to_categories_file} \
@@ -73,6 +77,10 @@ ${python_command} -u ${CODE_DIR}/validate_ont_load_inventory.py \
            ${umls2rdf_config_master} \
            ${biolink_model_owl_url} \
            ${biolink_model_owl_local_file}
+
+${python_command} -u ${CODE_DIR}/validate_provided_by_to_infores_map_yaml.py \
+           ${infores_catalog_yaml} \
+           ${infores_mapping_file}
 
 date
 echo "================= finished run-validation-tests.sh ================="

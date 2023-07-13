@@ -3,7 +3,7 @@
     `kg2-provided-by-curie-to-infores-curie.yaml` for correctness
 
     Usage: validate_provided_by_to_infores_map.py <kg2ProvidedByCurieToInforesCurieFile.yaml>
-    <inforesCatalogFile.tsv>
+    <inforesCatalogFile.yaml>
 '''
 
 import kg2_util
@@ -27,34 +27,12 @@ def get_args():
     return arg_parser.parse_args()
 
 
-def tsv_to_dict(filename):
-    file = list()
-    header = list()
-    with open(filename, 'r') as tsv_file:
-        line_count = 0
-        for line in tsv_file:
-            line = line.split('\t')
-            if line_count == 0:
-                header = line
-            else:
-                element_count = 0
-                line_dict = dict()
-                for element in line:
-                    line_dict[header[element_count]] = element
-                    element_count += 1
-                file.append(line_dict)
-            line_count += 1
-    return file
-
-
 def make_infores_look_up(infores_catalog):
-    infores_dict = tsv_to_dict(infores_catalog)
+    infores_dict = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(infores_catalog))
     infores_look_up = dict()
     for infores_entry in infores_dict:
-        infores_name = infores_entry['name'].strip()
-        infores_curie = infores_entry['id'].replace(' ', '').replace('\n', '')
-        if len(infores_name) < 1:
-            continue
+        infores_name = infores_entry['name']
+        infores_curie = infores_entry['id']
         if infores_name not in infores_look_up:
             infores_look_up[infores_name] = list()
         infores_look_up[infores_name].append(infores_curie)
