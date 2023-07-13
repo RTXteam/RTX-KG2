@@ -88,11 +88,11 @@
   file: umls-icd9cm.ttl
   title: International Classification of Diseases, Ninth Revision, Clinical Modification
   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD9CM
-- # maps to CURIE prefix LOINC
-  download: false
-  file: umls-lnc.ttl
-  title: Logical Observation Identifiers Names and Codes
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/LNC
+# - # maps to CURIE prefix LOINC
+#   download: false
+#   file: umls-lnc.ttl
+#   title: Logical Observation Identifiers Names and Codes
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/LNC
 # - # maps to CURIE prefix MEDDRA
 #   download: false
 #   file: umls-mdr.ttl
