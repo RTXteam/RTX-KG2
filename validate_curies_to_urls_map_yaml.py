@@ -59,6 +59,7 @@ kg2_util.download_file_if_not_exist_locally(biolink_model_yaml_url, biolink_mode
 
 biolink_model = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(biolink_model_file_name))
 print(json.dumps(biolink_model, indent=4, sort_keys=True))
+biolink_context_curie_prefixes = dict()
 for prefix in biolink_model['prefixes']:
     biolink_context_curie_prefixes[prefix] = biolink_model['prefixes'][prefix]
 
