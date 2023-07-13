@@ -36,6 +36,7 @@ Issues:
 - Issue [#310](https://github.com/RTXteam/RTX-KG2/issues/310)
 - Issue [#311](https://github.com/RTXteam/RTX-KG2/issues/311)
 - Issue [#315](https://github.com/RTXteam/RTX-KG2/issues/315)
+- Issue [#319](https://github.com/RTXteam/RTX-KG2/issues/319)
 - Additional issues that arose during the build: 
 
 Build info:
