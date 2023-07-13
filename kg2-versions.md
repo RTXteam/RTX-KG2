@@ -28,9 +28,10 @@ Issues:
 - Issue [#300](https://github.com/RTXteam/RTX-KG2/issues/300)
 - Issue [#301](https://github.com/RTXteam/RTX-KG2/issues/301)
 - Issue [#302](https://github.com/RTXteam/RTX-KG2/issues/302)
-- Issue [#303](https://github.com/RTXteam/RTX-KG2/issues/303)
+- Issue [#303](https://github.com/RTXteam/RTX-KG2/issues/303) - we are using a pickled copy of an old version of FOODON in this build
 - Issue [#304](https://github.com/RTXteam/RTX-KG2/issues/304)
 - Issue [#305](https://github.com/RTXteam/RTX-KG2/issues/305)
+- Issue [#307](https://github.com/RTXteam/RTX-KG2/issues/307)
 - Issue [#310](https://github.com/RTXteam/RTX-KG2/issues/310)
 - Issue [#311](https://github.com/RTXteam/RTX-KG2/issues/311)
 - Additional issues that arose during the build: 
