@@ -53,7 +53,7 @@ biolink_model_yaml_url = args.biolinkModelYamlUrl
 map_data = yaml.safe_load(open(curies_to_urls_map_file_name, 'r'))
 assert set(map_data.keys()) == TOP_KEYS
 
-biolink_model = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(biolink_model_file_name))
+biolink_model = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(biolink_model_yaml_url))
 print(json.dumps(biolink_model, indent=4, sort_keys=True))
 for prefix in biolink_model['prefixes']:
     biolink_context_curie_prefixes[prefix] = biolink_model['prefixes'][prefix]
