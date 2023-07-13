@@ -115,7 +115,7 @@ OBO:uberon/ext.owl:
   infores_curie: infores:uberon
   knowledge_type: knowledge_source
 'OMIM:':
-  source_name: Online Mendelian Inheritance in Man
+  source_name: Online Mendelian Inheritance in Man (OMIM)
   infores_curie: infores:omim
   knowledge_type: knowledge_source
 'ORPHANET:':
@@ -311,7 +311,7 @@ umls_source:NDFRT:
   infores_curie: infores:ndfrt
   knowledge_type: knowledge_source
 umls_source:OMIM:
-  source_name: Online Mendelian Inheritance in Man
+  source_name: Online Mendelian Inheritance in Man (OMIM)
   infores_curie: infores:omim
   knowledge_type: knowledge_source
 umls_source:PDQ:
