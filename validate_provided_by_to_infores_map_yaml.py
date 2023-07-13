@@ -58,9 +58,7 @@ def validate_infores_curies(infores_look_up, kg2_infores_look_up):
         exceptions = False
         for name in name_exceptions:
             exceptions = name == kg2_infores_name or exceptions
-        if kg2_infores_name not in infores_look_up:
-            print(kg2_infores_name)
-        # assert kg2_infores_name in infores_look_up or exceptions, kg2_infores_name
+        assert kg2_infores_name in infores_look_up or exceptions, kg2_infores_name
         for kg2_infores_curie in kg2_infores_curies:
             assert exceptions or kg2_infores_curie in infores_look_up[kg2_infores_name], kg2_infores_curie + ' ' + str(infores_look_up[kg2_infores_name])
     return name_exceptions
