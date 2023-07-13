@@ -28,6 +28,7 @@ def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='validate_curies_to_urls_map.py: checks the file `curies-to-urls-map.yaml` for correctness.')
     arg_parser.add_argument('curiesToURLsMapFile', type=str)
     arg_parser.add_argument('biolinkModelYamlUrl', type=str)
+    arg_parser.add_argument('biolinkModelYamlLocalFile', type=str)
     return arg_parser
 
 
@@ -49,11 +50,14 @@ def make_map_from_list(thelist: list, reverse: bool) -> dict:
 args = make_arg_parser().parse_args()
 curies_to_urls_map_file_name = args.curiesToURLsMapFile
 biolink_model_yaml_url = args.biolinkModelYamlUrl
+biolink_model_file_name = args.biolinkModelYamlLocalFile
 
 map_data = yaml.safe_load(open(curies_to_urls_map_file_name, 'r'))
 assert set(map_data.keys()) == TOP_KEYS
 
-biolink_model = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(biolink_model_yaml_url))
+kg2_util.download_file_if_not_exist_locally(biolink_model_url, biolink_model_file_name)
+
+biolink_model = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(biolink_model_file_name))
 print(json.dumps(biolink_model, indent=4, sort_keys=True))
 for prefix in biolink_model['prefixes']:
     biolink_context_curie_prefixes[prefix] = biolink_model['prefixes'][prefix]
