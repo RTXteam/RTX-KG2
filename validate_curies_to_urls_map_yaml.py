@@ -55,7 +55,7 @@ biolink_model_file_name = args.biolinkModelYamlLocalFile
 map_data = yaml.safe_load(open(curies_to_urls_map_file_name, 'r'))
 assert set(map_data.keys()) == TOP_KEYS
 
-kg2_util.download_file_if_not_exist_locally(biolink_model_url, biolink_model_file_name)
+kg2_util.download_file_if_not_exist_locally(biolink_model_yaml_url, biolink_model_file_name)
 
 biolink_model = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(biolink_model_file_name))
 print(json.dumps(biolink_model, indent=4, sort_keys=True))
