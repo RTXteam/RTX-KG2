@@ -81,8 +81,9 @@ for curie_prefix in map_data_bidir:
     if curie_prefix not in biolink_context_curie_prefixes:
         print("WARNING: KG2 CURIE prefix " + curie_prefix + " is not in the Biolink context.jsonld file")
     else:
-        if curie_url != biolink_context_curie_prefixes[curie_prefix]:
-            print("WARNING: CURIE_URL NOT SAME AS BIOLINK URL for", curie_prefix, " - KG2:", curie_url, ", Biolink:", biolink_context_curie_prefixes[curie_prefix])
+        # The URL for the prefix should be the same as the one Biolink provides for it
+        assert curie_url == biolink_context_curie_prefixes[curie_prefix], curie_prefix
+            
 # every URL in the expa map should be a value in the bidir map_data (or at least a partial match)
 bidir_map_urls = set(iter(map_data_bidir.values()))
 for expa_url in map_data_expa.values():
