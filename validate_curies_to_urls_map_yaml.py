@@ -27,7 +27,7 @@ TOP_KEYS = {BIDIR, CONT, EXPA}
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='validate_curies_to_urls_map.py: checks the file `curies-to-urls-map.yaml` for correctness.')
     arg_parser.add_argument('curiesToURLsMapFile', type=str)
-    arg_parser.add_argument('biolinkContextJsonLDURL', type=str)
+    arg_parser.add_argument('biolinkModelYamlUrl', type=str)
     return arg_parser
 
 
@@ -48,13 +48,15 @@ def make_map_from_list(thelist: list, reverse: bool) -> dict:
 
 args = make_arg_parser().parse_args()
 curies_to_urls_map_file_name = args.curiesToURLsMapFile
-biolink_context_json_ld_url = args.biolinkContextJsonLDURL
+biolink_model_yaml_url = args.biolinkModelYamlUrl
 
 map_data = yaml.safe_load(open(curies_to_urls_map_file_name, 'r'))
 assert set(map_data.keys()) == TOP_KEYS
 
-with urllib.request.urlopen(biolink_context_json_ld_url) as response:
-    biolink_context_curie_prefixes = set(json.load(response)['@context'].keys())
+biolink_model = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(biolink_model_file_name))
+print(json.dumps(biolink_model, indent=4, sort_keys=True))
+for prefix in biolink_model['prefixes']:
+    biolink_context_curie_prefixes[prefix] = biolink_model['prefixes'][prefix]
 
 map_data_bidir_list = map_data[BIDIR]
 map_data_expa_list = map_data[EXPA]
@@ -69,9 +71,13 @@ map_data_cont = make_map_from_list(map_data_cont_list, reverse=True)
 overlap_set = set(iter(map_data_bidir.keys())) & set(iter(map_data_expa.keys()))
 assert len(overlap_set) == 0, str(overlap_set)
 
-for curie_prefix in map_data_bidir.keys():
+for curie_prefix in map_data_bidir:
+    curie_url = map_data_bidir[curie_prefix]
     if curie_prefix not in biolink_context_curie_prefixes:
-        print("WARNING: KG2 CURIE prefix " + curie_prefix + " is not in the Biolink context.jsonld file", file=sys.stderr)
+        print("WARNING: KG2 CURIE prefix " + curie_prefix + " is not in the Biolink context.jsonld file")
+    else:
+        if curie_url != biolink_context_curie_prefixes[curie_prefix]:
+            print("WARNING: CURIE_URL NOT SAME AS BIOLINK URL for", curie_prefix, " - KG2:", curie_url, ", Biolink:", biolink_context_curie_prefixes[curie_prefix])
 # every URL in the expa map should be a value in the bidir map_data (or at least a partial match)
 bidir_map_urls = set(iter(map_data_bidir.values()))
 for expa_url in map_data_expa.values():
