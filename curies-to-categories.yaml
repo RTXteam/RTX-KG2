@@ -176,6 +176,7 @@ term-mappings:
     MESH:D001523: disease
     MESH:D003933: procedure
     MESH:D004864: device
+    MESH:D005007: named thing
     MESH:D005159: agent
     MESH:D006281: agent
     MESH:D008919: procedure
