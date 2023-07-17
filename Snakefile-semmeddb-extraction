@@ -1,10 +1,11 @@
 rule SemMedDB:
     input:
-        config['BUILD_DIR'] + "/validation-placeholder.empty"
+        config['VALIDATION_PLACEHOLDER']
     output:
-        config['SEMMED_TUPLELIST_FILE']
+        tuplelist = config['SEMMED_TUPLELIST_FILE'],
+        exclusion_list = config['SEMMED_EXCLUSION_FILE']
     log:
         config['BUILD_DIR'] + "/extract-semmeddb" + config['TEST_SUFFIX'] + ".log"
     shell:
-        "bash -x " + config['CODE_DIR'] + "/extract-semmeddb.sh {output} " + config['TEST_FLAG'] + " > {log} 2>&1"
+        "bash -x " + config['CODE_DIR'] + "/extract-semmeddb.sh {output.tuplelist} {output.exclusion_list} " + config['TEST_FLAG'] + " > {log} 2>&1"
 

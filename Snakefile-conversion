@@ -62,13 +62,14 @@ rule SemMedDB_Conversion:
     input:
         real = config['SEMMED_TUPLELIST_FILE'],
         mrcui_req = config['UMLS_CUI_FILE'],
+        exclusion_list = config['SEMMED_EXCLUSION_FILE'],
         validation = config['VALIDATION_PLACEHOLDER']
     output:
         config['SEMMED_OUTPUT_FILE']
     log:
         config['BUILD_DIR'] + "/semmeddb-tuple-list-json-to-kg-json" + config['TEST_SUFFIX'] + ".log"
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/semmeddb_tuple_list_json_to_kg_json.py " + config['TEST_ARG'] + " --mrcuiFile ~/kg2-build/umls/META/MRCUI.RRF {input.real} {output} > {log} 2>&1"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/semmeddb_tuple_list_json_to_kg_json.py " + config['TEST_ARG'] + " --mrcuiFile ~/kg2-build/umls/META/MRCUI.RRF {input.real} {input.exclusion_list} {output} > {log} 2>&1"
 
 rule UniProtKB_Conversion:
     input:

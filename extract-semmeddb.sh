@@ -20,7 +20,7 @@ source ${config_dir}/master-config.shinc
 semmed_output_file=${1:-"${BUILD_DIR}/kg2-semmeddb-tuplelist.json"}
 
 ## supply a default value for the build_flag string
-build_flag=${2:-""}
+build_flag=${3:-""}
 
 semmed_ver=VER43
 semmed_year=2023
@@ -63,6 +63,15 @@ zcat ${semmed_dir}/${generic_concept_sql_file} | mysql --defaults-extra-file=${m
 zcat ${semmed_dir}/${predication_sql_file} | mysql --defaults-extra-file=${mysql_conf} --database=${mysql_dbname}
 zcat ${semmed_dir}/${predication_aux_sql_file} | mysql --defaults-extra-file=${mysql_conf} --database=${mysql_dbname}
 zcat ${semmed_dir}/${sentence_sql_file} | mysql --defaults-extra-file=${mysql_conf} --database=${mysql_dbname}
+
+## handle domain-range exclusion list (#281)
+biolink_base_url_no_version=https://raw.githubusercontent.com/biolink/biolink-model/
+biolink_raw_base_url=${biolink_base_url_no_version}v${biolink_model_version}/
+domain_range_exclusion_filename=semmed-exclude-list.yaml
+domain_range_exclusion_link=${biolink_raw_base_url}${domain_range_exclusion_filename}
+domain_range_exclusion_file=${2:-"${BUILD_DIR}/${domain_range_exclusion_filename}"}
+
+${curl_get} ${domain_range_exclusion_link} -o ${domain_range_exclusion_file}
 
 if [[ "${build_flag}" == "test" || "${build_flag}" == 'alltest' ]]
 then
