@@ -76,7 +76,8 @@ def make_rel(preds_dict: dict,
              sentence: str,
              subject_score: str,
              object_score: str,
-             negated: bool):
+             negated: bool,
+             domain_range_exclusion: bool):
     key = subject_curie + '-' + predicate + '-' + object_curie
     key_val = preds_dict.get(key, None)
     publication_curie = kg2_util.CURIE_PREFIX_PMID + ':' + pmid
@@ -98,6 +99,7 @@ def make_rel(preds_dict: dict,
         edge_dict['publications_info'] = {publication_curie:
                                           publication_info_dict}
         edge_dict['negated'] = negated
+        edge_dict['domain_range_exclusion'] = domain_range_exclusion
         preds_dict[key] = edge_dict
     else:
         key_val['publications_info'][publication_curie] = publication_info_dict
@@ -197,13 +199,14 @@ def create_semmed_exclude_list(semmed_exclude_list_name):
     for exclude_item in semmed_list['excluded_semmedb_records']:
         exclusions.append(make_regex_form(exclude_item['semmed_subject_code'], exclude_item['semmed_predicate'], exclude_item['semmed_object_code']))
 
-    return "|".join(exclusions)
+    return re.compile("|".join(exclusions))
 
 
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
     mrcui_file_name = args.mrcui_file_name  # '/home/ubuntu/kg2-build/umls/META/MRCUI.RRF'
     semmed_exclude_list_name = args.semmedExcludeList
+    EXCLUDE_LIST_REGEX = create_semmed_exclude_list(semmed_exclude_list_name)
     input_file_name = args.inputFile
     output_file_name = args.outputFile
     test_mode = args.test
@@ -240,6 +243,10 @@ if __name__ == '__main__':
         else:
             negated = False
 
+        domain_range_exclusion = False
+        if EXCLUDE_LIST_REGEX.match(make_regex_form(subject_semtype, predicate, object_semtype)) is not None:
+            domain_range_exclusion = True
+
         # Create the new edge(s) based on this SemMedDB row
         for rel_to_make in get_rels_to_make_for_row(subject_cui_str, object_cui_str, predicate, remapped_cuis):
             subject_curie = rel_to_make[0]
@@ -248,7 +255,7 @@ if __name__ == '__main__':
             # Exclude self-edges for certain types of predicates
             if subject_curie != object_curie or relation_label.lower() not in EDGE_LABELS_EXCLUDE_FOR_LOOPS:
                 make_rel(edges_dict, subject_curie, object_curie, relation_label, pmid, pub_date, sentence,
-                         subject_score, object_score, negated)
+                         subject_score, object_score, negated, domain_range_exclusion)
 
         if predicate not in nodes_dict:
             relation_iri = kg2_util.convert_snake_case_to_camel_case(predicate.lower().replace(' ', '_'))

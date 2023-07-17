@@ -734,7 +734,8 @@ def make_edge(subject_id: str,
             'publications': [],
             'publications_info': {},
             'update_date': update_date,
-            'primary_knowledge_source': primary_knowledge_source}
+            'primary_knowledge_source': primary_knowledge_source,
+            'domain_range_exclusion': False}
     edge_id = make_edge_key(edge)
     edge["id"] = edge_id
     return edge
