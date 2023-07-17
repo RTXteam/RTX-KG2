@@ -30,6 +30,9 @@ CUI_PREFIX = kg2_util.CURIE_PREFIX_UMLS
 NCBIGENE_PREFIX = kg2_util.CURIE_PREFIX_NCBI_GENE
 XREF_EDGE_LABEL = 'xref'
 
+ANYTHING_REGEX = "(.)*"
+EXCLUDE_EMPTY_STR = "n/a"
+
 
 def get_remapped_cuis(retired_cui_file_name: str) -> dict:
     """
@@ -49,6 +52,19 @@ def get_remapped_cuis(retired_cui_file_name: str) -> dict:
             if map_type == 'SY' and is_current == 'Y' and new_cui != '':
                 remapped_cuis[old_cui] = new_cui
     return remapped_cuis
+
+
+def make_regex_form(subject_code, predicate, object_code):
+    if subject_code is None or subject_code == EXCLUDE_EMPTY_STR:
+        subject_code = ANYTHING_REGEX
+
+    if predicate is None or predicate == EXCLUDE_EMPTY_STR:
+        predicate = ANYTHING_REGEX
+
+    if object_code is None or object_code == EXCLUDE_EMPTY_STR:
+        object_code = ANYTHING_REGEX
+
+    return subject_code + "--" + predicate + "--" + object_code
 
 
 def make_rel(preds_dict: dict,
@@ -93,6 +109,7 @@ def make_arg_parser():
     arg_parser.add_argument('--test', dest='test', action='store_true', default=False)
     arg_parser.add_argument('--mrcuiFile', dest='mrcui_file_name', type=str, default='/home/ubuntu/kg2-build/umls/META/MRCUI.RRF')
     arg_parser.add_argument('inputFile', type=str)
+    arg_parser.add_argument('semmedExcludeList', type=str)
     arg_parser.add_argument('outputFile', type=str)
     return arg_parser
 
@@ -173,9 +190,20 @@ def get_rels_to_make_for_row(subject_str: str, object_str: str, predicate: str, 
     return rels_to_make
 
 
+def create_semmed_exclude_list(semmed_exclude_list_name):
+    semmed_list = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(semmed_exclude_list_name))
+    exclusions = list()
+
+    for exclude_item in semmed_list['excluded_semmedb_records']:
+        exclusions.append(make_regex_form(exclude_item['semmed_subject_code'], exclude_item['semmed_predicate'], exclude_item['semmed_object_code']))
+
+    return "|".join(exclusions)
+
+
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
     mrcui_file_name = args.mrcui_file_name  # '/home/ubuntu/kg2-build/umls/META/MRCUI.RRF'
+    semmed_exclude_list_name = args.semmedExcludeList
     input_file_name = args.inputFile
     output_file_name = args.outputFile
     test_mode = args.test
@@ -196,7 +224,7 @@ if __name__ == '__main__':
 
     update_date_dt = datetime.datetime.fromisoformat('2018-01-01 00:00:00')  # picking an arbitrary time in the past
 
-    for (pmid, subject_cui_str, predicate, object_cui_str, pub_date, sentence,
+    for (pmid, subject_cui_str, subject_semtype, predicate, object_cui_str, object_semtype, pub_date, sentence,
          subject_score, object_score, curr_timestamp) in input_data['rows']:
         row_ctr += 1
         curr_timestamp_dt = datetime.datetime.fromisoformat(curr_timestamp)
