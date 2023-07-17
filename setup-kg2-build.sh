@@ -41,6 +41,7 @@ fi
 
 mkdir -p ${BUILD_DIR}
 setup_log_file=${BUILD_DIR}/setup-kg2-build${test_str}.log
+touch setup_log_file
 
 if [[ "${build_flag}" == "ci" ]]
 then
