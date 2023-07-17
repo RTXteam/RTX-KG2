@@ -12,6 +12,7 @@ Issues:
 - Issue [#262](https://github.com/RTXteam/RTX-KG2/issues/262)
 - Issue [#276](https://github.com/RTXteam/RTX-KG2/issues/276)
 - Issue [#278](https://github.com/RTXteam/RTX-KG2/issues/278)
+- Issue [#279](https://github.com/RTXteam/RTX-KG2/issues/279)
 - Issue [#280](https://github.com/RTXteam/RTX-KG2/issues/280)
 - Issue [#281](https://github.com/RTXteam/RTX-KG2/issues/281)
 - Issue [#286](https://github.com/RTXteam/RTX-KG2/issues/286)
