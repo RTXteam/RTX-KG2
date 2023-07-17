@@ -32,7 +32,9 @@ XREF_EDGE_LABEL = 'xref'
 
 ANYTHING_REGEX = "(.)*"
 EXCLUDE_EMPTY_STR = "n/a"
-
+SEMANTIC_TYPE_EXCLUSION = "semantic type exclusion"
+DOMAIN_EXCLUSION = "Domain exclusion"
+RANGE_EXCLUSION = "Range exclusion"
 
 def get_remapped_cuis(retired_cui_file_name: str) -> dict:
     """
@@ -52,6 +54,9 @@ def get_remapped_cuis(retired_cui_file_name: str) -> dict:
             if map_type == 'SY' and is_current == 'Y' and new_cui != '':
                 remapped_cuis[old_cui] = new_cui
     return remapped_cuis
+
+def date():
+    return print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
 
 def make_regex_form(subject_code, predicate, object_code):
@@ -194,19 +199,45 @@ def get_rels_to_make_for_row(subject_str: str, object_str: str, predicate: str, 
 
 def create_semmed_exclude_list(semmed_exclude_list_name):
     semmed_list = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(semmed_exclude_list_name))
-    exclusions = list()
+    exclusions = dict()
+
+    # Exclusion types
+    exclusions[SEMANTIC_TYPE_EXCLUSION] = set()
+    exclusions[DOMAIN_EXCLUSION] = dict()
+    exclusions[RANGE_EXCLUSION] = dict()
 
     for exclude_item in semmed_list['excluded_semmedb_records']:
-        exclusions.append(make_regex_form(exclude_item['semmed_subject_code'], exclude_item['semmed_predicate'], exclude_item['semmed_object_code']))
+        exclusion_type = exclude_item['exclusion_type']
+        assert exclusion_type in exclusions, exclusion_type
 
-    return re.compile("|".join(exclusions))
+        sub_code = exclude_item['semmed_subject_code']
+        obj_code = exclude_item['semmed_object_code']
+        pred = exclude_item['semmed_predicate']
+
+        if exclusion_type == SEMANTIC_TYPE_EXCLUSION:
+            if sub_code != EXCLUDE_EMPTY_STR:
+                exclusions[SEMANTIC_TYPE_EXCLUSION].add(sub_code)
+            if obj_code != EXCLUDE_EMPTY_STR:
+                exclusions[SEMANTIC_TYPE_EXCLUSION].add(obj_code)
+
+        if exclusion_type == DOMAIN_EXCLUSION:
+            if pred not in exclusions[DOMAIN_EXCLUSION]:
+                exclusions[DOMAIN_EXCLUSION][pred] = set()
+            exclusions[DOMAIN_EXCLUSION][pred].add(sub_code)
+
+        if exclusion_type == RANGE_EXCLUSION:
+            if pred not in exclusions[RANGE_EXCLUSION]:
+                exclusions[RANGE_EXCLUSION][pred] = set()
+            exclusions[RANGE_EXCLUSION][pred].add(obj_code)
+
+    return exclusions
 
 
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
     mrcui_file_name = args.mrcui_file_name  # '/home/ubuntu/kg2-build/umls/META/MRCUI.RRF'
     semmed_exclude_list_name = args.semmedExcludeList
-    EXCLUDE_LIST_REGEX = create_semmed_exclude_list(semmed_exclude_list_name)
+    exclusions = create_semmed_exclude_list(semmed_exclude_list_name)
     input_file_name = args.inputFile
     output_file_name = args.outputFile
     test_mode = args.test
@@ -243,9 +274,15 @@ if __name__ == '__main__':
         else:
             negated = False
 
+        date()
         domain_range_exclusion = False
-        if EXCLUDE_LIST_REGEX.match(make_regex_form(subject_semtype, predicate, object_semtype)) is not None:
+        
+        if subject_semtype in exclusions[SEMANTIC_TYPE_EXCLUSION] or object_semtype in exclusions[SEMANTIC_TYPE_EXCLUSION] \
+            or subject_semtype in exclusions[DOMAIN_EXCLUSION].get(predicate, set()) or object_semtype in exclusions[RANGE_EXCLUSION].get(predicate, set()):
             domain_range_exclusion = True
+
+        date()
+        print("--")
 
         # Create the new edge(s) based on this SemMedDB row
         for rel_to_make in get_rels_to_make_for_row(subject_cui_str, object_cui_str, predicate, remapped_cuis):
