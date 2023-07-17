@@ -30,7 +30,6 @@ CUI_PREFIX = kg2_util.CURIE_PREFIX_UMLS
 NCBIGENE_PREFIX = kg2_util.CURIE_PREFIX_NCBI_GENE
 XREF_EDGE_LABEL = 'xref'
 
-ANYTHING_REGEX = "(.)*"
 EXCLUDE_EMPTY_STR = "n/a"
 SEMANTIC_TYPE_EXCLUSION = "semantic type exclusion"
 DOMAIN_EXCLUSION = "Domain exclusion"
@@ -55,21 +54,9 @@ def get_remapped_cuis(retired_cui_file_name: str) -> dict:
                 remapped_cuis[old_cui] = new_cui
     return remapped_cuis
 
-def date():
-    return print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
-
-def make_regex_form(subject_code, predicate, object_code):
-    if subject_code is None or subject_code == EXCLUDE_EMPTY_STR:
-        subject_code = ANYTHING_REGEX
-
-    if predicate is None or predicate == EXCLUDE_EMPTY_STR:
-        predicate = ANYTHING_REGEX
-
-    if object_code is None or object_code == EXCLUDE_EMPTY_STR:
-        object_code = ANYTHING_REGEX
-
-    return subject_code + "--" + predicate + "--" + object_code
+def date(print_str: str):
+    return print(print_str, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
 
 def make_rel(preds_dict: dict,
@@ -234,6 +221,7 @@ def create_semmed_exclude_list(semmed_exclude_list_name):
 
 
 if __name__ == '__main__':
+    date("Starting semmeddb_tuple_list_json_to_kg_json.py")
     args = make_arg_parser().parse_args()
     mrcui_file_name = args.mrcui_file_name  # '/home/ubuntu/kg2-build/umls/META/MRCUI.RRF'
     semmed_exclude_list_name = args.semmedExcludeList
@@ -274,15 +262,13 @@ if __name__ == '__main__':
         else:
             negated = False
 
-        date()
+        # Handle domain_range_exclusion (#281)
         domain_range_exclusion = False
-        
-        if subject_semtype in exclusions[SEMANTIC_TYPE_EXCLUSION] or object_semtype in exclusions[SEMANTIC_TYPE_EXCLUSION] \
-            or subject_semtype in exclusions[DOMAIN_EXCLUSION].get(predicate, set()) or object_semtype in exclusions[RANGE_EXCLUSION].get(predicate, set()):
+        if subject_semtype in exclusions[SEMANTIC_TYPE_EXCLUSION] \
+           or object_semtype in exclusions[SEMANTIC_TYPE_EXCLUSION] \
+           or subject_semtype in exclusions[DOMAIN_EXCLUSION].get(predicate, set()) \
+           or object_semtype in exclusions[RANGE_EXCLUSION].get(predicate, set()):
             domain_range_exclusion = True
-
-        date()
-        print("--")
 
         # Create the new edge(s) based on this SemMedDB row
         for rel_to_make in get_rels_to_make_for_row(subject_cui_str, object_cui_str, predicate, remapped_cuis):
@@ -326,6 +312,8 @@ if __name__ == '__main__':
 
     del rel_dict
 
+    date("Saving " + output_file_name)
     kg2_util.save_json(out_graph, output_file_name, test_mode)
 
     del out_graph
+    date("Finishing semmeddb_tuple_list_json_to_kg_json.py")
