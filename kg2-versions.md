@@ -41,7 +41,7 @@ Issues:
 - Additional issues that arose during the build: 
 
 Build info:
-- Biolink Model version: 3.5.0
+- Biolink Model version: 3.5.1
 - Build host: 
 - Build directory: `/home/ubuntu/kg2-build`
 - Build code branch: `kg2.8.4prep`
