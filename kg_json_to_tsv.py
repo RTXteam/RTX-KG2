@@ -91,7 +91,8 @@ def check_all_edges_have_same_set(edgekeys_list):
                     "id",
                     "qualified_predicate",
                     "qualified_object_aspect",
-                    "qualified_object_direction"]
+                    "qualified_object_direction",
+                    "domain_range_exclusion"]
     for edgelabel in edgekeys_list:
         if edgelabel not in supported_ls:
             raise ValueError("relation_label not in supported list: " + edgelabel)
