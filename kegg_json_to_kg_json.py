@@ -3,7 +3,7 @@
     KEGG API JSON dump
 
     Usage: kegg_json_to_kg_json.py [--test] <inputFile.json>
-    <outputFile.json>
+    <outputNodesFile.json> <outputEdgesFile.json>
 '''
 
 import json
@@ -64,7 +64,8 @@ def get_args():
     arg_parser.add_argument('--test', dest='test',
                             action="store_true", default=False)
     arg_parser.add_argument('inputFile', type=str)
-    arg_parser.add_argument('outputFile', type=str)
+    arg_parser.add_argument('outputNodesFile', type=str)
+    arg_parser.add_argument('outputEdgesFile', type=str)
     return arg_parser.parse_args()
 
 
@@ -270,7 +271,7 @@ def get_node_basics(data_dict):
     return node_name, synonym, processed_xrefs
 
 
-def process_compound(compound_dict, kegg_id, update_date):
+def process_compound(compound_dict, kegg_id, nodes_output, edges_output, update_date):
     node_id = kegg_id.replace('cpd:', '')
     node_name, synonym, processed_xrefs = get_node_basics(compound_dict)
 
@@ -285,22 +286,21 @@ def process_compound(compound_dict, kegg_id, update_date):
                        update_date,
                        sequence=sequence,
                        synonym=synonym)
-    edges = []
+    nodes_output.write(node)
+
     for xref in processed_xrefs:
-        edges.append(format_same_as_edge(node_id,
+        edges_output.write(format_same_as_edge(node_id,
                                          xref,
                                          update_date))
     for enzyme in enzymes:
-        edges.append(format_kegg_edge(node_id, enzyme, update_date))
+        edges_output.write(format_kegg_edge(node_id, enzyme, update_date))
     for reaction in reactions:
-        edges.append(format_kegg_edge(node_id, reaction, update_date))
+        edges_output.write(format_kegg_edge(node_id, reaction, update_date))
     for pathway in pathways:
-        edges.append(format_kegg_edge(node_id, pathway, update_date))
-
-    return node, edges
+        edges_output.write(format_kegg_edge(node_id, pathway, update_date))
 
 
-def process_reaction(reaction_dict, kegg_id, update_date):
+def process_reaction(reaction_dict, kegg_id, nodes_output, edges_output, update_date):
     node_id = kegg_id
     description = reaction_dict.get('DEFINITION', '').strip()
     node_name, synonym, xrefs = get_node_basics(reaction_dict)
@@ -313,21 +313,19 @@ def process_reaction(reaction_dict, kegg_id, update_date):
                        update_date,
                        synonym=synonym,
                        description=description)
+    nodes_output.write(node)
 
-    edges = []
     for xref in xrefs:
-        edges.append(format_same_as_edge(node_id,
+        edges_output.write(format_same_as_edge(node_id,
                                          xref,
                                          update_date))
     for enzyme in enzymes:
-        edges.append(format_kegg_edge(node_id, enzyme, update_date))
+        edges_output.write(format_kegg_edge(node_id, enzyme, update_date))
     for pathway in pathways:
-        edges.append(format_kegg_edge(node_id, pathway, update_date))
-
-    return node, edges
+        edges_output.write(format_kegg_edge(node_id, pathway, update_date))
 
 
-def process_pathway(pathway_dict, kegg_id, update_date):
+def process_pathway(pathway_dict, kegg_id, nodes_output, edges_output, update_date):
     node_id = kegg_id.replace('hsa', '')
     node_name, synonym, processed_xrefs = get_node_basics(pathway_dict)
     compounds = pull_out_compounds(pathway_dict)
@@ -347,24 +345,22 @@ def process_pathway(pathway_dict, kegg_id, update_date):
                        kg2_util.BIOLINK_CATEGORY_PATHWAY,
                        update_date,
                        synonym=synonym)
-
+    node['publications'] = process_references(pathway_dict)
+    nodes_output.write(node)
     
     for xref in processed_xrefs:
-        edges.append(format_same_as_edge(node_id,
+        edges_output.write(format_same_as_edge(node_id,
                                          xref,
                                          update_date))
     for compound in compounds:
-        edges.append(format_kegg_edge(node_id, compound, update_date))
+        edges_output.write(format_kegg_edge(node_id, compound, update_date))
     for drug in drugs:
-        edges.append(format_kegg_edge(node_id, drug, update_date))
+        edges_output.write(format_kegg_edge(node_id, drug, update_date))
     for glycan in glycans:
-        edges.append(format_kegg_edge(node_id, glycan, update_date))
-
-    node['publications'] = process_references(pathway_dict)
-    return node, edges
+        edges_output.write(format_kegg_edge(node_id, glycan, update_date))
 
 
-def process_drug(drug_dict, kegg_id, update_date):
+def process_drug(drug_dict, kegg_id, nodes_output, edges_output, update_date):
     node_id = kegg_id.replace('dr:', '')
     node_name, synonym, processed_xrefs = get_node_basics(drug_dict)
     description = drug_dict.get('COMMENT', '')
@@ -378,16 +374,15 @@ def process_drug(drug_dict, kegg_id, update_date):
                        update_date,
                        synonym=synonym,
                        description=description)
+    nodes_output.write(node)
 
-    edges = []
     for xref in processed_xrefs:
-        edges.append(format_same_as_edge(node_id,
+        edges_output.write(format_same_as_edge(node_id,
                                          xref,
                                          update_date))
-    return node, edges
 
 
-def process_glycan(glycan_dict, kegg_id, update_date):
+def process_glycan(glycan_dict, kegg_id, nodes_output, edges_output, update_date):
     node_id = kegg_id.replace('gl:', '')
     node_name, synonym, processed_xrefs = get_node_basics(glycan_dict)
     reactions = pull_out_reactions(glycan_dict)
@@ -406,18 +401,18 @@ def process_glycan(glycan_dict, kegg_id, update_date):
                        kg2_util.BIOLINK_CATEGORY_SMALL_MOLECULE,
                        update_date,
                        synonym=synonym)
-    edges = []
+    nodes_output.write(node)
+
     for xref in processed_xrefs:
-        edges.append(format_same_as_edge(node_id,
+        edges_output.write(format_same_as_edge(node_id,
                                          xref,
                                          update_date))
     for reaction in reactions:
-        edges.append(format_kegg_edge(node_id, reaction, update_date))
+        edges_output.write(format_kegg_edge(node_id, reaction, update_date))
     for pathway in pathways:
-        edges.append(format_kegg_edge(node_id, pathway, update_date))
+        edges_output.write(format_kegg_edge(node_id, pathway, update_date))
     for enzyme in enzymes:
-        edges.append(format_kegg_edge(node_id, enzyme, update_date))
-    return node, edges
+        edges_output.write(format_kegg_edge(node_id, enzyme, update_date))
 
 
 def pull_out_enzyme_reactions(data_dict):
@@ -438,7 +433,7 @@ def pull_out_enzyme_reactions(data_dict):
     return reactions
 
 
-def process_enzyme(enzyme_dict, kegg_id, update_date):
+def process_enzyme(enzyme_dict, kegg_id, nodes_output, edges_output, update_date):
     node_id = kegg_id
     node_name, synonym, processed_xrefs = get_node_basics(enzyme_dict)
     description = enzyme_dict.get('COMMENT', '')
@@ -455,19 +450,15 @@ def process_enzyme(enzyme_dict, kegg_id, update_date):
                        update_date,
                        synonym=synonym)
     node['publications'] = publications
-    edges = []
+    nodes_output.write(node)
+
     for reaction in reactions:
-        edges.append(format_kegg_edge(node_id, reaction, update_date))
+        edges_output.write(format_kegg_edge(node_id, reaction, update_date))
     for pathway in pathways:
-        edges.append(format_kegg_edge(node_id, pathway, update_date))
-
-    return node, edges
+        edges_output.write(format_kegg_edge(node_id, pathway, update_date))
 
 
-
-def make_kg2_graph(kegg, update_date):
-    nodes = []
-    edges = []
+def make_kg2_graph(kegg, nodes_output, edges_output, update_date):
     version_number = kegg['info']['version']
     version_date = kegg['info']['update_date']
     for kegg_id in kegg:
@@ -475,29 +466,22 @@ def make_kg2_graph(kegg, update_date):
             continue
         kegg_dict = kegg[kegg_id]
         if KEGG_COMPOUND_PREFIX.match(kegg_id) is not None:
-            node, compound_edges = process_compound(kegg_dict, kegg_id, update_date)
-            nodes.append(node)
-            edges += compound_edges
+            process_compound(kegg_dict, kegg_id, nodes_output, edges_output, update_date)
+
         if KEGG_REACTION_PREFIX.match(kegg_id) is not None:
-            node, reaction_edges = process_reaction(kegg_dict, kegg_id, update_date)
-            nodes.append(node)
-            edges += reaction_edges
+            process_reaction(kegg_dict, kegg_id, nodes_output, edges_output, update_date)
+
         if KEGG_PATHWAY_PREFIX.match(kegg_id) is not None:
-            node, pathway_edges = process_pathway(kegg_dict, kegg_id, update_date)
-            nodes.append(node)
-            edges += pathway_edges
+            process_pathway(kegg_dict, kegg_id, nodes_output, edges_output, update_date)
+
         if KEGG_DRUG_PREFIX.match(kegg_id) is not None:
-            node, drug_edges = process_drug(kegg_dict, kegg_id, update_date)
-            nodes.append(node)
-            edges += drug_edges
+            node, drug_edges = process_drug(kegg_dict, kegg_id, nodes_output, edges_output, update_date)
+
         if KEGG_GLYCAN_PREFIX.match(kegg_id) is not None:
-            node, glycan_edges = process_glycan(kegg_dict, kegg_id, update_date)
-            nodes.append(node)
-            edges += glycan_edges
+            process_glycan(kegg_dict, kegg_id, nodes_output, edges_output, update_date)
+
         if KEGG_ENZYME_PREFIX.match(kegg_id) is not None:
-            node, enzyme_edges = process_enzyme(kegg_dict, kegg_id, update_date)
-            nodes.append(node)
-            edges += enzyme_edges
+            process_enzyme(kegg_dict, kegg_id, nodes_output, edges_output, update_date)
 
     kegg_kp_node = kg2_util.make_node(KEGG_PROVIDED_BY,
                                       KEGG_SOURCE_IRI,
@@ -506,15 +490,25 @@ def make_kg2_graph(kegg, update_date):
                                       update_date,
                                       KEGG_PROVIDED_BY)
     nodes.append(kegg_kp_node)
-    return {'nodes': nodes,
-            'edges': edges}
+    nodes_output.write(kegg_kp_node)
 
 
 if __name__ == '__main__':
     args = get_args()
+    input_file_name = args.inputFile
+    output_nodes_file_name = args.outputNodesFile
+    output_edges_file_name = args.outputEdgesFile
+    test_mode = args.test
+
+    nodes_info, edges_info = kg2_util.create_kg2_jsonlines(test_mode)
+    nodes_output = nodes_info[0]
+    edges_output = edges_info[0]
+
     kegg = dict()
-    with open(args.inputFile, 'r') as kegg_file:
-        update_date = kg2_util.convert_date(os.path.getmtime(args.inputFile))
+    with open(input_file_name, 'r') as kegg_file:
+        update_date = kg2_util.convert_date(os.path.getmtime(input_file_name))
         kegg = json.load(kegg_file)
-    graph = make_kg2_graph(kegg, update_date)
-    kg2_util.save_json(graph, args.outputFile, args.test)
+
+    make_kg2_graph(kegg, nodes_output, edges_output, update_date)
+
+    kg2_util.close_kg2_jsonlines(edges_info, nodes_info, output_nodes_file_name, output_edges_file_name)
