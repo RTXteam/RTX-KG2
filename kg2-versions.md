@@ -39,6 +39,7 @@ Issues:
 - Issue [#315](https://github.com/RTXteam/RTX-KG2/issues/315)
 - Issue [#319](https://github.com/RTXteam/RTX-KG2/issues/319)
 - Issue [#320](https://github.com/RTXteam/RTX-KG2/issues/320)
+- Issue [#324](https://github.com/RTXteam/RTX-KG2/issues/324) - only for `biolink:OrganismalEntity`
 - Issue [#325](https://github.com/RTXteam/RTX-KG2/issues/325)
 - Additional issues that arose during the build: 
 
