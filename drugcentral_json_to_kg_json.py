@@ -3,7 +3,7 @@
     file into a KG JSON file
 
     Usage: drugcentral_json_to_kg_json.py [--test] <inputFile.txt>
-    <outputFile.json>
+    <outputNodesFile.json> <outputEdgesFile.json>
 '''
 
 
@@ -36,7 +36,8 @@ def get_args():
                    JSON file into a KG JSON file"
     arg_parser = argparse.ArgumentParser(description=description)
     arg_parser.add_argument('inputFile', type=str)
-    arg_parser.add_argument('outputFile', type=str)
+    arg_parser.add_argument('outputNodesFile', type=str)
+    arg_parser.add_argument('outputEdgesFile', type=str)
     arg_parser.add_argument('--test', dest='test',
                             action="store_true", default=False)
     return arg_parser.parse_args()
@@ -64,8 +65,7 @@ def format_edge(subject_id, object_id, predicate, update_date):
                                   update_date)
 
 
-def process_external_ids(external_ids, update_date, test_mode):
-    edges = []
+def process_external_ids(external_ids, edges_output, update_date, test_mode):
     edge_count = 0
     prefix_map = {'MESH_DESCRIPTOR_UI': kg2_util.CURIE_PREFIX_MESH,
                   'RXNORM': None,
@@ -103,12 +103,10 @@ def process_external_ids(external_ids, update_date, test_mode):
                            external_id,
                            predicate,
                            update_date)
-        edges.append(edge)
-    return edges
+        edges_output.write(edge)
 
 
-def process_omop_relations(omop_relations, update_date, test_mode):
-    edges = []
+def process_omop_relations(omop_relations, edges_output, update_date, test_mode):
     edge_count = 0
     for source_predicate in omop_relations:
         edge_count += 1
@@ -129,12 +127,10 @@ def process_omop_relations(omop_relations, update_date, test_mode):
             object_id = kg2_util.CURIE_PREFIX_DOID + ':' + doid_id.replace('DOID:', '')
         drug_central_id = format_drugcentral_id(drug_central_id)
         edge = format_edge(drug_central_id, object_id, predicate, update_date)
-        edges.append(edge)
-    return edges
+        edges_output.write(edge)
 
 
-def process_faers_data(faers_edges, update_date, test_mode):
-    edges = []
+def process_faers_data(faers_edges, edges_output, update_date, test_mode):
     edge_count = 0
     for source_predicate in faers_edges:
         edge_count += 1
@@ -152,12 +148,10 @@ def process_faers_data(faers_edges, update_date, test_mode):
         meddra_id = kg2_util.CURIE_PREFIX_MEDDRA + ':' + meddra_id
         drug_central_id = format_drugcentral_id(drug_central_id)
         edge = format_edge(drug_central_id, meddra_id, predicate, update_date)
-        edges.append(edge)
-    return edges
+        edges_output.write(edge)
 
 
-def process_atc_codes(atc_codes, update_date, test_mode):
-    edges = []
+def process_atc_codes(atc_codes, edges_output, update_date, test_mode):
     edge_count = 0
     for source_predicate in atc_codes:
         edge_count += 1
@@ -171,8 +165,7 @@ def process_atc_codes(atc_codes, update_date, test_mode):
         drug_central_id = format_drugcentral_id(drug_central_id)
         predicate = 'struct2atc'
         edge = format_edge(drug_central_id, atc_id, predicate, update_date)
-        edges.append(edge)
-    return edges
+        edges_output.write(edge)
 
 
 def format_publication(url):
@@ -180,8 +173,7 @@ def format_publication(url):
     return kg2_util.CURIE_PREFIX_PMID + ':' + url.replace(pubmed_url, '')
 
 
-def process_bioactivities(bioactivities, update_date, test_mode):
-    edges = []
+def process_bioactivities(bioactivities, edges_output, update_date, test_mode):
     edge_count = 0
     for source_predicate in bioactivities:
         edge_count += 1
@@ -209,12 +201,10 @@ def process_bioactivities(bioactivities, update_date, test_mode):
                                action_type,
                                update_date)
             edge['publications'] = publications
-            edges.append(edge)
-    return edges
+            edges_output.write(edge)
 
 
-def process_pharmacologic_actions(pharm_acts, update_date, test_mode):
-    edges = []
+def process_pharmacologic_actions(pharm_acts, edges_output, update_date, test_mode):
     prefix_map = {'CHEBI': kg2_util.CURIE_PREFIX_CHEBI,
                   'FDA': None,
                   'MeSH': kg2_util.CURIE_PREFIX_MESH}
@@ -231,12 +221,10 @@ def process_pharmacologic_actions(pharm_acts, update_date, test_mode):
         object_id = prefix + ':' + action['class_code'].replace(chebi_pr, '')
         drug_central_id = format_drugcentral_id(action['struct_id'])
         edge = format_edge(drug_central_id, object_id, predicate, update_date)
-        edges.append(edge)
-    return edges
+        edges_output.write(edge)
 
 
-def make_nodes(drugcentral_ids, update_date):
-    nodes = []
+def make_nodes(drugcentral_ids, nodes_output, update_date):
     reformatted_json = dict()
     category_label = kg2_util.BIOLINK_CATEGORY_CHEMICAL_ENTITY
     for name_row in drugcentral_ids:
@@ -266,44 +254,38 @@ def make_nodes(drugcentral_ids, update_date):
                                   update_date,
                                   provided_by)
         node['synonym'] = synonyms
-        nodes.append(node)
-    return nodes
+        nodes_output.write(node)
 
 
 if __name__ == '__main__':
     args = get_args()
-    edges = []
-    nodes = []
+    input_file_name = args.inputFile
+    output_nodes_file_name = args.outputNodesFile
+    output_edges_file_name = args.outputEdgesFile
     test_mode = args.test
-    with open(args.inputFile, 'r') as input_file:
+
+    nodes_info, edges_info = kg2_util.create_kg2_jsonlines(test_mode)
+    nodes_output = nodes_info[0]
+    edges_output = edges_info[0]
+
+    with open(input_file_name, 'r') as input_file:
         json_data = json.load(input_file)
         update_date = json_data['version'][0]['dtime']
         version_number = json_data['version'][0]['version as version_number']
-        edges = process_external_ids(json_data['external_ids'],
-                                     update_date,
-                                     test_mode)
-        edges += process_omop_relations(json_data['omop_relations'],
-                                        update_date,
-                                        test_mode)
-        edges += process_faers_data(json_data['faers_data'],
-                                    update_date,
-                                    test_mode)
-        edges += process_atc_codes(json_data['atc_ids'],
-                                   update_date,
-                                   test_mode)
-        edges += process_bioactivities(json_data['bioactivities'],
-                                       update_date,
-                                       test_mode)
-        edges += process_pharmacologic_actions(json_data['pharmacologic_action'],
-                                               update_date,
-                                               test_mode)
-        nodes = make_nodes(json_data['drugcentral_ids'], update_date)
+        process_external_ids(json_data['external_ids'], edges_output, update_date, test_mode)
+        process_omop_relations(json_data['omop_relations'], edges_output, update_date, test_mode)
+        process_faers_data(json_data['faers_data'], edges_output, update_date, test_mode)
+        process_atc_codes(json_data['atc_ids'], edges_output, update_date, test_mode)
+        process_bioactivities(json_data['bioactivities'], edges_output, update_date, test_mode)
+        process_pharmacologic_actions(json_data['pharmacologic_action'], edges_output, update_date, test_mode)
+        nodes = make_nodes(json_data['drugcentral_ids'], nodes_output, update_date)
         kp_node = kg2_util.make_node(DRUGCENTRAL_SOURCE,
                                      BASE_URL_DRUGCENTRAL,
                                      'DrugCentral v' + version_number,
                                      kg2_util.SOURCE_NODE_CATEGORY,
                                      update_date,
                                      DRUGCENTRAL_SOURCE)
-        nodes.append(kp_node)
-    graph = {'edges': edges, 'nodes': nodes}
-    kg2_util.save_json(graph, args.outputFile, test_mode)
+        nodes_output.write(kp_node)
+
+    kg2_util.close_kg2_jsonlines(edges_info, nodes_info, output_nodes_file_name, output_edges_file_name)
+
