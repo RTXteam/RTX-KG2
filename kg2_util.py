@@ -328,29 +328,31 @@ def create_kg2_jsonlines(test_mode: bool = False):
     sort_keys = not test_mode
 
     temp_output_file_name = tempfile.mkstemp(prefix='kg2-')[1]
-    temp_output_edges_file_name = temp_output_file_name + "-edges"
     temp_output_nodes_file_name = temp_output_file_name + "-nodes"
-    temp_output_edges_file = open(temp_output_edges_file_name, 'w')
+    temp_output_edges_file_name = temp_output_file_name + "-edges"
+
     temp_output_nodes_file = open(temp_output_nodes_file_name, 'w')
-    temp_output_edges_jsonlines = jsonlines.Writer(temp_output_edges_file, sort_keys=sort_keys)
+    temp_output_edges_file = open(temp_output_edges_file_name, 'w')
+
     temp_output_nodes_jsonlines = jsonlines.Writer(temp_output_nodes_file, sort_keys=sort_keys)
+    temp_output_edges_jsonlines = jsonlines.Writer(temp_output_edges_file, sort_keys=sort_keys)
 
-    return (temp_output_edges_jsonlines, temp_output_edges_file, temp_output_edges_file_name), (temp_output_nodes_jsonlines, temp_output_nodes_file, temp_output_nodes_file_name)
+    return (temp_output_nodes_jsonlines, temp_output_nodes_file, temp_output_nodes_file_name), (temp_output_edges_jsonlines, temp_output_edges_file, temp_output_edges_file_name)
 
 
-def close_kg2_jsonlines(edges_info: tuple, nodes_info: tuple,
+def close_kg2_jsonlines(nodes_info: tuple, edges_info: tuple,
                         output_edges_file_name: str, output_nodes_file_name: str):
-    (temp_output_edges_jsonlines, temp_output_edges_file, temp_output_edges_file_name) = edges_info
     (temp_output_nodes_jsonlines, temp_output_nodes_file, temp_output_nodes_file_name) = nodes_info
+    (temp_output_edges_jsonlines, temp_output_edges_file, temp_output_edges_file_name) = edges_info
 
-    shutil.move(temp_output_edges_file_name, output_edges_file_name)
     shutil.move(temp_output_nodes_file_name, output_nodes_file_name)
+    shutil.move(temp_output_edges_file_name, output_edges_file_name)
 
-    temp_output_edges_jsonlines.close()
     temp_output_nodes_jsonlines.close()
+    temp_output_edges_jsonlines.close()
 
-    temp_output_edges_file.close()
     temp_output_nodes_file.close()
+    temp_output_edges_file.close()
 
 
 def get_file_last_modified_timestamp(file_name: str):
