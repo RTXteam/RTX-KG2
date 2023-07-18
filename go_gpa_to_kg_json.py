@@ -53,11 +53,11 @@ if __name__ == '__main__':
     test_mode = args.test
 
     nodes_info, edges_info = kg2_util.create_kg2_jsonlines(test_mode)
+    nodes_output = nodes_info[0]
+    edges_output = edges_info[0]
 
     file_arr = csv.reader(gaf_file, delimiter="\t")
-    nodes = []
-    edges = []
-    databases = {}
+
     file_update_date = ''
     for line in file_arr:
         if line[0].startswith("!") is False:
@@ -84,7 +84,7 @@ if __name__ == '__main__':
                                       update_date)
             edge["negated"] = negated
             edge["publications"] = publications
-            edges_info[0].write(edge)
+            edges_output.write(edge)
         elif line[0].startswith('!Generated: '):
             file_update_date = line[0].replace('!Generated: ', '')
 
@@ -94,7 +94,7 @@ if __name__ == '__main__':
                                     kg2_util.SOURCE_NODE_CATEGORY,
                                     file_update_date,
                                     GO_PROVIDED_BY_CURIE_ID)
-    nodes_info[0].write(go_kp_node)
+    nodes_output.write(go_kp_node)
 
     kg2_util.close_kg2_jsonlines(edges_info, nodes_info, output_nodes_file_name, output_edges_file_name)
 

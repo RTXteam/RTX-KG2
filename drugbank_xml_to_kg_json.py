@@ -502,9 +502,6 @@ def make_edges(drug: dict):
 def make_kg2_graph(drugbank_dict: dict, nodes_output, edges_output, test_mode: bool):
     drugs = drugbank_dict["drugbank"]["drug"]
 
-    nodes = []
-    edges = []
-
     update_date = drugbank_dict["drugbank"]["@exported-on"]
     version = drugbank_dict["drugbank"]["@version"]
     drugbank_kp_node = kg2_util.make_node(DRUGBANK_KB_CURIE_ID,
@@ -546,6 +543,8 @@ if __name__ == '__main__':
     test_mode = args.test
 
     nodes_info, edges_info = kg2_util.create_kg2_jsonlines(test_mode)
+    nodes_output = nodes_info[0]
+    edges_output = edges_info[0]
 
     print("Start load: ", date())
     drugbank_dict = xml_to_drugbank_dict(input_file_name)
@@ -553,7 +552,7 @@ if __name__ == '__main__':
     #drugbank_dict = pickle.load(open(input_file_name, 'rb'))
     print("Finish load: ", date())
     print("Start nodes and edges: ", date())
-    make_kg2_graph(drugbank_dict, nodes_info[0], edges_info[0], test_mode)
+    make_kg2_graph(drugbank_dict, nodes_output, edges_output, test_mode)
     print("Finish nodes and edges: ", date())
     print("Start closing JSON: ", date())
     kg2_util.close_kg2_jsonlines(edges_info, nodes_info, output_nodes_file_name, output_edges_file_name)
