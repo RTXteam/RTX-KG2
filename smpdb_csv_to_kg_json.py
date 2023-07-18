@@ -1465,6 +1465,6 @@ if __name__ == '__main__':
     make_kg2_graph(smpdb_dir, nodes_output, edges_output, test_mode)
     print("Finishing build: ", kg2_util.date())
     print("Start closing JSON Lines: ", kg2_util.date())
-    kg2_util.close_kg2_jsonlines(edges_info, nodes_info, output_nodes_file_name, output_edges_file_name)
+    kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
     print("Finish closing JSON Lines: ", kg2_util.date())
     print("Finish time: ", kg2_util.date())

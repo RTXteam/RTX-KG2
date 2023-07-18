@@ -555,6 +555,6 @@ if __name__ == '__main__':
     make_kg2_graph(drugbank_dict, nodes_output, edges_output, test_mode)
     print("Finish nodes and edges: ", date())
     print("Start closing JSON: ", date())
-    kg2_util.close_kg2_jsonlines(edges_info, nodes_info, output_nodes_file_name, output_edges_file_name)
+    kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
     print("Finish closing JSON: ", date())
     print("Finish time: ", date())

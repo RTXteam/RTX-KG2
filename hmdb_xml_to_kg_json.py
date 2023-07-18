@@ -669,6 +669,6 @@ if __name__ == '__main__':
                                       HMDB_PROVIDED_BY_CURIE_ID)
     nodes_output.write(hmdb_kp_node)
     print("Closing JSON Lines at", kg2_util.date())
-    kg2_util.close_kg2_jsonlines(edges_info, nodes_info, output_nodes_file_name, output_edges_file_name)
+    kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
     print("Finished closing JSON Lines at", kg2_util.date())
     print("Script finished at", kg2_util.date())
