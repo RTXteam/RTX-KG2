@@ -163,6 +163,24 @@ def get_deprecated_nodes(nodes: list):
 
     return deprecated_nodes
 
+
+def get_excluded_nodes(nodes: list):
+    excluded_nodes = dict()
+    provided_by_label = 'provided_by'
+    excluded_label = 'domain_range_exclusion'
+
+    for node in nodes:
+        source = node[provided_by_label][0]
+        excluded = node[excluded_label]
+
+        if excluded:
+            if source not in excluded_nodes:
+                excluded_nodes[source] = 0
+            excluded_nodes[source] += 1
+
+    return excluded_nodes
+
+
 def count_orphan_nodes(nodes: list, edges: list):
     orphan_nodes = dict()
     provided_by_label = 'provided_by'
