@@ -3,7 +3,7 @@
     file into a KG JSON file
 
     Usage: intact_tsv_to_kg_json.py [--test] <inputFile.txt>
-    <outputFile.json>
+    <outputNodesFile.json> <outputEdgesFile.json>
 '''
 
 
@@ -38,7 +38,8 @@ def get_args():
                    TSV dump into a KG JSON file"
     arg_parser = argparse.ArgumentParser(description=description)
     arg_parser.add_argument('inputFile', type=str)
-    arg_parser.add_argument('outputFile', type=str)
+    arg_parser.add_argument('outputNodesFile', type=str)
+    arg_parser.add_argument('outputEdgesFile', type=str)
     arg_parser.add_argument('--test', dest='test',
                             action="store_true", default=False)
     return arg_parser.parse_args()
@@ -139,15 +140,22 @@ def make_edge(intact_row):
 
 if __name__ == '__main__':
     args = get_args()
-    with open(args.inputFile, 'r') as intact:
-        edges = []
-        nodes = []
+    input_file_name = args.inputFile
+    output_nodes_file_name = args.outputNodesFile
+    output_edges_file_name = args.outputEdgesFile
+    test_mode = args.test
+
+    nodes_info, edges_info = kg2_util.create_kg2_jsonlines(test_mode)
+    nodes_output = nodes_info[0]
+    edges_output = edges_info[0]
+
+    with open(input_file_name, 'r') as intact:
         edge_count = 0
         for row in intact:
             edge = make_edge(row)
             if edge is not None and (args.test is False or
                                      edge_count < EDGE_LIMIT_TEST_MODE):
-                edges.append(edge)
+                edges_output.write(edge)
                 edge_count += 1
         kp_node = kg2_util.make_node(INTACT_KB_CURIE_ID,
                                      INTACT_KB_URI,
@@ -155,6 +163,7 @@ if __name__ == '__main__':
                                      kg2_util.SOURCE_NODE_CATEGORY,
                                      None,
                                      INTACT_KB_CURIE_ID)
-        nodes.append(kp_node)
-        graph = {'edges': edges, 'nodes': nodes}
-        kg2_util.save_json(graph, args.outputFile, args.test)
+        nodes_output.write(kp_node)
+
+        kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
+
