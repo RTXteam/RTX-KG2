@@ -3,7 +3,7 @@
     HMDB metabolite download in XML format
 
     Usage: hmdb_xml_to_kg_json.py [--test] <inputFile.xml>
-    <outputFile.json>
+    <outputNodesFile.json> <outputEdgesFile.json>
 '''
 
 import xmltodict
