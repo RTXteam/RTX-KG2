@@ -247,6 +247,7 @@ if __name__ == '__main__':
              'number_of_nodes_by_source_and_category': dict(count_number_of_nodes_by_source_and_category(nodes)),
              'sources': get_sources(nodes),
              'number_of_deprecated_nodes': get_deprecated_nodes(nodes),
+             'number_of_excluded_nodes': get_excluded_nodes(nodes),
              'number_of_orphan_nodes': count_orphan_nodes(nodes, edges)}
 
     temp_output_file = tempfile.mkstemp(prefix='kg2-')[1]
