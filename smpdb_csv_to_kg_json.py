@@ -49,7 +49,8 @@ def get_args():
                             action="store_true",
                             default=False)
     arg_parser.add_argument('inputDirectory', type=str)
-    arg_parser.add_argument('outputFile', type=str)
+    arg_parser.add_argument('outputNodesFile', type=str)
+    arg_parser.add_argument('outputEdgesFile', type=str)
     return arg_parser.parse_args()
 
 
@@ -1349,7 +1350,7 @@ def make_nodes_and_edges(context,
             "edges": edges}
 
 
-def make_kg2_graph(smpdb_dir: str, test_mode: bool):
+def make_kg2_graph(smpdb_dir: str, nodes_output, edges_output, test_mode: bool):
     csv_update_date = kg2_util.convert_date(os.path.getmtime(smpdb_dir +
                                                              "pathbank_pathways.csv"))
     smpdb = csv.reader(open(smpdb_dir + "pathbank_pathways.csv"),
@@ -1367,12 +1368,10 @@ def make_kg2_graph(smpdb_dir: str, test_mode: bool):
                                     kg2_util.SOURCE_NODE_CATEGORY,
                                     csv_update_date,
                                     PW_PROVIDED_BY_CURIE_ID)
-    nodes = []
-    edges = []
 
     smpdb_data = make_smpdb_nodes(smpdb, smpdb_dir, csv_update_date)
     for file in smpdb_data:
-        edges.append(smpdb_data[file]["edges"])
+        edges_output.write(smpdb_data[file]["edges"])
 
     count = 0
     for filename in os.listdir(smpdb_dir):
@@ -1409,9 +1408,9 @@ def make_kg2_graph(smpdb_dir: str, test_mode: bool):
                                             pwml_update_date)
                 if data is not None:
                     for node in data["nodes"]:
-                        nodes.append(node)
+                        nodes_output.write(node)
                     for edge in data["edges"]:
-                        edges.append(edge)
+                        edges_output.write(edge)
             elif ("super-pathway-visualization" in pw and
                   isinstance(pw["super-pathway-visualization"], dict) and
                   isinstance((pw["super-pathway-visualization"]
@@ -1433,17 +1432,15 @@ def make_kg2_graph(smpdb_dir: str, test_mode: bool):
                                                 pwml_update_date)
                     if data is not None:
                         for node in data["nodes"]:
-                            nodes.append(node)
+                            nodes_output.write(node)
                         for edge in data["edges"]:
-                            edges.append(edge)
+                            edges_output.write(edge)
             else:
                 print("Issue in file: ", filename)
                 continue
 
-    nodes.append(smpdb_kp_node)
-    nodes.append(pw_kp_node)
-    return {"nodes": nodes,
-            "edges": edges}
+    nodes_output.write(smpdb_kp_node)
+    nodes_output.write(pw_kp_node)
 
 
 def check_dirname(dirname: str):
@@ -1456,12 +1453,18 @@ if __name__ == '__main__':
     print("Start time: ", kg2_util.date())
     args = get_args()
     smpdb_dir = check_dirname(args.inputDirectory)
+    output_nodes_file_name = args.outputNodesFile
+    output_edges_file_name = args.outputEdgesFile
     test_mode = args.test
-    output_file_name = args.outputFile
+
+    nodes_info, edges_info = kg2_util.create_kg2_jsonlines(test_mode)
+    nodes_output = nodes_info[0]
+    edges_output = edges_info[0]
+
     print("Starting build: ", kg2_util.date())
-    graph = make_kg2_graph(smpdb_dir,  test_mode)
+    make_kg2_graph(smpdb_dir, nodes_output, edges_output, test_mode)
     print("Finishing build: ", kg2_util.date())
-    print("Start saving JSON: ", kg2_util.date())
-    kg2_util.save_json(graph, output_file_name, test_mode)
-    print("Finish saving JSON: ", kg2_util.date())
+    print("Start closing JSON Lines: ", kg2_util.date())
+    kg2_util.close_kg2_jsonlines(edges_info, nodes_info, output_nodes_file_name, output_edges_file_name)
+    print("Finish closing JSON Lines: ", kg2_util.date())
     print("Finish time: ", kg2_util.date())
