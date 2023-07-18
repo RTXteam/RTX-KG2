@@ -164,21 +164,21 @@ def get_deprecated_nodes(nodes: list):
     return deprecated_nodes
 
 
-def get_excluded_nodes(nodes: list):
-    excluded_nodes = dict()
+def get_excluded_edges(edges: list):
+    excluded_edges = dict()
     provided_by_label = 'provided_by'
     excluded_label = 'domain_range_exclusion'
 
-    for node in nodes:
-        source = node[provided_by_label][0]
-        excluded = node[excluded_label]
+    for edge in edges:
+        source = edge[provided_by_label][0]
+        excluded = edge[excluded_label]
 
         if excluded:
-            if source not in excluded_nodes:
-                excluded_nodes[source] = 0
-            excluded_nodes[source] += 1
+            if source not in excluded_edges:
+                excluded_edges[source] = 0
+            excluded_edges[source] += 1
 
-    return excluded_nodes
+    return excluded_edges
 
 
 def count_orphan_nodes(nodes: list, edges: list):
@@ -247,7 +247,7 @@ if __name__ == '__main__':
              'number_of_nodes_by_source_and_category': dict(count_number_of_nodes_by_source_and_category(nodes)),
              'sources': get_sources(nodes),
              'number_of_deprecated_nodes': get_deprecated_nodes(nodes),
-             'number_of_excluded_nodes': get_excluded_nodes(nodes),
+             'number_of_excluded_edges': get_excluded_edges(edges),
              'number_of_orphan_nodes': count_orphan_nodes(nodes, edges)}
 
     temp_output_file = tempfile.mkstemp(prefix='kg2-')[1]
