@@ -81,8 +81,10 @@ def make_edges(input_file: str, test_mode: bool):
                                                   predicate,
                                                   DISGENET_KB_CURIE,
                                                   update_date)
-                publication = kg2_util.CURIE_PREFIX_PMID + ':' + pmid
-                edge['publications'] = [publication]
+                edge['publications'] = []
+                if pmid is not None and pmid != '':
+                    publication = kg2_util.CURIE_PREFIX_PMID + ':' + pmid
+                    edge['publications'].append(publication)
                 edges.append(edge)
     return edges
 
