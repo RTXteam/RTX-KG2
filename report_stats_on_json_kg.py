@@ -166,11 +166,11 @@ def get_deprecated_nodes(nodes: list):
 
 def get_excluded_edges(edges: list):
     excluded_edges = dict()
-    provided_by_label = 'provided_by'
+    provided_by_label = 'primary_knowledge_source'
     excluded_label = 'domain_range_exclusion'
 
     for edge in edges:
-        source = edge[provided_by_label][0]
+        source = edge[provided_by_label]
         excluded = edge[excluded_label]
 
         if excluded:
