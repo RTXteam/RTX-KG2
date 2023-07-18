@@ -58,7 +58,8 @@ smpdb_input_file: ${smpdb_dir}/pathbank_pathways.csv
 smpdb_output_file: ${BUILD_DIR}/kg2-smpdb${test_suffix}.json
 
 drugbank_input_file: ${BUILD_DIR}/drugbank.xml
-drugbank_output_file: ${BUILD_DIR}/kg2-drugbank${test_suffix}.json
+drugbank_output_nodes_file: ${BUILD_DIR}/kg2-drugbank-nodes${test_suffix}.jsonl
+drugbank_output_edges_file: ${BUILD_DIR}/kg2-drugbank-edges${test_suffix}.jsonl
 
 hmdb_input_file: ${BUILD_DIR}/hmdb_metabolites.xml
 hmdb_output_file: ${BUILD_DIR}/kg2-hmdb${test_suffix}.json

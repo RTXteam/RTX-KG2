@@ -107,11 +107,12 @@ rule DrugBank_Conversion:
         real = config['DRUGBANK_INPUT_FILE'],
         validation = config['VALIDATION_PLACEHOLDER']
     output:
-        config['DRUGBANK_OUTPUT_FILE']
+        nodes = config['DRUGBANK_OUTPUT_NODES_FILE'],
+        edges = config['DRUGBANK_OUTPUT_EDGES_FILE']
     log:
         config['BUILD_DIR'] + "/drugbank-xml-to-kg-json" + config['TEST_SUFFIX'] + ".log"
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/drugbank_xml_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output} > {log} 2>&1"
+        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/drugbank_xml_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output.nodes} {output.edges} > {log} 2>&1"
 
 rule HMDB_Conversion:
     input:

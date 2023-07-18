@@ -9,7 +9,8 @@ rule Merge:
         ncbigene = config['NCBI_GENE_OUTPUT_FILE'],
         dgidb = config['DGIDB_OUTPUT_FILE'],
         repodb = config['REPODB_OUTPUT_FILE'],
-        drugbank = config['DRUGBANK_OUTPUT_FILE'],
+        drugbank_nodes = config['DRUGBANK_OUTPUT_NODES_FILE'],
+        drugbank_edges = config['DRUGBANK_OUTPUT_EDGES_FILE'],
         smpdb = config['SMPDB_OUTPUT_FILE'],
         hmdb = config['HMDB_OUTPUT_FILE'],
         go_annotations = config['GO_ANNOTATION_OUTPUT_FILE'],
@@ -37,7 +38,8 @@ rule Merge:
             "{input.dgidb} " + \
             "{input.repodb} " + \
             "{input.smpdb} " + \
-            "{input.drugbank} " + \
+            "{input.drugbank_nodes} " + \
+            "{input.drugbank_edges} " + \
             "{input.hmdb} " + \
             "{input.go_annotations} " + \
             "{input.reactome} " + \
