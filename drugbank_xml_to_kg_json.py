@@ -3,7 +3,7 @@
     DrugBank database in XML format
 
     Usage: drugbank_xml_to_kg_json.py [--test] <inputFile.json>
-    <outputEdgesFile.json> <outputNodesFile.json>
+    <outputNodesFile.json> <outputEdgesFile.json>
 '''
 
 import kg2_util as kg2_util

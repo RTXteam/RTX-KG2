@@ -2,7 +2,7 @@
 
 ''' Converts a Gene Ontology GPA file for humans to the KG2 JSON edges
 
-    Usage: go_gpa_to_kg_json.py  <inputFile.json> <outputFile.json>
+    Usage: go_gpa_to_kg_json.py  <inputFile.json> <outputNodesFile.json> <outputEdgesFile.json>
 '''
 
 import csv
