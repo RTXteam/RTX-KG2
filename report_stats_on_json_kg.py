@@ -216,9 +216,9 @@ if __name__ == '__main__':
 
     build_info = dict()
 
-    for n in nodes[::-1]:  # search for build info node starting at end
+    for n in nodes:  # search for build info node starting at end
         if n["id"] == kg2_util.CURIE_PREFIX_RTX + ':' + 'KG2':  # should be the first node accessed
-            build_info = graph.get('build', dict())
+            build_info = n
             nodes.remove(n) # remove it so stats aren't reported
             break
 
