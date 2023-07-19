@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 '''dgidb_tsv_to_kg_json.py: Extracts a KG2 JSON file from the DGIdb interactions file in TSV format
 
-   Usage: dgidb_tsv_to_kg_json.py [--test] <inputFile.tsv> <outputFile.json>
+   Usage: dgidb_tsv_to_kg_json.py [--test] <inputFile.tsv> <outputNodesFile.json> <outputEdgesFile.json>
 '''
 
 __author__ = 'Stephen Ramsey'
@@ -45,14 +45,12 @@ def get_args():
     arg_parser = argparse.ArgumentParser(description='dgidb_tsv_to_kg_json.py: builds a KG2 JSON file from the DGIdb interactions.tsv file')
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
     arg_parser.add_argument('inputFile', type=str)
-    arg_parser.add_argument('outputFile', type=str)
+    arg_parser.add_argument('outputNodesFile', type=str)
+    arg_parser.add_argument('outputEdgesFile', type=str)
     return arg_parser.parse_args()
 
 
-def make_kg2_graph(input_file_name: str, test_mode: bool = False):
-    nodes = []
-    edges = []
-
+def make_kg2_graph(input_file_name: str, nodes_output, edges_output, test_mode: bool = False):
     line_ctr = 0
     update_date = None
     with open(input_file_name, 'r') as input_file:
@@ -118,7 +116,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                                                            update_date,
                                                            provided_by)
                             node_dict['publications'] = node_pubs_list
-                            nodes.append(node_dict)
+                            nodes_output.write(node_dict)
                 if subject_curie_id is None:
                     print("DGIDB: no controlled ID was provided for this drug: " + drug_claim_primary_name +
                           "; source DB: " + interaction_claim_source, file=sys.stderr)
@@ -139,22 +137,27 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                                                    DGIDB_KB_CURIE,
                                                    update_date)
                     edge_dict['publications'] = pmids_list
-                    edges.append(edge_dict)
+                    edges_output.write(edge_dict)
     dgidb_kp_node = kg2_util.make_node(DGIDB_KB_CURIE,
                                        DGIDB_BASE_IRI,
                                        'The Drug Gene Interaction Database',
                                        kg2_util.SOURCE_NODE_CATEGORY,
                                        update_date,
                                        DGIDB_KB_CURIE)
-    nodes.append(dgidb_kp_node)
-    return {'nodes': nodes,
-            'edges': edges}
+    nodes_output.write(dgidb_kp_node)
 
 
 if __name__ == '__main__':
     args = get_args()
     input_file_name = args.inputFile
-    output_file_name = args.outputFile
+    output_nodes_file_name = args.outputNodesFile
+    output_edges_file_name = args.outputEdgesFile
     test_mode = args.test
-    graph = make_kg2_graph(input_file_name, test_mode)
-    kg2_util.save_json(graph, output_file_name, test_mode)
+
+    nodes_info, edges_info = kg2_util.create_kg2_jsonlines(test_mode)
+    nodes_output = nodes_info[0]
+    edges_output = edges_info[0]
+
+    make_kg2_graph(input_file_name, nodes_output, edges_output, test_mode)
+    
+    kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
