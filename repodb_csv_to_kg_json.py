@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 '''repodb_csv_to_kg_json.py: Extracts a KG2 JSON file from the repoDB file in CSV format
-   Usage: repodb_csv_to_kg_json.py [--test] <inputFile.tsv> <outputFile.json>
+   Usage: repodb_csv_to_kg_json.py [--test] <inputFile.tsv> <outputNodesFile.json> <outputEdgesFile.json>
 '''
 
 __author__ = 'Finn Womack'
@@ -29,19 +29,19 @@ def get_args():
     arg_parser = argparse.ArgumentParser(description='repodb_csv_to_kg_json.py: builds a KG2 JSON file from the repodb csv file')
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
     arg_parser.add_argument('inputFile', type=str)
-    arg_parser.add_argument('outputFile', type=str)
+    arg_parser.add_argument('outputNodesFile', type=str)
+    arg_parser.add_argument('outputEdgesFile', type=str)
     return arg_parser.parse_args()
 
 
-def make_kg2_graph(input_file_name: str, test_mode: bool = False):
+def make_kg2_graph(input_file_name: str, nodes_output, edges_output, test_mode: bool = False):
     update_date = os.path.getmtime(input_file_name)
-    nodes = [kg2_util.make_node(id=REPODB_CURIE + ':',
-                                iri=REPODB_IRI,
-                                name='repoDB drug repositioning database',
-                                category_label=kg2_util.SOURCE_NODE_CATEGORY,
-                                update_date=update_date,
-                                provided_by=REPODB_CURIE + ':')]
-    edges = []
+    nodes_output.write(kg2_util.make_node(id=REPODB_CURIE + ':',
+                                          iri=REPODB_IRI,
+                                          name='repoDB drug repositioning database',
+                                          category_label=kg2_util.SOURCE_NODE_CATEGORY,
+                                          update_date=update_date,
+                                          provided_by=REPODB_CURIE + ':'))
     df = pd.read_csv(input_file_name)
     for idx in range(len(df)):
         if not df['status'].isna()[idx]:
@@ -62,15 +62,20 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
         if not df['NCT'].isna()[idx]:
             edge_dict['publications'].append(NCT_CURIE + df['NCT'][idx])
             edge_dict['publications_info'][NCT_CURIE + df['NCT'][idx]] = CLINICALTRIALS_IRI + df['NCT'][idx]
-        edges.append(edge_dict)
-    return {'nodes': nodes,
-            'edges': edges}
+        edges_output.write(edge_dict)
 
 
 if __name__ == '__main__':
     args = get_args()
     input_file_name = args.inputFile
-    output_file_name = args.outputFile
+    output_nodes_file_name = args.outputNodesFile
+    output_edges_file_name = args.outputEdgesFile
     test_mode = args.test
-    graph = make_kg2_graph(input_file_name, test_mode)
-    kg2_util.save_json(graph, output_file_name, test_mode)
+
+    nodes_info, edges_info = kg2_util.create_kg2_jsonlines(test_mode)
+    nodes_output = nodes_info[0]
+    edges_output = edges_info[0]
+
+    make_kg2_graph(input_file_name, nodes_output, edges_output, test_mode)
+
+    kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
