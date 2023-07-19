@@ -45,7 +45,7 @@ Issues:
 
 Build info:
 - Biolink Model version: 3.5.1
-- Build host: 
+- Build host: `buildkg2.rtx.ai` (new instance, old version was deprecated)
 - Build directory: `/home/ubuntu/kg2-build`
 - Build code branch: `kg2.8.4prep`
 - Neo4j endpoint CNAME:  
