@@ -2,7 +2,7 @@
 
 '''Prints a JSON overview report of a JSON knowledge graph in Biolink format, to STDOUT.
 
-   Usage: report_stats_on_json_kg.py [--useSimplifiedPredicates] <inputKGFile.json> <outputKGFile.json>
+   Usage: report_stats_on_json_kg.py [--useSimplifiedPredicates] <inputNodesFile.json> <inputEdgesFile.json> <outputKGFile.json>
    The input file can be optionally gzipped (specify with the .gz extension).
 '''
 
@@ -25,11 +25,13 @@ import kg2_util
 import shutil
 import sys
 import tempfile
+import jsonlines
 
 
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='build-kg2: builds the KG2 knowledge graph for the RTX system')
-    arg_parser.add_argument('inputFile', type=str)
+    arg_parser.add_argument('inputNodesFile', type=str)
+    arg_parser.add_argument('inputEdgesFile', type=str)
     arg_parser.add_argument('outputFile', type=str)
     arg_parser.add_argument('--useSimplifiedPredicates', dest='use_simplified_predicates', action='store_true', default=False)
     return arg_parser
@@ -187,11 +189,9 @@ def count_orphan_nodes(nodes: list, edges: list):
 
     nodes_on_edges = set()
 
-    edge_count = len(edges)
-    for edge_index in range(0, edge_count):
-        nodes_on_edges.add(edges[edge_index].get('subject', ""))
-        nodes_on_edges.add(edges[edge_index].get('object', ""))
-        edges[edge_index] = dict()
+    for edge in edges:
+        nodes_on_edges.add(edge.get('subject', ""))
+        nodes_on_edges.add(edge.get('object', ""))
 
     for node in nodes:
         source = node[provided_by_label][0]
@@ -205,31 +205,36 @@ def count_orphan_nodes(nodes: list, edges: list):
 
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
-    input_file_name = args.inputFile
-    if not input_file_name.endswith('.gz'):
-        input_file = open(input_file_name, 'r')
-        graph = json.load(input_file)
-    else:
-        input_file = gzip.GzipFile(input_file_name, 'r')
-        graph = json.loads(input_file.read().decode('utf-8'))
+    input_nodes_file_name = args.inputNodesFile
+    input_edges_file_name = args.inputEdgesFile
+        
+    input_nodes_file = open(input_nodes_file_name, 'r')
+    input_edges_file = open(input_edges_file_name, 'r')
 
-    if 'nodes' not in graph:
-        print("WARNING: 'nodes' property is missing from the input JSON.", file=sys.stderr)
-    nodes = graph.get('nodes', [])
+    nodes = jsonlines.Reader(input_nodes_file)
+    edges = jsonlines.Reader(input_edges_file)
+
+    build_info = dict()
+
     for n in nodes[::-1]:  # search for build info node starting at end
         if n["id"] == kg2_util.CURIE_PREFIX_RTX + ':' + 'KG2':  # should be the first node accessed
+            build_info = graph.get('build', dict())
             nodes.remove(n) # remove it so stats aren't reported
             break
-    if 'edges' not in graph:
-        print("WARNING: 'edges' property is missing from the input JSON.", file=sys.stderr)
-    edges = graph.get('edges', [])
 
-    if 'build' not in graph:
+    if len(build_info) == 0:
         print("WARNING: 'build' property is missing from the input JSON.", file=sys.stderr)
-    build_info = graph.get('build', dict())
 
-    stats = {'_number_of_nodes': len(nodes),   # underscore is to make sure it sorts to the top of the report
-             '_number_of_edges': len(edges),   # underscore is to make sure it sorts to the top of the report
+    number_of_nodes = 0
+    for node in nodes:
+        number_of_nodes += 1
+
+    number_of_edges = 0
+    for edges in edges:
+        number_of_edges += 1
+
+    stats = {'_number_of_nodes': number_of_nodes,   # underscore is to make sure it sorts to the top of the report
+             '_number_of_edges': number_of_edges,   # underscore is to make sure it sorts to the top of the report
              '_report_datetime': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
              '_build_version': build_info.get('version', ""),
              '_build_time': build_info.get('timestamp_utc', ""),
@@ -254,3 +259,9 @@ if __name__ == '__main__':
     with open(temp_output_file, 'w') as outfile:
         json.dump(stats, outfile, indent=4)
     shutil.move(temp_output_file, args.outputFile)
+
+    nodes.close()
+    edges.close()
+
+    input_nodes_file.close()
+    input_edges_file.close()
