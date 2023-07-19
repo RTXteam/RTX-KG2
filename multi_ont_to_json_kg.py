@@ -2,7 +2,8 @@
 '''Builds the RTX "KG2" second-generation knowledge graph, from various OWL input files.
 
    Usage: multi_ont_to_json_kg.py <categoriesFile.yaml> <curiesToURILALFile>
-                                  <ontLoadInventoryFile.yaml> <outputFile>
+                                  <ontLoadInventoryFile.yaml> <outputNodesFile> <outputEdgesFile>
+                                  <umlsCUITSVFile> <nodeDatatypePropertiesFile>
    (note: outputFile can end in .json or in .gz; if the latter, it will be written as a gzipped file;
    but using the gzip options for input or output seems to significantly increase transient memory
    usage)
