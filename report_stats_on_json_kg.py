@@ -219,7 +219,6 @@ if __name__ == '__main__':
     for n in nodes:  # search for build info node starting at end
         if n["id"] == kg2_util.CURIE_PREFIX_RTX + ':' + 'KG2':  # should be the first node accessed
             build_info = n
-            nodes.remove(n) # remove it so stats aren't reported
             break
 
     if len(build_info) == 0:
@@ -238,22 +237,22 @@ if __name__ == '__main__':
              '_report_datetime': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
              '_build_version': build_info.get('version', ""),
              '_build_time': build_info.get('timestamp_utc', ""),
-             'number_of_nodes_by_curie_prefix': dict(count_nodes_by_curie_prefix(nodes)),
-             'number_of_nodes_without_category__by_curie_prefix': dict(count_nodes_by_curie_prefix_given_no_category(nodes)),
-             'number_of_nodes_by_category_label': dict(count_nodes_by_category(nodes)),
-             'number_of_nodes_by_source': dict(count_nodes_by_source(nodes)),
-             'number_of_edges_by_predicate_curie': dict(count_edges_by_predicate_curie(edges)),
-             'number_of_edges_by_predicate_type': dict(count_edges_by_predicate_type(edges)),
-             'number_of_edges_by_predicate_curie_prefixes': dict(count_edges_by_predicate_curie_prefix(edges)),
-             'number_of_predicates_by_predicate_curie_prefixes': dict(count_predicates_by_predicate_curie_prefix(edges)),
-             'number_of_edges_by_source': dict(count_edges_by_source(edges)),
-             'types_of_pairs_of_curies_for_xrefs': dict(count_types_of_pairs_of_curies_for_xrefs(edges)),
-             'types_of_pairs_of_curies_for_equivs': dict(count_types_of_pairs_of_curies_for_equivs(edges)),
-             'number_of_nodes_by_source_and_category': dict(count_number_of_nodes_by_source_and_category(nodes)),
-             'sources': get_sources(nodes),
-             'number_of_deprecated_nodes': get_deprecated_nodes(nodes),
-             'number_of_excluded_edges': get_excluded_edges(edges),
-             'number_of_orphan_nodes': count_orphan_nodes(nodes, edges)}
+             'number_of_nodes_by_curie_prefix': dict(count_nodes_by_curie_prefix(nodes.iter(type=dict))),
+             'number_of_nodes_without_category__by_curie_prefix': dict(count_nodes_by_curie_prefix_given_no_category(nodes.iter(type=dict))),
+             'number_of_nodes_by_category_label': dict(count_nodes_by_category(nodes.iter(type=dict))),
+             'number_of_nodes_by_source': dict(count_nodes_by_source(nodes.iter(type=dict))),
+             'number_of_edges_by_predicate_curie': dict(count_edges_by_predicate_curie(edges.iter(type=dict))),
+             'number_of_edges_by_predicate_type': dict(count_edges_by_predicate_type(edges.iter(type=dict))),
+             'number_of_edges_by_predicate_curie_prefixes': dict(count_edges_by_predicate_curie_prefix(edges.iter(type=dict))),
+             'number_of_predicates_by_predicate_curie_prefixes': dict(count_predicates_by_predicate_curie_prefix(edges.iter(type=dict))),
+             'number_of_edges_by_source': dict(count_edges_by_source(edges.iter(type=dict))),
+             'types_of_pairs_of_curies_for_xrefs': dict(count_types_of_pairs_of_curies_for_xrefs(edges.iter(type=dict))),
+             'types_of_pairs_of_curies_for_equivs': dict(count_types_of_pairs_of_curies_for_equivs(edges.iter(type=dict))),
+             'number_of_nodes_by_source_and_category': dict(count_number_of_nodes_by_source_and_category(nodes.iter(type=dict))),
+             'sources': get_sources(nodes.iter(type=dict)),
+             'number_of_deprecated_nodes': get_deprecated_nodes(nodes.iter(type=dict)),
+             'number_of_excluded_edges': get_excluded_edges(edges.iter(type=dict)),
+             'number_of_orphan_nodes': count_orphan_nodes(nodes.iter(type=dict), edges.iter(type=dict))}
 
     temp_output_file = tempfile.mkstemp(prefix='kg2-')[1]
     with open(temp_output_file, 'w') as outfile:
