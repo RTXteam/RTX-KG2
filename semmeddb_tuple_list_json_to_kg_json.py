@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 '''semmeddb_tuple_list_json_to_kg_json.py: extracts all the predicate triples from SemMedDB, in the RTX KG2 JSON format
 
-   Usage: semmeddb_tuple_list_json_to_kg_json.py [--mrcuiFile <MRCUI.RRF_file>] <inputFile.json> <outputFile.json>
+   Usage: semmeddb_tuple_list_json_to_kg_json.py [--mrcuiFile <MRCUI.RRF_file>] <inputFile.json> <outputNodesFile.json> <outputEdgesFile.json>
 '''
 
 __author__ = 'Stephen Ramsey'
@@ -104,7 +104,8 @@ def make_arg_parser():
     arg_parser.add_argument('--mrcuiFile', dest='mrcui_file_name', type=str, default='/home/ubuntu/kg2-build/umls/META/MRCUI.RRF')
     arg_parser.add_argument('inputFile', type=str)
     arg_parser.add_argument('semmedExcludeList', type=str)
-    arg_parser.add_argument('outputFile', type=str)
+    arg_parser.add_argument('outputNodesFile', type=str)
+    arg_parser.add_argument('outputEdgesFile', type=str)
     return arg_parser
 
 
@@ -227,9 +228,15 @@ if __name__ == '__main__':
     semmed_exclude_list_name = args.semmedExcludeList
     exclusions = create_semmed_exclude_list(semmed_exclude_list_name)
     input_file_name = args.inputFile
-    output_file_name = args.outputFile
+    output_nodes_file_name = args.outputNodesFile
+    output_edges_file_name = args.outputEdgesFile
     test_mode = args.test
     input_data = json.load(open(input_file_name, 'r'))
+
+    nodes_info, edges_info = kg2_util.create_kg2_jsonlines(test_mode)
+    nodes_output = nodes_info[0]
+    edges_output = edges_info[0]
+
     edges_dict = dict()
     nodes_dict = dict()
 
@@ -293,27 +300,26 @@ if __name__ == '__main__':
     del input_data
 
     semmeddb_kb_curie_id = SEMMEDDB_CURIE_PREFIX + ':'
-    nodes_dict[semmeddb_kb_curie_id] = kg2_util.make_node(
-        id=semmeddb_kb_curie_id,
-        iri=SEMMEDDB_IRI,
-        name='Semantic Medline Database (SemMedDB) v' + version_number,
-        category_label=kg2_util.SOURCE_NODE_CATEGORY,
-        update_date=update_date_dt.strftime('%Y-%m-%d %H:%M:%S'),
-        provided_by=semmeddb_kb_curie_id)
-
-    out_graph = {'edges': [rel_dict for rel_dict in edges_dict.values()],
-                 'nodes': [node_dict for node_dict in nodes_dict.values()]}
-
-    del nodes_dict
-
-    for rel_dict in out_graph['edges']:
-        if len(rel_dict['publications']) > 1:
-            rel_dict['publications'] = sorted(list(set(rel_dict['publications'])))
-
-    del rel_dict
+    nodes_output.write(kg2_util.make_node(id=semmeddb_kb_curie_id,
+                                          iri=SEMMEDDB_IRI,
+                                          name='Semantic Medline Database (SemMedDB) v' + version_number,
+                                          category_label=kg2_util.SOURCE_NODE_CATEGORY,
+                                          update_date=update_date_dt.strftime('%Y-%m-%d %H:%M:%S'),
+                                          provided_by=semmeddb_kb_curie_id))
 
     date("Saving " + output_file_name)
-    kg2_util.save_json(out_graph, output_file_name, test_mode)
 
-    del out_graph
+    for rel_dict in edges_dict.values():
+        if len(rel_dict['publications']) > 1:
+            rel_dict['publications'] = sorted(list(set(rel_dict['publications'])))
+        edges_output.write(rel_dict)
+
+    for node_dict in nodes_dict.values():
+        nodes_output.write(nodes_dict)
+
+    del nodes_dict
+    del rel_dict
+
+    kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
+
     date("Finishing semmeddb_tuple_list_json_to_kg_json.py")
