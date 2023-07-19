@@ -2,7 +2,8 @@
 ''' reactome_mysql_to_kg_json.py: Extracts a KG2 JSON file from the
     Reactome MySQL Database
 
-    Usage: reactome_mysql_to_kg_json.py [--test] <outputFile.json>
+    Usage: reactome_mysql_to_kg_json.py [--test] <mysqlConfigFile> <mysqlDBName> 
+                                                 <outputNodesFile.json> <outputEdgesFile.json>
 '''
 
 import pymysql
@@ -52,7 +53,8 @@ def get_args():
                             action="store_true", default=False)
     arg_parser.add_argument('mysqlConfigFile', type=str)
     arg_parser.add_argument('mysqlDBName', type=str)
-    arg_parser.add_argument('outputFile', type=str)
+    arg_parser.add_argument('outputNodesFile', type=str)
+    arg_parser.add_argument('outputEdgesFile', type=str)
     return arg_parser.parse_args()
 
 
@@ -246,9 +248,7 @@ def only_include_certain_species(reactome_id: str):
     return None
 
 
-def get_nodes(connection, test):
-    nodes = []
-
+def get_nodes(connection, nodes_output, test):
     # This MySQL query uses the StableIdentifier table,
     # which holds all of the node IDs for Reactome, as
     # its left most table. Then, it inner joins the
@@ -369,14 +369,10 @@ def get_nodes(connection, test):
         node['description'] = description
         node['publications'] = publications
         node['creation_date'] = str(created_date)
-        nodes.append(node)
-
-    return nodes
+        nodes_output.write(node)
 
 
-def get_reaction_inputs_and_outputs(connection, test):
-    edges = []
-
+def get_reaction_inputs_and_outputs(connection, edges_output, test):
     # This MySQL statement uses the ReactionlikeEvent_2_input
     # table to gather the DB_ID's for each reaction and its inputs.
     # Then, it retreives the Reactome ID for both the reaction and
@@ -401,7 +397,7 @@ def get_reaction_inputs_and_outputs(connection, test):
             continue
         predicate = "has_input"
         edge = format_edge(subject_id, object_id, predicate)
-        edges.append(edge)
+        edges_output.write(edge)
 
     # This MySQL statement uses the ReactionlikeEvent_2_output
     # table to gather the DB_ID's for each reaction and its outputs.
@@ -427,13 +423,10 @@ def get_reaction_inputs_and_outputs(connection, test):
             continue
         predicate = "has_output"
         edge = format_edge(subject_id, object_id, predicate)
-        edges.append(edge)
-    return edges
+        edges_output.write(edge)
 
 
-def get_pathway_events(connection, test):
-    edges = []
-
+def get_pathway_events(connection, edges_output, test):
     # This MySQL query uses the Pathway_2_hasEvent
     # table to connect pathways to their events (reactions,
     # black box events, polymerisation, etc). It takes the DB_ID's
@@ -458,9 +451,7 @@ def get_pathway_events(connection, test):
             continue
         predicate = "has_event"
         edge = format_edge(subject_id, object_id, predicate)
-        edges.append(edge)
-
-    return edges
+        edges_output.write(edge)
 
 
 def get_author_of_PMID(pmid: str, connection):
@@ -484,9 +475,7 @@ def get_author_of_PMID(pmid: str, connection):
     return [results[0][0].lower().title(), results[0][1], len(results), second_result]
 
 
-def get_event_characteristics(connection, test):
-    edges = []
-
+def get_event_characteristics(connection, edges_output, test):
     # This MySQL query uses the Event_2_disease table to
     # connect events to diseases they are related to. It takes
     # the DB_ID of both the disease and the event from that table,
@@ -510,7 +499,7 @@ def get_event_characteristics(connection, test):
         object_id = kg2_util.CURIE_PREFIX_DOID + ':' + ev_dis[1]
         predicate = 'linked_to_disease'
         edge = format_edge(subject_id, object_id, predicate)
-        edges.append(edge)
+        edges_output.write(edge)
 
     # This MySQL query uses the Event_2_compartment table to
     # connect events to the parts of the cell they occur in.
@@ -541,7 +530,7 @@ def get_event_characteristics(connection, test):
     #     object_id = kg2_util.CURIE_PREFIX_GO + ':' + compartment_ev[1]
     #     predicate = 'in_compartment'
     #     edge = format_edge(subject_id, object_id, predicate)
-    #     edges.append(edge)
+    #     edges_output.write(edge)
 
     # This MySQL query uses the ReactionlikeEvent_2_regulatedBy
     # table to link Reactionlike Events (Reaction, BlackBoxEvent, etc)
@@ -646,14 +635,10 @@ def get_event_characteristics(connection, test):
             edge['publications'] = [PMID_PREFIX + ':' + publication for publication in publications.split(',')]
             edge['publications_info'] = publications_info
 
-        edges.append(edge)
-
-    return edges
+        edges_output.write(edge)
 
 
-def get_physical_entity_characteristics(connection, test):
-    edges = []
-
+def get_physical_entity_characteristics(connection, edges_output, test):
     # This MySQL query uses the PhysicalEntity_2_disease table to
     # connect physical entities to diseases they are related to. It takes
     # the DB_ID of both the disease and the entity from that table,
@@ -677,7 +662,7 @@ def get_physical_entity_characteristics(connection, test):
         object_id = kg2_util.CURIE_PREFIX_DOID + ':' + pe_dis[1]
         predicate = 'linked_to_disease'
         edge = format_edge(subject_id, object_id, predicate)
-        edges.append(edge)
+        edges_output.write(edge)
 
     # This MySQL query uses the PhysicalEntity_2_compartment table to
     # connect physical entities to the parts of the cell they occur in.
@@ -707,14 +692,10 @@ def get_physical_entity_characteristics(connection, test):
     #     object_id = kg2_util.CURIE_PREFIX_GO + ':' + compartment_pe_c[1]
     #     predicate = 'in_compartment'
     #     edge = format_edge(subject_id, object_id, predicate)
-    #     edges.append(edge)
-
-    return edges
+    #     edges_output.write(edge)
 
 
-def get_equivalencies(connection, test):
-    edges = []
-
+def get_equivalencies(connection, edges_output, test):
     # This MySQL query uses the Event table to match
     # Reactome IDs (from the StableIdentifier table)
     # with their equivalent GO Biological Processes
@@ -736,7 +717,7 @@ def get_equivalencies(connection, test):
             continue
         predicate = kg2_util.EDGE_LABEL_BIOLINK_SAME_AS
         edge = format_edge(react_id, go_id, predicate)
-        edges.append(edge)
+        edges_output.write(edge)
 
     # This MySQL query uses the PhysicalEntity_2_crossReference
     # table to generate related_to edges from Reactome IDs
@@ -773,7 +754,7 @@ def get_equivalencies(connection, test):
             continue
         predicate = 'related_to'
         edge = format_edge(react_id, ex_ont_id, predicate)
-        edges.append(edge)
+        edges_output.write(edge)
 
     # This group of MySQL queries iterates over a series of tables
     # (the 'reference_entity_tables') that have a 'referenceEntity'
@@ -812,14 +793,10 @@ def get_equivalencies(connection, test):
             object_id = obj_prefix + ':' + result[1]
             predicate = kg2_util.EDGE_LABEL_BIOLINK_SAME_AS
             edge = format_edge(subject_id, object_id, predicate)
-            edges.append(edge)
-
-    return edges
+            edges_output.write(edge)
 
 
-def get_elements_of_complex(connection, test):
-    edges = []
-
+def get_elements_of_complex(connection, edges_output, test):
     # This MySQL query uses the Complex_2_hasComponent
     # table to get edges between Reactome complexes and
     # their elements. It uses the StableIdentifier table
@@ -844,13 +821,10 @@ def get_elements_of_complex(connection, test):
             continue
         predicate = 'has_element'
         edge = format_edge(complex_id, element_id, predicate)
-        edges.append(edge)
-    return edges
+        edges_output.write(edge)
 
 
-def get_members_of_set(connection, test):
-    edges = []
-
+def get_members_of_set(connection, edges_output, test):
     # This MySQL query uses the EntitySet_2_hasMember
     # table to get edges between Reactome sets and
     # their members. It uses the StableIdentifier table
@@ -875,13 +849,10 @@ def get_members_of_set(connection, test):
             continue
         predicate = "has_member"
         edge = format_edge(subject_id, object_id, predicate)
-        edges.append(edge)
-    return edges
+        edges_output.write(edge)
 
 
-def get_species(connection, test):
-    edges = []
-
+def get_species(connection, edges_output, test):
     # This MySQL query iterates through a list
     # of tables ('to_species_tables') that contain
     # links between Reactome nodes and the species
@@ -917,42 +888,44 @@ def get_species(connection, test):
                 continue
             predicate = 'in_species'
             edge = format_edge(subject_id, object_id, predicate)
-            edges.append(edge)
-
-    return edges
+            edges_output.write(edge)
 
 
-def get_edges(connection, test):
-    edges = []
-    for edge in get_reaction_inputs_and_outputs(connection, test):
-        edges.append(edge)
-    for edge in get_pathway_events(connection, test):
-        edges.append(edge)
-    for edge in get_equivalencies(connection, test):
-        edges.append(edge)
-    for edge in get_elements_of_complex(connection, test):
-        edges.append(edge)
-    for edge in get_event_characteristics(connection, test):
-        edges.append(edge)
-    for edge in get_physical_entity_characteristics(connection, test):
-        edges.append(edge)
-    for edge in get_members_of_set(connection, test):
-        edges.append(edge)
-    for edge in get_species(connection, test):
-        edges.append(edge)
-    return edges
+def get_edges(connection, edges_output, test):
+    get_reaction_inputs_and_outputs(connection, edges_output, test)
+
+    get_pathway_events(connection, edges_output, test)
+
+    get_equivalencies(connection, edges_output, test)
+
+    get_elements_of_complex(connection, edges_output, test)
+
+    get_event_characteristics(connection, edges_output, test)
+
+    get_physical_entity_characteristics(connection, edges_output, test)
+
+    get_members_of_set(connection, edges_output, test)
+
+    get_species(connection, edges_output, test)
 
 
 if __name__ == '__main__':
     args = get_args()
+    output_nodes_file_name = args.outputNodesFile
+    output_edges_file_name = args.outputEdgesFile
+    test_mode = args.test
+
+    nodes_info, edges_info = kg2_util.create_kg2_jsonlines(test_mode)
+    nodes_output = nodes_info[0]
+    edges_output = edges_info[0]
 
     connection = pymysql.connect(read_default_file=args.mysqlConfigFile, db=args.mysqlDBName)
 
     run_sql("SET SESSION group_concat_max_len=35000", connection)
     run_sql("SET SESSION sort_buffer_size=256000000", connection)
 
-    nodes = get_nodes(connection, args.test)
-    edges = get_edges(connection, args.test)
+    get_nodes(connection, nodes_output, test_mode)
+    get_edges(connection, edges_output, test_mode)
 
     [update_date, version_number] = list(run_sql('SELECT releaseDate, releaseNumber FROM _Release', connection)[0])
 
@@ -962,9 +935,6 @@ if __name__ == '__main__':
                                  kg2_util.SOURCE_NODE_CATEGORY,
                                  update_date,
                                  REACTOME_KB_CURIE_ID)
-    nodes.append(kp_node)
+    nodes_output.write(kp_node)
 
-    graph = {'nodes': nodes,
-             'edges': edges}
-
-    kg2_util.save_json(graph, args.outputFile, args.test)
+    kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
