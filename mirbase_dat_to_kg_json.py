@@ -3,7 +3,7 @@
     miRBase dataset in DAT format
 
     Usage: mirbase_dat_to_kg_json.py [--test] <inputFile.json>
-    <outputFile.json>
+    <outputNodesFile.json> <outputEdgesFile.json>
 '''
 
 import json
@@ -35,7 +35,8 @@ def get_args():
     arg_parser.add_argument('--test', dest='test',
                             action="store_true", default=False)
     arg_parser.add_argument('inputFile', type=str)
-    arg_parser.add_argument('outputFile', type=str)
+    arg_parser.add_argument('outputNodesFile', type=str)
+    arg_parser.add_argument('outputEdgesFile', type=str)
     return arg_parser.parse_args()
 
 
@@ -117,8 +118,7 @@ def format_xref(xref: str):
     return None
 
 
-def make_nodes(entries, test_mode):
-    nodes = []
+def make_nodes(entries, nodes_output, test_mode):
     all_xrefs = dict()
     nodes_to_species = dict()
     entry_count = 0
@@ -152,13 +152,12 @@ def make_nodes(entries, test_mode):
         node['description'] = description
         node['publications'] = publications
         node['has_biological_sequence'] = sequence.strip('Sequence ')
-        nodes.append(node)
+        nodes_output.write(node)
         nodes_to_species[node_id] = species_id
-    return [nodes, all_xrefs, nodes_to_species]
+    return [all_xrefs, nodes_to_species]
 
 
-def make_edges(xrefs, nodes_to_species, test_mode):
-    edges = []
+def make_edges(xrefs, nodes_to_species, edges_output, test_mode):
     edge_count = 0
     for node_id in xrefs:
         edge_count += 1
@@ -172,14 +171,14 @@ def make_edges(xrefs, nodes_to_species, test_mode):
                                                   kg2_util.EDGE_LABEL_BIOLINK_GENE_PRODUCT_OF,
                                                   MIRBASE_KB_CURIE_ID,
                                                   None)
-                edges.append(edge)
+                edges_output.write(edge)
             else:
                 edge = kg2_util.make_edge_biolink(node_id,
                                                   xref_id,
                                                   kg2_util.EDGE_LABEL_BIOLINK_RELATED_TO,
                                                   MIRBASE_KB_CURIE_ID,
                                                   None)
-                edges.append(edge)
+                edges_output.write(edge)
     taxon_edge_count = 0
     for node_id in nodes_to_species:
         taxon_edge_count += 1
@@ -190,13 +189,21 @@ def make_edges(xrefs, nodes_to_species, test_mode):
                                                 kg2_util.EDGE_LABEL_BIOLINK_IN_TAXON,
                                                 MIRBASE_KB_CURIE_ID,
                                                 None)
-        edges.append(taxon_edge)
-    return edges
+        edges_output.write(taxon_edge)
 
 
 if __name__ == '__main__':
     args = get_args()
-    with open(args.inputFile, 'r') as mirbase:
+    input_file_name = args.inputFile
+    output_nodes_file_name = args.outputNodesFile
+    output_edges_file_name = args.outputEdgesFile
+    test_mode = args.test
+
+    nodes_info, edges_info = kg2_util.create_kg2_jsonlines(test_mode)
+    nodes_output = nodes_info[0]
+    edges_output = edges_info[0]
+
+    with open(input_file_name, 'r') as mirbase:
         entries, version = format_data(mirbase)
     kp_node = kg2_util.make_node(MIRBASE_KB_CURIE_ID,
                                  MIRBASE_KB_URL,
@@ -204,9 +211,9 @@ if __name__ == '__main__':
                                  kg2_util.SOURCE_NODE_CATEGORY,
                                  None,
                                  MIRBASE_KB_CURIE_ID)
-    [nodes, xrefs, nodes_to_species] = make_nodes(entries, args.test)
-    nodes.append(kp_node)
-    edges = make_edges(xrefs, nodes_to_species, args.test)
-    graph = {'nodes': nodes,
-             'edges': edges}
-    kg2_util.save_json(graph, args.outputFile, args.test)
+    [xrefs, nodes_to_species] = make_nodes(entries, nodes_output, test_mode)
+    nodes_output.write(kp_node)
+
+    make_edges(xrefs, nodes_to_species, edges_output, test_mode)
+
+    kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
