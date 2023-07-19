@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 '''uniprotkb_dat_to_json.py: Extracts a KG2 JSON file from the UniProtKB distribution in "dat" format
 
-   Usage: uniprotkb_dat_to_json.py [--test] <inputFile.dat> <outputFile.json>
+   Usage: uniprotkb_dat_to_json.py [--test] <inputFile.dat> <outputNodesFile.json> <outputEdgesFile.json>
 '''
 
 __author__ = 'Stephen Ramsey'
@@ -157,43 +157,43 @@ def make_arg_parser():
     arg_parser.add_argument('--test', dest='test',
                             action="store_true", default=False)
     arg_parser.add_argument('inputFile', type=str)
-    arg_parser.add_argument('outputFile', type=str)
+    arg_parser.add_argument('outputNodesFile', type=str)
+    arg_parser.add_argument('outputEdgesFile', type=str)
     return arg_parser
 
 
-def make_edges(records: list, nodes_dict: dict):
-    ret_list = []
+def make_edges(records: list, nodes_dict: dict, edges_output):
     for record_dict in records:
         accession = record_dict['AC'][0]
         curie_id = kg2_util.CURIE_PREFIX_UNIPROT + ':' + accession
         organism_int = record_dict['organism']
         update_date = nodes_dict[curie_id]['update_date']
-        ret_list.append(kg2_util.make_edge_biolink(curie_id,
-                                                   kg2_util.CURIE_PREFIX_NCBI_TAXON +
-                                                   ':' + str(organism_int),
-                                                   kg2_util.EDGE_LABEL_BIOLINK_IN_TAXON,
-                                                   UNIPROTKB_PROVIDED_BY_CURIE_ID,
-                                                   update_date))
+        edges_output.write(kg2_util.make_edge_biolink(curie_id,
+                                                      kg2_util.CURIE_PREFIX_NCBI_TAXON +
+                                                      ':' + str(organism_int),
+                                                      kg2_util.EDGE_LABEL_BIOLINK_IN_TAXON,
+                                                      UNIPROTKB_PROVIDED_BY_CURIE_ID,
+                                                      update_date))
         record_xrefs = record_dict.get('DR', None)
         if record_xrefs is not None:
             for xref_str in record_xrefs:
                 hgnc_match = REGEX_HGNC.match(xref_str)
                 if hgnc_match is not None:
                     hgnc_curie = hgnc_match[1]
-                    ret_list.append(kg2_util.make_edge_biolink(curie_id,
-                                                               hgnc_curie,
-                                                               kg2_util.EDGE_LABEL_BIOLINK_GENE_PRODUCT_OF,
-                                                               UNIPROTKB_PROVIDED_BY_CURIE_ID,
-                                                               update_date))
+                    edges_output.write(kg2_util.make_edge_biolink(curie_id,
+                                                                  hgnc_curie,
+                                                                  kg2_util.EDGE_LABEL_BIOLINK_GENE_PRODUCT_OF,
+                                                                  UNIPROTKB_PROVIDED_BY_CURIE_ID,
+                                                                  update_date))
                 gene_id_match = REGEX_NCBIGeneID.match(xref_str)
                 if gene_id_match is not None:
                     ncbi_curie = kg2_util.CURIE_PREFIX_NCBI_GENE + \
                         ':' + gene_id_match[1]
-                    ret_list.append(kg2_util.make_edge_biolink(curie_id,
-                                                               ncbi_curie,
-                                                               kg2_util.EDGE_LABEL_BIOLINK_GENE_PRODUCT_OF,
-                                                               UNIPROTKB_PROVIDED_BY_CURIE_ID,
-                                                               update_date))
+                    edges_output.write(kg2_util.make_edge_biolink(curie_id,
+                                                                  ncbi_curie,
+                                                                  kg2_util.EDGE_LABEL_BIOLINK_GENE_PRODUCT_OF,
+                                                                  UNIPROTKB_PROVIDED_BY_CURIE_ID,
+                                                                  update_date))
         if 'disease' in record_dict:
             for disease_rec in record_dict['disease']:
                 mims = REGEX_MIM.findall(disease_rec)
@@ -206,18 +206,17 @@ def make_edges(records: list, nodes_dict: dict):
                                                    UNIPROTKB_PROVIDED_BY_CURIE_ID,
                                                    update_date)
                     e['publications'] = pubs
-                    ret_list.append(e)
+                    edges_output.write(e)
     for node_id, node_dict in nodes_dict.items():
         xrefs = node_dict['xrefs']
         if xrefs is not None and len(xrefs) > 0:
             for xref_curie in sorted(list(xrefs)):
-                ret_list.append(kg2_util.make_edge_biolink(node_id,
-                                                           xref_curie,
-                                                           kg2_util.EDGE_LABEL_BIOLINK_PHYSICALLY_INTERACTS_WITH,
-                                                           UNIPROTKB_PROVIDED_BY_CURIE_ID,
-                                                           update_date))
+                edges_output.write(kg2_util.make_edge_biolink(node_id,
+                                                              xref_curie,
+                                                              kg2_util.EDGE_LABEL_BIOLINK_PHYSICALLY_INTERACTS_WITH,
+                                                              UNIPROTKB_PROVIDED_BY_CURIE_ID,
+                                                              update_date))
         del node_dict['xrefs']
-    return ret_list
 
 
 def fix_xref(raw_xref: str):
@@ -248,7 +247,7 @@ def separate_evidence_codes(string: str):
     return remaining_str, ev_codes
 
 
-def make_nodes(records: list):
+def make_nodes(records: list, nodes_output):
     ret_dict = {}
     for record_dict in records:
         xrefs = set()
@@ -399,6 +398,7 @@ def make_nodes(records: list):
             xrefs = None
         node_dict['xrefs'] = xrefs
         ret_dict[node_curie] = node_dict
+        nodes_output.write(node_dict)
     return ret_dict
 
 
@@ -406,16 +406,22 @@ def make_nodes(records: list):
 
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
-    test_mode = args.test
     input_file_name = args.inputFile
-    output_file_name = args.outputFile
+    output_nodes_file_name = args.outputNodesFile
+    output_edges_file_name = args.outputEdgesFile
+    test_mode = args.test
+
+    nodes_info, edges_info = kg2_util.create_kg2_jsonlines(test_mode)
+    nodes_output = nodes_info[0]
+    edges_output = edges_info[0]
+
     [uniprot_records,
      update_date,
      version] = parse_records_from_uniprot_dat(input_file_name,
                                                DESIRED_SPECIES_INTS,
                                                test_mode)
 
-    nodes_dict = make_nodes(uniprot_records)
+    nodes_dict = make_nodes(uniprot_records, nodes_output)
     ontology_curie_id = UNIPROTKB_PROVIDED_BY_CURIE_ID
     ont_node = kg2_util.make_node(ontology_curie_id,
                                   UNIPROT_KB_URL,
@@ -423,7 +429,8 @@ if __name__ == '__main__':
                                   kg2_util.SOURCE_NODE_CATEGORY,
                                   update_date,
                                   ontology_curie_id)
-    nodes_list = [ont_node] + [node_dict for node_dict in nodes_dict.values()]
-    edges_list = make_edges(uniprot_records, nodes_dict)
-    output_graph = {'nodes': nodes_list, 'edges': edges_list}
-    kg2_util.save_json(output_graph, output_file_name, test_mode)
+    nodes_output.write(ont_node)
+
+    make_edges(uniprot_records, nodes_dict, edges_output)
+
+    kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
