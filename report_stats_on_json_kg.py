@@ -229,7 +229,7 @@ if __name__ == '__main__':
         number_of_nodes += 1
 
     number_of_edges = 0
-    for edges in edges:
+    for edge in edges:
         number_of_edges += 1
 
     stats = {'_number_of_nodes': number_of_nodes,   # underscore is to make sure it sorts to the top of the report
