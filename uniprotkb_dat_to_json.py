@@ -18,6 +18,7 @@ import argparse
 import kg2_util
 import re
 import sys
+import datetime
 
 
 UNIPROTKB_PROVIDED_BY_CURIE_ID = kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY + ':' + 'uniprot'
@@ -50,6 +51,10 @@ LICENSE_TEXT = '----------------------------------------------------------------
                '---------------------------------------------------------------------'
 
 DESIRED_SPECIES_INTS = set([kg2_util.NCBI_TAXON_ID_HUMAN])
+
+
+def date():
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 def scrub_braces_text(t: str) -> str:
@@ -405,6 +410,7 @@ def make_nodes(records: list, nodes_output):
 # --------------- main starts here -------------------
 
 if __name__ == '__main__':
+    print("Start time: ", date())
     args = make_arg_parser().parse_args()
     input_file_name = args.inputFile
     output_nodes_file_name = args.outputNodesFile
@@ -434,3 +440,5 @@ if __name__ == '__main__':
     make_edges(uniprot_records, nodes_dict, edges_output)
 
     kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
+
+    print("Finish time: ", date())
