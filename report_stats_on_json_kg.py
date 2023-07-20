@@ -210,8 +210,8 @@ if __name__ == '__main__':
     number_of_nodes = 0
     for node in kg2_util.read_json_lines(input_nodes_file_name):
         number_of_nodes += 1
-        if n["id"] == kg2_util.CURIE_PREFIX_RTX + ':' + 'KG2':
-            build_info = n
+        if node["id"] == kg2_util.CURIE_PREFIX_RTX + ':' + 'KG2':
+            build_info = node
 
     if len(build_info) == 0:
         print("WARNING: 'build' property is missing from the input JSON.", file=sys.stderr)
