@@ -10,6 +10,7 @@ import pymysql
 import json
 import kg2_util
 import argparse
+import datetime
 
 
 __author__ = 'Erica Wood'
@@ -56,6 +57,10 @@ def get_args():
     arg_parser.add_argument('outputNodesFile', type=str)
     arg_parser.add_argument('outputEdgesFile', type=str)
     return arg_parser.parse_args()
+
+
+def date():
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 def run_sql(sql: str, connection):
@@ -910,6 +915,7 @@ def get_edges(connection, edges_output, test):
 
 
 if __name__ == '__main__':
+    print("Start time: ", date())
     args = get_args()
     output_nodes_file_name = args.outputNodesFile
     output_edges_file_name = args.outputEdgesFile
@@ -938,3 +944,5 @@ if __name__ == '__main__':
     nodes_output.write(kp_node)
 
     kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
+
+    print("Finish time: ", date())
