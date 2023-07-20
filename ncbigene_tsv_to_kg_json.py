@@ -16,6 +16,7 @@ __status__ = 'Prototype'
 import argparse
 import kg2_util
 import os
+import datetime
 
 
 NCBI_BASE_IRI = kg2_util.BASE_URL_NCBIGENE
@@ -30,6 +31,10 @@ def get_args():
     arg_parser.add_argument('outputNodesFile', type=str)
     arg_parser.add_argument('outputEdgesFile', type=str)
     return arg_parser.parse_args()
+
+
+def date():
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 def make_node(ncbi_gene_id: str,
@@ -173,6 +178,7 @@ def make_kg2_graph(input_file_name: str, nodes_output, edges_output, test_mode: 
 
 
 if __name__ == '__main__':
+    print("Start time: ", date())
     args = get_args()
     input_file_name = args.inputFile
     output_nodes_file_name = args.outputNodesFile
@@ -186,3 +192,5 @@ if __name__ == '__main__':
     make_kg2_graph(input_file_name, nodes_output, edges_output, test_mode)
     
     kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
+
+    print("Finish time: ", date())
