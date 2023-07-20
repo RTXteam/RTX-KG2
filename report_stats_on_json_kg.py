@@ -90,12 +90,9 @@ def count_number_of_nodes_by_source_and_category(nodes: list):
 
 def count_edges_by_source(edges: list):
     ret_data = None
-    if type(edges[0]['primary_knowledge_source']) == str:
-        #print(f"{edges[0]}")
-        ret_data = collections.Counter([edge.get('primary_knowledge_source') for edge in edges])
-    else:
-        # primary knowledge source should be a string, we should not get here
-        assert type(edges[0].get('primary_knowledge_source') == str), f"Problem with edges source type"
+    
+    ret_data = collections.Counter([edge.get('primary_knowledge_source') for edge in edges])
+
     return ret_data
 
 
