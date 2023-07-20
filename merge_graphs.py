@@ -3,7 +3,8 @@
 
    Usage: merge_graphs.py [--kgFileOrphanEdges <kgFileOrphanEdges>]
                            --outpufFile <outputFile.json>
-                           <kgFile1> ... <kgFile>
+                           <kgNodesFile1> ... <kgNodesFileN>
+                           <kgEdgesFile1> ... <kgEdgesFileN>
 '''
 
 __author__ = 'Stephen Ramsey'
@@ -26,46 +27,51 @@ def make_arg_parser():
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
     arg_parser.add_argument('--kgFileOrphanEdges', type=str, nargs='?', default=None)
     arg_parser.add_argument('--outputFile', type=str, nargs='?', default=None)
-    arg_parser.add_argument('kgFiles', type=str, nargs='+')
+    arg_parser.add_argument('--kgNodesFiles', type=str, nargs='+')
+    arg_parser.add_argument('--kgEdgesFiles', type=str, nargs='+')
     return arg_parser
 
 
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
-    kg_file_names = args.kgFiles
+    kg_nodes_file_names = args.kgNodesFiles
+    kg_edges_file_names = args.kgEdgesFiles
     test_mode = args.test
-    output_file_name = args.outputFile
+    output_nodes_file_name = args.outputNodesFile
+    output_edges_file_name = args.outputEdgesFile
+
+    nodes_info, edges_info = kg2_util.create_kg2_jsonlines(test_mode)
+    nodes_output = nodes_info[0]
+    edges_output = edges_info[0]
+
     kg_orphan_edges = {'nodes': [], 'edges': []}
     nodes = dict()
     rels = dict()
-    for kg_file_name in kg_file_names:
+    for kg_nodes_file_name in kg_nodes_file_names:
         kg2_util.log_message("reading nodes from file",
-                             ontology_name=kg_file_name,
+                             ontology_name=kg_nodes_file_name,
                              output_stream=sys.stderr)
-        kg_to_add = json.load(open(kg_file_name, 'r'))
-        kg_to_add_nodes = kg_to_add['nodes']
-        for node in kg_to_add_nodes:
+        num_nodes_added = 0
+        for node in kg2_util.read_json_lines(kg_nodes_file_name):
             node_id = node['id']
             if node_id not in nodes:
                 nodes[node_id] = node
+                num_nodes_added += 1
             else:
                 nodes[node_id] = kg2_util.merge_two_dicts(nodes[node_id], node)
-        kg2_util.log_message("number of nodes added: " + str(len(kg_to_add_nodes)),
-                             ontology_name=kg_file_name,
+        kg2_util.log_message("number of nodes added: " + num_nodes_added,
+                             ontology_name=kg_nodes_file_name,
                              output_stream=sys.stderr)
     ctr_edges_added = 0
-    edges = []
     last_edges_added = 0
     last_orphan_edges = 0
     edge_keys = set()
-    for kg_file_name in kg_file_names:
+    for kg_edges_file_name in kg_edges_file_names:
         kg_orphan_edges_new = []
         kg2_util.log_message("reading edges from file",
-                             ontology_name=kg_file_name,
+                             ontology_name=kg_edges_file_name,
                              output_stream=sys.stderr)
-        kg_to_add = json.load(open(kg_file_name, 'r'))
-        kg_to_add_edges = kg_to_add['edges']
-        for rel_dict in kg_to_add_edges:
+        for rel_dict in kg2_util.read_json_lines(kg_edges_file_name):
             subject_curie = rel_dict['subject']
             object_curie = rel_dict['object']
             if subject_curie in nodes and object_curie in nodes:
@@ -73,23 +79,26 @@ if __name__ == '__main__':
                 edge_key =rel_dict["id"]
                 if edge_key not in edge_keys:
                     edge_keys.add(edge_key)
-                    edges.append(rel_dict)
+                    edges_output.write(rel_dict)
             else:
                 kg_orphan_edges_new.append(rel_dict)
         kg_orphan_edges['edges'] += kg_orphan_edges_new
         kg2_util.log_message("number of edges added: " + str(ctr_edges_added - last_edges_added),
-                             ontology_name=kg_file_name,
+                             ontology_name=kg_edges_file_name,
                              output_stream=sys.stderr)
         last_edges_added = ctr_edges_added
         kg2_util.log_message("number of orphan edges: " + str(len(kg_orphan_edges['edges']) -
                                                               last_orphan_edges),
-                             ontology_name=kg_file_name,
+                             ontology_name=kg_edges_file_name,
                              output_stream=sys.stderr)
         last_orphan_edges = len(kg_orphan_edges['edges'])
-    kg = {'nodes': [node for node in nodes.values()],
-          'edges': edges}
+
+    for node in nodes.values():
+        nodes_output.write(node)
     del nodes
-    kg2_util.save_json(kg, output_file_name, test_mode)
+
+    kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
+
     kg_file_orphan_edges = args.kgFileOrphanEdges
     if kg_file_orphan_edges is not None:
         kg2_util.save_json(kg_orphan_edges, kg_file_orphan_edges, test_mode)
