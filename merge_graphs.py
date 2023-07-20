@@ -39,14 +39,17 @@ if __name__ == '__main__':
     test_mode = args.test
     output_nodes_file_name = args.outputNodesFile
     output_edges_file_name = args.outputEdgesFile
+    orphan_edges_file_name = args.kgFileOrphanEdges
 
     nodes_info, edges_info = kg2_util.create_kg2_jsonlines(test_mode)
     nodes_output = nodes_info[0]
     edges_output = edges_info[0]
 
-    kg_orphan_edges = {'nodes': [], 'edges': []}
+    orphan_info = kg2_util.create_single_jsonlines(test_mode)
+    orphan_output = orphan_info[0]
+
     nodes = dict()
-    rels = dict()
+
     for kg_nodes_file_name in kg_nodes_file_names:
         kg2_util.log_message("reading nodes from file",
                              ontology_name=kg_nodes_file_name,
@@ -65,9 +68,9 @@ if __name__ == '__main__':
     ctr_edges_added = 0
     last_edges_added = 0
     last_orphan_edges = 0
+    kg_orphan_edges_count = 0
     edge_keys = set()
     for kg_edges_file_name in kg_edges_file_names:
-        kg_orphan_edges_new = []
         kg2_util.log_message("reading edges from file",
                              ontology_name=kg_edges_file_name,
                              output_stream=sys.stderr)
@@ -81,24 +84,22 @@ if __name__ == '__main__':
                     edge_keys.add(edge_key)
                     edges_output.write(rel_dict)
             else:
-                kg_orphan_edges_new.append(rel_dict)
-        kg_orphan_edges['edges'] += kg_orphan_edges_new
+                orphan_output.write(rel_dict)
+                kg_orphan_edges_count += 1
+
         kg2_util.log_message("number of edges added: " + str(ctr_edges_added - last_edges_added),
                              ontology_name=kg_edges_file_name,
                              output_stream=sys.stderr)
         last_edges_added = ctr_edges_added
-        kg2_util.log_message("number of orphan edges: " + str(len(kg_orphan_edges['edges']) -
+        kg2_util.log_message("number of orphan edges: " + str(kg_orphan_edges_count -
                                                               last_orphan_edges),
                              ontology_name=kg_edges_file_name,
                              output_stream=sys.stderr)
-        last_orphan_edges = len(kg_orphan_edges['edges'])
+        last_orphan_edges = kg_orphan_edges_count
 
     for node in nodes.values():
         nodes_output.write(node)
     del nodes
 
     kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
-
-    kg_file_orphan_edges = args.kgFileOrphanEdges
-    if kg_file_orphan_edges is not None:
-        kg2_util.save_json(kg_orphan_edges, kg_file_orphan_edges, test_mode)
+    kg2_util.close_single_jsonlines(orphan_info, orphan_edges_file_name)

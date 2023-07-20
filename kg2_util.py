@@ -324,35 +324,36 @@ def save_json(data, output_file_name: str, test_mode: bool = False):
     shutil.move(temp_output_file_name, output_file_name)
 
 
-def create_kg2_jsonlines(test_mode: bool = False):
+def create_single_jsonlines(test_mode: bool = False):
     sort_keys = not test_mode
 
     temp_output_file_name = tempfile.mkstemp(prefix='kg2-')[1]
-    temp_output_nodes_file_name = temp_output_file_name + "-nodes"
-    temp_output_edges_file_name = temp_output_file_name + "-edges"
 
-    temp_output_nodes_file = open(temp_output_nodes_file_name, 'w')
-    temp_output_edges_file = open(temp_output_edges_file_name, 'w')
+    temp_output_file = open(temp_output_file_name, 'w')
 
-    temp_output_nodes_jsonlines = jsonlines.Writer(temp_output_nodes_file, sort_keys=sort_keys)
-    temp_output_edges_jsonlines = jsonlines.Writer(temp_output_edges_file, sort_keys=sort_keys)
+    temp_output_jsonlines = jsonlines.Writer(temp_output_file, sort_keys=sort_keys)
 
-    return (temp_output_nodes_jsonlines, temp_output_nodes_file, temp_output_nodes_file_name), (temp_output_edges_jsonlines, temp_output_edges_file, temp_output_edges_file_name)
+    return (temp_output_jsonlines, temp_output_file, temp_output_file_name)
+
+
+def close_single_jsonlines(info: tuple, output_file_name: str):
+    (temp_output_jsonlines, temp_output_file, temp_output_file_name) = info
+
+    shutil.move(temp_output_file_name, output_file_name)
+
+    temp_output_jsonlines.close()
+
+    temp_output_file.close()
+
+
+def create_kg2_jsonlines(test_mode: bool = False):
+    return create_single_jsonlines(test_mode), create_single_jsonlines(test_mode)
 
 
 def close_kg2_jsonlines(nodes_info: tuple, edges_info: tuple,
                         output_nodes_file_name: str, output_edges_file_name: str):
-    (temp_output_nodes_jsonlines, temp_output_nodes_file, temp_output_nodes_file_name) = nodes_info
-    (temp_output_edges_jsonlines, temp_output_edges_file, temp_output_edges_file_name) = edges_info
-
-    shutil.move(temp_output_nodes_file_name, output_nodes_file_name)
-    shutil.move(temp_output_edges_file_name, output_edges_file_name)
-
-    temp_output_nodes_jsonlines.close()
-    temp_output_edges_jsonlines.close()
-
-    temp_output_nodes_file.close()
-    temp_output_edges_file.close()
+    close_single_jsonlines(nodes_info, output_nodes_file_name)
+    close_single_jsonlines(edges_info, output_edges_file_name)
 
 
 def start_read_jsonlines(file_name: str):
