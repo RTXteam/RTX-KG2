@@ -48,7 +48,10 @@ mem_gb=`${CODE_DIR}/get-system-memory-gb.sh`
 
 ${s3_cp_cmd} s3://${s3_bucket}/${semmed_dump} ${semmed_dir}/
 
-tar -xf ${semmed_dir}/${semmed_dump}
+# We have to extract into the semmeddb directory, then move all of the extracted files (which
+# end up in a subfolder) into that directory
+tar -xf ${semmed_dir}/${semmed_dump} -C ${semmed_dir}
+mv ${semmed_dir}/semmeddb/* ${semmed_dir}
 
 ## if a "semmeddb" database already exists, delete it
     mysql --defaults-extra-file=${mysql_conf} \
