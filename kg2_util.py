@@ -341,7 +341,7 @@ def create_kg2_jsonlines(test_mode: bool = False):
 
 
 def close_kg2_jsonlines(nodes_info: tuple, edges_info: tuple,
-                        output_edges_file_name: str, output_nodes_file_name: str):
+                        output_nodes_file_name: str, output_edges_file_name: str):
     (temp_output_nodes_jsonlines, temp_output_nodes_file, temp_output_nodes_file_name) = nodes_info
     (temp_output_edges_jsonlines, temp_output_edges_file, temp_output_edges_file_name) = edges_info
 
