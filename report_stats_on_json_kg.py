@@ -208,7 +208,7 @@ if __name__ == '__main__':
     build_info = dict()
 
     number_of_nodes = 0
-    for node in kg2_util.read_json_lines(input_nodes_file):
+    for node in kg2_util.read_json_lines(input_nodes_file_name):
         number_of_nodes += 1
         if n["id"] == kg2_util.CURIE_PREFIX_RTX + ':' + 'KG2':
             build_info = n
@@ -217,7 +217,7 @@ if __name__ == '__main__':
         print("WARNING: 'build' property is missing from the input JSON.", file=sys.stderr)
 
     number_of_edges = 0
-    for edge in kg2_util.read_json_lines(input_edges_file):
+    for edge in kg2_util.read_json_lines(input_edges_file_name):
         number_of_edges += 1
 
     stats = {'_number_of_nodes': number_of_nodes,   # underscore is to make sure it sorts to the top of the report
@@ -225,22 +225,22 @@ if __name__ == '__main__':
              '_report_datetime': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
              '_build_version': build_info.get('version', ""),
              '_build_time': build_info.get('timestamp_utc', ""),
-             'number_of_nodes_by_curie_prefix': dict(count_nodes_by_curie_prefix(kg2_util.read_json_lines(input_nodes_file))),
-             'number_of_nodes_without_category__by_curie_prefix': dict(count_nodes_by_curie_prefix_given_no_category(kg2_util.read_json_lines(input_nodes_file))),
-             'number_of_nodes_by_category_label': dict(count_nodes_by_category(kg2_util.read_json_lines(input_nodes_file))),
-             'number_of_nodes_by_source': dict(count_nodes_by_source(kg2_util.read_json_lines(input_nodes_file))),
-             'number_of_edges_by_predicate_curie': dict(count_edges_by_predicate_curie(kg2_util.read_json_lines(input_edges_file))),
-             'number_of_edges_by_predicate_type': dict(count_edges_by_predicate_type(kg2_util.read_json_lines(input_edges_file))),
-             'number_of_edges_by_predicate_curie_prefixes': dict(count_edges_by_predicate_curie_prefix(kg2_util.read_json_lines(input_edges_file))),
-             'number_of_predicates_by_predicate_curie_prefixes': dict(count_predicates_by_predicate_curie_prefix(kg2_util.read_json_lines(input_edges_file))),
-             'number_of_edges_by_source': dict(count_edges_by_source(kg2_util.read_json_lines(input_edges_file))),
-             'types_of_pairs_of_curies_for_xrefs': dict(count_types_of_pairs_of_curies_for_xrefs(kg2_util.read_json_lines(input_edges_file))),
-             'types_of_pairs_of_curies_for_equivs': dict(count_types_of_pairs_of_curies_for_equivs(kg2_util.read_json_lines(input_edges_file))),
-             'number_of_nodes_by_source_and_category': dict(count_number_of_nodes_by_source_and_category(kg2_util.read_json_lines(input_nodes_file))),
-             'sources': get_sources(kg2_util.read_json_lines(input_nodes_file)),
-             'number_of_deprecated_nodes': get_deprecated_nodes(kg2_util.read_json_lines(input_nodes_file)),
-             'number_of_excluded_edges': get_excluded_edges(kg2_util.read_json_lines(input_edges_file)),
-             'number_of_orphan_nodes': count_orphan_nodes(kg2_util.read_json_lines(input_nodes_file), kg2_util.read_json_lines(input_edges_file))}
+             'number_of_nodes_by_curie_prefix': dict(count_nodes_by_curie_prefix(kg2_util.read_json_lines(input_nodes_file_name))),
+             'number_of_nodes_without_category__by_curie_prefix': dict(count_nodes_by_curie_prefix_given_no_category(kg2_util.read_json_lines(input_nodes_file_name))),
+             'number_of_nodes_by_category_label': dict(count_nodes_by_category(kg2_util.read_json_lines(input_nodes_file_name))),
+             'number_of_nodes_by_source': dict(count_nodes_by_source(kg2_util.read_json_lines(input_nodes_file_name))),
+             'number_of_edges_by_predicate_curie': dict(count_edges_by_predicate_curie(kg2_util.read_json_lines(input_edges_file_name))),
+             'number_of_edges_by_predicate_type': dict(count_edges_by_predicate_type(kg2_util.read_json_lines(input_edges_file_name))),
+             'number_of_edges_by_predicate_curie_prefixes': dict(count_edges_by_predicate_curie_prefix(kg2_util.read_json_lines(input_edges_file_name))),
+             'number_of_predicates_by_predicate_curie_prefixes': dict(count_predicates_by_predicate_curie_prefix(kg2_util.read_json_lines(input_edges_file_name))),
+             'number_of_edges_by_source': dict(count_edges_by_source(kg2_util.read_json_lines(input_edges_file_name))),
+             'types_of_pairs_of_curies_for_xrefs': dict(count_types_of_pairs_of_curies_for_xrefs(kg2_util.read_json_lines(input_edges_file_name))),
+             'types_of_pairs_of_curies_for_equivs': dict(count_types_of_pairs_of_curies_for_equivs(kg2_util.read_json_lines(input_edges_file_name))),
+             'number_of_nodes_by_source_and_category': dict(count_number_of_nodes_by_source_and_category(kg2_util.read_json_lines(input_nodes_file_name))),
+             'sources': get_sources(kg2_util.read_json_lines(input_nodes_file_name)),
+             'number_of_deprecated_nodes': get_deprecated_nodes(kg2_util.read_json_lines(input_nodes_file_name)),
+             'number_of_excluded_edges': get_excluded_edges(kg2_util.read_json_lines(input_edges_file_name)),
+             'number_of_orphan_nodes': count_orphan_nodes(kg2_util.read_json_lines(input_nodes_file_name), kg2_util.read_json_lines(input_edges_file_name))}
 
     temp_output_file = tempfile.mkstemp(prefix='kg2-')[1]
     with open(temp_output_file, 'w') as outfile:
