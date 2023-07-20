@@ -11,6 +11,7 @@ import kg2_util
 import argparse
 import os
 import re
+import datetime
 
 __author__ = 'Erica Wood'
 __copyright__ = 'Oregon State University'
@@ -67,6 +68,10 @@ def get_args():
     arg_parser.add_argument('outputNodesFile', type=str)
     arg_parser.add_argument('outputEdgesFile', type=str)
     return arg_parser.parse_args()
+
+
+def date():
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 def format_node(node_id,
@@ -494,6 +499,7 @@ def make_kg2_graph(kegg, nodes_output, edges_output, update_date):
 
 
 if __name__ == '__main__':
+    print("Start time: ", date())
     args = get_args()
     input_file_name = args.inputFile
     output_nodes_file_name = args.outputNodesFile
@@ -512,3 +518,5 @@ if __name__ == '__main__':
     make_kg2_graph(kegg, nodes_output, edges_output, update_date)
 
     kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
+
+    print("Finish time: ", date())
