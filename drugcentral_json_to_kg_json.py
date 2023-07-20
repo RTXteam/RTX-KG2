@@ -10,6 +10,7 @@
 import json
 import argparse
 import kg2_util
+import datetime
 
 
 __author__ = 'Erica Wood'
@@ -41,6 +42,10 @@ def get_args():
     arg_parser.add_argument('--test', dest='test',
                             action="store_true", default=False)
     return arg_parser.parse_args()
+
+
+def date():
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 def format_drugcentral_id(struct_id):
@@ -258,6 +263,7 @@ def make_nodes(drugcentral_ids, nodes_output, update_date):
 
 
 if __name__ == '__main__':
+    print("Start time: ", date())
     args = get_args()
     input_file_name = args.inputFile
     output_nodes_file_name = args.outputNodesFile
@@ -288,3 +294,5 @@ if __name__ == '__main__':
         nodes_output.write(kp_node)
 
     kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
+
+    print("Finish time: ", date())
