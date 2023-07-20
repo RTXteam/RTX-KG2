@@ -17,6 +17,7 @@ __status__ = 'Prototype'
 import argparse
 import kg2_util
 import os
+import datetime
 
 
 UNICHEM_KB_CURIE = kg2_util.CURIE_ID_UNICHEM
@@ -35,6 +36,10 @@ def make_xref(subject: str,
     return edge_dict
 
 
+def date():
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='unichem_tsv_to_edges_json.py: loads TSV CURIE mappings and converts into RTX KG2 JSON format')
     arg_parser.add_argument('--test', dest='test', action='store_true', default=False)
@@ -45,6 +50,7 @@ def make_arg_parser():
 
 
 if __name__ == '__main__':
+    print("Start time: ", date())
     args = make_arg_parser().parse_args()
     input_file_name = args.inputFile
     output_nodes_file_name = args.outputNodesFile
@@ -80,3 +86,5 @@ if __name__ == '__main__':
     nodes_output.write(unichem_kp_node)
 
     kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
+
+    print("Finish time: ", date())
