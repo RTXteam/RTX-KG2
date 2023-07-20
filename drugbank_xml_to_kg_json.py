@@ -13,6 +13,7 @@ import datetime
 import sys
 import pickle
 import json
+
 __author__ = 'Erica Wood'
 __copyright__ = 'Oregon State University'
 __credits__ = ['Stephen Ramsey', 'Erica Wood', 'Lindsey Kvarfordt']
@@ -551,10 +552,13 @@ if __name__ == '__main__':
     # For debugging only
     #drugbank_dict = pickle.load(open(input_file_name, 'rb'))
     print("Finish load: ", date())
+
     print("Start nodes and edges: ", date())
     make_kg2_graph(drugbank_dict, nodes_output, edges_output, test_mode)
     print("Finish nodes and edges: ", date())
+
     print("Start closing JSON: ", date())
     kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
     print("Finish closing JSON: ", date())
+
     print("Finish time: ", date())
