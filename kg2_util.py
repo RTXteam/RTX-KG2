@@ -355,6 +355,12 @@ def close_kg2_jsonlines(nodes_info: tuple, edges_info: tuple,
     temp_output_edges_file.close()
 
 
+def read_json_lines(file_name: str):
+    file = open(file_name, 'r')
+    results = jsonlines.Reader(file)
+    return results.iter(type=dict)
+
+
 def get_file_last_modified_timestamp(file_name: str):
     return time.gmtime(os.path.getmtime(file_name))
 
