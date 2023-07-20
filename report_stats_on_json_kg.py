@@ -48,40 +48,40 @@ def get_nodes_with_none_category(nodes: list):
 
 
 def count_nodes_by_curie_prefix(nodes_file_name: list):
-    nodes_read_jsonlines_info = start_read_jsonlines(nodes_file_name)
+    nodes_read_jsonlines_info = kg2_util.start_read_jsonlines(nodes_file_name)
     nodes = nodes_read_jsonlines_info[0]
 
     nodes_by_curie_prefix = dict(collections.Counter([get_prefix_from_curie_id(node['id']) for node in nodes]))
 
-    end_read_jsonlines(nodes_read_jsonlines_info)
+    kg2_util.end_read_jsonlines(nodes_read_jsonlines_info)
 
     return nodes_by_curie_prefix
 
 
 def count_nodes_by_curie_prefix_given_no_category(nodes_file_name: list):
-    nodes_read_jsonlines_info = start_read_jsonlines(nodes_file_name)
+    nodes_read_jsonlines_info = kg2_util.start_read_jsonlines(nodes_file_name)
     nodes = nodes_read_jsonlines_info[0]
 
     nodes_by_curie_prefix_given_no_category = dict(collections.Counter([get_prefix_from_curie_id(node['id']) for node in get_nodes_with_none_category(nodes)]))
 
-    end_read_jsonlines(nodes_read_jsonlines_info)
+    kg2_util.end_read_jsonlines(nodes_read_jsonlines_info)
 
     return nodes_by_curie_prefix_given_no_category
 
 
 def count_nodes_by_category(nodes_file_name: list):
-    nodes_read_jsonlines_info = start_read_jsonlines(nodes_file_name)
+    nodes_read_jsonlines_info = kg2_util.start_read_jsonlines(nodes_file_name)
     nodes = nodes_read_jsonlines_info[0]
 
     nodes_by_category = dict(collections.Counter([node['category_label'] for node in nodes]))
 
-    end_read_jsonlines(nodes_read_jsonlines_info)
+    kg2_util.end_read_jsonlines(nodes_read_jsonlines_info)
 
     return nodes_by_category
 
 
 def count_nodes_by_source(nodes_file_name: list):
-    nodes_read_jsonlines_info = start_read_jsonlines(nodes_file_name)
+    nodes_read_jsonlines_info = kg2_util.start_read_jsonlines(nodes_file_name)
     nodes = nodes_read_jsonlines_info[0]
 
     label_field = 'provided_by'
@@ -95,13 +95,13 @@ def count_nodes_by_source(nodes_file_name: list):
     else:
         ret_data = dict(collections.Counter([node[label_field][0] for node in nodes]))
 
-    end_read_jsonlines(nodes_read_jsonlines_info)
+    kg2_util.end_read_jsonlines(nodes_read_jsonlines_info)
 
     return ret_data
 
 
 def count_number_of_nodes_by_source_and_category(nodes_file_name: list):
-    nodes_read_jsonlines_info = start_read_jsonlines(nodes_file_name)
+    nodes_read_jsonlines_info = kg2_util.start_read_jsonlines(nodes_file_name)
     nodes = nodes_read_jsonlines_info[0]
 
     fulldict = dict()
@@ -117,75 +117,75 @@ def count_number_of_nodes_by_source_and_category(nodes_file_name: list):
             fulldict[source][category] = 0
         fulldict[source][category] += 1
 
-    end_read_jsonlines(nodes_read_jsonlines_info)
+    kg2_util.end_read_jsonlines(nodes_read_jsonlines_info)
 
     return fulldict
 
 
 def count_edges_by_source(edges_file_name: list):
-    edges_read_jsonlines_info = start_read_jsonlines(edges_file_name)
+    edges_read_jsonlines_info = kg2_util.start_read_jsonlines(edges_file_name)
     edges = edges_read_jsonlines_info[0]
 
     ret_data = None
     
     ret_data = dict(collections.Counter([edge.get('primary_knowledge_source') for edge in edges]))
 
-    end_read_jsonlines(edges_read_jsonlines_info)
+    kg2_util.end_read_jsonlines(edges_read_jsonlines_info)
 
     return ret_data
 
 
 def count_edges_by_predicate_curie(edges_file_name: list):
-    edges_read_jsonlines_info = start_read_jsonlines(edges_file_name)
+    edges_read_jsonlines_info = kg2_util.start_read_jsonlines(edges_file_name)
     edges = edges_read_jsonlines_info[0]
 
     curie_field = 'source_predicate' if not args.use_simplified_predicates else 'predicate'
     # Every simplified edge should have a predicate. 
     edges_by_predicate_curie = dict(collections.Counter([edge.get(curie_field) for edge in edges]))
 
-    end_read_jsonlines(edges_read_jsonlines_info)
+    kg2_util.end_read_jsonlines(edges_read_jsonlines_info)
 
     return edges_by_predicate_curie
    
 
 def count_edges_by_predicate_type(edges_file_name: list):
-    edges_read_jsonlines_info = start_read_jsonlines(edges_file_name)
+    edges_read_jsonlines_info = kg2_util.start_read_jsonlines(edges_file_name)
     edges = edges_read_jsonlines_info[0]
 
     label_field = 'relation_label' if not args.use_simplified_predicates else 'predicate_label'
     edges_by_predicate_type = dict(collections.Counter([edge[label_field] for edge in edges]))
 
-    end_read_jsonlines(edges_read_jsonlines_info)
+    kg2_util.end_read_jsonlines(edges_read_jsonlines_info)
 
     return edges_by_predicate_type
 
 
 def count_edges_by_predicate_curie_prefix(edges_file_name: list):
-    edges_read_jsonlines_info = start_read_jsonlines(edges_file_name)
+    edges_read_jsonlines_info = kg2_util.start_read_jsonlines(edges_file_name)
     edges = edges_read_jsonlines_info[0]
 
     curie_field = 'source_predicate' if not args.use_simplified_predicates else 'predicate'
     edges_by_predicate_curie_prefix = dict(collections.Counter([get_prefix_from_curie_id(edge.get(curie_field)) for edge in edges]))
 
-    end_read_jsonlines(edges_read_jsonlines_info)
+    kg2_util.end_read_jsonlines(edges_read_jsonlines_info)
 
     return edges_by_predicate_curie_prefix
 
 
 def count_predicates_by_predicate_curie_prefix(edges_file_name: list):
-    edges_read_jsonlines_info = start_read_jsonlines(edges_file_name)
+    edges_read_jsonlines_info = kg2_util.start_read_jsonlines(edges_file_name)
     edges = edges_read_jsonlines_info[0]
 
     curie_field = 'source_predicate' if not args.use_simplified_predicates else 'predicate'
     unique_relation_curies = set([edge.get(curie_field) for edge in edges])
 
-    end_read_jsonlines(edges_read_jsonlines_info)
+    kg2_util.end_read_jsonlines(edges_read_jsonlines_info)
 
     return dict(collections.Counter([get_prefix_from_curie_id(curie) for curie in unique_relation_curies]))
 
 
 def count_types_of_pairs_of_curies_for_xrefs(edges_file_name: list):
-    edges_read_jsonlines_info = start_read_jsonlines(edges_file_name)
+    edges_read_jsonlines_info = kg2_util.start_read_jsonlines(edges_file_name)
     edges = edges_read_jsonlines_info[0]
 
     prefix_pairs_list = list()
@@ -198,13 +198,13 @@ def count_types_of_pairs_of_curies_for_xrefs(edges_file_name: list):
             key = subject_prefix + '---' + object_prefix
             prefix_pairs_list.append(key)
 
-    end_read_jsonlines(edges_read_jsonlines_info)
+    kg2_util.end_read_jsonlines(edges_read_jsonlines_info)
 
     return dict(collections.Counter(prefix_pairs_list))
 
 
 def count_types_of_pairs_of_curies_for_equivs(edges_file_name: list):
-    edges_read_jsonlines_info = start_read_jsonlines(edges_file_name)
+    edges_read_jsonlines_info = kg2_util.start_read_jsonlines(edges_file_name)
     edges = edges_read_jsonlines_info[0]
 
     prefix_pairs_list = list()
@@ -217,22 +217,22 @@ def count_types_of_pairs_of_curies_for_equivs(edges_file_name: list):
             key = subject_prefix + '---' + object_prefix
             prefix_pairs_list.append(key)
 
-    end_read_jsonlines(edges_read_jsonlines_info)
+    kg2_util.end_read_jsonlines(edges_read_jsonlines_info)
 
     return dict(collections.Counter(prefix_pairs_list))
 
 def get_sources(nodes_file_name: list):
-    nodes_read_jsonlines_info = start_read_jsonlines(nodes_file_name)
+    nodes_read_jsonlines_info = kg2_util.start_read_jsonlines(nodes_file_name)
     nodes = nodes_read_jsonlines_info[0]
 
     sources = [node.get('name') for node in nodes if node.get('category') == kg2_util.convert_biolink_category_to_curie(kg2_util.SOURCE_NODE_CATEGORY)]
 
-    end_read_jsonlines(nodes_read_jsonlines_info)
+    kg2_util.end_read_jsonlines(nodes_read_jsonlines_info)
 
     return sources
 
 def get_deprecated_nodes(nodes_file_name: list):
-    nodes_read_jsonlines_info = start_read_jsonlines(nodes_file_name)
+    nodes_read_jsonlines_info = kg2_util.start_read_jsonlines(nodes_file_name)
     nodes = nodes_read_jsonlines_info[0]
 
     deprecated_nodes = dict()
@@ -248,13 +248,13 @@ def get_deprecated_nodes(nodes_file_name: list):
                 deprecated_nodes[source] = 0
             deprecated_nodes[source] += 1
 
-    end_read_jsonlines(nodes_read_jsonlines_info)
+    kg2_util.end_read_jsonlines(nodes_read_jsonlines_info)
 
     return deprecated_nodes
 
 
 def get_excluded_edges(edges_file_name: list):
-    edges_read_jsonlines_info = start_read_jsonlines(edges_file_name)
+    edges_read_jsonlines_info = kg2_util.start_read_jsonlines(edges_file_name)
     edges = edges_read_jsonlines_info[0]
 
     excluded_edges = dict()
@@ -270,16 +270,16 @@ def get_excluded_edges(edges_file_name: list):
                 excluded_edges[source] = 0
             excluded_edges[source] += 1
 
-    end_read_jsonlines(edges_read_jsonlines_info)
+    kg2_util.end_read_jsonlines(edges_read_jsonlines_info)
 
     return excluded_edges
 
 
 def count_orphan_nodes(nodes_file_name: list, edges_file_name: list):
-    nodes_read_jsonlines_info = start_read_jsonlines(nodes_file_name)
+    nodes_read_jsonlines_info = kg2_util.start_read_jsonlines(nodes_file_name)
     nodes = nodes_read_jsonlines_info[0]
 
-    edges_read_jsonlines_info = start_read_jsonlines(edges_file_name)
+    edges_read_jsonlines_info = kg2_util.start_read_jsonlines(edges_file_name)
     edges = edges_read_jsonlines_info[0]
 
     orphan_nodes = dict()
@@ -298,8 +298,8 @@ def count_orphan_nodes(nodes_file_name: list, edges_file_name: list):
                 orphan_nodes[source] = 0
             orphan_nodes[source] += 1
 
-    end_read_jsonlines(nodes_read_jsonlines_info)
-    end_read_jsonlines(edges_read_jsonlines_info)
+    kg2_util.end_read_jsonlines(nodes_read_jsonlines_info)
+    kg2_util.end_read_jsonlines(edges_read_jsonlines_info)
 
     return orphan_nodes
 
@@ -312,23 +312,23 @@ if __name__ == '__main__':
     build_info = dict()
 
     number_of_nodes = 0
-    nodes_read_jsonlines_info = start_read_jsonlines(input_nodes_file_name)
+    nodes_read_jsonlines_info = kg2_util.start_read_jsonlines(input_nodes_file_name)
     nodes = nodes_read_jsonlines_info[0]
     for node in nodes:
         number_of_nodes += 1
         if node["id"] == kg2_util.CURIE_PREFIX_RTX + ':' + 'KG2':
             build_info = node
-    end_read_jsonlines(nodes_read_jsonlines_info)
+    kg2_util.end_read_jsonlines(nodes_read_jsonlines_info)
 
     if len(build_info) == 0:
         print("WARNING: 'build' property is missing from the input JSON.", file=sys.stderr)
 
     number_of_edges = 0
-    edges_read_jsonlines_info = start_read_jsonlines(input_edges_file_name)
+    edges_read_jsonlines_info = kg2_util.start_read_jsonlines(input_edges_file_name)
     edges = edges_read_jsonlines_info[0]
     for edge in edges:
         number_of_edges += 1
-    end_read_jsonlines(edges_read_jsonlines_info)
+    kg2_util.end_read_jsonlines(edges_read_jsonlines_info)
 
     stats = {'_number_of_nodes': number_of_nodes,   # underscore is to make sure it sorts to the top of the report
              '_number_of_edges': number_of_edges,   # underscore is to make sure it sorts to the top of the report
@@ -339,18 +339,18 @@ if __name__ == '__main__':
              'number_of_nodes_without_category__by_curie_prefix': count_nodes_by_curie_prefix_given_no_category(input_nodes_file_name),
              'number_of_nodes_by_category_label': count_nodes_by_category(input_nodes_file_name),
              'number_of_nodes_by_source': count_nodes_by_source(input_nodes_file_name),
-             'number_of_edges_by_predicate_curie': dict(count_edges_by_predicate_curie(kg2_util.read_json_lines(input_edges_file_name))),
-             'number_of_edges_by_predicate_type': dict(count_edges_by_predicate_type(kg2_util.read_json_lines(input_edges_file_name))),
-             'number_of_edges_by_predicate_curie_prefixes': dict(count_edges_by_predicate_curie_prefix(kg2_util.read_json_lines(input_edges_file_name))),
-             'number_of_predicates_by_predicate_curie_prefixes': dict(count_predicates_by_predicate_curie_prefix(kg2_util.read_json_lines(input_edges_file_name))),
-             'number_of_edges_by_source': dict(count_edges_by_source(kg2_util.read_json_lines(input_edges_file_name))),
-             'types_of_pairs_of_curies_for_xrefs': dict(count_types_of_pairs_of_curies_for_xrefs(kg2_util.read_json_lines(input_edges_file_name))),
-             'types_of_pairs_of_curies_for_equivs': dict(count_types_of_pairs_of_curies_for_equivs(kg2_util.read_json_lines(input_edges_file_name))),
+             'number_of_edges_by_predicate_curie': count_edges_by_predicate_curie(input_edges_file_name),
+             'number_of_edges_by_predicate_type': count_edges_by_predicate_type(input_edges_file_name),
+             'number_of_edges_by_predicate_curie_prefixes': count_edges_by_predicate_curie_prefix(input_edges_file_name),
+             'number_of_predicates_by_predicate_curie_prefixes': count_predicates_by_predicate_curie_prefix(input_edges_file_name),
+             'number_of_edges_by_source': count_edges_by_source(input_edges_file_name),
+             'types_of_pairs_of_curies_for_xrefs': count_types_of_pairs_of_curies_for_xrefs(input_edges_file_name),
+             'types_of_pairs_of_curies_for_equivs': count_types_of_pairs_of_curies_for_equivs(input_edges_file_name),
              'number_of_nodes_by_source_and_category': count_number_of_nodes_by_source_and_category(input_nodes_file_name),
              'sources': get_sources(input_nodes_file_name),
              'number_of_deprecated_nodes': get_deprecated_nodes(input_nodes_file_name),
-             'number_of_excluded_edges': get_excluded_edges(kg2_util.read_json_lines(input_edges_file_name)),
-             'number_of_orphan_nodes': count_orphan_nodes(input_nodes_file_name, kg2_util.read_json_lines(input_edges_file_name))}
+             'number_of_excluded_edges': get_excluded_edges(input_edges_file_name),
+             'number_of_orphan_nodes': count_orphan_nodes(input_nodes_file_name, input_edges_file_name)}
 
     temp_output_file = tempfile.mkstemp(prefix='kg2-')[1]
     with open(temp_output_file, 'w') as outfile:
