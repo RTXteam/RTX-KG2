@@ -44,6 +44,10 @@ def get_args():
     arg_parser.add_argument('outputEdgesFile', type=str)
     return arg_parser.parse_args()
 
+def date():
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+
 def make_gene_id_dictionary(human_names_file:str, human_entities_file:str) -> Dict[str, list]:
     _human_entities_dict = dict(); # string_id: dictionary_serial_no
     _human_names_dict = defaultdict(lambda: list()) # dictionary_serial_no: [external_idsinkg2]
@@ -149,6 +153,7 @@ def make_edges(input_tsv:str, gene_id_dict:Dict[str,list], pmids_dict:Dict[str,D
     print(f"Found {len(gene_ids_actually_used - used_genes_missing_ids)} used kg2 gene ids.")
 
 if __name__ == '__main__':
+    print("Start time: ", date())
     args = get_args()
     output_nodes_file_name = args.outputNodesFile
     output_edges_file_name = args.outputEdgesFile
@@ -182,3 +187,5 @@ if __name__ == '__main__':
     nodes_output.write(jensen_lab_source_node)
 
     kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
+
+    print("Finish time: ", date())
