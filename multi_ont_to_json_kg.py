@@ -57,6 +57,10 @@ ENSEMBL_LETTER_TO_CATEGORY = {'P': 'protein',
 # -------------- subroutines with side-effects go here ------------------
 
 
+def date():
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+
 def delete_ontobio_cachier_caches():
     # This is causing issues in the current build because these files don't exist.
     # Temporarily commenting out to avoid error.
@@ -1362,6 +1366,7 @@ def make_arg_parser():
 # --------------- main starts here -------------------
 
 if __name__ == '__main__':
+    print("Start time: ", date())
     delete_ontobio_cachier_caches()
     args = make_arg_parser().parse_args()
     curies_to_categories_file_name = args.categoriesFile
@@ -1395,3 +1400,5 @@ if __name__ == '__main__':
              save_pickle)
 
     kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
+
+    print("Finish time: ", date())
