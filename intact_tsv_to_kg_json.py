@@ -45,6 +45,10 @@ def get_args():
     return arg_parser.parse_args()
 
 
+def date():
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+
 def format_date(date: str):
     date = date.split('/')
     year = int(date[0])
@@ -139,6 +143,7 @@ def make_edge(intact_row):
 
 
 if __name__ == '__main__':
+    print("Start time: ", date())
     args = get_args()
     input_file_name = args.inputFile
     output_nodes_file_name = args.outputNodesFile
@@ -167,3 +172,4 @@ if __name__ == '__main__':
 
         kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
 
+        print("Finish time: ", date())
