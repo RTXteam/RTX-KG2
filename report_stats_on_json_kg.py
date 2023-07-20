@@ -207,17 +207,14 @@ if __name__ == '__main__':
         
     build_info = dict()
 
-    for n in nodes:  # search for build info node starting at end
-        if n["id"] == kg2_util.CURIE_PREFIX_RTX + ':' + 'KG2':  # should be the first node accessed
-            build_info = n
-            break
-
-    if len(build_info) == 0:
-        print("WARNING: 'build' property is missing from the input JSON.", file=sys.stderr)
-
     number_of_nodes = 0
     for node in kg2_util.read_json_lines(input_nodes_file):
         number_of_nodes += 1
+        if n["id"] == kg2_util.CURIE_PREFIX_RTX + ':' + 'KG2':
+            build_info = n
+
+    if len(build_info) == 0:
+        print("WARNING: 'build' property is missing from the input JSON.", file=sys.stderr)
 
     number_of_edges = 0
     for edge in kg2_util.read_json_lines(input_edges_file):
