@@ -167,7 +167,7 @@ def make_arg_parser():
     return arg_parser
 
 
-def make_edges(records: list, nodes_dict: dict, edges_output):
+def make_edges(records: list, nodes_dict: dict, nodes_output, edges_output):
     for record_dict in records:
         accession = record_dict['AC'][0]
         curie_id = kg2_util.CURIE_PREFIX_UNIPROT + ':' + accession
@@ -222,6 +222,7 @@ def make_edges(records: list, nodes_dict: dict, edges_output):
                                                               UNIPROTKB_PROVIDED_BY_CURIE_ID,
                                                               update_date))
         del node_dict['xrefs']
+        nodes_output.write(node_dict)
 
 
 def fix_xref(raw_xref: str):
@@ -252,7 +253,7 @@ def separate_evidence_codes(string: str):
     return remaining_str, ev_codes
 
 
-def make_nodes(records: list, nodes_output):
+def make_nodes(records: list):
     ret_dict = {}
     for record_dict in records:
         xrefs = set()
@@ -403,7 +404,6 @@ def make_nodes(records: list, nodes_output):
             xrefs = None
         node_dict['xrefs'] = xrefs
         ret_dict[node_curie] = node_dict
-        nodes_output.write(node_dict)
     return ret_dict
 
 
@@ -427,7 +427,7 @@ if __name__ == '__main__':
                                                DESIRED_SPECIES_INTS,
                                                test_mode)
 
-    nodes_dict = make_nodes(uniprot_records, nodes_output)
+    nodes_dict = make_nodes(uniprot_records)
     ontology_curie_id = UNIPROTKB_PROVIDED_BY_CURIE_ID
     ont_node = kg2_util.make_node(ontology_curie_id,
                                   UNIPROT_KB_URL,
@@ -437,7 +437,7 @@ if __name__ == '__main__':
                                   ontology_curie_id)
     nodes_output.write(ont_node)
 
-    make_edges(uniprot_records, nodes_dict, edges_output)
+    make_edges(uniprot_records, nodes_dict, nodes_output, edges_output)
 
     kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
 
