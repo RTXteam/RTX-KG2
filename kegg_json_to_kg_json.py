@@ -480,7 +480,7 @@ def make_kg2_graph(kegg, nodes_output, edges_output, update_date):
             process_pathway(kegg_dict, kegg_id, nodes_output, edges_output, update_date)
 
         if KEGG_DRUG_PREFIX.match(kegg_id) is not None:
-            node, drug_edges = process_drug(kegg_dict, kegg_id, nodes_output, edges_output, update_date)
+            process_drug(kegg_dict, kegg_id, nodes_output, edges_output, update_date)
 
         if KEGG_GLYCAN_PREFIX.match(kegg_id) is not None:
             process_glycan(kegg_dict, kegg_id, nodes_output, edges_output, update_date)
@@ -494,7 +494,6 @@ def make_kg2_graph(kegg, nodes_output, edges_output, update_date):
                                       kg2_util.SOURCE_NODE_CATEGORY,
                                       update_date,
                                       KEGG_PROVIDED_BY)
-    nodes.append(kegg_kp_node)
     nodes_output.write(kegg_kp_node)
 
 
