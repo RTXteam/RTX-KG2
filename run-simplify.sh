@@ -19,7 +19,7 @@ CONFIG_DIR=`dirname "$0"`
 source ${CONFIG_DIR}/master-config.shinc
 
 trigger_file_is_major_release=${BUILD_DIR}/major-release
-trigger_file_is_major_release=${BUILD_DIR}/minor-release
+trigger_file_is_minor_release=${BUILD_DIR}/minor-release
 
 input_json=${1:-}
 output_json=${2:-}
