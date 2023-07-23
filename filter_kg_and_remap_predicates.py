@@ -137,12 +137,13 @@ def process_nodes(input_file_name, infores_remap_config):
             infores_curies = list()
             for source in knowledge_source:
                 infores_curie_dict = infores_remap_config.get(source, None)
-                infores_curie = infores_curie_dict['infores_curie']
                 if infores_curie_dict is None:
                     knowledge_source_curies_not_in_config_nodes.add(source)
+                    print(knowledge_source_curies_not_in_config_nodes)
+                    exit(1)
                 else:
                     infores_curie = infores_curie_dict['infores_curie']
-                infores_curies.append(infores_curie)
+                    infores_curies.append(infores_curie)
             node_dict['provided_by'] = infores_curies
             nodes_dict[node_id] = node_dict
     print(f"Completed nodes {kg2_util.date()}")
