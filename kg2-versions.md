@@ -1,5 +1,5 @@
 # 2.8.4
-**Date:  2023.XX.XX**
+**Date:  2023.07.20**
 
 Counts:
 - Nodes: XX,XXX,XXX
@@ -41,10 +41,10 @@ Issues:
 - Issue [#320](https://github.com/RTXteam/RTX-KG2/issues/320)
 - Issue [#324](https://github.com/RTXteam/RTX-KG2/issues/324)
 - Issue [#325](https://github.com/RTXteam/RTX-KG2/issues/325)
-- Additional issues that arose during the build: [#327](https://github.com/RTXteam/RTX-KG2/issues/327)
+- Additional issues that arose during the build: [#327](https://github.com/RTXteam/RTX-KG2/issues/327), [#328](https://github.com/RTXteam/RTX-KG2/issues/328), [#329](https://github.com/RTXteam/RTX-KG2/issues/329), [#294 (comment)](https://github.com/RTXteam/RTX-KG2/issues/294#issuecomment-1644489313), [#312 (comment)](https://github.com/RTXteam/RTX-KG2/issues/312#issuecomment-1645008620)
 
 Build info:
-- Biolink Model version: 3.5.1
+- Biolink Model version: 3.5.2
 - Build host: `buildkg2.rtx.ai` (new instance, old version was deprecated)
 - Build directory: `/home/ubuntu/kg2-build`
 - Build code branch: `kg2.8.4prep`
