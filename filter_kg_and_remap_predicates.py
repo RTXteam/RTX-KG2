@@ -132,15 +132,15 @@ def process_nodes(input_file_name, infores_remap_config):
                 print(f"Processing node {node_ctr}")
             node_id = node_dict["id"]
             if node_dict.get('provided_by') is None:
-                    node_dict['provided_by'] = node_dict.pop('knowledge_source')
+                node_dict['provided_by'] = node_dict.pop('knowledge_source')
+            if isinstance(node_dict.get('provided_by'), str):
+                node_dict['provided_by'] = [node_dict['provided_by']]
             knowledge_source = node_dict['provided_by']
             infores_curies = list()
             for source in knowledge_source:
                 infores_curie_dict = infores_remap_config.get(source, None)
                 if infores_curie_dict is None:
                     knowledge_source_curies_not_in_config_nodes.add(source)
-                    print(knowledge_source_curies_not_in_config_nodes)
-                    exit(1)
                 else:
                     infores_curie = infores_curie_dict['infores_curie']
                     infores_curies.append(infores_curie)

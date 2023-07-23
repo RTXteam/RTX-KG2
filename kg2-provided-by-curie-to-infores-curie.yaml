@@ -218,6 +218,10 @@ umls_source:CPT:
   source_name: Current Procedural Terminology (CPT) Codes (from UMLS)
   infores_curie: infores:cpt-codes-umls
   knowledge_type: knowledge_source
+umls_source:CHV:
+  source_name: Consumer Health Vocabulary (CHV) (from UMLS)
+  infores_curie: infores:chv-umls
+  knowledge_type: knowledge_source
 umls_source:DRUGBANK:
   source_name: DrugBank
   infores_curie: infores:drugbank

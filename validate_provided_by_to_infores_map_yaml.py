@@ -52,7 +52,7 @@ def make_kg2_infores_look_up(infores_map):
 
 
 def validate_infores_curies(infores_look_up, kg2_infores_look_up):
-    name_exceptions = []
+    name_exceptions = ["Consumer Health Vocabulary (CHV) (from UMLS)"]
     for kg2_infores_name in kg2_infores_look_up:
         kg2_infores_curies = kg2_infores_look_up[kg2_infores_name]
         exceptions = False
