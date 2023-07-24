@@ -1,4 +1,4 @@
-[![RTX-KG2 Continous Integration](https://github.com/RTXteam/RTX-KG2/actions/workflows/main.yml/badge.svg?branch=kg2.8.4prep)](https://github.com/RTXteam/RTX-KG2/actions/workflows/main.yml)
+[![RTX-KG2 Continous Integration](https://github.com/RTXteam/RTX-KG2/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/RTXteam/RTX-KG2/actions/workflows/main.yml)
 # KG2: the second-generation RTX knowledge graph
 
 KG2 is the second-generation knowledge graph for the
