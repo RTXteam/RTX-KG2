@@ -2,8 +2,8 @@
 **Date:  2023.07.20**
 
 Counts:
-- Nodes: XX,XXX,XXX
-- Edges: XX,XXX,XXX
+- Nodes: 8,436,873
+- Edges: 54,363,492
 
 Issues:
 - Issue [#216](https://github.com/RTXteam/RTX-KG2/issues/216)
