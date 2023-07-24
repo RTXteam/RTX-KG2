@@ -68,7 +68,7 @@ if __name__ == '__main__':
         kg2_util.log_message("number of nodes added: " + str(num_nodes_added),
                              ontology_name=kg_nodes_file_name,
                              output_stream=sys.stderr)
-    kg2_util.end_read_jsonlines(kg_nodes_read_jsonlines_info)
+        kg2_util.end_read_jsonlines(kg_nodes_read_jsonlines_info)
 
     ctr_edges_added = 0
     last_edges_added = 0
