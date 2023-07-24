@@ -60,7 +60,7 @@ Build info:
   - GO annotations: `2023-6-11`
   - UniProtKB: `2023_02`
   - DrugCentral: `52`
-  - KEGG: `106.0`
+  - KEGG: `107.0`
 
 # 2.8.1
 **Date:  2022.XX.XX**
