@@ -41,7 +41,7 @@ Issues:
 - Issue [#320](https://github.com/RTXteam/RTX-KG2/issues/320)
 - Issue [#324](https://github.com/RTXteam/RTX-KG2/issues/324)
 - Issue [#325](https://github.com/RTXteam/RTX-KG2/issues/325)
-- Additional issues that arose during the build: [#327](https://github.com/RTXteam/RTX-KG2/issues/327), [#328](https://github.com/RTXteam/RTX-KG2/issues/328), [#329](https://github.com/RTXteam/RTX-KG2/issues/329), [#294 (comment)](https://github.com/RTXteam/RTX-KG2/issues/294#issuecomment-1644489313), [#312 (comment)](https://github.com/RTXteam/RTX-KG2/issues/312#issuecomment-1645008620)
+- Additional issues that arose during the build: [#294 (comment)](https://github.com/RTXteam/RTX-KG2/issues/294#issuecomment-1644489313), [#312 (comment)](https://github.com/RTXteam/RTX-KG2/issues/312#issuecomment-1645008620), [#327](https://github.com/RTXteam/RTX-KG2/issues/327), [#328](https://github.com/RTXteam/RTX-KG2/issues/328), [#329](https://github.com/RTXteam/RTX-KG2/issues/329), [#330](https://github.com/RTXteam/RTX-KG2/issues/330)
 
 Build info:
 - Biolink Model version: 3.5.2
