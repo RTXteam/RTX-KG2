@@ -376,6 +376,15 @@ CHEMBL.MECHANISM:substrate:
 CHEMBL.MECHANISM:superset_of:
   operation: keep
   core_predicate: biolink:superclass_of
+CL:4030044: # has not completed
+  operation: keep
+  core_predicate: biolink:has_not_completed
+CL:4030045: # lacks part
+  operation: keep
+  core_predicate: biolink:lacks_part
+CL:4030046: # lacks plasma membrane part
+  operation: keep
+  core_predicate: biolink:lacks_part
 CL:has_completed:
   operation: keep
   core_predicate: biolink:has_completed
@@ -657,6 +666,9 @@ DRUGBANK:blocker:
   qualifiers:
     - object_aspect: activity_or_abundance
     - object_direction: decreased
+DRUGBANK:carrier:
+  operation: keep
+  core_predicate: biolink:related_to
 DRUGBANK:category:
   operation: keep
   core_predicate: biolink:subclass_of
@@ -2676,6 +2688,8 @@ NCIT:has_ctdc_value:
 NCIT:has_data_element:
   operation: keep
   core_predicate: biolink:related_to
+NCIT:has_dipg_dmg_permissible_value:
+  operation: delete
 NCIT:has_free_acid_or_base_form:
   operation: delete
 NCIT:has_gdc_value:
@@ -2699,6 +2713,10 @@ NCIT:has_pcdc_ews_permissible_value:
 NCIT:has_pcdc_data_type:
   operation: delete
 NCIT:has_pcdc_gct_permissible_value:
+  operation: delete
+NCIT:has_pcdc_hl_permissible_value:
+  operation: delete
+NCIT:has_pcdc_os_permissible_value:
   operation: delete
 NCIT:has_pharmaceutical_administration_method:
   operation: keep
@@ -2763,6 +2781,8 @@ NCIT:is_component_of_chemotherapy_regimen:
 NCIT:is_cytogenetic_abnormality_of_disease:
   operation: invert
   core_predicate: biolink:correlated_with
+NCIT:is_dipg_dmg_permissible_value_for_variable:
+  operation: delete
 NCIT:is_finding_of_disease:
   operation: delete
 NCIT:is_grade_of_disease:
@@ -2814,6 +2834,10 @@ NCIT:is_pcdc_aml_permissible_value_for_variable:
 NCIT:is_pcdc_ews_permissible_value_for_variable:
   operation: delete
 NCIT:is_pcdc_gct_permissible_value_for_variable:
+  operation: delete
+NCIT:is_pcdc_hl_permissible_value_for_variable:
+  operation: delete
+NCIT:is_pcdc_os_permissible_value_for_variable:
   operation: delete
 NCIT:is_physical_location_of_gene:
   operation: delete
@@ -3017,6 +3041,15 @@ OBO:exo#interacts_with_an_exposure_stressor_via:
 #   operation: keep
 #   core_predicate: biolink:interacts_with
 OBO:has_role:
+  operation: keep
+  core_predicate: biolink:related_to
+OBO:HANCESTRO_0301:
+  operation: keep
+  core_predicate: biolink:related_to
+OBO:HANCESTRO_0308:
+  operation: keep
+  core_predicate: biolink:related_to
+OBO:HANCESTRO_0330:
   operation: keep
   core_predicate: biolink:related_to
 OBO:nbo#by_means:
@@ -3633,6 +3666,9 @@ RO:0002332:
 RO:0002334: # regulated by
   operation: invert
   core_predicate: biolink:regulates
+RO:0002336: # positively regulated by
+  operation: invert
+  core_predicate: biolink:regulates
 RO:0002338:
   operation: keep
   core_predicate: biolink:related_to
@@ -3832,6 +3868,9 @@ RO:0002565:
 RO:0002568:
   operation: keep
   core_predicate: biolink:related_to
+RO:0002570: # conduit for
+  operation: keep
+  core_predicate: biolink:related_to
 RO:0002571:
   operation: invert
   core_predicate: biolink:has_part
@@ -3859,6 +3898,9 @@ RO:0002591:
 RO:0002592:
   operation: keep
   core_predicate: biolink:affects
+RO:0002596: # capable of regulating
+  operation: keep
+  core_predicate: biolink:regulates
 # RO:0002599:
 #   operation: keep
 #   core_predicate: biolink:prevents
