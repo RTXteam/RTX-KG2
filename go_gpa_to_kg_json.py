@@ -83,7 +83,7 @@ if __name__ == '__main__':
     go_kp_node = kg2_util.make_node(GO_PROVIDED_BY_CURIE_ID,
                                     GO_BASE_IRI,
                                     "Gene Ontology Annotations",
-                                    kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
+                                    kg2_util.SOURCE_NODE_CATEGORY,
                                     file_update_date,
                                     GO_PROVIDED_BY_CURIE_ID)
     nodes.append(go_kp_node)

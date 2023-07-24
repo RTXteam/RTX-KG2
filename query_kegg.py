@@ -35,14 +35,15 @@ def get_args():
 
 
 def send_query(query):
-    requests = CacheControlHelper()
-    res = requests.get(query, timeout=120)
-    return res.text
+    site_request = requests.get(query)
+    site_response = str(site_request.content)[2:]
+    results = site_response.strip().split("\\n")
+    return results
 
 
-def process_get_query(get_results, results_dict, kegg_id):
+def process_get_query(results, results_dict, kegg_id):
     previous_line_starter = ''
-    for line in get_results.split('\n'):
+    for line in results:
         if len(line) < 1 or line == '///':
             continue
         if line.startswith(' '):
@@ -86,28 +87,12 @@ def run_queries():
                     "http://rest.kegg.jp/conv/glycan/chebi",
                     "http://rest.kegg.jp/conv/drug/chebi"]
     get_base_query = "http://rest.kegg.jp/get/"
-    for query in info_queries:
-        info_dict = {}
-        site_request = requests.get(query)
-        site_response = str(site_request.content)[2:]
-        if site_response[:2].startswith("b"):
-            site_response = site_response[2:]
-        results = site_response.strip().split("\\n")
-        for result in results:
-            result = result.strip("kegg").strip().split()
-            if len(results) < 1:
-                continue
-            if result[0] == "Release":
-                info_dict['version'] = result[1].split('/')[0].strip('+')
-                info_dict['update_date'] = result[2] + '-' + result[3]
-        results_dict['info'] = info_dict
+
     for query in list_queries:
-        site_request = requests.get(query)
-        site_response = str(site_request.content)[2:]
-        results = site_response.split("\\n")
-        for results in results:
+        results = send_query(query)
+        for result in results:
             result = result.split("\\t")
-            if len(results) < 2:
+            if len(result) < 2:
                 continue
             results_dict[result[0]] = {'name': result[1]}
     for query in conv_queries:
@@ -130,6 +115,19 @@ def run_queries():
         get_count += 1
         if get_count % 1000 == 0:
             print("Processed", get_count, "out of", kegg_ids, "at", date())
+
+    for query in info_queries:
+        info_dict = {}
+        results = send_query(query)
+        for result in results:
+            result = result.strip("kegg").strip().split()
+            if len(results) < 1:
+                continue
+            if result[0] == "Release":
+                info_dict['version'] = result[1].split('/')[0].strip('+')
+                info_dict['update_date'] = result[2] + '-' + result[3]
+        results_dict['info'] = info_dict
+
     return results_dict
 
 

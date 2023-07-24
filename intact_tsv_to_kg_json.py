@@ -152,7 +152,7 @@ if __name__ == '__main__':
         kp_node = kg2_util.make_node(INTACT_KB_CURIE_ID,
                                      INTACT_KB_URI,
                                      "IntAct",
-                                     kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
+                                     kg2_util.SOURCE_NODE_CATEGORY,
                                      None,
                                      INTACT_KB_CURIE_ID)
         nodes.append(kp_node)

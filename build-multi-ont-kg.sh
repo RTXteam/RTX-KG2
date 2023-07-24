@@ -22,8 +22,10 @@ source ${config_dir}/master-config.shinc
 ## supply a default value for the build_flag string
 build_flag=${3:-""}
 biolink_base_url_no_version=https://raw.githubusercontent.com/biolink/biolink-model/
-biolink_raw_base_url=${biolink_base_url_no_version}${biolink_model_version}/biolink-model.owl.ttl
-biolink_raw_base_url_curies_urls_map=${biolink_base_url_no_version}${biolink_model_version}/
+
+# Issue #300: Need "v" before version number for URL to resolve
+biolink_raw_base_url=${biolink_base_url_no_version}v${biolink_model_version}/biolink-model.owl.ttl
+biolink_raw_base_url_curies_urls_map=${biolink_base_url_no_version}v${biolink_model_version}/
 curies_urls_map_replace_string="\    biolink_download_source: ${biolink_raw_base_url_curies_urls_map}"
 ont_load_inventory_replace_string="\  url: ${biolink_raw_base_url}"
 
@@ -66,6 +68,8 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/save_owl_datatypeproperties.py \
            ${BUILD_DIR}/umls-hgnc.owl \
            ${BUILD_DIR}/umls-omim.owl \
            --outputFile ${node_datatype_properties_file}
+
+${s3_cp_cmd} s3://${s3_bucket}/foodon.pickle ${BUILD_DIR}/
 
 ## run the multi_ont_to_json_kg.py script
 cd ${BUILD_DIR} && ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/multi_ont_to_json_kg.py \

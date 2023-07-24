@@ -185,7 +185,13 @@ for relation, instruction_dict in pred_info.items():
                 # TODO: find a better way of handling the biolink 3.0 changes
                 pass
             elif len(allowed_biolink_curies_set) != 0 and relation not in relation_mapping_exceptions:
-                err_str = "%s should map to %s (%s)" % (relation, allowed_biolink_curies_set, mapping_term_used.split("_")[0])
-                assert core_predicate in allowed_biolink_curies_set, err_str
+                if core_predicate not in allowed_biolink_curies_set and \
+                   core_predicate == "biolink:subclass_of" and \
+                   "biolink:superclass_of" in allowed_biolink_curies_set and \
+                   operation == "invert":
+                    pass
+                else:
+                    assert core_predicate in allowed_biolink_curies_set, \
+                        f"{relation} should map to {allowed_biolink_curies_set} ({mapping_term_used.split('_')[0]})"
     else:
         assert operation == 'delete'

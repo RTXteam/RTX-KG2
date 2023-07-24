@@ -71,24 +71,18 @@ def count_nodes_by_source(nodes: list):
 
 
 def count_number_of_nodes_by_source_and_category(nodes: list):
-    fulldict = {}
-    label_field = 'provided_by' # if not args.use_simplified_predicates else 'provided_by'
-    # provided by is a list in simplified
-    if not args.use_simplified_predicates:
-        sourcedict = collections.Counter([node[label_field][0] for node in nodes])
-    else:
-        sourcedict = collections.Counter([node[label_field][0] for node in nodes])
-    sourcecatdict = {}
-    categorylist = []
-    for source in sourcedict:
-        categorylist = []
-        for node in nodes:
-            if node.get(label_field) == source:
-                categorylist.append(node['category_label'])
-        sourcecatdict.update({source: categorylist})
-    for defintion in sourcecatdict:
-        sourcecount = collections.Counter(sourcecatdict.get(defintion))
-        fulldict.update({defintion: sourcecount})
+    fulldict = dict()
+    provided_by_label = 'provided_by'
+    category_label = 'category_label'
+
+    for node in nodes:
+        source = node[provided_by_label][0]
+        category = node[category_label]
+        if source not in fulldict:
+            fulldict[source] = dict()
+        if category not in fulldict[source]:
+            fulldict[source][category] = 0
+        fulldict[source][category] += 1
     return fulldict
 
 
@@ -150,6 +144,64 @@ def count_types_of_pairs_of_curies_for_equivs(edges: list):
             prefix_pairs_list.append(key)
     return collections.Counter(prefix_pairs_list)
 
+def get_sources(nodes: list):
+    return [node.get('name') for node in nodes if node.get('category') == kg2_util.convert_biolink_category_to_curie(kg2_util.SOURCE_NODE_CATEGORY)]
+
+def get_deprecated_nodes(nodes: list):
+    deprecated_nodes = dict()
+    provided_by_label = 'provided_by'
+    deprecated_label = 'deprecated'
+
+    for node in nodes:
+        source = node[provided_by_label][0]
+        deprecated = node[deprecated_label]
+
+        if deprecated:
+            if source not in deprecated_nodes:
+                deprecated_nodes[source] = 0
+            deprecated_nodes[source] += 1
+
+    return deprecated_nodes
+
+
+def get_excluded_edges(edges: list):
+    excluded_edges = dict()
+    provided_by_label = 'primary_knowledge_source'
+    excluded_label = 'domain_range_exclusion'
+
+    for edge in edges:
+        source = edge[provided_by_label]
+        excluded = edge[excluded_label]
+
+        if excluded:
+            if source not in excluded_edges:
+                excluded_edges[source] = 0
+            excluded_edges[source] += 1
+
+    return excluded_edges
+
+
+def count_orphan_nodes(nodes: list, edges: list):
+    orphan_nodes = dict()
+    provided_by_label = 'provided_by'
+
+    nodes_on_edges = set()
+
+    edge_count = len(edges)
+    for edge_index in range(0, edge_count):
+        nodes_on_edges.add(edges[edge_index].get('subject', ""))
+        nodes_on_edges.add(edges[edge_index].get('object', ""))
+        edges[edge_index] = dict()
+
+    for node in nodes:
+        source = node[provided_by_label][0]
+        if node.get('id', "") not in nodes_on_edges:
+            if source not in orphan_nodes:
+                orphan_nodes[source] = 0
+            orphan_nodes[source] += 1
+
+    return orphan_nodes
+
 
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
@@ -165,16 +217,22 @@ if __name__ == '__main__':
         print("WARNING: 'nodes' property is missing from the input JSON.", file=sys.stderr)
     nodes = graph.get('nodes', [])
     for n in nodes[::-1]:  # search for build info node starting at end
-        if n["name"] == "KG2:Build":  # should be the first node accessed
+        if n["id"] == kg2_util.CURIE_PREFIX_RTX + ':' + 'KG2':  # should be the first node accessed
             nodes.remove(n) # remove it so stats aren't reported
             break
     if 'edges' not in graph:
         print("WARNING: 'edges' property is missing from the input JSON.", file=sys.stderr)
     edges = graph.get('edges', [])
 
+    if 'build' not in graph:
+        print("WARNING: 'build' property is missing from the input JSON.", file=sys.stderr)
+    build_info = graph.get('build', dict())
+
     stats = {'_number_of_nodes': len(nodes),   # underscore is to make sure it sorts to the top of the report
              '_number_of_edges': len(edges),   # underscore is to make sure it sorts to the top of the report
              '_report_datetime': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+             '_build_version': build_info.get('version', ""),
+             '_build_time': build_info.get('timestamp_utc', ""),
              'number_of_nodes_by_curie_prefix': dict(count_nodes_by_curie_prefix(nodes)),
              'number_of_nodes_without_category__by_curie_prefix': dict(count_nodes_by_curie_prefix_given_no_category(nodes)),
              'number_of_nodes_by_category_label': dict(count_nodes_by_category(nodes)),
@@ -186,7 +244,11 @@ if __name__ == '__main__':
              'number_of_edges_by_source': dict(count_edges_by_source(edges)),
              'types_of_pairs_of_curies_for_xrefs': dict(count_types_of_pairs_of_curies_for_xrefs(edges)),
              'types_of_pairs_of_curies_for_equivs': dict(count_types_of_pairs_of_curies_for_equivs(edges)),
-             'number_of_nodes_by_source_and_category': dict(count_number_of_nodes_by_source_and_category(nodes))}
+             'number_of_nodes_by_source_and_category': dict(count_number_of_nodes_by_source_and_category(nodes)),
+             'sources': get_sources(nodes),
+             'number_of_deprecated_nodes': get_deprecated_nodes(nodes),
+             'number_of_excluded_edges': get_excluded_edges(edges),
+             'number_of_orphan_nodes': count_orphan_nodes(nodes, edges)}
 
     temp_output_file = tempfile.mkstemp(prefix='kg2-')[1]
     with open(temp_output_file, 'w') as outfile:

@@ -38,9 +38,9 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
     nodes = [kg2_util.make_node(id=REPODB_CURIE + ':',
                                 iri=REPODB_IRI,
                                 name='repoDB drug repositioning database',
-                                category_label=kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
+                                category_label=kg2_util.SOURCE_NODE_CATEGORY,
                                 update_date=update_date,
-                                knowledge_source=REPODB_CURIE + ':')]
+                                provided_by=REPODB_CURIE + ':')]
     edges = []
     df = pd.read_csv(input_file_name)
     for idx in range(len(df)):
@@ -57,7 +57,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                                        object_id=UMLS_CURIE + ':' + df['ind_id'][idx],
                                        relation_curie=REPODB_CURIE + ':' + relation,
                                        relation_label=relation,
-                                       knowledge_source=REPODB_CURIE + ':',
+                                       primary_knowledge_source=REPODB_CURIE + ':',
                                        update_date=None)
         if not df['NCT'].isna()[idx]:
             edge_dict['publications'].append(NCT_CURIE + df['NCT'][idx])

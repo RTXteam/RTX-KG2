@@ -20,9 +20,9 @@ source ${config_dir}/master-config.shinc
 output_dir=${1:-${BUILD_DIR}}
 umls_cui_file=${2:-${BUILD_DIR}/umls_cuis.tsv}
 
-umls_ver=2022AB
-umls_file_base=${umls_ver}-metathesaurus
-umls2rdf_release=rtx-2.8
+umls_ver=2023AA
+umls_file_base=umls-${umls_ver}-metathesaurus-full
+umls2rdf_release=rtx-2.2 # This is the version of umls2rdf NOT RTX-KG2; do not change to update RTX-KG2 version
 umls2rdf_pkgname=umls2rdf-${umls2rdf_release}
 umls2rdf_dir=${umls_dir}/${umls2rdf_pkgname}
 config_file=${umls_dir}/config.prop
@@ -40,13 +40,13 @@ mkdir -p ${umls_dir}
 mkdir -p ${umls_dest_dir}
 
 ## copy UMLS distribution files and MetamorphoSys config files from S3 to local dir
-${s3_cp_cmd} s3://${s3_bucket}/umls-${umls_file_base}.zip ${umls_dir}/
+${s3_cp_cmd} s3://${s3_bucket}/${umls_file_base}.zip ${umls_dir}/
 cp ${CODE_DIR}/umls-config.prop ${config_file}
 
 ## unpack UMLS zip archive
-unzip ${umls_dir}/umls-${umls_file_base}.zip -d ${umls_dir}/
+unzip ${umls_dir}/${umls_file_base}.zip -d ${umls_dir}/
 
-mv ${umls_dir}/2022AB/META/* ${umls_dest_dir} 
+mv ${umls_dir}/${umls_ver}/META/* ${umls_dest_dir} 
 
 mysql_user=`grep 'user = ' ${mysql_conf} | sed 's/user = //g'`
 mysql_password=`grep 'password = ' ${mysql_conf} | sed 's/password = //g'`
@@ -59,12 +59,16 @@ mysql --defaults-extra-file=${mysql_conf} \
 mysql --defaults-extra-file=${mysql_conf} \
       -e "CREATE DATABASE IF NOT EXISTS ${mysql_dbname} CHARACTER SET utf8 COLLATE utf8_unicode_ci"
 
+mysql --defaults-extra-file=${mysql_conf} \
+      -e "SET GLOBAL local_infile = true"
+
 ## fill in the authentication and database variables in the shell script for populating the mysql database
 cat ${umls_dest_dir}/populate_mysql_db.sh | \
     sed "s/<username>/${mysql_user}/g" | \
     sed 's|<path to MYSQL_HOME>|/usr|g' | \
     sed "s/<password>/${mysql_password}/g" | \
-    sed "s/<db_name>/${mysql_dbname}/g" > ${umls_dest_dir}/populate_mysql_db_configured.sh
+    sed "s/<db_name>/${mysql_dbname}/g" | \
+    sed "s/-vvv/-vvv --local-infile=1/g" > ${umls_dest_dir}/populate_mysql_db_configured.sh
 
 ## enable the loading script to be runnable
 chmod +x ${umls_dest_dir}/populate_mysql_db_configured.sh

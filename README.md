@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/RTXteam/RTX-KG2.svg?branch=master)](https://travis-ci.com/RTXteam/RTX-KG2)
+[![RTX-KG2 Continous Integration](https://github.com/RTXteam/RTX-KG2/actions/workflows/main.yml/badge.svg?branch=kg2.8.4prep)](https://github.com/RTXteam/RTX-KG2/actions/workflows/main.yml)
 # KG2: the second-generation RTX knowledge graph
 
 KG2 is the second-generation knowledge graph for the
@@ -336,6 +336,17 @@ this command:
 
     touch ~/kg2-build/major-release
 
+[**MORE COMMON ALTERNATIVE**] For regular releases, you want to increment the "minor"
+release number. This is for situations where changes to the code have been made and
+the build will likely be deployed. If you want to increment the "minor" release number
+for KG2, you would run this command:
+
+    touch ~/kg2-build/minor-release
+
+If you don't increment the release number at all, you should not be planning to deploy
+the build. This is useful for cases where you are testing the build system, but not
+necessarily different code or bug fixes.
+
 (7) Run a "dry-run" build:
 
     bash -x ~/kg2-code/build-kg2-snakemake.sh all -F -n
@@ -434,7 +445,10 @@ build, in Step (8) above, you would run
 
 (note the absence of the `all` argument to `build-kg2-snakemake.sh`). A partial build of KG2
 may take about 31 hours. Note, you have to have previously run an `all` build
-of KG2, or else the partial build will not work.
+of KG2, or else the partial build will not work. Note, when doing a partial build,
+existing KG2 JSON files in the `/home/ubuntu/kg2-build` directory from previous
+builds will just get used and will not get updated; if you want any of those files
+to get updated, you should delete them before running the partial build.
 </details>
 
 <details>

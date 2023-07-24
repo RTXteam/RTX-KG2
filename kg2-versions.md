@@ -1,3 +1,67 @@
+# 2.8.4
+**Date:  2023.07.20**
+
+Counts:
+- Nodes: XX,XXX,XXX
+- Edges: XX,XXX,XXX
+
+Issues:
+- Issue [#216](https://github.com/RTXteam/RTX-KG2/issues/216)
+- Issue [#230](https://github.com/RTXteam/RTX-KG2/issues/230)
+- Issue [#232](https://github.com/RTXteam/RTX-KG2/issues/232)
+- Issue [#262](https://github.com/RTXteam/RTX-KG2/issues/262)
+- Issue [#276](https://github.com/RTXteam/RTX-KG2/issues/276)
+- Issue [#278](https://github.com/RTXteam/RTX-KG2/issues/278)
+- Issue [#279](https://github.com/RTXteam/RTX-KG2/issues/279)
+- Issue [#280](https://github.com/RTXteam/RTX-KG2/issues/280)
+- Issue [#281](https://github.com/RTXteam/RTX-KG2/issues/281)
+- Issue [#286](https://github.com/RTXteam/RTX-KG2/issues/286)
+- Issue [#287](https://github.com/RTXteam/RTX-KG2/issues/287)
+- Issue [#290](https://github.com/RTXteam/RTX-KG2/issues/290)
+- Issue [#291](https://github.com/RTXteam/RTX-KG2/issues/291)
+- Issue [#292](https://github.com/RTXteam/RTX-KG2/issues/292)
+- Issue [#293](https://github.com/RTXteam/RTX-KG2/issues/293)
+- Issue [#294](https://github.com/RTXteam/RTX-KG2/issues/294)
+- Issue [#295](https://github.com/RTXteam/RTX-KG2/issues/295)
+- Issue [#296](https://github.com/RTXteam/RTX-KG2/issues/296)
+- Issue [#297](https://github.com/RTXteam/RTX-KG2/issues/297)
+- Issue [#298](https://github.com/RTXteam/RTX-KG2/issues/298)
+- Issue [#299](https://github.com/RTXteam/RTX-KG2/issues/299)
+- Issue [#300](https://github.com/RTXteam/RTX-KG2/issues/300)
+- Issue [#301](https://github.com/RTXteam/RTX-KG2/issues/301)
+- Issue [#302](https://github.com/RTXteam/RTX-KG2/issues/302)
+- Issue [#303](https://github.com/RTXteam/RTX-KG2/issues/303) - we are using a pickled copy of an old version of FOODON in this build
+- Issue [#304](https://github.com/RTXteam/RTX-KG2/issues/304)
+- Issue [#305](https://github.com/RTXteam/RTX-KG2/issues/305)
+- Issue [#307](https://github.com/RTXteam/RTX-KG2/issues/307)
+- Issue [#310](https://github.com/RTXteam/RTX-KG2/issues/310)
+- Issue [#311](https://github.com/RTXteam/RTX-KG2/issues/311)
+- Issue [#315](https://github.com/RTXteam/RTX-KG2/issues/315)
+- Issue [#319](https://github.com/RTXteam/RTX-KG2/issues/319)
+- Issue [#320](https://github.com/RTXteam/RTX-KG2/issues/320)
+- Issue [#324](https://github.com/RTXteam/RTX-KG2/issues/324)
+- Issue [#325](https://github.com/RTXteam/RTX-KG2/issues/325)
+- Additional issues that arose during the build: [#294 (comment)](https://github.com/RTXteam/RTX-KG2/issues/294#issuecomment-1644489313), [#312 (comment)](https://github.com/RTXteam/RTX-KG2/issues/312#issuecomment-1645008620), [#327](https://github.com/RTXteam/RTX-KG2/issues/327), [#328](https://github.com/RTXteam/RTX-KG2/issues/328), [#329](https://github.com/RTXteam/RTX-KG2/issues/329), [#330](https://github.com/RTXteam/RTX-KG2/issues/330)
+
+Build info:
+- Biolink Model version: 3.5.2
+- Build host: `buildkg2.rtx.ai` (new instance, old version was deprecated)
+- Build directory: `/home/ubuntu/kg2-build`
+- Build code branch: `kg2.8.4prep`
+- Neo4j endpoint CNAME:  
+- Neo4j endpoint hostname:  
+- Tracking issue for the build: Issue [#312](https://github.com/RTXteam/RTX-KG2/issues/312)
+- Major knowledge source versions:
+  - SemMedDB: `43 (2023)`
+  - UMLS: `2023AA`
+  - ChEMBL: `33`
+  - DrugBank: `5.1.10`
+  - Ensembl: `106`
+  - GO annotations: `2023-6-11`
+  - UniProtKB: `2023_02`
+  - DrugCentral: `52`
+  - KEGG: `106.0`
+
 # 2.8.1
 **Date:  2022.XX.XX**
 

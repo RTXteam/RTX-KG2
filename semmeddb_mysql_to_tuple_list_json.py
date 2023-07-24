@@ -45,15 +45,17 @@ if __name__ == '__main__':
     test_mode = args.test
     connection = pymysql.connect(read_default_file=mysql_config_file, db=mysql_db_name)
     preds_dict = dict()
-    sql_statement = ("SELECT PMID, SUBJECT_CUI, PREDICATE, OBJECT_CUI, DP, SENTENCE, SUBJECT_SCORE, "
+    sql_statement = ("SELECT PMID, SUBJECT_CUI, SUBJECT_SEMTYPE, PREDICATE, OBJECT_CUI, OBJECT_SEMTYPE, DP, SENTENCE, SUBJECT_SCORE, "
                      "OBJECT_SCORE, DATE_FORMAT(CURR_TIMESTAMP, '%Y-%m-%d %H:%i:%S') FROM ((PREDICATION NATURAL JOIN CITATIONS) "
                      "NATURAL JOIN SENTENCE) NATURAL JOIN PREDICATION_AUX")
     if test_mode:
         sql_statement += " LIMIT 10000"
     results = {'data_dictionary': ['pmid',
                                    'subject_cui_str',
+                                   'subject_semtype',
                                    'predicate',
                                    'object_cui_str',
+                                   'object_semtype',
                                    'pub_date',
                                    'sentence',
                                    'subject_score',

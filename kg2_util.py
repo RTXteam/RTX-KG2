@@ -127,33 +127,33 @@ BASE_BASE_URL_IDENTIFIERS_ORG = 'https://identifiers.org/'
 BASE_URL_IDENTIFIERS_ORG_REGISTRY = \
     'https://registry.identifiers.org/registry/'
 BASE_URL_BIOLINK_CONCEPTS = 'https://w3id.org/biolink/vocab/'
-BASE_URL_BIOLINK_ONTOLOGY = 'https://w3id.org/biolink/biolink-model'
+BASE_URL_BIOLINK_ONTOLOGY = 'https://w3id.org/biolink/biolink-model.owl.ttl'
 BASE_URL_BIOLINK_META = 'https://w3id.org/biolink/biolinkml/meta/'
 BASE_URL_CHEMBL_COMPOUND = BASE_BASE_URL_IDENTIFIERS_ORG + 'chembl.compound:'
 BASE_URL_CHEMBL_TARGET = BASE_BASE_URL_IDENTIFIERS_ORG + 'chembl.target:'
-BASE_URL_CHEMBL_MECHANISM = 'https://www.ebi.ac.uk/chembl#'
+BASE_URL_CHEMBL_MECHANISM = 'https://www.ebi.ac.uk/chembl/mechanism/inspect/'
 BASE_URL_CLINICALTRIALS = BASE_BASE_URL_IDENTIFIERS_ORG + 'clinicaltrials:'
-BASE_URL_DGIDB = 'https://www.dgidb.org/'
+BASE_URL_DGIDB = 'https://www.dgidb.org/interaction_types'
 BASE_URL_DISGENET = 'http://www.disgenet.org'
 BASE_URL_DRUGBANK = BASE_BASE_URL_IDENTIFIERS_ORG + 'drugbank:'
-BASE_URL_DRUGCENTRAL = 'https://drugcentral.org/drugcard/'
+BASE_URL_DRUGCENTRAL = 'http://drugcentral.org/drugcard/'
 BASE_URL_ENSEMBL = BASE_BASE_URL_IDENTIFIERS_ORG + 'ensembl:'
 BASE_URL_GO = 'http://purl.obolibrary.org/obo/GO_'
 BASE_URL_GTPI = \
     'https://www.guidetopharmacology.org/GRAC/LigandDisplayForward?ligandId='
 BASE_URL_GTPI_SOURCE = 'https://www.guidetopharmacology.org/'
 BASE_URL_JENSENLAB = 'https://diseases.jensenlab.org/'
+BASE_URL_KEGG = 'http://www.kegg.jp/entry/'
 BASE_URL_KEGG_COMPOUND = BASE_BASE_URL_IDENTIFIERS_ORG + 'kegg.compound:'
 BASE_URL_KEGG_DRUG = BASE_BASE_URL_IDENTIFIERS_ORG + 'kegg.drug:'
 BASE_URL_KEGG_ENZYME = BASE_BASE_URL_IDENTIFIERS_ORG + 'kegg.enzyme:'
 BASE_URL_KEGG_GLYCAN = BASE_BASE_URL_IDENTIFIERS_ORG + 'kegg.glycan:'
 BASE_URL_KEGG_REACTION = BASE_BASE_URL_IDENTIFIERS_ORG + 'kegg.reaction:'
-BASE_URL_KEGG_PATHWAY = 'https://www.genome.jp/dbget-bin/www_bget?pathway:map'
 BASE_URL_MIRBASE = BASE_BASE_URL_IDENTIFIERS_ORG + 'mirbase:'
 BASE_URL_NCBIGENE = BASE_BASE_URL_IDENTIFIERS_ORG + 'ncbigene:'
 BASE_URL_OBO_FORMAT = 'http://purl.org/obo/owl/oboFormat#oboFormat_'
 BASE_URL_OWL = 'http://www.w3.org/2002/07/owl#'
-BASE_URL_PATHWHIZ = 'https://smpdb.ca/pathwhiz/pathways/'
+BASE_URL_PATHWHIZ = 'http://smpdb.ca/pathways/#'
 BASE_URL_PATHWHIZ_PROTEIN_COMPLEX = \
     'https://pathbank.org/lims#/protein_complexes/'
 BASE_URL_PATHWHIZ_ELEMENT_COLLECTION = \
@@ -164,7 +164,7 @@ BASE_URL_PATHWHIZ_REACTION = 'https://pathbank.org/lims#/reactions/'
 BASE_URL_PATHWHIZ_BOUND = 'https://pathbank.org/lims#/bounds/'
 BASE_URL_PMID = "http://www.ncbi.nlm.nih.gov/pubmed/"
 BASE_URL_REACTOME = BASE_BASE_URL_IDENTIFIERS_ORG + 'reactome:'
-BASE_URL_REPODB = 'http://apps.chiragjpgroup.org/repoDB'
+BASE_URL_REPODB = 'http://apps.chiragjpgroup.org/repoDB/'
 BASE_URL_RTX = 'http://rtx.ai/identifiers#'
 BASE_URL_SEMMEDDB = 'https://skr3.nlm.nih.gov/SemMedDB'
 BASE_URL_SMPDB = BASE_BASE_URL_IDENTIFIERS_ORG + 'smpdb:'
@@ -173,7 +173,7 @@ BASE_URL_TTD_TARGET = BASE_BASE_URL_IDENTIFIERS_ORG + \
 BASE_URL_UMLS = BASE_BASE_URL_IDENTIFIERS_ORG + 'umls:'
 BASE_URL_UMLS_STY = 'http://purl.bioontology.org/ontology/STY/'
 BASE_URL_UNICHEM = 'https://www.ebi.ac.uk/unichem/'
-BASE_URL_UNIPROTKB = BASE_BASE_URL_IDENTIFIERS_ORG + 'uniprot:'
+BASE_URL_UNIPROTKB = 'http://purl.uniprot.org/uniprot/'
 
 BIOLINK_CATEGORY_ANATOMICAL_ENTITY = 'anatomical entity'
 BIOLINK_CATEGORY_BIOLOGICAL_ENTITY = 'biological entity'
@@ -188,7 +188,6 @@ BIOLINK_CATEGORY_EXON = 'exon'
 BIOLINK_CATEGORY_GENE = 'gene'
 BIOLINK_CATEGORY_GENE_FAMILY = 'gene family'
 BIOLINK_CATEGORY_INFORMATION_CONTENT_ENTITY = 'information content entity'
-BIOLINK_CATEGORY_INFORMATION_RESOURCE = 'information resource'
 BIOLINK_CATEGORY_MICRORNA = 'microRNA'
 BIOLINK_CATEGORY_MOLECULAR_ACTIVITY = 'molecular activity'
 BIOLINK_CATEGORY_MOLECULAR_ENTITY = 'molecular entity'
@@ -199,8 +198,12 @@ BIOLINK_CATEGORY_PATHOLOGICAL_PROCESS = 'pathological process'
 BIOLINK_CATEGORY_PHENOTYPIC_FEATURE = 'phenotypic feature'
 BIOLINK_CATEGORY_PATHWAY = 'pathway'
 BIOLINK_CATEGORY_PROTEIN = 'protein'
+BIOLINK_CATEGORY_RETRIEVAL_SOURCE = 'retrieval source'
 BIOLINK_CATEGORY_SMALL_MOLECULE = 'small molecule'
 BIOLINK_CATEGORY_TRANSCRIPT = 'transcript'
+
+# Since this has changed 2(?) times now, this will make it easier going forward if things change again
+SOURCE_NODE_CATEGORY = BIOLINK_CATEGORY_RETRIEVAL_SOURCE
 
 CURIE_ID_DCTERMS_ISSUED = CURIE_PREFIX_DCTERMS + ':' + 'issued'
 CURIE_ID_DISGENET = 'DisGeNET:'
@@ -731,7 +734,8 @@ def make_edge(subject_id: str,
             'publications': [],
             'publications_info': {},
             'update_date': update_date,
-            'primary_knowledge_source': primary_knowledge_source}
+            'primary_knowledge_source': primary_knowledge_source,
+            'domain_range_exclusion': False}
     edge_id = make_edge_key(edge)
     edge["id"] = edge_id
     return edge
@@ -809,11 +813,11 @@ def make_ontology_from_local_file(file_name: str, save_pickle: bool = False):
             size = os.path.getsize(file_name)
             log_message(message="Reading ontology file: " + file_name + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
                         ontology_name=None)
-            #cp = subprocess.run(['owltools', file_name, '-o', '-f', 'json', temp_file_name],
-            #                    check=True)
+            cp = subprocess.run(['owltools', file_name, '-o', '-f', 'json', temp_file_name],
+                                check=True)
             # robot commented out because it is giving a NullPointerException on umls-semantictypes.owl
             # Once robot no longer gives a NullPointerException, we can use it like this:
-            cp = subprocess.run(['robot', 'convert', '--input', file_name, '--output', temp_file_name])
+            #cp = subprocess.run(['robot', 'convert', '--input', file_name, '--output', temp_file_name])
             if cp.stdout is not None:
                 log_message(message="OWL convert result: " + cp.stdout, ontology_name=None, output_stream=sys.stdout)
             if cp.stderr is not None:

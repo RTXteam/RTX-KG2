@@ -19,6 +19,7 @@ import kg2_util
 import pprint
 import sys
 import ijson
+import json
 from datetime import datetime
 
 # 1. What is the indicator for negation?
@@ -122,7 +123,6 @@ def process_nodes(input_file_name, infores_remap_config):
     nodes_dict = dict()
     graph = dict()
 
-
     node_ctr = 0
     with open(input_file_name, "r") as fp:
         nodes_generator = (row for row in ijson.items(fp, "nodes.item"))
@@ -132,15 +132,19 @@ def process_nodes(input_file_name, infores_remap_config):
                 print(f"Processing node {node_ctr}")
             node_id = node_dict["id"]
             if node_dict.get('provided_by') is None:
-                    node_dict['provided_by'] = node_dict.pop('knowledge_source')
+                node_dict['provided_by'] = node_dict.pop('knowledge_source')
+            if isinstance(node_dict.get('provided_by'), str):
+                node_dict['provided_by'] = [node_dict['provided_by']]
             knowledge_source = node_dict['provided_by']
-            infores_curie_dict = infores_remap_config.get(knowledge_source, None)
-            infores_curie = infores_curie_dict['infores_curie']
-            if infores_curie_dict is None:
-                knowledge_source_curies_not_in_config_nodes.add(knowledge_source)
-            else:
-                infores_curie = infores_curie_dict['infores_curie']
-            node_dict['provided_by'] = [infores_curie]
+            infores_curies = list()
+            for source in knowledge_source:
+                infores_curie_dict = infores_remap_config.get(source, None)
+                if infores_curie_dict is None:
+                    knowledge_source_curies_not_in_config_nodes.add(source)
+                else:
+                    infores_curie = infores_curie_dict['infores_curie']
+                    infores_curies.append(infores_curie)
+            node_dict['provided_by'] = infores_curies
             nodes_dict[node_id] = node_dict
     print(f"Completed nodes {kg2_util.date()}")
 
@@ -348,7 +352,7 @@ if __name__ == '__main__':
     build_node = kg2_util.make_node(kg2_util.CURIE_PREFIX_RTX + ':' + 'KG2',
                                     kg2_util.BASE_URL_RTX + 'KG2',
                                     build_name,
-                                    kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
+                                    kg2_util.SOURCE_NODE_CATEGORY,
                                     update_date,
                                     kg2_util.CURIE_PREFIX_RTX + ':')
     build_node['provided_by'] = [build_node['provided_by']]

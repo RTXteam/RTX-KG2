@@ -81,8 +81,10 @@ def make_edges(input_file: str, test_mode: bool):
                                                   predicate,
                                                   DISGENET_KB_CURIE,
                                                   update_date)
-                publication = kg2_util.CURIE_PREFIX_PMID + ':' + pmid
-                edge['publications'] = [publication]
+                edge['publications'] = []
+                if pmid is not None and pmid != '':
+                    publication = kg2_util.CURIE_PREFIX_PMID + ':' + pmid
+                    edge['publications'].append(publication)
                 edges.append(edge)
     return edges
 
@@ -96,7 +98,7 @@ if __name__ == '__main__':
     kp_node = kg2_util.make_node(DISGENET_KB_CURIE,
                                  DISGENET_BASE_IRI,
                                  "DisGeNET",
-                                 kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
+                                 kg2_util.SOURCE_NODE_CATEGORY,
                                  None,
                                  DISGENET_KB_CURIE)
     nodes.append(kp_node)

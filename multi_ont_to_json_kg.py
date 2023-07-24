@@ -39,7 +39,7 @@ REGEX_MONTH_YEAR = re.compile('([0-9]{1,2})_[12][90][0-9]{2}')
 REGEX_YEAR_MONTH = re.compile('[12][90][0-9]{2}_([0-9]{1,2})')
 REGEX_PUBLICATIONS = re.compile(r'((?:(?:PMID)|(?:ISBN)):\d+)')
 REGEX_XREF_END_DESCRIP = re.compile(r'.*\[([^\]]+)\]$')
-REGEX_OBSOLETE = re.compile("^obsolete|\(obsolete||obsolete$", re.IGNORECASE)
+REGEX_OBSOLETE = re.compile("^obsolete|\(obsolete|obsolete$", re.IGNORECASE)
 
 IRI_OBO_XREF = kg2_util.IRI_OBO_FORMAT_XREF
 CURIE_OBO_XREF = kg2_util.CURIE_ID_OBO_FORMAT_XREF
@@ -348,7 +348,7 @@ def make_rel_key(subject_id: str,
                  ontology_id: str = None):
     key = subject_id + ';' + predicate_name + ';' + object_id
     if ontology_id is not None:
-        key += ';' + ontology_id
+        key += ';' + str(ontology_id)
     return key
 
 
@@ -582,7 +582,7 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
         ontology_node = kg2_util.make_node(ontology_curie_id,
                                            iri_of_ontology,
                                            ontology_name,
-                                           kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
+                                           kg2_util.SOURCE_NODE_CATEGORY,
                                            updated_date,
                                            ontology_curie_id)
         ontology_node['description'] = ontology_info_dict['description']
@@ -681,6 +681,12 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             node_meta = onto_node_dict.get('meta', None)
             if node_meta is not None:
                 node_deprecated = node_meta.get('deprecated', False)
+                if node_meta.get('deprecated', False):
+                    kg2_util.log_message(message="Node has obsolete meta; setting deprecated=True",
+                                         ontology_name=iri_of_ontology,
+                                         node_curie_id=node_curie_id,
+                                         output_stream=sys.stderr)
+
                 node_definition = node_meta.get('definition', None)
                 if node_definition is not None:
                     node_description = node_definition['val']
@@ -854,12 +860,25 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                 if node_name.lower().startswith('obsolete:') or \
                    (node_curie_id.startswith(kg2_util.CURIE_PREFIX_GO + ':') and node_name.lower().startswith('obsolete ')):
                     node_deprecated = True
+                    kg2_util.log_message(message="Node has obsolete name but not owl:deprecated; setting deprecated=True",
+                                         ontology_name=iri_of_ontology,
+                                         node_curie_id=node_curie_id,
+                                         output_stream=sys.stderr)
+
                 if REGEX_OBSOLETE.match(node_name) is not None:
                     node_deprecated = True
+                    kg2_util.log_message(message="Node has obsolete regex in name but not owl:deprecated; setting deprecated=True",
+                                         ontology_name=iri_of_ontology,
+                                         node_curie_id=node_curie_id,
+                                         output_stream=sys.stderr)
 
             if node_description is not None:
                 if node_description.lower().startswith('obsolete:') or node_description.lower().startswith('obsolete.'):
                     node_deprecated = True
+                    kg2_util.log_message(message="Node has obsolete description but not owl:deprecated; setting deprecated=True",
+                                         ontology_name=iri_of_ontology,
+                                         node_curie_id=node_curie_id,
+                                         output_stream=sys.stderr)
 
             provided_by = ontology_curie_id
 
@@ -1135,7 +1154,7 @@ def get_rels_dict(nodes: dict,
             if xrefs is not None:
                 for xref_node_id in xrefs:
                     if xref_node_id in nodes and node_id != xref_node_id:
-                        provided_by = nodes[node_id]['provided_by']
+                        provided_by = nodes[node_id]['provided_by'][0]
                         key = make_rel_key(node_id, CURIE_OBO_XREF, xref_node_id, provided_by)
                         if rels_dict.get(key, None) is None:
                             edge = kg2_util.make_edge(node_id,

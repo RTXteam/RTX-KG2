@@ -10,6 +10,7 @@ import json
 import kg2_util
 import argparse
 import os
+import re
 
 __author__ = 'Erica Wood'
 __copyright__ = 'Oregon State University'
@@ -20,12 +21,12 @@ __maintainer__ = ''
 __email__ = ''
 __status__ = 'Prototype'
 
-KEGG_COMPOUND_PREFIX = 'cpd:'
-KEGG_PATHWAY_PREFIX = 'path:'
-KEGG_ENZYME_PREFIX = 'ec:'
-KEGG_GLYCAN_PREFIX = 'gl:'
-KEGG_DRUG_PREFIX = 'dr:'
-KEGG_REACTION_PREFIX = 'rn:'
+KEGG_COMPOUND_PREFIX = re.compile(r'(cpd:|C)')
+KEGG_PATHWAY_PREFIX = re.compile(r'(hsa)')
+KEGG_ENZYME_PREFIX = re.compile(r'[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')
+KEGG_GLYCAN_PREFIX = re.compile(r'(gl:|G)')
+KEGG_DRUG_PREFIX = re.compile(r'(dr:|D)')
+KEGG_REACTION_PREFIX = re.compile(r'(R)')
 
 KEGG_PATHWAY_CURIE_PREFIX = kg2_util.CURIE_PREFIX_KEGG
 KEGG_COMPOUND_CURIE_PREFIX = kg2_util.CURIE_PREFIX_KEGG_COMPOUND
@@ -43,7 +44,7 @@ KEGG_BASE_DRUG_IRI = kg2_util.BASE_URL_KEGG_DRUG
 KEGG_BASE_ENZYME_IRI = kg2_util.BASE_URL_KEGG_ENZYME
 KEGG_BASE_GLYCAN_IRI = kg2_util.BASE_URL_KEGG_GLYCAN
 KEGG_BASE_REACTION_IRI = kg2_util.BASE_URL_KEGG_REACTION
-KEGG_BASE_PATHWAY_IRI = kg2_util.BASE_URL_KEGG_PATHWAY
+KEGG_BASE_PATHWAY_IRI = kg2_util.BASE_URL_KEGG
 KEGG_PROVIDED_BY = kg2_util.CURIE_ID_KEGG
 KEGG_SOURCE_IRI = "https://www.genome.jp"
 KEGG_RELATION_CURIE_PREFIX = KEGG_PATHWAY_CURIE_PREFIX
@@ -257,11 +258,9 @@ def process_references(data_dict):
 
 
 def get_node_basics(data_dict):
-    # node_name returns a list type
-    node_name = data_dict.get('NAME', 'name')
-    synonym = [syn.replace(';', '').strip() for syn in node_name]
-    if synonym != []:
-        node_name = synonym.pop(0)
+    node_name = data_dict.get('name', '')
+    synonym = [syn.strip() for syn in node_name.split(';')]
+    node_name = synonym.pop(0)
     xrefs = data_dict.get('DBLINKS', '')
     if isinstance(xrefs, str):
         xrefs = [xrefs]
@@ -272,7 +271,7 @@ def get_node_basics(data_dict):
 
 
 def process_compound(compound_dict, kegg_id, update_date):
-    node_id = kegg_id.replace(KEGG_COMPOUND_PREFIX, '')
+    node_id = kegg_id.replace('cpd:', '')
     node_name, synonym, processed_xrefs = get_node_basics(compound_dict)
 
     enzymes = pull_out_enzymes(compound_dict)
@@ -302,7 +301,7 @@ def process_compound(compound_dict, kegg_id, update_date):
 
 
 def process_reaction(reaction_dict, kegg_id, update_date):
-    node_id = kegg_id.replace(KEGG_REACTION_PREFIX, '')
+    node_id = kegg_id
     description = reaction_dict.get('DEFINITION', '').strip()
     node_name, synonym, xrefs = get_node_basics(reaction_dict)
     enzymes = pull_out_enzymes(reaction_dict)
@@ -329,7 +328,7 @@ def process_reaction(reaction_dict, kegg_id, update_date):
 
 
 def process_pathway(pathway_dict, kegg_id, update_date):
-    node_id = kegg_id.replace(KEGG_PATHWAY_PREFIX, '')
+    node_id = kegg_id.replace('hsa', '')
     node_name, synonym, processed_xrefs = get_node_basics(pathway_dict)
     compounds = pull_out_compounds(pathway_dict)
     drugs = pull_out_drugs(pathway_dict)
@@ -366,7 +365,7 @@ def process_pathway(pathway_dict, kegg_id, update_date):
 
 
 def process_drug(drug_dict, kegg_id, update_date):
-    node_id = kegg_id.replace(KEGG_DRUG_PREFIX, '')
+    node_id = kegg_id.replace('dr:', '')
     node_name, synonym, processed_xrefs = get_node_basics(drug_dict)
     description = drug_dict.get('COMMENT', '')
     if isinstance(description, list):
@@ -389,7 +388,7 @@ def process_drug(drug_dict, kegg_id, update_date):
 
 
 def process_glycan(glycan_dict, kegg_id, update_date):
-    node_id = kegg_id.replace(KEGG_GLYCAN_PREFIX, '')
+    node_id = kegg_id.replace('gl:', '')
     node_name, synonym, processed_xrefs = get_node_basics(glycan_dict)
     reactions = pull_out_reactions(glycan_dict)
     pathways = pull_out_pathways(glycan_dict)
@@ -440,7 +439,7 @@ def pull_out_enzyme_reactions(data_dict):
 
 
 def process_enzyme(enzyme_dict, kegg_id, update_date):
-    node_id = kegg_id.replace(KEGG_ENZYME_PREFIX, '')
+    node_id = kegg_id
     node_name, synonym, processed_xrefs = get_node_basics(enzyme_dict)
     description = enzyme_dict.get('COMMENT', '')
     if isinstance(description, list):
@@ -475,27 +474,27 @@ def make_kg2_graph(kegg, update_date):
         if kegg_id == 'info':
             continue
         kegg_dict = kegg[kegg_id]
-        if kegg_id.startswith(KEGG_COMPOUND_PREFIX):
+        if KEGG_COMPOUND_PREFIX.match(kegg_id) is not None:
             node, compound_edges = process_compound(kegg_dict, kegg_id, update_date)
             nodes.append(node)
             edges += compound_edges
-        if kegg_id.startswith(KEGG_REACTION_PREFIX):
+        if KEGG_REACTION_PREFIX.match(kegg_id) is not None:
             node, reaction_edges = process_reaction(kegg_dict, kegg_id, update_date)
             nodes.append(node)
             edges += reaction_edges
-        if kegg_id.startswith(KEGG_PATHWAY_PREFIX):
+        if KEGG_PATHWAY_PREFIX.match(kegg_id) is not None:
             node, pathway_edges = process_pathway(kegg_dict, kegg_id, update_date)
             nodes.append(node)
             edges += pathway_edges
-        if kegg_id.startswith(KEGG_DRUG_PREFIX):
+        if KEGG_DRUG_PREFIX.match(kegg_id) is not None:
             node, drug_edges = process_drug(kegg_dict, kegg_id, update_date)
             nodes.append(node)
             edges += drug_edges
-        if kegg_id.startswith(KEGG_GLYCAN_PREFIX):
+        if KEGG_GLYCAN_PREFIX.match(kegg_id) is not None:
             node, glycan_edges = process_glycan(kegg_dict, kegg_id, update_date)
             nodes.append(node)
             edges += glycan_edges
-        if kegg_id.startswith(KEGG_ENZYME_PREFIX):
+        if KEGG_ENZYME_PREFIX.match(kegg_id) is not None:
             node, enzyme_edges = process_enzyme(kegg_dict, kegg_id, update_date)
             nodes.append(node)
             edges += enzyme_edges
@@ -503,7 +502,7 @@ def make_kg2_graph(kegg, update_date):
     kegg_kp_node = kg2_util.make_node(KEGG_PROVIDED_BY,
                                       KEGG_SOURCE_IRI,
                                       'Kyoto Encyclopedia of Genes and Genomes v' + version_number,
-                                      kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
+                                      kg2_util.SOURCE_NODE_CATEGORY,
                                       update_date,
                                       KEGG_PROVIDED_BY)
     nodes.append(kegg_kp_node)

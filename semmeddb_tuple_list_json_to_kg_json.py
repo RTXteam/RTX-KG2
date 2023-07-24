@@ -30,6 +30,10 @@ CUI_PREFIX = kg2_util.CURIE_PREFIX_UMLS
 NCBIGENE_PREFIX = kg2_util.CURIE_PREFIX_NCBI_GENE
 XREF_EDGE_LABEL = 'xref'
 
+EXCLUDE_EMPTY_STR = "n/a"
+SEMANTIC_TYPE_EXCLUSION = "semantic type exclusion"
+DOMAIN_EXCLUSION = "Domain exclusion"
+RANGE_EXCLUSION = "Range exclusion"
 
 def get_remapped_cuis(retired_cui_file_name: str) -> dict:
     """
@@ -51,6 +55,10 @@ def get_remapped_cuis(retired_cui_file_name: str) -> dict:
     return remapped_cuis
 
 
+def date(print_str: str):
+    return print(print_str, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+
+
 def make_rel(preds_dict: dict,
              subject_curie: str,
              object_curie: str,
@@ -60,7 +68,8 @@ def make_rel(preds_dict: dict,
              sentence: str,
              subject_score: str,
              object_score: str,
-             negated: bool):
+             negated: bool,
+             domain_range_exclusion: bool):
     key = subject_curie + '-' + predicate + '-' + object_curie
     key_val = preds_dict.get(key, None)
     publication_curie = kg2_util.CURIE_PREFIX_PMID + ':' + pmid
@@ -82,6 +91,7 @@ def make_rel(preds_dict: dict,
         edge_dict['publications_info'] = {publication_curie:
                                           publication_info_dict}
         edge_dict['negated'] = negated
+        edge_dict['domain_range_exclusion'] = domain_range_exclusion
         preds_dict[key] = edge_dict
     else:
         key_val['publications_info'][publication_curie] = publication_info_dict
@@ -91,8 +101,9 @@ def make_rel(preds_dict: dict,
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='semmeddb_mysql_to_json.py: extracts all the predicate triples from SemMedDB, in the RTX KG2 JSON format')
     arg_parser.add_argument('--test', dest='test', action='store_true', default=False)
-    arg_parser.add_argument('--mrcuiFile', dest='mrcui_file_name', type=str, default=None)
+    arg_parser.add_argument('--mrcuiFile', dest='mrcui_file_name', type=str, default='/home/ubuntu/kg2-build/umls/META/MRCUI.RRF')
     arg_parser.add_argument('inputFile', type=str)
+    arg_parser.add_argument('semmedExcludeList', type=str)
     arg_parser.add_argument('outputFile', type=str)
     return arg_parser
 
@@ -173,9 +184,48 @@ def get_rels_to_make_for_row(subject_str: str, object_str: str, predicate: str, 
     return rels_to_make
 
 
+def create_semmed_exclude_list(semmed_exclude_list_name):
+    semmed_list = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(semmed_exclude_list_name))
+    exclusions = dict()
+
+    # Exclusion types
+    exclusions[SEMANTIC_TYPE_EXCLUSION] = set()
+    exclusions[DOMAIN_EXCLUSION] = dict()
+    exclusions[RANGE_EXCLUSION] = dict()
+
+    for exclude_item in semmed_list['excluded_semmedb_records']:
+        exclusion_type = exclude_item['exclusion_type']
+        assert exclusion_type in exclusions, exclusion_type
+
+        sub_code = exclude_item['semmed_subject_code']
+        obj_code = exclude_item['semmed_object_code']
+        pred = exclude_item['semmed_predicate']
+
+        if exclusion_type == SEMANTIC_TYPE_EXCLUSION:
+            if sub_code != EXCLUDE_EMPTY_STR:
+                exclusions[SEMANTIC_TYPE_EXCLUSION].add(sub_code)
+            if obj_code != EXCLUDE_EMPTY_STR:
+                exclusions[SEMANTIC_TYPE_EXCLUSION].add(obj_code)
+
+        if exclusion_type == DOMAIN_EXCLUSION:
+            if pred not in exclusions[DOMAIN_EXCLUSION]:
+                exclusions[DOMAIN_EXCLUSION][pred] = set()
+            exclusions[DOMAIN_EXCLUSION][pred].add(sub_code)
+
+        if exclusion_type == RANGE_EXCLUSION:
+            if pred not in exclusions[RANGE_EXCLUSION]:
+                exclusions[RANGE_EXCLUSION][pred] = set()
+            exclusions[RANGE_EXCLUSION][pred].add(obj_code)
+
+    return exclusions
+
+
 if __name__ == '__main__':
+    date("Starting semmeddb_tuple_list_json_to_kg_json.py")
     args = make_arg_parser().parse_args()
     mrcui_file_name = args.mrcui_file_name  # '/home/ubuntu/kg2-build/umls/META/MRCUI.RRF'
+    semmed_exclude_list_name = args.semmedExcludeList
+    exclusions = create_semmed_exclude_list(semmed_exclude_list_name)
     input_file_name = args.inputFile
     output_file_name = args.outputFile
     test_mode = args.test
@@ -196,7 +246,7 @@ if __name__ == '__main__':
 
     update_date_dt = datetime.datetime.fromisoformat('2018-01-01 00:00:00')  # picking an arbitrary time in the past
 
-    for (pmid, subject_cui_str, predicate, object_cui_str, pub_date, sentence,
+    for (pmid, subject_cui_str, subject_semtype, predicate, object_cui_str, object_semtype, pub_date, sentence,
          subject_score, object_score, curr_timestamp) in input_data['rows']:
         row_ctr += 1
         curr_timestamp_dt = datetime.datetime.fromisoformat(curr_timestamp)
@@ -212,6 +262,14 @@ if __name__ == '__main__':
         else:
             negated = False
 
+        # Handle domain_range_exclusion (#281)
+        domain_range_exclusion = False
+        if subject_semtype in exclusions[SEMANTIC_TYPE_EXCLUSION] \
+           or object_semtype in exclusions[SEMANTIC_TYPE_EXCLUSION] \
+           or subject_semtype in exclusions[DOMAIN_EXCLUSION].get(predicate, set()) \
+           or object_semtype in exclusions[RANGE_EXCLUSION].get(predicate, set()):
+            domain_range_exclusion = True
+
         # Create the new edge(s) based on this SemMedDB row
         for rel_to_make in get_rels_to_make_for_row(subject_cui_str, object_cui_str, predicate, remapped_cuis):
             subject_curie = rel_to_make[0]
@@ -220,7 +278,7 @@ if __name__ == '__main__':
             # Exclude self-edges for certain types of predicates
             if subject_curie != object_curie or relation_label.lower() not in EDGE_LABELS_EXCLUDE_FOR_LOOPS:
                 make_rel(edges_dict, subject_curie, object_curie, relation_label, pmid, pub_date, sentence,
-                         subject_score, object_score, negated)
+                         subject_score, object_score, negated, domain_range_exclusion)
 
         if predicate not in nodes_dict:
             relation_iri = kg2_util.convert_snake_case_to_camel_case(predicate.lower().replace(' ', '_'))
@@ -230,7 +288,7 @@ if __name__ == '__main__':
                                                        name=predicate.lower(),
                                                        category_label=kg2_util.BIOLINK_CATEGORY_NAMED_THING,
                                                        update_date=curr_timestamp,
-                                                       knowledge_source=SEMMEDDB_CURIE_PREFIX + ':')
+                                                       provided_by=SEMMEDDB_CURIE_PREFIX + ':')
 
     del input_data
 
@@ -239,9 +297,9 @@ if __name__ == '__main__':
         id=semmeddb_kb_curie_id,
         iri=SEMMEDDB_IRI,
         name='Semantic Medline Database (SemMedDB) v' + version_number,
-        category_label=kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
+        category_label=kg2_util.SOURCE_NODE_CATEGORY,
         update_date=update_date_dt.strftime('%Y-%m-%d %H:%M:%S'),
-        knowledge_source=semmeddb_kb_curie_id)
+        provided_by=semmeddb_kb_curie_id)
 
     out_graph = {'edges': [rel_dict for rel_dict in edges_dict.values()],
                  'nodes': [node_dict for node_dict in nodes_dict.values()]}
@@ -254,6 +312,8 @@ if __name__ == '__main__':
 
     del rel_dict
 
+    date("Saving " + output_file_name)
     kg2_util.save_json(out_graph, output_file_name, test_mode)
 
     del out_graph
+    date("Finishing semmeddb_tuple_list_json_to_kg_json.py")

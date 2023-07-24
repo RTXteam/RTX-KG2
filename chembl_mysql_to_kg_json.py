@@ -478,7 +478,7 @@ if __name__ == '__main__':
     nodes.append(kg2_util.make_node(CHEMBL_KB_CURIE_ID,
                            CHEMBL_KB_URL,
                            'ChEMBL v' + version,
-                           kg2_util.BIOLINK_CATEGORY_INFORMATION_RESOURCE,
+                           kg2_util.SOURCE_NODE_CATEGORY,
                            update_date,
                            CHEMBL_KB_CURIE_ID))
 
