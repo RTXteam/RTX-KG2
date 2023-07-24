@@ -159,6 +159,7 @@ def get_node_stats(nodes_file_name: list, nodes_on_edges: set):
     orphan_nodes = dict()
 
     for node in nodes:
+        node_count += 1
         category_label = node[category_label_key]
         node_id = node[id_key]
         curie_prefix = get_prefix_from_curie_id(node_id)

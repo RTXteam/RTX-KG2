@@ -18,7 +18,6 @@ import argparse
 import kg2_util
 import pprint
 import sys
-import ijson
 import json
 from datetime import datetime
 
