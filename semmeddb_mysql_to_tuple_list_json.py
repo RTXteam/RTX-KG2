@@ -64,7 +64,6 @@ if __name__ == '__main__':
     if test_mode:
         sql_statement += " LIMIT 10000"
 
-    results['versioning'] = {'version_number': version_number, 'version_date': version_date}
     with connection.cursor() as cursor:
         cursor.execute(max_len_sql_statement)
         cursor.fetchall()
