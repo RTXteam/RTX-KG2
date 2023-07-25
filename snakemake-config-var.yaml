@@ -162,22 +162,34 @@ kegg_conversion_log: ${BUILD_DIR}/kegg_json_to_kg_json${test_suffix}.log
 kegg_output_nodes_file: ${BUILD_DIR}/kg2-kegg-nodes${test_suffix}.jsonl
 kegg_output_edges_file: ${BUILD_DIR}/kg2-kegg-edges${test_suffix}.jsonl
 
+merge_script: ${CODE_DIR}/merge_graphs.py
+merge_log: ${BUILD_DIR}/merge_graphs${test_suffix}.log
 final_output_nodes_file: ${BUILD_DIR}/kg2-nodes${test_suffix}.jsonl
 final_output_edges_file: ${BUILD_DIR}/kg2-edges${test_suffix}.jsonl
 output_file_orphan_edges: ${BUILD_DIR}/kg2-orphan-edges${test_suffix}.jsonl
 
+simplify_script: ${CODE_DIR}/run-simplify.sh
+simplify_log: ${BUILD_DIR}/run-simplify${test_suffix}.log
 simplified_output_nodes_file: ${BUILD_DIR}/kg2-simplified-nodes${test_suffix}.jsonl
 simplified_output_edges_file: ${BUILD_DIR}/kg2-simplified-edges${test_suffix}.jsonl
 
+report_script: ${CODE_DIR}/report_stats_on_kg_jsonl.py
+report_log: ${BUILD_DIR}/report_stats_on_kg_jsonl${test_suffix}.log
 report_file: ${BUILD_DIR}/kg2-report${test_suffix}.json
 
+simplified_report_log: ${BUILD_DIR}/report_stats_on_kg_jsonl-simplified${test_suffix}.log
 simplified_report_file: ${BUILD_DIR}/kg2-simplified-report${test_suffix}.json
 
+slim_script: ${CODE_DIR}/slim_kg2.py
+slim_log: ${BUILD_DIR}/slim_kg2${test_suffix}.log
 slim_output_nodes_file: ${BUILD_DIR}/kg2-slim-nodes${test_suffix}.jsonl
 slim_output_edges_file: ${BUILD_DIR}/kg2-slim-edges${test_suffix}.jsonl
 
+tsv_script: ${CODE_DIR}/kg_json_to_tsv.py
+tsv_log: ${BUILD_DIR}/kg_json_to_tsv${test_suffix}.log
 kg2_tsv_dir: ${BUILD_DIR}/TSV
 kg2_tsv_tarball: ${BUILD_DIR}/kg2-tsv-for-neo4j${test_suffix}.tar.gz
+tsv_placeholder: ${BUILD_DIR}/tsv_placeholder.empty
 
 version_file: ${BUILD_DIR}/kg2-version.txt
 

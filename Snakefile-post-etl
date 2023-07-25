@@ -1,5 +1,6 @@
 rule Merge:
     input:
+        code = config['MERGE_SCRIPT'],
         ont_nodes = config['ONT_OUTPUT_NODES_FILE'],
         ont_edges = config['ONT_OUTPUT_EDGES_FILE'],
         uniprot_nodes = config['UNIPROTKB_OUTPUT_NODES_FILE'],
@@ -44,8 +45,10 @@ rule Merge:
         nodes = config['FINAL_OUTPUT_NODES_FILE'],
         edges = config['FINAL_OUTPUT_EDGES_FILE'],
         orph = config['OUTPUT_FILE_ORPHAN_EDGES']
+    log:
+        config['MERGE_LOG']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/merge_graphs.py " + config['TEST_ARG'] + \
+        config['PYTHON_COMMAND'] + " {input.code} " + config['TEST_ARG'] + \
             " --kgFileOrphanEdges {output.orph}" + \
             " --outputNodesFile {output.nodes} " + \
             " --outputEdgesFile {output.edges} " + \
@@ -90,62 +93,69 @@ rule Merge:
             "{input.drugcentral_edges} " + \
             "{input.intact_edges} " + \
             "{input.disgenet_edges} " + \
-            "{input.kegg_edges}"
+            "{input.kegg_edges} > {log} 2>&1"
 
 rule Stats:
     input:
+        code = config['REPORT_SCRIPT'],
         nodes = config['FINAL_OUTPUT_NODES_FILE'],
         edges = config['FINAL_OUTPUT_EDGES_FILE']
     output:
         config['REPORT_FILE']
     log: 
-        config['BUILD_DIR'] + "/report_stats_on_json_kg" + config['TEST_SUFFIX'] + ".log"
+        config['REPORT_LOG']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/report_stats_on_json_kg.py {input.nodes} {input.edges} {output}  > {log} 2>&1"
+        config['PYTHON_COMMAND'] + " {input.code} {input.nodes} {input.edges} {output}  > {log} 2>&1"
 
 rule Simplify:
     input:
+        code = config['SIMPLIFY_SCRIPT'],
         nodes = config['FINAL_OUTPUT_NODES_FILE'],
         edges = config['FINAL_OUTPUT_EDGES_FILE']
     output:
         nodes = config['SIMPLIFIED_OUTPUT_NODES_FILE'],
         edges = config['SIMPLIFIED_OUTPUT_EDGES_FILE']
     log:
-        config['BUILD_DIR'] + "/filter_kg_and_remap_predicates" + config['TEST_SUFFIX'] + ".log"
+        config['SIMPLIFY_LOG']
     shell:
-        "bash -x " + config['CODE_DIR'] + "/run-simplify.sh {input.nodes} {input.edges} {output.nodes} {output.edges} " + config['VERSION_FILE'] + " " + config['TEST_FLAG'] + " > {log} 2>&1" 
+        "bash -x {input.code} {input.nodes} {input.edges} {output.nodes} {output.edges} " + config['VERSION_FILE'] + " " + config['TEST_FLAG'] + " > {log} 2>&1" 
 
 rule Slim:
     input:
+        code = config['SLIM_SCRIPT'],
         nodes = config['SIMPLIFIED_OUTPUT_NODES_FILE'],
         edges = config['SIMPLIFIED_OUTPUT_EDGES_FILE']
     output:
         nodes = config['SLIM_OUTPUT_NODES_FILE'],
         edges = config['SLIM_OUTPUT_EDGES_FILE']
     log:
-        config['BUILD_DIR'] + "/slim_kg2" + config['TEST_SUFFIX'] + ".log"
+        config['SLIM_LOG']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/slim_kg2.py " + config['TEST_ARG'] + " {input.nodes} {input.edges} {output.nodes} {output.edges} > {log} 2>&1"
+        config['PYTHON_COMMAND'] + " {input.code} " + config['TEST_ARG'] + " {input.nodes} {input.edges} {output.nodes} {output.edges} > {log} 2>&1"
 
 rule Simplify_Stats:
     input:
+        code = config['REPORT_SCRIPT'],
         nodes = config['SIMPLIFIED_OUTPUT_NODES_FILE'],
         edges = config['SIMPLIFIED_OUTPUT_EDGES_FILE']
     output:
         config['SIMPLIFIED_REPORT_FILE']
     log:
-        config['BUILD_DIR'] + "/report_stats_on_json_kg_simplified" + config['TEST_SUFFIX'] + ".log"
+        config['SIMPLIFIED_REPORT_LOG']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/report_stats_on_json_kg.py --useSimplifiedPredicates {input.nodes} {input.edges} {output} > {log} 2>&1"
+        config['PYTHON_COMMAND'] + " {input.code} --useSimplifiedPredicates {input.nodes} {input.edges} {output} > {log} 2>&1"
 
 rule TSV:
     input:
+        code = config['TSV_SCRIPT']
         nodes = config['SIMPLIFIED_OUTPUT_NODES_FILE'],
         edges = config['SIMPLIFIED_OUTPUT_EDGES_FILE']
     output:
-        placeholder = config['BUILD_DIR'] + "/tsv_placeholder.empty"
+        placeholder = config['TSV_PLACEHOLDER']
+    log:
+        config['TSV_LOG']
     run:
         shell("rm -rf " + config['KG2_TSV_DIR'])
         shell("mkdir -p " + config['KG2_TSV_DIR'])
-        shell(config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/kg_json_to_tsv.py {input.nodes} {input.edges} " + config['KG2_TSV_DIR'])
+        shell(config['PYTHON_COMMAND'] + " {input.code} {input.nodes} {input.edges} " + config['KG2_TSV_DIR'] + " > {log} 2>&1")
         shell("touch {output.placeholder}")
