@@ -74,7 +74,7 @@ hmdb_output_edges_file: ${BUILD_DIR}/kg2-hmdb-edges${test_suffix}.jsonl
 
 go_annotations_input_file: ${BUILD_DIR}/goa_human.gpa
 go_annotations_output_nodes_file: ${BUILD_DIR}/kg2-go-annotations-nodes${test_suffix}.jsonl
-go_annotations_output_nodes_file: ${BUILD_DIR}/kg2-go-annotations-edges${test_suffix}.jsonl
+go_annotations_output_edges_file: ${BUILD_DIR}/kg2-go-annotations-edges${test_suffix}.jsonl
 
 reactome_mysql_dbname: reactome
 reactome_output_nodes_file: ${BUILD_DIR}/kg2-reactome-nodes${test_suffix}.jsonl

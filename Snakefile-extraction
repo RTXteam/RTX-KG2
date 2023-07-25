@@ -123,7 +123,7 @@ rule GO_Annotations:
     input:
         config['VALIDATION_PLACEHOLDER']
     output:
-        config['GO_ANNOTATION_INPUT_FILE']
+        config['GO_ANNOTATIONS_INPUT_FILE']
     log:
         config['BUILD_DIR'] + "/extract-go-annotations" + config['TEST_SUFFIX'] + ".log"
     shell:
