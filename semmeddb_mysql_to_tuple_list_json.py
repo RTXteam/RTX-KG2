@@ -52,7 +52,7 @@ if __name__ == '__main__':
     output = output_info[0]
 
     # https://stackoverflow.com/questions/7208773/mysql-row-30153-was-cut-by-group-concat-error
-    max_len_sql_statement = "SET group_concat_max_len=30000"
+    max_len_sql_statement = "SET group_concat_max_len=100000"
 
     sql_statement = ("SELECT SUBJECT_CUI, PREDICATE, OBJECT_CUI, GROUP_CONCAT(DISTINCT SUBJECT_SEMTYPE), GROUP_CONCAT(DISTINCT OBJECT_SEMTYPE), "
                      "GROUP_CONCAT(DISTINCT DATE_FORMAT(CURR_TIMESTAMP, '%Y-%m-%d %H:%i:%S')), "
