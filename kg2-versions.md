@@ -2,7 +2,7 @@
 **Date:  2023.07.20**
 
 Counts:
-- Nodes: 8,436,873
+- Nodes: 8,436,874
 - Edges: 54,363,492
 
 Issues:
@@ -48,8 +48,8 @@ Build info:
 - Build host: `buildkg2.rtx.ai` (new instance, old version was deprecated)
 - Build directory: `/home/ubuntu/kg2-build`
 - Build code branch: `kg2.8.4prep`
-- Neo4j endpoint CNAME:  
-- Neo4j endpoint hostname:  
+- Neo4j endpoint CNAME:  `kg2-8-4.rtx.ai`
+- Neo4j endpoint hostname: `kg2endpoint4.rtx.ai`
 - Tracking issue for the build: Issue [#312](https://github.com/RTXteam/RTX-KG2/issues/312)
 - Major knowledge source versions:
   - SemMedDB: `43 (2023)`
