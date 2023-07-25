@@ -81,8 +81,8 @@ reactome_output_nodes_file: ${BUILD_DIR}/kg2-reactome-nodes${test_suffix}.jsonl
 reactome_output_edges_file: ${BUILD_DIR}/kg2-reactome-edges${test_suffix}.jsonl
 
 mirbase_input_file: ${BUILD_DIR}/miRNA.dat
-mirbase_output_nodes_file: ${BUILD_DIR}/kg2-mirbase-nodes${test_suffix}.json
-mirbase_output_edges_file: ${BUILD_DIR}/kg2-mirbase-edges${test_suffix}.json
+mirbase_output_nodes_file: ${BUILD_DIR}/kg2-mirbase-nodes${test_suffix}.jsonl
+mirbase_output_edges_file: ${BUILD_DIR}/kg2-mirbase-edges${test_suffix}.jsonl
 
 jensenlab_dir: ${BUILD_DIR}/jensenlab
 jensenlab_output_nodes_file: ${BUILD_DIR}/kg2-jensenlab-nodes${test_suffix}.jsonl
