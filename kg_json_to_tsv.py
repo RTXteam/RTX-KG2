@@ -24,6 +24,18 @@ __status__ = 'Prototype'
 NEO4J_CHAR_LIMIT = 3000000
 
 
+def get_args():
+    arg_parser = argparse.ArgumentParser(description='kg_json_to_tsv.py: \
+                                         converts KG2 JSON to TSV form for Neo4j import')
+    parser.add_argument("inputNodesFile", type=str, help="Path to Knowledge Graph Nodes \
+                        JSON File to Import")
+    parser.add_argument("inputEdgesFile", type=str, help="Path to Knowledge Graph Edges \
+                        JSON File to Import")
+    parser.add_argument("outputFileLocation", help="Path to Directory for Output\
+                        TSV Files to Go", type=str)
+    return arg_parser.parse_args()
+
+
 def no_space(original_str, keyslist, replace_str):
     """
     :param original_str: A string found in the keyslist
@@ -152,7 +164,7 @@ with open('kg2-code/kg2-provided-by-curie-to-infores-curie.yaml', 'r') as yaml_f
     ir_map = yaml.safe_load(yaml_file)
     map_ks_curie_to_infores_curie = {k: d['infores_curie'] for k, d in ir_map.items()}
     
-def nodes(input_file, output_file_location):
+def nodes(input_nodes_file, output_file_location):
     """
     :param input_file: The input file
     :param output_file_location: A string containing the
@@ -172,68 +184,64 @@ def nodes(input_file, output_file_location):
     tsvwrite_h = tsv.writer(tsvfile_h, delimiter="\t",
                             quoting=tsv.QUOTE_MINIMAL)
 
-    with open(input_file, "r") as fp:
-        node_ctr = 0
-        generator = (row for row in ijson.items(fp, "nodes.item"))
-        for node in generator:
-            node_ctr += 1
-            if node_ctr % 1000000 == 0:
-                print(f"Processing node: {node_ctr}")
-            #if node_ctr < 11000000:
-            #    pass
-            # Add all node property labels to a list and check if they are supported
-            knowledge_source = node.get('knowledge_source')
-            if knowledge_source is not None:
-                assert type(knowledge_source)==str, "expected a string type"
-                knowledge_source_infores = map_ks_curie_to_infores_curie.get(knowledge_source)
-                if knowledge_source_infores is not None:
-                    provided_by = node.get('provided_by')
-                    if provided_by is not None:
-                        assert type(provided_by)==list, "expected a list type"
-                        provided_by = list(set(provided_by + [knowledge_source_infores]))
-                        node['provided_by'] = provided_by
-                    else:
-                        node['provided_by'] = [knowledge_source_infores]
-                del node['knowledge_source']
-                    
-            nodekeys = list(sorted(node.keys()))
-            # if nodekeys.count("knowledge_source") > 0:
-            #     print(node)
-                #value = node["knowledge_source"]
-                #node.pop("knowledge_souce")
-                #node["provided_by"] = value
-            check_all_nodes_have_same_set(nodekeys)
-            nodekeys.append("category")
+    input_nodes_jsonlines_info = kg2_util.start_read_jsonlines(input_nodes_file)
+    input_nodes = input_nodes_jsonlines_info[0]
 
-            vallist = []
+    node_ctr = 0
+    for node in input_nodes:
+        node_ctr += 1
+        if node_ctr % 1000000 == 0:
+            print(f"Processing node: {node_ctr}")
 
-            for key in nodekeys:
-                assert key in nodekeys, key
-                if key == "synonym":
-                    value = truncate_node_synonyms_if_too_large(node[key], node['id'])
-                    value = str(value).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
-                elif key == "publications":
-                    value = str(node[key]).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
-                elif key == "description" and node[key] is not None:
-                    value = shorten_description_if_too_large(node[key], node['id'])
+        # Add all node property labels to a list and check if they are supported
+        knowledge_source = node.get('knowledge_source')
+        if knowledge_source is not None:
+            assert type(knowledge_source)==str, "expected a string type"
+            knowledge_source_infores = map_ks_curie_to_infores_curie.get(knowledge_source)
+            if knowledge_source_infores is not None:
+                provided_by = node.get('provided_by')
+                if provided_by is not None:
+                    assert type(provided_by)==list, "expected a list type"
+                    provided_by = list(set(provided_by + [knowledge_source_infores]))
+                    node['provided_by'] = provided_by
                 else:
-                    # If the property does exist, assign the property value
-                    value = node[key]
-                # Add the value of the property to the property value list
-                if type(value) == str:
-                    value = value.replace('\t', ' ').replace('\n', ' ').replace('\r', ' ')
-                vallist.append(value)
+                    node['provided_by'] = [knowledge_source_infores]
+            del node['knowledge_source']
 
-            if node_ctr == 1:
-                nodekeys = no_space('id', nodekeys, 'id:ID')
-                nodekeys = no_space('publications', nodekeys, "publications:string[]")
-                nodekeys = no_space('synonym', nodekeys, "synonym:string[]")
-                nodekeys = no_space('category', nodekeys, ':LABEL')
-                tsvwrite_h.writerow(nodekeys)
+        nodekeys = list(sorted(node.keys()))
+        check_all_nodes_have_same_set(nodekeys)
+        nodekeys.append("category")
 
-            tsvwrite.writerow(vallist)
+        vallist = []
 
-    # Close the TSV files to prevent a memory leak
+        for key in nodekeys:
+            assert key in nodekeys, key
+            if key == "synonym":
+                value = truncate_node_synonyms_if_too_large(node[key], node['id'])
+                value = str(value).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
+            elif key == "publications":
+                value = str(node[key]).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
+            elif key == "description" and node[key] is not None:
+                value = shorten_description_if_too_large(node[key], node['id'])
+            else:
+                # If the property does exist, assign the property value
+                value = node[key]
+            # Add the value of the property to the property value list
+            if type(value) == str:
+                value = value.replace('\t', ' ').replace('\n', ' ').replace('\r', ' ')
+            vallist.append(value)
+
+        if node_ctr == 1:
+            nodekeys = no_space('id', nodekeys, 'id:ID')
+            nodekeys = no_space('publications', nodekeys, "publications:string[]")
+            nodekeys = no_space('synonym', nodekeys, "synonym:string[]")
+            nodekeys = no_space('category', nodekeys, ':LABEL')
+            tsvwrite_h.writerow(nodekeys)
+
+        tsvwrite.writerow(vallist)
+
+    # Close all of the files to prevent a memory leak
+    kg2_util.end_read_jsonlines(input_nodes_jsonlines_info)
     tsvfile.close()
     tsvfile_h.close()
 
@@ -260,7 +268,7 @@ def limit_publication_info_size(key, pub_inf_dict):
     return pub_inf_dict
 
 
-def edges(input_file, output_file_location):
+def edges(input_edges_file, output_file_location):
     """
     :param input_file: The input file
     :param output_file_location: A string containing the path to the
@@ -279,72 +287,68 @@ def edges(input_file, output_file_location):
     tsvwrite_h = tsv.writer(tsvfile_h, delimiter="\t",
                             quoting=tsv.QUOTE_MINIMAL)
 
-    with open(input_file, "r") as fp:
-        edge_ctr = 0
-        generator = (row for row in ijson.items(fp, "edges.item"))
+    input_edges_jsonlines_info = kg2_util.start_read_jsonlines(input_edges_file)
+    input_edges = input_edges_jsonlines_info[0]
 
-        for edge in generator:
-            edge_ctr += 1
-            #print(edge)
-            if edge_ctr % 1000000 == 0:
-                print(f"Processing edge: {edge_ctr}")
+    edge_ctr = 0
+    for edge in input_edges:
+        edge_ctr += 1
+        if edge_ctr % 1000000 == 0:
+            print(f"Processing edge: {edge_ctr}")
 
-            # Add all edge property label to a list in the same order and test
-            # to make sure they are the same
-            edgekeys = list(sorted(edge.keys()))
-            check_all_edges_have_same_set(edgekeys)
+        # Add all edge property label to a list in the same order and test
+        # to make sure they are the same
+        edgekeys = list(sorted(edge.keys()))
+        check_all_edges_have_same_set(edgekeys)
 
-            # Add an extra property of "predicate" to the list so that predicates
-            # can be a property and a label
-            edgekeys.append('predicate')
-            edgekeys.append('subject')
-            edgekeys.append('object')
+        # Add an extra property of "predicate" to the list so that predicates
+        # can be a property and a label
+        edgekeys.append('predicate')
+        edgekeys.append('subject')
+        edgekeys.append('object')
 
-            # Create list for values of edge properties to be added to
-            vallist = []
-            for key in edgekeys:
-                # Add the value for each edge property to the value list
-                # and limit the size of the publications_info dictionary
-                # to avoid Neo4j buffer size error
-                value = edge.get(key)
-                if key == "publications_info":
-                    value = limit_publication_info_size(key, value)
-                elif key == 'relation_label':  # fix for issue number 473 (hyphens in relation_labels)
-                    value = value.replace('-', '_').replace('(', '').replace(')', '')
-                elif key == 'publications':
-                    value = str(value).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
-                vallist.append(value)
+        # Create list for values of edge properties to be added to
+        vallist = []
+        for key in edgekeys:
+            # Add the value for each edge property to the value list
+            # and limit the size of the publications_info dictionary
+            # to avoid Neo4j buffer size error
+            value = edge.get(key)
+            if key == "publications_info":
+                value = limit_publication_info_size(key, value)
+            elif key == 'relation_label':  # fix for issue number 473 (hyphens in relation_labels)
+                value = value.replace('-', '_').replace('(', '').replace(')', '')
+            elif key == 'publications':
+                value = str(value).replace("', '", "; ").replace("'", "").replace("[", "").replace("]", "")
+            vallist.append(value)
 
-            # Add the edge property labels to the edge header TSV file
-            # But only for the first edge
-            if edge_ctr == 1:
-                edgekeys = no_space('predicate', edgekeys, 'predicate:TYPE')
-                edgekeys = no_space('subject', edgekeys, ':START_ID')
-                edgekeys = no_space('object', edgekeys, ':END_ID')
-                edgekeys = no_space('publications', edgekeys, "publications:string[]")
-                tsvwrite_h.writerow(edgekeys)
-            tsvwrite.writerow(vallist)
+        # Add the edge property labels to the edge header TSV file
+        # But only for the first edge
+        if edge_ctr == 1:
+            edgekeys = no_space('predicate', edgekeys, 'predicate:TYPE')
+            edgekeys = no_space('subject', edgekeys, ':START_ID')
+            edgekeys = no_space('object', edgekeys, ':END_ID')
+            edgekeys = no_space('publications', edgekeys, "publications:string[]")
+            tsvwrite_h.writerow(edgekeys)
+        tsvwrite.writerow(vallist)
 
-    # Close the TSV files to prevent a memory leak
+    # Close all of the files to prevent a memory leak
+    kg2_util.end_read_jsonlines(input_edges_jsonlines_info)
     tsvfile.close()
     tsvfile_h.close()
 
 
 if __name__ == '__main__':
     print(f"Start time: {date()}")
-    parser = argparse.ArgumentParser()
-    parser.add_argument("inputFile", type=str, help="Path to Knowledge Graph \
-                        JSON File to Import")
-    parser.add_argument("outputFileLocation", help="Path to Directory for Output\
-                        TSV Files to Go", type=str)
-    arguments = parser.parse_args()
-    input_file = arguments.inputFile
-    output_file_location = arguments.outputFileLocation
+    args = get_args()
+    input_nodes_file = args.inputNodesFile
+    input_edges_file = args.inputEdgesFile
+    output_file_location = args.outputFileLocation
     
     print("Start nodes: ", date())
-    nodes(input_file, output_file_location)
+    nodes(input_nodes_file, output_file_location)
     print("Finish nodes: ", date())
     print("Start edges: ", date())
-    edges(input_file, output_file_location)
+    edges(input_edges_file, output_file_location)
     print("Finish edges: ", date())
     print("Finish time: ", date())
