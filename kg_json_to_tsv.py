@@ -10,7 +10,7 @@ import csv as tsv
 import datetime
 import argparse
 import sys
-import ijson
+import yaml
 
 __author__ = 'Erica Wood'
 __copyright__ = 'Oregon State University'
@@ -27,12 +27,10 @@ NEO4J_CHAR_LIMIT = 3000000
 def get_args():
     arg_parser = argparse.ArgumentParser(description='kg_json_to_tsv.py: \
                                          converts KG2 JSON to TSV form for Neo4j import')
-    parser.add_argument("inputNodesFile", type=str, help="Path to Knowledge Graph Nodes \
-                        JSON File to Import")
-    parser.add_argument("inputEdgesFile", type=str, help="Path to Knowledge Graph Edges \
-                        JSON File to Import")
-    parser.add_argument("outputFileLocation", help="Path to Directory for Output\
-                        TSV Files to Go", type=str)
+    parser.add_argument("inputNodesFile", type=str, help="Path to Knowledge Graph Nodes JSON File to Import")
+    parser.add_argument("inputEdgesFile", type=str, help="Path to Knowledge Graph Edges JSON File to Import")
+    parser.add_argument("kg2ProvidedByCurieToInforesCurieFile", type=str, help="kg2-provided-by-curie-to-infores-curie.yaml")
+    parser.add_argument("outputFileLocation", help="Path to Directory for Output TSV Files to Go", type=str)
     return arg_parser.parse_args()
 
 
@@ -158,13 +156,8 @@ def check_all_nodes_have_same_set(nodekeys_list):
     for node_label in nodekeys_list:
         assert node_label in supported_node_keys, f"Node label not in supported list: {node_label}"
 
-
-import yaml
-with open('kg2-code/kg2-provided-by-curie-to-infores-curie.yaml', 'r') as yaml_file:
-    ir_map = yaml.safe_load(yaml_file)
-    map_ks_curie_to_infores_curie = {k: d['infores_curie'] for k, d in ir_map.items()}
     
-def nodes(input_nodes_file, output_file_location):
+def nodes(input_nodes_file, provided_by_infores_map, output_file_location):
     """
     :param input_file: The input file
     :param output_file_location: A string containing the
@@ -183,6 +176,11 @@ def nodes(input_nodes_file, output_file_location):
                           quoting=tsv.QUOTE_MINIMAL)
     tsvwrite_h = tsv.writer(tsvfile_h, delimiter="\t",
                             quoting=tsv.QUOTE_MINIMAL)
+
+    # Create infores map to verify knowledge_source with
+    with open(provided_by_infores_map, 'r') as yaml_file:
+        ir_map = yaml.safe_load(yaml_file)
+        map_ks_curie_to_infores_curie = {k: d['infores_curie'] for k, d in ir_map.items()}
 
     input_nodes_jsonlines_info = kg2_util.start_read_jsonlines(input_nodes_file)
     input_nodes = input_nodes_jsonlines_info[0]
@@ -343,10 +341,11 @@ if __name__ == '__main__':
     args = get_args()
     input_nodes_file = args.inputNodesFile
     input_edges_file = args.inputEdgesFile
+    provided_by_infores_map = args.kg2ProvidedByCurieToInforesCurieFile
     output_file_location = args.outputFileLocation
     
     print("Start nodes: ", date())
-    nodes(input_nodes_file, output_file_location)
+    nodes(input_nodes_file, provided_by_infores_map, output_file_location)
     print("Finish nodes: ", date())
     print("Start edges: ", date())
     edges(input_edges_file, output_file_location)
