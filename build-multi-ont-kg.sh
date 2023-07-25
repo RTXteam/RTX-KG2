@@ -5,12 +5,12 @@
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0 <input_file.tsv> <output_file.json> [test]"
+    echo Usage: "$0 <input_file.tsv> <output_nodes_file.jsonl> <output_edges_file.jsonl> [test]"
     exit 2
 fi
 
-# Usage: build-multi-ont-kg.sh <input_file.tsv> <output_file.json> [test]
-#        build-multi-ont-kg.sh /home/ubuntu/kg2-build/kg2-ont.json test
+# Usage: build-multi-ont-kg.sh <input_file.tsv> <output_nodes_file.jsonl> <output_edges_file.jsonl> [test]
+#        build-multi-ont-kg.sh /home/ubuntu/kg2-build/umls_cuis.jsonl /home/ubuntu/kg2-build/kg2-ont-nodes.jsonl /home/ubuntu/kg2-build/kg2-ont-edges.jsonl test
 
 echo "================= starting build-multi-ont-kg.sh ================="
 date
@@ -20,7 +20,7 @@ config_dir=`dirname "$0"`
 source ${config_dir}/master-config.shinc
 
 ## supply a default value for the build_flag string
-build_flag=${3:-""}
+build_flag=${4:-""}
 biolink_base_url_no_version=https://raw.githubusercontent.com/biolink/biolink-model/
 
 # Issue #300: Need "v" before version number for URL to resolve
@@ -45,7 +45,8 @@ else
 fi
 
 umls_cuis_file=${1:-"${BUILD_DIR}/umls_cuis.tsv"}
-output_file=${2:-"${BUILD_DIR}/kg2-ont${test_suffix}.json"}
+output_nodes_file=${2:-"${BUILD_DIR}/kg2-ont-nodes${test_suffix}.json"}
+output_edges_file=${3:-"${BUILD_DIR}/kg2-ont-edges${test_suffix}.json"}
 output_file_base=`basename ${output_file}`
 log_file=`dirname ${output_file}`/build-${output_file_base%.*}-stderr.log
 
@@ -77,7 +78,8 @@ cd ${BUILD_DIR} && ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/multi_ont_to_json_kg.p
            ${curies_to_categories_file} \
            ${curies_to_urls_file} \
            ${ont_load_inventory_file} \
-           ${output_file} \
+           ${output_nodes_file} \
+           ${output_edges_file} \
            ${umls_cuis_file} \
            ${node_datatype_properties_file} \
 
