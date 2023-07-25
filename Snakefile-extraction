@@ -63,7 +63,7 @@ rule NCBIGene:
     input:
         config['VALIDATION_PLACEHOLDER']
     output:
-        config['NCBI_GENE_TSV_FILE']
+        config['NCBIGENE_TSV_FILE']
     log:
         config['BUILD_DIR'] + "/extract-ncbigene" + config['TEST_SUFFIX'] + ".log"
     shell:

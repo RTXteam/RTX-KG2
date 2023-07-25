@@ -1,7 +1,7 @@
 rule Merge:
     input:
         ont_nodes = config['ONT_OUTPUT_NODES_FILE'],
-        ont_edges = config['ONT_OUTPUT_EDGES_FILE']
+        ont_edges = config['ONT_OUTPUT_EDGES_FILE'],
         uniprot_nodes = config['UNIPROTKB_OUTPUT_NODES_FILE'],
         uniprot_edges = config['UNIPROTKB_OUTPUT_EDGES_FILE'],
         semmeddb_nodes = config['SEMMED_OUTPUT_NODES_FILE'],
@@ -69,7 +69,7 @@ rule Merge:
             "{input.drugcentral_nodes} " + \
             "{input.intact_nodes} " + \
             "{input.disgenet_nodes} " + \
-            "{input.kegg_nodes} "
+            "{input.kegg_nodes} " + \
             " --kgEdgesFiles " + \
             "{input.ont_edges} " + \
             "{input.semmeddb_edges} " + \
@@ -132,7 +132,8 @@ rule Simplify_Stats:
     input:
         nodes = config['SIMPLIFIED_OUTPUT_NODES_FILE_FULL'],
         edges = config['SIMPLIFIED_OUTPUT_EDGES_FILE_FULL'],
-        placeholder = config['SLIM_OUTPUT_FILE_FULL']
+        placeholder_nodes = config['SLIM_OUTPUT_NODES_FILE'],
+        placeholder_edges = config['SLIM_OUTPUT_EDGES_FILE'],
     output:
         config['SIMPLIFIED_REPORT_FILE_FULL']
     log:

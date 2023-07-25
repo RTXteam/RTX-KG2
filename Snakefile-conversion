@@ -12,7 +12,7 @@ rule Ontologies_and_TTL:
 
 rule NCBIGene_Conversion:
     input:
-        real = config['NCBI_GENE_TSV_FILE'],
+        real = config['NCBIGENE_TSV_FILE'],
         validation = config['VALIDATION_PLACEHOLDER']
     output:
         nodes = config['NCBIGENE_OUTPUT_NODES_FILE'],
@@ -142,7 +142,7 @@ rule GO_Annotations_Conversion:
         validation = config['VALIDATION_PLACEHOLDER']
     output:
         nodes = config['GO_ANNOTATIONS_OUTPUT_NODES_FILE'],
-        edges = config['GO_ANNOTATIONS_INPUT_NODES_FILE']
+        edges = config['GO_ANNOTATIONS_OUTPUT_EDGES_FILE']
     log:
         config['BUILD_DIR'] + "/go-gpa-to-kg-json" + config['TEST_SUFFIX'] + ".log"
     shell:
