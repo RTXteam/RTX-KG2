@@ -35,7 +35,7 @@ sed -i "\@${biolink_base_url_no_version}@c${ont_load_inventory_replace_string}" 
 sed -i "\@${biolink_base_url_no_version}@c${curies_urls_map_replace_string}" \
          ${curies_to_urls_file}
 
-if [[ "${build_flag}" == 'test' || "${build_flag}" == 'alltest' ]]
+if [[ "${build_flag}" == 'test' ]]
 then
     test_suffix='-test'
     test_arg='--test'

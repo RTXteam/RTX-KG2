@@ -29,7 +29,7 @@ s3_version_filename="kg2-version.txt"
 
 ${s3_cp_cmd} s3://${s3_bucket_public}/${s3_version_filename} ${local_version_filename}
 test_flag=''
-if [[ "${build_flag}" == 'test' || "${build_flag}" == 'alltest' ]]
+if [[ "${build_flag}" == 'test' ]]
 then
    increment_flag=''
    test_flag='--test'
