@@ -47,16 +47,12 @@ if __name__ == '__main__':
     test_mode = args.test
     connection = pymysql.connect(read_default_file=mysql_config_file, db=mysql_db_name)
     preds_dict = dict()
-    # sql_statement = ("SELECT SUBJECT_CUI, PREDICATE, OBJECT_CUI, PMID, SUBJECT_SEMTYPE, , , OBJECT_SEMTYPE, DP, SENTENCE, SUBJECT_SCORE, "
-    #                  "OBJECT_SCORE, DATE_FORMAT(CURR_TIMESTAMP, '%Y-%m-%d %H:%i:%S') FROM ((PREDICATION NATURAL JOIN CITATIONS) "
-    #                  "NATURAL JOIN SENTENCE) NATURAL JOIN PREDICATION_AUX GROUP BY SUBJECT_CUI, PREDICATE, OBJECT_CUI")
-
-    # https://stackoverflow.com/questions/7208773/mysql-row-30153-was-cut-by-group-concat-error
 
     output_info = kg2_util.create_single_jsonlines(test_mode)
     output = output_info[0]
 
-    max_len_sql_statement = "SET group_concat_max_len=15000"
+    # https://stackoverflow.com/questions/7208773/mysql-row-30153-was-cut-by-group-concat-error
+    max_len_sql_statement = "SET group_concat_max_len=30000"
 
     sql_statement = ("SELECT SUBJECT_CUI, PREDICATE, OBJECT_CUI, GROUP_CONCAT(DISTINCT SUBJECT_SEMTYPE), GROUP_CONCAT(DISTINCT OBJECT_SEMTYPE), "
                      "GROUP_CONCAT(DISTINCT DATE_FORMAT(CURR_TIMESTAMP, '%Y-%m-%d %H:%i:%S')), "
@@ -67,17 +63,7 @@ if __name__ == '__main__':
 
     if test_mode:
         sql_statement += " LIMIT 10000"
-    results = {'data_dictionary': ['pmid',
-                                   'subject_cui_str',
-                                   'subject_semtype',
-                                   'predicate',
-                                   'object_cui_str',
-                                   'object_semtype',
-                                   'pub_date', #DP
-                                   'sentence',
-                                   'subject_score',
-                                   'object_score',
-                                   'curr_timestamp']}
+
     results['versioning'] = {'version_number': version_number, 'version_date': version_date}
     with connection.cursor() as cursor:
         cursor.execute(max_len_sql_statement)
@@ -89,5 +75,5 @@ if __name__ == '__main__':
             output.write(result)
     connection.close()
 
-    kg2_util.close_single_jsonlines(orphan_info, output_file_name)
+    kg2_util.close_single_jsonlines(output_info, output_file_name)
     print("Finishing semmeddb_mysql_to_tuple_list_json.py at", kg2_util.date())

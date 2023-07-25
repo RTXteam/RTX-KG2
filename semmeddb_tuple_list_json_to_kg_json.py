@@ -59,43 +59,45 @@ def date(print_str: str):
     return print(print_str, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
 
-def make_rel(preds_dict: dict,
+def make_rel(edges_output,
              subject_curie: str,
              object_curie: str,
              predicate: str,
-             pmid: str,
-             pub_date: str,
-             sentence: str,
-             subject_score: str,
-             object_score: str,
+             publications_info: str,
              negated: bool,
              domain_range_exclusion: bool):
     key = subject_curie + '-' + predicate + '-' + object_curie
     key_val = preds_dict.get(key, None)
-    publication_curie = kg2_util.CURIE_PREFIX_PMID + ':' + pmid
-    publication_info_dict = {
-        'publication date': pub_date,
-        'sentence': sentence,
-        'subject score': subject_score,
-        'object score': object_score}
-    if key_val is None:
-        relation_type = predicate.lower()
-        relation_curie = SEMMEDDB_CURIE_PREFIX + ':' + relation_type
-        edge_dict = kg2_util.make_edge(subject_curie,
-                                       object_curie,
-                                       relation_curie,
-                                       relation_type,
-                                       SEMMEDDB_CURIE_PREFIX + ':',
-                                       curr_timestamp)
-        edge_dict['publications'] = [publication_curie]
-        edge_dict['publications_info'] = {publication_curie:
-                                          publication_info_dict}
-        edge_dict['negated'] = negated
-        edge_dict['domain_range_exclusion'] = domain_range_exclusion
-        preds_dict[key] = edge_dict
-    else:
-        key_val['publications_info'][publication_curie] = publication_info_dict
-        key_val['publications'] = key_val['publications'] + [publication_curie]
+    publications_info_list = publications_info.split('\t')
+    edge_publications_info = dict()
+    edges_publications = list()
+    for publication in publications_info_list:
+        publication_traits = publication.split('|')
+        assert len(publication_traits) == 5, publication_traits
+        (pmid, sentence, subject_score, object_score, pub_date) = publication_traits
+        publication_curie = kg2_util.CURIE_PREFIX_PMID + ':' + pmid
+        publication_info_dict = {
+            'publication date': pub_date,
+            'sentence': sentence,
+            'subject score': subject_score,
+            'object score': object_score}
+        edge_publications_info[pmid] = publication_info_dict
+        edges_publications.append(pmid)
+
+    relation_type = predicate.lower()
+    relation_curie = SEMMEDDB_CURIE_PREFIX + ':' + relation_type
+    edge_dict = kg2_util.make_edge(subject_curie,
+                                   object_curie,
+                                   relation_curie,
+                                   relation_type,
+                                   SEMMEDDB_CURIE_PREFIX + ':',
+                                   curr_timestamp)
+    edge_dict['publications'] = sorted(list(set(edges_publications)))
+    edge_dict['publications_info'] = edge_publications_info
+    edge_dict['negated'] = negated
+    edge_dict['domain_range_exclusion'] = domain_range_exclusion
+    
+    edges_output.write(edge_dict)
 
 
 def make_arg_parser():
@@ -237,8 +239,7 @@ if __name__ == '__main__':
     nodes_output = nodes_info[0]
     edges_output = edges_info[0]
 
-    edges_dict = dict()
-    nodes_dict = dict()
+    nodes_set = dict()
 
     if mrcui_file_name is not None:
         remapped_cuis = get_remapped_cuis(mrcui_file_name)
@@ -247,14 +248,20 @@ if __name__ == '__main__':
 
     row_ctr = 0
 
-    versioning = input_data['versioning']
-    version_number = versioning['version_number']
-    version_date = versioning['version_date']
+    # versioning = input_data['versioning']
+    # version_number = versioning['version_number']
+    # version_date = versioning['version_date']
+
+    version_number = "TEMP"
+    version_date = "TEMP"
 
     update_date_dt = datetime.datetime.fromisoformat('2018-01-01 00:00:00')  # picking an arbitrary time in the past
 
-    for (pmid, subject_cui_str, subject_semtype, predicate, object_cui_str, object_semtype, pub_date, sentence,
-         subject_score, object_score, curr_timestamp) in input_data['rows']:
+    input_read_jsonlines_info = kg2_util.start_read_jsonlines(input_file_name)
+    input_data = input_read_jsonlines_info[0]
+
+    for (subject_cui_str, predicate, object_cui_str, subject_semtype, object_semtype,
+         curr_timestamp, publications_info) in input_data:
         row_ctr += 1
         curr_timestamp_dt = datetime.datetime.fromisoformat(curr_timestamp)
         if curr_timestamp_dt > update_date_dt:
@@ -284,20 +291,20 @@ if __name__ == '__main__':
             relation_label = rel_to_make[2]
             # Exclude self-edges for certain types of predicates
             if subject_curie != object_curie or relation_label.lower() not in EDGE_LABELS_EXCLUDE_FOR_LOOPS:
-                make_rel(edges_dict, subject_curie, object_curie, relation_label, pmid, pub_date, sentence,
-                         subject_score, object_score, negated, domain_range_exclusion)
+                make_rel(edges_output, subject_curie, object_curie, relation_label, publications_info, negated, domain_range_exclusion)
 
-        if predicate not in nodes_dict:
+        if predicate not in nodes_set:
             relation_iri = kg2_util.convert_snake_case_to_camel_case(predicate.lower().replace(' ', '_'))
             relation_iri = SEMMEDDB_IRI + '#' + relation_iri
-            nodes_dict[predicate] = kg2_util.make_node(id=SEMMEDDB_CURIE_PREFIX + ':' + predicate.lower(),
-                                                       iri=relation_iri,
-                                                       name=predicate.lower(),
-                                                       category_label=kg2_util.BIOLINK_CATEGORY_NAMED_THING,
-                                                       update_date=curr_timestamp,
-                                                       provided_by=SEMMEDDB_CURIE_PREFIX + ':')
+            nodes_set.add(predicate)
+            nodes_output.write(kg2_util.make_node(id=SEMMEDDB_CURIE_PREFIX + ':' + predicate.lower(),
+                                                  iri=relation_iri,
+                                                  name=predicate.lower(),
+                                                  category_label=kg2_util.BIOLINK_CATEGORY_NAMED_THING,
+                                                  update_date=curr_timestamp,
+                                                  provided_by=SEMMEDDB_CURIE_PREFIX + ':'))
 
-    del input_data
+    kg2_util.end_read_jsonlines(input_read_jsonlines_info)
 
     semmeddb_kb_curie_id = SEMMEDDB_CURIE_PREFIX + ':'
     nodes_output.write(kg2_util.make_node(id=semmeddb_kb_curie_id,
@@ -308,17 +315,6 @@ if __name__ == '__main__':
                                           provided_by=semmeddb_kb_curie_id))
 
     date("Saving " + output_file_name)
-
-    for rel_dict in edges_dict.values():
-        if len(rel_dict['publications']) > 1:
-            rel_dict['publications'] = sorted(list(set(rel_dict['publications'])))
-        edges_output.write(rel_dict)
-
-    for node_dict in nodes_dict.values():
-        nodes_output.write(nodes_dict)
-
-    del nodes_dict
-    del rel_dict
 
     kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
 
