@@ -28,13 +28,9 @@ jobs:
         bash -x ./run-validation-tests.sh
         bash -x ./build-kg2-snakemake.sh all -n ci
         bash -x ./build-kg2-snakemake.sh all -n ci
-        bash -x ./build-kg2-snakemake.sh all -n nodes ci
         bash -x ./build-kg2-snakemake.sh all -R_Merge -n ci
         bash -x ./build-kg2-snakemake.sh all -R_Finish -n ci
         bash -x ./build-kg2-snakemake.sh all -F -n ci
-        bash -x ./build-kg2-snakemake.sh all -R_Merge -n nodes ci
-        bash -x ./build-kg2-snakemake.sh all -R_Finish -n nodes ci
-        bash -x ./build-kg2-snakemake.sh all -F -n nodes ci
     - name: Test Building One File
       run: |
         cd /home/runner/work/RTX-KG2/RTX-KG2/RTX-KG2

@@ -6,13 +6,13 @@
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0 [test|all|-n|nodes|graphic|-R_*|-F] [-n|nodes|graphic|-R_*|-F] "
-    echo "[-n|nodes|graphic|-R_*|-F|ci] [nodes|ci|-n] [ci]"
+    echo Usage: "$0 [test|all|-n|graphic|-R_*|-F] [-n|graphic|-R_*|-F] "
+    echo "[-n|graphic|-R_*|-F|ci] [ci|-n] [ci]"
     exit 2
 fi
 
-# Usage: build-kg2-snakemake.sh [test|all|-n|nodes|graphic|-R_*|-F] [-n|nodes|graphic|-R_*|-F] 
-#                               [-n|nodes|graphic|-R_*|-F|ci] [nodes|ci|-n] [ci]
+# Usage: build-kg2-snakemake.sh [test|all|-n|graphic|-R_*|-F] [-n|graphic|-R_*|-F] 
+#                               [-n|graphic|-R_*|-F|ci] [ci|-n] [ci]
 
 config_dir=`dirname "$0"`
 source ${config_dir}/master-config.shinc
@@ -93,29 +93,10 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/generate_snakemake_config_file.py ${test_
 
 export PATH=$PATH:${BUILD_DIR}
 
-nodes_flag=""
-if [[ "${test_flag}" == "test" || "${build_flag}" == "nodes" || "${secondary_build_flag}" == "nodes" || "${tertiary_build_flag}" == "nodes" || "${quaternary_build_flag}" == "nodes" ]]
-then
-    nodes_flag="nodes"
-fi
-
 graphic=""
 if [[ "${build_flag}" == "graphic" || "${secondary_build_flag}" == "graphic" || "${tertiary_build_flag}" == "graphic" ]]
 then
     graphic="--dag | dot -Tpng > ~/kg2-build/snakemake_diagram.png"
-fi
-
-if [[ "${nodes_flag}" != "nodes" ]]
-then
-    sed -i "/\        placeholder = config\['SIMPLIFIED_OUTPUT_NODES_FILE_FULL'\]/d" ${CODE_DIR}/Snakefile-post-etl
-    sed -i "/\        slim_real = config\['SIMPLIFIED_OUTPUT_FILE_FULL'\],/c\        slim_real = config['SIMPLIFIED_OUTPUT_FILE_FULL']" ${CODE_DIR}/Snakefile-post-etl
-    sed -i "/\        simplified_output_nodes_file_full = config\['SIMPLIFIED_OUTPUT_NODES_FILE_FULL'\],/d" ${CODE_DIR}/Snakefile-finish
-    sed -i '/\        shell("gzip -fk {input.simplified_output_nodes_file_full}")/d' ${CODE_DIR}/Snakefile-finish
-    sed -i "/\        shell(config\['S3_CP_CMD'\] + ' {input.simplified_output_nodes_file_full}.gz s3:\/\/' + config\['S3_BUCKET'\])/d" ${CODE_DIR}/Snakefile-finish
-else
-    git fetch origin
-    git checkout -- ${CODE_DIR}/Snakefile-post-etl
-    git checkout -- ${CODE_DIR}/Snakefile-finish
 fi
 
 echo configfile: \"${snakemake_config_file}\" > ${snakefile}
