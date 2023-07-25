@@ -12,8 +12,8 @@ rule SemMedDB:
     input:
         config['VALIDATION_PLACEHOLDER']
     output:
-        tuplelist = config['SEMMED_TUPLELIST_FILE'],
-        exclusion_list = config['SEMMED_EXCLUSION_FILE']
+        tuplelist = config['SEMMEDDB_TUPLELIST_FILE'],
+        exclusion_list = config['SEMMEDDB_EXCLUSION_FILE']
     log:
         config['BUILD_DIR'] + "/extract-semmeddb" + config['TEST_SUFFIX'] + ".log"
     shell:
