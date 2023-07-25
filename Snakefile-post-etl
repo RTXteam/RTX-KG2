@@ -147,7 +147,7 @@ rule Simplify_Stats:
 
 rule TSV:
     input:
-        code = config['TSV_SCRIPT']
+        code = config['TSV_SCRIPT'],
         nodes = config['SIMPLIFIED_OUTPUT_NODES_FILE'],
         edges = config['SIMPLIFIED_OUTPUT_EDGES_FILE']
     output:

@@ -178,7 +178,8 @@ report_log: ${BUILD_DIR}/report_stats_on_kg_jsonl${test_suffix}.log
 report_file: ${BUILD_DIR}/kg2-report${test_suffix}.json
 
 simplified_report_log: ${BUILD_DIR}/report_stats_on_kg_jsonl-simplified${test_suffix}.log
-simplified_report_file: ${BUILD_DIR}/kg2-simplified-report${test_suffix}.json
+simplified_report_file_base: kg2-simplified-report${test_suffix}.json
+simplified_report_file: ${BUILD_DIR}/${simplified_report_file_base}
 
 slim_script: ${CODE_DIR}/slim_kg2.py
 slim_log: ${BUILD_DIR}/slim_kg2${test_suffix}.log
