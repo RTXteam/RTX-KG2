@@ -1,5 +1,6 @@
 rule Ontologies_and_TTL:
     input:
+        code = config['ONT_CONVERSION_SCRIPT'],
         real = config['UMLS_CUI_FILE'],
         validation = config['VALIDATION_PLACEHOLDER']
     output:
@@ -8,24 +9,26 @@ rule Ontologies_and_TTL:
     log:
         config['BUILD_DIR'] + "/build-multi-ont-kg" + config['TEST_SUFFIX'] + ".log"
     shell:
-        "bash -x " + config['CODE_DIR'] + "/build-multi-ont-kg.sh {input.real} {output.nodes} {output.edges} " + config['TEST_FLAG'] + " > {log} 2>&1" 
+        "bash -x {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_FLAG'] + " > {log} 2>&1" 
 
 rule SemMedDB_Conversion:
     input:
-        real = config['SEMMED_TUPLELIST_FILE'],
+        code = config['SEMMEDDB_CONVERSION_SCRIPT'],
+        real = config['SEMMEDDB_TUPLELIST_FILE'],
         mrcui_req = config['UMLS_CUI_FILE'],
-        exclusion_list = config['SEMMED_EXCLUSION_FILE'],
+        exclusion_list = config['SEMMEDDB_EXCLUSION_FILE'],
         validation = config['VALIDATION_PLACEHOLDER']
     output:
-        nodes = config['SEMMED_OUTPUT_NODES_FILE'],
-        edges = config['SEMMED_OUTPUT_EDGES_FILE']
+        nodes = config['SEMMEDDB_OUTPUT_NODES_FILE'],
+        edges = config['SEMMEDDB_OUTPUT_EDGES_FILE']
     log:
         config['BUILD_DIR'] + "/semmeddb-tuple-list-json-to-kg-json" + config['TEST_SUFFIX'] + ".log"
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/semmeddb_tuple_list_json_to_kg_json.py " + config['TEST_ARG'] + " --mrcuiFile ~/kg2-build/umls/META/MRCUI.RRF {input.real} {input.exclusion_list} {output.nodes} {output.edges} > {log} 2>&1"
+        config['PYTHON_COMMAND'] + " {input.code} --mrcuiFile ~/kg2-build/umls/META/MRCUI.RRF {input.real} {input.exclusion_list} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
 rule UniProtKB_Conversion:
     input:
+        code = config['UNIPROTKB__CONVERSION_SCRIPT'],
         real = config['UNIPROTKB_DAT_FILE'],
         validation = config['VALIDATION_PLACEHOLDER']
     output:
@@ -34,30 +37,33 @@ rule UniProtKB_Conversion:
     log:
         config['BUILD_DIR'] + "/uniprotkb-dat-to-json" + config['TEST_SUFFIX'] + ".log"
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/uniprotkb_dat_to_json.py " + config['TEST_ARG'] + " {input.real} {output.nodes} {output.edges} > {log} 2>&1"
+        config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
 rule Ensembl_Conversion:
     input:
+        code = config['ENSEMBL_CONVERSION_SCRIPT'],
         real = config['ENSEMBL_SOURCE_JSON_FILE'],
         validation = config['VALIDATION_PLACEHOLDER']
     output:
         nodes = config['ENSEMBL_OUTPUT_NODES_FILE'],
         edges = config['ENSEMBL_OUTPUT_EDGES_FILE']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/ensembl_json_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output.nodes} {output.edges}"
+        config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
 rule UniChem_Conversion:
     input:
+        code = config['UNICHEM_CONVERSION_SCRIPT'],
         real = config['UNICHEM_OUTPUT_TSV_FILE'],
         validation = config['VALIDATION_PLACEHOLDER']
     output:
         nodes = config['UNICHEM_OUTPUT_NODES_FILE'],
         edges = config['UNICHEM_OUTPUT_EDGES_FILE']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/unichem_tsv_to_edges_json.py " + config['TEST_ARG'] + " {input.real} {output.nodes} {output.edges}"
+        config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
 rule ChEMBL_Conversion:
     input:
+        code = config['CHEMBL_CONVERSION_SCRIPT'],
         placeholder = config['BUILD_DIR'] + "/chembl-placeholder.empty",
         validation = config['VALIDATION_PLACEHOLDER']
     output:
@@ -66,20 +72,22 @@ rule ChEMBL_Conversion:
     log:
         config['BUILD_DIR'] + "/chembl-mysql-to-kg-json" + config['TEST_SUFFIX'] + ".log"
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/chembl_mysql_to_kg_json.py " + config['TEST_ARG'] + " " + config['MYSQL_CONF'] + " " + config['CHEMBL_MYSQL_DBNAME'] + " {output.nodes} {output.edges} > {log} 2>&1"
+        config['PYTHON_COMMAND'] + " {input.code} " + config['MYSQL_CONF'] + " " + config['CHEMBL_MYSQL_DBNAME'] + " {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
 rule NCBIGene_Conversion:
     input:
+        code = config['NCBIGENE_CONVERSION_SCRIPT'],
         real = config['NCBIGENE_TSV_FILE'],
         validation = config['VALIDATION_PLACEHOLDER']
     output:
         nodes = config['NCBIGENE_OUTPUT_NODES_FILE'],
         edges = config['NCBIGENE_OUTPUT_EDGES_FILE']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/ncbigene_tsv_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output.nodes} {output.edges}"
+        config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
 rule DGIdb_Conversion:
     input:
+        code = config['DGIDB_CONVERSION_SCRIPT'],
         real = config['DGIDB_DIR'] + "/interactions.tsv",
         validation = config['VALIDATION_PLACEHOLDER']
     output:
@@ -88,20 +96,22 @@ rule DGIdb_Conversion:
     log:
         config['DGIDB_DIR'] + "/dgidb-tsv-to-kg-json-stderr" + config['TEST_SUFFIX'] + ".log"
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/dgidb_tsv_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output.nodes} {output.edges}" + " > {log} 2>&1"
+        config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
 rule RepoDB_Conversion:
     input:
+        code = config['REPODB_CONVERSION_SCRIPT'],
         real = config['REPODB_INPUT_FILE'],
         validation = config['VALIDATION_PLACEHOLDER']
     output:
         nodes = config['REPODB_OUTPUT_NODES_FILE'],
         edges = config['REPODB_OUTPUT_EDGES_FILE']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/repodb_csv_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output.nodes} {output.edges}"
+        config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
 rule DrugBank_Conversion:
     input:
+        code = config['DRUGBANK_CONVERSION_SCRIPT'],
         real = config['DRUGBANK_INPUT_FILE'],
         validation = config['VALIDATION_PLACEHOLDER']
     output:
@@ -110,10 +120,11 @@ rule DrugBank_Conversion:
     log:
         config['BUILD_DIR'] + "/drugbank-xml-to-kg-json" + config['TEST_SUFFIX'] + ".log"
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/drugbank_xml_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output.nodes} {output.edges} > {log} 2>&1"
+        config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
 rule SMPDB_Conversion:
     input:
+        code = config['SMPDB_CONVERSION_SCRIPT'],
         real = config['SMPDB_INPUT_FILE'],
         validation = config['VALIDATION_PLACEHOLDER']
     output:
@@ -122,10 +133,11 @@ rule SMPDB_Conversion:
     log:
         config['SMPDB_DIR'] + "/smpdb-csv-to-kg-json" + config['TEST_SUFFIX'] + ".log"
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/smpdb_csv_to_kg_json.py " + config['TEST_ARG'] + " " + config['SMPDB_DIR'] + " {output.nodes} {output.edges} > {log} 2>&1"
+        config['PYTHON_COMMAND'] + " {input.code} " + config['SMPDB_DIR'] + " {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
 rule HMDB_Conversion:
     input:
+        code = config['HMDB_CONVERSION_SCRIPT'],
         real = config['HMDB_INPUT_FILE'],
         validation = config['VALIDATION_PLACEHOLDER']
     output:
@@ -134,10 +146,11 @@ rule HMDB_Conversion:
     log:
         config['BUILD_DIR'] + "/hmdb-xml-to-kg-json" + config['TEST_SUFFIX'] + ".log"
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/hmdb_xml_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output.nodes} {output.edges} > {log} 2>&1"
+        config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
 rule GO_Annotations_Conversion:
     input:
+        code = config['GO_ANNOTATIONS_CONVERSION_SCRIPT'],
         real = config['GO_ANNOTATIONS_INPUT_FILE'],
         validation = config['VALIDATION_PLACEHOLDER']
     output:
@@ -146,10 +159,11 @@ rule GO_Annotations_Conversion:
     log:
         config['BUILD_DIR'] + "/go-gpa-to-kg-json" + config['TEST_SUFFIX'] + ".log"
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/go_gpa_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output.nodes} {output.edges} > {log} 2>&1"
+        config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
 rule Reactome_Conversion:
     input:
+        code = config['REACTOME_CONVERSION_SCRIPT'],
         placeholder = config['BUILD_DIR'] + "/reactome-placeholder.empty",
         validation = config['VALIDATION_PLACEHOLDER']
     output:
@@ -158,30 +172,33 @@ rule Reactome_Conversion:
     log:
         config['BUILD_DIR'] + "/reactome-mysql-to-kg-json" + config['TEST_SUFFIX'] + ".log"
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/reactome_mysql_to_kg_json.py " + config['TEST_ARG'] + " " + config['MYSQL_CONF'] + " " + config['REACTOME_MYSQL_DBNAME'] + " {output.nodes} {output.edges} > {log} 2>&1"
+        config['PYTHON_COMMAND'] + " {input.code} " + config['MYSQL_CONF'] + " " + config['REACTOME_MYSQL_DBNAME'] + " {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
 rule miRBase_Conversion:
     input:
+        code = config['MIRBASE_CONVERSION_SCRIPT'],
         real = config['MIRBASE_INPUT_FILE'],
         validation = config['VALIDATION_PLACEHOLDER']
     output:
         nodes = config['MIRBASE_OUTPUT_NODES_FILE'],
         edges = config['MIRBASE_OUTPUT_EDGES_FILE']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/mirbase_dat_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output.nodes} {output.edges}"
+        config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
 rule JensenLab_Conversion:
     input:
+        code = config['JENSENLAB_CONVERSION_SCRIPT'],
         validation = config['VALIDATION_PLACEHOLDER'],
         placeholder = config['BUILD_DIR'] + "/jensenlab-placeholder.empty"
     output:
         nodes = config['JENSENLAB_OUTPUT_NODES_FILE'],
         edges = config['JENSENLAB_OUTPUT_EDGES_FILE']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/jensenlab_tsv_to_kg_json.py " + config['TEST_ARG'] + " " + config['JENSENLAB_DIR'] + " {output.nodes} {output.edges}"
+        config['PYTHON_COMMAND'] + " {input.code} " + config['JENSENLAB_DIR'] + " {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
 rule DrugCentral_Conversion:
     input:
+        code = config['DRUGCENTRAL_CONVERSION_SCRIPT'],
         real = config['DRUGCENTRAL_INPUT_FILE'],
         validation = config['VALIDATION_PLACEHOLDER']
     output:
@@ -190,30 +207,33 @@ rule DrugCentral_Conversion:
     log:
         config['BUILD_DIR'] + "/drugcentral/drugcentral-mysql-to-kg-json" + config['TEST_SUFFIX'] + ".log"
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/drugcentral_json_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output.nodes} {output.edges} > {log} 2>&1"
+        config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
 rule IntAct_Conversion:
     input:
+        code = config['INTACT_CONVERSION_SCRIPT'],
         real = config['INTACT_INPUT_FILE'],
         validation = config['VALIDATION_PLACEHOLDER']
     output:
         nodes = config['INTACT_OUTPUT_NODES_FILE'],
         edges = config['INTACT_OUTPUT_EDGES_FILE']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/intact_tsv_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output}"
+        config['PYTHON_COMMAND'] + " {input.code} {input.real} {output} " + config['TEST_ARG'] + " > {log} 2>&1"
 
 rule DisGeNET_Conversion:
     input:
+        code = config['DISGENET_CONVERSION_SCRIPT'],
         real = config['DISGENET_INPUT_FILE'],
         validation = config['VALIDATION_PLACEHOLDER']
     output:
         nodes = config['DISGENET_OUTPUT_NODES_FILE'],
         edges = config['DISGENET_OUTPUT_EDGES_FILE']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/disgenet_tsv_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output.nodes} {output.edges}"
+        config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
 rule KEGG_Conversion:
     input:
+        code = config['KEGG_CONVERSION_SCRIPT'],
         real = config['KEGG_INPUT_FILE'],
         validation = config['VALIDATION_PLACEHOLDER']
     output:
@@ -222,4 +242,4 @@ rule KEGG_Conversion:
     log:
         config['BUILD_DIR'] + "/kegg_json_to_kg_json" + config['TEST_SUFFIX'] + ".log"
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/kegg_json_to_kg_json.py " + config['TEST_ARG'] + " {input.real} {output.nodes} {output.edges} > {log} 2>&1"
+        config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"

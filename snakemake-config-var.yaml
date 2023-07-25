@@ -1,85 +1,105 @@
 umls_cui_file: ${BUILD_DIR}/umls_cuis.tsv
+ont_conversion_script: ${CODE_DIR}/build-multi-ont-kg.sh
 ont_output_nodes_file: ${BUILD_DIR}/kg2-ont-nodes${test_suffix}.jsonl
 ont_output_edges_file: ${BUILD_DIR}/kg2-ont-edges${test_suffix}.jsonl
 owl_load_inventory_file: ${CODE_DIR}/ont-load-inventory${test_suffix}.yaml
 
-semmed_tuplelist_file: ${BUILD_DIR}/semmeddb/semmeddb-tuplelist.jsonl
-semmed_exclusion_file: ${BUILD_DIR}/semmed-exclude-list.yaml
-semmed_output_nodes_file: ${BUILD_DIR}/kg2-semmeddb-nodes${test_suffix}.jsonl
-semmed_output_edges_file: ${BUILD_DIR}/kg2-semmeddb-edges${test_suffix}.jsonl
+semmeddb_tuplelist_file: ${BUILD_DIR}/semmeddb/semmeddb-tuplelist.jsonl
+semmeddb_exclusion_file: ${BUILD_DIR}/semmed-exclude-list.yaml
+semmeddb_conversion_script: ${CODE_DIR}/semmeddb_tuple_list_json_to_kg_json.py
+semmeddb_output_nodes_file: ${BUILD_DIR}/kg2-semmeddb-nodes${test_suffix}.jsonl
+semmeddb_output_edges_file: ${BUILD_DIR}/kg2-semmeddb-edges${test_suffix}.jsonl
 
 uniprotkb_dat_file: ${BUILD_DIR}/uniprotkb/uniprot_sprot.dat
+uniprotkb__conversion_script: ${CODE_DIR}/uniprotkb_dat_to_json.py
 uniprotkb_output_nodes_file: ${BUILD_DIR}/kg2-uniprotkb-nodes${test_suffix}.jsonl
 uniprotkb_output_edges_file: ${BUILD_DIR}/kg2-uniprotkb-edges${test_suffix}.jsonl
 
 ensembl_source_json_file: ${BUILD_DIR}/ensembl/ensembl_genes_homo_sapiens.json
+ensembl_conversion_script: ${CODE_DIR}/ensembl_json_to_kg_json.py
 ensembl_output_nodes_file: ${BUILD_DIR}/kg2-ensembl-nodes${test_suffix}.jsonl
 ensembl_output_edges_file: ${BUILD_DIR}/kg2-ensembl-edges${test_suffix}.jsonl
 
 unichem_output_tsv_file: ${BUILD_DIR}/unichem/unichem-mappings.tsv
+unichem_conversion_script: ${CODE_DIR}/unichem_tsv_to_kg_jsonl.py
 unichem_output_nodes_file: ${BUILD_DIR}/kg2-unichem-nodes${test_suffix}.jsonl
 unichem_output_edges_file: ${BUILD_DIR}/kg2-unichem-edges${test_suffix}.jsonl
 
 chembl_mysql_dbname: chembl
+chembl_conversion_script: ${CODE_DIR}/chembl_mysql_to_kg_json.py
 chembl_output_nodes_file: ${BUILD_DIR}/kg2-chembl-nodes${test_suffix}.jsonl
 chembl_output_edges_file: ${BUILD_DIR}/kg2-chembl-edges${test_suffix}.jsonl
 
 ncbigene_tsv_file: ${BUILD_DIR}/ncbigene/Homo_sapiens_gene_info.tsv
+ncbigene_conversion_script: ${CODE_DIR}/ncbigene_tsv_to_kg_json.py
 ncbigene_output_nodes_file: ${BUILD_DIR}/kg2-ncbigene-nodes${test_suffix}.jsonl
 ncbigene_output_edges_file: ${BUILD_DIR}/kg2-ncbigene-edges${test_suffix}.jsonl
 
 dgidb_dir: ${BUILD_DIR}/dgidb
+dgidb_conversion_script: ${CODE_DIR}/dgidb_tsv_to_kg_json.py
 dgidb_output_nodes_file: ${BUILD_DIR}/kg2-dgidb-nodes${test_suffix}.jsonl
 dgidb_output_edges_file: ${BUILD_DIR}/kg2-dgidb-edges${test_suffix}.jsonl
 
 repodb_dir: ${BUILD_DIR}/repodb
-repodb_input_file: ${BUILD_DIR}/repodb/repodb.csv
+repodb_input_file: ${repodb_dir}/repodb.csv
+repodb_conversion_script: ${CODE_DIR}/repodb_csv_to_kg_json.py
 repodb_output_nodes_file: ${BUILD_DIR}/kg2-repodb-nodes${test_suffix}.jsonl
 repodb_output_edges_file: ${BUILD_DIR}/kg2-repodb-edges${test_suffix}.jsonl
 
 drugbank_input_file: ${BUILD_DIR}/drugbank.xml
+drugbank_conversion_script: ${CODE_DIR}/drugbank_xml_to_kg_json.py
 drugbank_output_nodes_file: ${BUILD_DIR}/kg2-drugbank-nodes${test_suffix}.jsonl
 drugbank_output_edges_file: ${BUILD_DIR}/kg2-drugbank-edges${test_suffix}.jsonl
 
 smpdb_dir: ${BUILD_DIR}/smpdb
 smpdb_input_file: ${smpdb_dir}/pathbank_pathways.csv
+smpdb_conversion_script: ${CODE_DIR}/smpdb_csv_to_kg_json.py
 smpdb_output_nodes_file: ${BUILD_DIR}/kg2-smpdb-nodes${test_suffix}.jsonl
 smpdb_output_edges_file: ${BUILD_DIR}/kg2-smpdb-edges${test_suffix}.jsonl
 
 hmdb_input_file: ${BUILD_DIR}/hmdb_metabolites.xml
+hmdb_conversion_script: ${CODE_DIR}/hmdb_xml_to_kg_json.py
 hmdb_output_nodes_file: ${BUILD_DIR}/kg2-hmdb-nodes${test_suffix}.jsonl
 hmdb_output_edges_file: ${BUILD_DIR}/kg2-hmdb-edges${test_suffix}.jsonl
 
 go_annotations_input_file: ${BUILD_DIR}/goa_human.gpa
+go_annotations_conversion_script: ${CODE_DIR}/go_gpa_to_kg_json.py
 go_annotations_output_nodes_file: ${BUILD_DIR}/kg2-go-annotations-nodes${test_suffix}.jsonl
 go_annotations_output_edges_file: ${BUILD_DIR}/kg2-go-annotations-edges${test_suffix}.jsonl
 
 reactome_mysql_dbname: reactome
+reactome_conversion_script: ${CODE_DIR}/reactome_mysql_to_kg_json.py
 reactome_output_nodes_file: ${BUILD_DIR}/kg2-reactome-nodes${test_suffix}.jsonl
 reactome_output_edges_file: ${BUILD_DIR}/kg2-reactome-edges${test_suffix}.jsonl
 
 mirbase_input_file: ${BUILD_DIR}/miRNA.dat
+mirbase_conversion_script: ${CODE_DIR}/mirbase_dat_to_kg_json.py
 mirbase_output_nodes_file: ${BUILD_DIR}/kg2-mirbase-nodes${test_suffix}.jsonl
 mirbase_output_edges_file: ${BUILD_DIR}/kg2-mirbase-edges${test_suffix}.jsonl
 
 jensenlab_dir: ${BUILD_DIR}/jensenlab
+jensenlab_conversion_script: ${CODE_DIR}/jensenlab_tsv_to_kg_json.py
 jensenlab_output_nodes_file: ${BUILD_DIR}/kg2-jensenlab-nodes${test_suffix}.jsonl
 jensenlab_output_edges_file: ${BUILD_DIR}/kg2-jensenlab-edges${test_suffix}.jsonl
 
 drugcentral_dir: ${BUILD_DIR}/drugcentral
 drugcentral_input_file: ${drugcentral_dir}/drugcentral_psql_json.json
+drugcentral_conversion_script: ${CODE_DIR}/drugcentral_json_to_kg_json.py
 drugcentral_output_nodes_file: ${BUILD_DIR}/kg2-drugcentral-nodes${test_suffix}.jsonl
 drugcentral_output_edges_file: ${BUILD_DIR}/kg2-drugcentral-edges${test_suffix}.jsonl
 
 intact_input_file: ${BUILD_DIR}/intact.txt
+intact_conversion_script: ${CODE_DIR}/intact_tsv_to_kg_json.py
 intact_output_nodes_file: ${BUILD_DIR}/kg2-intact-nodes${test_suffix}.jsonl
 intact_output_edges_file: ${BUILD_DIR}/kg2-intact-edges${test_suffix}.jsonl
 
 disgenet_input_file: ${BUILD_DIR}/all_gene_disease_pmid_associations.tsv
+disgenet_conversion_script: ${CODE_DIR}/disgenet_tsv_to_kg_json.py
 disgenet_output_nodes_file: ${BUILD_DIR}/kg2-disgenet-nodes${test_suffix}.jsonl
 disgenet_output_edges_file: ${BUILD_DIR}/kg2-disgenet-edges${test_suffix}.jsonl
 
 kegg_input_file: ${BUILD_DIR}/kegg.json
+kegg_conversion_script: ${CODE_DIR}/kegg_json_to_kg_json.py
 kegg_output_nodes_file: ${BUILD_DIR}/kg2-kegg-nodes${test_suffix}.jsonl
 kegg_output_edges_file: ${BUILD_DIR}/kg2-kegg-edges${test_suffix}.jsonl
 
