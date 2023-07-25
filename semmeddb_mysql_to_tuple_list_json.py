@@ -26,7 +26,6 @@ NEG_REGEX = re.compile('^NEG_', re.M)
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='semmeddb_mysql_to_tuple_list_json.py: extracts all the predicate triples from SemMedDB, ' +
                                          'as a list of tuples')
-    arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
     arg_parser.add_argument('mysqlConfigFile', type=str)
     arg_parser.add_argument('mysqlDBName', type=str)
     arg_parser.add_argument('versionNumber', type=str)
@@ -44,11 +43,10 @@ if __name__ == '__main__':
     version_date = args.versionDate
     output_file_name = args.outputFile
     version_number = version_number.strip('VER')
-    test_mode = args.test
     connection = pymysql.connect(read_default_file=mysql_config_file, db=mysql_db_name)
     preds_dict = dict()
 
-    output_info = kg2_util.create_single_jsonlines(test_mode)
+    output_info = kg2_util.create_single_jsonlines(False)
     output = output_info[0]
 
     # https://stackoverflow.com/questions/7208773/mysql-row-30153-was-cut-by-group-concat-error
@@ -59,10 +57,6 @@ if __name__ == '__main__':
                      "GROUP_CONCAT(CONCAT(PMID, '|', SENTENCE, '|', SUBJECT_SCORE, '|', OBJECT_SCORE, '|', DP) SEPARATOR '\t') "
                      "FROM ((PREDICATION NATURAL JOIN CITATIONS) NATURAL JOIN SENTENCE) NATURAL JOIN PREDICATION_AUX "
                      "GROUP BY SUBJECT_CUI, PREDICATE, OBJECT_CUI")
-
-
-    if test_mode:
-        sql_statement += " LIMIT 10000"
 
     with connection.cursor() as cursor:
         cursor.execute(max_len_sql_statement)

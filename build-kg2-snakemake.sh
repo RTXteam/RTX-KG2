@@ -6,12 +6,12 @@
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0 [test|alltest|all|-n|nodes|graphic|-R_*|-F] [-n|nodes|graphic|-R_*|-F] "
+    echo Usage: "$0 [test|all|-n|nodes|graphic|-R_*|-F] [-n|nodes|graphic|-R_*|-F] "
     echo "[-n|nodes|graphic|-R_*|-F|ci] [nodes|ci|-n] [ci]"
     exit 2
 fi
 
-# Usage: build-kg2-snakemake.sh [test|alltest|all|-n|nodes|graphic|-R_*|-F] [-n|nodes|graphic|-R_*|-F] 
+# Usage: build-kg2-snakemake.sh [test|all|-n|nodes|graphic|-R_*|-F] [-n|nodes|graphic|-R_*|-F] 
 #                               [-n|nodes|graphic|-R_*|-F|ci] [nodes|ci|-n] [ci]
 
 config_dir=`dirname "$0"`
@@ -29,7 +29,7 @@ then
     ci_flag="ci"
 fi
 
-if [[ "${build_flag}" == "test" || "${build_flag}" == "alltest" ]]
+if [[ "${build_flag}" == "test" ]]
 then
     # The test argument for bash scripts (ex. extract-semmeddb.sh test)
     test_flag="test"
@@ -127,11 +127,6 @@ echo 'include: "Snakefile-pre-etl"' >> ${snakefile}
 echo 'include: "Snakefile-conversion"' >> ${snakefile}
 
 echo 'include: "Snakefile-post-etl"' >> ${snakefile}
-
-if [[ "${build_flag}" == "all" || "${build_flag}" == "alltest" ]]
-then
-    echo 'include: "Snakefile-semmeddb-extraction"' >> ${snakefile}
-fi
 
 if [[ "${build_flag}" == "all" ]]
 then

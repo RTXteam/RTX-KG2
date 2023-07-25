@@ -76,16 +76,7 @@ domain_range_exclusion_file=${2:-"${BUILD_DIR}/${domain_range_exclusion_filename
 
 ${curl_get} ${domain_range_exclusion_link} -o ${domain_range_exclusion_file}
 
-if [[ "${build_flag}" == "test" || "${build_flag}" == 'alltest' ]]
-then
-   test_arg=" --test"
-else
-   test_arg=""
-fi
-
-
 ${VENV_DIR}/bin/python3 ${CODE_DIR}/semmeddb_mysql_to_tuple_list_json.py \
-           ${test_arg} \
            ${mysql_conf} \
            ${mysql_dbname} \
            ${semmed_ver} \

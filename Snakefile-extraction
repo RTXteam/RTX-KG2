@@ -8,6 +8,17 @@ rule UMLS:
     shell:
         "bash -x " + config['CODE_DIR'] + "/extract-umls.sh " + config['BUILD_DIR'] + " {output} > {log} 2>&1" 
 
+rule SemMedDB:
+    input:
+        config['VALIDATION_PLACEHOLDER']
+    output:
+        tuplelist = config['SEMMED_TUPLELIST_FILE'],
+        exclusion_list = config['SEMMED_EXCLUSION_FILE']
+    log:
+        config['BUILD_DIR'] + "/extract-semmeddb" + config['TEST_SUFFIX'] + ".log"
+    shell:
+        "bash -x " + config['CODE_DIR'] + "/extract-semmeddb.sh {output.tuplelist} {output.exclusion_list} > {log} 2>&1"
+
 rule UniProtKB:
     input:
         config['VALIDATION_PLACEHOLDER']
