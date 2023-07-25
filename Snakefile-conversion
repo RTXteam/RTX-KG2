@@ -7,7 +7,7 @@ rule Ontologies_and_TTL:
         nodes = config['ONT_OUTPUT_NODES_FILE'],
         edges = config['ONT_OUTPUT_EDGES_FILE']
     log:
-        config['BUILD_DIR'] + "/build-multi-ont-kg" + config['TEST_SUFFIX'] + ".log"
+        config['ONT_CONVERSION_LOG']
     shell:
         "bash -x {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_FLAG'] + " > {log} 2>&1" 
 
@@ -22,20 +22,20 @@ rule SemMedDB_Conversion:
         nodes = config['SEMMEDDB_OUTPUT_NODES_FILE'],
         edges = config['SEMMEDDB_OUTPUT_EDGES_FILE']
     log:
-        config['BUILD_DIR'] + "/semmeddb-tuple-list-json-to-kg-json" + config['TEST_SUFFIX'] + ".log"
+        config['SEMMEDDB_CONVERSION_LOG']
     shell:
         config['PYTHON_COMMAND'] + " {input.code} --mrcuiFile ~/kg2-build/umls/META/MRCUI.RRF {input.real} {input.exclusion_list} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
 rule UniProtKB_Conversion:
     input:
-        code = config['UNIPROTKB__CONVERSION_SCRIPT'],
+        code = config['UNIPROTKB_CONVERSION_SCRIPT'],
         real = config['UNIPROTKB_DAT_FILE'],
         validation = config['VALIDATION_PLACEHOLDER']
     output:
         nodes = config['UNIPROTKB_OUTPUT_NODES_FILE'],
         edges = config['UNIPROTKB_OUTPUT_EDGES_FILE']
     log:
-        config['BUILD_DIR'] + "/uniprotkb-dat-to-json" + config['TEST_SUFFIX'] + ".log"
+        config['UNIPROTKB_CONVERSION_LOG']
     shell:
         config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
@@ -47,6 +47,8 @@ rule Ensembl_Conversion:
     output:
         nodes = config['ENSEMBL_OUTPUT_NODES_FILE'],
         edges = config['ENSEMBL_OUTPUT_EDGES_FILE']
+    log:
+        config['ENSEMBL_CONVERSION_LOG']
     shell:
         config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
@@ -58,6 +60,8 @@ rule UniChem_Conversion:
     output:
         nodes = config['UNICHEM_OUTPUT_NODES_FILE'],
         edges = config['UNICHEM_OUTPUT_EDGES_FILE']
+    log:
+        config['UNICHEM_CONVERSION_LOG']
     shell:
         config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
@@ -70,7 +74,7 @@ rule ChEMBL_Conversion:
         nodes = config['CHEMBL_OUTPUT_NODES_FILE'],
         edges = config['CHEMBL_OUTPUT_EDGES_FILE']
     log:
-        config['BUILD_DIR'] + "/chembl-mysql-to-kg-json" + config['TEST_SUFFIX'] + ".log"
+        config['CHEMBL_CONVERSION_LOG']
     shell:
         config['PYTHON_COMMAND'] + " {input.code} " + config['MYSQL_CONF'] + " " + config['CHEMBL_MYSQL_DBNAME'] + " {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
@@ -82,6 +86,8 @@ rule NCBIGene_Conversion:
     output:
         nodes = config['NCBIGENE_OUTPUT_NODES_FILE'],
         edges = config['NCBIGENE_OUTPUT_EDGES_FILE']
+    log:
+        config['NCBIGENE_CONVERSION_LOG']
     shell:
         config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
@@ -94,7 +100,7 @@ rule DGIdb_Conversion:
         nodes = config['DGIDB_OUTPUT_NODES_FILE'],
         edges = config['DGIDB_OUTPUT_EDGES_FILE']
     log:
-        config['DGIDB_DIR'] + "/dgidb-tsv-to-kg-json-stderr" + config['TEST_SUFFIX'] + ".log"
+        config['DGIDB_CONVERSION_LOG']
     shell:
         config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
@@ -106,6 +112,8 @@ rule RepoDB_Conversion:
     output:
         nodes = config['REPODB_OUTPUT_NODES_FILE'],
         edges = config['REPODB_OUTPUT_EDGES_FILE']
+    log:
+        config['REPODB_CONVERSION_LOG']
     shell:
         config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
@@ -118,7 +126,7 @@ rule DrugBank_Conversion:
         nodes = config['DRUGBANK_OUTPUT_NODES_FILE'],
         edges = config['DRUGBANK_OUTPUT_EDGES_FILE']
     log:
-        config['BUILD_DIR'] + "/drugbank-xml-to-kg-json" + config['TEST_SUFFIX'] + ".log"
+        config['DRUGBANK_CONVERSION_LOG']
     shell:
         config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
@@ -131,7 +139,7 @@ rule SMPDB_Conversion:
         nodes = config['SMPDB_OUTPUT_NODES_FILE'],
         edges = config['SMPDB_OUTPUT_EDGES_FILE']
     log:
-        config['SMPDB_DIR'] + "/smpdb-csv-to-kg-json" + config['TEST_SUFFIX'] + ".log"
+        config['SMPDB_CONVERSION_LOG']
     shell:
         config['PYTHON_COMMAND'] + " {input.code} " + config['SMPDB_DIR'] + " {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
@@ -144,7 +152,7 @@ rule HMDB_Conversion:
         nodes = config['HMDB_OUTPUT_NODES_FILE'],
         edges = config['HMDB_OUTPUT_EDGES_FILE']
     log:
-        config['BUILD_DIR'] + "/hmdb-xml-to-kg-json" + config['TEST_SUFFIX'] + ".log"
+        config['HMDB_CONVERSION_LOG']
     shell:
         config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
@@ -157,7 +165,7 @@ rule GO_Annotations_Conversion:
         nodes = config['GO_ANNOTATIONS_OUTPUT_NODES_FILE'],
         edges = config['GO_ANNOTATIONS_OUTPUT_EDGES_FILE']
     log:
-        config['BUILD_DIR'] + "/go-gpa-to-kg-json" + config['TEST_SUFFIX'] + ".log"
+        config['GO_ANNOTATIONS_CONVERSION_LOG']
     shell:
         config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
@@ -170,7 +178,7 @@ rule Reactome_Conversion:
         nodes = config['REACTOME_OUTPUT_NODES_FILE'],
         edges = config['REACTOME_OUTPUT_EDGES_FILE']
     log:
-        config['BUILD_DIR'] + "/reactome-mysql-to-kg-json" + config['TEST_SUFFIX'] + ".log"
+        config['REACTOME_CONVERSION_LOG']
     shell:
         config['PYTHON_COMMAND'] + " {input.code} " + config['MYSQL_CONF'] + " " + config['REACTOME_MYSQL_DBNAME'] + " {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
@@ -182,6 +190,8 @@ rule miRBase_Conversion:
     output:
         nodes = config['MIRBASE_OUTPUT_NODES_FILE'],
         edges = config['MIRBASE_OUTPUT_EDGES_FILE']
+    log:
+        config['MIRBASE_CONVERSION_LOG']
     shell:
         config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
@@ -193,6 +203,8 @@ rule JensenLab_Conversion:
     output:
         nodes = config['JENSENLAB_OUTPUT_NODES_FILE'],
         edges = config['JENSENLAB_OUTPUT_EDGES_FILE']
+    log:
+        config['JENSENLAB_CONVERSION_LOG']
     shell:
         config['PYTHON_COMMAND'] + " {input.code} " + config['JENSENLAB_DIR'] + " {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
@@ -205,7 +217,7 @@ rule DrugCentral_Conversion:
         nodes = config['DRUGCENTRAL_OUTPUT_NODES_FILE'],
         edges = config['DRUGCENTRAL_OUTPUT_EDGES_FILE']
     log:
-        config['BUILD_DIR'] + "/drugcentral/drugcentral-mysql-to-kg-json" + config['TEST_SUFFIX'] + ".log"
+        config['DRUGCENTRAL_CONVERSION_LOG']
     shell:
         config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
@@ -217,6 +229,8 @@ rule IntAct_Conversion:
     output:
         nodes = config['INTACT_OUTPUT_NODES_FILE'],
         edges = config['INTACT_OUTPUT_EDGES_FILE']
+    log:
+        config['INTACT_CONVERSION_LOG']
     shell:
         config['PYTHON_COMMAND'] + " {input.code} {input.real} {output} " + config['TEST_ARG'] + " > {log} 2>&1"
 
@@ -228,6 +242,8 @@ rule DisGeNET_Conversion:
     output:
         nodes = config['DISGENET_OUTPUT_NODES_FILE'],
         edges = config['DISGENET_OUTPUT_EDGES_FILE']
+    log:
+        config['DISGENET_CONVERSION_LOG']
     shell:
         config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
@@ -240,6 +256,6 @@ rule KEGG_Conversion:
         nodes = config['KEGG_OUTPUT_NODES_FILE'],
         edges = config['KEGG_OUTPUT_EDGES_FILE']
     log:
-        config['BUILD_DIR'] + "/kegg_json_to_kg_json" + config['TEST_SUFFIX'] + ".log"
+        config['KEGG_CONVERSION_LOG']
     shell:
         config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
