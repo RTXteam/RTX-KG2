@@ -6,11 +6,11 @@
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0 input_json output_json [version_filename] [test]"
+    echo Usage: "$0 <input_nodes_json> <input_edges_json> <output_nodes_json> <output_edges_json> [version_filename] [test]"
     exit 2
 fi
 
-# Usage: run-simplify.sh input_json output_json [version_filename] [test]
+# Usage: run-simplify.sh <input_nodes_json> <input_edges_json> <output_nodes_json> <output_edges_json> [version_filename] [test]
 
 echo "================= starting run-simplify.sh =================="
 date
@@ -21,10 +21,12 @@ source ${CONFIG_DIR}/master-config.shinc
 trigger_file_is_major_release=${BUILD_DIR}/major-release
 trigger_file_is_minor_release=${BUILD_DIR}/minor-release
 
-input_json=${1:-}
-output_json=${2:-}
-local_version_filename=${3:-"${BUILD_DIR}/kg2-version.txt"}
-build_flag=${4:-""}
+input_nodes_json=${1:-}
+input_edges_json=${2:-}
+output_nodes_json=${3:-}
+output_edges_json=${4:-}
+local_version_filename=${5:-"${BUILD_DIR}/kg2-version.txt"}
+build_flag=${6:-""}
 s3_version_filename="kg2-version.txt"
 
 ${s3_cp_cmd} s3://${s3_bucket_public}/${s3_version_filename} ${local_version_filename}
@@ -55,8 +57,8 @@ fi
 # TODO: Inhibits and increase are not in biolink model anymore - Find out what that should be now
 ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/filter_kg_and_remap_predicates.py ${test_flag} --dropNegated \
                         --dropSelfEdgesExcept interacts_with,regulates,inhibits,increase \
-                        ${predicate_mapping_file} ${infores_mapping_file} ${curies_to_urls_file} ${input_json} \
-                        ${output_json} ${local_version_filename}
+                        ${predicate_mapping_file} ${infores_mapping_file} ${curies_to_urls_file} ${input_nodes_json} ${input_edges_json} \
+                        ${output_nodes_json} ${output_edges_json} ${local_version_filename}
 ${s3_cp_cmd} ${local_version_filename} s3://${s3_bucket_public}/${s3_version_filename}
 
 if [[ -f ${trigger_file_is_major_release} ]]
