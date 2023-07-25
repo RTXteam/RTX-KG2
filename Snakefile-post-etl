@@ -41,8 +41,8 @@ rule Merge:
         kegg_nodes = config['KEGG_OUTPUT_NODES_FILE'],
         kegg_edges = config['KEGG_OUTPUT_EDGES_FILE']
     output:
-        nodes = config['FINAL_OUTPUT_NODES_FILE_FULL'],
-        edges = config['FINAL_OUTPUT_EDGES_FILE_FULL'],
+        nodes = config['FINAL_OUTPUT_NODES_FILE'],
+        edges = config['FINAL_OUTPUT_EDGES_FILE'],
         orph = config['OUTPUT_FILE_ORPHAN_EDGES']
     shell:
         config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/merge_graphs.py " + config['TEST_ARG'] + \
@@ -94,10 +94,10 @@ rule Merge:
 
 rule Stats:
     input:
-        nodes = config['FINAL_OUTPUT_NODES_FILE_FULL'],
-        edges = config['FINAL_OUTPUT_EDGES_FILE_FULL']
+        nodes = config['FINAL_OUTPUT_NODES_FILE'],
+        edges = config['FINAL_OUTPUT_EDGES_FILE']
     output:
-        config['REPORT_FILE_FULL']
+        config['REPORT_FILE']
     log: 
         config['BUILD_DIR'] + "/report_stats_on_json_kg" + config['TEST_SUFFIX'] + ".log"
     shell:
@@ -105,12 +105,11 @@ rule Stats:
 
 rule Simplify:
     input:
-        nodes = config['FINAL_OUTPUT_NODES_FILE_FULL'],
-        edges = config['FINAL_OUTPUT_EDGES_FILE_FULL'],
-        placeholder = config['REPORT_FILE_FULL']
+        nodes = config['FINAL_OUTPUT_NODES_FILE'],
+        edges = config['FINAL_OUTPUT_EDGES_FILE']
     output:
-        nodes = config['SIMPLIFIED_OUTPUT_NODES_FILE_FULL'],
-        edges = config['SIMPLIFIED_OUTPUT_EDGES_FILE_FULL']
+        nodes = config['SIMPLIFIED_OUTPUT_NODES_FILE'],
+        edges = config['SIMPLIFIED_OUTPUT_EDGES_FILE']
     log:
         config['BUILD_DIR'] + "/filter_kg_and_remap_predicates" + config['TEST_SUFFIX'] + ".log"
     shell:
@@ -118,8 +117,8 @@ rule Simplify:
 
 rule Slim:
     input:
-        nodes = config['SIMPLIFIED_OUTPUT_NODES_FILE_FULL'],
-        edges = config['SIMPLIFIED_OUTPUT_EDGES_FILE_FULL']
+        nodes = config['SIMPLIFIED_OUTPUT_NODES_FILE'],
+        edges = config['SIMPLIFIED_OUTPUT_EDGES_FILE']
     output:
         nodes = config['SLIM_OUTPUT_NODES_FILE'],
         edges = config['SLIM_OUTPUT_EDGES_FILE']
@@ -130,12 +129,10 @@ rule Slim:
 
 rule Simplify_Stats:
     input:
-        nodes = config['SIMPLIFIED_OUTPUT_NODES_FILE_FULL'],
-        edges = config['SIMPLIFIED_OUTPUT_EDGES_FILE_FULL'],
-        placeholder_nodes = config['SLIM_OUTPUT_NODES_FILE'],
-        placeholder_edges = config['SLIM_OUTPUT_EDGES_FILE'],
+        nodes = config['SIMPLIFIED_OUTPUT_NODES_FILE'],
+        edges = config['SIMPLIFIED_OUTPUT_EDGES_FILE']
     output:
-        config['SIMPLIFIED_REPORT_FILE_FULL']
+        config['SIMPLIFIED_REPORT_FILE']
     log:
         config['BUILD_DIR'] + "/report_stats_on_json_kg_simplified" + config['TEST_SUFFIX'] + ".log"
     shell:
@@ -143,9 +140,8 @@ rule Simplify_Stats:
 
 rule TSV:
     input:
-        nodes = config['SIMPLIFIED_OUTPUT_NODES_FILE_FULL'],
-        edges = config['SIMPLIFIED_OUTPUT_EDGES_FILE_FULL'],
-        placeholder = config['SIMPLIFIED_REPORT_FILE_FULL']
+        nodes = config['SIMPLIFIED_OUTPUT_NODES_FILE'],
+        edges = config['SIMPLIFIED_OUTPUT_EDGES_FILE']
     output:
         placeholder = config['BUILD_DIR'] + "/tsv_placeholder.empty"
     run:

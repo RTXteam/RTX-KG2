@@ -85,19 +85,9 @@ rule RepoDB:
     output:
         config['REPODB_INPUT_FILE']
     log:
-        config['BUILD_DIR'] + "/download-repodb-csv" + config['TEST_SUFFIX'] + ".log"
+        config['BUILD_DIR'] + "/extract-repodb" + config['TEST_SUFFIX'] + ".log"
     shell:
-        "bash -x " + config['CODE_DIR'] + "/download-repodb-csv.sh " + config['REPODB_DIR'] + " > {log} 2>&1"
-
-rule SMPDB:
-    input:
-        config['VALIDATION_PLACEHOLDER']
-    output:
-        config['SMPDB_INPUT_FILE']
-    log:
-        config['BUILD_DIR'] + "/extract-smpdb" + config['TEST_SUFFIX'] + ".log"
-    shell:
-        "bash -x " + config['CODE_DIR'] + "/extract-smpdb.sh " + config['SMPDB_DIR'] + " > {log} 2>&1"
+        "bash -x " + config['CODE_DIR'] + "/extract-repodb.sh " + config['REPODB_DIR'] + " > {log} 2>&1"
 
 rule DrugBank:
     input:
@@ -108,6 +98,16 @@ rule DrugBank:
         config['BUILD_DIR'] + "/extract-drugbank" + config['TEST_SUFFIX'] + ".log"
     shell:
         "bash -x " + config['CODE_DIR'] + "/extract-drugbank.sh {output} > {log} 2>&1"
+
+rule SMPDB:
+    input:
+        config['VALIDATION_PLACEHOLDER']
+    output:
+        config['SMPDB_INPUT_FILE']
+    log:
+        config['BUILD_DIR'] + "/extract-smpdb" + config['TEST_SUFFIX'] + ".log"
+    shell:
+        "bash -x " + config['CODE_DIR'] + "/extract-smpdb.sh " + config['SMPDB_DIR'] + " > {log} 2>&1"
 
 rule HMDB:
     input:

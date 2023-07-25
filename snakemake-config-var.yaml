@@ -15,19 +15,19 @@ output_file_orphan_edges: ${BUILD_DIR}/kg2-orphan-edges${test_suffix}.jsonl
 
 final_output_nodes_file_base: kg2-nodes${test_suffix}.jsonl
 final_output_edges_file_base: kg2-edges${test_suffix}.jsonl
-final_output_nodes_file_full: ${BUILD_DIR}/${final_output_nodes_file_base}
-final_output_edges_file_full: ${BUILD_DIR}/${final_output_edges_file_base}
+final_output_nodes_file: ${BUILD_DIR}/${final_output_nodes_file_base}
+final_output_edges_file: ${BUILD_DIR}/${final_output_edges_file_base}
 
 simplified_output_nodes_file_base: kg2-simplified-nodes${test_suffix}.jsonl
 simplified_output_edges_file_base: kg2-simplified-edges${test_suffix}.jsonl
-simplified_output_nodes_file_full: ${BUILD_DIR}/${simplified_output_nodes_file_base}
-simplified_output_edges_file_full: ${BUILD_DIR}/${simplified_output_edges_file_base}
+simplified_output_nodes_file: ${BUILD_DIR}/${simplified_output_nodes_file_base}
+simplified_output_edges_file: ${BUILD_DIR}/${simplified_output_edges_file_base}
 
 report_file_base: kg2-report${test_suffix}.json
-report_file_full: ${BUILD_DIR}/${report_file_base}
+report_file: ${BUILD_DIR}/${report_file_base}
 
 simplified_report_file_base: kg2-simplified-report${test_suffix}.json
-simplified_report_file_full: ${BUILD_DIR}/${simplified_report_file_base}
+simplified_report_file: ${BUILD_DIR}/${simplified_report_file_base}
 
 slim_output_nodes_file: ${BUILD_DIR}/kg2-slim-nodes${test_suffix}.jsonl
 slim_output_edges_file: ${BUILD_DIR}/kg2-slim-edges${test_suffix}.jsonl
