@@ -356,10 +356,10 @@ def close_kg2_jsonlines(nodes_info: tuple, edges_info: tuple,
     close_single_jsonlines(edges_info, output_edges_file_name)
 
 
-def start_read_jsonlines(file_name: str):
+def start_read_jsonlines(file_name: str, type=dict):
     file = open(file_name, 'r')
     jsonlines_reader = jsonlines.Reader(file)
-    return (jsonlines_reader.iter(type=dict), jsonlines_reader, file)
+    return (jsonlines_reader.iter(type=type), jsonlines_reader, file)
 
 def end_read_jsonlines(read_jsonlines_info):
     (_, jsonlines_reader, file) = read_jsonlines_info

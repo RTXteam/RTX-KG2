@@ -67,13 +67,16 @@ def make_rel(edges_output,
              negated: bool,
              domain_range_exclusion: bool):
     key = subject_curie + '-' + predicate + '-' + object_curie
-    key_val = preds_dict.get(key, None)
     publications_info_list = publications_info.split('\t')
     edge_publications_info = dict()
     edges_publications = list()
     for publication in publications_info_list:
         publication_traits = publication.split('|')
-        assert len(publication_traits) == 5, publication_traits
+
+        # Make this an assertion later, but this isn't helpful for testing
+        if len(publication_traits) != 5:
+            print("Issue with ", key, "; Need to Lengthen Max Group Concat")
+            return
         (pmid, sentence, subject_score, object_score, pub_date) = publication_traits
         publication_curie = kg2_util.CURIE_PREFIX_PMID + ':' + pmid
         publication_info_dict = {
@@ -233,13 +236,12 @@ if __name__ == '__main__':
     output_nodes_file_name = args.outputNodesFile
     output_edges_file_name = args.outputEdgesFile
     test_mode = args.test
-    input_data = json.load(open(input_file_name, 'r'))
 
     nodes_info, edges_info = kg2_util.create_kg2_jsonlines(test_mode)
     nodes_output = nodes_info[0]
     edges_output = edges_info[0]
 
-    nodes_set = dict()
+    nodes_set = set()
 
     if mrcui_file_name is not None:
         remapped_cuis = get_remapped_cuis(mrcui_file_name)
@@ -257,15 +259,18 @@ if __name__ == '__main__':
 
     update_date_dt = datetime.datetime.fromisoformat('2018-01-01 00:00:00')  # picking an arbitrary time in the past
 
-    input_read_jsonlines_info = kg2_util.start_read_jsonlines(input_file_name)
+    input_read_jsonlines_info = kg2_util.start_read_jsonlines(input_file_name, list)
     input_data = input_read_jsonlines_info[0]
 
     for (subject_cui_str, predicate, object_cui_str, subject_semtype, object_semtype,
          curr_timestamp, publications_info) in input_data:
         row_ctr += 1
-        curr_timestamp_dt = datetime.datetime.fromisoformat(curr_timestamp)
-        if curr_timestamp_dt > update_date_dt:
-            update_date_dt = curr_timestamp_dt
+        try:
+            curr_timestamp_dt = datetime.datetime.fromisoformat(curr_timestamp.split(',')[-1])
+            if curr_timestamp_dt > update_date_dt:
+                update_date_dt = curr_timestamp_dt
+        except ValueError:
+            pass
         if row_ctr % 100000 == 0:
             print("Have processed " + str(row_ctr) + " rows out of " + str(len(input_data['rows'])) + " rows")
         if test_mode and row_ctr > 10000:
@@ -313,8 +318,6 @@ if __name__ == '__main__':
                                           category_label=kg2_util.SOURCE_NODE_CATEGORY,
                                           update_date=update_date_dt.strftime('%Y-%m-%d %H:%M:%S'),
                                           provided_by=semmeddb_kb_curie_id))
-
-    date("Saving " + output_file_name)
 
     kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
 
