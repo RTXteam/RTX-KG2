@@ -1,27 +1,27 @@
-semmed_tuplelist_file: ${BUILD_DIR}/semmeddb/kg2-semmeddb${test_suffix}-tuplelist.json
+semmed_tuplelist_file: ${BUILD_DIR}/semmeddb/semmeddb-tuplelist.jsonl
 semmed_exclusion_file: ${BUILD_DIR}/semmed-exclude-list.yaml
-semmed_output_file: ${BUILD_DIR}/kg2-semmeddb${test_suffix}-edges.json
+semmed_output_nodes_file: ${BUILD_DIR}/kg2-semmeddb-nodes${test_suffix}.jsonl
+semmed_output_edges_file: ${BUILD_DIR}/kg2-semmeddb-edges${test_suffix}.jsonl
 
 uniprotkb_dat_file: ${BUILD_DIR}/uniprotkb/uniprot_sprot.dat
-uniprotkb_output_file: ${BUILD_DIR}/kg2-uniprotkb${test_suffix}.json
+uniprotkb_output_nodes_file: ${BUILD_DIR}/kg2-uniprotkb-nodes${test_suffix}.jsonl
+uniprotkb_output_edges_file: ${BUILD_DIR}/kg2-uniprotkb-edges${test_suffix}.jsonl
 
 umls_cui_file: ${BUILD_DIR}/umls_cuis.tsv
-output_file_base: kg2-ont${test_suffix}.json
-output_file_full: ${BUILD_DIR}/${output_file_base}
+ont_output_nodes_file: ${BUILD_DIR}/kg2-ont-nodes${test_suffix}.jsonl
+ont_output_edges_file: ${BUILD_DIR}/kg2-ont-edges${test_suffix}.jsonl
 
-output_file_orphan_edges: ${BUILD_DIR}/kg2-orphans${test_suffix}-edges.json
+output_file_orphan_edges: ${BUILD_DIR}/kg2-orphan-edges${test_suffix}.jsonl
 
-final_output_file_base: kg2${test_suffix}.json
-final_output_file_full: ${BUILD_DIR}/${final_output_file_base}
+final_output_nodes_file_base: kg2-nodes${test_suffix}.jsonl
+final_output_edges_file_base: kg2-edges${test_suffix}.jsonl
+final_output_nodes_file_full: ${BUILD_DIR}/${final_output_nodes_file_base}
+final_output_edges_file_full: ${BUILD_DIR}/${final_output_edges_file_base}
 
-simplified_output_file_base: kg2-simplified${test_suffix}.json
-simplified_output_file_full: ${BUILD_DIR}/${simplified_output_file_base}
-
-simplified_output_nodes_file_base: kg2-simplified${test_suffix}-nodes.json
+simplified_output_nodes_file_base: kg2-simplified-nodes${test_suffix}.jsonl
+simplified_output_edges_file_base: kg2-simplified-edges${test_suffix}.jsonl
 simplified_output_nodes_file_full: ${BUILD_DIR}/${simplified_output_nodes_file_base}
-
-output_nodes_file_base: kg2${test_suffix}-nodes.json
-output_nodes_file_full: ${BUILD_DIR}/${output_nodes_file_base}
+simplified_output_edges_file_full: ${BUILD_DIR}/${simplified_output_edges_file_base}
 
 report_file_base: kg2-report${test_suffix}.json
 report_file_full: ${BUILD_DIR}/${report_file_base}
@@ -29,70 +29,84 @@ report_file_full: ${BUILD_DIR}/${report_file_base}
 simplified_report_file_base: kg2-simplified-report${test_suffix}.json
 simplified_report_file_full: ${BUILD_DIR}/${simplified_report_file_base}
 
-slim_output_file_full: ${BUILD_DIR}/kg2-slim${test_suffix}.json
+slim_output_nodes_file: ${BUILD_DIR}/kg2-slim-nodes${test_suffix}.jsonl
+slim_output_edges_file: ${BUILD_DIR}/kg2-slim-edges${test_suffix}.jsonl
 
 ensembl_source_json_file: ${BUILD_DIR}/ensembl/ensembl_genes_homo_sapiens.json
-ensembl_output_file: ${BUILD_DIR}/kg2-ensembl${test_suffix}.json
+ensembl_output_nodes_file: ${BUILD_DIR}/kg2-ensembl-nodes${test_suffix}.jsonl
+ensembl_output_edges_file: ${BUILD_DIR}/kg2-ensembl-edges${test_suffix}.jsonl
 
-chembl_output_file: ${BUILD_DIR}/kg2-chembl${test_suffix}.json
+chembl_mysql_dbname: chembl
+chembl_output_nodes_file: ${BUILD_DIR}/kg2-chembl-nodes${test_suffix}.jsonl
+chembl_output_edges_file: ${BUILD_DIR}/kg2-chembl-edges${test_suffix}.jsonl
 
 owl_load_inventory_file: ${CODE_DIR}/ont-load-inventory${test_suffix}.yaml
 
-chembl_mysql_dbname: chembl
-
 unichem_output_tsv_file: ${BUILD_DIR}/unichem/unichem-mappings.tsv
-unichem_output_file: ${BUILD_DIR}/kg2-unichem${test_suffix}.json
+unichem_output_nodes_file: ${BUILD_DIR}/kg2-unichem-nodes${test_suffix}.jsonl
+unichem_output_edges_file: ${BUILD_DIR}/kg2-unichem-edges${test_suffix}.jsonl
 
-ncbi_gene_tsv_file: ${BUILD_DIR}/ncbigene/Homo_sapiens_gene_info.tsv
-ncbi_gene_output_file: ${BUILD_DIR}/kg2-ncbigene${test_suffix}.json
+ncbigene_tsv_file: ${BUILD_DIR}/ncbigene/Homo_sapiens_gene_info.tsv
+ncbigene_output_nodes_file: ${BUILD_DIR}/kg2-ncbigene-nodes${test_suffix}.jsonl
+ncbigene_output_edges_file: ${BUILD_DIR}/kg2-ncbigene-edges${test_suffix}.jsonl
 
 dgidb_dir: ${BUILD_DIR}/dgidb
-dgidb_output_file: ${BUILD_DIR}/kg2-dgidb${test_suffix}.json
+dgidb_output_nodes_file: ${BUILD_DIR}/kg2-dgidb-nodes${test_suffix}.jsonl
+dgidb_output_edges_file: ${BUILD_DIR}/kg2-dgidb-edges${test_suffix}.jsonl
 
 repodb_dir: ${BUILD_DIR}/repodb
 repodb_input_file: ${BUILD_DIR}/repodb/repodb.csv
-repodb_output_file: ${BUILD_DIR}/kg2-repodb${test_suffix}.json
+repodb_output_nodes_file: ${BUILD_DIR}/kg2-repodb-nodes${test_suffix}.jsonl
+repodb_output_edges_file: ${BUILD_DIR}/kg2-repodb-edges${test_suffix}.jsonl
 
 smpdb_dir: ${BUILD_DIR}/smpdb
 smpdb_input_file: ${smpdb_dir}/pathbank_pathways.csv
-smpdb_output_file: ${BUILD_DIR}/kg2-smpdb${test_suffix}.json
+smpdb_output_nodes_file: ${BUILD_DIR}/kg2-smpdb-nodes${test_suffix}.jsonl
+smpdb_output_edges_file: ${BUILD_DIR}/kg2-smpdb-edges${test_suffix}.jsonl
 
 drugbank_input_file: ${BUILD_DIR}/drugbank.xml
 drugbank_output_nodes_file: ${BUILD_DIR}/kg2-drugbank-nodes${test_suffix}.jsonl
 drugbank_output_edges_file: ${BUILD_DIR}/kg2-drugbank-edges${test_suffix}.jsonl
 
 hmdb_input_file: ${BUILD_DIR}/hmdb_metabolites.xml
-hmdb_output_file: ${BUILD_DIR}/kg2-hmdb${test_suffix}.json
+hmdb_output_nodes_file: ${BUILD_DIR}/kg2-hmdb-nodes${test_suffix}.jsonl
+hmdb_output_edges_file: ${BUILD_DIR}/kg2-hmdb-edges${test_suffix}.jsonl
 
-go_annotation_input_file: ${BUILD_DIR}/goa_human.gpa
-go_annotation_output_file: ${BUILD_DIR}/kg2-go-annotation${test_suffix}.json
+go_annotations_input_file: ${BUILD_DIR}/goa_human.gpa
+go_annotations_output_nodes_file: ${BUILD_DIR}/kg2-go-annotations-nodes${test_suffix}.jsonl
+go_annotations_output_nodes_file: ${BUILD_DIR}/kg2-go-annotations-edges${test_suffix}.jsonl
 
 reactome_mysql_dbname: reactome
-reactome_output_file: ${BUILD_DIR}/kg2-reactome.json
+reactome_output_nodes_file: ${BUILD_DIR}/kg2-reactome-nodes${test_suffix}.jsonl
+reactome_output_edges_file: ${BUILD_DIR}/kg2-reactome-edges${test_suffix}.jsonl
 
 mirbase_input_file: ${BUILD_DIR}/miRNA.dat
-mirbase_output_file: ${BUILD_DIR}/kg2-mirbase${test_suffix}.json
+mirbase_output_nodes_file: ${BUILD_DIR}/kg2-mirbase-nodes${test_suffix}.json
+mirbase_output_edges_file: ${BUILD_DIR}/kg2-mirbase-edges${test_suffix}.json
 
 jensenlab_dir: ${BUILD_DIR}/jensenlab
-jensenlab_output_file: ${BUILD_DIR}/kg2-jensenlab${test_suffix}.json
+jensenlab_output_nodes_file: ${BUILD_DIR}/kg2-jensenlab-nodes${test_suffix}.jsonl
+jensenlab_output_edges_file: ${BUILD_DIR}/kg2-jensenlab-edges${test_suffix}.jsonl
 
 drugcentral_dir: ${BUILD_DIR}/drugcentral
 drugcentral_input_file: ${drugcentral_dir}/drugcentral_psql_json.json
-drugcentral_output_file: ${BUILD_DIR}/kg2-drugcentral${test_suffix}.json
+drugcentral_output_nodes_file: ${BUILD_DIR}/kg2-drugcentral-nodes${test_suffix}.jsonl
+drugcentral_output_edges_file: ${BUILD_DIR}/kg2-drugcentral-edges${test_suffix}.jsonl
 
 intact_input_file: ${BUILD_DIR}/intact.txt
-intact_output_file: ${BUILD_DIR}/kg2-intact${test_suffix}.json
+intact_output_nodes_file: ${BUILD_DIR}/kg2-intact-nodes${test_suffix}.jsonl
+intact_output_edges_file: ${BUILD_DIR}/kg2-intact-edges${test_suffix}.jsonl
 
 disgenet_input_file: ${BUILD_DIR}/all_gene_disease_pmid_associations.tsv
-disgenet_output_file: ${BUILD_DIR}/kg2-disgenet${test_suffix}.json
+disgenet_output_nodes_file: ${BUILD_DIR}/kg2-disgenet-nodes${test_suffix}.jsonl
+disgenet_output_edges_file: ${BUILD_DIR}/kg2-disgenet-edges${test_suffix}.jsonl
 
 kegg_input_file: ${BUILD_DIR}/kegg.json
-kegg_output_file: ${BUILD_DIR}/kg2-kegg${test_suffix}.json
+kegg_output_nodes_file: ${BUILD_DIR}/kg2-kegg-nodes${test_suffix}.jsonl
+kegg_output_edges_file: ${BUILD_DIR}/kg2-kegg-edges${test_suffix}.jsonl
 
 kg2_tsv_dir: ${BUILD_DIR}/TSV
 kg2_tsv_tarball: ${BUILD_DIR}/kg2-tsv-for-neo4j${test_suffix}.tar.gz
-
-multi_ont_kg_file: ${BUILD_DIR}/build-multi-ont-kg${test_suffix}.log
 
 version_file: ${BUILD_DIR}/kg2-version.txt
 
