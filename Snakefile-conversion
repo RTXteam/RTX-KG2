@@ -4,7 +4,7 @@ rule Ontologies_and_TTL:
         validation = config['VALIDATION_PLACEHOLDER']
     output:
         nodes = config['ONT_OUTPUT_NODES_FILE'],
-        edges = config['OUTPUT_FONT_OUTPUT_EDGES_FILEILE_FULL']
+        edges = config['ONT_OUTPUT_EDGES_FILE']
     log:
         config['BUILD_DIR'] + "/build-multi-ont-kg" + config['TEST_SUFFIX'] + ".log"
     shell:
