@@ -84,8 +84,8 @@ def make_rel(edges_output,
             'sentence': sentence,
             'subject score': subject_score,
             'object score': object_score}
-        edge_publications_info[pmid] = publication_info_dict
-        edges_publications.append(pmid)
+        edge_publications_info[publication_curie] = publication_info_dict
+        edges_publications.append(publication_curie)
 
     relation_type = predicate.lower()
     relation_curie = SEMMEDDB_CURIE_PREFIX + ':' + relation_type
