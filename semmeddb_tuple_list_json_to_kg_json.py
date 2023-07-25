@@ -72,11 +72,10 @@ def make_rel(edges_output,
     edges_publications = list()
     for publication in publications_info_list:
         publication_traits = publication.split('|')
-
         # Make this an assertion later, but this isn't helpful for testing
         if len(publication_traits) != 5:
             print("Issue with ", key, "; Need to Lengthen Max Group Concat")
-            return
+            continue
         (pmid, sentence, subject_score, object_score, pub_date) = publication_traits
         publication_curie = kg2_util.CURIE_PREFIX_PMID + ':' + pmid
         publication_info_dict = {
@@ -272,7 +271,7 @@ if __name__ == '__main__':
         except ValueError:
             pass
         if row_ctr % 100000 == 0:
-            print("Have processed " + str(row_ctr) + " rows out of " + str(len(input_data['rows'])) + " rows")
+            print("Have processed " + str(row_ctr) + " rows")
         if test_mode and row_ctr > 10000:
             break
         if NEG_REGEX.match(predicate):
