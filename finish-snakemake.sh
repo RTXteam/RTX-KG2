@@ -20,37 +20,45 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     exit 2
 fi
 
-final_output_file_full=${1}
-output_file_orphan_edges=${2}
-report_file_full=${3}
-simplified_output_file_full=${4}
-simplified_report_file_full=${5}
-slim_output_file_full=${6}
-kg2_tsv_dir=${7}
-s3_cp_cmd=${8}
-kg2_tsv_tarball=${9}
-s3_bucket=${10}
-s3_bucket_public=${11}
-CODE_DIR=${12}
-s3_bucket_versioned=${13}
-BUILD_DIR=${14}
-simplified_report_file_base=${15}
-VENV_DIR=${16}
+final_output_nodes_file_full=${1}
+final_output_edges_file_full=${2}
+output_file_orphan_edges=${3}
+report_file_full=${4}
+simplified_output_nodes_file_full=${5}
+simplified_output_edges_file_full=${6}
+simplified_report_file_full=${7}
+slim_output_nodes_file_full=${8}
+slim_output_edges_file_full=${9}
+kg2_tsv_dir=${10}
+s3_cp_cmd=${11}
+kg2_tsv_tarball=${12}
+s3_bucket=${13}
+s3_bucket_public=${14}
+CODE_DIR=${15}
+s3_bucket_versioned=${16}
+BUILD_DIR=${17}
+simplified_report_file_base=${18}
+VENV_DIR=${19}
 previous_simplified_report_base="previous-${simplified_report_file_base}"
 
 echo "================= starting finish-snakemake.sh =================="
 date
 
-gzip -fk ${final_output_file_full}
+gzip -fk ${final_output_nodes_file_full}
+gzip -fk ${final_output_edges_file_full}
 tar -C ${kg2_tsv_dir} -czvf ${kg2_tsv_tarball} nodes.tsv nodes_header.tsv edges.tsv edges_header.tsv
 ${s3_cp_cmd} ${kg2_tsv_tarball} s3://${s3_bucket}/
 
-gzip -fk ${simplified_output_file_full}
+gzip -fk ${simplified_output_nodes_file_full}
+gzip -fk ${simplified_output_edges_file_full}
 gzip -fk ${output_file_orphan_edges}
-gzip -fk ${slim_output_file_full}
+gzip -fk ${slim_output_nodes_file_full}
+gzip -fk ${slim_output_edges_file_full}
 
-${s3_cp_cmd} ${final_output_file_full}.gz s3://${s3_bucket}/
-${s3_cp_cmd} ${simplified_output_file_full}.gz s3://${s3_bucket}/
+${s3_cp_cmd} ${final_output_nodes_file_full}.gz s3://${s3_bucket}/
+${s3_cp_cmd} ${final_output_edges_file_full}.gz s3://${s3_bucket}/
+${s3_cp_cmd} ${simplified_output_nodes_file_full}.gz s3://${s3_bucket}/
+${s3_cp_cmd} ${simplified_output_edges_file_full}.gz s3://${s3_bucket}/
 ${s3_cp_cmd} ${report_file_full} s3://${s3_bucket_public}/
 
 # Attempt to compare the report from the previous build to the current build
@@ -65,16 +73,13 @@ fi
 ${s3_cp_cmd} ${simplified_report_file_full} s3://${s3_bucket_public}/
 
 ${s3_cp_cmd} ${output_file_orphan_edges}.gz s3://${s3_bucket_public}/
-${s3_cp_cmd} ${slim_output_file_full}.gz s3://${s3_bucket}/
+${s3_cp_cmd} ${slim_output_nodes_file_full}.gz s3://${s3_bucket}/
+${s3_cp_cmd} ${slim_output_edges_file_full}.gz s3://${s3_bucket}/
 
-build_multi_owl_stderr_file="${multi_ont_kg_file}"
-
-${s3_cp_cmd} ${build_multi_owl_stderr_file} s3://${s3_bucket_public}/
 ${s3_cp_cmd} ${CODE_DIR}/s3-index.html s3://${s3_bucket_public}/index.html
 
 ${s3_cp_cmd} ${report_file_full} s3://${s3_bucket_versioned}/
 ${s3_cp_cmd} ${simplified_report_file_full} s3://${s3_bucket_versioned}/
-${s3_cp_cmd} ${build_multi_owl_stderr_file} s3://${s3_bucket_versioned}/
 
 date
 echo "================ script finished ============================"
