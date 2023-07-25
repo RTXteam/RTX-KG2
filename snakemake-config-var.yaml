@@ -42,8 +42,8 @@ unichem_output_edges_file: ${BUILD_DIR}/kg2-unichem-edges${test_suffix}.jsonl
 chembl_extraction_script: ${CODE_DIR}/extract-chembl.sh
 chembl_extraction_log: ${BUILD_DIR}/extract-chembl${test_suffix}.log
 chembl_mysql_dbname: chembl
-chembl_conversion_script: ${CODE_DIR}/chembl_mysql_to_kg_json.py
-chembl_conversion_log: ${BUILD_DIR}/chembl_mysql_to_kg_json${test_suffix}.log
+chembl_conversion_script: ${CODE_DIR}/chembl_mysql_to_kg_jsonl.py
+chembl_conversion_log: ${BUILD_DIR}/chembl_mysql_to_kg_jsonl${test_suffix}.log
 chembl_output_nodes_file: ${BUILD_DIR}/kg2-chembl-nodes${test_suffix}.jsonl
 chembl_output_edges_file: ${BUILD_DIR}/kg2-chembl-edges${test_suffix}.jsonl
 
@@ -58,8 +58,8 @@ ncbigene_output_edges_file: ${BUILD_DIR}/kg2-ncbigene-edges${test_suffix}.jsonl
 dgidb_extraction_script: ${CODE_DIR}/extract-dgidb.sh
 dgidb_extraction_log: ${BUILD_DIR}/extract-dgidb${test_suffix}.log
 dgidb_dir: ${BUILD_DIR}/dgidb
-dgidb_conversion_script: ${CODE_DIR}/dgidb_tsv_to_kg_json.py
-dgidb_conversion_log: ${BUILD_DIR}/dgidb_tsv_to_kg_json${test_suffix}.log
+dgidb_conversion_script: ${CODE_DIR}/dgidb_tsv_to_kg_jsonl.py
+dgidb_conversion_log: ${BUILD_DIR}/dgidb_tsv_to_kg_jsonl${test_suffix}.log
 dgidb_output_nodes_file: ${BUILD_DIR}/kg2-dgidb-nodes${test_suffix}.jsonl
 dgidb_output_edges_file: ${BUILD_DIR}/kg2-dgidb-edges${test_suffix}.jsonl
 
