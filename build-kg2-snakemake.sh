@@ -133,11 +133,6 @@ then
     echo 'include: "Snakefile-extraction"' >> ${snakefile}
 fi
 
-if [[ "${nodes_flag}" == "nodes" ]]
-then
-    echo 'include: "Snakefile-generate-nodes"' >> ${snakefile}
-fi
-
 cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} ${run_flag} -R Finish -j 16 ${dryrun} ${graphic}
 
 date
