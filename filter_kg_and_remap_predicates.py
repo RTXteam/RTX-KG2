@@ -126,6 +126,7 @@ def process_nodes(input_nodes_file_name, infores_remap_config, nodes_output):
 
     nodes_read_jsonlines_info = kg2_util.start_read_jsonlines(input_nodes_file_name)
     nodes = nodes_read_jsonlines_info[0]
+    nodes_list = list()
 
     for node_dict in nodes:
         node_ctr += 1
@@ -324,7 +325,7 @@ if __name__ == '__main__':
 
     nodes = process_nodes(input_nodes_file_name, infores_remap_config, nodes_output)
     
-    process_edges(input_edges_file_name, infores_remap_config, predicate_remap_file_name, curies_to_uri_file_name, drop_self_edges_except, edges_output, nodes)
+    process_edges(input_edges_file_name, infores_remap_config, predicate_remap_file_name, curies_to_uri_file_name, edges_output, drop_self_edges_except, nodes)
     
     update_date = datetime.now().strftime("%Y-%m-%d %H:%M")
     version_file = open(args.versionFile, 'r')
@@ -334,7 +335,7 @@ if __name__ == '__main__':
         test_flag = ""
         if test_mode:
             test_flag = "-TEST"
-        build_name = "RTX KG" + line.rstrip() + test_flag
+        build_name = "RTX-KG" + line.rstrip() + test_flag
         break
     build_node = kg2_util.make_node(kg2_util.CURIE_PREFIX_RTX + ':' + 'KG2',
                                     kg2_util.BASE_URL_RTX + 'KG2',
@@ -342,10 +343,9 @@ if __name__ == '__main__':
                                     kg2_util.SOURCE_NODE_CATEGORY,
                                     update_date,
                                     kg2_util.CURIE_PREFIX_RTX + ':')
-    build_node['provided_by'] = [build_node['provided_by']]
     build_info = {'version': build_node['name'], 'timestamp_utc': build_node['update_date']}
     pprint.pprint(build_info)
-    nodes_output.append(build_node)
+    nodes_output.write(build_node)
     print(f"Closing simplified file {kg2_util.date()}")
     kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
     print(f"Completed closing file {kg2_util.date()}")
