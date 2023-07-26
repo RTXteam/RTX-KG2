@@ -11,6 +11,7 @@ import datetime
 import argparse
 import sys
 import yaml
+import kg2_util
 
 __author__ = 'Erica Wood'
 __copyright__ = 'Oregon State University'
@@ -27,10 +28,10 @@ NEO4J_CHAR_LIMIT = 3000000
 def get_args():
     arg_parser = argparse.ArgumentParser(description='kg_json_to_tsv.py: \
                                          converts KG2 JSON to TSV form for Neo4j import')
-    parser.add_argument("inputNodesFile", type=str, help="Path to Knowledge Graph Nodes JSON File to Import")
-    parser.add_argument("inputEdgesFile", type=str, help="Path to Knowledge Graph Edges JSON File to Import")
-    parser.add_argument("kg2ProvidedByCurieToInforesCurieFile", type=str, help="kg2-provided-by-curie-to-infores-curie.yaml")
-    parser.add_argument("outputFileLocation", help="Path to Directory for Output TSV Files to Go", type=str)
+    arg_parser.add_argument("inputNodesFile", type=str, help="Path to Knowledge Graph Nodes JSON File to Import")
+    arg_parser.add_argument("inputEdgesFile", type=str, help="Path to Knowledge Graph Edges JSON File to Import")
+    arg_parser.add_argument("kg2ProvidedByCurieToInforesCurieFile", type=str, help="kg2-provided-by-curie-to-infores-curie.yaml")
+    arg_parser.add_argument("outputFileLocation", help="Path to Directory for Output TSV Files to Go", type=str)
     return arg_parser.parse_args()
 
 
