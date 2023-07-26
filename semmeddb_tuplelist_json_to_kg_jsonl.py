@@ -108,6 +108,7 @@ def make_arg_parser():
     arg_parser.add_argument('--mrcuiFile', dest='mrcui_file_name', type=str, default='/home/ubuntu/kg2-build/umls/META/MRCUI.RRF')
     arg_parser.add_argument('inputFile', type=str)
     arg_parser.add_argument('semmedExcludeList', type=str)
+    arg_parser.add_argument('versionFile', type=str)
     arg_parser.add_argument('outputNodesFile', type=str)
     arg_parser.add_argument('outputEdgesFile', type=str)
     return arg_parser
@@ -232,6 +233,7 @@ if __name__ == '__main__':
     semmed_exclude_list_name = args.semmedExcludeList
     exclusions = create_semmed_exclude_list(semmed_exclude_list_name)
     input_file_name = args.inputFile
+    version_file = args.versionFile
     output_nodes_file_name = args.outputNodesFile
     output_edges_file_name = args.outputEdgesFile
     test_mode = args.test
@@ -249,12 +251,14 @@ if __name__ == '__main__':
 
     row_ctr = 0
 
-    # versioning = input_data['versioning']
-    # version_number = versioning['version_number']
-    # version_date = versioning['version_date']
-
-    version_number = "TEMP"
-    version_date = "TEMP"
+    with open(version_file, 'r') as versioning:
+        line_count = 0
+        for line in versioning:
+            line_count += 1
+            if line_count == 1:
+                version_number = line.replace('Version: VER', '')
+            if line_count == 2:
+                version_date = line.replace('Year: ', '')
 
     update_date_dt = datetime.datetime.fromisoformat('2018-01-01 00:00:00')  # picking an arbitrary time in the past
 

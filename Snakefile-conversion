@@ -17,6 +17,7 @@ rule SemMedDB_Conversion:
         real = config['SEMMEDDB_TUPLELIST_FILE'],
         mrcui_req = config['UMLS_CUI_FILE'],
         exclusion_list = config['SEMMEDDB_EXCLUSION_FILE'],
+        version_file = config['SEMMEDDB_VERSION_FILE'],
         validation = config['VALIDATION_PLACEHOLDER']
     output:
         nodes = config['SEMMEDDB_OUTPUT_NODES_FILE'],
@@ -24,7 +25,7 @@ rule SemMedDB_Conversion:
     log:
         config['SEMMEDDB_CONVERSION_LOG']
     shell:
-        config['PYTHON_COMMAND'] + " {input.code} --mrcuiFile ~/kg2-build/umls/META/MRCUI.RRF {input.real} {input.exclusion_list} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
+        config['PYTHON_COMMAND'] + " {input.code} --mrcuiFile ~/kg2-build/umls/META/MRCUI.RRF {input.real} {input.exclusion_list} {input.version_file} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
 rule UniProtKB_Conversion:
     input:

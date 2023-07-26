@@ -28,8 +28,6 @@ def make_arg_parser():
                                          'as a list of tuples')
     arg_parser.add_argument('mysqlConfigFile', type=str)
     arg_parser.add_argument('mysqlDBName', type=str)
-    arg_parser.add_argument('versionNumber', type=str)
-    arg_parser.add_argument('versionDate', type=str)
     arg_parser.add_argument('outputFile', type=str)
     return arg_parser
 
@@ -39,8 +37,6 @@ if __name__ == '__main__':
     args = make_arg_parser().parse_args()
     mysql_config_file = args.mysqlConfigFile
     mysql_db_name = args.mysqlDBName
-    version_number = args.versionNumber
-    version_date = args.versionDate
     output_file_name = args.outputFile
     version_number = version_number.strip('VER')
     connection = pymysql.connect(read_default_file=mysql_config_file, db=mysql_db_name)
