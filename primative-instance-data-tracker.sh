@@ -11,7 +11,9 @@ date
 while [[ true ]]; do
 	date
 
-	landscape-sysinfo
+	memory_data=`landscape-sysinfo | grep "Memory usage" | sed "s/Memory usage://" | sed "s/IPv4 address for ens5: .*//" | sed "s/ //"`
+
+	echo ${memory_data}
 
 	sleep 60
 done
