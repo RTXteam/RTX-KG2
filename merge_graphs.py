@@ -70,6 +70,11 @@ if __name__ == '__main__':
                              output_stream=sys.stderr)
         kg2_util.end_read_jsonlines(kg_nodes_read_jsonlines_info)
 
+    for node in nodes.values():
+        nodes_output.write(node)
+    nodes_list = nodes.keys()
+    del nodes
+
     ctr_edges_added = 0
     last_edges_added = 0
     last_orphan_edges = 0
@@ -86,7 +91,7 @@ if __name__ == '__main__':
         for rel_dict in kg_edges:
             subject_curie = rel_dict['subject']
             object_curie = rel_dict['object']
-            if subject_curie in nodes and object_curie in nodes:
+            if subject_curie in nodes_list and object_curie in nodes_list:
                 ctr_edges_added += 1
                 edge_key =rel_dict["id"]
                 if edge_key not in edge_keys:
@@ -107,10 +112,6 @@ if __name__ == '__main__':
                              ontology_name=kg_edges_file_name,
                              output_stream=sys.stderr)
         last_orphan_edges = kg_orphan_edges_count
-
-    for node in nodes.values():
-        nodes_output.write(node)
-    del nodes
 
     kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
     kg2_util.close_single_jsonlines(orphan_info, orphan_edges_file_name)
