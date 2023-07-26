@@ -35,6 +35,6 @@ jobs:
       run: |
         cd /home/runner/work/RTX-KG2/RTX-KG2/RTX-KG2
         bash -x ./extract-mirbase.sh ~/kg2-build/miRNA.dat
-        ~/kg2-venv/bin/python3 -u mirbase_dat_to_kg_json.py ~/kg2-build/miRNA.dat ~/kg2-build/kg2-mirbase-nodes.jsonl ~/kg2-build/kg2-mirbase-edges.jsonl --test
+        ~/kg2-venv/bin/python3 -u mirbase_dat_to_kg_jsonl.py ~/kg2-build/miRNA.dat ~/kg2-build/kg2-mirbase-nodes.jsonl ~/kg2-build/kg2-mirbase-edges.jsonl --test
         ~/kg2-venv/bin/python3 -u report_stats_on_kg_jsonl.py ~/kg2-build/kg2-mirbase-nodes.jsonl ~/kg2-build/kg2-mirbase-edges.jsonl ~/kg2-build/kg2-mirbase-report.json
         cat ~/kg2-build/kg2-mirbase-report.json
