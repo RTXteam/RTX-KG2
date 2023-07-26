@@ -26,6 +26,7 @@ mkdir -p ${output_dir}
 ${curl_get} https://www.mirbase.org/download_file/miRNA.dat/ > /tmp/miRNA.dat
 ${curl_get} https://www.mirbase.org/download_readme/ > ${output_dir}/miRBase_README.txt
 
+sed -i "s/<br>//" ${output_dir}/miRBase_README.txt
 version_number=`grep -m 1 "The miRBase Sequence Database -- Release" ${output_dir}/miRBase_README.txt | cut -f7 -d ' '`
 
 echo "# Version: ${version_number}" > ${output_file}
