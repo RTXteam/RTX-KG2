@@ -76,7 +76,7 @@ domain_range_exclusion_file=${2:-"${BUILD_DIR}/${domain_range_exclusion_filename
 
 ${curl_get} ${domain_range_exclusion_link} -o ${domain_range_exclusion_file}
 
-${VENV_DIR}/bin/python3 ${CODE_DIR}/semmeddb_mysql_to_tuple_list_json.py \
+${python_command} ${CODE_DIR}/semmeddb_mysql_to_tuplelist_jsonl.py \
            ${mysql_conf} \
            ${mysql_dbname} \
            ${semmed_ver} \

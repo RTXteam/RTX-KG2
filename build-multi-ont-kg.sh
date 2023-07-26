@@ -65,7 +65,7 @@ node_datatype_properties_file="${BUILD_DIR}/node_datatype_properties.json"
 ## temporary work around for ontobio issue (see biolink issue #507)
 ${BUILD_DIR}/robot convert --input ${BUILD_DIR}/umls-hgnc.ttl --output ${BUILD_DIR}/umls-hgnc.owl
 ${BUILD_DIR}/robot convert --input ${BUILD_DIR}/umls-omim.ttl --output ${BUILD_DIR}/umls-omim.owl
-${VENV_DIR}/bin/python3 -u ${CODE_DIR}/save_owl_datatypeproperties.py \
+${python_command} ${CODE_DIR}/save_owl_datatypeproperties.py \
            ${BUILD_DIR}/umls-hgnc.owl \
            ${BUILD_DIR}/umls-omim.owl \
            --outputFile ${node_datatype_properties_file}
@@ -73,7 +73,7 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/save_owl_datatypeproperties.py \
 ${s3_cp_cmd} s3://${s3_bucket}/foodon.pickle ${BUILD_DIR}/
 
 ## run the multi_ont_to_json_kg.py script
-cd ${BUILD_DIR} && ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/multi_ont_to_json_kg.py \
+cd ${BUILD_DIR} && ${python_command} ${CODE_DIR}/multi_ont_to_kg_jsonl.py \
            ${test_arg} \
            ${curies_to_categories_file} \
            ${curies_to_urls_file} \
