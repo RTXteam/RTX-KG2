@@ -42,8 +42,8 @@ rule Merge:
         kegg_nodes = config['KEGG_OUTPUT_NODES_FILE'],
         kegg_edges = config['KEGG_OUTPUT_EDGES_FILE']
     output:
-        nodes = config['FINAL_OUTPUT_NODES_FILE'],
-        edges = config['FINAL_OUTPUT_EDGES_FILE'],
+        nodes = config['MERGED_OUTPUT_NODES_FILE'],
+        edges = config['MERGED_OUTPUT_EDGES_FILE'],
         orph = config['OUTPUT_FILE_ORPHAN_EDGES']
     log:
         config['MERGE_LOG']
@@ -98,8 +98,8 @@ rule Merge:
 rule Stats:
     input:
         code = config['REPORT_SCRIPT'],
-        nodes = config['FINAL_OUTPUT_NODES_FILE'],
-        edges = config['FINAL_OUTPUT_EDGES_FILE']
+        nodes = config['MERGED_OUTPUT_NODES_FILE'],
+        edges = config['MERGED_OUTPUT_EDGES_FILE']
     output:
         config['REPORT_FILE']
     log: 
@@ -110,8 +110,8 @@ rule Stats:
 rule Simplify:
     input:
         code = config['SIMPLIFY_SCRIPT'],
-        nodes = config['FINAL_OUTPUT_NODES_FILE'],
-        edges = config['FINAL_OUTPUT_EDGES_FILE']
+        nodes = config['MERGED_OUTPUT_NODES_FILE'],
+        edges = config['MERGED_OUTPUT_EDGES_FILE']
     output:
         nodes = config['SIMPLIFIED_OUTPUT_NODES_FILE'],
         edges = config['SIMPLIFIED_OUTPUT_EDGES_FILE']
