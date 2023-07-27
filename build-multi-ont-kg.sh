@@ -47,10 +47,6 @@ fi
 umls_cuis_file=${1:-"${BUILD_DIR}/umls_cuis.tsv"}
 output_nodes_file=${2:-"${BUILD_DIR}/kg2-ont-nodes${test_suffix}.json"}
 output_edges_file=${3:-"${BUILD_DIR}/kg2-ont-edges${test_suffix}.json"}
-output_file_base=`basename ${output_file}`
-log_file=`dirname ${output_file}`/build-${output_file_base%.*}-stderr.log
-
-output_file_base="${output_file%.*}"
 
 ## set the path to include ${BUILD_DIR}
 export PATH=$PATH:${BUILD_DIR}
