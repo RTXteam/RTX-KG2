@@ -218,7 +218,7 @@ disgenet_output_nodes_file: ${BUILD_DIR}/${disgenet_output_base}${nodes_suffix}$
 disgenet_output_edges_file: ${BUILD_DIR}/${disgenet_output_base}${edges_suffix}${test_suffix}.jsonl
 
 kegg_extraction_base: extract-kegg
-kegg_conversion_base: kegg_json_to_kg_jsonl
+kegg_conversion_base: kegg_jsonl_to_kg_jsonl
 kegg_output_base: kg2-kegg
 kegg_extraction_script: ${CODE_DIR}/${kegg_extraction_base}.sh
 kegg_extraction_log: ${BUILD_DIR}/${kegg_extraction_base}${test_suffix}.log
