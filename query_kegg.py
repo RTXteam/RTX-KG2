@@ -179,6 +179,8 @@ class KEGG_Querier:
                     self.process_get_query(results, kegg_id_dict[kegg_id], kegg_id)
                 except IndexError:
                     print("Trying again with", kegg_id, "at count", get_count, "on thread", self.name)
+                    # We want to sleep for a random time to try and counteract when the other threads may or may not be sleeping
+                    # or going in general
                     time.sleep(random.randint(1, 5))
                     continue
                 else:
@@ -194,6 +196,8 @@ if __name__ == '__main__':
 
     output_info = kg2_util.create_single_jsonlines(True)
     output_writer = output_info[0]
+
+    # Six threads seems to be the maximum we can achieve without having to spin to work
     create_threads(6, output_writer)
 
     kg2_util.close_single_jsonlines(output_info, output_file_name)
