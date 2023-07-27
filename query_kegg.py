@@ -8,9 +8,11 @@ import sys
 import json
 import datetime
 import argparse
-# import kg2_util
+import kg2_util
 import requests
 import threading
+import time
+import random
 
 
 __author__ = 'Erica Wood'
@@ -101,21 +103,24 @@ def create_query_lists(kegg_id_dict, num_threads):
     return query_lists
 
 
-def create_threads(num_threads):
+def create_threads(num_threads, output_writer):
     kegg_id_dict, info_dict = preliminary_queries()
     query_lists = create_query_lists(kegg_id_dict, num_threads)
 
     threads = list()
     print("Number of queriers: ", len(query_lists))
     for kegg_querier, query_dict in query_lists:
-        print(kegg_querier.name)
-        print(len(query_dict))
+        print(kegg_querier.name + ": " + str(len(query_dict)))
         thread = threading.Thread(target=kegg_querier.run_set_of_queries, args=(query_dict,))
         thread.start()
         threads.append(thread)
 
     for thread in threads:
         thread.join()
+
+    for kegg_querier, query_dict in query_lists:
+        for item in kegg_querier.output_list:
+            output_writer.write(item)
 
 
 class KEGG_Querier:
@@ -164,15 +169,27 @@ class KEGG_Querier:
 
         for kegg_id in kegg_id_dict:
             previous_line_starter = ''
-            results = send_query(get_base_query + kegg_id)
-            self.process_get_query(results, kegg_id_dict[kegg_id], kegg_id)
+            while True:
+                try:
+                    results = send_query(get_base_query + kegg_id)
+                    self.process_get_query(results, kegg_id_dict[kegg_id], kegg_id)
+                except IndexError:
+                    print("Trying again with", kegg_id, "at count", get_count, "on thread", self.name)
+                    time.sleep(random.randint(1, 5))
+                    continue
+                else:
+                    break
             get_count += 1
-            print("Processed", get_count, "out of", kegg_ids, "at", date(), "on thread", self.name)
-
-
+            if get_count % 100 == 0:
+                print("Processed", get_count, "out of", kegg_ids, "at", date(), "on thread", self.name)
 
 
 if __name__ == '__main__':
     args = get_args()
-    create_threads(10)
-#    kg2_util.save_json(run_queries(), args.outputFile, True)
+    output_file_name = args.outputFile
+
+    output_info = kg2_util.create_single_jsonlines(True)
+    output_writer = output_info[0]
+    create_threads(6, output_writer)
+
+    kg2_util.close_single_jsonlines(output_info, output_file_name)
