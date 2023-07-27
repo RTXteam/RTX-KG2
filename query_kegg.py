@@ -6,11 +6,11 @@
 
 import sys
 import json
-from cache_control_helper import CacheControlHelper
 import datetime
 import argparse
-import kg2_util
+# import kg2_util
 import requests
+import threading
 
 
 __author__ = 'Erica Wood'
@@ -41,41 +41,8 @@ def send_query(query):
     return results
 
 
-def process_get_query(results, results_dict, kegg_id):
-    previous_line_starter = ''
-    for line in results:
-        if len(line) < 1 or line == '///':
-            continue
-        if line.startswith(' '):
-            if isinstance(results_dict[kegg_id][previous_line_starter], list):
-                results_dict[kegg_id][previous_line_starter].append(line.strip())
-            else:
-                previous_result = results_dict[kegg_id][previous_line_starter]
-                results_dict[kegg_id][previous_line_starter] = list()
-                results_dict[kegg_id][previous_line_starter].append(previous_result.strip())
-                results_dict[kegg_id][previous_line_starter].append(line.strip())
-        else:
-            line = line.split(' ', 1)
-            line_starter = line[0]
-            if line_starter in results_dict[kegg_id]:
-                if isinstance(results_dict[kegg_id][line_starter], list):
-                    results_dict[kegg_id][line_starter].append(line[1].strip())
-                else:
-                    previous_result = results_dict[kegg_id][line_starter]
-                    results_dict[kegg_id][line_starter] = list()
-                    results_dict[kegg_id][line_starter].append(previous_result.strip())
-                    results_dict[kegg_id][line_starter].append(line[1].strip())
-            else:
-                try:
-                    results_dict[kegg_id][line_starter] = line[1].strip()
-                except IndexError:
-                    results_dict[kegg_id][line_starter] = ''
-            previous_line_starter = line_starter
-    return results_dict
-
-
-def run_queries():
-    results_dict = {}
+def preliminary_queries():
+    results_dict = dict()
     info_queries = ["http://rest.kegg.jp/info/kegg/"]
     list_queries = ["http://rest.kegg.jp/list/pathway/hsa",
                     "http://rest.kegg.jp/list/compound",
@@ -86,7 +53,6 @@ def run_queries():
     conv_queries = ["http://rest.kegg.jp/conv/compound/chebi",
                     "http://rest.kegg.jp/conv/glycan/chebi",
                     "http://rest.kegg.jp/conv/drug/chebi"]
-    get_base_query = "http://rest.kegg.jp/get/"
 
     for query in list_queries:
         results = send_query(query)
@@ -95,29 +61,20 @@ def run_queries():
             if len(result) < 2:
                 continue
             results_dict[result[0]] = {'name': result[1]}
+
     for query in conv_queries:
-        site_request = requests.get(query)
-        site_response = str(site_request.content)[2:]
-        results = site_response.split("\\n")
+        results = send_query(query)
         for result in results:
             if len(result) < 1:
                 continue
             result = result.split('\\t')
             if len(result) > 1:
-                results_dict[result[1]] = {}
+                if result[1] not in results_dict:
+                    results_dict[result[1]] = {}
                 results_dict[result[1]]['eq_id'] = result[0]
-    kegg_ids = len(results_dict.keys())
-    get_count = 0
-    for kegg_id in results_dict:
-        previous_line_starter = ''
-        results = send_query(get_base_query + kegg_id)
-        results_dict = process_get_query(results, results_dict, kegg_id)
-        get_count += 1
-        if get_count % 1000 == 0:
-            print("Processed", get_count, "out of", kegg_ids, "at", date())
 
+    info_dict = {}
     for query in info_queries:
-        info_dict = {}
         results = send_query(query)
         for result in results:
             result = result.strip("kegg").strip().split()
@@ -126,11 +83,96 @@ def run_queries():
             if result[0] == "Release":
                 info_dict['version'] = result[1].split('/')[0].strip('+')
                 info_dict['update_date'] = result[2] + '-' + result[3]
-        results_dict['info'] = info_dict
 
-    return results_dict
+    return results_dict, info_dict
+
+
+def create_query_lists(kegg_id_dict, num_threads):
+    query_lists = list()
+    for n in range(0, num_threads):
+        query_lists.append([KEGG_Querier("Thread-" + str(n)), dict()])
+
+    kegg_id_count = 0
+    for kegg_id, val in kegg_id_dict.items():
+        index = kegg_id_count % num_threads
+        query_lists[index][1][kegg_id] = val
+        kegg_id_count += 1
+
+    return query_lists
+
+
+def create_threads(num_threads):
+    kegg_id_dict, info_dict = preliminary_queries()
+    query_lists = create_query_lists(kegg_id_dict, num_threads)
+
+    threads = list()
+    print("Number of queriers: ", len(query_lists))
+    for kegg_querier, query_dict in query_lists:
+        print(kegg_querier.name)
+        print(len(query_dict))
+        thread = threading.Thread(target=kegg_querier.run_set_of_queries, args=(query_dict,))
+        thread.start()
+        threads.append(thread)
+
+    for thread in threads:
+        thread.join()
+
+
+class KEGG_Querier:
+    def __init__(self, name):
+        self.output_list = list()
+        self.name = name
+
+
+    def process_get_query(self, results, results_dict, kegg_id):
+        previous_line_starter = ''
+        for line in results:
+            if len(line) < 1 or line == '///':
+                continue
+            if line.startswith(' '):
+                if isinstance(results_dict[previous_line_starter], list):
+                    results_dict[previous_line_starter].append(line.strip())
+                else:
+                    previous_result = results_dict[previous_line_starter]
+                    results_dict[previous_line_starter] = list()
+                    results_dict[previous_line_starter].append(previous_result.strip())
+                    results_dict[previous_line_starter].append(line.strip())
+            else:
+                line = line.split(' ', 1)
+                line_starter = line[0]
+                if line_starter in results_dict:
+                    if isinstance(results_dict[line_starter], list):
+                        results_dict[line_starter].append(line[1].strip())
+                    else:
+                        previous_result = results_dict[line_starter]
+                        results_dict[line_starter] = list()
+                        results_dict[line_starter].append(previous_result.strip())
+                        results_dict[line_starter].append(line[1].strip())
+                else:
+                    try:
+                        results_dict[line_starter] = line[1].strip()
+                    except IndexError:
+                        results_dict[line_starter] = ''
+                previous_line_starter = line_starter
+        self.output_list.append({kegg_id: results_dict})
+
+
+    def run_set_of_queries(self, kegg_id_dict):
+        get_base_query = "http://rest.kegg.jp/get/"
+        kegg_ids = len(kegg_id_dict.keys())
+        get_count = 0
+
+        for kegg_id in kegg_id_dict:
+            previous_line_starter = ''
+            results = send_query(get_base_query + kegg_id)
+            self.process_get_query(results, kegg_id_dict[kegg_id], kegg_id)
+            get_count += 1
+            print("Processed", get_count, "out of", kegg_ids, "at", date(), "on thread", self.name)
+
+
 
 
 if __name__ == '__main__':
     args = get_args()
-    kg2_util.save_json(run_queries(), args.outputFile, True)
+    create_threads(10)
+#    kg2_util.save_json(run_queries(), args.outputFile, True)
