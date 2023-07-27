@@ -105,10 +105,12 @@ def create_query_lists(kegg_id_dict, num_threads):
 
 def create_threads(num_threads, output_writer):
     kegg_id_dict, info_dict = preliminary_queries()
+    output_writer.write({"info": info_dict})
     query_lists = create_query_lists(kegg_id_dict, num_threads)
 
     threads = list()
     print("Number of queriers: ", len(query_lists))
+    print("Starting at", kg2_util.date())
     for kegg_querier, query_dict in query_lists:
         print(kegg_querier.name + ": " + str(len(query_dict)))
         thread = threading.Thread(target=kegg_querier.run_set_of_queries, args=(query_dict,))
@@ -169,6 +171,8 @@ class KEGG_Querier:
 
         for kegg_id in kegg_id_dict:
             previous_line_starter = ''
+
+            # If we have a connection issue (which will cause a parsing error), spin until it works, but put a note in the log
             while True:
                 try:
                     results = send_query(get_base_query + kegg_id)

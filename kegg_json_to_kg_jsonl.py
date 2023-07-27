@@ -463,13 +463,17 @@ def process_enzyme(enzyme_dict, kegg_id, nodes_output, edges_output, update_date
         edges_output.write(format_kegg_edge(node_id, pathway, update_date))
 
 
-def make_kg2_graph(kegg, nodes_output, edges_output, update_date):
-    version_number = kegg['info']['version']
-    version_date = kegg['info']['update_date']
-    for kegg_id in kegg:
+def make_kg2_graph(input_kegg, nodes_output, edges_output, update_date):
+    version_number = "TEMP"
+    version_date = "TEMP"
+    for kegg_input_dict in input_kegg:
+        for single_item in kegg_input_dict:
+            kegg_id = single_item
         if kegg_id == 'info':
+            version_number = kegg_input_dict[kegg_id]['version']
+            version_date = kegg_input_dict[kegg_id]['update_date']
             continue
-        kegg_dict = kegg[kegg_id]
+        kegg_dict = kegg_input_dict[kegg_id]
         if KEGG_COMPOUND_PREFIX.match(kegg_id) is not None:
             process_compound(kegg_dict, kegg_id, nodes_output, edges_output, update_date)
 
@@ -505,17 +509,16 @@ if __name__ == '__main__':
     output_edges_file_name = args.outputEdgesFile
     test_mode = args.test
 
+    input_jsonlines_info = kg2_util.start_read_jsonlines(input_file_name)
+    input_kegg = input_jsonlines_info[0]
+
     nodes_info, edges_info = kg2_util.create_kg2_jsonlines(test_mode)
     nodes_output = nodes_info[0]
     edges_output = edges_info[0]
 
-    kegg = dict()
-    with open(input_file_name, 'r') as kegg_file:
-        update_date = kg2_util.convert_date(os.path.getmtime(input_file_name))
-        kegg = json.load(kegg_file)
+    make_kg2_graph(input_kegg, nodes_output, edges_output, update_date)
 
-    make_kg2_graph(kegg, nodes_output, edges_output, update_date)
-
+    kg2_util.end_read_jsonlines(input_jsonlines_info)
     kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
 
     print("Finish time: ", date())
