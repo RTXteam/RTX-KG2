@@ -222,7 +222,7 @@ kegg_conversion_base: kegg_json_to_kg_jsonl
 kegg_output_base: kg2-kegg
 kegg_extraction_script: ${CODE_DIR}/${kegg_extraction_base}.sh
 kegg_extraction_log: ${BUILD_DIR}/${kegg_extraction_base}${test_suffix}.log
-kegg_input_file: ${BUILD_DIR}/kegg.json
+kegg_input_file: ${BUILD_DIR}/kegg.jsonl
 kegg_conversion_script: ${CODE_DIR}/${kegg_conversion_base}.py
 kegg_conversion_log: ${BUILD_DIR}/${kegg_conversion_base}${test_suffix}.log
 kegg_output_nodes_file: ${BUILD_DIR}/${kegg_output_base}${nodes_suffix}${test_suffix}.jsonl
