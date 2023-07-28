@@ -38,7 +38,6 @@ if __name__ == '__main__':
     mysql_config_file = args.mysqlConfigFile
     mysql_db_name = args.mysqlDBName
     output_file_name = args.outputFile
-    version_number = version_number.strip('VER')
     connection = pymysql.connect(read_default_file=mysql_config_file, db=mysql_db_name)
     preds_dict = dict()
 
