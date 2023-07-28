@@ -516,6 +516,8 @@ if __name__ == '__main__':
     nodes_output = nodes_info[0]
     edges_output = edges_info[0]
 
+    update_date = kg2_util.convert_date(os.path.getmtime(input_file_name))
+
     make_kg2_graph(input_kegg, nodes_output, edges_output, update_date)
 
     kg2_util.end_read_jsonlines(input_jsonlines_info)
