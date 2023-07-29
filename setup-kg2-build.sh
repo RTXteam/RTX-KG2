@@ -154,6 +154,7 @@ then
 user = ${mysql_user}
 password = ${mysql_password}
 host = localhost
+skip-log-bin
 EOF
 
     ## set mysql server variable to allow loading data from a local file
