@@ -154,6 +154,7 @@ then
 user = ${mysql_user}
 password = ${mysql_password}
 host = localhost
+[mysqld]
 skip-log-bin
 EOF
 
