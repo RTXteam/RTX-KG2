@@ -68,6 +68,9 @@ zcat ${semmed_dir}/${predication_sql_file} | mysql --defaults-extra-file=${mysql
 zcat ${semmed_dir}/${predication_aux_sql_file} | mysql --defaults-extra-file=${mysql_conf} --database=${mysql_dbname}
 zcat ${semmed_dir}/${sentence_sql_file} | mysql --defaults-extra-file=${mysql_conf} --database=${mysql_dbname}
 
+# We need to free up space for the temp file for semmeddb_mysql_to_tuplelist_jsonl.py 
+rm -rf ${semmed_dir}
+
 ## handle domain-range exclusion list (#281)
 biolink_base_url_no_version=https://raw.githubusercontent.com/biolink/biolink-model/
 biolink_raw_base_url=${biolink_base_url_no_version}v${biolink_model_version}/

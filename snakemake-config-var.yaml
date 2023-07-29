@@ -19,7 +19,7 @@ semmeddb_conversion_base: semmeddb_tuplelist_json_to_kg_jsonl
 semmeddb_output_base: kg2-semmeddb
 semmeddb_extraction_script: ${CODE_DIR}/${semmeddb_extraction_base}.sh
 semmeddb_extraction_log: ${BUILD_DIR}/${semmeddb_extraction_base}${test_suffix}.log
-semmeddb_tuplelist_file: ${BUILD_DIR}/semmeddb/semmeddb-tuplelist.jsonl
+semmeddb_tuplelist_file: ${BUILD_DIR}/semmeddb-tuplelist.jsonl
 semmeddb_exclusion_file: ${BUILD_DIR}/semmed-exclude-list.yaml
 semmeddb_version_file: ${BUILD_DIR}/semmeddb-version.txt
 semmeddb_conversion_script: ${CODE_DIR}/${semmeddb_conversion_base}.py
