@@ -126,7 +126,7 @@ def process_nodes(input_nodes_file_name, infores_remap_config, nodes_output):
 
     nodes_read_jsonlines_info = kg2_util.start_read_jsonlines(input_nodes_file_name)
     nodes = nodes_read_jsonlines_info[0]
-    nodes_list = list()
+    nodes_set = set()
 
     for node_dict in nodes:
         node_ctr += 1
@@ -148,7 +148,7 @@ def process_nodes(input_nodes_file_name, infores_remap_config, nodes_output):
                 infores_curies.append(infores_curie)
         node_dict['provided_by'] = infores_curies
         nodes_output.write(node_dict)
-        nodes_list.append(node_id)
+        nodes_set.add(node_id)
 
     kg2_util.end_read_jsonlines(nodes_read_jsonlines_info)
     print(f"Completed nodes {kg2_util.date()}")
@@ -156,7 +156,7 @@ def process_nodes(input_nodes_file_name, infores_remap_config, nodes_output):
     # Issue warnings for problems that came up
     warning_knowledge_source_curies_not_in_config_nodes(knowledge_source_curies_not_in_config_nodes)
    
-    return nodes_list
+    return nodes_set
 
 
 def process_edges(input_edges_file_name, infores_remap_config, predicate_remap_file_name, curies_to_uri_file_name, edges_output, drop_self_edges_except, nodes):
