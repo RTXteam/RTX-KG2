@@ -149,7 +149,8 @@ rule TSV:
     input:
         code = config['TSV_SCRIPT'],
         nodes = config['SIMPLIFIED_OUTPUT_NODES_FILE'],
-        edges = config['SIMPLIFIED_OUTPUT_EDGES_FILE']
+        edges = config['SIMPLIFIED_OUTPUT_EDGES_FILE'],
+        mapping_file = config['INFORES_MAPPING_FILE']
     output:
         placeholder = config['TSV_PLACEHOLDER']
     log:
@@ -157,5 +158,5 @@ rule TSV:
     run:
         shell("rm -rf " + config['KG2_TSV_DIR'])
         shell("mkdir -p " + config['KG2_TSV_DIR'])
-        shell(config['PYTHON_COMMAND'] + " {input.code} {input.nodes} {input.edges} " + config['KG2_TSV_DIR'] + " > {log} 2>&1")
+        shell(config['PYTHON_COMMAND'] + " {input.code} {input.nodes} {input.edges} {input.mapping_file} " + config['KG2_TSV_DIR'] + " > {log} 2>&1")
         shell("touch {output.placeholder}")
