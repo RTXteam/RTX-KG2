@@ -67,9 +67,71 @@ Total Build Times:| | | | | |
 Total|24:33:40|00:00:00||| | 
 
 
-Notable Changes from [KG2.8.4](https://github.com/RTXteam/RTX-KG2/releases/tag/KG2.8.4):
-- Query KEGG is no longer queries the API one `kegg_id` at a time
-- SemMedDB's MySQL extraction concatenates edges with the same `edge_key` into one row
+# Notable Changes from [KG2.8.4](https://github.com/RTXteam/RTX-KG2/releases/tag/KG2.8.4):
+
+## Streaming SemMedDB
+**Reason:** 
+
+**Method:** 
+
+**Important Code Notes:** 
+
+**Important Considerations for Maintainers:** 
+
+**Relevant Commits:** 
+
+**Relevant Issue Comments:** 
 
 ## Changes to `query_kegg.py`
 
+**Reason:** The original structure for `query_kegg.py` had the script send a request for each KEGG id to the KEGG API, one at a time. However, this is very slow. Based on the above table, this serial structure takes over 20 hours. With a longer build process than even UMLS (at 6 hours for extraction plus 8.5 hours for conversion, UMLS takes roughly 14.5 hours), this makes it a constraining script on the build. This became even more challenging because of the updates to `semmeddb_mysql_to_tuplelist_jsonl.py` and `semmeddb_tuplelist_json_to_kg_jsonl.py` to fully utilize the serial structure of JSON Lines. With that update, the SemMedDB portion of the ETL takes less than 12 hours. Thus, it was important that we sped up this extraction.
+
+**Method:** 
+
+**Important Code Notes:**
+
+**Important Considerations for Maintainers:** 
+
+**Relevant Commits:** [`255cb89`](https://github.com/RTXteam/RTX-KG2/commit/255cb8959b93314cf7f8d6be1ecbf215476acc99), [`1e68baf`](https://github.com/RTXteam/RTX-KG2/commit/1e68baf7b8f9f52f300f77012c03552e3bc2ed27), [`de5d0a5`](https://github.com/RTXteam/RTX-KG2/commit/de5d0a57fc2bd81fff86eaf51c1bc9a5a949ca50), [`a177b29`](https://github.com/RTXteam/RTX-KG2/commit/a177b2927d07dff7c00ef1d4a2de16d8c7d6584f), [`2838b76`](https://github.com/RTXteam/RTX-KG2/commit/2838b76622eef76ea8288a99f09d4dd16ef99739), [`8ad64e5`](https://github.com/RTXteam/RTX-KG2/commit/8ad64e57fa94a7eaed5656bad3e2e7df40f49b49)
+
+**Relevant Issue Comments:** [#321 (Comment)](https://github.com/RTXteam/RTX-KG2/issues/321#issuecomment-1646443209)
+
+## Rename Files
+**Reason:** 
+
+**Method:** 
+
+**Important Code Notes:** 
+
+**Important Considerations for Maintainers:** 
+
+**Relevant Commits:** 
+
+**Relevant Issue Comments:** 
+
+## Stop MySQL Binary Logging
+**Reason:** 
+
+**Method:** 
+
+**Important Code Notes:** 
+
+**Important Considerations for Maintainers:** 
+
+**Relevant Commits:** 
+
+**Relevant Issue Comments:** 
+
+
+## Removing Deprecated Code
+**Reason:** 
+
+**Method:** 
+
+**Important Code Notes:** 
+
+**Important Considerations for Maintainers:** 
+
+**Relevant Commits:** 
+
+**Relevant Issue Comments:** 
