@@ -188,10 +188,12 @@ Total|24:33:40|00:00:00||| |
 
 **Important Considerations for Maintainers:** 
 
-**Relevant Commits:** 
+**Relevant Commits:**
+- [`ee3884f`](https://github.com/RTXteam/RTX-KG2/commit/ee3884ff47b0df3a17845b0f8cc1af8009189081)
+- [`3c42962`](https://github.com/RTXteam/RTX-KG2/commit/3c42962f2bd14658a9c655945d43eb7bbec3de15)
 
 **Relevant Issue Comments:** 
-
+- [#336 (Comment)](https://github.com/RTXteam/RTX-KG2/issues/336#issue-1827603175)
 
 ## Removing Deprecated Code
 **Reason:** 
@@ -202,8 +204,18 @@ Total|24:33:40|00:00:00||| |
 
 **Important Considerations for Maintainers:** 
 
-**Relevant Commits:** 
+**Relevant Commits:**
+- [`fa3bb43`](https://github.com/RTXteam/RTX-KG2/commit/fa3bb4312e1de887e1a7c7e115a0210ed98455ad)
+- [`d76afc0`](https://github.com/RTXteam/RTX-KG2/commit/d76afc0cc9f20b3a1bc0467493c1e2815b88f599)
+- [`da425af`](https://github.com/RTXteam/RTX-KG2/commit/da425afd272ece812a8f4fb21885c75a9bc69fff)
+- [`639065e`](https://github.com/RTXteam/RTX-KG2/commit/639065e459fb157e6ce5332d40882de6f8962a5c)
+- [`56341a8`](https://github.com/RTXteam/RTX-KG2/commit/56341a88b77b866e78f083ab5697891a68aef64a)
 
-**Relevant Issue Comments:** 
+**Relevant Issue Comments:**
+- [#323 (Comment)](https://github.com/RTXteam/RTX-KG2/issues/323#issue-1808635632)
 
 # Looking Forward
+
+- [#316](https://github.com/RTXteam/RTX-KG2/issues/316)
+- [#335](https://github.com/RTXteam/RTX-KG2/issues/335)
+- [#337](https://github.com/RTXteam/RTX-KG2/issues/337)
