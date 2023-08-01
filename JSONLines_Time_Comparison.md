@@ -213,6 +213,28 @@ Total|24:33:40|00:00:00||| |
 
 **Relevant Issue Comments:**
 - [#323 (Comment)](https://github.com/RTXteam/RTX-KG2/issues/323#issue-1808635632)
+- [#321 (Comment)](https://github.com/RTXteam/RTX-KG2/issues/321#issuecomment-1650689925)
+
+## Memory Tracker
+**Reason:** AWS offers many graphs that allow you to see instance activity. However, memory is not tracked by default and is quite challenging to set up. In order to assess the memory usage by this JSON Lines update, we needed a simple way to get memory usage at many different points in time.
+
+**Method:** Everytime you log into an AWS instance, there is a dashboard with instance statistics, including memory and disk space usage. In addition to showing up on login, it can be accessed with the command `landscape-sysinfo`. Since this returns a predictable, text-based block, I opted to use `grep` to find the correct line in the block and `sed` to strip off all other information.
+
+**Impacted Files:**
+- `primative-instance-data-tracker.sh`
+
+**Important Code Notes:** 
+
+**Important Considerations for Maintainers:** The format that this script assumes for the return value of `landscape-sysinfo` is only guaranteed to be correct for the AWS EC2 Ubuntu 22.04 instances. On my personal, Ubuntu 20.04, laptop, the output of `landscape-sysinfo` looks slightly different and thus, the parsing that `primative-instance-data-tracker.sh` performs does not apply. If you are looking to test this file, make sure to do so on an AWS EC2 Ubuntu 22.04 instance.
+
+**Relevant Commits:**
+- [`4dab16b`](https://github.com/RTXteam/RTX-KG2/commit/4dab16b91a68d7b8ef32d036305b68fc5b00f930)
+- [`886aebd`](https://github.com/RTXteam/RTX-KG2/commit/886aebd0783e51f94fcf4034dbd6fc9b5487cbac)
+- [`e41f8e2`](https://github.com/RTXteam/RTX-KG2/commit/e41f8e29a8fe2c56305cc116c6392515e56464f6)
+
+**Relevant Issue Comments:**
+- [#321 (Comment)](https://github.com/RTXteam/RTX-KG2/issues/321#issuecomment-1652691766)
+- [#321 (Comment)](https://github.com/RTXteam/RTX-KG2/issues/321#issuecomment-1657291102)
 
 # Looking Forward
 
