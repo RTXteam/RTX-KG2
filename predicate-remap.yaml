@@ -3079,8 +3079,8 @@ OMIM:has_inheritance_type:
   operation: keep
   core_predicate: biolink:related_to
 OMIM:has_manifestation:
-  operation: keep
-  core_predicate: biolink:superclass_of
+  operation: invert
+  core_predicate: biolink:manifestation_of
 OMIM:has_phenotype:
   operation: keep
   core_predicate: biolink:has_phenotype
