@@ -180,13 +180,62 @@ Total|24:33:40|00:00:00||| |
 - [#332 (Comment)](https://github.com/RTXteam/RTX-KG2/issues/332#issue-1819530418)
 
 ## Stop MySQL Binary Logging
-**Reason:** 
+**Reason:** While most of the `binlog.*` files are only 101M each, this quickly adds up when there are hundreds of files.
 
 **Method:** 
 
+**Impacted Files:**
+- `setup-kg2-build.sh`
+- `mysql-config.conf`
+
 **Important Code Notes:** 
 
-**Important Considerations for Maintainers:** 
+**Important Considerations for Maintainers:** Please note that this change occurs in `setup-kg2-build.sh`. This script only runs once, when an instance is being set up. Thus, if you are operating on an instance that has already been setup, you will have to manually add
+```
+[mysqld]
+skip-log-bin
+```
+to your `mysql-config.conf` to prevent binary logging. Additionally, you should run the following commands:
+
+This command will allow you to make changes to the `/var/lib/mysql` directory and run `du` there. (Warning: this enters you into superuser mode and you can do real damage with it):
+```
+sudo -i
+```
+
+This command takes you to where all of the MySQL data is stored on the instance:
+```
+cd /var/lib/mysql/
+```
+
+This command will show you all of the files that MySQL is keeping. If you have a binary logging issue, you will see many files that start with `binlog`:
+```
+ls
+```
+
+This command will show you the space taken up by each file MySQL is keeping: 
+```
+du -h *
+```
+
+This command will show you how much disk space the entire directory is taking up:
+```
+du -sh
+```
+
+This command will remove all of the binary logging files:
+```
+rm binlog.*
+```
+
+This command will show you how much disk space the entire directory is taking up. You should see a marked difference from the first time you execute this command:
+```
+du -sh
+```
+
+This command will take you out of superuser mode (ending the effects of the first command):
+```
+exit
+```
 
 **Relevant Commits:**
 - [`ee3884f`](https://github.com/RTXteam/RTX-KG2/commit/ee3884ff47b0df3a17845b0f8cc1af8009189081)
@@ -195,10 +244,21 @@ Total|24:33:40|00:00:00||| |
 **Relevant Issue Comments:** 
 - [#336 (Comment)](https://github.com/RTXteam/RTX-KG2/issues/336#issue-1827603175)
 
-## Removing Deprecated Code
+## Remove Code That Is No Longer In Use
 **Reason:** 
 
 **Method:** 
+
+**Impacted Files:**
+- `build-kg2-DEPRECATED.sh`
+- `Snakefile-DEPRECATED.sh`
+- `filter_kg_and_remap_predicates_DEPRECATED.sh`
+- `predicate-remap_DEPRECATED.sh`
+- `slim_kg2_DEPRECATED.sh`
+- `Snakefile-semmeddb-extraction`
+- `Snakefile-generate-nodes`
+- `build-kg2-snakemake.sh`
+- `Snakemake-finish`
 
 **Important Code Notes:** 
 
@@ -241,3 +301,24 @@ Total|24:33:40|00:00:00||| |
 - [#316](https://github.com/RTXteam/RTX-KG2/issues/316)
 - [#335](https://github.com/RTXteam/RTX-KG2/issues/335)
 - [#337](https://github.com/RTXteam/RTX-KG2/issues/337)
+
+# Appendix
+## Snakemake Log File for JSON Lines Build
+<details>
+
+</details>
+
+## Instance Data Tracker for JSON Lines Build
+<details>
+
+</details>
+
+## Snakemake Log File for JSON Lines Build
+<details>
+
+</details>
+
+## Instance Data Tracker for JSON Lines Build
+<details>
+
+</details>
