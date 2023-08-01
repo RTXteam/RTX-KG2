@@ -2,69 +2,69 @@
 
 All times come from Snakemake log for consistency, since this includes any lag time.
 
-Everything that runs in parallel ran in parallel for these calculations.
+Everything that runs in parallel ran in parallel for these calculations. The scripts ran end-to-end without any gaps.
 
-For the JSON Lines test, there was a failure at Simplify and a failure at TSV that required a restart at those respective places. However, any files that were created in parallel were deleted so that the scripts that run in parallel to them would run in parallel for all testing, in order to accurately assess the time each stage takes.
+The log file for JSON Lines is in the Appendix [here](#snakemake-log-file-for-json-lines-build).
 
 Snakemake Rule|JSON Lines Run Time|KG2.8.4 Run Time|JSON Lines Start Time|JSON Lines End Time|KG2.8.4 Start Time|KG2.8.4 End Time
 --|--|--|--|--|--|-- 
-ChEMBL|04:15:33|04:16:43|Sat Jul 29 20:45:28 2023|Sun Jul 30 01:01:01 2023|Sun Jul 30 23:16:14 2023|Mon Jul 31 03:32:57 2023
-ChEMBL_Conversion|00:28:55|00:25:31|Sun Jul 30 01:01:01 2023|Sun Jul 30 01:29:56 2023|Mon Jul 31 03:32:57 2023|Mon Jul 31 03:58:28 2023
-DGIdb|00:00:00|00:00:00|Sat Jul 29 20:45:29 2023|Sat Jul 29 20:45:29 2023|Sun Jul 30 23:15:55 2023|Sun Jul 30 23:15:55 2023
-DGIdb_Conversion|00:00:07|00:00:08|Sat Jul 29 20:45:29 2023|Sat Jul 29 20:45:36 2023|Sun Jul 30 23:15:56 2023|Sun Jul 30 23:16:04 2023
-DisGeNET|00:00:07|00:02:07|Sat Jul 29 20:45:28 2023|Sat Jul 29 20:45:35 2023|Sun Jul 30 23:15:55 2023|Sun Jul 30 23:18:02 2023
-DisGeNET_Conversion|00:00:33|00:00:42|Sat Jul 29 20:45:35 2023|Sat Jul 29 20:46:08 2023|Sun Jul 30 23:18:02 2023|Sun Jul 30 23:18:44 2023
-DrugBank|00:00:14|00:00:12|Sat Jul 29 20:45:36 2023|Sat Jul 29 20:45:50 2023|Sun Jul 30 23:15:55 2023|Sun Jul 30 23:16:07 2023
-DrugBank_Conversion|00:06:47|00:09:04|Sat Jul 29 20:45:50 2023|Sat Jul 29 20:52:37 2023|Sun Jul 30 23:16:07 2023|Sun Jul 30 23:25:11 2023
-DrugCentral|00:04:09|00:04:05|Sat Jul 29 20:45:28 2023|Sat Jul 29 20:49:37 2023|Sun Jul 30 23:15:55 2023|Sun Jul 30 23:20:20 2023
-DrugCentral_Conversion|00:00:17|00:00:29|Sat Jul 29 20:49:37 2023|Sat Jul 29 20:49:54 2023|Sun Jul 30 23:20:20 2023|Sun Jul 30 23:20:49 2023
-Ensembl|00:03:24|00:03:32|Sat Jul 29 20:45:28 2023|Sat Jul 29 20:48:52 2023|Sun Jul 30 23:15:56 2023|Sun Jul 30 23:19:28 2023
-Ensembl_Conversion|00:03:12|00:04:59|Sat Jul 29 20:48:52 2023|Sat Jul 29 20:52:04 2023|Sun Jul 30 23:19:28 2023|Sun Jul 30 23:24:29 2023
-Finish|01:22:29|00:00:00|Sun Jul 30 21:41:55 2023|Sun Jul 30 23:04:24 2023| | 
-GO_Annotations|00:00:05|00:00:05|Sat Jul 29 20:45:28 2023|Sat Jul 29 20:45:33 2023|Sun Jul 30 23:15:55 2023|Sun Jul 30 23:16:00 2023
-GO_Annotations_Conversion|00:00:23|00:00:50|Sat Jul 29 20:45:33 2023|Sat Jul 29 20:45:56 2023|Sun Jul 30 23:16:00 2023|Sun Jul 30 23:16:50 2023
-HMDB|00:04:46|00:01:52|Sat Jul 29 20:45:48 2023|Sat Jul 29 20:50:34 2023|Sun Jul 30 23:15:55 2023|Sun Jul 30 23:17:47 2023
-HMDB_Conversion|00:23:43|00:24:01|Sat Jul 29 20:50:34 2023|Sat Jul 29 21:14:17 2023|Sun Jul 30 23:17:47 2023|Sun Jul 30 23:41:48 2023
-IntAct|00:01:23|00:01:22|Sat Jul 29 20:45:28 2023|Sat Jul 29 20:46:51 2023|Sun Jul 30 23:15:56 2023|Sun Jul 30 23:17:18 2023
-IntAct_Conversion|00:00:44|00:01:01|Sat Jul 29 20:46:51 2023|Sat Jul 29 20:47:35 2023|Sun Jul 30 23:17:18 2023|Sun Jul 30 23:18:19 2023
-JensenLab|00:09:52|00:12:30|Sat Jul 29 20:45:28 2023|Sat Jul 29 20:55:20 2023|Sun Jul 30 23:15:55 2023|Sun Jul 30 23:28:25 2023
-JensenLab_Conversion|00:21:13|00:19:57|Sat Jul 29 20:55:20 2023|Sat Jul 29 21:16:33 2023|Sun Jul 30 23:28:25 2023|Sun Jul 30 23:48:22 2023
-KEGG|04:41:17|20:06:05|Sat Jul 29 20:45:49 2023|Sun Jul 30 01:27:16 2023|Sun Jul 30 23:15:56 2023|Mon Jul 31 19:22:01 2023
-KEGG_Conversion|00:00:23|00:00:33|Sun Jul 30 01:27:16 2023|Sun Jul 30 01:27:39 2023|Mon Jul 31 19:22:01 2023|Mon Jul 31 19:22:34 2023
-Merge|08:34:45|00:00:00|Sun Jul 30 09:15:15 2023|Sun Jul 30 17:50:00 2023| | 
-NCBIGene|00:00:03|00:00:02|Sat Jul 29 20:45:28 2023|Sat Jul 29 20:45:31 2023|Sun Jul 30 23:15:55 2023|Sun Jul 30 23:15:57 2023
-NCBIGene_Conversion|00:00:18|00:00:42|Sat Jul 29 20:45:31 2023|Sat Jul 29 20:45:49 2023|Sun Jul 30 23:15:57 2023|Sun Jul 30 23:16:39 2023
-Ontologies_and_TTL|06:47:19|08:26:09|Sun Jul 30 02:26:56 2023|Sun Jul 30 09:15:15 2023|Mon Jul 31 05:17:33 2023|Mon Jul 31 13:43:42 2023
-Reactome|00:08:01|00:11:33|Sat Jul 29 20:45:29 2023|Sat Jul 29 20:53:30 2023|Sun Jul 30 23:16:04 2023|Sun Jul 30 23:27:37 2023
-Reactome_Conversion|00:01:44|00:01:58|Sat Jul 29 20:53:30 2023|Sat Jul 29 20:55:14 2023|Sun Jul 30 23:27:37 2023|Sun Jul 30 23:29:35 2023
-RepoDB|00:00:01|00:00:01|Sat Jul 29 20:45:56 2023|Sat Jul 29 20:45:57 2023|Sun Jul 30 23:15:55 2023|Sun Jul 30 23:15:56 2023
-RepoDB_Conversion|00:00:28|00:00:26|Sat Jul 29 20:45:57 2023|Sat Jul 29 20:46:25 2023|Sun Jul 30 23:15:56 2023|Sun Jul 30 23:16:22 2023
-SMPDB|00:17:59|00:17:02|Sat Jul 29 20:45:29 2023|Sat Jul 29 21:03:28 2023|Sun Jul 30 23:15:56 2023|Sun Jul 30 23:32:58 2023
-SMPDB_Conversion|02:39:28|02:44:33|Sat Jul 29 21:03:28 2023|Sat Jul 29 23:42:56 2023|Sun Jul 30 23:32:58 2023|Mon Jul 31 02:27:31 2023
-SemMedDB|11:18:44|10:46:16|Sat Jul 29 20:45:28 2023|Sun Jul 30 08:04:12 2023|Sun Jul 30 23:15:56 2023|Mon Jul 31 10:02:12 2023
-SemMedDB_Conversion|00:35:48|00:00:00|Sun Jul 30 08:04:12 2023|Sun Jul 30 08:40:00 2023|Mon Jul 31 10:02:12 2023| 
-Simplify|00:51:37|00:00:00|Sun Jul 30 19:20:11 2023|Sun Jul 30 20:11:48 2023| | 
-Simplify_Stats|00:19:34|00:00:00|Sun Jul 30 20:37:49 2023|Sun Jul 30 20:57:23 2023| | 
-Slim|00:29:09|00:00:00|Sun Jul 30 20:37:49 2023|Sun Jul 30 21:06:58 2023| | 
-Stats|00:20:13|00:00:00|Sun Jul 30 19:20:11 2023|Sun Jul 30 19:40:24 2023| | 
-TSV|01:04:06|00:00:00|Sun Jul 30 20:37:49 2023|Sun Jul 30 21:41:55 2023| | 
-UMLS|05:41:27|06:01:11|Sat Jul 29 20:45:29 2023|Sun Jul 30 02:26:56 2023|Sun Jul 30 23:16:22 2023|Mon Jul 31 05:17:33 2023
-UniChem|00:15:43|00:17:07|Sat Jul 29 20:45:28 2023|Sat Jul 29 21:01:11 2023|Sun Jul 30 23:16:39 2023|Sun Jul 30 23:33:46 2023
-UniChem_Conversion|00:00:09|00:00:13|Sat Jul 29 21:01:11 2023|Sat Jul 29 21:01:20 2023|Sun Jul 30 23:33:46 2023|Sun Jul 30 23:33:59 2023
-UniProtKB|00:41:08|00:39:07|Sat Jul 29 20:45:29 2023|Sat Jul 29 21:26:37 2023|Sun Jul 30 23:15:55 2023|Sun Jul 30 23:55:02 2023
-UniProtKB_Conversion|00:03:05|00:03:10|Sat Jul 29 21:26:37 2023|Sat Jul 29 21:29:42 2023|Sun Jul 30 23:55:02 2023|Sun Jul 30 23:58:12 2023
-ValidationTests|00:00:35|00:00:34|Sat Jul 29 20:44:53 2023|Sat Jul 29 20:45:28 2023|Sun Jul 30 23:15:21 2023|Sun Jul 30 23:15:55 2023
-miRBase|00:00:13|00:00:12|Sat Jul 29 20:45:29 2023|Sat Jul 29 20:45:42 2023|Sun Jul 30 23:15:56 2023|Sun Jul 30 23:16:08 2023
-miRBase_Conversion|00:00:06|00:00:06|Sat Jul 29 20:45:42 2023|Sat Jul 29 20:45:48 2023|Sun Jul 30 23:16:08 2023|Sun Jul 30 23:16:14 2023
+`ChEMBL`                   |04:19:17|04:16:43|Mon Jul 31 00:47:27 2023|Mon Jul 31 05:06:44 2023|Sun Jul 30 23:16:14 2023|Mon Jul 31 03:32:57 2023
+`ChEMBL_Conversion`        |00:29:08|00:25:31|Mon Jul 31 05:06:44 2023|Mon Jul 31 05:35:52 2023|Mon Jul 31 03:32:57 2023|Mon Jul 31 03:58:28 2023
+`DGIdb`                    |00:00:00|00:00:00|Mon Jul 31 00:47:28 2023|Mon Jul 31 00:47:28 2023|Sun Jul 30 23:15:55 2023|Sun Jul 30 23:15:55 2023
+`DGIdb_Conversion`         |00:00:04|00:00:08|Mon Jul 31 00:47:28 2023|Mon Jul 31 00:47:34 2023|Sun Jul 30 23:15:56 2023|Sun Jul 30 23:16:04 2023
+`DisGeNET`                 |00:00:08|00:02:07|Mon Jul 31 00:47:26 2023|Mon Jul 31 00:47:34 2023|Sun Jul 30 23:15:55 2023|Sun Jul 30 23:18:02 2023
+`DisGeNET_Conversion`      |00:00:31|00:00:42|Mon Jul 31 00:47:34 2023|Mon Jul 31 00:48:05 2023|Sun Jul 30 23:18:02 2023|Sun Jul 30 23:18:44 2023
+`DrugBank`                 |00:00:14|00:00:12|Mon Jul 31 00:47:34 2023|Mon Jul 31 00:47:48 2023|Sun Jul 30 23:15:55 2023|Sun Jul 30 23:16:07 2023
+`DrugBank_Conversion`      |00:06:50|00:09:04|Mon Jul 31 00:47:48 2023|Mon Jul 31 00:54:38 2023|Sun Jul 30 23:16:07 2023|Sun Jul 30 23:25:11 2023
+`DrugCentral`              |00:04:22|00:04:05|Mon Jul 31 00:47:27 2023|Mon Jul 31 00:51:49 2023|Sun Jul 30 23:15:55 2023|Sun Jul 30 23:20:20 2023
+`DrugCentral_Conversion`   |00:00:17|00:00:29|Mon Jul 31 00:51:49 2023|Mon Jul 31 00:52:06 2023|Sun Jul 30 23:20:20 2023|Sun Jul 30 23:20:49 2023
+`Ensembl`                  |00:04:06|00:03:32|Mon Jul 31 00:47:27 2023|Mon Jul 31 00:51:33 2023|Sun Jul 30 23:15:56 2023|Sun Jul 30 23:19:28 2023
+`Ensembl_Conversion`       |00:03:11|00:04:59|Mon Jul 31 00:51:33 2023|Mon Jul 31 00:54:44 2023|Sun Jul 30 23:19:28 2023|Sun Jul 30 23:24:29 2023
+`Finish`                   |01:22:39|00:00:00|Mon Jul 31 23:51:40 2023|Tue Aug  1 01:14:19 2023| | 
+`GO_Annotations`           |00:00:04|00:00:05|Mon Jul 31 00:47:28 2023|Mon Jul 31 00:47:32 2023|Sun Jul 30 23:15:55 2023|Sun Jul 30 23:16:00 2023
+`GO_Annotations_Conversion`|00:00:20|00:00:50|Mon Jul 31 00:47:32 2023|Mon Jul 31 00:47:52 2023|Sun Jul 30 23:16:00 2023|Sun Jul 30 23:16:50 2023
+`HMDB`                     |00:03:05|00:01:52|Mon Jul 31 00:47:45 2023|Mon Jul 31 00:50:50 2023|Sun Jul 30 23:15:55 2023|Sun Jul 30 23:17:47 2023
+`HMDB_Conversion`          |00:23:26|00:24:01|Mon Jul 31 00:50:50 2023|Mon Jul 31 01:14:16 2023|Sun Jul 30 23:17:47 2023|Sun Jul 30 23:41:48 2023
+`IntAct`                   |00:01:26|00:01:22|Mon Jul 31 00:47:27 2023|Mon Jul 31 00:48:53 2023|Sun Jul 30 23:15:56 2023|Sun Jul 30 23:17:18 2023
+`IntAct_Conversion`        |00:00:46|00:01:01|Mon Jul 31 00:48:53 2023|Mon Jul 31 00:49:39 2023|Sun Jul 30 23:17:18 2023|Sun Jul 30 23:18:19 2023
+`JensenLab`                |00:10:01|00:12:30|Mon Jul 31 00:47:28 2023|Mon Jul 31 00:57:29 2023|Sun Jul 30 23:15:55 2023|Sun Jul 30 23:28:25 2023
+`JensenLab_Conversion`     |00:19:58|00:19:57|Mon Jul 31 00:57:29 2023|Mon Jul 31 01:17:27 2023|Sun Jul 30 23:28:25 2023|Sun Jul 30 23:48:22 2023
+`KEGG`                     |04:42:52|20:06:05|Mon Jul 31 00:47:47 2023|Mon Jul 31 05:29:39 2023|Sun Jul 30 23:15:56 2023|Mon Jul 31 19:22:01 2023
+`KEGG_Conversion`          |00:00:20|00:00:33|Mon Jul 31 05:29:39 2023|Mon Jul 31 05:29:59 2023|Mon Jul 31 19:22:01 2023|Mon Jul 31 19:22:34 2023
+`Merge`                    |08:30:01|00:00:00|Mon Jul 31 13:24:18 2023|Mon Jul 31 21:54:19 2023| | 
+`NCBIGene`                 |00:00:03|00:00:02|Mon Jul 31 00:47:26 2023|Mon Jul 31 00:47:29 2023|Sun Jul 30 23:15:55 2023|Sun Jul 30 23:15:57 2023
+`NCBIGene_Conversion`      |00:00:16|00:00:42|Mon Jul 31 00:47:29 2023|Mon Jul 31 00:47:47 2023|Sun Jul 30 23:15:57 2023|Sun Jul 30 23:16:39 2023
+`Ontologies_and_TTL`       |06:52:54|08:26:09|Mon Jul 31 06:31:24 2023|Mon Jul 31 13:24:18 2023|Mon Jul 31 05:17:33 2023|Mon Jul 31 13:43:42 2023
+`Reactome`                 |00:07:36|00:11:33|Mon Jul 31 00:47:27 2023|Mon Jul 31 00:55:03 2023|Sun Jul 30 23:16:04 2023|Sun Jul 30 23:27:37 2023
+`Reactome_Conversion`      |00:01:41|00:01:58|Mon Jul 31 00:55:03 2023|Mon Jul 31 00:56:44 2023|Sun Jul 30 23:27:37 2023|Sun Jul 30 23:29:35 2023
+`RepoDB`                   |00:00:01|00:00:01|Mon Jul 31 00:47:52 2023|Mon Jul 31 00:47:53 2023|Sun Jul 30 23:15:55 2023|Sun Jul 30 23:15:56 2023
+`RepoDB_Conversion`        |00:00:27|00:00:26|Mon Jul 31 00:47:53 2023|Mon Jul 31 00:48:20 2023|Sun Jul 30 23:15:56 2023|Sun Jul 30 23:16:22 2023
+`SMPDB`                    |00:17:39|00:17:02|Mon Jul 31 00:47:26 2023|Mon Jul 31 01:05:05 2023|Sun Jul 30 23:15:56 2023|Sun Jul 30 23:32:58 2023
+`SMPDB_Conversion`         |02:44:39|02:44:33|Mon Jul 31 01:05:05 2023|Mon Jul 31 03:49:44 2023|Sun Jul 30 23:32:58 2023|Mon Jul 31 02:27:31 2023
+`SemMedDB`                 |11:14:41|10:46:16|Mon Jul 31 00:47:27 2023|Mon Jul 31 12:02:08 2023|Sun Jul 30 23:15:56 2023|Mon Jul 31 10:02:12 2023
+`SemMedDB_Conversion`      |00:36:59|00:00:00|Mon Jul 31 12:02:08 2023|Mon Jul 31 12:39:07 2023|Mon Jul 31 10:02:12 2023| 
+`Simplify`                 |00:52:36|00:00:00|Mon Jul 31 21:54:19 2023|Mon Jul 31 22:46:55 2023| | 
+`Simplify_Stats`           |00:19:37|00:00:00|Mon Jul 31 22:46:55 2023|Mon Jul 31 23:06:32 2023| | 
+`Slim`                     |00:28:58|00:00:00|Mon Jul 31 22:46:55 2023|Mon Jul 31 23:15:53 2023| | 
+`Stats`                    |00:20:19|00:00:00|Mon Jul 31 21:54:19 2023|Mon Jul 31 22:14:38 2023| | 
+`TSV`                      |01:04:45|00:00:00|Mon Jul 31 22:46:55 2023|Mon Jul 31 23:51:40 2023| | 
+`UMLS`                     |05:43:57|06:01:11|Mon Jul 31 00:47:27 2023|Mon Jul 31 06:31:24 2023|Sun Jul 30 23:16:22 2023|Mon Jul 31 05:17:33 2023
+`UniChem`                  |00:15:37|00:17:07|Mon Jul 31 00:47:28 2023|Mon Jul 31 01:03:05 2023|Sun Jul 30 23:16:39 2023|Sun Jul 30 23:33:46 2023
+`UniChem_Conversion`       |00:00:10|00:00:13|Mon Jul 31 01:03:05 2023|Mon Jul 31 01:03:15 2023|Sun Jul 30 23:33:46 2023|Sun Jul 30 23:33:59 2023
+`UniProtKB`                |00:38:18|00:39:07|Mon Jul 31 00:47:26 2023|Mon Jul 31 01:25:44 2023|Sun Jul 30 23:15:55 2023|Sun Jul 30 23:55:02 2023
+`UniProtKB_Conversion`     |00:03:06|00:03:10|Mon Jul 31 01:25:44 2023|Mon Jul 31 01:28:50 2023|Sun Jul 30 23:55:02 2023|Sun Jul 30 23:58:12 2023
+`ValidationTests`          |00:00:35|00:00:34|Mon Jul 31 00:46:51 2023|Mon Jul 31 00:47:26 2023|Sun Jul 30 23:15:21 2023|Sun Jul 30 23:15:55 2023
+`miRBase`                  |00:00:13|00:00:12|Mon Jul 31 00:47:26 2023|Mon Jul 31 00:47:39 2023|Sun Jul 30 23:15:56 2023|Sun Jul 30 23:16:08 2023
+`miRBase_Conversion`       |00:00:06|00:00:06|Mon Jul 31 00:47:39 2023|Mon Jul 31 00:47:45 2023|Sun Jul 30 23:16:08 2023|Sun Jul 30 23:16:14 2023
 --|--|--|--|--|--|-- 
-Build Stage Times:| | | | | |  
-Pre-ETL|00:00:35|00:00:34|Sat Jul 29 20:44:53 2023|Sat Jul 29 20:45:28 2023|Sun Jul 30 23:15:21 2023|Sun Jul 30 23:15:55 2023
-ETL|12:42:11|00:00:00|Sat Jul 29 20:45:28 2023|Sun Jul 30 09:15:15 2023| | 
-Post-ETL|10:30:28|00:00:00|Merge: Sun Jul 30 09:15:15 2023<br>Simplify: Sun Jul 30 19:20:11 2023<br>TSV: Sun Jul 30 20:37:49 2023|Merge: Sun Jul 30 17:50:00 2023<br>Simplify: Sun Jul 30 20:11:48 2023<br>TSV: Sun Jul 30 21:41:55 2023| | 
-Finish|01:22:29|00:00:00|Sun Jul 30 21:41:55 2023|Sun Jul 30 23:04:24 2023| | 
+Build Stage Times:         | | | | | |  
+Pre-ETL                    |00:00:35|00:00:34|Mon Jul 31 00:46:51 2023|Mon Jul 31 00:47:26 2023|Sun Jul 30 23:15:21 2023|Sun Jul 30 23:15:55 2023
+ETL                        |12:36:52|00:00:00|Mon Jul 31 00:47:26 2023|Mon Jul 31 13:24:18 2023| | 
+Post-ETL                   |10:27:22|00:00:00|Mon Jul 31 13:24:18 2023|Mon Jul 31 23:51:40 2023| | 
+Finish                     |01:22:39|00:00:00|Mon Jul 31 23:51:40 2023|Tue Aug  1 01:14:19 2023| | 
 --|--|--|--|--|--|-- 
-Total Build Times:| | | | | |  
-Total|24:33:40|00:00:00||| | 
+Total Build Times:         | | | | | |  
+Total                      |24:27:28|00:00:00|Mon Jul 31 00:46:51 2023|Tue Aug  1 01:14:19 2023| | 
 
 
 # Notable Changes from [KG2.8.4](https://github.com/RTXteam/RTX-KG2/releases/tag/KG2.8.4):
@@ -2424,12 +2424,12 @@ Time: 2023-08-01-01-14-27; Memory: 3%; Disk: 68.2% of 991.28GB
 ```
 </details>
 
-## Snakemake Log File for JSON Lines Build
+## Snakemake Log File for KG2.8.4 Build
 <details>
 
 </details>
 
-## Instance Data Tracker for JSON Lines Build
+## Instance Data Tracker for KG2.8.4 Build
 <details>
 
 </details>
