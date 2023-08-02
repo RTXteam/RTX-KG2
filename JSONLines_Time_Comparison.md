@@ -1,3 +1,4 @@
+# JSON Lines vs KG2.8.4 Build Process
 ## Time Comparison
 
 All times come from Snakemake log for consistency, since this includes any lag time.
@@ -44,8 +45,8 @@ Snakemake Rule|JSON Lines Run Time|KG2.8.4 Run Time|JSON Lines Start Time|JSON L
 `SemMedDB`                 |11:14:41|10:46:16|Mon Jul 31 00:47:27 2023|Mon Jul 31 12:02:08 2023|Sun Jul 30 23:15:56 2023|Mon Jul 31 10:02:12 2023
 `SemMedDB_Conversion`      |00:36:59|32:19:56|Mon Jul 31 12:02:08 2023|Mon Jul 31 12:39:07 2023|Mon Jul 31 10:02:12 2023|Tue Aug  1 18:22:08 2023
 `Simplify`                 |00:52:36|02:38:45|Mon Jul 31 21:54:19 2023|Mon Jul 31 22:46:55 2023|Wed Aug  2 07:30:44 2023|Wed Aug  2 10:09:29 2023
-`Simplify_Stats`           |00:19:37|00:00:00|Mon Jul 31 22:46:55 2023|Mon Jul 31 23:06:32 2023| | 
-`Slim`                     |00:28:58|00:00:00|Mon Jul 31 22:46:55 2023|Mon Jul 31 23:15:53 2023|Wed Aug  2 10:09:29 2023| 
+`Simplify_Stats`           |00:19:37|00:00:00|Mon Jul 31 22:46:55 2023|Mon Jul 31 23:06:32 2023|Wed Aug  2 18:21:45 2023| 
+`Slim`                     |00:28:58|08:12:16|Mon Jul 31 22:46:55 2023|Mon Jul 31 23:15:53 2023|Wed Aug  2 10:09:29 2023|Wed Aug  2 18:21:45 2023
 `Stats`                    |00:20:19|02:28:53|Mon Jul 31 21:54:19 2023|Mon Jul 31 22:14:38 2023|Wed Aug  2 05:01:51 2023|Wed Aug  2 07:30:44 2023
 `TSV`                      |01:04:45|00:00:00|Mon Jul 31 22:46:55 2023|Mon Jul 31 23:51:40 2023| | 
 `UMLS`                     |05:43:57|06:01:11|Mon Jul 31 00:47:27 2023|Mon Jul 31 06:31:24 2023|Sun Jul 30 23:16:22 2023|Mon Jul 31 05:17:33 2023
@@ -66,6 +67,17 @@ Finish                     |01:22:39|00:00:00|Mon Jul 31 23:51:40 2023|Tue Aug  
 Total Build Times:         | | | | | |  
 Total                      |24:27:28|00:00:00|Mon Jul 31 00:46:51 2023|Tue Aug  1 01:14:19 2023| | 
 
+## Memory Comparison
+
+All memory results came from the output of `primative-instance-data-tracker.sh`. For an explanation of how this works, please see [here](#memory-tracker).
+
+Everything that runs in parallel ran in parallel for these calculations. The scripts ran end-to-end without any gaps.
+
+The instance data file for JSON Lines is in the Appendix [here](#instance-data-tracker-for-json-lines-build).
+
+Here is a graph of the memory usage by the JSON Lines code. This grpah also shows the memory available on an `r5a.2xlarge` and `r5a.4xlarge` instance for context on these memory values. The values were collected as percentages of the available memory on the `r5a.8xlarge` instance used for the build. This graph shows clearly that we will be able to swtich to an `r5a.4xlarge` instance with the JSON Lines code. It also suggests that we, with more optimization, could even switch to an `r5a.2xlarge` instance in the future. Note that would come will unwanted side effects, since we would have less cores, so less Snakemake rules could run at once. we currently have 5 extraction/conversion pairs that take over an hour based on the above table. With only 8 cores, this could be more of a bottleneck. Regardless, switching to an `r5a.4xlarge` should pose no problems, though there might not be enough cores to run `primative-instance-data-tracker.sh` in parallel with the build process.
+
+![image](https://github.com/RTXteam/RTX-KG2/assets/36611732/c8d482d3-f520-42d5-b656-aeb031e64158)
 
 # Notable Changes from [KG2.8.4](https://github.com/RTXteam/RTX-KG2/releases/tag/KG2.8.4):
 
