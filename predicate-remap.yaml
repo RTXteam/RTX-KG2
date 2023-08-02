@@ -197,36 +197,36 @@ CHEMBL.MECHANISM:activator:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 CHEMBL.MECHANISM:agonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 CHEMBL.MECHANISM:allosteric_antagonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 CHEMBL.MECHANISM:antagonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 CHEMBL.MECHANISM:antisense_inhibitor:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: degradation
-    - object_direction: increased
+    object_aspect: degradation
+    object_direction: increased
 CHEMBL.MECHANISM:binding_agent:
   operation: keep
   core_predicate: biolink:physically_interacts_with
@@ -235,8 +235,8 @@ CHEMBL.MECHANISM:blocker:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 CHEMBL.MECHANISM:chelating_agent:
   operation: keep
   core_predicate: biolink:physically_interacts_with
@@ -248,8 +248,8 @@ CHEMBL.MECHANISM:degrader:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: degradation
-    - object_direction: increased
+    object_aspect: degradation
+    object_direction: increased
 CHEMBL.MECHANISM:disrupting_agent:
   operation: keep
   core_predicate: biolink:disrupts
@@ -261,22 +261,22 @@ CHEMBL.MECHANISM:hydrolytic_enzyme:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: degradation
-    - object_direction: increased
+    object_aspect: degradation
+    object_direction: increased
 CHEMBL.MECHANISM:inhibitor:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 CHEMBL.MECHANISM:inverse_agonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 CHEMBL.MECHANISM:modulator:
   operation: keep
   core_predicate: biolink:regulates
@@ -285,22 +285,22 @@ CHEMBL.MECHANISM:negative_allosteric_modulator:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 CHEMBL.MECHANISM:negative_modulator:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 CHEMBL.MECHANISM:opener:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 CHEMBL.MECHANISM:other:
   operation: delete
 CHEMBL.MECHANISM:overlaps_with:
@@ -314,29 +314,29 @@ CHEMBL.MECHANISM:partial_agonist:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 CHEMBL.MECHANISM:positive_allosteric_modulator:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 CHEMBL.MECHANISM:positive_modulator:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 CHEMBL.MECHANISM:proteolytic_enzyme:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: degradation
-    - object_direction: increased
+    object_aspect: degradation
+    object_direction: increased
 CHEMBL.MECHANISM:reducing_agent:
   operation: keep
   core_predicate: biolink:physically_interacts_with
@@ -345,15 +345,15 @@ CHEMBL.MECHANISM:releasing_agent:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 CHEMBL.MECHANISM:rnai_inhibitor:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: abundance
-    - object_direction: decreased
+    object_aspect: abundance
+    object_direction: decreased
 CHEMBL.MECHANISM:vaccine_antigen:
   operation: keep
   core_predicate: biolink:related_to
@@ -365,8 +365,8 @@ CHEMBL.MECHANISM:stabiliser:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: stability
-    - object_direction: increased
+    object_aspect: stability
+    object_direction: increased
 CHEMBL.MECHANISM:subset_of:
   operation: keep
   core_predicate: biolink:subclass_of
@@ -408,8 +408,8 @@ CTD:increases_expression_of:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: expression
-    - object_direction: increased
+    object_aspect: expression
+    object_direction: increased
 DDANAT:develops_from:
   operation: keep
   core_predicate: biolink:develops_from
@@ -418,8 +418,8 @@ DGIdb:activator:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 # DGIdb:adduct:
 #   operation: keep
 #   core_predicate: biolink:directly_physically_interacts_with
@@ -431,21 +431,21 @@ DGIdb:agonist:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 DGIdb:allosteric_modulator:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
+    object_aspect: activity
 DGIdb:antagonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 DGIdb:antibody:
   operation: keep
   core_predicate: biolink:physically_interacts_with
@@ -454,8 +454,8 @@ DGIdb:antisense_oligonucleotide:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: expression
-    - object_direction: decreased
+    object_aspect: expression
+    object_direction: decreased
 # DGIdb:binder:
 #   operation: keep
 #   core_predicate: biolink:interacts_with
@@ -464,15 +464,15 @@ DGIdb:blocker:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 # DGIdb:channel_blocker:
 #   operation: keep
 #   core_predicate: biolink:affects
 #   qualified_predicate: biolink:causes
 #   qualifiers:
-#     - object_aspect: activity
-#     - object_direction: decreased
+#     object_aspect: activity
+#     object_direction: decreased
 # DGIdb:chaperone:
 #   operation: keep
 #   core_predicate: biolink:directly_physically_interacts_with
@@ -480,7 +480,7 @@ DGIdb:blocker:
 #   operation: keep
 #   core_predicate: biolink:affects
 #   qualifiers:
-#     - object_aspect: degradation
+#     object_aspect: degradation
 DGIdb:cofactor:
   operation: keep
   core_predicate: biolink:directly_physically_interacts_with
@@ -489,36 +489,36 @@ DGIdb:cofactor:
 #   core_predicate: biolink:affects
 #   qualified_predicate: biolink:causes
 #   qualifiers:
-#     - object_aspect: activity
-#     - object_direction: decreased
+#     object_aspect: activity
+#     object_direction: decreased
 DGIdb:inducer:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 DGIdb:inhibitor:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 DGIdb:inhibitory_allosteric_modulator:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 DGIdb:inverse_agonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 # DGIdb:ligand:
 #   operation: keep
 #   core_predicate: biolink:directly_physically_interacts_with
@@ -533,36 +533,36 @@ DGIdb:negative_modulator:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 DGIdb:partial_agonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 # DGIdb:partial_antagonist:
 #   operation: keep
 #   core_predicate: biolink:affects
 #   qualified_predicate: biolink:causes
 #   qualifiers:
-#     - object_aspect: activity
-#     - object_direction: decreased
+#     object_aspect: activity
+#     object_direction: decreased
 DGIdb:positive_modulator:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 # DGIdb:potentiator:
 #   operation: keep
 #   core_predicate: biolink:affects
 #   qualified_predicate: biolink:causes
 #   qualifiers:
-#     - object_aspect: activity
-#     - object_direction: increased
+#     object_aspect: activity
+#     object_direction: increased
 # DGIdb:product_of:
 #   operation: keep
 #   core_predicate: biolink:derives_from
@@ -571,29 +571,29 @@ DGIdb:positive_modulator:
 #   core_predicate: biolink:affects
 #   qualified_predicate: biolink:causes
 #   qualifiers:
-#     - object_aspect: activity
-#     - object_direction: increased
+#     object_aspect: activity
+#     object_direction: increased
 # DGIdb:substrate:
 #   operation: keep
 #   core_predicate: biolink:affects
 #   qualified_predicate: biolink:causes
 #   qualifiers:
-#     - object_aspect: degradation
-#     - object_direction: increased
+#     object_aspect: degradation
+#     object_direction: increased
 DGIdb:suppressor:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 DGIdb:vaccine:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 #DOID-PROPERTY:derives_from:
 #  operation: keep
 #  core_predicate: biolink:related_to_at_instance_level
@@ -605,8 +605,8 @@ DRUGBANK:activator:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 # DRUGBANK:adduct:
 #   operation: keep
 #   core_predicate: biolink:directly_physically_interacts_with
@@ -615,28 +615,28 @@ DRUGBANK:activator:
 #   core_predicate: biolink:affects
 #   qualified_predicate: biolink:causes
 #   qualifiers:
-#     - object_aspect: activity
-#     - object_direction: decreased
+#     object_aspect: activity
+#     object_direction: decreased
 DRUGBANK:agonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 DRUGBANK:allosteric_modulator:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
+    object_aspect: activity
 DRUGBANK:antagonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 DRUGBANK:antibody:
   operation: keep
   core_predicate: biolink:physically_interacts_with
@@ -645,8 +645,8 @@ DRUGBANK:antisense_oligonucleotide:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: expression
-    - object_direction: decreased
+    object_aspect: expression
+    object_direction: decreased
 DRUGBANK:atc-code:
   operation: keep
   core_predicate: biolink:close_match
@@ -664,8 +664,8 @@ DRUGBANK:blocker:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity_or_abundance
-    - object_direction: decreased
+    object_aspect: activity_or_abundance
+    object_direction: decreased
 DRUGBANK:carrier:
   operation: keep
   core_predicate: biolink:related_to
@@ -683,7 +683,7 @@ DRUGBANK:cleavage:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: degradation
+    object_aspect: degradation
 DRUGBANK:cofactor:
   operation: keep
   core_predicate: biolink:directly_physically_interacts_with
@@ -695,14 +695,14 @@ DRUGBANK:degradation:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: degradation
+    object_aspect: degradation
 # DRUGBANK:deoxidizer:
 #   operation: keep
 #   core_predicate: biolink:affects
 #   qualified_predicate: biolink:causes
 #   qualifiers:
-#     - object_aspect: molecular_modification
-#     - object_direction: decreased
+#     object_aspect: molecular_modification
+#     object_direction: decreased
 # DRUGBANK:desensitize_the_target:
 #   operation: keep
 #   core_predicate: biolink:decreases_response_to
@@ -711,7 +711,7 @@ DRUGBANK:downregulator:
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: downregulated
+    object_direction: downregulated
 DRUGBANK:drug-interaction:
   operation: keep
   core_predicate: biolink:physically_interacts_with
@@ -732,42 +732,42 @@ DRUGBANK:inactivator:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 DRUGBANK:incorporation_into_and_destabilization:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: degradation
+    object_aspect: degradation
 DRUGBANK:inducer:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 DRUGBANK:inhibition_of_synthesis:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: synthesis
-    - object_direction: decreased
+    object_aspect: synthesis
+    object_direction: decreased
 DRUGBANK:inhibitor:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 DRUGBANK:inhibitory_allosteric_modulator:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 DRUGBANK:intercalation:
   operation: keep
   core_predicate: biolink:physically_interacts_with
@@ -776,8 +776,8 @@ DRUGBANK:inverse_agonist:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 DRUGBANK:ligand:
   operation: keep
   core_predicate: biolink:directly_physically_interacts_with
@@ -792,43 +792,43 @@ DRUGBANK:negative_modulator:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 DRUGBANK:neutralizer:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 DRUGBANK:nucleotide_exchange_blocker:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 DRUGBANK:oxidizer:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: molecular_modification
-    - object_direction: increased
+    object_aspect: molecular_modification
+    object_direction: increased
 DRUGBANK:partial_agonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 DRUGBANK:partial_antagonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 DRUGBANK:pathway:
   operation: invert
   core_predicate: biolink:has_participant
@@ -837,21 +837,21 @@ DRUGBANK:positive_allosteric_modulator:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 # DRUGBANK:positive_modulator:
 #   operation: keep
 #   core_predicate: biolink:regulates
 #   qualified_predicate: biolink:causes
 #   qualifiers:
-#     - object_direction: increased
+#     object_direction: increased
 DRUGBANK:potentiator:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 DRUGBANK:product_of:
   operation: keep
   core_predicate: biolink:derives_from
@@ -863,15 +863,15 @@ DRUGBANK:stabilization:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: stability
-    - object_direction: increased
+    object_aspect: stability
+    object_direction: increased
 DRUGBANK:stimulator:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 DRUGBANK:substrate:
   operation: keep
   core_predicate: biolink:physically_interacts_with
@@ -880,8 +880,8 @@ DRUGBANK:suppressor:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 DRUGBANK:target:
   operation: keep
   core_predicate: biolink:physically_interacts_with
@@ -890,8 +890,8 @@ DRUGBANK:translocation_inhibitor:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 # DRUGBANK:treats:
 #   operation: keep
 #   core_predicate: biolink:treats
@@ -900,8 +900,8 @@ DRUGBANK:weak_inhibitor:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 # DrugCentral:5271:
 #   operation: keep
 #   core_predicate: biolink:diagnoses
@@ -915,35 +915,35 @@ DrugCentral:activator:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 DrugCentral:agonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 DrugCentral:allosteric_antagonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 DrugCentral:allosteric_modulator:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
+    object_aspect: activity
 DrugCentral:antagonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 DrugCentral:antibody_binding:
   operation: keep
   core_predicate: biolink:directly_physically_interacts_with
@@ -952,8 +952,8 @@ DrugCentral:antisense_inhibitor:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: expression
-    - object_direction: decreased
+    object_aspect: expression
+    object_direction: decreased
 DrugCentral:binding_agent:
   operation: keep
   core_predicate: biolink:directly_physically_interacts_with
@@ -962,8 +962,8 @@ DrugCentral:blocker:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity_or_abundance
-    - object_direction: decreased
+    object_aspect: activity_or_abundance
+    object_direction: decreased
 DrugCentral:contraindication:
   operation: keep
   core_predicate: biolink:contraindicated_for
@@ -972,8 +972,8 @@ DrugCentral:gating_inhibitor:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 DrugCentral:has_role:
   operation: keep
   core_predicate: biolink:related_to
@@ -985,15 +985,15 @@ DrugCentral:inhibitor:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity_or_abundance
-    - object_direction: decreased
+    object_aspect: activity_or_abundance
+    object_direction: decreased
 DrugCentral:inverse_agonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 DrugCentral:modulator:
   operation: keep
   core_predicate: biolink:affects
@@ -1002,13 +1002,13 @@ DrugCentral:negative_allosteric_modulator:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: decreased
+    object_direction: decreased
 DrugCentral:negative_modulator:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: decreased
+    object_direction: decreased
 DrugCentral:off-label_use:
   operation: keep
   core_predicate: biolink:treats
@@ -1017,15 +1017,15 @@ DrugCentral:opener:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 DrugCentral:partial_agonist:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 DrugCentral:pharmacological_chaperone:
   operation: keep
   core_predicate: biolink:directly_physically_interacts_with
@@ -1034,22 +1034,22 @@ DrugCentral:positive_allosteric_modulator:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 DrugCentral:positive_modulator:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 DrugCentral:releasing_agent:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: expression
-    - object_direction: increased
+    object_aspect: expression
+    object_direction: increased
 DrugCentral:struct2atc:
   operation: keep
   core_predicate: biolink:close_match
@@ -1489,7 +1489,7 @@ GO:acts_upstream_of_negative_effect:
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: downregulated
+    object_direction: downregulated
 GO:acts_upstream_of_or_within:
   operation: keep
   core_predicate: biolink:affects
@@ -1498,21 +1498,21 @@ GO:acts_upstream_of_or_within_negative_effect:
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: decreased
+    object_direction: decreased
 GO:acts_upstream_of_or_within_positive_effect:
   operation: keep
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 GO:acts_upstream_of_positive_effect:
   operation: keep
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 GO:colocalizes_with:
   operation: keep
   core_predicate: biolink:colocalizes_with
@@ -1559,13 +1559,13 @@ GO:negatively_regulated_by:
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: downregulated
+    object_direction: downregulated
 GO:negatively_regulates:
   operation: keep
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: downregulated
+    object_direction: downregulated
 GO:occurs_in:
   operation: keep
   core_predicate: biolink:occurs_in
@@ -1577,13 +1577,13 @@ GO:positively_regulated_by:
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: upregulated
+    object_direction: upregulated
 GO:positively_regulates:
   operation: keep
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: upregulated
+    object_direction: upregulated
 GO:regulated_by:
   operation: invert
   core_predicate: biolink:regulates
@@ -1603,14 +1603,14 @@ GOREL:0002003:
   operation: keep
   core_predicate: biolink:affects
   qualifiers:
-    - object_aspect: localization
+    object_aspect: localization
 GOREL:0002004:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: degradation
-    - object_direction: increased
+    object_aspect: degradation
+    object_direction: increased
 # GOREL:0002005:
 #   operation: keep
 #   core_predicate: biolink:related_to
@@ -1622,7 +1622,7 @@ GOREL:0012006:
 #   core_predicate: biolink:affects
 #   qualified_predicate: biolink:affects
 #   qualifiers:
-#    - object_aspect: expression
+#    object_aspect: expression
 HANCESTRO:0301:
   operation: keep
   core_predicate: biolink:related_to
@@ -2563,8 +2563,8 @@ NCIT:enzyme_metabolizes_chemical_or_drug:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: localization
-    - object_direction: increased
+    object_aspect: localization
+    object_direction: increased
 NCIT:eo_anatomy_is_associated_with_eo_disease:
   operation: delete
 NCIT:eo_disease_has_associated_cell_type:
@@ -3195,8 +3195,8 @@ PR:confers_resistance_to:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 PR:has_gene_template:
   operation: keep
   core_predicate: biolink:gene_product_of
@@ -3286,25 +3286,25 @@ REACT:negatively_regulates:
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: downregulated
+    object_direction: downregulated
 REACT:negatively_regulates_gene_expression:
   operation: keep
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: downregulated
+    object_direction: downregulated
 REACT:positively_regulates:
   operation: keep
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: upregulated
+    object_direction: upregulated
 REACT:positively_regulates_gene_expression:
   operation: keep
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: upregulated
+    object_direction: upregulated
 REACT:related_to:
   operation: keep
   core_predicate: biolink:related_to
@@ -3532,13 +3532,13 @@ RO:0002212:  # negatively regulates
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: downregulated
+    object_direction: downregulated
 RO:0002213:  # positively regulates
   operation: keep
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: upregulated
+    object_direction: upregulated
 RO:0002215:
   operation: keep
   core_predicate: biolink:capable_of
@@ -3637,8 +3637,8 @@ RO:0002309:
 #   core_predicate: biolink:affects
 #   qualified_predicate: biolink:causes
 #   qualifiers:
-#   - object_aspect: transport
-#   - object_direction: increased
+#   object_aspect: transport
+#   object_direction: increased
 RO:0002314:
   operation: keep
   core_predicate: biolink:related_to
@@ -3680,8 +3680,8 @@ RO:0002339:
 #   core_predicate: biolink:affects
 #   qualified_predicate: biolink:causes
 #   qualifiers:
-#   - object_aspect: transport
-#   - object_direction: increased 
+#   object_aspect: transport
+#   object_direction: increased 
 RO:0002341:
   operation: keep
   core_predicate: biolink:related_to
@@ -3699,8 +3699,8 @@ RO:0002344:
 #   core_predicate: biolink:affects
 #   qualified_predicate: biolink:causes
 #   qualifiers:
-#     - object_aspect: transport
-#     - object_direction: increased
+#     object_aspect: transport
+#     object_direction: increased
 RO:0002348:
   operation: keep
   core_predicate: biolink:related_to
@@ -3786,13 +3786,13 @@ RO:0002436:
 #   core_predicate: biolink:regulates
 #   qualified_predicate: biolink:causes
 #   qualifiers:
-#     - object_direction: downregulated
+#     object_direction: downregulated
 # RO:0002450:
 #   operation: keep
 #   core_predicate: biolink:regulates
 #   qualified_predicate: biolink:causes
 #   qualifiers:
-#     - object_direction: upregulated
+#     object_direction: upregulated
 RO:0002451:
   operation: keep
   core_predicate: biolink:related_to
@@ -3924,13 +3924,13 @@ RO:0002629:  # directly positively regulates
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: upregulated
+    object_direction: upregulated
 RO:0002630:  # directly negatively regulates
   operation: keep
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: downregulated
+    object_direction: downregulated
 RO:0003000:
   operation: keep
   core_predicate: biolink:produces
@@ -3942,15 +3942,15 @@ RO:0003001:
 #   core_predicate: biolink:affects
 #   qualified_predicate: biolink:causes
 #   qualifiers:
-#     - object_aspect: expression
-#     - object_direction: decreased
+#     object_aspect: expression
+#     object_direction: decreased
 # RO:0003003:
 #   operation: keep
 #   core_predicate: biolink:affects
 #   qualified_predicate: biolink:causes
 #   qualifiers:
-#     - object_aspect: expression
-#     - object_direction: increased
+#     object_aspect: expression
+#     object_direction: increased
 # RO:0003301:
 #   operation: keep
 #   core_predicate: biolink:model_of
@@ -4096,14 +4096,14 @@ RO:0019001:
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: upregulated
+    object_direction: upregulated
 # negatively regulates characteristic
 RO:0019002:
   operation: keep
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: downregulated
+    object_direction: downregulated
 RO:0040036:
   operation: delete
 # RO:HOM0000000:
@@ -4210,15 +4210,15 @@ SEMMEDDB:AUGMENTS:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity_or_abundance
-    - object_direction: increased
+    object_aspect: activity_or_abundance
+    object_direction: increased
 SEMMEDDB:augments:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity_or_abundance
-    - object_direction: increased
+    object_aspect: activity_or_abundance
+    object_direction: increased
 SEMMEDDB:CAUSES:
   operation: keep
   core_predicate: biolink:causes
@@ -4272,15 +4272,15 @@ SEMMEDDB:INHIBITS:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 SEMMEDDB:inhibits:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: decreased
+    object_aspect: activity
+    object_direction: decreased
 SEMMEDDB:INTERACTS_WITH:
   operation: keep
   core_predicate: biolink:physically_interacts_with
@@ -4386,15 +4386,15 @@ SEMMEDDB:STIMULATES:
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 SEMMEDDB:stimulates:
   operation: keep
   core_predicate: biolink:affects
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_aspect: activity
-    - object_direction: increased
+    object_aspect: activity
+    object_direction: increased
 SEMMEDDB:TREATS:
   operation: keep
   core_predicate: biolink:treats
@@ -4846,7 +4846,7 @@ rdfs:negatively_regulates:
   core_predicate: biolink:regulates
   qualified_predicate: biolink:causes
   qualifiers:
-    - object_direction: downregulated
+    object_direction: downregulated
 rdfs:subClassOf: 
   operation: keep
   core_predicate: biolink:subclass_of

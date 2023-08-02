@@ -234,7 +234,7 @@ def process_edges(input_edges_file_name, infores_remap_config, predicate_remap_f
             qualified_predicate = pred_remap_info.get("qualified_predicate", None)
             qualifiers = pred_remap_info.get("qualifiers", None)
             if qualifiers is not None:
-                qualifiers_dict = qualifiers[0]
+                qualifiers_dict = qualifiers
                 qualified_object_aspect = qualifiers_dict.get("object_aspect", None)
                 qualified_object_direction = qualifiers_dict.get("object_direction", None)
             if qualified_object_aspect is not None and qualified_object_direction is not None and \
