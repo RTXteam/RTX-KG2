@@ -31,7 +31,7 @@ Snakemake Rule|JSON Lines Run Time|KG2.8.4 Run Time|JSON Lines Start Time|JSON L
 `JensenLab_Conversion`     |00:19:58|00:19:57|Mon Jul 31 00:57:29 2023|Mon Jul 31 01:17:27 2023|Sun Jul 30 23:28:25 2023|Sun Jul 30 23:48:22 2023
 `KEGG`                     |04:42:52|20:06:05|Mon Jul 31 00:47:47 2023|Mon Jul 31 05:29:39 2023|Sun Jul 30 23:15:56 2023|Mon Jul 31 19:22:01 2023
 `KEGG_Conversion`          |00:00:20|00:00:33|Mon Jul 31 05:29:39 2023|Mon Jul 31 05:29:59 2023|Mon Jul 31 19:22:01 2023|Mon Jul 31 19:22:34 2023
-`Merge`                    |08:30:01|00:00:00|Mon Jul 31 13:24:18 2023|Mon Jul 31 21:54:19 2023| | 
+`Merge`                    |08:30:01|10:39:43|Mon Jul 31 13:24:18 2023|Mon Jul 31 21:54:19 2023|Tue Aug  1 18:22:08 2023|Wed Aug  2 05:01:51 2023
 `NCBIGene`                 |00:00:03|00:00:02|Mon Jul 31 00:47:26 2023|Mon Jul 31 00:47:29 2023|Sun Jul 30 23:15:55 2023|Sun Jul 30 23:15:57 2023
 `NCBIGene_Conversion`      |00:00:16|00:00:42|Mon Jul 31 00:47:29 2023|Mon Jul 31 00:47:47 2023|Sun Jul 30 23:15:57 2023|Sun Jul 30 23:16:39 2023
 `Ontologies_and_TTL`       |06:52:54|08:26:09|Mon Jul 31 06:31:24 2023|Mon Jul 31 13:24:18 2023|Mon Jul 31 05:17:33 2023|Mon Jul 31 13:43:42 2023
@@ -42,11 +42,11 @@ Snakemake Rule|JSON Lines Run Time|KG2.8.4 Run Time|JSON Lines Start Time|JSON L
 `SMPDB`                    |00:17:39|00:17:02|Mon Jul 31 00:47:26 2023|Mon Jul 31 01:05:05 2023|Sun Jul 30 23:15:56 2023|Sun Jul 30 23:32:58 2023
 `SMPDB_Conversion`         |02:44:39|02:44:33|Mon Jul 31 01:05:05 2023|Mon Jul 31 03:49:44 2023|Sun Jul 30 23:32:58 2023|Mon Jul 31 02:27:31 2023
 `SemMedDB`                 |11:14:41|10:46:16|Mon Jul 31 00:47:27 2023|Mon Jul 31 12:02:08 2023|Sun Jul 30 23:15:56 2023|Mon Jul 31 10:02:12 2023
-`SemMedDB_Conversion`      |00:36:59|00:00:00|Mon Jul 31 12:02:08 2023|Mon Jul 31 12:39:07 2023|Mon Jul 31 10:02:12 2023| 
-`Simplify`                 |00:52:36|00:00:00|Mon Jul 31 21:54:19 2023|Mon Jul 31 22:46:55 2023| | 
+`SemMedDB_Conversion`      |00:36:59|32:19:56|Mon Jul 31 12:02:08 2023|Mon Jul 31 12:39:07 2023|Mon Jul 31 10:02:12 2023|Tue Aug  1 18:22:08 2023
+`Simplify`                 |00:52:36|02:38:45|Mon Jul 31 21:54:19 2023|Mon Jul 31 22:46:55 2023|Wed Aug  2 07:30:44 2023|Wed Aug  2 10:09:29 2023
 `Simplify_Stats`           |00:19:37|00:00:00|Mon Jul 31 22:46:55 2023|Mon Jul 31 23:06:32 2023| | 
-`Slim`                     |00:28:58|00:00:00|Mon Jul 31 22:46:55 2023|Mon Jul 31 23:15:53 2023| | 
-`Stats`                    |00:20:19|00:00:00|Mon Jul 31 21:54:19 2023|Mon Jul 31 22:14:38 2023| | 
+`Slim`                     |00:28:58|00:00:00|Mon Jul 31 22:46:55 2023|Mon Jul 31 23:15:53 2023|Wed Aug  2 10:09:29 2023| 
+`Stats`                    |00:20:19|02:28:53|Mon Jul 31 21:54:19 2023|Mon Jul 31 22:14:38 2023|Wed Aug  2 05:01:51 2023|Wed Aug  2 07:30:44 2023
 `TSV`                      |01:04:45|00:00:00|Mon Jul 31 22:46:55 2023|Mon Jul 31 23:51:40 2023| | 
 `UMLS`                     |05:43:57|06:01:11|Mon Jul 31 00:47:27 2023|Mon Jul 31 06:31:24 2023|Sun Jul 30 23:16:22 2023|Mon Jul 31 05:17:33 2023
 `UniChem`                  |00:15:37|00:17:07|Mon Jul 31 00:47:28 2023|Mon Jul 31 01:03:05 2023|Sun Jul 30 23:16:39 2023|Sun Jul 30 23:33:46 2023
@@ -59,8 +59,8 @@ Snakemake Rule|JSON Lines Run Time|KG2.8.4 Run Time|JSON Lines Start Time|JSON L
 --|--|--|--|--|--|-- 
 Build Stage Times:         | | | | | |  
 Pre-ETL                    |00:00:35|00:00:34|Mon Jul 31 00:46:51 2023|Mon Jul 31 00:47:26 2023|Sun Jul 30 23:15:21 2023|Sun Jul 30 23:15:55 2023
-ETL                        |12:36:52|00:00:00|Mon Jul 31 00:47:26 2023|Mon Jul 31 13:24:18 2023| | 
-Post-ETL                   |10:27:22|00:00:00|Mon Jul 31 13:24:18 2023|Mon Jul 31 23:51:40 2023| | 
+ETL                        |12:36:52|43:06:13|Mon Jul 31 00:47:26 2023|Mon Jul 31 13:24:18 2023|Sun Jul 30 23:15:55 2023|Tue Aug  1 18:22:08 2023
+Post-ETL                   |10:27:22|00:00:00|Mon Jul 31 13:24:18 2023|Mon Jul 31 23:51:40 2023|Tue Aug  1 18:22:08 2023| 
 Finish                     |01:22:39|00:00:00|Mon Jul 31 23:51:40 2023|Tue Aug  1 01:14:19 2023| | 
 --|--|--|--|--|--|-- 
 Total Build Times:         | | | | | |  
