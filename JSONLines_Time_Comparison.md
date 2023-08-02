@@ -45,10 +45,10 @@ Snakemake Rule|JSON Lines Run Time|KG2.8.4 Run Time|JSON Lines Start Time|JSON L
 `SemMedDB`                 |11:14:41|10:46:16|Mon Jul 31 00:47:27 2023|Mon Jul 31 12:02:08 2023|Sun Jul 30 23:15:56 2023|Mon Jul 31 10:02:12 2023
 `SemMedDB_Conversion`      |00:36:59|32:19:56|Mon Jul 31 12:02:08 2023|Mon Jul 31 12:39:07 2023|Mon Jul 31 10:02:12 2023|Tue Aug  1 18:22:08 2023
 `Simplify`                 |00:52:36|02:38:45|Mon Jul 31 21:54:19 2023|Mon Jul 31 22:46:55 2023|Wed Aug  2 07:30:44 2023|Wed Aug  2 10:09:29 2023
-`Simplify_Stats`           |00:19:37|00:00:00|Mon Jul 31 22:46:55 2023|Mon Jul 31 23:06:32 2023|Wed Aug  2 18:21:45 2023| 
+`Simplify_Stats`           |00:19:37|02:28:59|Mon Jul 31 22:46:55 2023|Mon Jul 31 23:06:32 2023|Wed Aug  2 18:21:45 2023|Wed Aug  2 20:50:44 2023
 `Slim`                     |00:28:58|08:12:16|Mon Jul 31 22:46:55 2023|Mon Jul 31 23:15:53 2023|Wed Aug  2 10:09:29 2023|Wed Aug  2 18:21:45 2023
 `Stats`                    |00:20:19|02:28:53|Mon Jul 31 21:54:19 2023|Mon Jul 31 22:14:38 2023|Wed Aug  2 05:01:51 2023|Wed Aug  2 07:30:44 2023
-`TSV`                      |01:04:45|00:00:00|Mon Jul 31 22:46:55 2023|Mon Jul 31 23:51:40 2023| | 
+`TSV`                      |01:04:45|00:00:00|Mon Jul 31 22:46:55 2023|Mon Jul 31 23:51:40 2023|Wed Aug  2 20:50:44 2023| 
 `UMLS`                     |05:43:57|06:01:11|Mon Jul 31 00:47:27 2023|Mon Jul 31 06:31:24 2023|Sun Jul 30 23:16:22 2023|Mon Jul 31 05:17:33 2023
 `UniChem`                  |00:15:37|00:17:07|Mon Jul 31 00:47:28 2023|Mon Jul 31 01:03:05 2023|Sun Jul 30 23:16:39 2023|Sun Jul 30 23:33:46 2023
 `UniChem_Conversion`       |00:00:10|00:00:13|Mon Jul 31 01:03:05 2023|Mon Jul 31 01:03:15 2023|Sun Jul 30 23:33:46 2023|Sun Jul 30 23:33:59 2023
