@@ -181,9 +181,13 @@ def get_node_stats(nodes_file_name: list, nodes_on_edges: set):
             nodes_by_category[category_label] = 0
         nodes_by_category[category_label] += 1
 
-        if source not in nodes_by_source:
-            nodes_by_source[source] = 0
-        nodes_by_source[source] += 1
+        for multi_source in node[source_key]:
+            if multi_source not in nodes_by_source:
+                nodes_by_source[multi_source] = 0
+            nodes_by_source[multi_source] += 1
+
+            if not args.use_simplified_predicates:
+                break
 
         if source not in nodes_by_source_and_category:
             nodes_by_source_and_category[source] = dict()
