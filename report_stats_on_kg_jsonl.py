@@ -217,8 +217,8 @@ def get_node_stats(nodes_file_name: list, nodes_on_edges: set):
         print("WARNING: 'build' property is missing from the input JSON.", file=sys.stderr)
 
     nodes_report = {'_number_of_nodes': node_count,
-                    '_build_version': build_info.get('version', ""),
-                    '_build_time': build_info.get('timestamp_utc', ""),
+                    '_build_version': build_info.get('name', ""),
+                    '_build_time': build_info.get('update_date', ""),
                     'number_of_nodes_by_curie_prefix': nodes_by_curie_prefix,
                     'number_of_nodes_without_category_by_curie_prefix': nodes_by_curie_prefix_given_no_category,
                     'number_of_nodes_by_category_label': nodes_by_category,
