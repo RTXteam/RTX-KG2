@@ -7759,7 +7759,7 @@ Time: 2023-08-03-01-29-26; Memory: 1%; Disk: 82.5% of 991.28GB
 >     "_build_version": "",
 >     "_number_of_edges": 54274670,
 >     "_number_of_nodes": 8437101,
->     "_report_datetime": "2023-07-31 22:46:59",
+>     "_report_datetime": "2023-08-03 18:01:30",
 36c36
 <         "biolink:affects": 4918525,
 ---
@@ -8755,129 +8755,8 @@ Time: 2023-08-03-01-29-26; Memory: 1%; Disk: 82.5% of 991.28GB
 >         "retrieval_source": 69,
 1190a422
 >         "RTX": 1,
-1239,1243c471,476
-<         "infores:atc-codes-umls": 6569,
-<         "infores:bfo": 52,
-<         "infores:biolink-ontology": 915,
-<         "infores:bspo": 380,
-<         "infores:chebi": 183273,
----
+1238a471
 >         "RTX:": 1,
->         "infores:atc-codes-umls": 6567,
->         "infores:bfo": 37,
->         "infores:biolink-ontology": 914,
->         "infores:bspo": 306,
->         "infores:chebi": 181590,
-1245,1247c478,480
-<         "infores:chv-umls": 2,
-<         "infores:cl": 16407,
-<         "infores:dda": 146,
----
->         "infores:chv-umls": 1,
->         "infores:cl": 14449,
->         "infores:dda": 137,
-1249c482
-<         "infores:disease-ontology": 18395,
----
->         "infores:disease-ontology": 16707,
-1252c485
-<         "infores:drugbank": 24323,
----
->         "infores:drugbank": 15356,
-1255c488
-<         "infores:ehdaa2": 2752,
----
->         "infores:ehdaa2": 2651,
-1257,1262c490,495
-<         "infores:fma-obo": 78989,
-<         "infores:fma-umls": 104530,
-<         "infores:foodon": 34282,
-<         "infores:genepio": 7989,
-<         "infores:go": 43676,
-<         "infores:go-plus": 84363,
----
->         "infores:fma-obo": 78976,
->         "infores:fma-umls": 26203,
->         "infores:foodon": 31776,
->         "infores:genepio": 4071,
->         "infores:go": 26,
->         "infores:go-plus": 45430,
-1264,1266c497,499
-<         "infores:hcp-codes-umls": 7349,
-<         "infores:hgnc": 43174,
-<         "infores:hl7-umls": 8666,
----
->         "infores:hcp-codes-umls": 7347,
->         "infores:hgnc": 23292,
->         "infores:hl7-umls": 6120,
-1268,1271c501,504
-<         "infores:hpo": 46816,
-<         "infores:icd10pcs-umls": 191282,
-<         "infores:icd9cm-umls": 22415,
-<         "infores:ino": 444,
----
->         "infores:hpo": 17880,
->         "infores:icd10pcs-umls": 191280,
->         "infores:icd9cm-umls": 22413,
->         "infores:ino": 318,
-1274,1277c507,510
-<         "infores:medlineplus": 2403,
-<         "infores:medrt-umls": 45,
-<         "infores:mesh": 352338,
-<         "infores:mi": 1653,
----
->         "infores:medlineplus": 362,
->         "infores:medrt-umls": 39,
->         "infores:mesh": 352331,
->         "infores:mi": 1531,
-1279,1287c512,520
-<         "infores:mondo": 45730,
-<         "infores:nbo": 4756,
-<         "infores:ncbi-gene": 191171,
-<         "infores:ncbi-taxon": 703976,
-<         "infores:ncit": 171246,
-<         "infores:nddf-umls": 31398,
-<         "infores:ndfrt": 2,
-<         "infores:omim": 104763,
-<         "infores:ordo": 14285,
----
->         "infores:mondo": 22157,
->         "infores:nbo": 815,
->         "infores:ncbi-gene": 191153,
->         "infores:ncbi-taxon": 695986,
->         "infores:ncit": 170725,
->         "infores:nddf-umls": 31397,
->         "infores:ndfrt": 1,
->         "infores:omim": 104560,
->         "infores:ordo": 8109,
-1289,1292c522,525
-<         "infores:pato": 10910,
-<         "infores:pdq-umls": 13344,
-<         "infores:pr": 328950,
-<         "infores:psy-umls": 7971,
----
->         "infores:pato": 2108,
->         "infores:pdq-umls": 13342,
->         "infores:pr": 318541,
->         "infores:psy-umls": 7969,
-1295,1296c528,529
-<         "infores:ro": 866,
-<         "infores:rxnorm": 107615,
----
->         "infores:ro": 377,
->         "infores:rxnorm": 107614,
-1300,1302c533,535
-<         "infores:uberon": 26652,
-<         "infores:umls": 1859991,
-<         "infores:umls-metathesaurus": 358870,
----
->         "infores:uberon": 8666,
->         "infores:umls": 1859990,
->         "infores:umls-metathesaurus": 158763,
-1305c538
-<         "infores:vandf-umls": 2
----
->         "infores:vandf-umls": 1
 1307a541,543
 >         "RTX:": {
 >             "retrieval_source": 1
