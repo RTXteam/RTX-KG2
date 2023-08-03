@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 '''chembl_mysql_to_kg_json.py: Extracts a KG in JSON format from the ChEMBL mysql database
 
-   Usage: chembl_mysql_to_kg_json.py [--test] <mysql_conf> <chembl_mysql_dbname> <outputFile.json>
+   Usage: chembl_mysql_to_kg_json.py [--test] <mysql_conf> <chembl_mysql_dbname> <outputNodesFile.json> <outputEdgesFile.json>
 '''
 
 __author__ = 'Stephen Ramsey'
@@ -17,6 +17,7 @@ __status__ = 'Prototype'
 import argparse
 import kg2_util
 import pymysql
+import datetime
 
 CHEMBL_CURIE_BASE_COMPOUND = kg2_util.CURIE_PREFIX_CHEMBL_COMPOUND
 CHEMBL_CURIE_BASE_TARGET = kg2_util.CURIE_PREFIX_CHEMBL_TARGET
@@ -62,8 +63,13 @@ def get_args():
                             default=False)
     arg_parser.add_argument('mysqlConfigFile', type=str)
     arg_parser.add_argument('mysqlDBName', type=str)
-    arg_parser.add_argument('outputFile', type=str)
+    arg_parser.add_argument('outputNodesFile', type=str)
+    arg_parser.add_argument('outputEdgesFile', type=str)
     return arg_parser.parse_args()
+
+
+def date():
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 def make_edge(subject_id: str,
@@ -107,15 +113,18 @@ def make_node(id: str,
 
 
 if __name__ == '__main__':
+    print("Start time: ", date())
     args = get_args()
     mysql_config_file = args.mysqlConfigFile
     mysql_db_name = args.mysqlDBName
-    output_file_name = args.outputFile
+    output_nodes_file_name = args.outputNodesFile
+    output_edges_file_name = args.outputEdgesFile
     test_mode = args.test
     connection = pymysql.connect(read_default_file=mysql_config_file, db=mysql_db_name)
 
-    nodes = []
-    edges = []
+    nodes_info, edges_info = kg2_util.create_kg2_jsonlines(test_mode)
+    nodes_output = nodes_info[0]
+    edges_output = edges_info[0]
 
     str_sql_row_limit_test_mode = ' limit ' + str(ROW_LIMIT_TEST_MODE)
 
@@ -222,7 +231,7 @@ if __name__ == '__main__':
                               publications,
                               update_date,
                               canonical_smiles)
-        nodes.append(node_dict)
+        nodes_output.write(node_dict)
 
 # create node objects for ChEMBL targets
 
@@ -257,7 +266,7 @@ if __name__ == '__main__':
                               [],
                               [],
                               update_date)
-        nodes.append(node_dict)
+        nodes_output.write(node_dict)
 
 # create node objects for "mechanism_of_action" types
 
@@ -280,7 +289,7 @@ if __name__ == '__main__':
                                   [],
                                   [],
                                   update_date)
-            nodes.append(node_dict)
+            nodes_output.write(node_dict)
 
 # get action_type nodes and their subclass_of relationships
 
@@ -300,7 +309,7 @@ if __name__ == '__main__':
                               [],
                               [],
                               update_date)
-        nodes.append(node_dict)
+        nodes_output.write(node_dict)
         parent_label = parent_type.lower().replace(' ', '_')
         parent_curie_id = kg2_util.CURIE_PREFIX_CHEMBL_MECHANISM + ':' + parent_label
         new_edge = kg2_util.make_edge_biolink(curie_id,
@@ -308,7 +317,7 @@ if __name__ == '__main__':
                                               kg2_util.EDGE_LABEL_BIOLINK_SUBCLASS_OF,
                                               CHEMBL_KB_CURIE_ID,
                                               update_date)
-        edges.append(new_edge)
+        edges_output.write(new_edge)
 
 # get target-to-target subset_of relationships
 
@@ -331,10 +340,10 @@ if __name__ == '__main__':
         subject_curie_id = kg2_util.CURIE_PREFIX_CHEMBL_TARGET + ':' + t1_chembl_id
         object_curie_id = kg2_util.CURIE_PREFIX_CHEMBL_TARGET + ':' + t2_chembl_id
         predicate_label = relationship.lower().replace(' ', '_')
-        edges.append(make_edge(subject_curie_id,
-                               object_curie_id,
-                               predicate_label,
-                               update_date))
+        edges_output.write(make_edge(subject_curie_id,
+                                     object_curie_id,
+                                     predicate_label,
+                                     update_date))
 
 # get ChEMBL target-to-protein and target-to-RNA relationships
 
@@ -366,11 +375,11 @@ if __name__ == '__main__':
             object_curie_id = kg2_util.CURIE_PREFIX_UNIPROT + ':' + accession
         elif component_type == 'RNA':
             object_curie_id = kg2_util.CURIE_PREFIX_ENSEMBL + ':' + accession
-        edges.append(kg2_util.make_edge_biolink(subject_curie_id,
-                                                object_curie_id,
-                                                kg2_util.EDGE_LABEL_BIOLINK_PART_OF,
-                                                CHEMBL_KB_CURIE_ID,
-                                                update_date))
+        edges_output.write(kg2_util.make_edge_biolink(subject_curie_id,
+                                                      object_curie_id,
+                                                      kg2_util.EDGE_LABEL_BIOLINK_PART_OF,
+                                                      CHEMBL_KB_CURIE_ID,
+                                                      update_date))
 
 
 # get drug-to-target edges and additional information about drugs (direct_interaction, has_role, etc.)
@@ -405,25 +414,25 @@ if __name__ == '__main__':
             publications = [ref_url]
         else:
             publications = None
-        edges.append(make_edge(subject_curie_id,
-                               object_curie_id,
-                               predicate_label,
-                               update_date,
-                               publications))
+        edges_output.write(make_edge(subject_curie_id,
+                                     object_curie_id,
+                                     predicate_label,
+                                     update_date,
+                                     publications))
         if direct_interaction is not None and direct_interaction == 1:
-            edges.append(kg2_util.make_edge_biolink(subject_curie_id,
-                                                    object_curie_id,
-                                                    kg2_util.EDGE_LABEL_BIOLINK_PHYSICALLY_INTERACTS_WITH,
-                                                    CHEMBL_KB_CURIE_ID,
-                                                    update_date))
+            edges_output.write(kg2_util.make_edge_biolink(subject_curie_id,
+                                                          object_curie_id,
+                                                          kg2_util.EDGE_LABEL_BIOLINK_PHYSICALLY_INTERACTS_WITH,
+                                                          CHEMBL_KB_CURIE_ID,
+                                                          update_date))
         if mechanism_of_action is not None:
             mech_label = mechanism_of_action.lower().replace(' ', '_')
             mech_curie_id = CHEMBL_CURIE_BASE_MECHANISM + ':' + mech_label
-            edges.append(kg2_util.make_edge_biolink(subject_curie_id,
-                                                    mech_curie_id,
-                                                    kg2_util.EDGE_LABEL_BIOLINK_RELATED_TO,
-                                                    CHEMBL_KB_CURIE_ID,
-                                                    update_date))
+            edges_output.write(kg2_util.make_edge_biolink(subject_curie_id,
+                                                          mech_curie_id,
+                                                          kg2_util.EDGE_LABEL_BIOLINK_RELATED_TO,
+                                                          CHEMBL_KB_CURIE_ID,
+                                                          update_date))
 
 # get molecule-to-disease indications
 
@@ -437,11 +446,11 @@ if __name__ == '__main__':
         subject_curie_id = CHEMBL_CURIE_BASE_COMPOUND + ':' + chembl_id
         object_curie_id = kg2_util.CURIE_PREFIX_MESH + ':' + mesh_id
         predicate_label = kg2_util.EDGE_LABEL_BIOLINK_TREATS
-        edges.append(kg2_util.make_edge_biolink(subject_curie_id,
-                                                object_curie_id,
-                                                predicate_label,
-                                                CHEMBL_KB_CURIE_ID,
-                                                update_date))
+        edges_output.write(kg2_util.make_edge_biolink(subject_curie_id,
+                                                      object_curie_id,
+                                                      predicate_label,
+                                                      CHEMBL_KB_CURIE_ID,
+                                                      update_date))
 # get metabolism information
 
     sql = '''select m1.chembl_id as drug_id,
@@ -469,19 +478,19 @@ if __name__ == '__main__':
         subject_curie_id = CHEMBL_CURIE_BASE_COMPOUND + ':' + compound_id
         object_curie_id = CHEMBL_CURIE_BASE_COMPOUND + ':' + metabolite_id
         predicate_label = kg2_util.EDGE_LABEL_BIOLINK_HAS_METABOLITE
-        edges.append(kg2_util.make_edge_biolink(subject_curie_id,
-                                                object_curie_id,
-                                                predicate_label,
-                                                CHEMBL_KB_CURIE_ID,
-                                                update_date))
+        edges_output.write(kg2_util.make_edge_biolink(subject_curie_id,
+                                                      object_curie_id,
+                                                      predicate_label,
+                                                      CHEMBL_KB_CURIE_ID,
+                                                      update_date))
 
-    nodes.append(kg2_util.make_node(CHEMBL_KB_CURIE_ID,
-                           CHEMBL_KB_URL,
-                           'ChEMBL v' + version,
-                           kg2_util.SOURCE_NODE_CATEGORY,
-                           update_date,
-                           CHEMBL_KB_CURIE_ID))
+    nodes_output.write(kg2_util.make_node(CHEMBL_KB_CURIE_ID,
+                                          CHEMBL_KB_URL,
+                                          'ChEMBL v' + version,
+                                          kg2_util.SOURCE_NODE_CATEGORY,
+                                          update_date,
+                                          CHEMBL_KB_CURIE_ID))
 
-    kg2_util.save_json({'nodes': nodes, 'edges': edges},
-                       output_file_name,
-                       test_mode)
+    kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
+
+    print("Finish time: ", date())

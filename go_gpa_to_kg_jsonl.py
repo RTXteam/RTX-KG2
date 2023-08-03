@@ -2,7 +2,7 @@
 
 ''' Converts a Gene Ontology GPA file for humans to the KG2 JSON edges
 
-    Usage: go_gpa_to_kg_json.py  <inputFile.json> <outputFile.json>
+    Usage: go_gpa_to_kg_json.py  <inputFile.json> <outputNodesFile.json> <outputEdgesFile.json>
 '''
 
 import csv
@@ -35,7 +35,8 @@ def get_args():
                             action="store_true",
                             default=False)
     arg_parser.add_argument('inputFile', type=str)
-    arg_parser.add_argument('outputFile', type=str)
+    arg_parser.add_argument('outputNodesFile', type=str)
+    arg_parser.add_argument('outputEdgesFile', type=str)
     return arg_parser.parse_args()
 
 
@@ -47,10 +48,16 @@ if __name__ == '__main__':
     print("Starting at", date())
     args = get_args()
     gaf_file = open(args.inputFile)
+    output_nodes_file_name = args.outputNodesFile
+    output_edges_file_name = args.outputEdgesFile
+    test_mode = args.test
+
+    nodes_info, edges_info = kg2_util.create_kg2_jsonlines(test_mode)
+    nodes_output = nodes_info[0]
+    edges_output = edges_info[0]
+
     file_arr = csv.reader(gaf_file, delimiter="\t")
-    nodes = []
-    edges = []
-    databases = {}
+
     file_update_date = ''
     for line in file_arr:
         if line[0].startswith("!") is False:
@@ -77,18 +84,18 @@ if __name__ == '__main__':
                                       update_date)
             edge["negated"] = negated
             edge["publications"] = publications
-            edges.append(edge)
+            edges_output.write(edge)
         elif line[0].startswith('!Generated: '):
             file_update_date = line[0].replace('!Generated: ', '')
+
     go_kp_node = kg2_util.make_node(GO_PROVIDED_BY_CURIE_ID,
                                     GO_BASE_IRI,
                                     "Gene Ontology Annotations",
                                     kg2_util.SOURCE_NODE_CATEGORY,
                                     file_update_date,
                                     GO_PROVIDED_BY_CURIE_ID)
-    nodes.append(go_kp_node)
-    kg2_util.save_json({"nodes": nodes, "edges": edges},
-                       args.outputFile,
-                       args.test)
+    nodes_output.write(go_kp_node)
+
+    kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
 
     print("Ending at", date())

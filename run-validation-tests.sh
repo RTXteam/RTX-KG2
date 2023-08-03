@@ -40,9 +40,6 @@ sed -i "\@${biolink_base_url_no_version}@c${curies_urls_map_replace_string}" \
 sed -i "\@${biolink_base_url_no_version}@c${ont_load_inventory_replace_string}" \
         ${ont_load_inventory_file}
 
-
-python_command="${VENV_DIR}/bin/python3"
-
 rm -f ${biolink_model_owl_local_file}
 rm -f ${biolink_model_yaml_local_file}
 

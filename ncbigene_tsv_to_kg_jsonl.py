@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 '''ncbigene_tsv_to_kg_json.py: Extracts a KG2 JSON file from the NCBI human gene distribution in TSV format
 
-   Usage: ncbigene_tsv_to_kg_json.py [--test] <inputFile.tsv> <outputFile.json>
+   Usage: ncbigene_tsv_to_kg_json.py [--test] <inputFile.tsv> <outputNodesFile.json> <outputEdgesFile.json>
 '''
 
 __author__ = 'Stephen Ramsey'
@@ -16,6 +16,7 @@ __status__ = 'Prototype'
 import argparse
 import kg2_util
 import os
+import datetime
 
 
 NCBI_BASE_IRI = kg2_util.BASE_URL_NCBIGENE
@@ -27,8 +28,13 @@ def get_args():
     arg_parser = argparse.ArgumentParser(description='ncbigene_tsv_to_kg_json.py: builds a KG2 JSON representation for NCBI human genes')
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
     arg_parser.add_argument('inputFile', type=str)
-    arg_parser.add_argument('outputFile', type=str)
+    arg_parser.add_argument('outputNodesFile', type=str)
+    arg_parser.add_argument('outputEdgesFile', type=str)
     return arg_parser.parse_args()
+
+
+def date():
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 def make_node(ncbi_gene_id: str,
@@ -54,9 +60,7 @@ def make_node(ncbi_gene_id: str,
     return node_dict
 
 
-def make_kg2_graph(input_file_name: str, test_mode: bool = False):
-    nodes = []
-    edges = []
+def make_kg2_graph(input_file_name: str, nodes_output, edges_output, test_mode: bool = False):
     gene_ctr = 0
 
     update_date = os.path.getmtime(input_file_name)
@@ -67,7 +71,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                                      kg2_util.SOURCE_NODE_CATEGORY,
                                      update_date,
                                      ontology_curie_id)
-    nodes.append(ens_kp_node)
+    nodes_output.write(ens_kp_node)
 
     with open(input_file_name, 'r') as input_file:
         for line in input_file:
@@ -138,7 +142,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                 node_description += '; Locus:' + map_location
             node_description += '; NameStatus:' + nomenc_tag
             node_dict['description'] = node_description
-            nodes.append(node_dict)
+            nodes_output.write(node_dict)
             org_curie = kg2_util.CURIE_PREFIX_NCBI_TAXON + ':' + taxon_id_str
             predicate_label = 'in_taxon'
 
@@ -147,7 +151,7 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                                                    predicate_label,
                                                    NCBI_KB_CURIE_ID,
                                                    modify_date)
-            edges.append(edge_dict)
+            edges_output.write(edge_dict)
             if db_xrefs is not None:
                 xrefs_list = db_xrefs.split('|')
                 for xref_curie in xrefs_list:
@@ -157,28 +161,36 @@ def make_kg2_graph(input_file_name: str, test_mode: bool = False):
                         xref_curie = xref_curie.upper()
                     elif xref_curie.startswith('MIM:'):
                         xref_curie = kg2_util.CURIE_PREFIX_OMIM + ':' + xref_curie.replace('MIM:', '')
-                        edges.append(kg2_util.make_edge_biolink(node_curie_id,
-                                                                xref_curie,
-                                                                kg2_util.EDGE_LABEL_BIOLINK_RELATED_TO,
-                                                                NCBI_KB_CURIE_ID,
-                                                                modify_date))
+                        edges_output.write(kg2_util.make_edge_biolink(node_curie_id,
+                                                                      xref_curie,
+                                                                      kg2_util.EDGE_LABEL_BIOLINK_RELATED_TO,
+                                                                      NCBI_KB_CURIE_ID,
+                                                                      modify_date))
                         continue
                     elif xref_curie.startswith('miRBase:'):
                         xref_curie = kg2_util.CURIE_PREFIX_MIRBASE + ':' + xref_curie.replace('miRBase:', '')
-                    edges.append(kg2_util.make_edge(node_curie_id,
-                                                    xref_curie,
-                                                    kg2_util.CURIE_ID_OWL_SAME_AS,
-                                                    kg2_util.EDGE_LABEL_OWL_SAME_AS,
-                                                    NCBI_KB_CURIE_ID,
-                                                    modify_date))
-    return {'nodes': nodes,
-            'edges': edges}
+                    edges_output.write(kg2_util.make_edge(node_curie_id,
+                                                          xref_curie,
+                                                          kg2_util.CURIE_ID_OWL_SAME_AS,
+                                                          kg2_util.EDGE_LABEL_OWL_SAME_AS,
+                                                          NCBI_KB_CURIE_ID,
+                                                          modify_date))
 
 
 if __name__ == '__main__':
+    print("Start time: ", date())
     args = get_args()
     input_file_name = args.inputFile
-    output_file_name = args.outputFile
+    output_nodes_file_name = args.outputNodesFile
+    output_edges_file_name = args.outputEdgesFile
     test_mode = args.test
-    graph = make_kg2_graph(input_file_name, test_mode)
-    kg2_util.save_json(graph, output_file_name, test_mode)
+
+    nodes_info, edges_info = kg2_util.create_kg2_jsonlines(test_mode)
+    nodes_output = nodes_info[0]
+    edges_output = edges_info[0]
+
+    make_kg2_graph(input_file_name, nodes_output, edges_output, test_mode)
+    
+    kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
+
+    print("Finish time: ", date())

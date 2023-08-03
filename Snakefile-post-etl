@@ -1,104 +1,162 @@
 rule Merge:
     input:
-        ont = config['OUTPUT_FILE_FULL'],
-        uniprot = config['UNIPROTKB_OUTPUT_FILE'],
-        semmeddb = config['SEMMED_OUTPUT_FILE'],
-        chembl = config['CHEMBL_OUTPUT_FILE'],
-        ensembl = config['ENSEMBL_OUTPUT_FILE'],
-        unichem = config['UNICHEM_OUTPUT_FILE'],
-        ncbigene = config['NCBI_GENE_OUTPUT_FILE'],
-        dgidb = config['DGIDB_OUTPUT_FILE'],
-        repodb = config['REPODB_OUTPUT_FILE'],
-        drugbank = config['DRUGBANK_OUTPUT_FILE'],
-        smpdb = config['SMPDB_OUTPUT_FILE'],
-        hmdb = config['HMDB_OUTPUT_FILE'],
-        go_annotations = config['GO_ANNOTATION_OUTPUT_FILE'],
-        reactome = config['REACTOME_OUTPUT_FILE'],
-        mirbase = config['MIRBASE_OUTPUT_FILE'],
-        jensenlab = config['JENSENLAB_OUTPUT_FILE'],
-        drugcentral = config['DRUGCENTRAL_OUTPUT_FILE'],
-        intact = config['INTACT_OUTPUT_FILE'],
-        disgenet = config['DISGENET_OUTPUT_FILE'],
-        kegg = config['KEGG_OUTPUT_FILE']
+        code = config['MERGE_SCRIPT'],
+        ont_nodes = config['ONT_OUTPUT_NODES_FILE'],
+        ont_edges = config['ONT_OUTPUT_EDGES_FILE'],
+        uniprot_nodes = config['UNIPROTKB_OUTPUT_NODES_FILE'],
+        uniprot_edges = config['UNIPROTKB_OUTPUT_EDGES_FILE'],
+        semmeddb_nodes = config['SEMMEDDB_OUTPUT_NODES_FILE'],
+        semmeddb_edges = config['SEMMEDDB_OUTPUT_EDGES_FILE'],
+        chembl_nodes = config['CHEMBL_OUTPUT_NODES_FILE'],
+        chembl_edges = config['CHEMBL_OUTPUT_EDGES_FILE'],
+        ensembl_nodes = config['ENSEMBL_OUTPUT_NODES_FILE'],
+        ensembl_edges = config['ENSEMBL_OUTPUT_EDGES_FILE'],
+        unichem_nodes = config['UNICHEM_OUTPUT_NODES_FILE'],
+        unichem_edges = config['UNICHEM_OUTPUT_EDGES_FILE'],
+        ncbigene_nodes = config['NCBIGENE_OUTPUT_NODES_FILE'],
+        ncbigene_edges = config['NCBIGENE_OUTPUT_EDGES_FILE'],
+        dgidb_nodes = config['DGIDB_OUTPUT_NODES_FILE'],
+        dgidb_edges = config['DGIDB_OUTPUT_EDGES_FILE'],
+        repodb_nodes = config['REPODB_OUTPUT_NODES_FILE'],
+        repodb_edges = config['REPODB_OUTPUT_EDGES_FILE'],
+        drugbank_nodes = config['DRUGBANK_OUTPUT_NODES_FILE'],
+        drugbank_edges = config['DRUGBANK_OUTPUT_EDGES_FILE'],
+        smpdb_nodes = config['SMPDB_OUTPUT_NODES_FILE'],
+        smpdb_edges = config['SMPDB_OUTPUT_EDGES_FILE'],
+        hmdb_nodes = config['HMDB_OUTPUT_NODES_FILE'],
+        hmdb_edges = config['HMDB_OUTPUT_EDGES_FILE'],
+        go_annotations_nodes = config['GO_ANNOTATIONS_OUTPUT_NODES_FILE'],
+        go_annotations_edges = config['GO_ANNOTATIONS_OUTPUT_EDGES_FILE'],
+        reactome_nodes = config['REACTOME_OUTPUT_NODES_FILE'],
+        reactome_edges = config['REACTOME_OUTPUT_EDGES_FILE'],
+        mirbase_nodes = config['MIRBASE_OUTPUT_NODES_FILE'],
+        mirbase_edges = config['MIRBASE_OUTPUT_EDGES_FILE'],
+        jensenlab_nodes = config['JENSENLAB_OUTPUT_NODES_FILE'],
+        jensenlab_edges = config['JENSENLAB_OUTPUT_EDGES_FILE'],
+        drugcentral_nodes = config['DRUGCENTRAL_OUTPUT_NODES_FILE'],
+        drugcentral_edges = config['DRUGCENTRAL_OUTPUT_EDGES_FILE'],
+        intact_nodes = config['INTACT_OUTPUT_NODES_FILE'],
+        intact_edges = config['INTACT_OUTPUT_EDGES_FILE'],
+        disgenet_nodes = config['DISGENET_OUTPUT_NODES_FILE'],
+        disgenet_edges = config['DISGENET_OUTPUT_EDGES_FILE'],
+        kegg_nodes = config['KEGG_OUTPUT_NODES_FILE'],
+        kegg_edges = config['KEGG_OUTPUT_EDGES_FILE']
     output:
-        full = config['FINAL_OUTPUT_FILE_FULL'],
+        nodes = config['MERGED_OUTPUT_NODES_FILE'],
+        edges = config['MERGED_OUTPUT_EDGES_FILE'],
         orph = config['OUTPUT_FILE_ORPHAN_EDGES']
+    log:
+        config['MERGE_LOG']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/merge_graphs.py " + config['TEST_ARG'] + \
+        config['PYTHON_COMMAND'] + " {input.code} " + config['TEST_ARG'] + \
             " --kgFileOrphanEdges {output.orph}" + \
-            " --outputFile {output.full} " + \
-            "{input.ont} " + \
-            "{input.semmeddb} " + \
-            "{input.uniprot} " + \
-            "{input.ensembl} " + \
-            "{input.unichem} " + \
-            "{input.chembl} " + \
-            "{input.ncbigene} " + \
-            "{input.dgidb} " + \
-            "{input.repodb} " + \
-            "{input.smpdb} " + \
-            "{input.drugbank} " + \
-            "{input.hmdb} " + \
-            "{input.go_annotations} " + \
-            "{input.reactome} " + \
-            "{input.mirbase} " + \
-            "{input.jensenlab} " + \
-            "{input.drugcentral} " + \
-            "{input.intact} " + \
-            "{input.disgenet} " + \
-            "{input.kegg}"
+            " --outputNodesFile {output.nodes} " + \
+            " --outputEdgesFile {output.edges} " + \
+            " --kgNodesFiles " + \
+            "{input.ont_nodes} " + \
+            "{input.semmeddb_nodes} " + \
+            "{input.uniprot_nodes} " + \
+            "{input.ensembl_nodes} " + \
+            "{input.unichem_nodes} " + \
+            "{input.chembl_nodes} " + \
+            "{input.ncbigene_nodes} " + \
+            "{input.dgidb_nodes} " + \
+            "{input.repodb_nodes} " + \
+            "{input.smpdb_nodes} " + \
+            "{input.drugbank_nodes} " + \
+            "{input.hmdb_nodes} " + \
+            "{input.go_annotations_nodes} " + \
+            "{input.reactome_nodes} " + \
+            "{input.mirbase_nodes} " + \
+            "{input.jensenlab_nodes} " + \
+            "{input.drugcentral_nodes} " + \
+            "{input.intact_nodes} " + \
+            "{input.disgenet_nodes} " + \
+            "{input.kegg_nodes} " + \
+            " --kgEdgesFiles " + \
+            "{input.ont_edges} " + \
+            "{input.semmeddb_edges} " + \
+            "{input.uniprot_edges} " + \
+            "{input.ensembl_edges} " + \
+            "{input.unichem_edges} " + \
+            "{input.chembl_edges} " + \
+            "{input.ncbigene_edges} " + \
+            "{input.dgidb_edges} " + \
+            "{input.repodb_edges} " + \
+            "{input.smpdb_edges} " + \
+            "{input.drugbank_edges} " + \
+            "{input.hmdb_edges} " + \
+            "{input.go_annotations_edges} " + \
+            "{input.reactome_edges} " + \
+            "{input.mirbase_edges} " + \
+            "{input.jensenlab_edges} " + \
+            "{input.drugcentral_edges} " + \
+            "{input.intact_edges} " + \
+            "{input.disgenet_edges} " + \
+            "{input.kegg_edges} > {log} 2>&1"
 
 rule Stats:
     input:
-        config['FINAL_OUTPUT_FILE_FULL']
+        code = config['REPORT_SCRIPT'],
+        nodes = config['MERGED_OUTPUT_NODES_FILE'],
+        edges = config['MERGED_OUTPUT_EDGES_FILE']
     output:
-        config['REPORT_FILE_FULL']
+        config['REPORT_FILE']
     log: 
-        config['BUILD_DIR'] + "/report_stats_on_json_kg" + config['TEST_SUFFIX'] + ".log"
+        config['REPORT_LOG']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/report_stats_on_json_kg.py {input} {output}  > {log} 2>&1"
+        config['PYTHON_COMMAND'] + " {input.code} {input.nodes} {input.edges} {output}  > {log} 2>&1"
 
 rule Simplify:
     input:
-        real = config['FINAL_OUTPUT_FILE_FULL'],
-        placeholder = config['REPORT_FILE_FULL']
+        code = config['SIMPLIFY_SCRIPT'],
+        nodes = config['MERGED_OUTPUT_NODES_FILE'],
+        edges = config['MERGED_OUTPUT_EDGES_FILE']
     output:
-        config['SIMPLIFIED_OUTPUT_FILE_FULL']
+        nodes = config['SIMPLIFIED_OUTPUT_NODES_FILE'],
+        edges = config['SIMPLIFIED_OUTPUT_EDGES_FILE']
     log:
-        config['BUILD_DIR'] + "/filter_kg_and_remap_predicates" + config['TEST_SUFFIX'] + ".log"
+        config['SIMPLIFY_LOG']
     shell:
-        "bash -x " + config['CODE_DIR'] + "/run-simplify.sh {input.real} {output} " + config['VERSION_FILE'] + " " + config['TEST_FLAG'] + " > {log} 2>&1" 
+        "bash -x {input.code} {input.nodes} {input.edges} {output.nodes} {output.edges} " + config['VERSION_FILE'] + " " + config['TEST_FLAG'] + " > {log} 2>&1" 
 
 rule Slim:
     input:
-        slim_real = config['SIMPLIFIED_OUTPUT_FILE_FULL'],
-        placeholder = config['SIMPLIFIED_OUTPUT_NODES_FILE_FULL']
+        code = config['SLIM_SCRIPT'],
+        nodes = config['SIMPLIFIED_OUTPUT_NODES_FILE'],
+        edges = config['SIMPLIFIED_OUTPUT_EDGES_FILE']
     output:
-        config['SLIM_OUTPUT_FILE_FULL']
+        nodes = config['SLIM_OUTPUT_NODES_FILE'],
+        edges = config['SLIM_OUTPUT_EDGES_FILE']
     log:
-        config['BUILD_DIR'] + "/slim_kg2" + config['TEST_SUFFIX'] + ".log"
+        config['SLIM_LOG']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/slim_kg2.py " + config['TEST_ARG'] + " {input.slim_real} {output} > {log} 2>&1"
+        config['PYTHON_COMMAND'] + " {input.code} " + config['TEST_ARG'] + " {input.nodes} {input.edges} {output.nodes} {output.edges} > {log} 2>&1"
 
 rule Simplify_Stats:
     input:
-        real = config['SIMPLIFIED_OUTPUT_FILE_FULL'],
-        placeholder = config['SLIM_OUTPUT_FILE_FULL']
+        code = config['REPORT_SCRIPT'],
+        nodes = config['SIMPLIFIED_OUTPUT_NODES_FILE'],
+        edges = config['SIMPLIFIED_OUTPUT_EDGES_FILE']
     output:
-        config['SIMPLIFIED_REPORT_FILE_FULL']
+        config['SIMPLIFIED_REPORT_FILE']
     log:
-        config['BUILD_DIR'] + "/report_stats_on_json_kg_simplified" + config['TEST_SUFFIX'] + ".log"
+        config['SIMPLIFIED_REPORT_LOG']
     shell:
-        config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/report_stats_on_json_kg.py --useSimplifiedPredicates {input.real} {output} > {log} 2>&1"
+        config['PYTHON_COMMAND'] + " {input.code} --useSimplifiedPredicates {input.nodes} {input.edges} {output} > {log} 2>&1"
 
 rule TSV:
     input:
-        real = config['SIMPLIFIED_OUTPUT_FILE_FULL'],
-        placeholder = config['SIMPLIFIED_REPORT_FILE_FULL']
+        code = config['TSV_SCRIPT'],
+        nodes = config['SIMPLIFIED_OUTPUT_NODES_FILE'],
+        edges = config['SIMPLIFIED_OUTPUT_EDGES_FILE'],
+        mapping_file = config['INFORES_MAPPING_FILE']
     output:
-        placeholder = config['BUILD_DIR'] + "/tsv_placeholder.empty"
+        placeholder = config['TSV_PLACEHOLDER']
+    log:
+        config['TSV_LOG']
     run:
         shell("rm -rf " + config['KG2_TSV_DIR'])
         shell("mkdir -p " + config['KG2_TSV_DIR'])
-        shell(config['VENV_DIR'] + "/bin/python3 -u " + config['CODE_DIR'] + "/kg_json_to_tsv.py {input.real} " + config['KG2_TSV_DIR'])
+        shell(config['PYTHON_COMMAND'] + " {input.code} {input.nodes} {input.edges} {input.mapping_file} " + config['KG2_TSV_DIR'] + " > {log} 2>&1")
         shell("touch {output.placeholder}")

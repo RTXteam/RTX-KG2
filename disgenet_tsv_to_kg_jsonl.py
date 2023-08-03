@@ -2,12 +2,13 @@
 '''disgenet_tsv_to_kg_json.py: Extracts a KG2 JSON file from the DisGeNET
    gene to disease annoations in TSV format
 
-   Usage: disgenet_tsv_to_kg_json.py [--test] <inputFile.tsv> <outputFile.json>
+   Usage: disgenet_tsv_to_kg_json.py [--test] <inputFile.tsv> <outputNodesFile.json> <outputEdgesFile.json>
 '''
 
 import argparse
 import kg2_util
 import csv
+import datetime
 
 __author__ = 'Erica Wood'
 __copyright__ = 'Oregon State University'
@@ -34,16 +35,20 @@ def get_args():
                             action="store_true",
                             default=False)
     arg_parser.add_argument('inputFile', type=str)
-    arg_parser.add_argument('outputFile', type=str)
+    arg_parser.add_argument('outputNodesFile', type=str)
+    arg_parser.add_argument('outputEdgesFile', type=str)
     return arg_parser.parse_args()
+
+
+def date():
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 def format_id(id: str, prefix: str):
     return prefix + ':' + id.strip()
 
 
-def make_edges(input_file: str, test_mode: bool):
-    edges = []
+def make_edges(input_file: str, edges_output, test_mode: bool):
     count = 0
     non_befree_count = 0
     with open(input_file, 'r') as input_tsv:
@@ -85,23 +90,31 @@ def make_edges(input_file: str, test_mode: bool):
                 if pmid is not None and pmid != '':
                     publication = kg2_util.CURIE_PREFIX_PMID + ':' + pmid
                     edge['publications'].append(publication)
-                edges.append(edge)
-    return edges
+                edges_output.write(edge)
 
 
 if __name__ == '__main__':
+    print("Start time: ", date())
     args = get_args()
-    input_file = args.inputFile
-    output_file = args.outputFile
-    edges = make_edges(input_file, args.test)
-    nodes = []
+    input_file_name = args.inputFile
+    output_nodes_file_name = args.outputNodesFile
+    output_edges_file_name = args.outputEdgesFile
+    test_mode = args.test
+
+    nodes_info, edges_info = kg2_util.create_kg2_jsonlines(test_mode)
+    nodes_output = nodes_info[0]
+    edges_output = edges_info[0]
+
+    make_edges(input_file_name, edges_output, test_mode)
+
     kp_node = kg2_util.make_node(DISGENET_KB_CURIE,
                                  DISGENET_BASE_IRI,
                                  "DisGeNET",
                                  kg2_util.SOURCE_NODE_CATEGORY,
                                  None,
                                  DISGENET_KB_CURIE)
-    nodes.append(kp_node)
-    graph = {"edges": edges,
-             "nodes": nodes}
-    kg2_util.save_json(graph, output_file, args.test)
+    nodes_output.write(kp_node)
+
+    kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
+
+    print("Finish time: ", date())

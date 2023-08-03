@@ -5,12 +5,12 @@
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0 <input_file.tsv> <output_file.json> [test]"
+    echo Usage: "$0 <input_file.tsv> <output_nodes_file.jsonl> <output_edges_file.jsonl> [test]"
     exit 2
 fi
 
-# Usage: build-multi-ont-kg.sh <input_file.tsv> <output_file.json> [test]
-#        build-multi-ont-kg.sh /home/ubuntu/kg2-build/kg2-ont.json test
+# Usage: build-multi-ont-kg.sh <input_file.tsv> <output_nodes_file.jsonl> <output_edges_file.jsonl> [test]
+#        build-multi-ont-kg.sh /home/ubuntu/kg2-build/umls_cuis.jsonl /home/ubuntu/kg2-build/kg2-ont-nodes.jsonl /home/ubuntu/kg2-build/kg2-ont-edges.jsonl test
 
 echo "================= starting build-multi-ont-kg.sh ================="
 date
@@ -20,7 +20,7 @@ config_dir=`dirname "$0"`
 source ${config_dir}/master-config.shinc
 
 ## supply a default value for the build_flag string
-build_flag=${3:-""}
+build_flag=${4:-""}
 biolink_base_url_no_version=https://raw.githubusercontent.com/biolink/biolink-model/
 
 # Issue #300: Need "v" before version number for URL to resolve
@@ -35,7 +35,7 @@ sed -i "\@${biolink_base_url_no_version}@c${ont_load_inventory_replace_string}" 
 sed -i "\@${biolink_base_url_no_version}@c${curies_urls_map_replace_string}" \
          ${curies_to_urls_file}
 
-if [[ "${build_flag}" == 'test' || "${build_flag}" == 'alltest' ]]
+if [[ "${build_flag}" == 'test' ]]
 then
     test_suffix='-test'
     test_arg='--test'
@@ -45,11 +45,8 @@ else
 fi
 
 umls_cuis_file=${1:-"${BUILD_DIR}/umls_cuis.tsv"}
-output_file=${2:-"${BUILD_DIR}/kg2-ont${test_suffix}.json"}
-output_file_base=`basename ${output_file}`
-log_file=`dirname ${output_file}`/build-${output_file_base%.*}-stderr.log
-
-output_file_base="${output_file%.*}"
+output_nodes_file=${2:-"${BUILD_DIR}/kg2-ont-nodes${test_suffix}.json"}
+output_edges_file=${3:-"${BUILD_DIR}/kg2-ont-edges${test_suffix}.json"}
 
 ## set the path to include ${BUILD_DIR}
 export PATH=$PATH:${BUILD_DIR}
@@ -64,7 +61,7 @@ node_datatype_properties_file="${BUILD_DIR}/node_datatype_properties.json"
 ## temporary work around for ontobio issue (see biolink issue #507)
 ${BUILD_DIR}/robot convert --input ${BUILD_DIR}/umls-hgnc.ttl --output ${BUILD_DIR}/umls-hgnc.owl
 ${BUILD_DIR}/robot convert --input ${BUILD_DIR}/umls-omim.ttl --output ${BUILD_DIR}/umls-omim.owl
-${VENV_DIR}/bin/python3 -u ${CODE_DIR}/save_owl_datatypeproperties.py \
+${python_command} ${CODE_DIR}/save_owl_datatypeproperties.py \
            ${BUILD_DIR}/umls-hgnc.owl \
            ${BUILD_DIR}/umls-omim.owl \
            --outputFile ${node_datatype_properties_file}
@@ -72,12 +69,13 @@ ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/save_owl_datatypeproperties.py \
 ${s3_cp_cmd} s3://${s3_bucket}/foodon.pickle ${BUILD_DIR}/
 
 ## run the multi_ont_to_json_kg.py script
-cd ${BUILD_DIR} && ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/multi_ont_to_json_kg.py \
+cd ${BUILD_DIR} && ${python_command} ${CODE_DIR}/multi_ont_to_kg_jsonl.py \
            ${test_arg} \
            ${curies_to_categories_file} \
            ${curies_to_urls_file} \
            ${ont_load_inventory_file} \
-           ${output_file} \
+           ${output_nodes_file} \
+           ${output_edges_file} \
            ${umls_cuis_file} \
            ${node_datatype_properties_file} \
 

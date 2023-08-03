@@ -43,12 +43,8 @@ mkdir -p ${BUILD_DIR}
 setup_log_file=${BUILD_DIR}/setup-kg2-build${test_str}.log
 touch ${setup_log_file}
 
-if [[ "${build_flag}" == "ci" ]]
-then
-    trap "cat ${setup_log_file}" EXIT
-fi
-
 {
+
 echo "================= starting setup-kg2.sh ================="
 date
 
@@ -154,6 +150,8 @@ then
 user = ${mysql_user}
 password = ${mysql_password}
 host = localhost
+[mysqld]
+skip-log-bin
 EOF
 
     ## set mysql server variable to allow loading data from a local file

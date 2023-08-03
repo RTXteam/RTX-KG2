@@ -22,6 +22,7 @@ import gzip
 import html.parser
 import io
 import json
+import jsonlines
 import math
 import ontobio
 import os
@@ -321,6 +322,49 @@ def save_json(data, output_file_name: str, test_mode: bool = False):
                                           sort_keys=sort_keys).encode('utf-8'),
                                           cls=DecimalEncoder)
     shutil.move(temp_output_file_name, output_file_name)
+
+
+def create_single_jsonlines(test_mode: bool = False):
+    sort_keys = not test_mode
+
+    temp_output_file_name = tempfile.mkstemp(prefix='kg2-')[1]
+
+    temp_output_file = open(temp_output_file_name, 'w')
+
+    temp_output_jsonlines = jsonlines.Writer(temp_output_file, sort_keys=sort_keys)
+
+    return (temp_output_jsonlines, temp_output_file, temp_output_file_name)
+
+
+def close_single_jsonlines(info: tuple, output_file_name: str):
+    (temp_output_jsonlines, temp_output_file, temp_output_file_name) = info
+
+    shutil.move(temp_output_file_name, output_file_name)
+
+    temp_output_jsonlines.close()
+
+    temp_output_file.close()
+
+
+def create_kg2_jsonlines(test_mode: bool = False):
+    return create_single_jsonlines(test_mode), create_single_jsonlines(test_mode)
+
+
+def close_kg2_jsonlines(nodes_info: tuple, edges_info: tuple,
+                        output_nodes_file_name: str, output_edges_file_name: str):
+    close_single_jsonlines(nodes_info, output_nodes_file_name)
+    close_single_jsonlines(edges_info, output_edges_file_name)
+
+
+def start_read_jsonlines(file_name: str, type=dict):
+    file = open(file_name, 'r')
+    jsonlines_reader = jsonlines.Reader(file)
+    return (jsonlines_reader.iter(type=type), jsonlines_reader, file)
+
+def end_read_jsonlines(read_jsonlines_info):
+    (_, jsonlines_reader, file) = read_jsonlines_info
+    file.close()
+    jsonlines_reader.close()
 
 
 def get_file_last_modified_timestamp(file_name: str):

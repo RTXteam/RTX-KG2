@@ -5,11 +5,11 @@
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0 <output_file.json> [test]"
+    echo Usage: "$0 <output_file.json> <output_exclude_list.yaml> <output_versioning.txt>"
     exit 2
 fi
 
-# Usage: extract-semmeddb.sh <output_file.json>
+# Usage: extract-semmeddb.sh <output_file.json> <output_exclude_list.yaml> <output_versioning.txt>
 
 echo "================= starting extract-semmeddb.sh ================="
 date
@@ -18,14 +18,15 @@ config_dir=`dirname "$0"`
 source ${config_dir}/master-config.shinc
 
 semmed_output_file=${1:-"${BUILD_DIR}/kg2-semmeddb-tuplelist.json"}
-
-## supply a default value for the build_flag string
-build_flag=${3:-""}
+domain_range_exclusion_file=${2:-"${BUILD_DIR}/${domain_range_exclusion_filename}"}
+semmeddb_version_file=${3:-"${BUILD_DIR}/semmeddb-version.txt"}
 
 semmed_ver=VER43
 semmed_year=2023
 semmed_dir=${BUILD_DIR}/semmeddb
 semmed_output_dir=`dirname "${semmed_output_file}"`
+
+echo -e "Version: ${semmed_ver}\nYear: ${semmed_year}" > ${semmeddb_version_file}
 
 ## SQL files
 base_filename=semmed${semmed_ver}_${semmed_year}_R_
@@ -67,30 +68,21 @@ zcat ${semmed_dir}/${predication_sql_file} | mysql --defaults-extra-file=${mysql
 zcat ${semmed_dir}/${predication_aux_sql_file} | mysql --defaults-extra-file=${mysql_conf} --database=${mysql_dbname}
 zcat ${semmed_dir}/${sentence_sql_file} | mysql --defaults-extra-file=${mysql_conf} --database=${mysql_dbname}
 
+# We need to free up space for the temp file for semmeddb_mysql_to_tuplelist_jsonl.py 
+rm -rf ${semmed_dir}
+
 ## handle domain-range exclusion list (#281)
 biolink_base_url_no_version=https://raw.githubusercontent.com/biolink/biolink-model/
 biolink_raw_base_url=${biolink_base_url_no_version}v${biolink_model_version}/
 domain_range_exclusion_filename=semmed-exclude-list.yaml
 domain_range_exclusion_link=${biolink_raw_base_url}${domain_range_exclusion_filename}
-domain_range_exclusion_file=${2:-"${BUILD_DIR}/${domain_range_exclusion_filename}"}
 
 ${curl_get} ${domain_range_exclusion_link} -o ${domain_range_exclusion_file}
 
-if [[ "${build_flag}" == "test" || "${build_flag}" == 'alltest' ]]
-then
-   test_arg=" --test"
-else
-   test_arg=""
-fi
-
-
-${VENV_DIR}/bin/python3 ${CODE_DIR}/semmeddb_mysql_to_tuple_list_json.py \
-           ${test_arg} \
-           ${mysql_conf} \
-           ${mysql_dbname} \
-           ${semmed_ver} \
-           ${semmed_year} \
-           ${semmed_output_file}
+${python_command} ${CODE_DIR}/semmeddb_mysql_to_tuplelist_jsonl.py \
+                    ${mysql_conf} \
+                    ${mysql_dbname} \
+                    ${semmed_output_file}
 
 date
 echo "================= finished extract-semmeddb.sh ================="
