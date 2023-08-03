@@ -168,6 +168,10 @@ def get_node_stats(nodes_file_name: list, nodes_on_edges: set):
         category = node[category_key]
         deprecated = node[deprecated_key]
 
+        if node_id == kg2_util.CURIE_PREFIX_RTX + ':' + 'KG2':
+            build_info = node
+            continue
+
         if curie_prefix not in nodes_by_curie_prefix:
             nodes_by_curie_prefix[curie_prefix] = 0
         nodes_by_curie_prefix[curie_prefix] += 1
@@ -207,9 +211,6 @@ def get_node_stats(nodes_file_name: list, nodes_on_edges: set):
             if source not in orphan_nodes:
                 orphan_nodes[source] = 0
             orphan_nodes[source] += 1
-
-        if node_id == kg2_util.CURIE_PREFIX_RTX + ':' + 'KG2':
-            build_info = node
 
     kg2_util.end_read_jsonlines(nodes_read_jsonlines_info)
 
