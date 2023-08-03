@@ -52,7 +52,7 @@ def get_edge_stats(edges_file_name: list):
     subject_key = 'subject'
     object_key = 'object'
     predicate_curie_key = 'source_predicate' if not args.use_simplified_predicates else 'predicate'
-    label_key = 'relation_label' if not args.use_simplified_predicates else 'predicate'
+    label_key = 'relation_label' if not args.use_simplified_predicates else 'predicate_label'
 
     edge_count = 0
     edge_sources = dict()
