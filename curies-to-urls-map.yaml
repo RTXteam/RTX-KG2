@@ -666,7 +666,7 @@ use_for_contraction_only:
     # -
   #    ORPHANET: http://www.orpha.net/ORDO/Orphanet_
   -
-    ORPHANET: http://data.bioontology.org/ontologies/ORDO/submissions/15/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
+    ORPHANET: https://data.bioontology.org/ontologies/ORDO/submissions/27/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
   -
     PATO: http://purl.obolibrary.org/obo/pato#
   -
