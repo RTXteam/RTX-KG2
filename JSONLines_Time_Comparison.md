@@ -81,7 +81,13 @@ The instance data file for KG2.8.4's build is in the Appendix [here](#instance-d
 
 Here is a graph of the memory usage by the JSON Lines code. This grpah also shows the memory available on an `r5a.2xlarge` and `r5a.4xlarge` instance for context on these memory values. The values were collected as percentages of the available memory on the `r5a.8xlarge` instance used for the build. This graph shows clearly that we will be able to swtich to an `r5a.4xlarge` instance with the JSON Lines code. It also suggests that we, with more optimization, could even switch to an `r5a.2xlarge` instance in the future. Note that would come will unwanted side effects, since we would have less cores, so less Snakemake rules could run at once. we currently have 5 extraction/conversion pairs that take over an hour based on the above table. With only 8 cores, this could be more of a bottleneck. Regardless, switching to an `r5a.4xlarge` should pose no problems, though there might not be enough cores to run `primative-instance-data-tracker.sh` in parallel with the build process.
 
-![image](https://github.com/RTXteam/RTX-KG2/assets/36611732/c8d482d3-f520-42d5-b656-aeb031e64158)
+![image](https://github.com/RTXteam/RTX-KG2/assets/36611732/47842b3f-dec7-4147-8a95-642c0e5a2d74)
+
+In comparison, these are the memory usage statistics from the KG2.8.4 build. It required an `r5a.12xlarge` instance because it loads the entire graph into memory at the end, which is incredibly memory intensive.
+![image](https://github.com/RTXteam/RTX-KG2/assets/36611732/c706187b-38cc-4a22-bf49-fe16f060339c)
+
+The improvement from KG2.8.4's build process to the JSON Lines build process is even more apparent when they are graphed on top of each other. This graph not only highlights the time improvement, but shows how drastically the memory requirements have been reduced.
+![image](https://github.com/RTXteam/RTX-KG2/assets/36611732/dfaa223e-a222-4b08-ab37-3fb2a7a6007a)
 
 # Notable Changes from [KG2.8.4](https://github.com/RTXteam/RTX-KG2/releases/tag/KG2.8.4):
 
