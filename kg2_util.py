@@ -22,6 +22,7 @@ import gzip
 import html.parser
 import io
 import json
+import jsonlines
 import math
 import ontobio
 import os
@@ -131,29 +132,29 @@ BASE_URL_BIOLINK_ONTOLOGY = 'https://w3id.org/biolink/biolink-model.owl.ttl'
 BASE_URL_BIOLINK_META = 'https://w3id.org/biolink/biolinkml/meta/'
 BASE_URL_CHEMBL_COMPOUND = BASE_BASE_URL_IDENTIFIERS_ORG + 'chembl.compound:'
 BASE_URL_CHEMBL_TARGET = BASE_BASE_URL_IDENTIFIERS_ORG + 'chembl.target:'
-BASE_URL_CHEMBL_MECHANISM = 'https://www.ebi.ac.uk/chembl#'
+BASE_URL_CHEMBL_MECHANISM = 'https://www.ebi.ac.uk/chembl/mechanism/inspect/'
 BASE_URL_CLINICALTRIALS = BASE_BASE_URL_IDENTIFIERS_ORG + 'clinicaltrials:'
-BASE_URL_DGIDB = 'https://www.dgidb.org/'
+BASE_URL_DGIDB = 'https://www.dgidb.org/interaction_types'
 BASE_URL_DISGENET = 'http://www.disgenet.org'
 BASE_URL_DRUGBANK = BASE_BASE_URL_IDENTIFIERS_ORG + 'drugbank:'
-BASE_URL_DRUGCENTRAL = 'https://drugcentral.org/drugcard/'
+BASE_URL_DRUGCENTRAL = 'http://drugcentral.org/drugcard/'
 BASE_URL_ENSEMBL = BASE_BASE_URL_IDENTIFIERS_ORG + 'ensembl:'
 BASE_URL_GO = 'http://purl.obolibrary.org/obo/GO_'
 BASE_URL_GTPI = \
     'https://www.guidetopharmacology.org/GRAC/LigandDisplayForward?ligandId='
 BASE_URL_GTPI_SOURCE = 'https://www.guidetopharmacology.org/'
 BASE_URL_JENSENLAB = 'https://diseases.jensenlab.org/'
+BASE_URL_KEGG = 'http://www.kegg.jp/entry/'
 BASE_URL_KEGG_COMPOUND = BASE_BASE_URL_IDENTIFIERS_ORG + 'kegg.compound:'
 BASE_URL_KEGG_DRUG = BASE_BASE_URL_IDENTIFIERS_ORG + 'kegg.drug:'
 BASE_URL_KEGG_ENZYME = BASE_BASE_URL_IDENTIFIERS_ORG + 'kegg.enzyme:'
 BASE_URL_KEGG_GLYCAN = BASE_BASE_URL_IDENTIFIERS_ORG + 'kegg.glycan:'
 BASE_URL_KEGG_REACTION = BASE_BASE_URL_IDENTIFIERS_ORG + 'kegg.reaction:'
-BASE_URL_KEGG_PATHWAY = 'https://www.genome.jp/dbget-bin/www_bget?pathway:map'
 BASE_URL_MIRBASE = BASE_BASE_URL_IDENTIFIERS_ORG + 'mirbase:'
 BASE_URL_NCBIGENE = BASE_BASE_URL_IDENTIFIERS_ORG + 'ncbigene:'
 BASE_URL_OBO_FORMAT = 'http://purl.org/obo/owl/oboFormat#oboFormat_'
 BASE_URL_OWL = 'http://www.w3.org/2002/07/owl#'
-BASE_URL_PATHWHIZ = 'https://smpdb.ca/pathwhiz/pathways/'
+BASE_URL_PATHWHIZ = 'http://smpdb.ca/pathways/#'
 BASE_URL_PATHWHIZ_PROTEIN_COMPLEX = \
     'https://pathbank.org/lims#/protein_complexes/'
 BASE_URL_PATHWHIZ_ELEMENT_COLLECTION = \
@@ -164,7 +165,7 @@ BASE_URL_PATHWHIZ_REACTION = 'https://pathbank.org/lims#/reactions/'
 BASE_URL_PATHWHIZ_BOUND = 'https://pathbank.org/lims#/bounds/'
 BASE_URL_PMID = "http://www.ncbi.nlm.nih.gov/pubmed/"
 BASE_URL_REACTOME = BASE_BASE_URL_IDENTIFIERS_ORG + 'reactome:'
-BASE_URL_REPODB = 'http://apps.chiragjpgroup.org/repoDB'
+BASE_URL_REPODB = 'http://apps.chiragjpgroup.org/repoDB/'
 BASE_URL_RTX = 'http://rtx.ai/identifiers#'
 BASE_URL_SEMMEDDB = 'https://skr3.nlm.nih.gov/SemMedDB'
 BASE_URL_SMPDB = BASE_BASE_URL_IDENTIFIERS_ORG + 'smpdb:'
@@ -173,7 +174,7 @@ BASE_URL_TTD_TARGET = BASE_BASE_URL_IDENTIFIERS_ORG + \
 BASE_URL_UMLS = BASE_BASE_URL_IDENTIFIERS_ORG + 'umls:'
 BASE_URL_UMLS_STY = 'http://purl.bioontology.org/ontology/STY/'
 BASE_URL_UNICHEM = 'https://www.ebi.ac.uk/unichem/'
-BASE_URL_UNIPROTKB = BASE_BASE_URL_IDENTIFIERS_ORG + 'uniprot:'
+BASE_URL_UNIPROTKB = 'http://purl.uniprot.org/uniprot/'
 
 BIOLINK_CATEGORY_ANATOMICAL_ENTITY = 'anatomical entity'
 BIOLINK_CATEGORY_BIOLOGICAL_ENTITY = 'biological entity'
@@ -321,6 +322,49 @@ def save_json(data, output_file_name: str, test_mode: bool = False):
                                           sort_keys=sort_keys).encode('utf-8'),
                                           cls=DecimalEncoder)
     shutil.move(temp_output_file_name, output_file_name)
+
+
+def create_single_jsonlines(test_mode: bool = False):
+    sort_keys = not test_mode
+
+    temp_output_file_name = tempfile.mkstemp(prefix='kg2-')[1]
+
+    temp_output_file = open(temp_output_file_name, 'w')
+
+    temp_output_jsonlines = jsonlines.Writer(temp_output_file, sort_keys=sort_keys)
+
+    return (temp_output_jsonlines, temp_output_file, temp_output_file_name)
+
+
+def close_single_jsonlines(info: tuple, output_file_name: str):
+    (temp_output_jsonlines, temp_output_file, temp_output_file_name) = info
+
+    shutil.move(temp_output_file_name, output_file_name)
+
+    temp_output_jsonlines.close()
+
+    temp_output_file.close()
+
+
+def create_kg2_jsonlines(test_mode: bool = False):
+    return create_single_jsonlines(test_mode), create_single_jsonlines(test_mode)
+
+
+def close_kg2_jsonlines(nodes_info: tuple, edges_info: tuple,
+                        output_nodes_file_name: str, output_edges_file_name: str):
+    close_single_jsonlines(nodes_info, output_nodes_file_name)
+    close_single_jsonlines(edges_info, output_edges_file_name)
+
+
+def start_read_jsonlines(file_name: str, type=dict):
+    file = open(file_name, 'r')
+    jsonlines_reader = jsonlines.Reader(file)
+    return (jsonlines_reader.iter(type=type), jsonlines_reader, file)
+
+def end_read_jsonlines(read_jsonlines_info):
+    (_, jsonlines_reader, file) = read_jsonlines_info
+    file.close()
+    jsonlines_reader.close()
 
 
 def get_file_last_modified_timestamp(file_name: str):
@@ -734,7 +778,8 @@ def make_edge(subject_id: str,
             'publications': [],
             'publications_info': {},
             'update_date': update_date,
-            'primary_knowledge_source': primary_knowledge_source}
+            'primary_knowledge_source': primary_knowledge_source,
+            'domain_range_exclusion': False}
     edge_id = make_edge_key(edge)
     edge["id"] = edge_id
     return edge

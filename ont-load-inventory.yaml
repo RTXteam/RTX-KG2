@@ -88,11 +88,11 @@
   file: umls-icd9cm.ttl
   title: International Classification of Diseases, Ninth Revision, Clinical Modification
   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD9CM
-- # maps to CURIE prefix LOINC
-  download: false
-  file: umls-lnc.ttl
-  title: Logical Observation Identifiers Names and Codes
-  url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/LNC
+# - # maps to CURIE prefix LOINC
+#   download: false
+#   file: umls-lnc.ttl
+#   title: Logical Observation Identifiers Names and Codes
+#   url: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/LNC
 # - # maps to CURIE prefix MEDDRA
 #   download: false
 #   file: umls-mdr.ttl
@@ -225,10 +225,10 @@
 -
   url: http://purl.obolibrary.org/obo/foodon.owl 
   file: foodon.owl
-  download: false
+  download: true
   title: FOODON (Food Ontology)
 -
-  url:  http://data.bioontology.org/ontologies/ORDO/submissions/15/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
+  url: https://data.bioontology.org/ontologies/ORDO/submissions/27/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
   file: ordo.owl
   download: true
   title: ORPHANET Rare Disease Ontology

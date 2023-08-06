@@ -1,97 +1,269 @@
-semmed_tuplelist_file: ${BUILD_DIR}/semmeddb/kg2-semmeddb${test_suffix}-tuplelist.json
-semmed_output_file: ${BUILD_DIR}/kg2-semmeddb${test_suffix}-edges.json
-
-uniprotkb_dat_file: ${BUILD_DIR}/uniprotkb/uniprot_sprot.dat
-uniprotkb_output_file: ${BUILD_DIR}/kg2-uniprotkb${test_suffix}.json
-
-umls_cui_file: ${BUILD_DIR}/umls_cuis.tsv
-output_file_base: kg2-ont${test_suffix}.json
-output_file_full: ${BUILD_DIR}/${output_file_base}
-
-output_file_orphan_edges: ${BUILD_DIR}/kg2-orphans${test_suffix}-edges.json
-
-final_output_file_base: kg2${test_suffix}.json
-final_output_file_full: ${BUILD_DIR}/${final_output_file_base}
-
-simplified_output_file_base: kg2-simplified${test_suffix}.json
-simplified_output_file_full: ${BUILD_DIR}/${simplified_output_file_base}
-
-simplified_output_nodes_file_base: kg2-simplified${test_suffix}-nodes.json
-simplified_output_nodes_file_full: ${BUILD_DIR}/${simplified_output_nodes_file_base}
-
-output_nodes_file_base: kg2${test_suffix}-nodes.json
-output_nodes_file_full: ${BUILD_DIR}/${output_nodes_file_base}
-
-report_file_base: kg2-report${test_suffix}.json
-report_file_full: ${BUILD_DIR}/${report_file_base}
-
-simplified_report_file_base: kg2-simplified-report${test_suffix}.json
-simplified_report_file_full: ${BUILD_DIR}/${simplified_report_file_base}
-
-slim_output_file_full: ${BUILD_DIR}/kg2-slim${test_suffix}.json
-
-ensembl_source_json_file: ${BUILD_DIR}/ensembl/ensembl_genes_homo_sapiens.json
-ensembl_output_file: ${BUILD_DIR}/kg2-ensembl${test_suffix}.json
-
-chembl_output_file: ${BUILD_DIR}/kg2-chembl${test_suffix}.json
-
-owl_load_inventory_file: ${CODE_DIR}/ont-load-inventory${test_suffix}.yaml
-
-chembl_mysql_dbname: chembl
-
-unichem_output_tsv_file: ${BUILD_DIR}/unichem/unichem-mappings.tsv
-unichem_output_file: ${BUILD_DIR}/kg2-unichem${test_suffix}.json
-
-ncbi_gene_tsv_file: ${BUILD_DIR}/ncbigene/Homo_sapiens_gene_info.tsv
-ncbi_gene_output_file: ${BUILD_DIR}/kg2-ncbigene${test_suffix}.json
-
-dgidb_dir: ${BUILD_DIR}/dgidb
-dgidb_output_file: ${BUILD_DIR}/kg2-dgidb${test_suffix}.json
-
-repodb_dir: ${BUILD_DIR}/repodb
-repodb_input_file: ${BUILD_DIR}/repodb/repodb.csv
-repodb_output_file: ${BUILD_DIR}/kg2-repodb${test_suffix}.json
-
-smpdb_dir: ${BUILD_DIR}/smpdb
-smpdb_input_file: ${smpdb_dir}/pathbank_pathways.csv
-smpdb_output_file: ${BUILD_DIR}/kg2-smpdb${test_suffix}.json
-
-drugbank_input_file: ${BUILD_DIR}/drugbank.xml
-drugbank_output_file: ${BUILD_DIR}/kg2-drugbank${test_suffix}.json
-
-hmdb_input_file: ${BUILD_DIR}/hmdb_metabolites.xml
-hmdb_output_file: ${BUILD_DIR}/kg2-hmdb${test_suffix}.json
-
-go_annotation_input_file: ${BUILD_DIR}/goa_human.gpa
-go_annotation_output_file: ${BUILD_DIR}/kg2-go-annotation${test_suffix}.json
-
-reactome_mysql_dbname: reactome
-reactome_output_file: ${BUILD_DIR}/kg2-reactome.json
-
-mirbase_input_file: ${BUILD_DIR}/miRNA.dat
-mirbase_output_file: ${BUILD_DIR}/kg2-mirbase${test_suffix}.json
-
-jensenlab_dir: ${BUILD_DIR}/jensenlab
-jensenlab_output_file: ${BUILD_DIR}/kg2-jensenlab${test_suffix}.json
-
-drugcentral_dir: ${BUILD_DIR}/drugcentral
-drugcentral_input_file: ${drugcentral_dir}/drugcentral_psql_json.json
-drugcentral_output_file: ${BUILD_DIR}/kg2-drugcentral${test_suffix}.json
-
-intact_input_file: ${BUILD_DIR}/intact.txt
-intact_output_file: ${BUILD_DIR}/kg2-intact${test_suffix}.json
-
-disgenet_input_file: ${BUILD_DIR}/all_gene_disease_pmid_associations.tsv
-disgenet_output_file: ${BUILD_DIR}/kg2-disgenet${test_suffix}.json
-
-kegg_input_file: ${BUILD_DIR}/kegg.json
-kegg_output_file: ${BUILD_DIR}/kg2-kegg${test_suffix}.json
-
-kg2_tsv_dir: ${BUILD_DIR}/TSV
-kg2_tsv_tarball: ${BUILD_DIR}/kg2-tsv-for-neo4j${test_suffix}.tar.gz
-
-multi_ont_kg_file: ${BUILD_DIR}/build-multi-ont-kg${test_suffix}.log
-
-version_file: ${BUILD_DIR}/kg2-version.txt
+nodes_suffix: -nodes
+edges_suffix: -edges
 
 validation_placeholder: ${BUILD_DIR}/validation-placeholder.empty
+
+ont_extraction_base: extract-umls
+ont_conversion_base: build-multi-ont-kg
+ont_output_base: kg2-ont
+ont_extraction_script: ${CODE_DIR}/${ont_extraction_base}.sh
+ont_extraction_log: ${BUILD_DIR}/${ont_extraction_base}${test_suffix}.log
+umls_cui_file: ${BUILD_DIR}/umls_cuis.tsv
+ont_conversion_script: ${CODE_DIR}/${ont_conversion_base}.sh
+ont_conversion_log: ${BUILD_DIR}/${ont_conversion_base}${test_suffix}.log
+ont_output_nodes_file: ${BUILD_DIR}/${ont_output_base}${nodes_suffix}${test_suffix}.jsonl
+ont_output_edges_file: ${BUILD_DIR}/${ont_output_base}${edges_suffix}${test_suffix}.jsonl
+
+semmeddb_extraction_base: extract-semmeddb
+semmeddb_conversion_base: semmeddb_tuplelist_json_to_kg_jsonl
+semmeddb_output_base: kg2-semmeddb
+semmeddb_extraction_script: ${CODE_DIR}/${semmeddb_extraction_base}.sh
+semmeddb_extraction_log: ${BUILD_DIR}/${semmeddb_extraction_base}${test_suffix}.log
+semmeddb_tuplelist_file: ${BUILD_DIR}/semmeddb-tuplelist.jsonl
+semmeddb_exclusion_file: ${BUILD_DIR}/semmed-exclude-list.yaml
+semmeddb_version_file: ${BUILD_DIR}/semmeddb-version.txt
+semmeddb_conversion_script: ${CODE_DIR}/${semmeddb_conversion_base}.py
+semmeddb_conversion_log: ${BUILD_DIR}/${semmeddb_conversion_base}${test_suffix}.log
+semmeddb_output_nodes_file: ${BUILD_DIR}/${semmeddb_output_base}${nodes_suffix}${test_suffix}.jsonl
+semmeddb_output_edges_file: ${BUILD_DIR}/${semmeddb_output_base}${edges_suffix}${test_suffix}.jsonl
+
+uniprotkb_extraction_base: extract-uniprotkb
+uniprotkb_conversion_base: uniprotkb_dat_to_kg_jsonl
+uniprotkb_output_base: kg2-uniprotkb
+uniprotkb_extraction_script: ${CODE_DIR}/${uniprotkb_extraction_base}.sh
+uniprotkb_extraction_log: ${BUILD_DIR}/${uniprotkb_extraction_base}${test_suffix}.log
+uniprotkb_dat_file: ${BUILD_DIR}/uniprotkb/uniprot_sprot.dat
+uniprotkb_conversion_script: ${CODE_DIR}/${uniprotkb_conversion_base}.py
+uniprotkb_conversion_log: ${BUILD_DIR}/${uniprotkb_conversion_base}${test_suffix}.log
+uniprotkb_output_nodes_file: ${BUILD_DIR}/${uniprotkb_output_base}${nodes_suffix}${test_suffix}.jsonl
+uniprotkb_output_edges_file: ${BUILD_DIR}/${uniprotkb_output_base}${edges_suffix}${test_suffix}.jsonl
+
+ensembl_extraction_base: extract-ensembl
+ensembl_conversion_base: ensembl_json_to_kg_jsonl
+ensembl_output_base: kg2-ensembl
+ensembl_extraction_script: ${CODE_DIR}/${ensembl_extraction_base}.sh
+ensembl_extraction_log: ${BUILD_DIR}/${ensembl_extraction_base}${test_suffix}.log
+ensembl_source_json_file: ${BUILD_DIR}/ensembl/ensembl_genes_homo_sapiens.json
+ensembl_conversion_script: ${CODE_DIR}/${ensembl_conversion_base}.py
+ensembl_conversion_log: ${BUILD_DIR}/${ensembl_conversion_base}${test_suffix}.log
+ensembl_output_nodes_file: ${BUILD_DIR}/${ensembl_output_base}${nodes_suffix}${test_suffix}.jsonl
+ensembl_output_edges_file: ${BUILD_DIR}/${ensembl_output_base}${edges_suffix}${test_suffix}.jsonl
+
+unichem_extraction_base: extract-unichem
+unichem_conversion_base: unichem_tsv_to_kg_jsonl
+unichem_output_base: kg2-unichem
+unichem_extraction_script: ${CODE_DIR}/${unichem_extraction_base}.sh
+unichem_extraction_log: ${BUILD_DIR}/${unichem_extraction_base}${test_suffix}.log
+unichem_output_tsv_file: ${BUILD_DIR}/unichem/unichem-mappings.tsv
+unichem_conversion_script: ${CODE_DIR}/${unichem_conversion_base}.py
+unichem_conversion_log: ${BUILD_DIR}/${unichem_conversion_base}${test_suffix}.log
+unichem_output_nodes_file: ${BUILD_DIR}/${unichem_output_base}${nodes_suffix}${test_suffix}.jsonl
+unichem_output_edges_file: ${BUILD_DIR}/${unichem_output_base}${edges_suffix}${test_suffix}.jsonl
+
+chembl_extraction_base: extract-chembl
+chembl_conversion_base: chembl_mysql_to_kg_jsonl
+chembl_output_base: kg2-chembl
+chembl_extraction_script: ${CODE_DIR}/${chembl_extraction_base}.sh
+chembl_extraction_log: ${BUILD_DIR}/${chembl_extraction_base}${test_suffix}.log
+chembl_mysql_dbname: chembl
+chembl_conversion_script: ${CODE_DIR}/${chembl_conversion_base}.py
+chembl_conversion_log: ${BUILD_DIR}/${chembl_conversion_base}${test_suffix}.log
+chembl_output_nodes_file: ${BUILD_DIR}/${chembl_output_base}${nodes_suffix}${test_suffix}.jsonl
+chembl_output_edges_file: ${BUILD_DIR}/${chembl_output_base}${edges_suffix}${test_suffix}.jsonl
+
+ncbigene_extraction_base: extract-ncbigene
+ncbigene_conversion_base: ncbigene_tsv_to_kg_jsonl
+ncbigene_output_base: kg2-ncbigene
+ncbigene_extraction_script: ${CODE_DIR}/${ncbigene_extraction_base}.sh
+ncbigene_extraction_log: ${BUILD_DIR}/${ncbigene_extraction_base}${test_suffix}.log
+ncbigene_tsv_file: ${BUILD_DIR}/ncbigene/Homo_sapiens_gene_info.tsv
+ncbigene_conversion_script: ${CODE_DIR}/${ncbigene_conversion_base}.py
+ncbigene_conversion_log: ${BUILD_DIR}/${ncbigene_conversion_base}${test_suffix}.log
+ncbigene_output_nodes_file: ${BUILD_DIR}/${ncbigene_output_base}${nodes_suffix}${test_suffix}.jsonl
+ncbigene_output_edges_file: ${BUILD_DIR}/${ncbigene_output_base}${edges_suffix}${test_suffix}.jsonl
+
+dgidb_extraction_base: extract-dgidb
+dgidb_conversion_base: dgidb_tsv_to_kg_jsonl
+dgidb_output_base: kg2-dgidb
+dgidb_extraction_script: ${CODE_DIR}/${dgidb_extraction_base}.sh
+dgidb_extraction_log: ${BUILD_DIR}/${dgidb_extraction_base}${test_suffix}.log
+dgidb_dir: ${BUILD_DIR}/dgidb
+dgidb_conversion_script: ${CODE_DIR}/${dgidb_conversion_base}.py
+dgidb_conversion_log: ${BUILD_DIR}/${dgidb_conversion_base}${test_suffix}.log
+dgidb_output_nodes_file: ${BUILD_DIR}/${dgidb_output_base}${nodes_suffix}${test_suffix}.jsonl
+dgidb_output_edges_file: ${BUILD_DIR}/${dgidb_output_base}${edges_suffix}${test_suffix}.jsonl
+
+repodb_extraction_base: extract-repodb
+repodb_conversion_base: repodb_csv_to_kg_jsonl
+repodb_output_base: kg2-repodb
+repodb_extraction_script: ${CODE_DIR}/${repodb_extraction_base}.sh
+repodb_extraction_log: ${BUILD_DIR}/${repodb_extraction_base}${test_suffix}.log
+repodb_dir: ${BUILD_DIR}/repodb
+repodb_input_file: ${repodb_dir}/repodb.csv
+repodb_conversion_script: ${CODE_DIR}/${repodb_conversion_base}.py
+repodb_conversion_log: ${BUILD_DIR}/${repodb_conversion_base}${test_suffix}.log
+repodb_output_nodes_file: ${BUILD_DIR}/${repodb_output_base}${nodes_suffix}${test_suffix}.jsonl
+repodb_output_edges_file: ${BUILD_DIR}/${repodb_output_base}${edges_suffix}${test_suffix}.jsonl
+
+drugbank_extraction_base: extract-drugbank
+drugbank_conversion_base: drugbank_xml_to_kg_jsonl
+drugbank_output_base: kg2-drugbank
+drugbank_extraction_script: ${CODE_DIR}/${drugbank_extraction_base}.sh
+drugbank_extraction_log: ${BUILD_DIR}/${drugbank_extraction_base}${test_suffix}.log
+drugbank_input_file: ${BUILD_DIR}/drugbank.xml
+drugbank_conversion_script: ${CODE_DIR}/${drugbank_conversion_base}.py
+drugbank_conversion_log: ${BUILD_DIR}/${drugbank_conversion_base}${test_suffix}.log
+drugbank_output_nodes_file: ${BUILD_DIR}/${drugbank_output_base}${nodes_suffix}${test_suffix}.jsonl
+drugbank_output_edges_file: ${BUILD_DIR}/${drugbank_output_base}${edges_suffix}${test_suffix}.jsonl
+
+smpdb_extraction_base: extract-smpdb
+smpdb_conversion_base: smpdb_csv_to_kg_jsonl
+smpdb_output_base: kg2-smpdb
+smpdb_extraction_script: ${CODE_DIR}/${smpdb_extraction_base}.sh
+smpdb_extraction_log: ${BUILD_DIR}/${smpdb_extraction_base}${test_suffix}.log
+smpdb_dir: ${BUILD_DIR}/smpdb
+smpdb_input_file: ${smpdb_dir}/pathbank_pathways.csv
+smpdb_conversion_script: ${CODE_DIR}/${smpdb_conversion_base}.py
+smpdb_conversion_log: ${BUILD_DIR}/${smpdb_conversion_base}${test_suffix}.log
+smpdb_output_nodes_file: ${BUILD_DIR}/${smpdb_output_base}${nodes_suffix}${test_suffix}.jsonl
+smpdb_output_edges_file: ${BUILD_DIR}/${smpdb_output_base}${edges_suffix}${test_suffix}.jsonl
+
+hmdb_extraction_base: extract-hmdb
+hmdb_conversion_base: hmdb_xml_to_kg_jsonl
+hmdb_output_base: kg2-hmdb
+hmdb_extraction_script: ${CODE_DIR}/${hmdb_extraction_base}.sh
+hmdb_extraction_log: ${BUILD_DIR}/${hmdb_extraction_base}${test_suffix}.log
+hmdb_input_file: ${BUILD_DIR}/hmdb_metabolites.xml
+hmdb_conversion_script: ${CODE_DIR}/${hmdb_conversion_base}.py
+hmdb_conversion_log: ${BUILD_DIR}/${hmdb_conversion_base}${test_suffix}.log
+hmdb_output_nodes_file: ${BUILD_DIR}/${hmdb_output_base}${nodes_suffix}${test_suffix}.jsonl
+hmdb_output_edges_file: ${BUILD_DIR}/${hmdb_output_base}${edges_suffix}${test_suffix}.jsonl
+
+go_annotations_extraction_base: extract-go-annotations
+go_annotations_conversion_base: go_gpa_to_kg_jsonl
+go_annotations_output_base: kg2-go-annotations
+go_annotations_extraction_script: ${CODE_DIR}/${go_annotations_extraction_base}.sh
+go_annotations_extraction_log: ${BUILD_DIR}/${go_annotations_extraction_base}${test_suffix}.log
+go_annotations_input_file: ${BUILD_DIR}/goa_human.gpa
+go_annotations_conversion_script: ${CODE_DIR}/${go_annotations_conversion_base}.py
+go_annotations_conversion_log: ${BUILD_DIR}/${go_annotations_conversion_base}${test_suffix}.log
+go_annotations_output_nodes_file: ${BUILD_DIR}/${go_annotations_output_base}${nodes_suffix}${test_suffix}.jsonl
+go_annotations_output_edges_file: ${BUILD_DIR}/${go_annotations_output_base}${edges_suffix}${test_suffix}.jsonl
+
+reactome_extraction_base: extract-reactome
+reactome_conversion_base: reactome_mysql_to_kg_jsonl
+reactome_output_base: kg2-reactome
+reactome_extraction_script: ${CODE_DIR}/${reactome_extraction_base}.sh
+reactome_extraction_log: ${BUILD_DIR}/${reactome_extraction_base}${test_suffix}.log
+reactome_mysql_dbname: reactome
+reactome_conversion_script: ${CODE_DIR}/${reactome_conversion_base}.py
+reactome_conversion_log: ${BUILD_DIR}/${reactome_conversion_base}${test_suffix}.log
+reactome_output_nodes_file: ${BUILD_DIR}/${reactome_output_base}${nodes_suffix}${test_suffix}.jsonl
+reactome_output_edges_file: ${BUILD_DIR}/${reactome_output_base}${edges_suffix}${test_suffix}.jsonl
+
+mirbase_extraction_base: extract-mirbase
+mirbase_conversion_base: mirbase_dat_to_kg_jsonl
+mirbase_output_base: kg2-mirbase
+mirbase_extraction_script: ${CODE_DIR}/${mirbase_extraction_base}.sh
+mirbase_extraction_log: ${BUILD_DIR}/${mirbase_extraction_base}${test_suffix}.log
+mirbase_input_file: ${BUILD_DIR}/miRNA.dat
+mirbase_conversion_script: ${CODE_DIR}/${mirbase_conversion_base}.py
+mirbase_conversion_log: ${BUILD_DIR}/${mirbase_conversion_base}${test_suffix}.log
+mirbase_output_nodes_file: ${BUILD_DIR}/${mirbase_output_base}${nodes_suffix}${test_suffix}.jsonl
+mirbase_output_edges_file: ${BUILD_DIR}/${mirbase_output_base}${edges_suffix}${test_suffix}.jsonl
+
+jensenlab_extraction_base: extract-jensenlab
+jensenlab_conversion_base: jensenlab_tsv_to_kg_jsonl
+jensenlab_output_base: kg2-jensenlab
+jensenlab_extraction_script: ${CODE_DIR}/${jensenlab_extraction_base}.sh
+jensenlab_extraction_log: ${BUILD_DIR}/${jensenlab_extraction_base}${test_suffix}.log
+jensenlab_dir: ${BUILD_DIR}/jensenlab
+jensenlab_conversion_script: ${CODE_DIR}/${jensenlab_conversion_base}.py
+jensenlab_conversion_log: ${BUILD_DIR}/${jensenlab_conversion_base}${test_suffix}.log
+jensenlab_output_nodes_file: ${BUILD_DIR}/${jensenlab_output_base}${nodes_suffix}${test_suffix}.jsonl
+jensenlab_output_edges_file: ${BUILD_DIR}/${jensenlab_output_base}${edges_suffix}${test_suffix}.jsonl
+
+drugcentral_extraction_base: extract-drugcentral
+drugcentral_conversion_base: drugcentral_json_to_kg_jsonl
+drugcentral_output_base: kg2-drugcentral
+drugcentral_extraction_script: ${CODE_DIR}/${drugcentral_extraction_base}.sh
+drugcentral_extraction_log: ${BUILD_DIR}/${drugcentral_extraction_base}${test_suffix}.log
+drugcentral_dir: ${BUILD_DIR}/drugcentral
+drugcentral_input_file: ${drugcentral_dir}/drugcentral_psql_json.json
+drugcentral_conversion_script: ${CODE_DIR}/${drugcentral_conversion_base}.py
+drugcentral_conversion_log: ${BUILD_DIR}/${drugcentral_conversion_base}${test_suffix}.log
+drugcentral_output_nodes_file: ${BUILD_DIR}/${drugcentral_output_base}${nodes_suffix}${test_suffix}.jsonl
+drugcentral_output_edges_file: ${BUILD_DIR}/${drugcentral_output_base}${edges_suffix}${test_suffix}.jsonl
+
+intact_extraction_base: extract-intact
+intact_conversion_base: intact_tsv_to_kg_jsonl
+intact_output_base: kg2-intact
+intact_extraction_script: ${CODE_DIR}/${intact_extraction_base}.sh
+intact_extraction_log: ${BUILD_DIR}/${intact_extraction_base}${test_suffix}.log
+intact_input_file: ${BUILD_DIR}/intact.txt
+intact_conversion_script: ${CODE_DIR}/${intact_conversion_base}.py
+intact_conversion_log: ${BUILD_DIR}/${intact_conversion_base}${test_suffix}.log
+intact_output_nodes_file: ${BUILD_DIR}/${intact_output_base}${nodes_suffix}${test_suffix}.jsonl
+intact_output_edges_file: ${BUILD_DIR}/${intact_output_base}${edges_suffix}${test_suffix}.jsonl
+
+disgenet_extraction_base: extract-disgenet
+disgenet_conversion_base: disgenet_tsv_to_kg_jsonl
+disgenet_output_base: kg2-disgenet
+disgenet_extraction_script: ${CODE_DIR}/${disgenet_extraction_base}.sh
+disgenet_extraction_log: ${BUILD_DIR}/${disgenet_extraction_base}${test_suffix}.log
+disgenet_input_file: ${BUILD_DIR}/all_gene_disease_pmid_associations.tsv
+disgenet_conversion_script: ${CODE_DIR}/${disgenet_conversion_base}.py
+disgenet_conversion_log: ${BUILD_DIR}/${disgenet_conversion_base}${test_suffix}.log
+disgenet_output_nodes_file: ${BUILD_DIR}/${disgenet_output_base}${nodes_suffix}${test_suffix}.jsonl
+disgenet_output_edges_file: ${BUILD_DIR}/${disgenet_output_base}${edges_suffix}${test_suffix}.jsonl
+
+kegg_extraction_base: extract-kegg
+kegg_conversion_base: kegg_jsonl_to_kg_jsonl
+kegg_output_base: kg2-kegg
+kegg_extraction_script: ${CODE_DIR}/${kegg_extraction_base}.sh
+kegg_extraction_log: ${BUILD_DIR}/${kegg_extraction_base}${test_suffix}.log
+kegg_input_file: ${BUILD_DIR}/kegg.jsonl
+kegg_conversion_script: ${CODE_DIR}/${kegg_conversion_base}.py
+kegg_conversion_log: ${BUILD_DIR}/${kegg_conversion_base}${test_suffix}.log
+kegg_output_nodes_file: ${BUILD_DIR}/${kegg_output_base}${nodes_suffix}${test_suffix}.jsonl
+kegg_output_edges_file: ${BUILD_DIR}/${kegg_output_base}${edges_suffix}${test_suffix}.jsonl
+
+merge_base: merge_graphs
+merge_script: ${CODE_DIR}/${merge_base}.py
+merged_output_base: kg2-merged
+merge_log: ${BUILD_DIR}/${merge_base}${test_suffix}.log
+merged_output_nodes_file: ${BUILD_DIR}/${merged_output_base}${nodes_suffix}${test_suffix}.jsonl
+merged_output_edges_file: ${BUILD_DIR}/${merged_output_base}${edges_suffix}${test_suffix}.jsonl
+output_file_orphan_edges: ${BUILD_DIR}/kg2-orphan${edges_suffix}${test_suffix}.jsonl
+
+simplify_base: run-simplify
+simplified_output_base: kg2-simplified
+simplify_script: ${CODE_DIR}/${simplify_base}.sh
+simplify_log: ${BUILD_DIR}/${simplify_base}${test_suffix}.log
+simplified_output_nodes_file: ${BUILD_DIR}/${simplified_output_base}${nodes_suffix}${test_suffix}.jsonl
+simplified_output_edges_file: ${BUILD_DIR}/${simplified_output_base}${edges_suffix}${test_suffix}.jsonl
+
+report_base: report_stats_on_kg_jsonl
+report_script: ${CODE_DIR}/${report_base}.py
+report_log: ${BUILD_DIR}/${report_base}${test_suffix}.log
+report_file: ${BUILD_DIR}/kg2-report${test_suffix}.json
+
+simplified_report_log: ${BUILD_DIR}/${report_base}-simplified${test_suffix}.log
+simplified_report_file_base: kg2-simplified-report${test_suffix}.json
+simplified_report_file: ${BUILD_DIR}/${simplified_report_file_base}
+
+slim_base: slim_kg2
+slim_output_base: kg2-slim
+slim_script: ${CODE_DIR}/${slim_base}.py
+slim_log: ${BUILD_DIR}/${slim_base}${test_suffix}.log
+slim_output_nodes_file: ${BUILD_DIR}/${slim_output_base}${nodes_suffix}${test_suffix}.jsonl
+slim_output_edges_file: ${BUILD_DIR}/${slim_output_base}${edges_suffix}${test_suffix}.jsonl
+
+tsv_base: kg_json_to_tsv
+tsv_script: ${CODE_DIR}/${tsv_base}.py
+tsv_log: ${BUILD_DIR}/${tsv_base}${test_suffix}.log
+kg2_tsv_dir: ${BUILD_DIR}/TSV
+kg2_tsv_tarball: ${BUILD_DIR}/kg2-tsv-for-neo4j${test_suffix}.tar.gz
+tsv_placeholder: ${BUILD_DIR}/tsv_placeholder.empty
+
+version_file: ${BUILD_DIR}/kg2-version.txt

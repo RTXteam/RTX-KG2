@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 ''' slim_kg2.py: reduce graph in KG2 JSON format to only bare-bones node and edge properties.
-    Usage: slim_kg2.py <inputFile>
-                         --outputFile <outputFile
+    Usage: slim_kg2.py <inputNodesFile> <inputEdgesFile> <outputNodesFile> <outputEdgesFile>
 '''
 __author__ = 'Liliana Acevedo'
 __copyright__ = 'Oregon State University'
@@ -12,68 +11,78 @@ __maintainer__ = ''
 __email__ = ''
 __status__ = 'Prototype'
 
-import json
-import ijson
 import argparse
 import kg2_util
 import datetime
 
+NODE_PROPERTIES = {"name", "id", "full_name", "category", "provided_by"}
+EDGE_PROPERTIES = {"core_predicate", "subject", "object", "predicate_label", "primary_knowledge_source"}
+
 
 def make_arg_parser():
-    arg_parser = argparse.ArgumentParser(description=" slim_kg2.py: reduce graph in KG2 JSON format to only bare-bones node and edge properties.")
+    arg_parser = argparse.ArgumentParser(description="slim_kg2.py: reduce graph in KG2 JSON format to only bare-bones node and edge properties.")
     arg_parser.add_argument('--test', dest='test', action='store_true', default=False)
-    arg_parser.add_argument("inputFilepath", type=str)
-    arg_parser.add_argument("outputFilepath", type=str)
+    arg_parser.add_argument("inputNodesFile", type=str)
+    arg_parser.add_argument("inputEdgesFile", type=str)
+    arg_parser.add_argument("outputNodesFile", type=str)
+    arg_parser.add_argument("outputEdgesFile", type=str)
     return arg_parser
 
 
 if __name__ == "__main__":
-    node_set = set(["name", "id", "full_name", "category", "provided_by"])
-    edge_set = set(["core_predicate", "subject", "object", "predicate_label", 
-"primary_knowledge_source"])
+    start = datetime.datetime.now()
 
     args = make_arg_parser().parse_args()
+    input_nodes_file_name = args.inputNodesFile
+    input_edges_file_name = args.inputEdgesFile
+    output_nodes_file_name = args.outputNodesFile
+    output_edges_file_name = args.outputEdgesFile
     test_mode = args.test
-    reduced = {"nodes": [], "edges": []}
-    start = datetime.datetime.now()
-    print(f"Start time: {start}")
+
+    print("Start time:", kg2_util.date())
     
-    with open(args.inputFilepath, "r") as fp:
+    nodes_info, edges_info = kg2_util.create_kg2_jsonlines(test_mode)
+    nodes_output = nodes_info[0]
+    edges_output = edges_info[0]
 
-        node_ctr = 0
-        edge_ctr = 0
-        generator = (row for row in ijson.kvitems(fp, ""))
+    input_nodes_jsonlines_info = kg2_util.start_read_jsonlines(input_nodes_file_name)
+    input_nodes = input_nodes_jsonlines_info[0]
 
-        for row in generator:
-            key = row[0]
-            data = row[1]
-            if key == "build":
-                reduced["build"] = data
-                print(data)
-            elif key == "nodes":  # handling the list of all nodes
-                for node in data:  # handling a single node dict
-                    node_ctr += 1
-                    if node_ctr % 1000000 == 0:
-                        print(node_ctr)
-                    temp_node = {}
-                    for k, v in node.items():  # iterating over the node's items
-                        if k in node_set:
-                            temp_node[k] = v
-                    reduced["nodes"].append(temp_node)
-                print("Nodes completed")
-            elif key == "edges":
-                for edge in data:
-                    edge_ctr += 1
-                    if edge_ctr % 1000000 == 0:
-                        print(edge_ctr)
-                    temp_edge = {}
-                    for k, v in edge.items():
-                        if k in edge_set:
-                            temp_edge[k] = v
-                    reduced["edges"].append(temp_edge)
-                print("Edges completed")
+    node_ctr = 0
+    for node in input_nodes:
+        node_ctr += 1
+        if node_ctr % 1000000 == 0:
+            print(node_ctr, "nodes finished.")
+        temp_node = dict()
+        for key, val in node.items():
+            if key in NODE_PROPERTIES:
+                temp_node[key] = val
+        nodes_output.write(temp_node)
+
+    print("Nodes completed.")
+    kg2_util.end_read_jsonlines(input_nodes_jsonlines_info)
+
+    input_edges_jsonlines_info = kg2_util.start_read_jsonlines(input_edges_file_name)
+    input_edges = input_edges_jsonlines_info[0]
+
+    edge_ctr = 0
+    for edge in input_edges:
+        edge_ctr += 1
+        if edge_ctr % 1000000 == 0:
+            print(edge_ctr, "edges finished.")
+        temp_edge = dict()
+        for key, val in edge.items():
+            if key in EDGE_PROPERTIES:
+                temp_edge[key] = val
+        edges_output.write(temp_edge)
+
+    print("Edges completed.")
+    kg2_util.end_read_jsonlines(input_edges_jsonlines_info)
+
+    kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
+
+    print("Finish time:", kg2_util.date())
 
     finish = datetime.datetime.now()
-    print(f"Finish time: {finish} \nTotal time: {finish-start}")
 
-    kg2_util.save_json(reduced, args.outputFilepath, test_mode)
+    print(f"Total time: {finish-start}")

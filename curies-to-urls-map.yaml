@@ -52,7 +52,7 @@ use_for_bidirectional_mapping:
   -
     CHEBI: http://purl.obolibrary.org/obo/CHEBI_
   - # the CHEMBL.MECHANISM CURIE prefix is used only for predicates (we use identifiers.org for compounds and targets):
-    CHEMBL.MECHANISM: https://www.ebi.ac.uk/chembl#
+    CHEMBL.MECHANISM: https://www.ebi.ac.uk/chembl/mechanism/inspect/
   - # biolink uses the capitalized CURIE prefix:
     CHEMBL.COMPOUND: "https://identifiers.org/chembl.compound:"
   - # biolink uses the capitalized CURIE prefix:
@@ -102,7 +102,7 @@ use_for_bidirectional_mapping:
   -
     DDANAT: http://purl.obolibrary.org/obo/DDANAT_
   -
-    DGIdb: https://www.dgidb.org/
+    DGIdb: https://www.dgidb.org/interaction_types
   -
     dictybase.gene: "https://identifiers.org/dictybase.gene:"
   -
@@ -118,7 +118,7 @@ use_for_bidirectional_mapping:
   -
     DRUGBANK: "https://identifiers.org/drugbank:"
   -
-    DrugCentral: https://drugcentral.org/drugcard/
+    DrugCentral: http://drugcentral.org/drugcard/
   -
     ECO: http://purl.obolibrary.org/obo/ECO_
   -
@@ -138,7 +138,7 @@ use_for_bidirectional_mapping:
   -
     EDAM-TOPIC: 'http://edamontology.org/topic_'
   -
-    EFO: http://purl.bioontology.org/ontology/EFO/
+    EFO: http://www.ebi.ac.uk/efo/EFO_
   -
     EHDAA2: "http://purl.obolibrary.org/obo/EHDAA2_"
   -
@@ -214,7 +214,7 @@ use_for_bidirectional_mapping:
   -
     GTPI_source: https://www.guidetopharmacology.org/
   -
-    HANCESTRO: http://purl.obolibrary.org/obo/HANCESTRO_
+    HANCESTRO: http://www.ebi.ac.uk/ancestro/ancestro_
   -
     HCPCS: http://purl.bioontology.org/ontology/HCPCS/
   -
@@ -244,7 +244,7 @@ use_for_bidirectional_mapping:
   -
     JensenLab: "https://diseases.jensenlab.org/"
   -
-    KEGG: "https://www.genome.jp/dbget-bin/www_bget?pathway:map"
+    KEGG: "http://www.kegg.jp/entry/"
   -
     KEGG.COMPOUND: "https://identifiers.org/kegg.compound:"
   -
@@ -268,7 +268,7 @@ use_for_bidirectional_mapping:
   -
     MEDDRA: http://purl.bioontology.org/ontology/MEDDRA/
   -
-    medgen: "https://identifiers.org/medgen:"
+    medgen: "https://www.ncbi.nlm.nih.gov/medgen/"
   -
     MESH: http://id.nlm.nih.gov/mesh/
   -
@@ -392,7 +392,7 @@ use_for_bidirectional_mapping:
   -
     PathWhiz.Reaction: https://pathbank.org/lims#/reactions/
   -
-    PathWhiz: https://smpdb.ca/pathwhiz/pathways/
+    PathWhiz: http://smpdb.ca/pathways/#
   -
     PATO: http://purl.obolibrary.org/obo/PATO_
   -
@@ -410,7 +410,7 @@ use_for_bidirectional_mapping:
   -
     PO: http://purl.obolibrary.org/obo/PO_
   -
-    PomBase: "https://identifiers.org/pombase:"
+    PomBase: "https://www.pombase.org/gene/"
   -
     PR: http://purl.obolibrary.org/obo/PR_
   -
@@ -424,7 +424,7 @@ use_for_bidirectional_mapping:
   -
     REACT: "https://identifiers.org/reactome:"
   -
-    REPODB: http://apps.chiragjpgroup.org/repoDB
+    REPODB: http://apps.chiragjpgroup.org/repoDB/
   -
     RGD: "https://identifiers.org/rgd:"
   -
@@ -486,7 +486,7 @@ use_for_bidirectional_mapping:
   -
     UNICHEM_source: "https://www.ebi.ac.uk/unichem/"
   -
-    UniProtKB: "https://identifiers.org/uniprot:"
+    UniProtKB: "http://purl.uniprot.org/uniprot/"
   -
     UO: http://purl.obolibrary.org/obo/UO_
   -
@@ -494,7 +494,7 @@ use_for_bidirectional_mapping:
   -
     UPHENO: http://purl.obolibrary.org/obo/UPHENO_
   -
-    VANDF: http://purl.bioontology.org/ontology/VANDF/
+    VANDF: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/VANDF/
   -
     VCARD: http://www.w3.org/2006/vcard/
   - # there seems to be no PURL provider for the "VIVO" ontology:
@@ -504,13 +504,13 @@ use_for_bidirectional_mapping:
   -
     wb: "https://identifiers.org/wb:"
   -
-    WBls: 'http://purl.obolibrary.org/obo/WBBL_'
+    WBls: 'http://purl.obolibrary.org/obo/WBls_'
   -
-    WBbt: 'http://purl.obolibrary.org/obo/WBBT_'
+    WBbt: 'http://purl.obolibrary.org/obo/WBbt_'
   -
-    WIKIDATA: 'https://www.wikidata.org/wiki/'
+    WIKIDATA: 'https://www.wikidata.org/entity/'
   -
-    WIKIDATA_PROPERTY: 'https://www.wikidata.org/wiki/Property:'  # Wikidata Property - not a conventional namespace prefix
+    WIKIDATA_PROPERTY: 'https://www.wikidata.org/prop/'  # Wikidata Property - not a conventional namespace prefix
   -
     XCO: http://purl.obolibrary.org/obo/XCO_
   -
@@ -558,8 +558,6 @@ use_for_contraction_only:
   -
     EDAM: http://edamontology.org/
   -
-    EFO: http://www.ebi.ac.uk/efo/EFO_
-  -
     EFO: http://www.ebi.ac.uk/efo/
   -
     EFO: http://www.ebi.ac.uk/efoIri
@@ -575,8 +573,6 @@ use_for_contraction_only:
     GO: "http://purl.bioontology.org/ontology/GO/GO%3A"
   -
     GO: http://purl.bioontology.org/ontology/GO/
-  -
-    HANCESTRO: http://www.ebi.ac.uk/ancestro/ancestro_
   -
     HCPCS: https://hcpcs.codes/a-codes/
   -
@@ -670,7 +666,7 @@ use_for_contraction_only:
     # -
   #    ORPHANET: http://www.orpha.net/ORDO/Orphanet_
   -
-    ORPHANET: http://data.bioontology.org/ontologies/ORDO/submissions/15/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
+    ORPHANET: https://data.bioontology.org/ontologies/ORDO/submissions/27/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
   -
     PATO: http://purl.obolibrary.org/obo/pato#
   -
@@ -738,5 +734,5 @@ use_for_expansion_only:
   -
     RXCUI: http://purl.bioontology.org/ontology/RXNORM/
   -
-    WD: https://www.wikidata.org/wiki/
+    WD: https://www.wikidata.org/entity/
 

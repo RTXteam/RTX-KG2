@@ -3,7 +3,7 @@
     DrugBank database in XML format
 
     Usage: drugbank_xml_to_kg_json.py [--test] <inputFile.json>
-    <outputFile.json>
+    <outputNodesFile.json> <outputEdgesFile.json>
 '''
 
 import kg2_util as kg2_util
@@ -13,6 +13,7 @@ import datetime
 import sys
 import pickle
 import json
+
 __author__ = 'Erica Wood'
 __copyright__ = 'Oregon State University'
 __credits__ = ['Stephen Ramsey', 'Erica Wood', 'Lindsey Kvarfordt']
@@ -45,7 +46,8 @@ def get_args():
     arg_parser.add_argument('--test', dest='test',
                             action="store_true", default=False)
     arg_parser.add_argument('inputFile', type=str)
-    arg_parser.add_argument('outputFile', type=str)
+    arg_parser.add_argument('outputNodesFile', type=str)
+    arg_parser.add_argument('outputEdgesFile', type=str)
     return arg_parser.parse_args()
 
 
@@ -498,11 +500,8 @@ def make_edges(drug: dict):
     return edges
 
 
-def make_kg2_graph(drugbank_dict: dict, test_mode: bool):
+def make_kg2_graph(drugbank_dict: dict, nodes_output, edges_output, test_mode: bool):
     drugs = drugbank_dict["drugbank"]["drug"]
-
-    nodes = []
-    edges = []
 
     update_date = drugbank_dict["drugbank"]["@exported-on"]
     version = drugbank_dict["drugbank"]["@version"]
@@ -513,7 +512,7 @@ def make_kg2_graph(drugbank_dict: dict, test_mode: bool):
                                           update_date,
                                           DRUGBANK_KB_CURIE_ID)
 
-    nodes.append(drugbank_kp_node)
+    nodes_output.write(drugbank_kp_node)
 
     drug_ctr = 0
 
@@ -523,13 +522,10 @@ def make_kg2_graph(drugbank_dict: dict, test_mode: bool):
             break
         node = make_node(drug)
         if node is not None:
-            nodes.append(node)
+            nodes_output.write(node)
         for edge in make_edges(drug):
             if edge is not None:
-                edges.append(edge)
-
-    return {"nodes": nodes,
-            "edges": edges}
+                edges_output.write(edge)
 
 
 def xml_to_drugbank_dict(input_file_name: str):
@@ -543,17 +539,26 @@ if __name__ == '__main__':
     print("Start time: ", date())
     args = get_args()
     input_file_name = args.inputFile
-    output_file_name = args.outputFile
+    output_nodes_file_name = args.outputNodesFile
+    output_edges_file_name = args.outputEdgesFile
     test_mode = args.test
+
+    nodes_info, edges_info = kg2_util.create_kg2_jsonlines(test_mode)
+    nodes_output = nodes_info[0]
+    edges_output = edges_info[0]
+
     print("Start load: ", date())
     drugbank_dict = xml_to_drugbank_dict(input_file_name)
     # For debugging only
     #drugbank_dict = pickle.load(open(input_file_name, 'rb'))
     print("Finish load: ", date())
+
     print("Start nodes and edges: ", date())
-    graph = make_kg2_graph(drugbank_dict, test_mode)
+    make_kg2_graph(drugbank_dict, nodes_output, edges_output, test_mode)
     print("Finish nodes and edges: ", date())
-    print("Start saving JSON: ", date())
-    kg2_util.save_json(graph, output_file_name, test_mode)
-    print("Finish saving JSON: ", date())
+
+    print("Start closing JSON: ", date())
+    kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
+    print("Finish closing JSON: ", date())
+
     print("Finish time: ", date())

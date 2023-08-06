@@ -18,7 +18,7 @@ import argparse
 import kg2_util
 import pprint
 import sys
-import ijson
+import json
 from datetime import datetime
 
 # 1. What is the indicator for negation?
@@ -44,8 +44,10 @@ def make_arg_parser():
     arg_parser.add_argument('predicateRemapYaml', type=str, help="The YAML file describing how predicates should be remapped to simpler predicates")
     arg_parser.add_argument('inforesRemapYaml', type=str, help="The YAML file describing how knowledge_source fields should be remapped to Translator infores curies")
     arg_parser.add_argument('curiesToURIFile', type=str, help="The file mapping CURIE prefixes to URI fragments")
-    arg_parser.add_argument('inputFileJson', type=str, help="The input KG2 graph, in JSON format")
-    arg_parser.add_argument('outputFileJson', type=str, help="The output KG2 graph, in JSON format")
+    arg_parser.add_argument('inputNodesFile', type=str, help="The input KG2 graph, in JSON format")
+    arg_parser.add_argument('inputEdgesFile', type=str, help="The input KG2 graph, in JSON format")
+    arg_parser.add_argument('outputNodesFile', type=str, help="The output KG2 graph, in JSON format")
+    arg_parser.add_argument('outputEdgesFile', type=str, help="The output KG2 graph, in JSON format")
     arg_parser.add_argument('versionFile', type=str, help="The text file storing the KG2 version")
     arg_parser.add_argument('--test', dest='test', action='store_true', default=False)
     arg_parser.add_argument('--dropSelfEdgesExcept', required=False, dest='drop_self_edges_except', default=None)
@@ -117,42 +119,51 @@ def warning_record_of_source_predicate_curie_occurrences(record_of_source_predic
                 file=sys.stderr)
 
 
-def process_nodes(input_file_name, infores_remap_config):
+def process_nodes(input_nodes_file_name, infores_remap_config, nodes_output):
     knowledge_source_curies_not_in_config_nodes = set()
-    nodes_dict = dict()
-    graph = dict()
-
 
     node_ctr = 0
-    with open(input_file_name, "r") as fp:
-        nodes_generator = (row for row in ijson.items(fp, "nodes.item"))
-        for node_dict in nodes_generator:
-            node_ctr += 1
-            if node_ctr % 1000000 == 0:
-                print(f"Processing node {node_ctr}")
-            node_id = node_dict["id"]
-            if node_dict.get('provided_by') is None:
-                    node_dict['provided_by'] = node_dict.pop('knowledge_source')
-            knowledge_source = node_dict['provided_by']
-            infores_curie_dict = infores_remap_config.get(knowledge_source, None)
-            infores_curie = infores_curie_dict['infores_curie']
+
+    nodes_read_jsonlines_info = kg2_util.start_read_jsonlines(input_nodes_file_name)
+    nodes = nodes_read_jsonlines_info[0]
+    nodes_set = set()
+
+    for node_dict in nodes:
+        node_ctr += 1
+        if node_ctr % 1000000 == 0:
+            print(f"Processing node {node_ctr}")
+        node_id = node_dict["id"]
+        if node_dict.get('provided_by') is None:
+            node_dict['provided_by'] = node_dict.pop('knowledge_source')
+        if isinstance(node_dict.get('provided_by'), str):
+            node_dict['provided_by'] = [node_dict['provided_by']]
+        knowledge_source = node_dict['provided_by']
+        infores_curies = list()
+        for source in knowledge_source:
+            infores_curie_dict = infores_remap_config.get(source, None)
             if infores_curie_dict is None:
-                knowledge_source_curies_not_in_config_nodes.add(knowledge_source)
+                knowledge_source_curies_not_in_config_nodes.add(source)
             else:
                 infores_curie = infores_curie_dict['infores_curie']
-            node_dict['provided_by'] = [infores_curie]
-            nodes_dict[node_id] = node_dict
+                infores_curies.append(infores_curie)
+        node_dict['provided_by'] = infores_curies
+        nodes_output.write(node_dict)
+        nodes_set.add(node_id)
+
+    kg2_util.end_read_jsonlines(nodes_read_jsonlines_info)
     print(f"Completed nodes {kg2_util.date()}")
 
-    return nodes_dict, knowledge_source_curies_not_in_config_nodes
+    # Issue warnings for problems that came up
+    warning_knowledge_source_curies_not_in_config_nodes(knowledge_source_curies_not_in_config_nodes)
+   
+    return nodes_set
 
 
-def process_edges(input_file_name, infores_remap_config, predicate_remap_file_name, curies_to_uri_file_name, drop_self_edges_except, nodes):
+def process_edges(input_edges_file_name, infores_remap_config, predicate_remap_file_name, curies_to_uri_file_name, edges_output, drop_self_edges_except, nodes):
     predicate_remap_config = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(predicate_remap_file_name))
     map_dict = kg2_util.make_uri_curie_mappers(curies_to_uri_file_name)
 
     curie_to_uri_expander = map_dict['expand']
-    new_edges = dict()
     source_predicate_curies_not_in_config = set()
     source_predicate_curies_not_in_nodes = set()
     knowledge_source_curies_not_in_config_edges = set()
@@ -167,127 +178,121 @@ def process_edges(input_file_name, infores_remap_config, predicate_remap_file_na
         assert command["operation"] in command_set
 
     edge_ctr = 0
-    with open(input_file_name, "r") as fp:
-        edges_generator = (row for row in ijson.items(fp, "edges.item"))
-        print(f"Starting edges {kg2_util.date()}")
-        for edge_dict in edges_generator:
-            edge_ctr += 1
-            if edge_ctr == 1:
-                print(edge_dict)
-            if edge_ctr % 1000000 == 0:
-                print(f"Processing edge {edge_ctr}")
-            if drop_negated and edge_dict['negated']:
-                continue
-            source_predicate_label = edge_dict['relation_label']
-            predicate_label = source_predicate_label
-            if edge_dict.get('source_predicate') is None:
-                edge_dict['source_predicate'] = edge_dict.pop('original_predicate')
-            source_predicate_curie = edge_dict['source_predicate']
-            predicate_curie = source_predicate_curie
 
-            core_predicate_curie = None   # never reuse a core_predicate_curie from previous iteration through loop
-            
-            if record_of_source_predicate_curie_occurrences.get(source_predicate_curie, None) is not None:
-                record_of_source_predicate_curie_occurrences[source_predicate_curie] = True 
-                pred_remap_info = predicate_remap_config.get(source_predicate_curie, None)   
-            else:
-                # there is a original predicate CURIE in the graph that is not in the config file
-                source_predicate_curies_not_in_config.add(source_predicate_curie)
-                #print(f"Source predicate curie missing {source_predicate_curie}")
-                pred_remap_info = {'operation': 'keep'}
-            
-            assert pred_remap_info is not None, f"Edge {edge_dict} missing {pred_remap_info}"
-            
-            invert = False
+    edges_read_jsonlines_info = kg2_util.start_read_jsonlines(input_edges_file_name)
+    edges = edges_read_jsonlines_info[0]
+
+    print(f"Starting edges {kg2_util.date()}")
+    for edge_dict in edges:
+        edge_ctr += 1
+        if edge_ctr == 1:
+            print(edge_dict)
+        if edge_ctr % 1000000 == 0:
+            print(f"Processing edge {edge_ctr}")
+        if drop_negated and edge_dict['negated']:
+            continue
+        source_predicate_label = edge_dict['relation_label']
+        predicate_label = source_predicate_label
+        if edge_dict.get('source_predicate') is None:
+            edge_dict['source_predicate'] = edge_dict.pop('original_predicate')
+        source_predicate_curie = edge_dict['source_predicate']
+        predicate_curie = source_predicate_curie
+
+        core_predicate_curie = None   # never reuse a core_predicate_curie from previous iteration through loop
+        
+        if record_of_source_predicate_curie_occurrences.get(source_predicate_curie, None) is not None:
+            record_of_source_predicate_curie_occurrences[source_predicate_curie] = True 
+            pred_remap_info = predicate_remap_config.get(source_predicate_curie, None)   
+        else:
+            # there is a original predicate CURIE in the graph that is not in the config file
+            source_predicate_curies_not_in_config.add(source_predicate_curie)
+            #print(f"Source predicate curie missing {source_predicate_curie}")
+            pred_remap_info = {'operation': 'keep'}
+        
+        assert pred_remap_info is not None, f"Edge {edge_dict} missing {pred_remap_info}"
+        
+        invert = False
+        get_new_rel_info = False
+
+        operation = pred_remap_info.get('operation', None)
+        if operation == "delete":
+            continue
+        get_new_rel_info = True
+        if operation == "invert":
+            invert = True
+        elif pred_remap_info.get("core_predicate") is None:
+            assert operation == "keep"
             get_new_rel_info = False
 
-            operation = pred_remap_info.get('operation', None)
-            if operation == "delete":
-                continue
-            get_new_rel_info = True
-            if operation == "invert":
-                invert = True
-            elif pred_remap_info.get("core_predicate") is None:
-                assert operation == "keep"
-                get_new_rel_info = False
+        qualified_predicate = None
+        qualified_object_aspect = None
+        qualified_object_direction = None
 
-            qualified_predicate = None
-            qualified_object_aspect = None
-            qualified_object_direction = None
+        if get_new_rel_info:
+            assert pred_remap_info.get("core_predicate") is not None
+            core_predicate_curie = pred_remap_info.get("core_predicate")
+            qualified_predicate = pred_remap_info.get("qualified_predicate", None)
+            qualifiers = pred_remap_info.get("qualifiers", None)
+            if qualifiers is not None:
+                qualifiers_dict = qualifiers
+                qualified_object_aspect = qualifiers_dict.get("object_aspect", None)
+                qualified_object_direction = qualifiers_dict.get("object_direction", None)
+            if qualified_object_aspect is not None and qualified_object_direction is not None and \
+                    qualifiers is None:
+                assert qualified_predicate is not None, f"Qualifier but not qualified predicate {edge_dict}"
+        if invert:
+            edge_dict['relation_label'] = 'INVERTED:' + source_predicate_label
+            new_object = edge_dict['subject']
+            edge_dict['subject'] = edge_dict['object']
+            edge_dict['object'] = new_object
+        edge_dict["predicate_label"] = predicate_label
+        if drop_self_edges_except is not None and \
+                edge_dict['subject'] == edge_dict['object'] and \
+                predicate_label not in drop_self_edges_except:
+            continue
+        edge_dict['predicate'] = predicate_curie
+        edge_dict['qualified_predicate'] = qualified_predicate
+        edge_dict['qualified_object_aspect'] = qualified_object_aspect
+        edge_dict['qualified_object_direction'] = qualified_object_direction
+        if core_predicate_curie is None and predicate_curie.startswith(kg2_util.CURIE_PREFIX_BIOLINK + ":"):
+            core_predicate_curie = predicate_curie
+        edge_dict['predicate'] = core_predicate_curie
+        edge_id = edge_dict["id"]
+        new_edge_id = update_edge_id(edge_id, qualified_predicate, qualified_object_aspect, qualified_object_direction)
+        edge_dict["id"] = new_edge_id
 
-            if get_new_rel_info:
-                assert pred_remap_info.get("core_predicate") is not None
-                core_predicate_curie = pred_remap_info.get("core_predicate")
-                qualified_predicate = pred_remap_info.get("qualified_predicate", None)
-                qualifiers = pred_remap_info.get("qualifiers", None)
-                if qualifiers is not None:
-                    qualifiers_dict = qualifiers[0]
-                    qualified_object_aspect = qualifiers_dict.get("object_aspect", None)
-                    qualified_object_direction = qualifiers_dict.get("object_direction", None)
-                if qualified_object_aspect is not None and qualified_object_direction is not None and \
-                        qualifiers is None:
-                    assert qualified_predicate is not None, f"Qualifier but not qualified predicate {edge_dict}"
-            if invert:
-                edge_dict['relation_label'] = 'INVERTED:' + source_predicate_label
-                new_object = edge_dict['subject']
-                edge_dict['subject'] = edge_dict['object']
-                edge_dict['object'] = new_object
-            edge_dict["predicate_label"] = predicate_label
-            if drop_self_edges_except is not None and \
-                    edge_dict['subject'] == edge_dict['object'] and \
-                    predicate_label not in drop_self_edges_except:
-                continue
-            edge_dict['predicate'] = predicate_curie
-            edge_dict['qualified_predicate'] = qualified_predicate
-            edge_dict['qualified_object_aspect'] = qualified_object_aspect
-            edge_dict['qualified_object_direction'] = qualified_object_direction
-            if core_predicate_curie is None and predicate_curie.startswith(kg2_util.CURIE_PREFIX_BIOLINK + ":"):
-                core_predicate_curie = predicate_curie
-            edge_dict['predicate'] = core_predicate_curie
-            edge_id = edge_dict["id"]
-            new_edge_id = update_edge_id(edge_id, qualified_predicate, qualified_object_aspect, qualified_object_direction)
-            edge_dict["id"] = new_edge_id
+        if predicate_curie not in nodes:
+            predicate_curie_prefix = predicate_curie.split(':')[0]
+            predicate_uri_prefix = curie_to_uri_expander(predicate_curie_prefix + ':')
+            # Create list of curies to complain about if not in biolink
+            if predicate_uri_prefix == predicate_curie_prefix:
+                source_predicate_curies_not_in_nodes.add(predicate_curie)
+        if edge_dict.get("primary_knowledge_source") is None:
+            #print(f"{edge_dict}")
+            edge_dict["primary_knowledge_source"] = edge_dict.pop("knowledge_source")
+        primary_knowledge_source = edge_dict["primary_knowledge_source"]
+        infores_curie_dict = infores_remap_config.get(primary_knowledge_source, None)
+        if infores_curie_dict is None:
+            knowledge_source_curies_not_in_config_edges.add(primary_knowledge_source)
+        else:
+            infores_curie = infores_curie_dict['infores_curie']
+            edge_dict['primary_knowledge_source'] = infores_curie
 
-            if predicate_curie not in nodes:
-                predicate_curie_prefix = predicate_curie.split(':')[0]
-                predicate_uri_prefix = curie_to_uri_expander(predicate_curie_prefix + ':')
-                # Create list of curies to complain about if not in biolink
-                if predicate_uri_prefix == predicate_curie_prefix:
-                    source_predicate_curies_not_in_nodes.add(predicate_curie)
-            if edge_dict.get("primary_knowledge_source") is None:
-                #print(f"{edge_dict}")
-                edge_dict["primary_knowledge_source"] = edge_dict.pop("knowledge_source")
-            primary_knowledge_source = edge_dict["primary_knowledge_source"]
-            infores_curie_dict = infores_remap_config.get(primary_knowledge_source, None)
-            if infores_curie_dict is None:
-                knowledge_source_curies_not_in_config_edges.add(primary_knowledge_source)
-            else:
-                infores_curie = infores_curie_dict['infores_curie']
-                edge_dict['primary_knowledge_source'] = infores_curie
+        edge_subject = edge_dict['subject'] 
+        edge_object = edge_dict['object']
 
-            edge_subject = edge_dict['subject'] 
-            edge_object = edge_dict['object']
+        edge_key = f"{edge_subject} /// {predicate_curie} /// {qualified_predicate} /// {qualified_object_aspect} /// {qualified_object_direction} /// {edge_object} /// {primary_knowledge_source}"
 
-            edge_key = f"{edge_subject} /// {predicate_curie} /// {qualified_predicate} /// {qualified_object_aspect} /// {qualified_object_direction} /// {edge_object} /// {primary_knowledge_source}"
+        edges_output.write(edge_dict)
 
-            existing_edge = new_edges.get(edge_key, None)
-            new_edges[edge_key] = edge_dict
+    kg2_util.end_read_jsonlines(edges_read_jsonlines_info)
+    print(f"Finished edges {kg2_util.date()}")
 
-            # do not merge edges
-            #if existing_edge is not None:
-            #    existing_edge['publications'] += edge_dict['publications']
-            #    existing_edge['publications_info'].update(edge_dict['publications_info'])
-            #else:
-            #    new_edges[edge_key] = edge_dict
-            if edge_ctr == 1:
-                print(new_edges)
-    print(f"Finished edges {kg2_util.date()}") 
-    edges_list = list(new_edges.values())  
-    del edge_dict
-    del nodes       
-
-    return edges_list, source_predicate_curies_not_in_config, source_predicate_curies_not_in_nodes, knowledge_source_curies_not_in_config_edges, record_of_source_predicate_curie_occurrences
-
+    # Warnings for issues that came up
+    warning_record_of_source_predicate_curie_occurrences(record_of_source_predicate_curie_occurrences)
+    warning_source_predicate_curies_not_in_nodes(source_predicate_curies_not_in_nodes)
+    warning_source_predicate_curies_not_in_config(source_predicate_curies_not_in_config)
+    warning_knowledge_source_curies_not_in_config_edges(knowledge_source_curies_not_in_config_edges)
 
 
 if __name__ == '__main__':
@@ -295,18 +300,20 @@ if __name__ == '__main__':
     predicate_remap_file_name = args.predicateRemapYaml
     infores_remap_file_name = args.inforesRemapYaml
     curies_to_uri_file_name = args.curiesToURIFile
-    input_file_name = args.inputFileJson
-    output_file_name = args.outputFileJson
-    nodes_output_file_name = ""
+    input_nodes_file_name = args.inputNodesFile
+    input_edges_file_name = args.inputEdgesFile
+    output_nodes_file_name = args.outputNodesFile
+    output_edges_file_name = args.outputEdgesFile
     test_mode = args.test
     drop_negated = args.drop_negated
     drop_self_edges_except = args.drop_self_edges_except
 
+    nodes_info, edges_info = kg2_util.create_kg2_jsonlines(test_mode)
+    nodes_output = nodes_info[0]
+    edges_output = edges_info[0]
+
     infores_remap_config = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(infores_remap_file_name))
 
-
-    graph = dict()
-    new_edges = dict()
     source_predicate_curies_not_in_config = set()
     knowledge_source_curies_not_in_config_nodes = set()
     source_predicate_curies_not_in_nodes = set()
@@ -316,24 +323,9 @@ if __name__ == '__main__':
         assert type(drop_self_edges_except) == str
         drop_self_edges_except = set(drop_self_edges_except.split(','))
 
-    nodes_dict, knowledge_source_curies_not_in_config_nodes = process_nodes(input_file_name, infores_remap_config)
-    nodes_list = list(nodes_dict.values())
-    nodes = nodes_dict.keys()
-    graph['nodes'] = nodes_list
-    del nodes_dict
-    del nodes_list
+    nodes = process_nodes(input_nodes_file_name, infores_remap_config, nodes_output)
     
-    edges_list, source_predicate_curies_not_in_config, source_predicate_curies_not_in_nodes, knowledge_source_curies_not_in_config_edges, record_of_source_predicate_curie_occurrences  = process_edges(input_file_name, infores_remap_config, predicate_remap_file_name, curies_to_uri_file_name, drop_self_edges_except, nodes)
-    
-    graph['edges'] = edges_list
-    del edges_list
-    
-    #Warnings for issues that came up
-    warning_record_of_source_predicate_curie_occurrences(record_of_source_predicate_curie_occurrences)
-    warning_source_predicate_curies_not_in_nodes(source_predicate_curies_not_in_nodes)
-    warning_source_predicate_curies_not_in_config(source_predicate_curies_not_in_config)
-    warning_knowledge_source_curies_not_in_config_nodes(knowledge_source_curies_not_in_config_nodes)
-    warning_knowledge_source_curies_not_in_config_edges(knowledge_source_curies_not_in_config_edges)
+    process_edges(input_edges_file_name, infores_remap_config, predicate_remap_file_name, curies_to_uri_file_name, edges_output, drop_self_edges_except, nodes)
     
     update_date = datetime.now().strftime("%Y-%m-%d %H:%M")
     version_file = open(args.versionFile, 'r')
@@ -343,7 +335,7 @@ if __name__ == '__main__':
         test_flag = ""
         if test_mode:
             test_flag = "-TEST"
-        build_name = "RTX KG" + line.rstrip() + test_flag
+        build_name = "RTX-KG" + line.rstrip() + test_flag
         break
     build_node = kg2_util.make_node(kg2_util.CURIE_PREFIX_RTX + ':' + 'KG2',
                                     kg2_util.BASE_URL_RTX + 'KG2',
@@ -351,12 +343,9 @@ if __name__ == '__main__':
                                     kg2_util.SOURCE_NODE_CATEGORY,
                                     update_date,
                                     kg2_util.CURIE_PREFIX_RTX + ':')
-    build_node['provided_by'] = [build_node['provided_by']]
     build_info = {'version': build_node['name'], 'timestamp_utc': build_node['update_date']}
     pprint.pprint(build_info)
-    graph["build"] = build_info
-    graph["nodes"].append(build_node)
-    print(f"Saving simplified file {kg2_util.date()}")
-    kg2_util.save_json(graph, output_file_name, test_mode)
-    print(f"Completed saving file {kg2_util.date()}")
-    del graph
+    nodes_output.write(build_node)
+    print(f"Closing simplified file {kg2_util.date()}")
+    kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
+    print(f"Completed closing file {kg2_util.date()}")

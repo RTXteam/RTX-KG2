@@ -2,7 +2,8 @@
 '''Builds the RTX "KG2" second-generation knowledge graph, from various OWL input files.
 
    Usage: multi_ont_to_json_kg.py <categoriesFile.yaml> <curiesToURILALFile>
-                                  <ontLoadInventoryFile.yaml> <outputFile>
+                                  <ontLoadInventoryFile.yaml> <outputNodesFile> <outputEdgesFile>
+                                  <umlsCUITSVFile> <nodeDatatypePropertiesFile>
    (note: outputFile can end in .json or in .gz; if the latter, it will be written as a gzipped file;
    but using the gzip options for input or output seems to significantly increase transient memory
    usage)
@@ -54,6 +55,10 @@ ENSEMBL_LETTER_TO_CATEGORY = {'P': 'protein',
 
 
 # -------------- subroutines with side-effects go here ------------------
+
+
+def date():
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 def delete_ontobio_cachier_caches():
@@ -122,7 +127,8 @@ def make_kg2(curies_to_categories: dict,
              uri_to_curie_shortener: callable,
              curie_to_uri_expander: callable,
              ont_urls_and_files: tuple,
-             output_file_name: str,
+             nodes_output,
+             edges_output,
              umls_cui_tsv_file: str,
              node_datatype_properties_file: str, # temporary addition for Ontobio Issue #507
              test_mode: bool = False,
@@ -193,21 +199,16 @@ def make_kg2(curies_to_categories: dict,
                                   curie_to_uri_expander,
                                   map_of_node_ontology_ids_to_curie_ids)
 
-    kg2_dict = dict()
-    kg2_dict['edges'] = [rel_dict for rel_dict in all_rels_dict.values()]
-    kg2_dict['edges'] += biolink_inverses
-    kg2_util.log_message('Number of edges: ' + str(len(kg2_dict['edges'])))
-    kg2_dict['nodes'] = list(nodes_dict.values())
-    kg2_util.log_message('Number of nodes: ' + str(len(kg2_dict['nodes'])))
-    del nodes_dict
+    ## This is not necessarily the most efficient place to do #321, but it will have to work for now
+    for edge in all_rels_dict.values():
+        edges_output.write(edge)
+    for edge in biolink_inverses:
+        edges_output.write(edge)
 
-    # delete xrefs from all_nodes_dict
-    for node_dict in kg2_dict['nodes']:
+    for node_dict in list(nodes_dict.values()):
         del node_dict['xrefs']
         del node_dict['ontology node ids']
-
-    kg2_util.log_message('Saving JSON file')
-    kg2_util.save_json(kg2_dict, output_file_name, test_mode)
+        nodes_output.write(node_dict)
 
 
 def get_biolink_category_for_node(ontology_node_id: str,
@@ -1355,7 +1356,8 @@ def make_arg_parser():
     arg_parser.add_argument('categoriesFile', type=str)
     arg_parser.add_argument('curiesToURIFile', type=str)
     arg_parser.add_argument('ontLoadInventoryFile', type=str)
-    arg_parser.add_argument('outputFile', type=str)
+    arg_parser.add_argument('outputNodesFile', type=str)
+    arg_parser.add_argument('outputEdgesFile', type=str)
     arg_parser.add_argument('umlsCUITSVFile', type=str)
     arg_parser.add_argument('nodeDatatypePropertiesFile', type=str) # temporary addition for Ontobio Issue #507
     return arg_parser
@@ -1364,12 +1366,14 @@ def make_arg_parser():
 # --------------- main starts here -------------------
 
 if __name__ == '__main__':
+    print("Start time: ", date())
     delete_ontobio_cachier_caches()
     args = make_arg_parser().parse_args()
     curies_to_categories_file_name = args.categoriesFile
     curies_to_uri_file_name = args.curiesToURIFile
     ont_load_inventory_file = args.ontLoadInventoryFile
-    output_file = args.outputFile
+    output_nodes_file_name = args.outputNodesFile
+    output_edges_file_name = args.outputEdgesFile
     umls_cui_tsv_file = args.umlsCUITSVFile
     node_datatype_properties_file = args.nodeDatatypePropertiesFile # temporary addition for Ontobio Issue #507
     save_pickle = args.save_pickle
@@ -1380,12 +1384,21 @@ if __name__ == '__main__':
 
     ont_urls_and_files = tuple(kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(ont_load_inventory_file)))
 
+    nodes_info, edges_info = kg2_util.create_kg2_jsonlines(test_mode)
+    nodes_output = nodes_info[0]
+    edges_output = edges_info[0]
+
     make_kg2(curies_to_categories,
              uri_to_curie_shortener,
              curie_to_uri_expander,
              ont_urls_and_files,
-             output_file,
+             nodes_output,
+             edges_output,
              umls_cui_tsv_file,
              node_datatype_properties_file, # temporary addition for Ontobio Issue #507
              test_mode,
              save_pickle)
+
+    kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
+
+    print("Finish time: ", date())

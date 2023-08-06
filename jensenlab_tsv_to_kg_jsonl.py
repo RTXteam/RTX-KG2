@@ -3,7 +3,7 @@
     Jensen Lab filtered text mining channel tsv file.
     
     Usage: jensenlab_tsv_to_kg_json.py [--test] <inputDirectory>
-    <outputFile.json>
+    <outputNodesFile.json> <outputEdgesFile.json>
 '''
 import csv
 import sys
@@ -40,8 +40,13 @@ def get_args():
                             action="store_true",
                             default=False)
     arg_parser.add_argument('inputDirectory', type=str) #note to self: kg2-build/jensenlab
-    arg_parser.add_argument('outputFile', type=str)
+    arg_parser.add_argument('outputNodesFile', type=str)
+    arg_parser.add_argument('outputEdgesFile', type=str)
     return arg_parser.parse_args()
+
+def date():
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
 
 def make_gene_id_dictionary(human_names_file:str, human_entities_file:str) -> Dict[str, list]:
     _human_entities_dict = dict(); # string_id: dictionary_serial_no
@@ -99,12 +104,11 @@ def _reformat_id(id:str):
     #    return "ENSEMBL:"+id
     return None 
     
-def make_edges(input_tsv:str, gene_id_dict:Dict[str,list], pmids_dict:Dict[str,Dict[str,set]], test_mode: bool) -> list:
+def make_edges(input_tsv:str, gene_id_dict:Dict[str,list], pmids_dict:Dict[str,Dict[str,set]], edges_output, test_mode: bool) -> list:
     gene_ids_actually_used = set()
     update_date = datetime.datetime.now().replace(microsecond=0).isoformat()
     with open(input_tsv) as inp:
         tsvin = csv.reader(inp, delimiter="\t")
-        edges = list()
         for row in tsvin:
             [gene_id,
             gene_name,
@@ -140,17 +144,25 @@ def make_edges(input_tsv:str, gene_id_dict:Dict[str,list], pmids_dict:Dict[str,D
                 publications_info = {edge['object']: publication_info_dict}
                 edge["publications"] = publications_list
                 edge["publications_info"] = publications_info
-                edges.append(edge)
+                edges_output.write(edge)
             if test_mode and len(gene_ids_actually_used) > 1000:
                 break
         
     used_genes_missing_ids = gene_ids_actually_used - set(gene_id_dict.keys())
     print(f"Skipped {len(used_genes_missing_ids)} rows for lack of kg2 gene ids.")
     print(f"Found {len(gene_ids_actually_used - used_genes_missing_ids)} used kg2 gene ids.")
-    return edges
 
 if __name__ == '__main__':
+    print("Start time: ", date())
     args = get_args()
+    output_nodes_file_name = args.outputNodesFile
+    output_edges_file_name = args.outputEdgesFile
+    test_mode = args.test
+
+    nodes_info, edges_info = kg2_util.create_kg2_jsonlines(test_mode)
+    nodes_output = nodes_info[0]
+    edges_output = edges_info[0]
+
     human_names_file = f"{args.inputDirectory}/human_dictionary/human_names.tsv" 
     human_entities_file = f"{args.inputDirectory}/human_dictionary/human_entities.tsv" 
     edges_tsv_file = f"{args.inputDirectory}/human_disease_textmining_full.tsv"
@@ -162,9 +174,8 @@ if __name__ == '__main__':
     pmids_dict = { "gene": gene_pmids_dict,
                    "disease" : disease_pmids_dict }    
 
-    edge_list = make_edges(edges_tsv_file, gene_id_dict, pmids_dict, args.test)
-    print(f"Added {len(edge_list)} edges.")
-    nodes = []
+    make_edges(edges_tsv_file, gene_id_dict, pmids_dict, edges_output, args.test)
+
     update_date = datetime.datetime.now().replace(microsecond=0).isoformat()
     jensen_lab_source_node = kg2_util.make_node(kg2_util.CURIE_ID_JENSENLAB,
                                                 kg2_util.BASE_URL_JENSENLAB,
@@ -173,7 +184,8 @@ if __name__ == '__main__':
                                                 update_date,
                                                 kg2_util.CURIE_ID_JENSENLAB)
                                         
-    nodes.append(jensen_lab_source_node)
-    graph = {'nodes': nodes,
-             'edges': edge_list}
-    kg2_util.save_json(graph, args.outputFile, args.test)
+    nodes_output.write(jensen_lab_source_node)
+
+    kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
+
+    print("Finish time: ", date())

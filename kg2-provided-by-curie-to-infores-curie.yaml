@@ -27,7 +27,7 @@ HP:hp.owl:
   infores_curie: infores:diseases
   knowledge_type: knowledge_source
 'KEGG_source:':
-  source_name: Kyoto Encyclopedia of Genes and Genomes
+  source_name: Kyoto Encyclopedia of Genes and Genomes (KEGG)
   infores_curie: infores:kegg
   knowledge_type: knowledge_source
 OBO:bfo.owl:
@@ -115,7 +115,7 @@ OBO:uberon/ext.owl:
   infores_curie: infores:uberon
   knowledge_type: knowledge_source
 'OMIM:':
-  source_name: Online Mendelian Inheritance in Man
+  source_name: Online Mendelian Inheritance in Man (OMIM)
   infores_curie: infores:omim
   knowledge_type: knowledge_source
 'ORPHANET:':
@@ -171,7 +171,7 @@ identifiers_org_registry:goa:
   infores_curie: infores:goa
   knowledge_type: primary_knowledge_source
 identifiers_org_registry:hmdb:
-  source_name: Human Metabolome Database
+  source_name: 'Human Metabolome Database '
   infores_curie: infores:hmdb
   knowledge_type: knowledge_source
 identifiers_org_registry:intact:
@@ -179,7 +179,7 @@ identifiers_org_registry:intact:
   infores_curie: infores:intact
   knowledge_type: knowledge_source
 identifiers_org_registry:kegg.compound:
-  source_name: Kyoto Encyclopedia of Genes and Genomes
+  source_name: Kyoto Encyclopedia of Genes and Genomes (KEGG)
   infores_curie: infores:kegg
   knowledge_type: original_knowledge_source
 identifiers_org_registry:mirbase:
@@ -217,6 +217,10 @@ umls_source:ATC:
 umls_source:CPT:
   source_name: Current Procedural Terminology (CPT) Codes (from UMLS)
   infores_curie: infores:cpt-codes-umls
+  knowledge_type: knowledge_source
+umls_source:CHV:
+  source_name: Consumer Health Vocabulary (CHV) (from UMLS)
+  infores_curie: infores:chv-umls
   knowledge_type: knowledge_source
 umls_source:DRUGBANK:
   source_name: DrugBank
@@ -311,7 +315,7 @@ umls_source:NDFRT:
   infores_curie: infores:ndfrt
   knowledge_type: knowledge_source
 umls_source:OMIM:
-  source_name: Online Mendelian Inheritance in Man
+  source_name: Online Mendelian Inheritance in Man (OMIM)
   infores_curie: infores:omim
   knowledge_type: knowledge_source
 umls_source:PDQ:
