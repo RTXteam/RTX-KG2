@@ -533,3 +533,115 @@ MRRANK_RANK | SAB | TTY | SUPPRESS |
 281 | AOD | DS | N |
 277 | AOD | ES | N |
 278 | AOD | ET | N |
+
+# Studying `umls2rdf.py`
+
+Tables Used:
+- `MRSTY`
+- `MRCONSO`
+- `MRSAB`
+- `MRREL`
+- `MRDEF`
+- `MRSAT`
+- `MRRANK`
+- `MRDOC`
+
+## `MRSTY`
+
+**What is taken?**
+
+This table is accessed twice, once on line 143 and once on line 573. At the line 143 accession, the distinct columns `TUI`, `STN`, and `STY` are taken. At the line 573 accession, all of the columns from `MRSTY` are taken, which consists of `CUI`, `TUI`, `STN`, `STY`, `ATUI`, `CVF`.
+
+**What does this table contain?**
+
+**How does `umls2rdf.py` use this table?**
+
+## `MRCONSO`
+
+**What is taken?**
+
+This table is accessed once, on line 491. All of the columns are taken, which consists of `CUI`, `LAT`, `TS`, `LUI`, `STT`, `SUI`, `ISPREF`, `AUI`, `SAUI`, `SCUI`, `SDUI`, `SAB`, `TTY`, `CODE`, `STR`, `SRL`, `SUPPRESS`, and `CVF`.
+
+**What does this table contain?**
+
+**How does `umls2rdf.py` use this table?**
+
+## `MRSAB`
+
+**What is taken?**
+
+This table is accessed once, on line 496. All of the columns are taken, which consists of `VCUI`, `RCUI`, `VSAB`, `RSAB`, `SON`, `SF`, `SVER`, `VSTART`, `VEND`, `IMETA`, `RMETA`, `SLC`, `SCC`, `SRL`, `TFR`, `CFR`, `CXTY`, `TTYL`, `ATNL`, `LAT`, `CENC`, `CURVER`, `SABIN`, `SSN`, and `SCIT`.
+
+**What does this table contain?**
+
+**How does `umls2rdf.py` use this table?**
+
+A limit of 1 is placed on this `scan` (per ontology code).
+
+## `MRREL`
+
+**What is taken?**
+
+This table is accessed once, on line 527. All of the columns are taken, which consists of `CUI1`, `AUI1`, `STYPE1`, `REL`, `CUI2`, `AUI2`, `STYPE2`, `RELA`, `RUI`, `SRUI`, `SAB`, `SL`, `RG`, `DIR`, `SUPPRESS`, and `CVF`.
+
+**What does this table contain?**
+
+**How does `umls2rdf.py` use this table?**
+
+## `MRDEF`
+
+**What is taken?**
+
+This table is accessed once, on line 538. All of the columns are taken, which consists of `CUI`, `AUI`, `ATUI`, `SATUI`, `SAB`, `DEF`, `SUPPRESS`, and `CVF`.
+
+**What does this table contain?**
+
+**How does `umls2rdf.py` use this table?**
+
+## `MRSAT`
+
+**What is taken?**
+
+This table is accessed once, on line 549. All of the columns are taken, which consists of `CUI`, `LUI`, `SUI`, `METAUI`, `STYPE`, `CODE`, `ATUI`, `SATUI`, `ATN`, `SAB`, `ATV`, `SUPPRESS`, and `CVF`.
+
+**What does this table contain?**
+
+**How does `umls2rdf.py` use this table?**
+
+## `MRRANK`
+
+**What is taken?**
+
+This table is accessed once, on line 560. All of the columns are taken, which consists of `MRRANK_RANK`, `SAB`, `TTY`, and `SUPPRESS`.
+
+**What does this table contain?**
+
+**How does `umls2rdf.py` use this table?**
+
+## `MRDOC`
+
+**What is taken?**
+
+This table is accessed once, on line 742. All of the columns are taken, which consists of `DOCKEY`, `VALUE`, `TYPE`, `EXPL`
+
+**What does this table contain?**
+
+**How does `umls2rdf.py` use this table?**
+
+## Assorted Notes
+
+- The table is filtered based on which ontology's ttl file is being generated at the time. This is done through the scan function, which is the actual function that sends the query to MySQL. Thus, this does not create redundancy but instead in fact ensures that only the ontologies we care about are ever queries. This is done on lines 222 through 227, where the `filt` parameter is passed into the `WHERE` clause on the MySQL statement.
+
+## To Do
+
+1. Determine which columns are actually making their ways into the `TTL` files by examining the `TTL` files.
+
+2. Decide on join points/concatentation between this tables. Ideally, we will be able to implement a streaming solution like with SemMedDB, where each row has everything we need to know about that CUI. With extra information (such as `MRDOC` content), we may have to create a supplementary file, but it should be pretty small.
+
+3. Implement MySQL querying as decided on in step 2.
+
+4. Run time tests on the solution decided on in step 3. We need to determine whether this will save the time currently used in roughly 14 hours (though a good chunk of that is load in) of ETL currently present. We probably want under 2-3 hours of MySQL time to make this a worthwhile change.
+
+5. Repeat steps 3 and 4 until timing is desirable.
+
+6. Evaluate whether the content is sufficiently comparable to what is currently in KG2.
