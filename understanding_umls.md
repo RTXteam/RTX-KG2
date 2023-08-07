@@ -552,6 +552,10 @@ Tables Used:
 
 This table is accessed twice, once on line 143 and once on line 573. At the line 143 accession, the distinct columns `TUI`, `STN`, and `STY` are taken. At the line 573 accession, all of the columns from `MRSTY` are taken, which consists of `CUI`, `TUI`, `STN`, `STY`, `ATUI`, `CVF`.
 
+**What do these columns mean?**
+
+See [here](https://www.ncbi.nlm.nih.gov/books/NBK9685/table/ch03.Tf/).
+
 **What does this table contain?**
 
 **How does `umls2rdf.py` use this table?**
@@ -562,6 +566,10 @@ This table is accessed twice, once on line 143 and once on line 573. At the line
 
 This table is accessed once, on line 491. All of the columns are taken, which consists of `CUI`, `LAT`, `TS`, `LUI`, `STT`, `SUI`, `ISPREF`, `AUI`, `SAUI`, `SCUI`, `SDUI`, `SAB`, `TTY`, `CODE`, `STR`, `SRL`, `SUPPRESS`, and `CVF`.
 
+**What do these columns mean?**
+
+See [here](https://www.ncbi.nlm.nih.gov/books/NBK9685/table/ch03.T.concept_names_and_sources_file_mr/).
+
 **What does this table contain?**
 
 **How does `umls2rdf.py` use this table?**
@@ -571,6 +579,10 @@ This table is accessed once, on line 491. All of the columns are taken, which co
 **What is taken?**
 
 This table is accessed once, on line 496. All of the columns are taken, which consists of `VCUI`, `RCUI`, `VSAB`, `RSAB`, `SON`, `SF`, `SVER`, `VSTART`, `VEND`, `IMETA`, `RMETA`, `SLC`, `SCC`, `SRL`, `TFR`, `CFR`, `CXTY`, `TTYL`, `ATNL`, `LAT`, `CENC`, `CURVER`, `SABIN`, `SSN`, and `SCIT`.
+
+**What do these columns mean?**
+
+See [here](https://www.ncbi.nlm.nih.gov/books/NBK9685/table/ch03.T.source_information_file_mrsab_rrf/).
 
 **What does this table contain?**
 
@@ -584,6 +596,10 @@ A limit of 1 is placed on this `scan` (per ontology code).
 
 This table is accessed once, on line 527. All of the columns are taken, which consists of `CUI1`, `AUI1`, `STYPE1`, `REL`, `CUI2`, `AUI2`, `STYPE2`, `RELA`, `RUI`, `SRUI`, `SAB`, `SL`, `RG`, `DIR`, `SUPPRESS`, and `CVF`.
 
+**What do these columns mean?**
+
+See [here](https://www.ncbi.nlm.nih.gov/books/NBK9685/table/ch03.T.related_concepts_file_mrrel_rrf/).
+
 **What does this table contain?**
 
 **How does `umls2rdf.py` use this table?**
@@ -593,6 +609,10 @@ This table is accessed once, on line 527. All of the columns are taken, which co
 **What is taken?**
 
 This table is accessed once, on line 538. All of the columns are taken, which consists of `CUI`, `AUI`, `ATUI`, `SATUI`, `SAB`, `DEF`, `SUPPRESS`, and `CVF`.
+
+**What do these columns mean?**
+
+See [here](https://www.ncbi.nlm.nih.gov/books/NBK9685/table/ch03.T.definitions_file_mrdef_rrf/).
 
 **What does this table contain?**
 
@@ -604,6 +624,10 @@ This table is accessed once, on line 538. All of the columns are taken, which co
 
 This table is accessed once, on line 549. All of the columns are taken, which consists of `CUI`, `LUI`, `SUI`, `METAUI`, `STYPE`, `CODE`, `ATUI`, `SATUI`, `ATN`, `SAB`, `ATV`, `SUPPRESS`, and `CVF`.
 
+**What do these columns mean?**
+
+See [here](https://www.ncbi.nlm.nih.gov/books/NBK9685/table/ch03.T.simple_concept_and_atom_attribute/).
+
 **What does this table contain?**
 
 **How does `umls2rdf.py` use this table?**
@@ -614,6 +638,10 @@ This table is accessed once, on line 549. All of the columns are taken, which co
 
 This table is accessed once, on line 560. All of the columns are taken, which consists of `MRRANK_RANK`, `SAB`, `TTY`, and `SUPPRESS`.
 
+**What do these columns mean?**
+
+See [here](https://www.ncbi.nlm.nih.gov/books/NBK9685/table/ch03.T.concept_name_ranking_file_mrrank/).
+
 **What does this table contain?**
 
 **How does `umls2rdf.py` use this table?**
@@ -623,6 +651,10 @@ This table is accessed once, on line 560. All of the columns are taken, which co
 **What is taken?**
 
 This table is accessed once, on line 742. All of the columns are taken, which consists of `DOCKEY`, `VALUE`, `TYPE`, `EXPL`
+
+**What do these columns mean?**
+
+See [here](https://www.ncbi.nlm.nih.gov/books/NBK9685/table/ch03.Te/).
 
 **What does this table contain?**
 
@@ -645,3 +677,61 @@ This table is accessed once, on line 742. All of the columns are taken, which co
 5. Repeat steps 3 and 4 until timing is desirable.
 
 6. Evaluate whether the content is sufficiently comparable to what is currently in KG2.
+
+### Step 1
+
+Example: `umls-atc.ttl`
+
+```
+<http://purl.bioontology.org/ontology/ATC/C03AH01> a owl:Class ;
+        skos:prefLabel """chlorothiazide, combinations"""@en ;
+        skos:notation """C03AH01"""^^xsd:string ;
+        rdfs:subClassOf <http://purl.bioontology.org/ontology/ATC/C03AH> ;
+        <http://purl.bioontology.org/ontology/ATC/ATC_LEVEL> """5"""^^xsd:string ;
+        UMLS:has_cui """C3652440"""^^xsd:string ;
+        UMLS:has_tui """T109"""^^xsd:string ;
+        UMLS:has_tui """T121"""^^xsd:string ;
+        UMLS:has_sty <http://purl.bioontology.org/ontology/STY/T109> ;
+        UMLS:has_sty <http://purl.bioontology.org/ontology/STY/T121> ;
+```
+
+Example: `umls-chv.ttl`
+```
+<http://purl.bioontology.org/ontology/CHV/0000050974> a owl:Class ;
+        skos:prefLabel """synthesis"""@en ;
+        skos:notation """0000050974"""^^xsd:string ;
+        skos:definition """the combining of separate elements or substances to form a coherent whole"""@en ;
+        <http://purl.bioontology.org/ontology/CHV/COMBO_SCORE> """0.413096903"""^^xsd:string ;
+        <http://purl.bioontology.org/ontology/CHV/COMBO_SCORE_NO_TOP_WORDS> """0.413096903"""^^xsd:string ;
+        <http://purl.bioontology.org/ontology/CHV/CONTEXT_SCORE> """0.4381"""^^xsd:string ;
+        <http://purl.bioontology.org/ontology/CHV/CUI_SCORE> """0.4034"""^^xsd:string ;
+        <http://purl.bioontology.org/ontology/CHV/DISPARAGED> """no"""^^xsd:string ;
+        <http://purl.bioontology.org/ontology/CHV/FREQUENCY> """0.397790709"""^^xsd:string ;
+        UMLS:has_cui """C0220781"""^^xsd:string ;
+        UMLS:has_tui """T038"""^^xsd:string ;
+        UMLS:has_sty <http://purl.bioontology.org/ontology/STY/T038> ;
+```
+
+Example: `umls-drugbank.ttl`
+```
+<http://purl.bioontology.org/ontology/DRUGBANK/DB09085> a owl:Class ;
+        skos:prefLabel """Tetracaine"""@en ;
+        skos:notation """DB09085"""^^xsd:string ;
+        skos:altLabel """2-(Dimethylamino)ethyl p-(butylamino)benzoate"""@en , """2-(dimethylamino)ethyl 4-(butylamino)benzoate"""@en , """Amethocaine"""@en , """Amethocaine HCl"""@en , """Dicaine"""@en , """Diäthylaminoäthanol ester der p-butylaminobenzösäure"""@en , """Medihaler-Tetracaine"""@en , """Metraspray"""@en , """Tetracaine HCl"""@en , """Tetracaína"""@en , """Tétracaïne"""@en , """p-(butylamino)benzoic acid β-(dimethylamino)ethyl ester"""@en , """p-Butylaminobenzoyl-2-dimethylaminoethanol"""@en ;
+        <http://purl.bioontology.org/ontology/DRUGBANK/FDA_UNII_CODE> """0619F35CGV"""^^xsd:string ;
+        UMLS:has_cui """C0039629"""^^xsd:string ;
+        UMLS:has_cui """C0304456"""^^xsd:string ;
+        UMLS:has_cui """C0702211"""^^xsd:string ;
+        UMLS:has_cui """C4292382"""^^xsd:string ;
+        UMLS:has_cui """C4292391"""^^xsd:string ;
+        UMLS:has_tui """T109"""^^xsd:string ;
+        UMLS:has_tui """T121"""^^xsd:string ;
+        UMLS:has_sty <http://purl.bioontology.org/ontology/STY/T109> ;
+        UMLS:has_sty <http://purl.bioontology.org/ontology/STY/T121> ;
+```
+
+I am currently trying to find where `FDA_UNII_CODE` is in the data. I know that it is an attribute per https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/attribute_names.html. 
+
+It looks like, per running `select * from MRSAT where SAB="DRUGBANK" limit 20;`, the name of the attribute is in the `ATN` column and the value is in the `ATV` column.
+
+This link discusses each of the `MRREL` types: https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/abbreviations.html.
