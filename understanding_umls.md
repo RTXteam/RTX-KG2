@@ -801,3 +801,40 @@ DB00007 | C0085272 | N\|Leuprolide	N\|Leuprorelin	Y\|Leuprorelina	Y\|Leuprorelin
 DB00008 | C0391001 | N\|Peginterferon alfa-2a	Y\|PEG-IFN alfa-2A	Y\|PEG-Interferon alfa-2A	Y\|Pegylated Interfeaon alfa-2A	Y\|Pegylated interferon alfa-2a	Y\|Pegylated interferon alpha-2a	Y\|Pegylated-interferon alfa 2a | FDA_UNII_CODE\|Q46947FE7K	RXAUI\|11350315	RXAUI\|11350316	RXAUI\|11350317	RXAUI\|11350318	RXAUI\|11350319	RXAUI\|8672645	RXAUI\|8731057	RXCUI\|120608	SID\|BIOD00043	SID\|BTD00043 |
 DB00009 | C0032143 | N\|Alteplase	N\|Tissue plasminogen activator	Y\|Alteplasa	Y\|Alteplase (genetical recombination)	Y\|Alteplase, recombinant	Y\|Alteplase,recombinant	Y\|Plasminogen activator (human tissue-type protein moiety)	Y\|rt-PA	Y\|t-PA	Y\|t-plasminogen activator	Y\|Tissue plasminogen activator alteplase	Y\|Tissue plasminogen activator, recombinant	Y\|tPA | FDA_UNII_CODE\|1RXS4UE564	RXAUI\|10778766	RXAUI\|8368173	RXAUI\|8383242	RXAUI\|8543112	RXAUI\|8578376	RXAUI\|9193634	RXAUI\|9193635	RXAUI\|9193636	RXAUI\|9193637	RXAUI\|9193638	RXAUI\|9193639	RXAUI\|9193640	RXAUI\|9193641	RXCUI\|8410	SID\|BIOD00050	SID\|BTD00050 |
 DB00010 | C0142046 | N\|Sermorelin | FDA_UNII_CODE\|89243S03TE	RXAUI\|8619290	RXCUI\|56188	SID\|BIOD00033	SID\|BTD00033 |
+
+Here is that first element in the `TTL` file:
+```
+<http://purl.bioontology.org/ontology/DRUGBANK/DB00001> a owl:Class ;
+        skos:prefLabel """Lepirudin"""@en ;
+        skos:notation """DB00001"""^^xsd:string ;
+        skos:altLabel """Desulfatohirudin"""@en , """Hirudin variant-1"""@en , """Lepirudin recombinant"""@en , """R-hirudin"""@en , """[Leu1, Thr2]-63-desulfohirudin"""@en ;
+        <http://purl.bioontology.org/ontology/DRUGBANK/SID> """BIOD00024"""^^xsd:string ;
+        <http://purl.bioontology.org/ontology/DRUGBANK/FDA_UNII_CODE> """Y43GF64R34"""^^xsd:string ;
+        <http://purl.bioontology.org/ontology/DRUGBANK/SID> """BTD00024"""^^xsd:string ;
+        UMLS:has_cui """C0378366"""^^xsd:string ;
+        UMLS:has_cui """C0772394"""^^xsd:string ;
+        UMLS:has_tui """T116"""^^xsd:string ;
+        UMLS:has_tui """T121"""^^xsd:string ;
+        UMLS:has_sty <http://purl.bioontology.org/ontology/STY/T116> ;
+        UMLS:has_sty <http://purl.bioontology.org/ontology/STY/T121> ;
+```
+
+Here is `DB00009` in the `TTL` file:
+```
+<http://purl.bioontology.org/ontology/DRUGBANK/DB00009> a owl:Class ;
+        skos:prefLabel """Alteplase"""@en ;
+        skos:notation """DB00009"""^^xsd:string ;
+        skos:altLabel """Alteplasa"""@en , """Alteplase (genetical recombination)"""@en , """Alteplase, recombinant"""@en , """Alteplase,recombinant"""@en , """Plasminogen activator (human tissue-type protein moiety)"""@en , """Tissue plasminogen activator"""@en , """Tissue plasminogen activator alteplase"""@en , """Tissue plasminogen activator, recombinant"""@en , """rt-PA"""@en , """t-PA"""@en , """t-plasminogen activator"""@en , """tPA"""@en ;
+        <http://purl.bioontology.org/ontology/DRUGBANK/FDA_UNII_CODE> """1RXS4UE564"""^^xsd:string ;
+        <http://purl.bioontology.org/ontology/DRUGBANK/SID> """BIOD00050"""^^xsd:string ;
+        <http://purl.bioontology.org/ontology/DRUGBANK/SID> """BTD00050"""^^xsd:string ;
+        UMLS:has_cui """C0032143"""^^xsd:string ;
+        UMLS:has_tui """T116"""^^xsd:string ;
+        UMLS:has_tui """T121"""^^xsd:string ;
+        UMLS:has_tui """T126"""^^xsd:string ;
+        UMLS:has_sty <http://purl.bioontology.org/ontology/STY/T116> ;
+        UMLS:has_sty <http://purl.bioontology.org/ontology/STY/T121> ;
+        UMLS:has_sty <http://purl.bioontology.org/ontology/STY/T126> ;
+```
+
+I need to look more into how to tell which name is the correct name.
