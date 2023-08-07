@@ -6,6 +6,14 @@
 3. Replace: `--\+$` With: `--`
 4. Replace: `( )+` With: ` `
 
+Script used:
+```
+sed -i -E "s/\+(-)+/\|--/g" umls_table.txt
+sed -i -E "s/^\|( )*//g" umls_table.txt
+sed -i -E "s/--\+$/--/g" umls_table.txt
+sed -i -E "s/( )+/ /g" umls_table.txt
+sed -i -E "s/<|>//g" umls_table.txt
+```
 
 # Tables
 ```
