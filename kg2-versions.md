@@ -7,6 +7,8 @@ Counts:
 
 Issues:
 - Issue [#321](https://github.com/RTXteam/RTX-KG2/issues/321)
+- Issue [#323](https://github.com/RTXteam/RTX-KG2/issues/323)
+- Issue [#336](https://github.com/RTXteam/RTX-KG2/issues/336) - attempt failed though
 - Issue [#337](https://github.com/RTXteam/RTX-KG2/issues/337)
 - Issue [#339](https://github.com/RTXteam/RTX-KG2/issues/339)
 - Additional issues that arose during the build: [#343](https://github.com/RTXteam/RTX-KG2/issues/343)
