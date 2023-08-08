@@ -838,3 +838,124 @@ Here is `DB00009` in the `TTL` file:
 ```
 
 I need to look more into how to tell which name is the correct name.
+
+UMLS Source Predicates:
+```
+﻿[
+  {
+    "e.source_predicate": "UMLS:RB",
+    "e.primary_knowledge_source": "infores:umls-metathesaurus",
+    "count(e)": 235110
+  },
+  {
+    "e.source_predicate": "UMLS:RO",
+    "e.primary_knowledge_source": "infores:umls-metathesaurus",
+    "count(e)": 722308
+  },
+  {
+    "e.source_predicate": "UMLS:related_to",
+    "e.primary_knowledge_source": "infores:medlineplus",
+    "count(e)": 5658
+  },
+  {
+    "e.source_predicate": "UMLS:RQ",
+    "e.primary_knowledge_source": "infores:medlineplus",
+    "count(e)": 3224
+  },
+  {
+    "e.source_predicate": "UMLS:SY",
+    "e.primary_knowledge_source": "infores:medlineplus",
+    "count(e)": 932
+  },
+  {
+    "e.source_predicate": "UMLS:mapped_to",
+    "e.primary_knowledge_source": "infores:medlineplus",
+    "count(e)": 1008
+  },
+  {
+    "e.source_predicate": "UMLS:exhibited_by",
+    "e.primary_knowledge_source": "infores:umls-metathesaurus",
+    "count(e)": 2332
+  },
+  {
+    "e.source_predicate": "UMLS:has_structural_class",
+    "e.primary_knowledge_source": "infores:medrt-umls",
+    "count(e)": 4
+  },
+  {
+    "e.source_predicate": "UMLS:has_mapping_qualifier",
+    "e.primary_knowledge_source": "infores:medlineplus",
+    "count(e)": 42
+  },
+  {
+    "e.source_predicate": "UMLS:measures",
+    "e.primary_knowledge_source": "infores:umls-metathesaurus",
+    "count(e)": 406
+  },
+  {
+    "e.source_predicate": "UMLS:owning_subsection_of",
+    "e.primary_knowledge_source": "infores:hl7-umls",
+    "count(e)": 84
+  },
+  {
+    "e.source_predicate": "UMLS:has_supported_concept_property",
+    "e.primary_knowledge_source": "infores:hl7-umls",
+    "count(e)": 738
+  },
+  {
+    "e.source_predicate": "UMLS:has_supported_concept_relationship",
+    "e.primary_knowledge_source": "infores:hl7-umls",
+    "count(e)": 648
+  },
+  {
+    "e.source_predicate": "UMLS:class_code_classified_by",
+    "e.primary_knowledge_source": "infores:hl7-umls",
+    "count(e)": 122
+  },
+  {
+    "e.source_predicate": "UMLS:owning_section_of",
+    "e.primary_knowledge_source": "infores:hl7-umls",
+    "count(e)": 18
+  },
+  {
+    "e.source_predicate": "UMLS:has_context_binding",
+    "e.primary_knowledge_source": "infores:hl7-umls",
+    "count(e)": 134
+  },
+  {
+    "e.source_predicate": "UMLS:may_be_qualified_by",
+    "e.primary_knowledge_source": "infores:hl7-umls",
+    "count(e)": 40
+  },
+  {
+    "e.source_predicate": "UMLS:larger_than",
+    "e.primary_knowledge_source": "infores:hl7-umls",
+    "count(e)": 2
+  },
+  {
+    "e.source_predicate": "UMLS:component_of",
+    "e.primary_knowledge_source": "infores:hl7-umls",
+    "count(e)": 28
+  },
+  {
+    "e.source_predicate": "UMLS:has_component",
+    "e.primary_knowledge_source": "infores:hl7-umls",
+    "count(e)": 18
+  },
+  {
+    "e.source_predicate": "UMLS:has_owning_affiliate",
+    "e.primary_knowledge_source": "infores:hl7-umls",
+    "count(e)": 2
+  },
+  {
+    "e.source_predicate": "UMLS:has_physiologic_effect",
+    "e.primary_knowledge_source": "infores:medrt-umls",
+    "count(e)": 2
+  },
+  {
+    "e.source_predicate": "UMLS:has_form",
+    "e.primary_knowledge_source": "infores:umls-metathesaurus",
+    "count(e)": 2
+  }
+]
+```
