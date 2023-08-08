@@ -1063,10 +1063,6 @@ only creative product our team (documentation, reports, and knowledge graph
 formatting); the actual content of the KG2 knowledge graph is encumbered by
 various licenses (e.g., UMLS) that prevent its redistribution.
 
-## Is a manuscript on KG2 forthcoming?
-
-Yes; please check back during Spring 2021.
-
 ## What criteria do you use to select sources to include in KG2?
 
 We emphasize knowledge souces that
