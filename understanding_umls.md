@@ -841,7 +841,7 @@ I need to look more into how to tell which name is the correct name.
 
 UMLS Source Predicates:
 ```
-﻿[
+[
   {
     "e.source_predicate": "UMLS:RB",
     "e.primary_knowledge_source": "infores:umls-metathesaurus",
@@ -958,4 +958,8 @@ UMLS Source Predicates:
     "count(e)": 2
   }
 ]
+```
+
+```
+select con.CODE, con.SAB, GROUP_CONCAT(DISTINCT con.CUI), GROUP_CONCAT(DISTINCT CONCAT(con.ISPREF, '|', con.STR) SEPARATOR '\t'), GROUP_CONCAT(DISTINCT CONCAT(sat.ATN, '|', sat.ATV) SEPARATOR '\t') from MRCONSO con left join MRSAT sat on con.CODE=sat.CODE GROUP BY con.CODE, con.SAB;
 ```
