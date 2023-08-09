@@ -94,10 +94,18 @@ def cui_sources(cursor, output, sources):
 
     cursor.execute(names_sql_statement)
     for result in cursor.fetchall():
-        (node_id, name) = result
+        (node_id, names) = result
         key = node_id
         cui_source_info[key] = dict()
-        cui_source_info[key][name_key] = name.split('\t')
+        cui_source_info[key][name_key] = dict()
+        for name in names.split('\t'):
+            split_name = name.split('|')
+            assert len(split_name) == 3, split_name
+            if split_name[0] not in cui_source_info[key][name_key]:
+                cui_source_info[key][name_key][split_name[0]] = dict()
+            if split_name[1] not in cui_source_info[key][name_key][split_name[0]]:
+                cui_source_info[key][name_key][split_name[0]][split_name[1]] = list()
+            existing_val = cui_source_info[key][name_key][split_name[0]][split_name[1]].append(split_name[2])
 
     print("Finished names_sql_statement at", kg2_util.date())
 
@@ -166,6 +174,8 @@ if __name__ == '__main__':
         sources = get_english_sources(cursor)
 
         cui_sources(cursor, output, sources)
+
+        # code_sources(cursor, output)
     connection.close()
 
     kg2_util.close_single_jsonlines(output_info, output_file_name)
