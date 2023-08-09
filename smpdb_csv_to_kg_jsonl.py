@@ -1375,6 +1375,7 @@ def make_kg2_graph(smpdb_dir: str, nodes_output, edges_output, test_mode: bool):
 
     count = 0
     node_ids_already_added = set()
+    edge_ids_already_added = set()
     for filename in os.listdir(smpdb_dir):
         count += 1
         if count % 1000 == 0:
@@ -1413,8 +1414,13 @@ def make_kg2_graph(smpdb_dir: str, nodes_output, edges_output, test_mode: bool):
                         if node_id not in node_ids_already_added:
                             nodes_output.write(node)
                             node_ids_already_added.add(node_id)
+
                     for edge in data["edges"]:
-                        edges_output.write(edge)
+                        edge_id = edge.get('id', '')
+                        if edge_id not in edge_ids_already_added:
+                            edges_output.write(edge)
+                            edge_ids_already_added.add(edge_id)
+
             elif ("super-pathway-visualization" in pw and
                   isinstance(pw["super-pathway-visualization"], dict) and
                   isinstance((pw["super-pathway-visualization"]
