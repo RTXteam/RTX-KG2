@@ -29,16 +29,14 @@ def make_arg_parser():
 
 def code_sources(cursor, output):
     code_source_info = dict()
+    cui_key = 'cuis'
+    name_key = 'names'
+    info_key = 'info'
 
     names_sql_statement = "SELECT con.CODE, con.SAB, GROUP_CONCAT(DISTINCT con.CUI), GROUP_CONCAT(DISTINCT CONCAT(con.ISPREF, '|', con.STR) SEPARATOR '\t') FROM MRCONSO con GROUP BY con.CODE, con.SAB"
     extra_info_sql_statement = "SELECT sat.CODE, sat.SAB, GROUP_CONCAT(DISTINCT CONCAT(sat.ATN, '|', sat.ATV) SEPARATOR '\t') FROM MRSAT sat GROUP BY sat.CODE, sat.SAB"
 
     cursor.execute(names_sql_statement)
-
-    cui_key = 'cuis'
-    name_key = 'names'
-    info_key = 'info'
-
     for result in cursor.fetchall():
         (node_id, node_source, cui, name) = result
         key = (node_id, node_source)
@@ -49,7 +47,6 @@ def code_sources(cursor, output):
     print("Finished names_sql_statement at", kg2_util.date())
 
     cursor.execute(extra_info_sql_statement)
-
     for result in cursor.fetchall():
         (node_id, node_source, info) = result
         key = (node_id, node_source)
@@ -64,6 +61,70 @@ def code_sources(cursor, output):
         # It needs to print it all out for some reason to actually do the output write
         print(str({str(key): val}))
         output.write({str(key): val})
+
+
+def cui_sources(cursor, output):
+    cui_source_info = dict()
+    tui_key = 'tuis'
+    name_key = 'names'
+    relation_key = 'relations'
+    definitions_key = 'definitions'
+
+    names_sql_statement = "SELECT CUI, GROUP_CONCAT(DISTINCT CONCAT(ISPREF, '|', STR) SEPARATOR '\t') FROM MRCONSO WHERE LAT=\"ENG\" GROUP BY CUI"
+    tuis_sql_statement = "SELECT CUI, GROUP_CONCAT(TUI) FROM MRSTY GROUP BY CUI"
+    relations_sql_statement = "SELECT CUI1, REL, RELA, DIR, CUI2, SAB FROM MRREL"
+    definitions_sql_statement = "SELECT CUI, DEF FROM MRDEF"
+
+    cursor.execute(names_sql_statement)
+    for result in cursor.fetchall():
+        (node_id, name) = result
+        key = node_id
+        cui_source_info[key] = dict()
+        cui_source_info[key][name_key] = name.split('\t')
+
+    print("Finished names_sql_statement at", kg2_util.date())
+
+    cursor.execute(tuis_sql_statement)
+    for result in cursor.fetchall():
+        (node_id, tuis) = result
+        key = node_id
+        if key not in cui_source_info:
+            # This happens if a node doesn't have an English name. Since UMLS:C5779458 (an example one)
+            # wasn't in KG2.8.3pre, I am having these skipped
+            continue
+        cui_source_info[key][tui_key] = tuis.split('\t')
+
+    print("Finished tuis_sql_statement at", kg2_util.date())
+
+    cursor.execute(relations_sql_statement)
+    for result in cursor.fetchall():
+        (cui1, rel, rela, direction, cui2, source) = result
+        key = cui1
+        if key not in cui_source_info:
+            # See above for explanation
+            continue
+        if relation_key not in cui_source_info[key]:
+            cui_source_info[key][relation_key] = list()
+        cui_source_info[key][relation_key].append((rel, rela, direction, cui2, source))
+
+    print("Finished relations_sql_statement at", kg2_util.date())
+
+    cursor.execute(definitions_sql_statement)
+    for result in cursor.fetchall():
+        (node_id, definition) = result
+        key = node_id
+        if key not in cui_source_info:
+            # See above for explanation
+            continue
+        cui_source_info[key][definitions_key] = definition
+
+    print("Finished definitions_sql_statement at", kg2_util.date())
+
+    for key, val in cui_source_info.items():
+        # It needs to print it all out for some reason to actually do the output write
+        print(str({str(key): val}))
+        output.write({str(key): val})
+
 
 
 if __name__ == '__main__':
@@ -81,18 +142,12 @@ if __name__ == '__main__':
     # https://stackoverflow.com/questions/7208773/mysql-row-30153-was-cut-by-group-concat-error
     max_len_sql_statement = "SET group_concat_max_len=1000000000"
 
-    sql_statement = ("SELECT SUBJECT_CUI, PREDICATE, OBJECT_CUI, GROUP_CONCAT(DISTINCT SUBJECT_SEMTYPE), GROUP_CONCAT(DISTINCT OBJECT_SEMTYPE), "
-                     "GROUP_CONCAT(DISTINCT DATE_FORMAT(CURR_TIMESTAMP, '%Y-%m-%d %H:%i:%S')), "
-                     "GROUP_CONCAT(CONCAT(PMID, '|', SENTENCE, '|', SUBJECT_SCORE, '|', OBJECT_SCORE, '|', DP) SEPARATOR '\t') "
-                     "FROM ((PREDICATION NATURAL JOIN CITATIONS) NATURAL JOIN SENTENCE) NATURAL JOIN PREDICATION_AUX "
-                     "GROUP BY SUBJECT_CUI, PREDICATE, OBJECT_CUI")
-
     with connection.cursor() as cursor:
         cursor.execute(max_len_sql_statement)
         cursor.fetchall()
 
         # Execute statement we care about after clearing any "results"
-        code_sources(cursor, output)
+        cui_sources(cursor, output)
     connection.close()
 
     kg2_util.close_single_jsonlines(output_info, output_file_name)
