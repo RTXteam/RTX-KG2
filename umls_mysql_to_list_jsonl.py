@@ -27,6 +27,21 @@ def make_arg_parser():
     return arg_parser
 
 
+def get_english_sources(cursor):
+    sources_sql_statement = "SELECT RSAB, LAT FROM MRSAB"
+    sources = []
+
+    cursor.execute(sources_sql_statement)
+    for result in cursor.fetchall():
+        (source, language) = result
+        if language == 'ENG':
+            sources.append(source)
+
+    print("Finished sources_sql_statement at", kg2_util.date())
+
+    return sources
+
+
 def code_sources(cursor, output):
     code_source_info = dict()
     cui_key = 'cuis'
@@ -63,17 +78,19 @@ def code_sources(cursor, output):
         output.write({str(key): val})
 
 
-def cui_sources(cursor, output):
+def cui_sources(cursor, output, sources):
     cui_source_info = dict()
     tui_key = 'tuis'
     name_key = 'names'
     relation_key = 'relations'
     definitions_key = 'definitions'
 
-    names_sql_statement = "SELECT CUI, GROUP_CONCAT(DISTINCT CONCAT(ISPREF, '|', STR) SEPARATOR '\t') FROM MRCONSO WHERE LAT=\"ENG\" GROUP BY CUI"
+    sources_where = str(sources).replace('[', '(').replace(']', ')')
+
+    names_sql_statement = "SELECT CUI, GROUP_CONCAT(DISTINCT CONCAT(SAB, '|', ISPREF, '|', STR) SEPARATOR '\t') FROM MRCONSO WHERE SAB IN " + sources_where + " GROUP BY CUI"
     tuis_sql_statement = "SELECT CUI, GROUP_CONCAT(TUI) FROM MRSTY GROUP BY CUI"
-    relations_sql_statement = "SELECT CUI1, REL, RELA, DIR, CUI2, SAB FROM MRREL"
-    definitions_sql_statement = "SELECT CUI, DEF FROM MRDEF"
+    relations_sql_statement = "SELECT CUI1, REL, RELA, DIR, CUI2, SAB FROM MRREL WHERE SAB IN " + sources_where
+    definitions_sql_statement = "SELECT CUI, DEF FROM MRDEF WHERE SAB IN " + sources_where
 
     cursor.execute(names_sql_statement)
     for result in cursor.fetchall():
@@ -89,8 +106,7 @@ def cui_sources(cursor, output):
         (node_id, tuis) = result
         key = node_id
         if key not in cui_source_info:
-            # This happens if a node doesn't have an English name. Since UMLS:C5779458 (an example one)
-            # wasn't in KG2.8.3pre, I am having these skipped
+            # This happens if a node doesn't have an English name. See https://github.com/RTXteam/RTX-KG2/issues/316#issuecomment-1672074392
             continue
         cui_source_info[key][tui_key] = tuis.split('\t')
 
@@ -147,7 +163,9 @@ if __name__ == '__main__':
         cursor.fetchall()
 
         # Execute statement we care about after clearing any "results"
-        cui_sources(cursor, output)
+        sources = get_english_sources(cursor)
+
+        cui_sources(cursor, output, sources)
     connection.close()
 
     kg2_util.close_single_jsonlines(output_info, output_file_name)
