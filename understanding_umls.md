@@ -963,3 +963,25 @@ UMLS Source Predicates:
 ```
 select con.CODE, con.SAB, GROUP_CONCAT(DISTINCT con.CUI), GROUP_CONCAT(DISTINCT CONCAT(con.ISPREF, '|', con.STR) SEPARATOR '\t'), GROUP_CONCAT(DISTINCT CONCAT(sat.ATN, '|', sat.ATV) SEPARATOR '\t') from MRCONSO con left join MRSAT sat on con.CODE=sat.CODE GROUP BY con.CODE, con.SAB;
 ```
+This ran for about 4.5 hours before hitting this error:
+```
+ERROR 1114 (HY000): The table '/tmp/#sql31e_8_6' is full
+```
+
+New plan - split it up:
+
+```
+select con.CODE, con.SAB, GROUP_CONCAT(DISTINCT con.CUI), GROUP_CONCAT(DISTINCT CONCAT(con.ISPREF, '|', con.STR) SEPARATOR '\t') from MRCONSO con GROUP BY con.CODE, con.SAB;
+```
+gives
+```
+7137936 rows in set, 3758 warnings (1 min 29.37 sec)
+```
+
+```
+select sat.CODE, sat.SAB, GROUP_CONCAT(DISTINCT CONCAT(sat.ATN, '|', sat.ATV) SEPARATOR '\t') from MRSAT sat GROUP BY sat.CODE, sat.SAB;
+```
+gives
+```
+5330040 rows in set, 65535 warnings (10 min 11.85 sec)
+```
