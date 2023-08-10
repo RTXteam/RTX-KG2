@@ -48,16 +48,25 @@ def code_sources(cursor, output):
     name_key = 'names'
     info_key = 'info'
 
-    names_sql_statement = "SELECT con.CODE, con.SAB, GROUP_CONCAT(DISTINCT con.CUI), GROUP_CONCAT(DISTINCT CONCAT(con.ISPREF, '|', con.STR) SEPARATOR '\t') FROM MRCONSO con GROUP BY con.CODE, con.SAB"
-    extra_info_sql_statement = "SELECT sat.CODE, sat.SAB, GROUP_CONCAT(DISTINCT CONCAT(sat.ATN, '|', sat.ATV) SEPARATOR '\t') FROM MRSAT sat GROUP BY sat.CODE, sat.SAB"
+    names_sql_statement = "SELECT con.CODE, con.SAB, GROUP_CONCAT(DISTINCT con.CUI), GROUP_CONCAT(DISTINCT CONCAT(con.TTY, '|', con.ISPREF, '|', con.STR) SEPARATOR '\t') FROM MRCONSO con GROUP BY con.CODE, con.SAB"
+    extra_info_sql_statement = "SELECT sat.CODE, sat.SAB, GROUP_CONCAT(DISTINCT CONCAT(sat.ATN, '|', REPLACE(sat.ATV, '\t', ' ')) SEPARATOR '\t') FROM MRSAT sat GROUP BY sat.CODE, sat.SAB"
 
     cursor.execute(names_sql_statement)
     for result in cursor.fetchall():
-        (node_id, node_source, cui, name) = result
+        (node_id, node_source, cui, names) = result
         key = (node_id, node_source)
         code_source_info[key] = dict()
         code_source_info[key][cui_key] = cui.split(',')
-        code_source_info[key][name_key] = name.split('\t')
+        if name_key not in code_source_info[key]:
+            code_source_info[key][name_key] = dict()
+        for name in names.split('\t'):
+            split_name = name.split('|')
+            assert len(split_name) == 3, split_name
+            if split_name[0] not in code_source_info[key][name_key]:
+                code_source_info[key][name_key][split_name[0]] = dict()
+            if split_name[1] not in code_source_info[key][name_key][split_name[0]]:
+                code_source_info[key][name_key][split_name[0]][split_name[1]] = list()
+            code_source_info[key][name_key][split_name[0]][split_name[1]].append(split_name[2])
 
     print("Finished names_sql_statement at", kg2_util.date())
 
@@ -66,16 +75,27 @@ def code_sources(cursor, output):
         (node_id, node_source, info) = result
         key = (node_id, node_source)
         if key not in code_source_info:
-            code_source_info[key] = dict()
-            print(key, "not in original code_source_info dict")
-        code_source_info[key][info_key] = info.split('\t')
+            # This occurs if a node doesn't have a name.
+            continue
+        if info_key not in code_source_info[key]:
+            code_source_info[key][info_key] = dict()
+        for info_piece in info.split('\t'):
+            split_info_piece = info_piece.split('|')
+            assert len(split_info_piece) == 2, split_info_piece
+            if split_info_piece[0] not in code_source_info[key][info_key]:
+                code_source_info[key][info_key][split_info_piece[0]] = set()
+            code_source_info[key][info_key][split_info_piece[0]].add(split_info_piece[1])
+        for info_type in code_source_info[key][info_key]:
+            code_source_info[key][info_key][info_type] = list(code_source_info[key][info_key][info_type])
 
     print("Finished extra_info_sql_statement at", kg2_util.date())
 
+    record_num = 0
     for key, val in code_source_info.items():
-        # It needs to print it all out for some reason to actually do the output write
-        print(str({str(key): val}))
+        record_num += 1
         output.write({str(key): val})
+
+    print("Finished adding", record_num, "records in code_sources() at", kg2_util.date())
 
 
 def cui_sources(cursor, output, sources):
@@ -105,7 +125,7 @@ def cui_sources(cursor, output, sources):
                 cui_source_info[key][name_key][split_name[0]] = dict()
             if split_name[1] not in cui_source_info[key][name_key][split_name[0]]:
                 cui_source_info[key][name_key][split_name[0]][split_name[1]] = list()
-            existing_val = cui_source_info[key][name_key][split_name[0]][split_name[1]].append(split_name[2])
+            cui_source_info[key][name_key][split_name[0]][split_name[1]].append(split_name[2])
 
     print("Finished names_sql_statement at", kg2_util.date())
 
@@ -116,7 +136,7 @@ def cui_sources(cursor, output, sources):
         if key not in cui_source_info:
             # This happens if a node doesn't have an English name. See https://github.com/RTXteam/RTX-KG2/issues/316#issuecomment-1672074392
             continue
-        cui_source_info[key][tui_key] = tuis.split('\t')
+        cui_source_info[key][tui_key] = tuis.split(',')
 
     print("Finished tuis_sql_statement at", kg2_util.date())
 
@@ -128,8 +148,14 @@ def cui_sources(cursor, output, sources):
             # See above for explanation
             continue
         if relation_key not in cui_source_info[key]:
-            cui_source_info[key][relation_key] = list()
-        cui_source_info[key][relation_key].append((rel, rela, direction, cui2, source))
+            cui_source_info[key][relation_key] = dict()
+
+        relation_type_key = ','.join([str(rel), str(rela), str(direction)])
+        if source not in cui_source_info[key][relation_key]:
+            cui_source_info[key][relation_key][source] = dict()
+        if relation_type_key not in cui_source_info[key][relation_key][source]:
+            cui_source_info[key][relation_key][source][relation_type_key] = list()
+        cui_source_info[key][relation_key][source][relation_type_key].append(cui2)
 
     print("Finished relations_sql_statement at", kg2_util.date())
 
@@ -144,11 +170,12 @@ def cui_sources(cursor, output, sources):
 
     print("Finished definitions_sql_statement at", kg2_util.date())
 
+    record_num = 0
     for key, val in cui_source_info.items():
-        # It needs to print it all out for some reason to actually do the output write
-        print(str({str(key): val}))
+        record_num += 1
         output.write({str(key): val})
 
+    print("Finished adding", record_num, "records in cui_sources() at", kg2_util.date())
 
 
 if __name__ == '__main__':
@@ -173,9 +200,9 @@ if __name__ == '__main__':
         # Execute statement we care about after clearing any "results"
         sources = get_english_sources(cursor)
 
-        cui_sources(cursor, output, sources)
+        code_sources(cursor, output)
+        # cui_sources(cursor, output, sources)
 
-        # code_sources(cursor, output)
     connection.close()
 
     kg2_util.close_single_jsonlines(output_info, output_file_name)
