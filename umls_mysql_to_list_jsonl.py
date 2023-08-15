@@ -44,12 +44,17 @@ def get_english_sources(cursor):
 
 def code_sources(cursor, output):
     code_source_info = dict()
+    tui_key = 'tuis'
     cui_key = 'cuis'
     name_key = 'names'
-    info_key = 'info'
 
+    # See info about these here: https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/attribute_names.html
+    info_key = 'attributes'
+
+    # See TTY meanings here: https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/abbreviations.html
     names_sql_statement = "SELECT con.CODE, con.SAB, GROUP_CONCAT(DISTINCT con.CUI), GROUP_CONCAT(DISTINCT CONCAT(con.TTY, '|', con.ISPREF, '|', con.STR) SEPARATOR '\t') FROM MRCONSO con GROUP BY con.CODE, con.SAB"
     extra_info_sql_statement = "SELECT sat.CODE, sat.SAB, GROUP_CONCAT(DISTINCT CONCAT(sat.ATN, '|', REPLACE(sat.ATV, '\t', ' ')) SEPARATOR '\t') FROM MRSAT sat GROUP BY sat.CODE, sat.SAB"
+    tuis_sql_statement = "SELECT con.CODE, con.SAB, GROUP_CONCAT(DISTINCT sty.TUI) FROM MRCONSO con LEFT JOIN MRSTY sty ON con.CUI = sty.CUI GROUP BY con.CODE, con.SAB"
 
     cursor.execute(names_sql_statement)
     for result in cursor.fetchall():
@@ -90,6 +95,17 @@ def code_sources(cursor, output):
 
     print("Finished extra_info_sql_statement at", kg2_util.date())
 
+    cursor.execute(tuis_sql_statement)
+    for result in cursor.fetchall():
+        (node_id, node_source, tuis) = result
+        key = (node_id, node_source)
+        if key not in code_source_info:
+            # This occurs if a node doesn't have a name.
+            continue
+        code_source_info[key][tui_key] = tuis.split(',')
+
+    print("Finished tuis_sql_statement at", kg2_util.date())
+
     record_num = 0
     for key, val in code_source_info.items():
         record_num += 1
@@ -105,11 +121,13 @@ def cui_sources(cursor, output, sources):
     relation_key = 'relations'
     definitions_key = 'definitions'
 
+    # Make the sources list a MySQL list
     sources_where = str(sources).replace('[', '(').replace(']', ')')
 
-    names_sql_statement = "SELECT CUI, GROUP_CONCAT(DISTINCT CONCAT(SAB, '|', ISPREF, '|', STR) SEPARATOR '\t') FROM MRCONSO WHERE SAB IN " + sources_where + " GROUP BY CUI"
+    # See TTY meanings here: https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/abbreviations.html
+    names_sql_statement = "SELECT CUI, GROUP_CONCAT(DISTINCT CONCAT(TTY, '|', SAB, '|', ISPREF, '|', STR) SEPARATOR '\t') FROM MRCONSO WHERE SAB IN " + sources_where + " GROUP BY CUI"
     tuis_sql_statement = "SELECT CUI, GROUP_CONCAT(TUI) FROM MRSTY GROUP BY CUI"
-    relations_sql_statement = "SELECT CUI1, REL, RELA, DIR, CUI2, SAB FROM MRREL WHERE SAB IN " + sources_where
+    relations_sql_statement = "SELECT DISTINCT CUI1, REL, RELA, DIR, CUI2, SAB FROM MRREL WHERE SAB IN " + sources_where
     definitions_sql_statement = "SELECT CUI, DEF FROM MRDEF WHERE SAB IN " + sources_where
 
     cursor.execute(names_sql_statement)
@@ -120,12 +138,18 @@ def cui_sources(cursor, output, sources):
         cui_source_info[key][name_key] = dict()
         for name in names.split('\t'):
             split_name = name.split('|')
-            assert len(split_name) == 3, split_name
-            if split_name[0] not in cui_source_info[key][name_key]:
-                cui_source_info[key][name_key][split_name[0]] = dict()
-            if split_name[1] not in cui_source_info[key][name_key][split_name[0]]:
-                cui_source_info[key][name_key][split_name[0]][split_name[1]] = list()
-            cui_source_info[key][name_key][split_name[0]][split_name[1]].append(split_name[2])
+            assert len(split_name) == 4, split_name
+            name_tty = split_name[0]
+            name_source = split_name[1]
+            name_ispref = split_name[2]
+            name_str = split_name[3]
+            if name_source not in cui_source_info[key][name_key]:
+                cui_source_info[key][name_key][name_source] = dict()
+            if name_tty not in cui_source_info[key][name_key][name_source]:
+                cui_source_info[key][name_key][name_source][name_tty] = dict()
+            if name_ispref not in cui_source_info[key][name_key][name_source][name_tty]:
+                cui_source_info[key][name_key][name_source][name_tty][name_ispref] = list()
+            cui_source_info[key][name_key][name_source][name_tty][name_ispref].append(name_str)
 
     print("Finished names_sql_statement at", kg2_util.date())
 
@@ -197,11 +221,11 @@ if __name__ == '__main__':
         cursor.execute(max_len_sql_statement)
         cursor.fetchall()
 
-        # Execute statement we care about after clearing any "results"
+        # This ensure we don't have UMLS sources that overwrite each other's names
         sources = get_english_sources(cursor)
 
         code_sources(cursor, output)
-        # cui_sources(cursor, output, sources)
+        cui_sources(cursor, output, sources)
 
     connection.close()
 
