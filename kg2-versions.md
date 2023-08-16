@@ -93,6 +93,69 @@ Build info:
   - UniProtKB: `2023_02`
   - DrugCentral: `52`
   - KEGG: `107.0`
+ 
+# 2.8.3
+**Date:  2023.XX.XX**
+
+Counts:
+- Nodes: 10,370,747
+- Edges: 54,078,936
+
+Issues:
+- Issue [#265](https://github.com/RTXteam/RTX-KG2/issues/265)
+- Issue [#269](https://github.com/RTXteam/RTX-KG2/issues/269)
+- Issue [#273](https://github.com/RTXteam/RTX-KG2/issues/273)
+- Additional issues that arose during the build: [#](https://github.com/RTXteam/RTX-KG2/issues/)
+
+Build info:
+- Biolink Model version: 3.1.2
+- Build host: `buildkg2.rtx.ai`
+- Build directory: `/home/ubuntu/kg2-build`
+- Build code branch: `issue-263`
+- Neo4j endpoint CNAME: 
+- Neo4j endpoint hostname: 
+- Tracking issue for the build: Issue [#264](https://github.com/RTXteam/RTX-KG2/issues/264)
+- Major knowledge source versions:
+  - SemMedDB: `43 (2023)`
+  - UMLS: `2022AA`
+  - ChEMBL: `30`
+  - DrugBank: `5.1.9`
+  - Ensembl: `106`
+  - GO annotations: `2023-6-11`
+  - UniProtKB: `2023_02`
+  - DrugCentral: `52`
+  - KEGG: `105.0`
+ 
+# 2.8.2
+**Date:  2023.XX.XX**
+
+Counts:
+- Nodes: 10,370,747
+- Edges: 54,078,936
+
+Issues:
+- Issue [#263](https://github.com/RTXteam/RTX-KG2/issues/263)
+- Build abandoned due to nonsensical predicates [#269]
+- Additional issues that arose during the build: [#269](https://github.com/RTXteam/RTX-KG2/issues/269)
+
+Build info:
+- Biolink Model version: 3.1.2
+- Build host: `buildkg2.rtx.ai`
+- Build directory: `/home/ubuntu/kg2-build`
+- Build code branch: `issue-263`
+- Neo4j endpoint CNAME: 
+- Neo4j endpoint hostname: 
+- Tracking issue for the build: Issue [#264](https://github.com/RTXteam/RTX-KG2/issues/264)
+- Major knowledge source versions:
+  - SemMedDB: `43 (2023)`
+  - UMLS: `2022AA`
+  - ChEMBL: `30`
+  - DrugBank: `5.1.9`
+  - Ensembl: `106`
+  - GO annotations: `2023-6-11`
+  - UniProtKB: `2023_02`
+  - DrugCentral: `52`
+  - KEGG: `105.0`
 
 # 2.8.1
 **Date:  2022.XX.XX**
