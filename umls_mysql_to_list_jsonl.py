@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 '''umls_mysql_to_list_jsonl.py: extracts all of the information from UMLS and stores it in a JSON Lines output
 
-   Usage: umls_mysql_to_list_jsonl.py [--test] <mysqlConfigFile> <mysqlDBName> <outputFile.json>
+   Usage: umls_mysql_to_list_jsonl.py [--test] <mysqlConfigFile> <mysqlDBName> <outputFile.jsonl>
 '''
 
 __author__ = 'Erica Wood'
@@ -19,12 +19,12 @@ import kg2_util
 import pymysql
 
 
-def make_arg_parser():
+def get_args():
     arg_parser = argparse.ArgumentParser(description='umls_mysql_to_list_jsonl.py: extracts all of the information from UMLS and stores it in a JSON Lines output')
     arg_parser.add_argument('mysqlConfigFile', type=str)
     arg_parser.add_argument('mysqlDBName', type=str)
     arg_parser.add_argument('outputFile', type=str)
-    return arg_parser
+    return arg_parser.parse_args()
 
 
 def get_english_sources(cursor):
@@ -120,6 +120,7 @@ def cui_sources(cursor, output, sources):
     name_key = 'names'
     relation_key = 'relations'
     definitions_key = 'definitions'
+    umls_source_name = 'UMLS'
 
     # Make the sources list a MySQL list
     sources_where = str(sources).replace('[', '(').replace(']', ')')
@@ -133,7 +134,7 @@ def cui_sources(cursor, output, sources):
     cursor.execute(names_sql_statement)
     for result in cursor.fetchall():
         (node_id, names) = result
-        key = node_id
+        key = (node_id, umls_source_name)
         cui_source_info[key] = dict()
         cui_source_info[key][name_key] = dict()
         for name in names.split('\t'):
@@ -156,7 +157,7 @@ def cui_sources(cursor, output, sources):
     cursor.execute(tuis_sql_statement)
     for result in cursor.fetchall():
         (node_id, tuis) = result
-        key = node_id
+        key = (node_id, umls_source_name)
         if key not in cui_source_info:
             # This happens if a node doesn't have an English name. See https://github.com/RTXteam/RTX-KG2/issues/316#issuecomment-1672074392
             continue
@@ -167,7 +168,7 @@ def cui_sources(cursor, output, sources):
     cursor.execute(relations_sql_statement)
     for result in cursor.fetchall():
         (cui1, rel, rela, direction, cui2, source) = result
-        key = cui1
+        key = (cui1, umls_source_name)
         if key not in cui_source_info:
             # See above for explanation
             continue
@@ -186,7 +187,7 @@ def cui_sources(cursor, output, sources):
     cursor.execute(definitions_sql_statement)
     for result in cursor.fetchall():
         (node_id, definition) = result
-        key = node_id
+        key = (node_id, umls_source_name)
         if key not in cui_source_info:
             # See above for explanation
             continue
@@ -204,7 +205,7 @@ def cui_sources(cursor, output, sources):
 
 if __name__ == '__main__':
     print("Starting umls_mysql_to_list_jsonl.py at", kg2_util.date())
-    args = make_arg_parser().parse_args()
+    args = get_args()
     mysql_config_file = args.mysqlConfigFile
     mysql_db_name = args.mysqlDBName
     output_file_name = args.outputFile
