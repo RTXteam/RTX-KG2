@@ -132,16 +132,20 @@ def process_chv_item(node_id, info, tui_mappings, iri_mappings, nodes_output, ed
     synonyms = list()
     names = info.get(NAMES_KEY, dict())
     pt = names.get('PT', dict())
+    synonyms += [syn for syn in names.get('SY', dict()).get('Y', list())]
+    synonyms += [syn for syn in names.get('SY', dict()).get('N', list())]
     if 'Y' in pt:
         name = pt.get('Y', '')
         assert len(name) == 1, str(name) + ' ' + node_curie
         name = name[0]
-    else:
+    elif 'N' in pt:
         name = pt.get('N', '')
         assert len(name) == 1, str(name) + ' ' + node_curie
         name = name[0]
-    synonyms += [syn for syn in names.get('SY', dict()).get('Y', list())]
-    synonyms += [syn for syn in names.get('SY', dict()).get('N', list())]
+    else:
+        name = synonyms[0]
+        synonyms = synonyms[1:]
+        name = name[0]
 
     node = kg2_util.make_node(node_curie, iri, name, tui_mappings[str(tuple(tuis))], "2023", provided_by)
     node['synonym'] = synonyms
