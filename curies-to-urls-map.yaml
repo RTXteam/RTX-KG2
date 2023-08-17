@@ -60,6 +60,8 @@ use_for_bidirectional_mapping:
   -
     CHMO: http://purl.obolibrary.org/obo/CHMO_
   -
+    CHV: http://purl.bioontology.org/ontology/CHV/
+  -
     CID: 'http://pubchem.ncbi.nlm.nih.gov/compound/'
   -
     CL: http://purl.obolibrary.org/obo/CL_
