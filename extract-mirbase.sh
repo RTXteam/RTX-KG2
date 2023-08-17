@@ -23,7 +23,7 @@ output_file=${1:-"${BUILD_DIR}/miRNA.dat"}
 
 mkdir -p ${output_dir}
 
-${curl_get} https://mirbase.org/download/miRNA.dat/ > /tmp/miRNA.dat
+${curl_get} https://mirbase.org/download/miRNA.dat > /tmp/miRNA.dat
 ${curl_get} https://mirbase.org/download/README/ > ${output_dir}/miRBase_README.txt
 
 sed -i "s/<br>//" ${output_dir}/miRBase_README.txt
