@@ -192,6 +192,50 @@ def process_drugbank_item(node_id, info, tui_mappings, iri_mappings, nodes_outpu
     nodes_output.write(node)
 
 
+def process_fma_item(node_id, info, tui_mappings, iri_mappings, nodes_output, edges_output):
+    curie_prefix = "FMA" # This should be replaced with a kg2_util prefix at some point
+    provided_by = make_node_id(UMLS_SOURCE_PREFIX, curie_prefix)
+    iri = iri_mappings[curie_prefix] + node_id
+    node_curie = make_node_id(curie_prefix, node_id)
+    cuis = info.get(CUIS_KEY, list())
+    tuis = info.get(TUIS_KEY, list())
+
+    # Currently not used, but extracting them in case we want them in the future
+    authority = info.get(INFO_KEY, dict()).get('AUTHORITY', list())
+    date_last_modified = info.get(INFO_KEY, dict()).get('DATE_LAST_MODIFIED', list())
+
+    name = str()
+    synonyms = list()
+    names = info.get(NAMES_KEY, dict())
+    pt = names.get('PT', dict())
+    synonyms += [syn for syn in names.get('SY', dict()).get('Y', list())]
+    synonyms += [syn for syn in names.get('SY', dict()).get('N', list())]
+    if 'Y' in pt:
+        name = pt.get('Y', '')
+        if len(name) > 1:
+            synonyms += name[1:]
+        name = name[0]
+    elif 'N' in pt:
+        name = pt.get('N', '')
+        if len(name) > 1:
+            synonyms += name[1:]
+        name = name[0]
+    else:
+        name = synonyms[0]
+        synonyms = synonyms[1:]
+        name = name[0]
+
+    node = kg2_util.make_node(node_curie, iri, name, tui_mappings[str(tuple(tuis))], "2023", provided_by)
+    node['synonym'] = synonyms
+    description = str()
+    for tui in tuis:
+        description += "; UMLS Semantic Type: STY:" + tui
+    description.strip("; ")
+    node['description'] = description
+
+    nodes_output.write(node)
+
+
 if __name__ == '__main__':
     args = get_args()
     input_file_name = args.inputFile
@@ -237,6 +281,9 @@ if __name__ == '__main__':
 
             if source == 'DRUGBANK':
                 process_drugbank_item(node_id, value, tui_mappings, iri_mappings, nodes_output, edges_output)
+
+            if source == 'FMA':
+                process_fma_item(node_id, value, tui_mappings, iri_mappings, nodes_output, edges_output)
 
     kg2_util.end_read_jsonlines(input_read_jsonlines_info)
     kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
