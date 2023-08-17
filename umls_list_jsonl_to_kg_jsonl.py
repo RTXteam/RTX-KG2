@@ -50,6 +50,90 @@ def make_node_id(curie_prefix, node_id):
     return curie_prefix + ':' + node_id
 
 
+def process_atc_item(node_id, info, tui_mappings, iri_mappings, nodes_output, edges_output):
+    curie_prefix = kg2_util.CURIE_PREFIX_ATC
+    provided_by = make_node_id(UMLS_SOURCE_PREFIX, curie_prefix)
+    iri = iri_mappings[curie_prefix] + node_id
+    node_curie = make_node_id(curie_prefix, node_id)
+    cuis = info.get(CUIS_KEY, list())
+    tuis = info.get(TUIS_KEY, list())
+
+    # Currently not used, but extracting them in case we want them in the future
+    atc_level = info.get(INFO_KEY, dict()).get('ATC_LEVEL', list())[0]
+    is_drug_class = info.get(INFO_KEY, dict()).get('IS_DRUG_CLASS', list()) == ["Y"]
+
+    name = str()
+    synonyms = list()
+    names = info.get(NAMES_KEY, dict())
+    if "RXN_PT" in names:
+        rxn_pt = names.get('RXN_PT', dict())
+        if 'Y' in rxn_pt:
+            name = rxn_pt.get('Y', '')
+            assert len(name) == 1
+            name = name[0]
+        else:
+            name = rxn_pt.get('N', '')
+            assert len(name) == 1
+            name = name[0]
+        synonyms = [syn for syn in names.get('PT', dict()).get('Y', list())]
+        synonyms += [syn for syn in names.get('PT', dict()).get('N', list())]
+        synonyms += [syn for syn in names.get('IN', dict()).get('Y', list())]
+        synonyms += [syn for syn in names.get('IN', dict()).get('N', list())]
+    elif "PT" in names:
+        pt = names.get('PT', dict())
+        if 'Y' in pt:
+            name = pt.get('Y', '')
+            assert len(name) == 1
+            name = name[0]
+        else:
+            name = pt.get('N', '')
+            assert len(name) == 1
+            name = name[0]
+        synonyms += [syn for syn in names.get('IN', dict()).get('Y', list())]
+        synonyms += [syn for syn in names.get('IN', dict()).get('N', list())]
+    else:
+        in_dict = names.get('IN', dict())
+        if 'Y' in in_dict:
+            name = in_dict.get('Y', '')
+            assert len(name) == 1
+            name = name[0]
+        else:
+            name = in_dict.get('N', '')
+            assert len(name) == 1
+            name = name[0]
+    node = kg2_util.make_node(node_curie, iri, name, tui_mappings[str(tuple(tuis))], "2023", provided_by)
+    node['synonym'] = synonyms
+    description = str()
+    for tui in tuis:
+        description += "; UMLS Semantic Type: STY:" + tui
+    description.strip("; ")
+    node['description'] = description
+
+    nodes_output.write(node)
+
+
+def process_chv_item(node_id, info, tui_mappings, iri_mappings, nodes_output, edges_output):
+    curie_prefix = "CHV" # This should be replaced with a kg2_util prefix at some point
+    provided_by = make_node_id(UMLS_SOURCE_PREFIX, curie_prefix)
+    iri = iri_mappings[curie_prefix] + node_id
+    node_curie = make_node_id(curie_prefix, node_id)
+    cuis = info.get(CUIS_KEY, list())
+    tuis = info.get(TUIS_KEY, list())
+
+    # Currently not used, but extracting them in case we want them in the future
+    combo_score = info.get(INFO_KEY, dict()).get('COMBO_SCORE', list())
+    combo_score_no_top_words = info.get(INFO_KEY, dict()).get('COMBO_SCORE_NO_TOP_WORDS', list())
+    context_score = info.get(INFO_KEY, dict()).get('CONTEXT_SCORE', list())
+    cui_score = info.get(INFO_KEY, dict()).get('CUI_SCORE', list())
+    disparaged = info.get(INFO_KEY, dict()).get('DISPARAGED', list())
+    frequency = info.get(INFO_KEY, dict()).get('FREQUENCY', list())
+
+    name = str()
+    synonyms = list()
+    names = info.get(NAMES_KEY, dict())
+
+    print(curie_prefix + ":", names)
+
 def process_drugbank_item(node_id, info, tui_mappings, iri_mappings, nodes_output, edges_output):
     curie_prefix = kg2_util.CURIE_PREFIX_DRUGBANK
     provided_by = make_node_id(UMLS_SOURCE_PREFIX, curie_prefix)
@@ -57,8 +141,11 @@ def process_drugbank_item(node_id, info, tui_mappings, iri_mappings, nodes_outpu
     node_curie = make_node_id(curie_prefix, node_id)
     cuis = info.get(CUIS_KEY, list())
     tuis = info.get(TUIS_KEY, list())
+
+    # Currently not used, but extracting them in case we want them in the future
     fda_codes = info.get(INFO_KEY, dict()).get('FDA_UNII_CODE', list())
     secondary_accession_keys = info.get(INFO_KEY, dict()).get('SID', list())
+
     name = info.get(NAMES_KEY, dict()).get('IN', dict()).get('N', list())
     if len(name) == 0:
         name = info.get(NAMES_KEY, dict()).get('IN', dict()).get('Y', list())
@@ -119,6 +206,12 @@ if __name__ == '__main__':
                 continue
 
             # Process the data specifically by source
+            if source == 'ATC':
+                process_atc_item(node_id, value, tui_mappings, iri_mappings, nodes_output, edges_output)
+
+            if source == 'CHV':
+                process_chv_item(node_id, value, tui_mappings, iri_mappings, nodes_output, edges_output)
+
             if source == 'DRUGBANK':
                 process_drugbank_item(node_id, value, tui_mappings, iri_mappings, nodes_output, edges_output)
 
