@@ -50,12 +50,30 @@ def make_node_id(curie_prefix, node_id):
     return curie_prefix + ':' + node_id
 
 
-def create_description(tuis):
-    description = str()
+def create_description(comment, tuis):
+    description = comment
     for tui in tuis:
         description += "; UMLS Semantic Type: STY:" + tui
     description = description.strip("; ")
     return description    
+
+
+def get_name_synonyms(names_dict, accession_heirarchy):
+    names = list()
+    for key in accession_heirarchy:
+        names += [name for name in names_dict.get(key, dict()).get('Y', list())]
+        names += [name for name in names_dict.get(key, dict()).get('N', list())]
+    assert len(names) > 0
+    if len(names) == 1:
+        return names[0], list()
+    return names[0], names[1:]
+
+
+def get_name_keys(names_dict):
+    keys_list = []
+    for key in names_dict:
+        keys_list.append(key)
+    return str(sorted(keys_list))
 
 
 def process_atc_item(node_id, info, tui_mappings, iri_mappings, nodes_output, edges_output):
@@ -73,45 +91,11 @@ def process_atc_item(node_id, info, tui_mappings, iri_mappings, nodes_output, ed
     name = str()
     synonyms = list()
     names = info.get(NAMES_KEY, dict())
-    if "RXN_PT" in names:
-        rxn_pt = names.get('RXN_PT', dict())
-        if 'Y' in rxn_pt:
-            name = rxn_pt.get('Y', '')
-            assert len(name) == 1
-            name = name[0]
-        else:
-            name = rxn_pt.get('N', '')
-            assert len(name) == 1
-            name = name[0]
-        synonyms = [syn for syn in names.get('PT', dict()).get('Y', list())]
-        synonyms += [syn for syn in names.get('PT', dict()).get('N', list())]
-        synonyms += [syn for syn in names.get('IN', dict()).get('Y', list())]
-        synonyms += [syn for syn in names.get('IN', dict()).get('N', list())]
-    elif "PT" in names:
-        pt = names.get('PT', dict())
-        if 'Y' in pt:
-            name = pt.get('Y', '')
-            assert len(name) == 1
-            name = name[0]
-        else:
-            name = pt.get('N', '')
-            assert len(name) == 1
-            name = name[0]
-        synonyms += [syn for syn in names.get('IN', dict()).get('Y', list())]
-        synonyms += [syn for syn in names.get('IN', dict()).get('N', list())]
-    else:
-        in_dict = names.get('IN', dict())
-        if 'Y' in in_dict:
-            name = in_dict.get('Y', '')
-            assert len(name) == 1
-            name = name[0]
-        else:
-            name = in_dict.get('N', '')
-            assert len(name) == 1
-            name = name[0]
+    name, synonyms = get_name_synonyms(names, ['RXN_PT', 'PT', 'RXN_IN', 'IN'])
+
     node = kg2_util.make_node(node_curie, iri, name, tui_mappings[str(tuple(tuis))], "2023", provided_by)
     node['synonym'] = synonyms
-    node['description'] = create_description(tuis)
+    node['description'] = create_description("", tuis)
 
     nodes_output.write(node)
 
@@ -135,25 +119,11 @@ def process_chv_item(node_id, info, tui_mappings, iri_mappings, nodes_output, ed
     name = str()
     synonyms = list()
     names = info.get(NAMES_KEY, dict())
-    pt = names.get('PT', dict())
-    synonyms += [syn for syn in names.get('SY', dict()).get('Y', list())]
-    synonyms += [syn for syn in names.get('SY', dict()).get('N', list())]
-    if 'Y' in pt:
-        name = pt.get('Y', '')
-        assert len(name) == 1, str(name) + ' ' + node_curie
-        name = name[0]
-    elif 'N' in pt:
-        name = pt.get('N', '')
-        assert len(name) == 1, str(name) + ' ' + node_curie
-        name = name[0]
-    else:
-        name = synonyms[0]
-        synonyms = synonyms[1:]
-        name = name[0]
+    name, synonyms = get_name_synonyms(names, ['PT', 'SY'])
 
     node = kg2_util.make_node(node_curie, iri, name, tui_mappings[str(tuple(tuis))], "2023", provided_by)
     node['synonym'] = synonyms
-    node['description'] = create_description(tuis)
+    node['description'] = create_description("", tuis)
 
     nodes_output.write(node)
 
@@ -170,21 +140,13 @@ def process_drugbank_item(node_id, info, tui_mappings, iri_mappings, nodes_outpu
     fda_codes = info.get(INFO_KEY, dict()).get('FDA_UNII_CODE', list())
     secondary_accession_keys = info.get(INFO_KEY, dict()).get('SID', list())
 
-    name = info.get(NAMES_KEY, dict()).get('IN', dict()).get('N', list())
-    if len(name) == 0:
-        name = info.get(NAMES_KEY, dict()).get('IN', dict()).get('Y', list())
-    assert len(name) == 1, str(name) + " " + node_curie
-    name = name[0]
-    synonyms = list()
-    for syn_cat in info.get(NAMES_KEY, dict()).get('SY', dict()):
-        synonyms += info.get(NAMES_KEY, dict()).get('SY', dict())[syn_cat]
-    for syn_cat in info.get(NAMES_KEY, dict()).get('FSY', dict()):
-        synonyms += info.get(NAMES_KEY, dict()).get('FSY', dict())[syn_cat]
+    names = info.get(NAMES_KEY, dict())
+    name, synonyms = get_name_synonyms(names, ['IN', 'SY', 'FSY'])
 
     # TODO: figure out update date
     node = kg2_util.make_node(node_curie, iri, name, tui_mappings[str(tuple(tuis))], "2023", provided_by)
     node['synonym'] = synonyms
-    node['description'] = create_description(tuis)
+    node['description'] = create_description("", tuis)
     
     nodes_output.write(node)
 
@@ -204,30 +166,52 @@ def process_fma_item(node_id, info, tui_mappings, iri_mappings, nodes_output, ed
     name = str()
     synonyms = list()
     names = info.get(NAMES_KEY, dict())
-    pt = names.get('PT', dict())
-    synonyms += [syn for syn in names.get('SY', dict()).get('Y', list())]
-    synonyms += [syn for syn in names.get('SY', dict()).get('N', list())]
-    if 'Y' in pt:
-        name = pt.get('Y', '')
-        if len(name) > 1:
-            synonyms += name[1:]
-        name = name[0]
-    elif 'N' in pt:
-        name = pt.get('N', '')
-        if len(name) > 1:
-            synonyms += name[1:]
-        name = name[0]
-    else:
-        name = synonyms[0]
-        synonyms = synonyms[1:]
-        name = name[0]
+    name, synonyms = get_name_synonyms(names, ['PT', 'SY'])
 
     node = kg2_util.make_node(node_curie, iri, name, tui_mappings[str(tuple(tuis))], "2023", provided_by)
     node['synonym'] = synonyms
-    node['description'] = create_description(tuis)
+    node['description'] = create_description("", tuis)
 
     nodes_output.write(node)
 
+
+def process_go_item(node_id, info, tui_mappings, iri_mappings, nodes_output, edges_output):
+    curie_prefix = kg2_util.CURIE_PREFIX_GO
+    provided_by = make_node_id(UMLS_SOURCE_PREFIX, curie_prefix)
+    node_id = node_id.replace('GO:', '')
+    iri = iri_mappings[curie_prefix] + node_id
+    node_curie = make_node_id(curie_prefix, node_id)
+    cuis = info.get(CUIS_KEY, list())
+    tuis = info.get(TUIS_KEY, list())
+    go_namespace = info.get(INFO_KEY, dict()).get('GO_NAMESPACE', list())
+    assert len(go_namespace) == 1
+    go_namespace = go_namespace[0]
+    namespace_category_map = {'molecular_function': kg2_util.BIOLINK_CATEGORY_MOLECULAR_ACTIVITY,
+                              'cellular_component': kg2_util.BIOLINK_CATEGORY_CELLULAR_COMPONENT,
+                              'biological_process': kg2_util.BIOLINK_CATEGORY_BIOLOGICAL_PROCESS}
+    category = namespace_category_map.get(go_namespace, tui_mappings[str(tuple(tuis))])
+    go_comment = info.get(INFO_KEY, dict()).get('GO_COMMENT', str())
+
+    # Currently not used, but extracting them in case we want them in the future
+    date_created = info.get(INFO_KEY, dict()).get('DATE_CREATED', list())
+    go_subset = info.get(INFO_KEY, dict()).get('GO_SUBSET', list())
+    gxr = info.get(INFO_KEY, dict()).get('GXR', list())
+    ref = info.get(INFO_KEY, dict()).get('REF', list())
+    sid = info.get(INFO_KEY, dict()).get('SID', list())
+
+    name = str()
+    synonyms = list()
+    names = info.get(NAMES_KEY, dict())
+    name, synonyms = get_name_synonyms(names, ['PT', 'MTH_PT', 'SY', 'MTH_SY', 'ET', 'MTH_ET'])
+
+    node = kg2_util.make_node(node_curie, iri, name, category, "2023", provided_by)
+    node['synonym'] = synonyms
+    if len(go_comment) > 0:
+        go_comment = go_comment[0]
+        go_comment = "// COMMENTS: " + go_comment
+    node['description'] = create_description(go_comment, tuis)
+
+    nodes_output.write(node)
 
 if __name__ == '__main__':
     print("Starting umls_list_jsonl_to_kg_jsonl.py at", kg2_util.date())
@@ -245,6 +229,7 @@ if __name__ == '__main__':
     input_items = input_read_jsonlines_info[0]
 
     tui_mappings = dict()
+    name_keys = set()
 
     with open('tui_combo_mappings.json') as mappings:
         tui_mappings = json.load(mappings)
@@ -278,6 +263,10 @@ if __name__ == '__main__':
             if source == 'FMA':
                 process_fma_item(node_id, value, tui_mappings, iri_mappings, nodes_output, edges_output)
 
+            if source == 'GO':
+                process_go_item(node_id, value, tui_mappings, iri_mappings, nodes_output, edges_output)
+
     kg2_util.end_read_jsonlines(input_read_jsonlines_info)
     kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
+    # print(json.dumps(name_keys, indent=4, sort_keys=True, default=list))
     print("Finishing umls_list_jsonl_to_kg_jsonl.py at", kg2_util.date())
