@@ -252,8 +252,6 @@ def process_hgnc_item(node_id, info, nodes_output, edges_output):
 
     make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
 
-    return get_attribute_keys(attributes)
-
 
 if __name__ == '__main__':
     print("Starting umls_list_jsonl_to_kg_jsonl.py at", kg2_util.date())
@@ -311,9 +309,9 @@ if __name__ == '__main__':
                 process_hcpcs_item(node_id, value, nodes_output, edges_output)
 
             if source == 'HGNC':
-                attribute_keys.update(process_hgnc_item(node_id, value, nodes_output, edges_output))
+                process_hgnc_item(node_id, value, nodes_output, edges_output)
 
     kg2_util.end_read_jsonlines(input_read_jsonlines_info)
     kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
-    print(json.dumps(attribute_keys, indent=4, sort_keys=True, default=list))
+    # print(json.dumps(attribute_keys, indent=4, sort_keys=True, default=list))
     print("Finishing umls_list_jsonl_to_kg_jsonl.py at", kg2_util.date())
