@@ -28,6 +28,16 @@ INFO_KEY = 'attributes'
 NAMES_KEY = 'names'
 TUIS_KEY = 'tuis'
 
+TUI_MAPPINGS = dict()
+IRI_MAPPINGS = dict()
+
+ATC_PREFIX = kg2_util.CURIE_PREFIX_ATC
+CHV_PREFIX = kg2_util.CURIE_PREFIX_CHV
+DRUGBANK_PREFIX = kg2_util.CURIE_PREFIX_DRUGBANK
+FMA_PREFIX = kg2_util.CURIE_PREFIX_FMA
+GO_PREFIX = kg2_util.CURIE_PREFIX_GO
+HCPCS_PREFIX = kg2_util.CURIE_PREFIX_HCPCS
+
 UMLS_SOURCE_PREFIX = kg2_util.CURIE_PREFIX_UMLS_SOURCE
 
 
@@ -76,6 +86,13 @@ def get_name_keys(names_dict):
     return str(sorted(keys_list))
 
 
+def get_attribute_keys(attributes_dict):
+    keys_list = []
+    for key in attributes_dict:
+        keys_list.append(key)
+    return str(sorted(keys_list))
+
+
 def make_umls_node(node_curie, iri, name, category, update_date, provided_by, synonyms, description, nodes_output):
     node = kg2_util.make_node(node_curie, iri, name, category, "2023", provided_by)
     node['synonym'] = synonyms
@@ -84,33 +101,32 @@ def make_umls_node(node_curie, iri, name, category, update_date, provided_by, sy
     nodes_output.write(node)
 
 
-def get_basic_info(curie_prefix, node_id, tui_mappings, iri_mappings, info):
-    curie_prefix = kg2_util.CURIE_PREFIX_ATC
+def get_basic_info(curie_prefix, node_id, info, accession_heirarchy):
     provided_by = make_node_id(UMLS_SOURCE_PREFIX, curie_prefix)
-    iri = iri_mappings[curie_prefix] + node_id
+    iri = IRI_MAPPINGS[curie_prefix] + node_id
     node_curie = make_node_id(curie_prefix, node_id)
     cuis = info.get(CUIS_KEY, list())
     tuis = info.get(TUIS_KEY, list())
-    category = tui_mappings[str(tuple(tuis))]
+    category = TUI_MAPPINGS[str(tuple(tuis))]
 
-    return node_curie, iri, provided_by, category, cuis, tuis
+    names = info.get(NAMES_KEY, dict())
+    name, synonyms = get_name_synonyms(names, accession_heirarchy)
+
+    return node_curie, iri, name, provided_by, category, synonyms, cuis, tuis
 
 
-def process_atc_item(node_id, info, tui_mappings, iri_mappings, nodes_output, edges_output):
-    node_curie, iri, provided_by, category, cuis, tuis = get_basic_info(kg2_util.CURIE_PREFIX_ATC, node_id, tui_mappings, iri_mappings, info)
+def process_atc_item(node_id, info, nodes_output, edges_output):
+    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(ATC_PREFIX, node_id, info, ['RXN_PT', 'PT', 'RXN_IN', 'IN'])
 
     # Currently not used, but extracting them in case we want them in the future
     atc_level = info.get(INFO_KEY, dict()).get('ATC_LEVEL', list())[0]
     is_drug_class = info.get(INFO_KEY, dict()).get('IS_DRUG_CLASS', list()) == ["Y"]
 
-    names = info.get(NAMES_KEY, dict())
-    name, synonyms = get_name_synonyms(names, ['RXN_PT', 'PT', 'RXN_IN', 'IN'])
-
     make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
 
 
-def process_chv_item(node_id, info, tui_mappings, iri_mappings, nodes_output, edges_output):
-    node_curie, iri, provided_by, category, cuis, tuis = get_basic_info(kg2_util.CURIE_PREFIX_CHV, node_id, tui_mappings, iri_mappings, info)
+def process_chv_item(node_id, info, nodes_output, edges_output):
+    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(CHV_PREFIX, node_id, info, ['PT', 'SY'])
 
     # Currently not used, but extracting them in case we want them in the future
     combo_score = info.get(INFO_KEY, dict()).get('COMBO_SCORE', list())
@@ -120,41 +136,33 @@ def process_chv_item(node_id, info, tui_mappings, iri_mappings, nodes_output, ed
     disparaged = info.get(INFO_KEY, dict()).get('DISPARAGED', list())
     frequency = info.get(INFO_KEY, dict()).get('FREQUENCY', list())
 
-    names = info.get(NAMES_KEY, dict())
-    name, synonyms = get_name_synonyms(names, ['PT', 'SY'])
-
     make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
 
 
-def process_drugbank_item(node_id, info, tui_mappings, iri_mappings, nodes_output, edges_output):
-    node_curie, iri, provided_by, category, cuis, tuis = get_basic_info(kg2_util.CURIE_PREFIX_DRUGBANK, node_id, tui_mappings, iri_mappings, info)
+def process_drugbank_item(node_id, info, nodes_output, edges_output):
+    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(DRUGBANK_PREFIX, node_id, info, ['IN', 'SY', 'FSY'])
 
     # Currently not used, but extracting them in case we want them in the future
     fda_codes = info.get(INFO_KEY, dict()).get('FDA_UNII_CODE', list())
     secondary_accession_keys = info.get(INFO_KEY, dict()).get('SID', list())
 
-    names = info.get(NAMES_KEY, dict())
-    name, synonyms = get_name_synonyms(names, ['IN', 'SY', 'FSY'])
-
     # TODO: figure out update date
     make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
 
 
-def process_fma_item(node_id, info, tui_mappings, iri_mappings, nodes_output, edges_output):
-    node_curie, iri, provided_by, category, cuis, tuis = get_basic_info(kg2_util.CURIE_PREFIX_FMA, node_id, tui_mappings, iri_mappings, info)
+def process_fma_item(node_id, info, nodes_output, edges_output):
+    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(FMA_PREFIX, node_id, info, ['PT', 'SY'])
 
     # Currently not used, but extracting them in case we want them in the future
     authority = info.get(INFO_KEY, dict()).get('AUTHORITY', list())
     date_last_modified = info.get(INFO_KEY, dict()).get('DATE_LAST_MODIFIED', list())
 
-    names = info.get(NAMES_KEY, dict())
-    name, synonyms = get_name_synonyms(names, ['PT', 'SY'])
-
     make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
 
 
-def process_go_item(node_id, info, tui_mappings, iri_mappings, nodes_output, edges_output):
-    node_curie, iri, provided_by, category, cuis, tuis = get_basic_info(kg2_util.CURIE_PREFIX_GO, node_id, tui_mappings, iri_mappings, info)
+def process_go_item(node_id, info, nodes_output, edges_output):
+    accession_heirarchy = ['PT', 'MTH_PT', 'SY', 'MTH_SY', 'ET', 'MTH_ET']
+    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(GO_PREFIX, node_id.replace('GO:', ''), info, accession_heirarchy)
 
     # GO-specific information
     attributes = info.get(INFO_KEY, dict())
@@ -177,10 +185,18 @@ def process_go_item(node_id, info, tui_mappings, iri_mappings, nodes_output, edg
     ref = attributes.get('REF', list())
     sid = attributes.get('SID', list())
 
-    names = info.get(NAMES_KEY, dict())
-    name, synonyms = get_name_synonyms(names, ['PT', 'MTH_PT', 'SY', 'MTH_SY', 'ET', 'MTH_ET'])
-
     make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description(go_comment, tuis), nodes_output)
+
+
+def process_hcpcs_item(node_id, info, nodes_output, edges_output):
+    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(HCPCS_PREFIX, node_id, info, ['PT', 'MTH_HT', 'MP'])
+
+    # Currently not used, but extracting them in case we want them in the future
+
+    make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
+
+    return get_attribute_keys(info.get(INFO_KEY, dict()))
+
 
 if __name__ == '__main__':
     print("Starting umls_list_jsonl_to_kg_jsonl.py at", kg2_util.date())
@@ -197,17 +213,15 @@ if __name__ == '__main__':
     input_read_jsonlines_info = kg2_util.start_read_jsonlines(input_file_name)
     input_items = input_read_jsonlines_info[0]
 
-    tui_mappings = dict()
     name_keys = set()
 
     with open('tui_combo_mappings.json') as mappings:
-        tui_mappings = json.load(mappings)
+        TUI_MAPPINGS = json.load(mappings)
 
-    iri_mappings = dict()
     iri_mappings_raw = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string('curies-to-urls-map.yaml'))['use_for_bidirectional_mapping']
     for item in iri_mappings_raw:
         for prefix in item:
-            iri_mappings[prefix] = item[prefix]
+            IRI_MAPPINGS[prefix] = item[prefix]
 
     for data in input_items:
         # There should only be one item in the data dictionary
@@ -221,21 +235,24 @@ if __name__ == '__main__':
 
             # Process the data specifically by source
             if source == 'ATC':
-                process_atc_item(node_id, value, tui_mappings, iri_mappings, nodes_output, edges_output)
+                process_atc_item(node_id, value, nodes_output, edges_output)
 
             if source == 'CHV':
-                process_chv_item(node_id, value, tui_mappings, iri_mappings, nodes_output, edges_output)
+                process_chv_item(node_id, value, nodes_output, edges_output)
 
             if source == 'DRUGBANK':
-                process_drugbank_item(node_id, value, tui_mappings, iri_mappings, nodes_output, edges_output)
+                process_drugbank_item(node_id, value, nodes_output, edges_output)
 
             if source == 'FMA':
-                process_fma_item(node_id, value, tui_mappings, iri_mappings, nodes_output, edges_output)
+                process_fma_item(node_id, value, nodes_output, edges_output)
 
             if source == 'GO':
-                process_go_item(node_id, value, tui_mappings, iri_mappings, nodes_output, edges_output)
+                process_go_item(node_id, value, nodes_output, edges_output)
+
+            if source == 'HCPCS':
+                name_keys.add(process_hcpcs_item(node_id, value, nodes_output, edges_output))
 
     kg2_util.end_read_jsonlines(input_read_jsonlines_info)
     kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
-    # print(json.dumps(name_keys, indent=4, sort_keys=True, default=list))
+    print(json.dumps(name_keys, indent=4, sort_keys=True, default=list))
     print("Finishing umls_list_jsonl_to_kg_jsonl.py at", kg2_util.date())
