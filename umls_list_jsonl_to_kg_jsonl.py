@@ -216,7 +216,7 @@ def process_hcpcs_item(node_id, info, nodes_output, edges_output):
 
 
 def process_hgnc_item(node_id, info, nodes_output, edges_output):
-    accession_heirarchy = ['ACR', 'PT', 'MTH_ACR', 'NA', 'NP', 'NS', 'SYN']
+    accession_heirarchy = ['PT', 'ACR', 'MTH_ACR', 'NA', 'NP', 'NS', 'SYN']
     node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(HGNC_PREFIX, node_id.replace('HGNC:', ''), info, accession_heirarchy)
 
     # Currently not used, but extracting them in case we want them in the future - descriptions from https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/attribute_names.html
