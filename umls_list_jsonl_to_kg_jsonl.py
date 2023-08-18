@@ -37,6 +37,7 @@ DRUGBANK_PREFIX = kg2_util.CURIE_PREFIX_DRUGBANK
 FMA_PREFIX = kg2_util.CURIE_PREFIX_FMA
 GO_PREFIX = kg2_util.CURIE_PREFIX_GO
 HCPCS_PREFIX = kg2_util.CURIE_PREFIX_HCPCS
+HGNC_PREFIX = kg2_util.CURIE_PREFIX_HGNC
 
 UMLS_SOURCE_PREFIX = kg2_util.CURIE_PREFIX_UMLS_SOURCE
 
@@ -216,7 +217,7 @@ def process_hcpcs_item(node_id, info, nodes_output, edges_output):
 
 def process_hgnc_item(node_id, info, nodes_output, edges_output):
     accession_heirarchy = ['ACR', 'PT', 'MTH_ACR', 'NA', 'NP', 'NS', 'SYN']
-    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(HCPCS_PREFIX, node_id.replace('HGNC:', ''), info, accession_heirarchy)
+    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(HGNC_PREFIX, node_id.replace('HGNC:', ''), info, accession_heirarchy)
 
     # Currently not used, but extracting them in case we want them in the future - descriptions from https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/attribute_names.html
     attributes = info.get(INFO_KEY, dict())
