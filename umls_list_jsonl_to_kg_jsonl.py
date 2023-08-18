@@ -90,13 +90,14 @@ def get_attribute_keys(attributes_dict):
     keys_list = []
     for key in attributes_dict:
         keys_list.append(key)
-    return str(sorted(keys_list))
+    return set(keys_list)
 
 
-def make_umls_node(node_curie, iri, name, category, update_date, provided_by, synonyms, description, nodes_output):
+def make_umls_node(node_curie, iri, name, category, update_date, provided_by, synonyms, description, nodes_output, full_name=None):
     node = kg2_util.make_node(node_curie, iri, name, category, "2023", provided_by)
     node['synonym'] = synonyms
     node['description'] = description
+    node['full_name'] = full_name
 
     nodes_output.write(node)
 
@@ -191,11 +192,68 @@ def process_go_item(node_id, info, nodes_output, edges_output):
 def process_hcpcs_item(node_id, info, nodes_output, edges_output):
     node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(HCPCS_PREFIX, node_id, info, ['PT', 'MTH_HT', 'MP'])
 
-    # Currently not used, but extracting them in case we want them in the future
+    # Currently not used, but extracting them in case we want them in the future - descriptions from https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/attribute_names.html
+    attributes = info.get(INFO_KEY, dict())
+    had = attributes.get('HAD', list()) # HCPCS Action Effective Date - effective date of action to a procedure or modifier code.
+    hcc = attributes.get('HCC', list()) # HCPCS Coverage Code - code denoting Medicare coverage status. There are two subelements separated by "=".
+    hts = attributes.get('HTS', list()) # HCPCS Type of Service Code - carrier assigned HCFA Type of Service which describes the particular kind(s) of service represented by the procedure code.
+    hcd = attributes.get('HCD', list()) # HCPCS Code Added Date - year the HCPCS code was added to the HCFA Common Procedure Coding System.
+    hpn = attributes.get('HPN', list()) # HCPCS processing note number identifying the processing note contained in Appendix A of the HCPCS Manual.
+    haq = attributes.get('HAQ', list()) # HCPCS Anesthesia Base Unit Quantity - base unit represents the level of intensity for anesthesia procedure services that reflects all activities except time.
+    hlc = attributes.get('HLC', list()) # HCPCS Lab Certification Code - code used to classify laboratory procedures according to the specialty certification categories listed by CMS(formerly HCFA).
+    hsn = attributes.get('HSN', list()) # HCPCS Statute Number identifying statute reference for coverage or noncoverage of procedure or service.
+    hpd = attributes.get('HPD', list()) # HCPCS ASC payment group effective date - date the procedure is assigned to the ASC payment group.
+    hpg = attributes.get('HPG', list()) # HCPCS ASC payment group code which represents the dollar amount of the facility charge payable by Medicare for the procedure.
+    hmg = attributes.get('HMR', list()) # HCPCS Medicare Carriers Manual reference section number - number identifying a section of the Medicare Carriers Manual.
+    hir = attributes.get('HIR', list()) # HCPCS Coverage Issues Manual Reference Section Number - number identifying the Reference Section of the Coverage Issues Manual.
+    hxr = attributes.get('HXR', list()) # HCPCS Cross reference code - an explicit reference crosswalking a deleted code or a code that is not valid for Medicare to a valid current code (or range of codes).
+    hmp = attributes.get('HMP', list()) # HCPCS Multiple Pricing Indicator Code - code used to identify instances where a procedure could be priced.
+    hpi = attributes.get('HPI', list()) # HCPCS Pricing Indicator Code - used to identify the appropriate methodology for developing unique pricing amounts under Part B.
+    hac = attributes.get('HAC', list()) # HCPCS action code - code denoting the change made to a procedure or modifier code within the HCPCS system.
+    hbt = attributes.get('HBT', list()) # HCPCS Berenson-Eggers Type of Service Code - BETOS for the procedure code based on generally agreed upon clinically meaningful groupings of procedures and services.
 
     make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
 
-    return get_attribute_keys(info.get(INFO_KEY, dict()))
+
+def process_hgnc_item(node_id, info, nodes_output, edges_output):
+    accession_heirarchy = ['ACR', 'PT', 'MTH_ACR', 'NA', 'NP', 'NS', 'SYN']
+    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(HCPCS_PREFIX, node_id.replace('HGNC:', ''), info, accession_heirarchy)
+
+    # Currently not used, but extracting them in case we want them in the future - descriptions from https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/attribute_names.html
+    attributes = info.get(INFO_KEY, dict())
+    mgd_id = attributes.get('MGD_ID', list())
+    vega_id = attributes.get('VEGA_ID', list())
+    genecc = attributes.get('GENCC', list())
+    swp = attributes.get('SWP', list())
+    mane_select = attributes.get('MANE_SELECT', list())
+    local_specific_db_xr = attributes.get('LOCUS_SPECIFIC_DB_XR', list())
+    locus_type = attributes.get('LOCUS_TYPE', list())
+    agr = attributes.get('AGR', list())
+    cytogenetic_location = attributes.get('CYTOGENETIC_LOCATION', list())
+    date_created = attributes.get('DATE_CREATED', list())
+    ensemblgene_id = attributes.get('ENSEMBLGENE_ID', list())
+    db_xr_id = attributes.get('DB_XR_ID', list())
+    locus_group = attributes.get('LOCUS_GROUP', list())
+    entrezgene_id = attributes.get('ENTREZGENE_ID', list())
+    date_name_changed = attributes.get('DATE_NAME_CHANGED', list())
+    pmid = attributes.get('PMID', list())
+    date_last_modified = attributes.get('DATE_LAST_MODIFIED', list())
+    mapped_ucsc_id = attributes.get('MAPPED_UCSC_ID', list())
+    refseq_id = attributes.get('REFSEQ_ID', list())
+    ena = attributes.get('ENA', list())
+    rgd_id = attributes.get('RGD_ID', list())
+    date_symbol_changed = attributes.get('DATE_SYMBOL_CHANGED', list())
+    omim_id = attributes.get('OMIM_ID', list())
+    gene_fam_id = attributes.get('GENE_FAM_ID', list())
+    gene_symbol = attributes.get('GENESYMBOL', list())
+    ez = attributes.get('EZ', list())
+    ccds_id = attributes.get('CCDS_ID', list())
+    lncipedia = attributes.get('LNCIPEDIA', list())
+    gene_fam_desc = attributes.get('GENE_FAM_DESC', list())
+
+    make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output, full_name)
+
+    return get_attribute_keys(attributes)
 
 
 if __name__ == '__main__':
@@ -214,6 +272,7 @@ if __name__ == '__main__':
     input_items = input_read_jsonlines_info[0]
 
     name_keys = set()
+    attribute_keys = set()
 
     with open('tui_combo_mappings.json') as mappings:
         TUI_MAPPINGS = json.load(mappings)
@@ -250,9 +309,12 @@ if __name__ == '__main__':
                 process_go_item(node_id, value, nodes_output, edges_output)
 
             if source == 'HCPCS':
-                name_keys.add(process_hcpcs_item(node_id, value, nodes_output, edges_output))
+                process_hcpcs_item(node_id, value, nodes_output, edges_output)
+
+            if source == 'HGNC':
+                attribute_keys.update(process_hgnc_item(node_id, value, nodes_output, edges_output))
 
     kg2_util.end_read_jsonlines(input_read_jsonlines_info)
     kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
-    print(json.dumps(name_keys, indent=4, sort_keys=True, default=list))
+    print(json.dumps(attribute_keys, indent=4, sort_keys=True, default=list))
     print("Finishing umls_list_jsonl_to_kg_jsonl.py at", kg2_util.date())
