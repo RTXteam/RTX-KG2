@@ -157,6 +157,7 @@ def process_chv_item(node_id, info, tui_mappings, iri_mappings, nodes_output, ed
 
     nodes_output.write(node)
 
+
 def process_drugbank_item(node_id, info, tui_mappings, iri_mappings, nodes_output, edges_output):
     curie_prefix = kg2_util.CURIE_PREFIX_DRUGBANK
     provided_by = make_node_id(UMLS_SOURCE_PREFIX, curie_prefix)
@@ -237,6 +238,7 @@ def process_fma_item(node_id, info, tui_mappings, iri_mappings, nodes_output, ed
 
 
 if __name__ == '__main__':
+    print("Starting umls_list_jsonl_to_kg_jsonl.py at", kg2_util.date())
     args = get_args()
     input_file_name = args.inputFile
     test_mode = args.test
@@ -260,7 +262,6 @@ if __name__ == '__main__':
     for item in iri_mappings_raw:
         for prefix in item:
             iri_mappings[prefix] = item[prefix]
-    print(json.dumps(iri_mappings, indent=4, sort_keys=True))
 
     for data in input_items:
         # There should only be one item in the data dictionary
@@ -287,3 +288,4 @@ if __name__ == '__main__':
 
     kg2_util.end_read_jsonlines(input_read_jsonlines_info)
     kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
+    print("Finishing umls_list_jsonl_to_kg_jsonl.py at", kg2_util.date())
