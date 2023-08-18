@@ -76,37 +76,41 @@ def get_name_keys(names_dict):
     return str(sorted(keys_list))
 
 
-def process_atc_item(node_id, info, tui_mappings, iri_mappings, nodes_output, edges_output):
+def make_umls_node(node_curie, iri, name, category, update_date, provided_by, synonyms, description, nodes_output):
+    node = kg2_util.make_node(node_curie, iri, name, category, "2023", provided_by)
+    node['synonym'] = synonyms
+    node['description'] = description
+
+    nodes_output.write(node)
+
+
+def get_basic_info(curie_prefix, node_id, tui_mappings, iri_mappings, info):
     curie_prefix = kg2_util.CURIE_PREFIX_ATC
     provided_by = make_node_id(UMLS_SOURCE_PREFIX, curie_prefix)
     iri = iri_mappings[curie_prefix] + node_id
     node_curie = make_node_id(curie_prefix, node_id)
     cuis = info.get(CUIS_KEY, list())
     tuis = info.get(TUIS_KEY, list())
+    category = tui_mappings[str(tuple(tuis))]
+
+    return node_curie, iri, provided_by, category, cuis, tuis
+
+
+def process_atc_item(node_id, info, tui_mappings, iri_mappings, nodes_output, edges_output):
+    node_curie, iri, provided_by, category, cuis, tuis = get_basic_info(kg2_util.CURIE_PREFIX_ATC, node_id, tui_mappings, iri_mappings, info)
 
     # Currently not used, but extracting them in case we want them in the future
     atc_level = info.get(INFO_KEY, dict()).get('ATC_LEVEL', list())[0]
     is_drug_class = info.get(INFO_KEY, dict()).get('IS_DRUG_CLASS', list()) == ["Y"]
 
-    name = str()
-    synonyms = list()
     names = info.get(NAMES_KEY, dict())
     name, synonyms = get_name_synonyms(names, ['RXN_PT', 'PT', 'RXN_IN', 'IN'])
 
-    node = kg2_util.make_node(node_curie, iri, name, tui_mappings[str(tuple(tuis))], "2023", provided_by)
-    node['synonym'] = synonyms
-    node['description'] = create_description("", tuis)
-
-    nodes_output.write(node)
+    make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
 
 
 def process_chv_item(node_id, info, tui_mappings, iri_mappings, nodes_output, edges_output):
-    curie_prefix = "CHV" # This should be replaced with a kg2_util prefix at some point
-    provided_by = make_node_id(UMLS_SOURCE_PREFIX, curie_prefix)
-    iri = iri_mappings[curie_prefix] + node_id
-    node_curie = make_node_id(curie_prefix, node_id)
-    cuis = info.get(CUIS_KEY, list())
-    tuis = info.get(TUIS_KEY, list())
+    node_curie, iri, provided_by, category, cuis, tuis = get_basic_info(kg2_util.CURIE_PREFIX_CHV, node_id, tui_mappings, iri_mappings, info)
 
     # Currently not used, but extracting them in case we want them in the future
     combo_score = info.get(INFO_KEY, dict()).get('COMBO_SCORE', list())
@@ -116,25 +120,14 @@ def process_chv_item(node_id, info, tui_mappings, iri_mappings, nodes_output, ed
     disparaged = info.get(INFO_KEY, dict()).get('DISPARAGED', list())
     frequency = info.get(INFO_KEY, dict()).get('FREQUENCY', list())
 
-    name = str()
-    synonyms = list()
     names = info.get(NAMES_KEY, dict())
     name, synonyms = get_name_synonyms(names, ['PT', 'SY'])
 
-    node = kg2_util.make_node(node_curie, iri, name, tui_mappings[str(tuple(tuis))], "2023", provided_by)
-    node['synonym'] = synonyms
-    node['description'] = create_description("", tuis)
-
-    nodes_output.write(node)
+    make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
 
 
 def process_drugbank_item(node_id, info, tui_mappings, iri_mappings, nodes_output, edges_output):
-    curie_prefix = kg2_util.CURIE_PREFIX_DRUGBANK
-    provided_by = make_node_id(UMLS_SOURCE_PREFIX, curie_prefix)
-    iri = iri_mappings[curie_prefix] + node_id
-    node_curie = make_node_id(curie_prefix, node_id)
-    cuis = info.get(CUIS_KEY, list())
-    tuis = info.get(TUIS_KEY, list())
+    node_curie, iri, provided_by, category, cuis, tuis = get_basic_info(kg2_util.CURIE_PREFIX_DRUGBANK, node_id, tui_mappings, iri_mappings, info)
 
     # Currently not used, but extracting them in case we want them in the future
     fda_codes = info.get(INFO_KEY, dict()).get('FDA_UNII_CODE', list())
@@ -144,74 +137,50 @@ def process_drugbank_item(node_id, info, tui_mappings, iri_mappings, nodes_outpu
     name, synonyms = get_name_synonyms(names, ['IN', 'SY', 'FSY'])
 
     # TODO: figure out update date
-    node = kg2_util.make_node(node_curie, iri, name, tui_mappings[str(tuple(tuis))], "2023", provided_by)
-    node['synonym'] = synonyms
-    node['description'] = create_description("", tuis)
-    
-    nodes_output.write(node)
+    make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
 
 
 def process_fma_item(node_id, info, tui_mappings, iri_mappings, nodes_output, edges_output):
-    curie_prefix = "FMA" # This should be replaced with a kg2_util prefix at some point
-    provided_by = make_node_id(UMLS_SOURCE_PREFIX, curie_prefix)
-    iri = iri_mappings[curie_prefix] + node_id
-    node_curie = make_node_id(curie_prefix, node_id)
-    cuis = info.get(CUIS_KEY, list())
-    tuis = info.get(TUIS_KEY, list())
+    node_curie, iri, provided_by, category, cuis, tuis = get_basic_info(kg2_util.CURIE_PREFIX_FMA, node_id, tui_mappings, iri_mappings, info)
 
     # Currently not used, but extracting them in case we want them in the future
     authority = info.get(INFO_KEY, dict()).get('AUTHORITY', list())
     date_last_modified = info.get(INFO_KEY, dict()).get('DATE_LAST_MODIFIED', list())
 
-    name = str()
-    synonyms = list()
     names = info.get(NAMES_KEY, dict())
     name, synonyms = get_name_synonyms(names, ['PT', 'SY'])
 
-    node = kg2_util.make_node(node_curie, iri, name, tui_mappings[str(tuple(tuis))], "2023", provided_by)
-    node['synonym'] = synonyms
-    node['description'] = create_description("", tuis)
-
-    nodes_output.write(node)
+    make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
 
 
 def process_go_item(node_id, info, tui_mappings, iri_mappings, nodes_output, edges_output):
-    curie_prefix = kg2_util.CURIE_PREFIX_GO
-    provided_by = make_node_id(UMLS_SOURCE_PREFIX, curie_prefix)
-    node_id = node_id.replace('GO:', '')
-    iri = iri_mappings[curie_prefix] + node_id
-    node_curie = make_node_id(curie_prefix, node_id)
-    cuis = info.get(CUIS_KEY, list())
-    tuis = info.get(TUIS_KEY, list())
-    go_namespace = info.get(INFO_KEY, dict()).get('GO_NAMESPACE', list())
+    node_curie, iri, provided_by, category, cuis, tuis = get_basic_info(kg2_util.CURIE_PREFIX_GO, node_id, tui_mappings, iri_mappings, info)
+
+    # GO-specific information
+    attributes = info.get(INFO_KEY, dict())
+    go_namespace = attributes.get('GO_NAMESPACE', list())
     assert len(go_namespace) == 1
     go_namespace = go_namespace[0]
     namespace_category_map = {'molecular_function': kg2_util.BIOLINK_CATEGORY_MOLECULAR_ACTIVITY,
                               'cellular_component': kg2_util.BIOLINK_CATEGORY_CELLULAR_COMPONENT,
                               'biological_process': kg2_util.BIOLINK_CATEGORY_BIOLOGICAL_PROCESS}
-    category = namespace_category_map.get(go_namespace, tui_mappings[str(tuple(tuis))])
-    go_comment = info.get(INFO_KEY, dict()).get('GO_COMMENT', str())
-
-    # Currently not used, but extracting them in case we want them in the future
-    date_created = info.get(INFO_KEY, dict()).get('DATE_CREATED', list())
-    go_subset = info.get(INFO_KEY, dict()).get('GO_SUBSET', list())
-    gxr = info.get(INFO_KEY, dict()).get('GXR', list())
-    ref = info.get(INFO_KEY, dict()).get('REF', list())
-    sid = info.get(INFO_KEY, dict()).get('SID', list())
-
-    name = str()
-    synonyms = list()
-    names = info.get(NAMES_KEY, dict())
-    name, synonyms = get_name_synonyms(names, ['PT', 'MTH_PT', 'SY', 'MTH_SY', 'ET', 'MTH_ET'])
-
-    node = kg2_util.make_node(node_curie, iri, name, category, "2023", provided_by)
-    node['synonym'] = synonyms
+    category = namespace_category_map.get(go_namespace, category)
+    go_comment = attributes.get('GO_COMMENT', str())
     if len(go_comment) > 0:
         go_comment = go_comment[0]
         go_comment = "// COMMENTS: " + go_comment
-    node['description'] = create_description(go_comment, tuis)
 
-    nodes_output.write(node)
+    # Currently not used, but extracting them in case we want them in the future
+    date_created = attributes.get('DATE_CREATED', list())
+    go_subset = attributes.get('GO_SUBSET', list())
+    gxr = attributes.get('GXR', list())
+    ref = attributes.get('REF', list())
+    sid = attributes.get('SID', list())
+
+    names = info.get(NAMES_KEY, dict())
+    name, synonyms = get_name_synonyms(names, ['PT', 'MTH_PT', 'SY', 'MTH_SY', 'ET', 'MTH_ET'])
+
+    make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description(go_comment, tuis), nodes_output)
 
 if __name__ == '__main__':
     print("Starting umls_list_jsonl_to_kg_jsonl.py at", kg2_util.date())
