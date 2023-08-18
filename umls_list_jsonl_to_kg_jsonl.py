@@ -93,11 +93,10 @@ def get_attribute_keys(attributes_dict):
     return set(keys_list)
 
 
-def make_umls_node(node_curie, iri, name, category, update_date, provided_by, synonyms, description, nodes_output, full_name=None):
+def make_umls_node(node_curie, iri, name, category, update_date, provided_by, synonyms, description, nodes_output):
     node = kg2_util.make_node(node_curie, iri, name, category, "2023", provided_by)
     node['synonym'] = synonyms
     node['description'] = description
-    node['full_name'] = full_name
 
     nodes_output.write(node)
 
@@ -251,7 +250,7 @@ def process_hgnc_item(node_id, info, nodes_output, edges_output):
     lncipedia = attributes.get('LNCIPEDIA', list())
     gene_fam_desc = attributes.get('GENE_FAM_DESC', list())
 
-    make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output, full_name)
+    make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
 
     return get_attribute_keys(attributes)
 
