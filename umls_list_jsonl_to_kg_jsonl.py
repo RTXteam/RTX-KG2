@@ -43,7 +43,7 @@ def get_args():
 def extract_node_id(node_id_str):
     node_id_str = node_id_str.replace('(', '').replace(')', '').replace("'", '')
     node_id = node_id_str.split(',')
-    return node_id[1].strip(), node_id[0].strip()
+    return node_id[0].strip(), node_id[1].strip()
 
 
 def make_node_id(curie_prefix, node_id):

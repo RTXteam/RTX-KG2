@@ -59,7 +59,7 @@ def code_sources(cursor, output):
     cursor.execute(names_sql_statement)
     for result in cursor.fetchall():
         (node_id, node_source, cui, names) = result
-        key = (node_id, node_source)
+        key = (node_source, node_id)
         code_source_info[key] = dict()
         code_source_info[key][cui_key] = cui.split(',')
         if name_key not in code_source_info[key]:
@@ -78,7 +78,7 @@ def code_sources(cursor, output):
     cursor.execute(extra_info_sql_statement)
     for result in cursor.fetchall():
         (node_id, node_source, info) = result
-        key = (node_id, node_source)
+        key = (node_source, node_id)
         if key not in code_source_info:
             # This occurs if a node doesn't have a name.
             continue
@@ -98,7 +98,7 @@ def code_sources(cursor, output):
     cursor.execute(tuis_sql_statement)
     for result in cursor.fetchall():
         (node_id, node_source, tuis) = result
-        key = (node_id, node_source)
+        key = (node_source, node_id)
         if key not in code_source_info:
             # This occurs if a node doesn't have a name.
             continue
@@ -134,7 +134,7 @@ def cui_sources(cursor, output, sources):
     cursor.execute(names_sql_statement)
     for result in cursor.fetchall():
         (node_id, names) = result
-        key = (node_id, umls_source_name)
+        key = (umls_source_name, node_id)
         cui_source_info[key] = dict()
         cui_source_info[key][name_key] = dict()
         for name in names.split('\t'):
@@ -157,7 +157,7 @@ def cui_sources(cursor, output, sources):
     cursor.execute(tuis_sql_statement)
     for result in cursor.fetchall():
         (node_id, tuis) = result
-        key = (node_id, umls_source_name)
+        key = (umls_source_name, node_id)
         if key not in cui_source_info:
             # This happens if a node doesn't have an English name. See https://github.com/RTXteam/RTX-KG2/issues/316#issuecomment-1672074392
             continue
@@ -168,7 +168,7 @@ def cui_sources(cursor, output, sources):
     cursor.execute(relations_sql_statement)
     for result in cursor.fetchall():
         (cui1, rel, rela, direction, cui2, source) = result
-        key = (cui1, umls_source_name)
+        key = (umls_source_name, cui1)
         if key not in cui_source_info:
             # See above for explanation
             continue
@@ -187,7 +187,7 @@ def cui_sources(cursor, output, sources):
     cursor.execute(definitions_sql_statement)
     for result in cursor.fetchall():
         (node_id, definition) = result
-        key = (node_id, umls_source_name)
+        key = (umls_source_name, node_id)
         if key not in cui_source_info:
             # See above for explanation
             continue
