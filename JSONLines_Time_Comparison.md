@@ -319,32 +319,24 @@ exit
 - [#321 (Comment)](https://github.com/RTXteam/RTX-KG2/issues/321#issuecomment-1657291102)
 
 ## SMPDB Node De-Duplication
-**Reason:** The `kg2-smpdb-nodes.jsonl` step of `Merge` takes roughly 6 hours. Thus, it is about three times longer than the rest of the `Merge` combined. This is insane. Previously, `kg2-smpdb-nodes.jsonl` was 4.9G large, much of that being duplicates. Since duplicates have to run through the `merge_two_dicts` step, this greatly slows down the import. 
+**Reason:** The `kg2-smpdb-nodes.jsonl` step of `Merge` takes roughly 6 hours. Thus, it is about three times longer than the rest of the `Merge` combined. This is insane. Previously, `kg2-smpdb-nodes.jsonl` was 4.9G large, much of that being duplicates. Since duplicates have to run through the `merge_two_dicts` step, this greatly slows down the import. The `kg2-smpdb-edges.jsonl` file was also very large, at 19G, much of that being duplicates. This makes the output edges file unnecessarily large and adds no new information to KG2.
 
-**Method:** In order to ensure that only unique nodes are added, I made the assumption that duplicate nodes contain the same information regardless of what file they are stored in. This is a substantial assumption that should be verified at a later time. Then, I added a set that tracks the `id`'s of nodes that have already been written to the output. A node is only written to the output if it does not exist in that set. Now, `kg2-smpdb-nodes.jsonl` is only 752M, which is much more manageable. For context, this is about a little less than a third of the size of `kg2-chembl-nodes.jsonl` which performs substantially more efficiently.
+**Method:** In order to ensure that only unique nodes are added, I made the assumption that duplicate nodes contain the same information regardless of what file they are stored in. This is a substantial assumption that should be verified at a later time. Then, I added a set that tracks the `id`'s of nodes that have already been written to the output. A node is only written to the output if it does not exist in that set. Now, `kg2-smpdb-nodes.jsonl` is only 752M, which is much more manageable. For context, this is about a little less than a third of the size of `kg2-chembl-nodes.jsonl`, which performs substantially more efficiently. I relied on similar code to de-duplicate `kg2-smpdb-edges.json`, brining it down to 7.8G.
 
 **Impacted Files:**
 - `smpdb_csv_to_kg_jsonl.py`
 
-**Important Code Notes:** This is done in the broad function `make_kg2_graph`, which handles loading the different source files and calling other functions. This made it very easy to keep track of the nodes that have already been added. However, the nodes (and edges) for each source file are created and stored in memory, regardless of if they are used. If memory issues start arising, this is a good spot to look for optimization. This was simply the easiest to implement and most readable solution I had. However, this entire file has not been edited much since its creaiton and could use cleanup overall. Unfortunately, this ETL was a challenge and it will likely be a lot of work to cleanup. Additionally, based on the volume of duplicate nodes found, I highly suspect there are many duplicate edges as well that we do not want. It would be a useful task to ensure that copies of edges that do not add any new information to the graph are not re-added. The edges file is 16G large, which is insane. For example,
-```
-ubuntu@ip-172-31-50-116:~/kg2-build$ grep "PathWhiz.Compound:1134---biolink:same_as---None---None---None---DRUGBANK:DB04326---PathWhiz:" kg2-smpdb-edges.jsonl | wc -l
-91687
-```
-and
-```
-ubuntu@ip-172-31-50-116:~/kg2-build$ grep "PathWhiz.Compound:1420---biolink:same_as---None---None---None---KEGG.COMPOUND:C00001---PathWhiz:" kg2-smpdb-edges.jsonl | wc -l
-104482
-```
-This likely occurs across many different edges. However, it seems particularly unnecessary to have so many of these duplicates with the `biolink:same_as` edges in general.
+**Important Code Notes:** This is done in the broad function `make_kg2_graph`, which handles loading the different source files and calling other functions. This made it very easy to keep track of the nodes and edge that had already been added. However, the nodes and edges for each source file are created and stored in memory, regardless of if they are used. If memory issues start arising, this is a good spot to look for optimization. This was simply the easiest to implement and most readable solution I had. However, this entire file has not been edited much since its creaiton and could use cleanup overall. Unfortunately, this ETL was a challenge and it will likely be a lot of work to cleanup.
 
 **Important Considerations for Maintainers:** See code notes
 
 **Relevant Commits:**
 - [`5dd41d5`](https://github.com/RTXteam/RTX-KG2/commit/5dd41d55afee28ed12050e4d380b6931073a5e57)
+- [`5c5c710`](https://github.com/RTXteam/RTX-KG2/commit/5c5c7103531e495c0e56cb8c2873d619732c874c)
 
 **Relevant Issue Comments:**
 - [#337 (Comment)](https://github.com/RTXteam/RTX-KG2/issues/337#issue-1827870679): This comment introduces the issue and provides an example for testing purposes.
+- [#337 (Comment)](https://github.com/RTXteam/RTX-KG2/issues/337#issuecomment-1670104747): This comment describes the issue with the edges.
 
 # Looking Forward
 
