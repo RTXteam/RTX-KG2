@@ -50,6 +50,14 @@ def make_node_id(curie_prefix, node_id):
     return curie_prefix + ':' + node_id
 
 
+def create_description(tuis):
+    description = str()
+    for tui in tuis:
+        description += "; UMLS Semantic Type: STY:" + tui
+    description = description.strip("; ")
+    return description    
+
+
 def process_atc_item(node_id, info, tui_mappings, iri_mappings, nodes_output, edges_output):
     curie_prefix = kg2_util.CURIE_PREFIX_ATC
     provided_by = make_node_id(UMLS_SOURCE_PREFIX, curie_prefix)
@@ -103,11 +111,7 @@ def process_atc_item(node_id, info, tui_mappings, iri_mappings, nodes_output, ed
             name = name[0]
     node = kg2_util.make_node(node_curie, iri, name, tui_mappings[str(tuple(tuis))], "2023", provided_by)
     node['synonym'] = synonyms
-    description = str()
-    for tui in tuis:
-        description += "; UMLS Semantic Type: STY:" + tui
-    description.strip("; ")
-    node['description'] = description
+    node['description'] = create_description(tuis)
 
     nodes_output.write(node)
 
@@ -149,11 +153,7 @@ def process_chv_item(node_id, info, tui_mappings, iri_mappings, nodes_output, ed
 
     node = kg2_util.make_node(node_curie, iri, name, tui_mappings[str(tuple(tuis))], "2023", provided_by)
     node['synonym'] = synonyms
-    description = str()
-    for tui in tuis:
-        description += "; UMLS Semantic Type: STY:" + tui
-    description.strip("; ")
-    node['description'] = description
+    node['description'] = create_description(tuis)
 
     nodes_output.write(node)
 
@@ -184,11 +184,7 @@ def process_drugbank_item(node_id, info, tui_mappings, iri_mappings, nodes_outpu
     # TODO: figure out update date
     node = kg2_util.make_node(node_curie, iri, name, tui_mappings[str(tuple(tuis))], "2023", provided_by)
     node['synonym'] = synonyms
-    description = str()
-    for tui in tuis:
-        description += "; UMLS Semantic Type: STY:" + tui
-    description.strip("; ")
-    node['description'] = description
+    node['description'] = create_description(tuis)
     
     nodes_output.write(node)
 
@@ -228,11 +224,7 @@ def process_fma_item(node_id, info, tui_mappings, iri_mappings, nodes_output, ed
 
     node = kg2_util.make_node(node_curie, iri, name, tui_mappings[str(tuple(tuis))], "2023", provided_by)
     node['synonym'] = synonyms
-    description = str()
-    for tui in tuis:
-        description += "; UMLS Semantic Type: STY:" + tui
-    description.strip("; ")
-    node['description'] = description
+    node['description'] = create_description(tuis)
 
     nodes_output.write(node)
 
