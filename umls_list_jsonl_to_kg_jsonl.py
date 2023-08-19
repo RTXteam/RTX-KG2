@@ -39,6 +39,7 @@ GO_PREFIX = kg2_util.CURIE_PREFIX_GO
 HCPCS_PREFIX = kg2_util.CURIE_PREFIX_HCPCS
 HGNC_PREFIX = kg2_util.CURIE_PREFIX_HGNC
 HL7_PREFIX = kg2_util.CURIE_PREFIX_UMLS
+HPO_PREFIX = kg2_util.CURIE_PREFIX_HP
 
 UMLS_SOURCE_PREFIX = kg2_util.CURIE_PREFIX_UMLS_SOURCE
 
@@ -107,12 +108,12 @@ def get_basic_info(curie_prefix, node_id, info, accession_heirarchy):
     provided_by = make_node_id(UMLS_SOURCE_PREFIX, curie_prefix)
     cuis = info.get(CUIS_KEY, list())
     tuis = info.get(TUIS_KEY, list())
-    iri = IRI_MAPPINGS[curie_prefix] + node_id
-    if curie_prefix == kg2_util.UMLS_SOURCE_PREFIX:
+    if curie_prefix == kg2_util.CURIE_PREFIX_UMLS:
         if len(cuis) != 1:
             return None, None, None, None, None, None, None, None
         node_id = cuis[0]
     node_curie = make_node_id(curie_prefix, node_id)
+    iri = IRI_MAPPINGS[curie_prefix] + node_id
     category = TUI_MAPPINGS[str(tuple(tuis))]
 
     names = info.get(NAMES_KEY, dict())
@@ -267,6 +268,7 @@ def process_hl7_item(node_id, info, nodes_output, edges_output):
     provided_by = make_node_id(UMLS_SOURCE_PREFIX, 'HL7')
 
     # Currently not used, but extracting them in case we want them in the future - descriptions from https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/attribute_names.html
+    attributes = info.get(INFO_KEY, dict())
     hl7at = attributes.get('HL7AT', list())
     hl7ii = attributes.get('HL7II', list())
     hl7im = attributes.get('HL7IM', list())
@@ -302,6 +304,21 @@ def process_hl7_item(node_id, info, nodes_output, edges_output):
     hl7tr = attributes.get('HL7TR', list())
     hl7di = attributes.get('HL7DI', list())
     hl7cs = attributes.get('HL7CS', list())
+
+    make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
+
+
+def process_hpo_item(node_id, info, nodes_output, edges_output):
+    accession_heirarchy = ['PT', 'SY', 'ET', 'OP', 'IS', 'OET'] # https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/precedence_suppressibility.html
+    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(HPO_PREFIX, node_id, info, accession_heirarchy)
+
+    # Currently not used, but extracting them in case we want them in the future
+    attributes = info.get(INFO_KEY, dict())
+    sid = attributes.get('SID', list())
+    hpo_comment = attributes.get('HPO_COMMENT', list())
+    date_created = attributes.get('DATE_CREATED', list())
+    syn_qualifier = attributes.get('SYN_QUALIFIER', list())
+    ref = attributes.get('REF', list())
 
     make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
 
@@ -368,6 +385,9 @@ if __name__ == '__main__':
                 process_hl7_item(node_id, value, nodes_output, edges_output)
 
             if source == 'HPO':
+                process_hpo_item(node_id, value, nodes_output, edges_output)
+
+            if source == 'ICD10PCS':
                 name_keys.add(get_name_keys(value.get(NAMES_KEY, dict())))
                 attribute_keys.update(get_attribute_keys(value.get(INFO_KEY, dict())))
 
