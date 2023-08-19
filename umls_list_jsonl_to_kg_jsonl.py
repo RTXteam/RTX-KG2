@@ -42,6 +42,7 @@ HL7_PREFIX = kg2_util.CURIE_PREFIX_UMLS
 HPO_PREFIX = kg2_util.CURIE_PREFIX_HP
 ICD10PCS_PREFIX = kg2_util.CURIE_PREFIX_ICD10PCS
 ICD9CM_PREFIX = kg2_util.CURIE_PREFIX_ICD9
+MEDRT_PREFIX = kg2_util.CURIE_PREFIX_UMLS
 
 UMLS_SOURCE_PREFIX = kg2_util.CURIE_PREFIX_UMLS_SOURCE
 
@@ -353,6 +354,19 @@ def process_icd9cm_item(node_id, info, nodes_output, edges_output):
 
     make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
 
+def process_medrt_item(node_id, info, nodes_output, edges_output):
+    accession_heirarchy = ['PT', 'FN', 'SY'] # https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/precedence_suppressibility.html
+    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(MEDRT_PREFIX, node_id, info, accession_heirarchy)
+    if node_curie == None:
+        return
+    provided_by = make_node_id(UMLS_SOURCE_PREFIX, 'MED-RT')
+
+    # Currently not used, but extracting them in case we want them in the future
+    attributes = info.get(INFO_KEY, dict())
+    term_status = attributes.get('TERM_STATUS', list())
+    concept_type = attributes.get('CONCEPT_TYPE', list())
+
+    make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
 
 if __name__ == '__main__':
     print("Starting umls_list_jsonl_to_kg_jsonl.py at", kg2_util.date())
@@ -425,6 +439,9 @@ if __name__ == '__main__':
                 process_icd9cm_item(node_id, value, nodes_output, edges_output)
 
             if source == 'MED-RT':
+                process_medrt_item(node_id, value, nodes_output, edges_output)
+
+            if source == 'MEDLINEPLUS'
                 name_keys.add(get_name_keys(value.get(NAMES_KEY, dict())))
                 attribute_keys.update(get_attribute_keys(value.get(INFO_KEY, dict())))
 
