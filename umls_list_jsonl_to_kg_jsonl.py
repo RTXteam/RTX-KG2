@@ -20,7 +20,7 @@ import json
 
 
 DESIRED_CODES = ['ATC', 'CHV', 'DRUGBANK', 'FMA', 'GO', 'HCPCS', 'HGNC', 'HL7V3.0',
-                 'HL7', 'HPO', 'ICD10PCS', 'ICD9CM', 'MED-RT', 'MEDLINEPLUS', 'MSH',
+                 'HPO', 'ICD10PCS', 'ICD9CM', 'MED-RT', 'MEDLINEPLUS', 'MSH',
                  'MTH', 'NCBI', 'NCBITAXON', 'NCI', 'NDDF', 'NDFRT', 'OMIM', 'PDQ',
                  'PSY', 'RXNORM', 'VANDF']
 CUIS_KEY = 'cuis'
@@ -38,6 +38,7 @@ FMA_PREFIX = kg2_util.CURIE_PREFIX_FMA
 GO_PREFIX = kg2_util.CURIE_PREFIX_GO
 HCPCS_PREFIX = kg2_util.CURIE_PREFIX_HCPCS
 HGNC_PREFIX = kg2_util.CURIE_PREFIX_HGNC
+HL7_PREFIX = kg2_util.CURIE_PREFIX_HL7
 
 UMLS_SOURCE_PREFIX = kg2_util.CURIE_PREFIX_UMLS_SOURCE
 
@@ -162,7 +163,7 @@ def process_fma_item(node_id, info, nodes_output, edges_output):
 
 
 def process_go_item(node_id, info, nodes_output, edges_output):
-    accession_heirarchy = ['PT', 'MTH_PT', 'SY', 'MTH_SY', 'ET', 'MTH_ET']
+    accession_heirarchy = ['PT', 'MTH_PT', 'ET', 'MTH_ET', 'SY', 'MTH_SY']
     node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(GO_PREFIX, node_id.replace('GO:', ''), info, accession_heirarchy)
 
     # GO-specific information
@@ -216,7 +217,7 @@ def process_hcpcs_item(node_id, info, nodes_output, edges_output):
 
 
 def process_hgnc_item(node_id, info, nodes_output, edges_output):
-    accession_heirarchy = ['PT', 'ACR', 'MTH_ACR', 'NA', 'NP', 'NS', 'SYN']
+    accession_heirarchy = ['PT', 'ACR', 'MTH_ACR', 'NA', 'SYN', 'NP', 'NS']
     node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(HGNC_PREFIX, node_id.replace('HGNC:', ''), info, accession_heirarchy)
 
     # Currently not used, but extracting them in case we want them in the future - descriptions from https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/attribute_names.html
@@ -250,6 +251,49 @@ def process_hgnc_item(node_id, info, nodes_output, edges_output):
     ccds_id = attributes.get('CCDS_ID', list())
     lncipedia = attributes.get('LNCIPEDIA', list())
     gene_fam_desc = attributes.get('GENE_FAM_DESC', list())
+
+    make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
+
+
+def process_hl7_item(node_id, info, nodes_output, edges_output):
+    accession_heirarchy = ['CSY', 'PT', 'CDO', 'VS', 'BR', 'CPR', 'CR', 'NPT'] # https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/precedence_suppressibility.html
+    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(HL7_PREFIX, node_id, info, accession_heirarchy)
+
+    hl7at = attributes.get('HL7AT', list())
+    hl7ii = attributes.get('HL7II', list())
+    hl7im = attributes.get('HL7IM', list())
+    hl7lt = attributes.get('HL7LT', list())
+    hl7un = attributes.get('HL7UN', list())
+    hl7oa = attributes.get('HL7OA', list())
+    hl7scs = attributes.get('HL7SCS', list())
+    hl7cc = attributes.get('HL7CC', list())
+    hl7na = attributes.get('HL7NA', list())
+    hl7in = attributes.get('HL7IN', list())
+    hl7ap = attributes.get('HL7AP', list())
+    hl7mi = attributes.get('HL7MI', list())
+    hl7hi = attributes.get('HL7HI', list())
+    hl7ir = attributes.get('HL7IR', list())
+    hl7ai = attributes.get('HL7AI', list())
+    hl7ha = attributes.get('HL7HA', list())
+    hl7rf = attributes.get('HL7RF', list())
+    hl7rd = attributes.get('HL7RD', list())
+    hl7vd = attributes.get('HL7VD', list())
+    hl7dc = attributes.get('HL7DC', list())
+    hl7rk = attributes.get('HL7RK', list())
+    hl7is = attributes.get('HL7IS', list())
+    hl7sy = attributes.get('HL7SY', list())
+    hl7cd = attributes.get('HL7CD', list())
+    hl7sl = attributes.get('HL7SL', list())
+    hl7pl = attributes.get('HL7PL', list())
+    hl7vc = attributes.get('HL7VC', list())
+    hl7ty = attributes.get('HL7TY', list())
+    hl7rg = attributes.get('HL7RG', list())
+    hl7csc = attributes.get('HL7CSC', list())
+    hl7od = attributes.get('HL7OD', list())
+    hl7id = attributes.get('HL7ID', list())
+    hl7tr = attributes.get('HL7TR', list())
+    hl7di = attributes.get('HL7DI', list())
+    hl7cs = attributes.get('HL7CS', list())
 
     make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
 
@@ -312,7 +356,15 @@ if __name__ == '__main__':
             if source == 'HGNC':
                 process_hgnc_item(node_id, value, nodes_output, edges_output)
 
+            if source == 'HL7V3.0':
+                process_hl7_item(node_id, value, nodes_output, edges_output)
+
+            if source == 'HPO':
+                name_keys.add(get_name_keys(value.get(NAMES_KEY, dict())))
+                attribute_keys.update(get_attribute_keys(value.get(INFO_KEY, dict())))
+
     kg2_util.end_read_jsonlines(input_read_jsonlines_info)
     kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
-    # print(json.dumps(attribute_keys, indent=4, sort_keys=True, default=list))
+    print(json.dumps(name_keys, indent=4, sort_keys=True, default=list))
+    print(json.dumps(attribute_keys, indent=4, sort_keys=True, default=list))
     print("Finishing umls_list_jsonl_to_kg_jsonl.py at", kg2_util.date())
