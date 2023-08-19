@@ -441,7 +441,7 @@ if __name__ == '__main__':
             if source == 'MED-RT':
                 process_medrt_item(node_id, value, nodes_output, edges_output)
 
-            if source == 'MEDLINEPLUS'
+            if source == 'MEDLINEPLUS':
                 name_keys.add(get_name_keys(value.get(NAMES_KEY, dict())))
                 attribute_keys.update(get_attribute_keys(value.get(INFO_KEY, dict())))
 
