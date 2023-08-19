@@ -153,7 +153,7 @@ def process_drugbank_item(node_id, info, nodes_output, edges_output):
 
 
 def process_fma_item(node_id, info, nodes_output, edges_output):
-    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(FMA_PREFIX, node_id, info, ['PT', 'SY'])
+    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(FMA_PREFIX, node_id, info, ['PT', 'SY', 'AB', 'OP', 'IS'])
 
     # Currently not used, but extracting them in case we want them in the future
     authority = info.get(INFO_KEY, dict()).get('AUTHORITY', list())
@@ -163,7 +163,7 @@ def process_fma_item(node_id, info, nodes_output, edges_output):
 
 
 def process_go_item(node_id, info, nodes_output, edges_output):
-    accession_heirarchy = ['PT', 'MTH_PT', 'ET', 'MTH_ET', 'SY', 'MTH_SY']
+    accession_heirarchy = ['PT', 'MTH_PT', 'ET', 'MTH_ET', 'SY', 'MTH_SY', 'OP', 'MTH_OP', 'OET', 'MTH_OET', 'IS', 'MTH_IS']
     node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(GO_PREFIX, node_id.replace('GO:', ''), info, accession_heirarchy)
 
     # GO-specific information
@@ -191,7 +191,7 @@ def process_go_item(node_id, info, nodes_output, edges_output):
 
 
 def process_hcpcs_item(node_id, info, nodes_output, edges_output):
-    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(HCPCS_PREFIX, node_id, info, ['PT', 'MTH_HT', 'MP'])
+    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(HCPCS_PREFIX, node_id, info, ['PT', 'MP', 'MTH_HT'])
 
     # Currently not used, but extracting them in case we want them in the future - descriptions from https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/attribute_names.html
     attributes = info.get(INFO_KEY, dict())
