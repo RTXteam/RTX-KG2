@@ -38,7 +38,7 @@ FMA_PREFIX = kg2_util.CURIE_PREFIX_FMA
 GO_PREFIX = kg2_util.CURIE_PREFIX_GO
 HCPCS_PREFIX = kg2_util.CURIE_PREFIX_HCPCS
 HGNC_PREFIX = kg2_util.CURIE_PREFIX_HGNC
-HL7_PREFIX = kg2_util.CURIE_PREFIX_HL7
+HL7_PREFIX = kg2_util.CURIE_PREFIX_UMLS
 
 UMLS_SOURCE_PREFIX = kg2_util.CURIE_PREFIX_UMLS_SOURCE
 
@@ -105,10 +105,14 @@ def make_umls_node(node_curie, iri, name, category, update_date, provided_by, sy
 
 def get_basic_info(curie_prefix, node_id, info, accession_heirarchy):
     provided_by = make_node_id(UMLS_SOURCE_PREFIX, curie_prefix)
-    iri = IRI_MAPPINGS[curie_prefix] + node_id
-    node_curie = make_node_id(curie_prefix, node_id)
     cuis = info.get(CUIS_KEY, list())
     tuis = info.get(TUIS_KEY, list())
+    iri = IRI_MAPPINGS[curie_prefix] + node_id
+    if curie_prefix == kg2_util.UMLS_SOURCE_PREFIX:
+        if len(cuis) != 1:
+            return None, None, None, None, None, None, None, None
+        node_id = cuis[0]
+    node_curie = make_node_id(curie_prefix, node_id)
     category = TUI_MAPPINGS[str(tuple(tuis))]
 
     names = info.get(NAMES_KEY, dict())
@@ -258,7 +262,11 @@ def process_hgnc_item(node_id, info, nodes_output, edges_output):
 def process_hl7_item(node_id, info, nodes_output, edges_output):
     accession_heirarchy = ['CSY', 'PT', 'CDO', 'VS', 'BR', 'CPR', 'CR', 'NPT'] # https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/precedence_suppressibility.html
     node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(HL7_PREFIX, node_id, info, accession_heirarchy)
+    if node_curie == None:
+        return
+    provided_by = make_node_id(UMLS_SOURCE_PREFIX, 'HL7')
 
+    # Currently not used, but extracting them in case we want them in the future - descriptions from https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/attribute_names.html
     hl7at = attributes.get('HL7AT', list())
     hl7ii = attributes.get('HL7II', list())
     hl7im = attributes.get('HL7IM', list())
