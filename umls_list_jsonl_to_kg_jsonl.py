@@ -40,6 +40,8 @@ HCPCS_PREFIX = kg2_util.CURIE_PREFIX_HCPCS
 HGNC_PREFIX = kg2_util.CURIE_PREFIX_HGNC
 HL7_PREFIX = kg2_util.CURIE_PREFIX_UMLS
 HPO_PREFIX = kg2_util.CURIE_PREFIX_HP
+ICD10PCS_PREFIX = kg2_util.CURIE_PREFIX_ICD10PCS
+ICD9CM = kg2_util.CURIE_PREFIX_ICD9
 
 UMLS_SOURCE_PREFIX = kg2_util.CURIE_PREFIX_UMLS_SOURCE
 
@@ -310,7 +312,7 @@ def process_hl7_item(node_id, info, nodes_output, edges_output):
 
 def process_hpo_item(node_id, info, nodes_output, edges_output):
     accession_heirarchy = ['PT', 'SY', 'ET', 'OP', 'IS', 'OET'] # https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/precedence_suppressibility.html
-    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(HPO_PREFIX, node_id, info, accession_heirarchy)
+    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(HPO_PREFIX, node_id.replace('HP:', ''), info, accession_heirarchy)
 
     # Currently not used, but extracting them in case we want them in the future
     attributes = info.get(INFO_KEY, dict())
@@ -322,6 +324,18 @@ def process_hpo_item(node_id, info, nodes_output, edges_output):
 
     make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
 
+
+def process_icd10_item(node_id, info, nodes_output, edges_output):
+    accession_heirarchy = ['PT', 'PX', 'HX', 'MTH_HX', 'HT', 'HS', 'AB'] # https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/precedence_suppressibility.html
+    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(ICD10PCS_PREFIX, node_id, info, accession_heirarchy)
+    provided_by = make_node_id(UMLS_SOURCE_PREFIX, 'ICD10PCS')
+
+    # Currently not used, but extracting them in case we want them in the future
+    attributes = info.get(INFO_KEY, dict())
+    added_meaning = attributes.get('ADDED_MEANING', list())
+    order_no = attributes.get('ORDER_NO', list())
+
+    make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
 
 if __name__ == '__main__':
     print("Starting umls_list_jsonl_to_kg_jsonl.py at", kg2_util.date())
