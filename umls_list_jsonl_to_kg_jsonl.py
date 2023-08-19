@@ -41,7 +41,7 @@ HGNC_PREFIX = kg2_util.CURIE_PREFIX_HGNC
 HL7_PREFIX = kg2_util.CURIE_PREFIX_UMLS
 HPO_PREFIX = kg2_util.CURIE_PREFIX_HP
 ICD10PCS_PREFIX = kg2_util.CURIE_PREFIX_ICD10PCS
-ICD9CM = kg2_util.CURIE_PREFIX_ICD9
+ICD9CM_PREFIX = kg2_util.CURIE_PREFIX_ICD9
 
 UMLS_SOURCE_PREFIX = kg2_util.CURIE_PREFIX_UMLS_SOURCE
 
@@ -325,10 +325,9 @@ def process_hpo_item(node_id, info, nodes_output, edges_output):
     make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
 
 
-def process_icd10_item(node_id, info, nodes_output, edges_output):
+def process_icd10pcs_item(node_id, info, nodes_output, edges_output):
     accession_heirarchy = ['PT', 'PX', 'HX', 'MTH_HX', 'HT', 'HS', 'AB'] # https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/precedence_suppressibility.html
     node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(ICD10PCS_PREFIX, node_id, info, accession_heirarchy)
-    provided_by = make_node_id(UMLS_SOURCE_PREFIX, 'ICD10PCS')
 
     # Currently not used, but extracting them in case we want them in the future
     attributes = info.get(INFO_KEY, dict())
@@ -336,6 +335,24 @@ def process_icd10_item(node_id, info, nodes_output, edges_output):
     order_no = attributes.get('ORDER_NO', list())
 
     make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
+
+
+def process_icd9cm_item(node_id, info, nodes_output, edges_output):
+    accession_heirarchy = ['PT', 'HT', 'AB'] # https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/precedence_suppressibility.html
+    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(ICD9CM_PREFIX, node_id, info, accession_heirarchy)
+    provided_by = make_node_id(UMLS_SOURCE_PREFIX, 'ICD9CM')
+
+    # Currently not used, but extracting them in case we want them in the future
+    attributes = info.get(INFO_KEY, dict())
+    icc = attributes.get('ICC', list())
+    ice = attributes.get('ICE', list())
+    icf = attributes.get('ICF', list())
+    sos = attributes.get('SOS', list())
+    icn = attributes.get('ICN', list())
+    ica = attributes.get('ICA', list())
+
+    make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
+
 
 if __name__ == '__main__':
     print("Starting umls_list_jsonl_to_kg_jsonl.py at", kg2_util.date())
@@ -402,6 +419,12 @@ if __name__ == '__main__':
                 process_hpo_item(node_id, value, nodes_output, edges_output)
 
             if source == 'ICD10PCS':
+                process_icd10pcs_item(node_id, value, nodes_output, edges_output)
+
+            if source == 'ICD9CM':
+                process_icd9cm_item(node_id, value, nodes_output, edges_output)
+
+            if source == 'MED-RT':
                 name_keys.add(get_name_keys(value.get(NAMES_KEY, dict())))
                 attribute_keys.update(get_attribute_keys(value.get(INFO_KEY, dict())))
 
