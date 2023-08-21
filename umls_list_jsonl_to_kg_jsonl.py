@@ -48,6 +48,7 @@ NCI_PREFIX = kg2_util.CURIE_PREFIX_NCIT
 NDDF_PREFIX = kg2_util.CURIE_PREFIX_NDDF
 OMIM_PREFIX = kg2_util.CURIE_PREFIX_OMIM
 PDQ_PREFIX = kg2_util.CURIE_PREFIX_PDQ
+PSY_PREFIX = kg2_util.CURIE_PREFIX_PSY
 
 UMLS_SOURCE_PREFIX = kg2_util.CURIE_PREFIX_UMLS_SOURCE
 
@@ -577,6 +578,18 @@ def process_pdq_item(node_id, info, nodes_output, edges_output):
     make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
 
 
+def process_psy_item(node_id, info, nodes_output, edges_output):
+    accession_heirarchy = ['PT', 'HT', 'ET'] # https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/precedence_suppressibility.html
+    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(PSY_PREFIX, node_id, info, accession_heirarchy)
+
+    # Currently not used, but extracting them in case we want them in the future
+    attributes = info.get(INFO_KEY, dict())
+    hn = attributes.get('HN', list())
+    pyr = attributes.get('PYR', list())
+
+    make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
+
+
 DESIRED_CODES = {'ATC': process_atc_item,
                  'CHV': process_chv_item,
                  'DRUGBANK': process_drugbank_item,
@@ -596,8 +609,8 @@ DESIRED_CODES = {'ATC': process_atc_item,
                  'NCI': process_nci_item,
                  'NDDF': process_nddf_item,
                  'OMIM': process_omim_item,
-                 'PDQ': process_pdq_item}
-                 # 'PSY': process_psy_item,
+                 'PDQ': process_pdq_item,
+                 'PSY': process_psy_item}
                  # 'RXNORM': process_rxnorm_item,
                  # 'VANDF': process_vandf_item}
 
@@ -635,7 +648,7 @@ if __name__ == '__main__':
             value = data[entity]
             source, node_id = extract_node_id(entity)
 
-            if source == 'PSY':
+            if source == 'RXNORM':
                 name_keys.add(get_name_keys(value.get(NAMES_KEY, dict())))
                 attribute_keys.update(get_attribute_keys(value.get(INFO_KEY, dict())))
 
