@@ -19,10 +19,7 @@ import kg2_util
 import json
 
 
-DESIRED_CODES = ['ATC', 'CHV', 'DRUGBANK', 'FMA', 'GO', 'HCPCS', 'HGNC', 'HL7V3.0',
-                 'HPO', 'ICD10PCS', 'ICD9CM', 'MED-RT', 'MEDLINEPLUS', 'MSH',
-                 'MTH', 'NCBI', 'NCBITAXON', 'NCI', 'NDDF', 'NDFRT', 'OMIM', 'PDQ',
-                 'PSY', 'RXNORM', 'VANDF']
+
 CUIS_KEY = 'cuis'
 INFO_KEY = 'attributes'
 NAMES_KEY = 'names'
@@ -429,6 +426,21 @@ def process_msh_item(node_id, info, nodes_output, edges_output):
     make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
 
 
+DESIRED_CODES = {'ATC': process_atc_item,
+                 'CHV': process_chv_item,
+                 'DRUGBANK': process_drugbank_item,
+                 'FMA': process_fma_item,
+                 'GO': process_go_item,
+                 'HCPCS': process_hcpcs_item,
+                 'HGNC': process_hgnc_item,
+                 'HL7V3.0': process_hl7_item,
+                 'HPO': process_hpo_item,
+                 'ICD10PCS': process_icd10pcs_item,
+                 'ICD9CM': process_icd9cm_item}
+                 # , 'MED-RT', 'MEDLINEPLUS', 'MSH',
+                 # 'MTH', 'NCBI', 'NCBITAXON', 'NCI', 'NDDF', 'NDFRT', 'OMIM', 'PDQ',
+                 # 'PSY', 'RXNORM', 'VANDF'}
+
 if __name__ == '__main__':
     print("Starting umls_list_jsonl_to_kg_jsonl.py at", kg2_util.date())
     args = get_args()
@@ -462,55 +474,56 @@ if __name__ == '__main__':
                 continue
             value = data[entity]
             source, node_id = extract_node_id(entity)
-            if source not in DESIRED_CODES and source != 'UMLS':
+            if source not in DESIRED_CODES:
                 continue
 
             # Process the data specifically by source
-            if source == 'ATC':
-                process_atc_item(node_id, value, nodes_output, edges_output)
+            DESIRED_CODES[source](node_id, value, nodes_output, edges_output)
+            # if source == 'ATC':
+            #     process_atc_item(node_id, value, nodes_output, edges_output)
 
-            if source == 'CHV':
-                process_chv_item(node_id, value, nodes_output, edges_output)
+            # if source == 'CHV':
+            #     process_chv_item(node_id, value, nodes_output, edges_output)
 
-            if source == 'DRUGBANK':
-                process_drugbank_item(node_id, value, nodes_output, edges_output)
+            # if source == 'DRUGBANK':
+            #     process_drugbank_item(node_id, value, nodes_output, edges_output)
 
-            if source == 'FMA':
-                process_fma_item(node_id, value, nodes_output, edges_output)
+            # if source == 'FMA':
+            #     process_fma_item(node_id, value, nodes_output, edges_output)
 
-            if source == 'GO':
-                process_go_item(node_id, value, nodes_output, edges_output)
+            # if source == 'GO':
+            #     process_go_item(node_id, value, nodes_output, edges_output)
 
-            if source == 'HCPCS':
-                process_hcpcs_item(node_id, value, nodes_output, edges_output)
+            # if source == 'HCPCS':
+            #     process_hcpcs_item(node_id, value, nodes_output, edges_output)
 
-            if source == 'HGNC':
-                process_hgnc_item(node_id, value, nodes_output, edges_output)
+            # if source == 'HGNC':
+            #     process_hgnc_item(node_id, value, nodes_output, edges_output)
 
-            if source == 'HL7V3.0':
-                process_hl7_item(node_id, value, nodes_output, edges_output)
+            # if source == 'HL7V3.0':
+            #     process_hl7_item(node_id, value, nodes_output, edges_output)
 
-            if source == 'HPO':
-                process_hpo_item(node_id, value, nodes_output, edges_output)
+            # if source == 'HPO':
+            #     process_hpo_item(node_id, value, nodes_output, edges_output)
 
-            if source == 'ICD10PCS':
-                process_icd10pcs_item(node_id, value, nodes_output, edges_output)
+            # if source == 'ICD10PCS':
+            #     process_icd10pcs_item(node_id, value, nodes_output, edges_output)
 
-            if source == 'ICD9CM':
-                process_icd9cm_item(node_id, value, nodes_output, edges_output)
+            # if source == 'ICD9CM':
+            #     process_icd9cm_item(node_id, value, nodes_output, edges_output)
 
-            if source == 'MED-RT':
-                process_medrt_item(node_id, value, nodes_output, edges_output)
+            # if source == 'MED-RT':
+            #     process_medrt_item(node_id, value, nodes_output, edges_output)
 
-            if source == 'MEDLINEPLUS':
-                process_medlineplus_item(node_id, value, nodes_output, edges_output)
+            # if source == 'MEDLINEPLUS':
+            #     process_medlineplus_item(node_id, value, nodes_output, edges_output)
 
-            if source == 'MSH':
-                process_msh_item(node_id, value, nodes_output, edges_output)
+            # if source == 'MSH':
+            #     process_msh_item(node_id, value, nodes_output, edges_output)
 
-            if source == 'MTH':
-                name_keys.add(get_name_keys(value.get(NAMES_KEY, dict())))
-                attribute_keys.update(get_attribute_keys(value.get(INFO_KEY, dict())))
+            # if source == 'MTH':
+            #     name_keys.add(get_name_keys(value.get(NAMES_KEY, dict())))
+            #     attribute_keys.update(get_attribute_keys(value.get(INFO_KEY, dict())))
 
     kg2_util.end_read_jsonlines(input_read_jsonlines_info)
     kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
