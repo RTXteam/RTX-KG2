@@ -41,7 +41,9 @@ ICD10PCS_PREFIX = kg2_util.CURIE_PREFIX_ICD10PCS
 ICD9CM_PREFIX = kg2_util.CURIE_PREFIX_ICD9
 MEDRT_PREFIX = kg2_util.CURIE_PREFIX_UMLS
 MEDLINEPLUS_PREFIX = kg2_util.CURIE_PREFIX_UMLS
-MSH_PREFIX = kg2_util.CURIE_PREFIX_UMLS
+MSH_PREFIX = kg2_util.CURIE_PREFIX_MESH
+MTH_PREFIX = kg2_util.CURIE_PREFIX_UMLS
+NCBI_PREFIX = kg2_util.CURIE_PREFIX_NCBI_TAXON
 
 UMLS_SOURCE_PREFIX = kg2_util.CURIE_PREFIX_UMLS_SOURCE
 
@@ -389,8 +391,6 @@ def process_medlineplus_item(node_id, info, nodes_output, edges_output):
 def process_msh_item(node_id, info, nodes_output, edges_output):
     accession_heirarchy = ['MH', 'TQ', 'PEP', 'ET', 'XQ', 'PXQ', 'NM', 'N1', 'PCE', 'CE', 'HT', 'HS', 'DEV', 'DSV', 'QAB', 'QEV', 'QSV', 'PM'] # https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/precedence_suppressibility.html
     node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(MSH_PREFIX, node_id, info, accession_heirarchy)
-    if node_curie == None:
-        return
     provided_by = make_node_id(UMLS_SOURCE_PREFIX, 'MSH')
 
     # Currently not used, but extracting them in case we want them in the future
@@ -426,6 +426,48 @@ def process_msh_item(node_id, info, nodes_output, edges_output):
     make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
 
 
+def process_mth_item(node_id, info, nodes_output, edges_output):
+    accession_heirarchy = ['PN', 'CV', 'XM', 'PT', 'SY', 'RT', 'DT'] # https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/precedence_suppressibility.html
+    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(MTH_PREFIX, node_id, info, accession_heirarchy)
+    if node_curie == None:
+        return
+    provided_by = make_node_id(UMLS_SOURCE_PREFIX, 'MTH')
+
+    # Currently not used, but extracting them in case we want them in the future
+    attributes = info.get(INFO_KEY, dict())
+    mth_mapsetcomplexity = attributes.get('MTH_MAPSETCOMPLEXITY', list())
+    fromvsab = attributes.get('FROMVSAB', list())
+    mapsetrsab = attributes.get('MAPSETRSAB', list())
+    mapsetversion = attributes.get('MAPSETVERSION', list())
+    mapsetvsab = attributes.get('MAPSETVSAB', list())
+    tovsab = attributes.get('TOVSAB', list())
+    mth_mapfromexhaustive = attributes.get('MTH_MAPFROMEXHAUSTIVE', list())
+    torsab = attributes.get('TORSAB', list())
+    mapsetsid = attributes.get('MAPSETSID', list())
+    mapsetgrammar = attributes.get('MAPSETGRAMMAR', list())
+    mapsettype = attributes.get('MAPSETTYPE', list())
+    mth_maptoexhaustive = attributes.get('MTH_MAPTOEXHAUSTIVE', list())
+    fromrsab = attributes.get('FROMRSAB', list())
+    mth_mapfromcomplexity = attributes.get('MTH_MAPFROMCOMPLEXITY', list())
+    lt = attributes.get('LT', list())
+    mth_maptocomplexity = attributes.get('MTH_MAPTOCOMPLEXITY', list())
+    sos = attributes.get('SOS', list())
+
+    make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
+
+
+def process_ncbi_item(node_id, info, nodes_output, edges_output):
+    accession_heirarchy = ['SCN', 'USN', 'USY', 'SY', 'UCN', 'CMN', 'UE', 'EQ'] # https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/precedence_suppressibility.html
+    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(NCBI_PREFIX, node_id, info, accession_heirarchy)
+    # Currently not used, but extracting them in case we want them in the future
+    attributes = info.get(INFO_KEY, dict())
+    div = attributes.get('DIV', list())
+    authority_name = attributes.get('AUTHORITY_NAME', list())
+    rank = attributes.get('RANK', list())
+
+    make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
+
+
 DESIRED_CODES = {'ATC': process_atc_item,
                  'CHV': process_chv_item,
                  'DRUGBANK': process_drugbank_item,
@@ -436,10 +478,20 @@ DESIRED_CODES = {'ATC': process_atc_item,
                  'HL7V3.0': process_hl7_item,
                  'HPO': process_hpo_item,
                  'ICD10PCS': process_icd10pcs_item,
-                 'ICD9CM': process_icd9cm_item}
-                 # , 'MED-RT', 'MEDLINEPLUS', 'MSH',
-                 # 'MTH', 'NCBI', 'NCBITAXON', 'NCI', 'NDDF', 'NDFRT', 'OMIM', 'PDQ',
-                 # 'PSY', 'RXNORM', 'VANDF'}
+                 'ICD9CM': process_icd9cm_item,
+                 'MED-RT': process_medrt_item,
+                 'MEDLINEPLUS': process_medlineplus_item,
+                 'MSH': process_msh_item,
+                 'MTH': process_mth_item,
+                 'NCBI': process_ncbi_item}
+                 # 'NCI': process_nci_item,
+                 # 'NDDF': process_nddf_item,
+                 # 'NDFRT': process_ndfrt_item,
+                 # 'OMIM': process_omim_item,
+                 # 'PDQ': process_pdq_item,
+                 # 'PSY': process_psy_item,
+                 # 'RXNORM': process_rxnorm_item,
+                 # 'VANDF': process_vandf_item}
 
 if __name__ == '__main__':
     print("Starting umls_list_jsonl_to_kg_jsonl.py at", kg2_util.date())
@@ -474,56 +526,17 @@ if __name__ == '__main__':
                 continue
             value = data[entity]
             source, node_id = extract_node_id(entity)
+
+            if source == 'NCI':
+                name_keys.add(get_name_keys(value.get(NAMES_KEY, dict())))
+                attribute_keys.update(get_attribute_keys(value.get(INFO_KEY, dict())))
+
             if source not in DESIRED_CODES:
                 continue
 
             # Process the data specifically by source
             DESIRED_CODES[source](node_id, value, nodes_output, edges_output)
-            # if source == 'ATC':
-            #     process_atc_item(node_id, value, nodes_output, edges_output)
 
-            # if source == 'CHV':
-            #     process_chv_item(node_id, value, nodes_output, edges_output)
-
-            # if source == 'DRUGBANK':
-            #     process_drugbank_item(node_id, value, nodes_output, edges_output)
-
-            # if source == 'FMA':
-            #     process_fma_item(node_id, value, nodes_output, edges_output)
-
-            # if source == 'GO':
-            #     process_go_item(node_id, value, nodes_output, edges_output)
-
-            # if source == 'HCPCS':
-            #     process_hcpcs_item(node_id, value, nodes_output, edges_output)
-
-            # if source == 'HGNC':
-            #     process_hgnc_item(node_id, value, nodes_output, edges_output)
-
-            # if source == 'HL7V3.0':
-            #     process_hl7_item(node_id, value, nodes_output, edges_output)
-
-            # if source == 'HPO':
-            #     process_hpo_item(node_id, value, nodes_output, edges_output)
-
-            # if source == 'ICD10PCS':
-            #     process_icd10pcs_item(node_id, value, nodes_output, edges_output)
-
-            # if source == 'ICD9CM':
-            #     process_icd9cm_item(node_id, value, nodes_output, edges_output)
-
-            # if source == 'MED-RT':
-            #     process_medrt_item(node_id, value, nodes_output, edges_output)
-
-            # if source == 'MEDLINEPLUS':
-            #     process_medlineplus_item(node_id, value, nodes_output, edges_output)
-
-            # if source == 'MSH':
-            #     process_msh_item(node_id, value, nodes_output, edges_output)
-
-            # if source == 'MTH':
-            #     name_keys.add(get_name_keys(value.get(NAMES_KEY, dict())))
-            #     attribute_keys.update(get_attribute_keys(value.get(INFO_KEY, dict())))
 
     kg2_util.end_read_jsonlines(input_read_jsonlines_info)
     kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
