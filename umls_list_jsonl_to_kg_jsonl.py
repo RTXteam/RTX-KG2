@@ -555,7 +555,6 @@ DESIRED_CODES = {'ATC': process_atc_item,
                  'NCBI': process_ncbi_item,
                  'NCI': process_nci_item,
                  'NDDF': process_nddf_item}
-                 # 'NDFRT': process_ndfrt_item,
                  # 'OMIM': process_omim_item,
                  # 'PDQ': process_pdq_item,
                  # 'PSY': process_psy_item,
@@ -596,7 +595,7 @@ if __name__ == '__main__':
             value = data[entity]
             source, node_id = extract_node_id(entity)
 
-            if source == 'NDDF':
+            if source == 'OMIM':
                 name_keys.add(get_name_keys(value.get(NAMES_KEY, dict())))
                 attribute_keys.update(get_attribute_keys(value.get(INFO_KEY, dict())))
 
