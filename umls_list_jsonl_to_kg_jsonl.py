@@ -44,6 +44,8 @@ MEDLINEPLUS_PREFIX = kg2_util.CURIE_PREFIX_UMLS
 MSH_PREFIX = kg2_util.CURIE_PREFIX_MESH
 MTH_PREFIX = kg2_util.CURIE_PREFIX_UMLS
 NCBI_PREFIX = kg2_util.CURIE_PREFIX_NCBI_TAXON
+NCI_PREFIX = kg2_util.CURIE_PREFIX_NCIT
+NDDF_PREFIX = kg2_util.CURIE_PREFIX_NDDF
 
 UMLS_SOURCE_PREFIX = kg2_util.CURIE_PREFIX_UMLS_SOURCE
 
@@ -459,6 +461,7 @@ def process_mth_item(node_id, info, nodes_output, edges_output):
 def process_ncbi_item(node_id, info, nodes_output, edges_output):
     accession_heirarchy = ['SCN', 'USN', 'USY', 'SY', 'UCN', 'CMN', 'UE', 'EQ'] # https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/precedence_suppressibility.html
     node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(NCBI_PREFIX, node_id, info, accession_heirarchy)
+
     # Currently not used, but extracting them in case we want them in the future
     attributes = info.get(INFO_KEY, dict())
     div = attributes.get('DIV', list())
@@ -470,7 +473,9 @@ def process_ncbi_item(node_id, info, nodes_output, edges_output):
 
 def process_nci_item(node_id, info, nodes_output, edges_output):
     accession_heirarchy = ['PT', 'SY', 'CSN', 'DN', 'FBD', 'HD', 'CCN', 'AD', 'CA2', 'CA3', 'BN', 'AB', 'CCS', 'OP'] # https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/precedence_suppressibility.html
-    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(NCBI_PREFIX, node_id, info, accession_heirarchy)
+    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(NCI_PREFIX, node_id, info, accession_heirarchy)
+    provided_by = make_node_id(UMLS_SOURCE_PREFIX, 'NCI')
+
     # Currently not used, but extracting them in case we want them in the future
     attributes = info.get(INFO_KEY, dict())
     clinvar_variation_id = attributes.get('CLINVAR_VARIATION_ID', list())
@@ -521,6 +526,16 @@ def process_nci_item(node_id, info, nodes_output, edges_output):
 
     make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
 
+def process_nddf_item(node_id, info, nodes_output, edges_output):
+    accession_heirarchy = ['MTH_RXN_CDC', 'CDC', 'CDD', 'CDA', 'IN', 'DF'] # https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/precedence_suppressibility.html
+    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(NDDF_PREFIX, node_id, info, accession_heirarchy)
+
+    # Currently not used, but extracting them in case we want them in the future
+    attributes = info.get(INFO_KEY, dict())
+    ndc = attributes.get('NDC', list())
+
+    make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
+
 
 DESIRED_CODES = {'ATC': process_atc_item,
                  'CHV': process_chv_item,
@@ -538,8 +553,8 @@ DESIRED_CODES = {'ATC': process_atc_item,
                  'MSH': process_msh_item,
                  'MTH': process_mth_item,
                  'NCBI': process_ncbi_item,
-                 'NCI': process_nci_item}
-                 # 'NDDF': process_nddf_item,
+                 'NCI': process_nci_item,
+                 'NDDF': process_nddf_item}
                  # 'NDFRT': process_ndfrt_item,
                  # 'OMIM': process_omim_item,
                  # 'PDQ': process_pdq_item,
