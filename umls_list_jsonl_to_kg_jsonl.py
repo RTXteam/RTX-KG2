@@ -54,6 +54,31 @@ VANDF_PREFIX = kg2_util.CURIE_PREFIX_VANDF
 
 UMLS_SOURCE_PREFIX = kg2_util.CURIE_PREFIX_UMLS_SOURCE
 
+# Mined from HTML Page Source of https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/precedence_suppressibility.html
+ACCESSION_HEIRARCHY = [('MTH', 'PN'), ('RXNORM', 'SCD'), ('RXNORM', 'SBD'), ('RXNORM', 'SCDG'), ('RXNORM', 'SBDG'), ('RXNORM', 'BPCK'), ('RXNORM', 'GPCK'),
+                       ('RXNORM', 'IN'), ('RXNORM', 'PSN'), ('RXNORM', 'MIN'), ('RXNORM', 'SCDF'), ('RXNORM', 'SBDF'), ('RXNORM', 'SCDC'), ('RXNORM', 'DFG'),
+                       ('RXNORM', 'DF'), ('RXNORM', 'SBDC'), ('RXNORM', 'BN'), ('RXNORM', 'PIN'), ('RXNORM', 'TMSY'), ('RXNORM', 'SY'), ('MSH', 'MH'),
+                       ('MSH', 'TQ'), ('MSH', 'PEP'), ('MSH', 'ET'), ('MSH', 'XQ'), ('MSH', 'PXQ'), ('MSH', 'NM'), ('HPO', 'PT'), ('HPO', 'SY'), ('HPO', 'ET'),
+                       ('NCBI', 'SCN'), ('ATC', 'RXN_PT'), ('ATC', 'PT'), ('VANDF', 'PT'), ('VANDF', 'CD'), ('VANDF', 'IN'), ('DRUGBANK', 'IN'),
+                       ('DRUGBANK', 'SY'), ('DRUGBANK', 'FSY'), ('MSH', 'N1'), ('MSH', 'PCE'), ('MSH', 'CE'), ('FMA', 'PT'), ('FMA', 'SY'), ('FMA', 'AB'),
+                       ('ATC', 'RXN_IN'), ('ATC', 'IN'), ('VANDF', 'AB'), ('VANDF', 'MTH_RXN_CD'), ('NDDF', 'MTH_RXN_CDC'), ('NDDF', 'CDC'), ('NDDF', 'CDD'),
+                       ('NDDF', 'CDA'), ('NDDF', 'IN'), ('NDDF', 'DF'), ('MED-RT', 'PT'), ('MED-RT', 'FN'), ('MED-RT', 'SY'), ('HCPCS', 'PT'), ('HCPCS', 'MP'),
+                       ('OMIM', 'PT'), ('OMIM', 'PHENO'), ('OMIM', 'PHENO_ET'), ('OMIM', 'PTAV'), ('OMIM', 'PTCS'), ('OMIM', 'ETAL'), ('OMIM', 'ET'),
+                       ('OMIM', 'HT'), ('OMIM', 'ACR'), ('HGNC', 'PT'), ('HGNC', 'ACR'), ('HGNC', 'MTH_ACR'), ('HGNC', 'NA'), ('HGNC', 'SYN'), ('HGNC', 'NP'),
+                       ('HGNC', 'NS'), ('NCI', 'PT'), ('NCI', 'SY'), ('NCI', 'CSN'), ('NCI', 'DN'), ('NCI', 'FBD'), ('NCI', 'HD'), ('NCI', 'CCN'),
+                       ('NCI', 'AD'), ('NCI', 'CA2'), ('NCI', 'CA3'), ('NCI', 'BN'), ('NCI', 'AB'), ('NCI', 'CCS'), ('PDQ', 'PT'), ('PDQ', 'HT'),
+                       ('PDQ', 'PSC'), ('PDQ', 'SY'), ('CHV', 'PT'), ('MEDLINEPLUS', 'PT'), ('GO', 'PT'), ('GO', 'MTH_PT'), ('GO', 'ET'), ('GO', 'MTH_ET'),
+                       ('GO', 'SY'), ('GO', 'MTH_SY'), ('PDQ', 'ET'), ('PDQ', 'CU'), ('PDQ', 'LV'), ('PDQ', 'ACR'), ('PDQ', 'AB'), ('PDQ', 'BN'), ('PDQ', 'FBD'),
+                       ('PDQ', 'CCN'), ('PDQ', 'CHN'), ('NCBI', 'USN'), ('NCBI', 'USY'), ('NCBI', 'SY'), ('NCBI', 'UCN'), ('NCBI', 'CMN'), ('NCBI', 'UE'),
+                       ('NCBI', 'EQ'), ('ICD9CM', 'PT'), ('ICD9CM', 'HT'), ('ICD10PCS', 'PT'), ('ICD10PCS', 'PX'), ('ICD10PCS', 'HX'), ('ICD10PCS', 'MTH_HX'),
+                       ('ICD10PCS', 'HT'), ('ICD10PCS', 'HS'), ('ICD10PCS', 'AB'), ('HL7V3.0', 'CSY'), ('HL7V3.0', 'PT'), ('HL7V3.0', 'CDO'), ('HL7V3.0', 'VS'),
+                       ('HL7V3.0', 'BR'), ('HL7V3.0', 'CPR'), ('HL7V3.0', 'CR'), ('HL7V3.0', 'NPT'), ('HCPCS', 'MTH_HT'), ('MTH', 'CV'), ('MTH', 'XM'),
+                       ('MTH', 'PT'), ('MTH', 'SY'), ('MTH', 'RT'), ('ICD9CM', 'AB'), ('PSY', 'PT'), ('PSY', 'HT'), ('PSY', 'ET'), ('MEDLINEPLUS', 'ET'),
+                       ('MEDLINEPLUS', 'SY'), ('MEDLINEPLUS', 'HT'), ('MSH', 'HT'), ('MSH', 'HS'), ('MSH', 'DEV'), ('MSH', 'DSV'), ('MSH', 'QAB'),
+                       ('MSH', 'QEV'), ('MSH', 'QSV'), ('MSH', 'PM'), ('HCPCS', 'AB'), ('MTH', 'DT'), ('HCPCS', 'AM'), ('CHV', 'SY'), ('RXNORM', 'ET'),
+                       ('HPO', 'OP'), ('HPO', 'IS'), ('NCI', 'OP'), ('HPO', 'OET'), ('HCPCS', 'OP'), ('HCPCS', 'OM'), ('HCPCS', 'OAM'), ('GO', 'OP'),
+                       ('GO', 'MTH_OP'), ('GO', 'OET'), ('GO', 'MTH_OET'), ('GO', 'IS'), ('GO', 'MTH_IS'), ('PDQ', 'OP'), ('PDQ', 'IS'), ('HL7V3.0', 'OP'),
+                       ('HL7V3.0', 'ONP'), ('HCPCS', 'OA'), ('FMA', 'OP'), ('FMA', 'IS')]
 
 def get_args():
     arg_parser = argparse.ArgumentParser(description='umls_list_jsonl_to_kg_jsonl.py: converts UMLS MySQL JSON Lines dump into KG2 JSON format')
