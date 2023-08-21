@@ -468,6 +468,60 @@ def process_ncbi_item(node_id, info, nodes_output, edges_output):
     make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
 
 
+def process_nci_item(node_id, info, nodes_output, edges_output):
+    accession_heirarchy = ['PT', 'SY', 'CSN', 'DN', 'FBD', 'HD', 'CCN', 'AD', 'CA2', 'CA3', 'BN', 'AB', 'CCS', 'OP'] # https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/precedence_suppressibility.html
+    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(NCBI_PREFIX, node_id, info, accession_heirarchy)
+    # Currently not used, but extracting them in case we want them in the future
+    attributes = info.get(INFO_KEY, dict())
+    clinvar_variation_id = attributes.get('CLINVAR_VARIATION_ID', list())
+    micronutrient = attributes.get('MICRONUTRIENT', list())
+    genbank_accession_number = attributes.get('GENBANK_ACCESSION_NUMBER', list())
+    fda_table = attributes.get('FDA_TABLE', list())
+    usda_id = attributes.get('USDA_ID', list())
+    icd_o_3_code = attributes.get('ICD-O-3_CODE', list())
+    tolerable_level = attributes.get('TOLERABLE_LEVEL', list())
+    ncbi_taxon_id = attributes.get('NCBI_TAXON_ID', list())
+    mgi_accession_id = attributes.get('MGI_ACCESSION_ID', list())
+    homologous_gene = attributes.get('HOMOLOGOUS_GENE', list())
+    pid_id = attributes.get('PID_ID', list())
+    swiss_prot = attributes.get('SWISS_PROT', list())
+    essential_amino_acid = attributes.get('ESSENTIAL_AMINO_ACID', list())
+    publish_value_set = attributes.get('PUBLISH_VALUE_SET', list())
+    cas_registry = attributes.get('CAS_REGISTRY', list())
+    value_set_pair = attributes.get('VALUE_SET_PAIR', list())
+    accepted_therapeutic_use_for = attributes.get('ACCEPTED_THERAPEUTIC_USE_FOR', list())
+    hgnc_id = attributes.get('HGNC_ID', list())
+    nci_drug_dictionary_id = attributes.get('NCI_DRUG_DICTIONARY_ID', list())
+    chebi_id = attributes.get('CHEBI_ID', list())
+    cnu = attributes.get('CNU', list())
+    mirbase_id = attributes.get('MIRBASE_ID', list())
+    macronutrient = attributes.get('MACRONUTRIENT', list())
+    essential_fatty_acid = attributes.get('ESSENTIAL_FATTY_ACID', list())
+    unit = attributes.get('UNIT', list())
+    pdq_open_trial_search_id = attributes.get('PDQ_OPEN_TRIAL_SEARCH_ID', list())
+    term_browser_value_set_description = attributes.get('TERM_BROWSER_VALUE_SET_DESCRIPTION', list())
+    entrezgene_id = attributes.get('ENTREZGENE_ID', list())
+    infoods = attributes.get('INFOODS', list())
+    pubmedid_primary_reference = attributes.get('PUBMEDID_PRIMARY_REFERENCE', list())
+    biocarta_id = attributes.get('BIOCARTA_ID', list())
+    extensible_list = attributes.get('EXTENSIBLE_LIST', list())
+    use_for = attributes.get('USE_FOR', list())
+    neoplastic_status = attributes.get('NEOPLASTIC_STATUS', list())
+    nsc_number = attributes.get('NSC_NUMBER', list())
+    omim_number = attributes.get('OMIM_NUMBER', list())
+    lt = attributes.get('LT', list())
+    kegg_id = attributes.get('KEGG_ID', list())
+    gene_encodes_product = attributes.get('GENE_ENCODES_PRODUCT', list())
+    pdq_closed_trial_search_id = attributes.get('PDQ_CLOSED_TRIAL_SEARCH_ID', list())
+    design_note = attributes.get('DESIGN_NOTE', list())
+    nutrient = attributes.get('NUTRIENT', list())
+    fda_unii_code = attributes.get('FDA_UNII_CODE', list())
+    us_recommended_intake = attributes.get('US_RECOMMENDED_INTAKE', list())
+    chemical_formula = attributes.get('CHEMICAL_FORMULA', list())
+
+    make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
+
+
 DESIRED_CODES = {'ATC': process_atc_item,
                  'CHV': process_chv_item,
                  'DRUGBANK': process_drugbank_item,
@@ -483,8 +537,8 @@ DESIRED_CODES = {'ATC': process_atc_item,
                  'MEDLINEPLUS': process_medlineplus_item,
                  'MSH': process_msh_item,
                  'MTH': process_mth_item,
-                 'NCBI': process_ncbi_item}
-                 # 'NCI': process_nci_item,
+                 'NCBI': process_ncbi_item,
+                 'NCI': process_nci_item}
                  # 'NDDF': process_nddf_item,
                  # 'NDFRT': process_ndfrt_item,
                  # 'OMIM': process_omim_item,
@@ -527,7 +581,7 @@ if __name__ == '__main__':
             value = data[entity]
             source, node_id = extract_node_id(entity)
 
-            if source == 'NCI':
+            if source == 'NDDF':
                 name_keys.add(get_name_keys(value.get(NAMES_KEY, dict())))
                 attribute_keys.update(get_attribute_keys(value.get(INFO_KEY, dict())))
 
