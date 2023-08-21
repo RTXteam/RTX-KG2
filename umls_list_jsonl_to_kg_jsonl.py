@@ -49,6 +49,7 @@ NDDF_PREFIX = kg2_util.CURIE_PREFIX_NDDF
 OMIM_PREFIX = kg2_util.CURIE_PREFIX_OMIM
 PDQ_PREFIX = kg2_util.CURIE_PREFIX_PDQ
 PSY_PREFIX = kg2_util.CURIE_PREFIX_PSY
+RXNORM_PREFIX = kg2_util.CURIE_PREFIX_RXNORM
 
 UMLS_SOURCE_PREFIX = kg2_util.CURIE_PREFIX_UMLS_SOURCE
 
@@ -590,6 +591,40 @@ def process_psy_item(node_id, info, nodes_output, edges_output):
     make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
 
 
+def process_rxnorm_item(node_id, info, nodes_output, edges_output):
+    accession_heirarchy = ['SCD', 'SBD', 'SCDG', 'SBDG', 'BPCK', 'GPCK', 'IN', 'PSN', 'MIN', 'SCDF', 'SBDF', 'SCDC', 'DFG', 'DF', 'SBDC', 'BN', 'PIN', 'TMSY', 'SY', 'ET'] # https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/precedence_suppressibility.html
+    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(RXNORM_PREFIX, node_id, info, accession_heirarchy)
+
+    # Currently not used, but extracting them in case we want them in the future
+    attributes = info.get(INFO_KEY, dict())
+    ndc = attributes.get('NDC', list())
+    rxn_obsoleted = attributes.get('RXN_OBSOLETED', list())
+    rxn_available_strength = attributes.get('RXN_AVAILABLE_STRENGTH', list())
+    rxn_human_drug = attributes.get('RXN_HUMAN_DRUG', list())
+    rxn_quantity = attributes.get('RXN_QUANTITY', list())
+    rxterm_form = attributes.get('RXTERM_FORM', list())
+    rxn_in_expressed_flag = attributes.get('RXN_IN_EXPRESSED_FLAG', list())
+    rxaui = attributes.get('RXAUI', list())
+    rxn_bn_cardinality = attributes.get('RXN_BN_CARDINALITY', list())
+    rxn_activated = attributes.get('RXN_ACTIVATED', list())
+    rxn_boss_strength_denom_unit = attributes.get('RXN_BOSS_STRENGTH_DENOM_UNIT', list())
+    ambiguity_flag = attributes.get('AMBIGUITY_FLAG', list())
+    rxn_strength = attributes.get('RXN_STRENGTH', list())
+    rxcui = attributes.get('RXCUI', list())
+    rxn_ai = attributes.get('RXN_AI', list())
+    rxn_boss_from = attributes.get('RXN_BOSS_FROM', list())
+    rxn_boss_strength_num_unit = attributes.get('RXN_BOSS_STRENGTH_NUM_UNIT', list())
+    rxn_vet_drug = attributes.get('RXN_VET_DRUG', list())
+    orig_code = attributes.get('ORIG_CODE', list())
+    rxn_am = attributes.get('RXN_AM', list())
+    rxn_boss_strength_denom_value = attributes.get('RXN_BOSS_STRENGTH_DENOM_VALUE', list())
+    rxn_boss_strength_num_value = attributes.get('RXN_BOSS_STRENGTH_NUM_VALUE', list())
+    rxn_qualitative_distinction = attributes.get('RXN_QUALITATIVE_DISTINCTION', list())
+    orig_source = attributes.get('ORIG_SOURCE', list())
+
+    make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
+
+
 DESIRED_CODES = {'ATC': process_atc_item,
                  'CHV': process_chv_item,
                  'DRUGBANK': process_drugbank_item,
@@ -610,8 +645,8 @@ DESIRED_CODES = {'ATC': process_atc_item,
                  'NDDF': process_nddf_item,
                  'OMIM': process_omim_item,
                  'PDQ': process_pdq_item,
-                 'PSY': process_psy_item}
-                 # 'RXNORM': process_rxnorm_item,
+                 'PSY': process_psy_item,
+                 'RXNORM': process_rxnorm_item}
                  # 'VANDF': process_vandf_item}
 
 if __name__ == '__main__':
@@ -648,7 +683,7 @@ if __name__ == '__main__':
             value = data[entity]
             source, node_id = extract_node_id(entity)
 
-            if source == 'RXNORM':
+            if source == 'VANDF':
                 name_keys.add(get_name_keys(value.get(NAMES_KEY, dict())))
                 attribute_keys.update(get_attribute_keys(value.get(INFO_KEY, dict())))
 
