@@ -50,6 +50,7 @@ OMIM_PREFIX = kg2_util.CURIE_PREFIX_OMIM
 PDQ_PREFIX = kg2_util.CURIE_PREFIX_PDQ
 PSY_PREFIX = kg2_util.CURIE_PREFIX_PSY
 RXNORM_PREFIX = kg2_util.CURIE_PREFIX_RXNORM
+VANDF_PREFIX = kg2_util.CURIE_PREFIX_VANDF
 
 UMLS_SOURCE_PREFIX = kg2_util.CURIE_PREFIX_UMLS_SOURCE
 
@@ -625,6 +626,31 @@ def process_rxnorm_item(node_id, info, nodes_output, edges_output):
     make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
 
 
+def process_vandf_item(node_id, info, nodes_output, edges_output):
+    accession_heirarchy = ['PT', 'CD', 'IN', 'AB', 'MTH_RXN_CD'] # https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/precedence_suppressibility.html
+    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(VANDF_PREFIX, node_id, info, accession_heirarchy)
+
+    # Currently not used, but extracting them in case we want them in the future
+    attributes = info.get(INFO_KEY, dict())
+    ndf_transmit_to_cmop = attributes.get('NDF_TRANSMIT_TO_CMOP', list())
+    sngl_or_mult_src_prd = attributes.get('SNGL_OR_MULT_SRC_PRD', list())
+    dcsa = attributes.get('DCSA', list())
+    exclude_di_check = attributes.get('EXCLUDE_DI_CHECK', list())
+    nfi = attributes.get('NFI', list())
+    va_class_name = attributes.get('VA_CLASS_NAME', list())
+    vmo = attributes.get('VMO', list())
+    drug_class_type = attributes.get('DRUG_CLASS_TYPE', list())
+    nf_name = attributes.get('NF_NAME', list())
+    ndc = attributes.get('NDC', list())
+    vac = attributes.get('VAC', list())
+    va_generic_name = attributes.get('VA_GENERIC_NAME', list())
+    parent_class = attributes.get('PARENT_CLASS', list())
+    va_dispense_unit = attributes.get('VA_DISPENSE_UNIT', list())
+    ddf = attributes.get('DDF', list())
+
+    make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
+
+
 DESIRED_CODES = {'ATC': process_atc_item,
                  'CHV': process_chv_item,
                  'DRUGBANK': process_drugbank_item,
@@ -646,8 +672,8 @@ DESIRED_CODES = {'ATC': process_atc_item,
                  'OMIM': process_omim_item,
                  'PDQ': process_pdq_item,
                  'PSY': process_psy_item,
-                 'RXNORM': process_rxnorm_item}
-                 # 'VANDF': process_vandf_item}
+                 'RXNORM': process_rxnorm_item,
+                 'VANDF': process_vandf_item}
 
 if __name__ == '__main__':
     print("Starting umls_list_jsonl_to_kg_jsonl.py at", kg2_util.date())
@@ -683,7 +709,7 @@ if __name__ == '__main__':
             value = data[entity]
             source, node_id = extract_node_id(entity)
 
-            if source == 'VANDF':
+            if source == 'UMLS':
                 name_keys.add(get_name_keys(value.get(NAMES_KEY, dict())))
                 attribute_keys.update(get_attribute_keys(value.get(INFO_KEY, dict())))
 
