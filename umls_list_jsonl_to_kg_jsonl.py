@@ -43,6 +43,8 @@ HPO_PREFIX = kg2_util.CURIE_PREFIX_HP
 ICD10PCS_PREFIX = kg2_util.CURIE_PREFIX_ICD10PCS
 ICD9CM_PREFIX = kg2_util.CURIE_PREFIX_ICD9
 MEDRT_PREFIX = kg2_util.CURIE_PREFIX_UMLS
+MEDLINEPLUS_PREFIX = kg2_util.CURIE_PREFIX_UMLS
+MSH_PREFIX = kg2_util.CURIE_PREFIX_UMLS
 
 UMLS_SOURCE_PREFIX = kg2_util.CURIE_PREFIX_UMLS_SOURCE
 
@@ -368,6 +370,65 @@ def process_medrt_item(node_id, info, nodes_output, edges_output):
 
     make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
 
+
+def process_medlineplus_item(node_id, info, nodes_output, edges_output):
+    accession_heirarchy = ['PT', 'ET', 'SY', 'HT'] # https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/precedence_suppressibility.html
+    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(MEDLINEPLUS_PREFIX, node_id, info, accession_heirarchy)
+    if node_curie == None:
+        return
+    provided_by = make_node_id(UMLS_SOURCE_PREFIX, 'MEDLINEPLUS')
+
+    # Currently not used, but extracting them in case we want them in the future
+    attributes = info.get(INFO_KEY, dict())
+    sos = attributes.get('SOS', list())
+    date_created = attributes.get('DATE_CREATED', list())
+    mp_group_url = attributes.get('MP_GROUP_URL', list())
+    mp_primary_institute_url = attributes.get('MP_PRIMARY_INSTITUTE_URL', list())
+    mp_other_language_url = attributes.get('MP_OTHER_LANGUAGE_URL', list())
+
+    make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
+
+
+def process_msh_item(node_id, info, nodes_output, edges_output):
+    accession_heirarchy = ['MH', 'TQ', 'PEP', 'ET', 'XQ', 'PXQ', 'NM', 'N1', 'PCE', 'CE', 'HT', 'HS', 'DEV', 'DSV', 'QAB', 'QEV', 'QSV', 'PM'] # https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/precedence_suppressibility.html
+    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(MSH_PREFIX, node_id, info, accession_heirarchy)
+    if node_curie == None:
+        return
+    provided_by = make_node_id(UMLS_SOURCE_PREFIX, 'MSH')
+
+    # Currently not used, but extracting them in case we want them in the future
+    attributes = info.get(INFO_KEY, dict())
+    mmr = attributes.get('MMR', list())
+    fx = attributes.get('FX', list())
+    lt = attributes.get('LT', list())
+    dc = attributes.get('DC', list())
+    pa = attributes.get('PA', list())
+    rr = attributes.get('RR', list())
+    hm = attributes.get('HM', list())
+    pi = attributes.get('PI', list())
+    ec = attributes.get('EC', list())
+    hn = attributes.get('HN', list())
+    termui = attributes.get('TERMUI', list())
+    th = attributes.get('TH', list())
+    sos = attributes.get('SOS', list())
+    ii = attributes.get('II', list())
+    rn = attributes.get('RN', list())
+    an = attributes.get('AN', list())
+    cx = attributes.get('CX', list())
+    dq = attributes.get('DQ', list())
+    dx = attributes.get('DX', list())
+    pm = attributes.get('PM', list())
+    aql = attributes.get('AQL', list())
+    sc = attributes.get('SC', list())
+    fr = attributes.get('FR', list())
+    mda = attributes.get('MDA', list())
+    src = attributes.get('SRC', list())
+    ol = attributes.get('OL', list())
+    mn = attributes.get('MN', list())
+
+    make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
+
+
 if __name__ == '__main__':
     print("Starting umls_list_jsonl_to_kg_jsonl.py at", kg2_util.date())
     args = get_args()
@@ -442,6 +503,12 @@ if __name__ == '__main__':
                 process_medrt_item(node_id, value, nodes_output, edges_output)
 
             if source == 'MEDLINEPLUS':
+                process_medlineplus_item(node_id, value, nodes_output, edges_output)
+
+            if source == 'MSH':
+                process_msh_item(node_id, value, nodes_output, edges_output)
+
+            if source == 'MTH':
                 name_keys.add(get_name_keys(value.get(NAMES_KEY, dict())))
                 attribute_keys.update(get_attribute_keys(value.get(INFO_KEY, dict())))
 
