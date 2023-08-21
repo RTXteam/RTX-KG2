@@ -47,6 +47,7 @@ NCBI_PREFIX = kg2_util.CURIE_PREFIX_NCBI_TAXON
 NCI_PREFIX = kg2_util.CURIE_PREFIX_NCIT
 NDDF_PREFIX = kg2_util.CURIE_PREFIX_NDDF
 OMIM_PREFIX = kg2_util.CURIE_PREFIX_OMIM
+PDQ_PREFIX = kg2_util.CURIE_PREFIX_PDQ
 
 UMLS_SOURCE_PREFIX = kg2_util.CURIE_PREFIX_UMLS_SOURCE
 
@@ -554,6 +555,28 @@ def process_omim_item(node_id, info, nodes_output, edges_output):
     make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
 
 
+def process_pdq_item(node_id, info, nodes_output, edges_output):
+    accession_heirarchy = ['PT', 'HT', 'PSC', 'SY', 'ET', 'CU', 'LV', 'ACR', 'AB', 'BN', 'FBD', 'CCN', 'CHN', 'OP', 'IS'] # https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/precedence_suppressibility.html
+    node_curie, iri, name, provided_by, category, synonyms, cuis, tuis = get_basic_info(PDQ_PREFIX, node_id, info, accession_heirarchy)
+
+    # Currently not used, but extracting them in case we want them in the future
+    attributes = info.get(INFO_KEY, dict())
+    lt = attributes.get('LT', list())
+    cas_registry = attributes.get('CAS_REGISTRY', list())
+    date_first_published = attributes.get('DATE_FIRST_PUBLISHED', list())
+    date_last_modified = attributes.get('DATE_LAST_MODIFIED', list())
+    ind_code = attributes.get('IND_CODE', list())
+    pid = attributes.get('PID', list())
+    nsc_code = attributes.get('NSC_CODE', list())
+    pxc = attributes.get('PXC', list())
+    menu_parent = attributes.get('MENU_PARENT', list())
+    nci_id = attributes.get('NCI_ID', list())
+    orig_sty = attributes.get('ORIG_STY', list())
+    menu_type = attributes.get('MENU_TYPE', list())
+
+    make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
+
+
 DESIRED_CODES = {'ATC': process_atc_item,
                  'CHV': process_chv_item,
                  'DRUGBANK': process_drugbank_item,
@@ -572,8 +595,8 @@ DESIRED_CODES = {'ATC': process_atc_item,
                  'NCBI': process_ncbi_item,
                  'NCI': process_nci_item,
                  'NDDF': process_nddf_item,
-                 'OMIM': process_omim_item}
-                 # 'PDQ': process_pdq_item,
+                 'OMIM': process_omim_item,
+                 'PDQ': process_pdq_item}
                  # 'PSY': process_psy_item,
                  # 'RXNORM': process_rxnorm_item,
                  # 'VANDF': process_vandf_item}
@@ -612,7 +635,7 @@ if __name__ == '__main__':
             value = data[entity]
             source, node_id = extract_node_id(entity)
 
-            if source == 'PDQ':
+            if source == 'PSY':
                 name_keys.add(get_name_keys(value.get(NAMES_KEY, dict())))
                 attribute_keys.update(get_attribute_keys(value.get(INFO_KEY, dict())))
 
