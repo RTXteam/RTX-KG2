@@ -14,97 +14,11 @@ __email__ = ''
 __status__ = 'Prototype'
 
 
-import argparse
 import kg2_util
-import json
-
-CUIS_KEY = 'cuis'
-INFO_KEY = 'attributes'
-NAMES_KEY = 'names'
-TUIS_KEY = 'tuis'
-
-TUI_MAPPINGS = dict()
-IRI_MAPPINGS = dict()
-
-ATC_PREFIX = kg2_util.CURIE_PREFIX_ATC
-CHV_PREFIX = kg2_util.CURIE_PREFIX_CHV
-DRUGBANK_PREFIX = kg2_util.CURIE_PREFIX_DRUGBANK
-FMA_PREFIX = kg2_util.CURIE_PREFIX_FMA
-GO_PREFIX = kg2_util.CURIE_PREFIX_GO
-HCPCS_PREFIX = kg2_util.CURIE_PREFIX_HCPCS
-HGNC_PREFIX = kg2_util.CURIE_PREFIX_HGNC
-HL7_PREFIX = kg2_util.CURIE_PREFIX_UMLS
-HPO_PREFIX = kg2_util.CURIE_PREFIX_HP
-ICD10PCS_PREFIX = kg2_util.CURIE_PREFIX_ICD10PCS
-ICD9CM_PREFIX = kg2_util.CURIE_PREFIX_ICD9
-MEDRT_PREFIX = kg2_util.CURIE_PREFIX_UMLS
-MEDLINEPLUS_PREFIX = kg2_util.CURIE_PREFIX_UMLS
-MSH_PREFIX = kg2_util.CURIE_PREFIX_MESH
-MTH_PREFIX = kg2_util.CURIE_PREFIX_UMLS
-NCBI_PREFIX = kg2_util.CURIE_PREFIX_NCBI_TAXON
-NCI_PREFIX = kg2_util.CURIE_PREFIX_NCIT
-NDDF_PREFIX = kg2_util.CURIE_PREFIX_NDDF
-OMIM_PREFIX = kg2_util.CURIE_PREFIX_OMIM
-PDQ_PREFIX = kg2_util.CURIE_PREFIX_PDQ
-PSY_PREFIX = kg2_util.CURIE_PREFIX_PSY
-RXNORM_PREFIX = kg2_util.CURIE_PREFIX_RXNORM
-VANDF_PREFIX = kg2_util.CURIE_PREFIX_VANDF
-
-UMLS_SOURCE_PREFIX = kg2_util.CURIE_PREFIX_UMLS_SOURCE
-
-# Mined from HTML Page Source of https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/precedence_suppressibility.html
-ACCESSION_HEIRARCHY = list()
-ACCESSION_SOURCES_HEIRARCHY = dict()
-                       # [('MTH', 'PN'), ('RXNORM', 'SCD'), ('RXNORM', 'SBD'), ('RXNORM', 'SCDG'), ('RXNORM', 'SBDG'), ('RXNORM', 'BPCK'), ('RXNORM', 'GPCK'),
-                       # ('RXNORM', 'IN'), ('RXNORM', 'PSN'), ('RXNORM', 'MIN'), ('RXNORM', 'SCDF'), ('RXNORM', 'SBDF'), ('RXNORM', 'SCDC'), ('RXNORM', 'DFG'),
-                       # ('RXNORM', 'DF'), ('RXNORM', 'SBDC'), ('RXNORM', 'BN'), ('RXNORM', 'PIN'), ('RXNORM', 'TMSY'), ('RXNORM', 'SY'), ('MSH', 'MH'),
-                       # ('MSH', 'TQ'), ('MSH', 'PEP'), ('MSH', 'ET'), ('MSH', 'XQ'), ('MSH', 'PXQ'), ('MSH', 'NM'), ('HPO', 'PT'), ('HPO', 'SY'), ('HPO', 'ET'),
-                       # ('NCBI', 'SCN'), ('ATC', 'RXN_PT'), ('ATC', 'PT'), ('VANDF', 'PT'), ('VANDF', 'CD'), ('VANDF', 'IN'), ('DRUGBANK', 'IN'),
-                       # ('DRUGBANK', 'SY'), ('DRUGBANK', 'FSY'), ('MSH', 'N1'), ('MSH', 'PCE'), ('MSH', 'CE'), ('FMA', 'PT'), ('FMA', 'SY'), ('FMA', 'AB'),
-                       # ('ATC', 'RXN_IN'), ('ATC', 'IN'), ('VANDF', 'AB'), ('VANDF', 'MTH_RXN_CD'), ('NDDF', 'MTH_RXN_CDC'), ('NDDF', 'CDC'), ('NDDF', 'CDD'),
-                       # ('NDDF', 'CDA'), ('NDDF', 'IN'), ('NDDF', 'DF'), ('MED-RT', 'PT'), ('MED-RT', 'FN'), ('MED-RT', 'SY'), ('HCPCS', 'PT'), ('HCPCS', 'MP'),
-                       # ('OMIM', 'PT'), ('OMIM', 'PHENO'), ('OMIM', 'PHENO_ET'), ('OMIM', 'PTAV'), ('OMIM', 'PTCS'), ('OMIM', 'ETAL'), ('OMIM', 'ET'),
-                       # ('OMIM', 'HT'), ('OMIM', 'ACR'), ('HGNC', 'PT'), ('HGNC', 'ACR'), ('HGNC', 'MTH_ACR'), ('HGNC', 'NA'), ('HGNC', 'SYN'), ('HGNC', 'NP'),
-                       # ('HGNC', 'NS'), ('NCI', 'PT'), ('NCI', 'SY'), ('NCI', 'CSN'), ('NCI', 'DN'), ('NCI', 'FBD'), ('NCI', 'HD'), ('NCI', 'CCN'),
-                       # ('NCI', 'AD'), ('NCI', 'CA2'), ('NCI', 'CA3'), ('NCI', 'BN'), ('NCI', 'AB'), ('NCI', 'CCS'), ('PDQ', 'PT'), ('PDQ', 'HT'),
-                       # ('PDQ', 'PSC'), ('PDQ', 'SY'), ('CHV', 'PT'), ('MEDLINEPLUS', 'PT'), ('GO', 'PT'), ('GO', 'MTH_PT'), ('GO', 'ET'), ('GO', 'MTH_ET'),
-                       # ('GO', 'SY'), ('GO', 'MTH_SY'), ('PDQ', 'ET'), ('PDQ', 'CU'), ('PDQ', 'LV'), ('PDQ', 'ACR'), ('PDQ', 'AB'), ('PDQ', 'BN'), ('PDQ', 'FBD'),
-                       # ('PDQ', 'CCN'), ('PDQ', 'CHN'), ('NCBI', 'USN'), ('NCBI', 'USY'), ('NCBI', 'SY'), ('NCBI', 'UCN'), ('NCBI', 'CMN'), ('NCBI', 'UE'),
-                       # ('NCBI', 'EQ'), ('ICD9CM', 'PT'), ('ICD9CM', 'HT'), ('ICD10PCS', 'PT'), ('ICD10PCS', 'PX'), ('ICD10PCS', 'HX'), ('ICD10PCS', 'MTH_HX'),
-                       # ('ICD10PCS', 'HT'), ('ICD10PCS', 'HS'), ('ICD10PCS', 'AB'), ('HL7V3.0', 'CSY'), ('HL7V3.0', 'PT'), ('HL7V3.0', 'CDO'), ('HL7V3.0', 'VS'),
-                       # ('HL7V3.0', 'BR'), ('HL7V3.0', 'CPR'), ('HL7V3.0', 'CR'), ('HL7V3.0', 'NPT'), ('HCPCS', 'MTH_HT'), ('MTH', 'CV'), ('MTH', 'XM'),
-                       # ('MTH', 'PT'), ('MTH', 'SY'), ('MTH', 'RT'), ('ICD9CM', 'AB'), ('PSY', 'PT'), ('PSY', 'HT'), ('PSY', 'ET'), ('MEDLINEPLUS', 'ET'),
-                       # ('MEDLINEPLUS', 'SY'), ('MEDLINEPLUS', 'HT'), ('MSH', 'HT'), ('MSH', 'HS'), ('MSH', 'DEV'), ('MSH', 'DSV'), ('MSH', 'QAB'),
-                       # ('MSH', 'QEV'), ('MSH', 'QSV'), ('MSH', 'PM'), ('HCPCS', 'AB'), ('MTH', 'DT'), ('HCPCS', 'AM'), ('CHV', 'SY'), ('RXNORM', 'ET'),
-                       # ('HPO', 'OP'), ('HPO', 'IS'), ('NCI', 'OP'), ('HPO', 'OET'), ('HCPCS', 'OP'), ('HCPCS', 'OM'), ('HCPCS', 'OAM'), ('GO', 'OP'),
-                       # ('GO', 'MTH_OP'), ('GO', 'OET'), ('GO', 'MTH_OET'), ('GO', 'IS'), ('GO', 'MTH_IS'), ('PDQ', 'OP'), ('PDQ', 'IS'), ('HL7V3.0', 'OP'),
-                       # ('HL7V3.0', 'ONP'), ('HCPCS', 'OA'), ('FMA', 'OP'), ('FMA', 'IS')]
-
-def get_args():
-    arg_parser = argparse.ArgumentParser(description='umls_list_jsonl_to_kg_jsonl.py: converts UMLS MySQL JSON Lines dump into KG2 JSON format')
-    arg_parser.add_argument('inputFile', type=str)
-    arg_parser.add_argument('outputNodesFile', type=str)
-    arg_parser.add_argument('outputEdgesFile', type=str)
-    arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
-    return arg_parser.parse_args()
-
-
-def extract_node_id(node_id_str):
-    node_id_str = node_id_str.replace('(', '').replace(')', '').replace("'", '')
-    node_id = node_id_str.split(',')
-    return node_id[0].strip(), node_id[1].strip()
 
 
 def make_node_id(curie_prefix, node_id):
     return curie_prefix + ':' + node_id
-
-
-def create_description(comment, tuis):
-    description = comment
-    for tui in tuis:
-        description += "; UMLS Semantic Type: STY:" + tui
-    description = description.strip("; ")
-    return description    
 
 
 def get_name_synonyms(names_dict, accession_heirarchy):
@@ -116,20 +30,6 @@ def get_name_synonyms(names_dict, accession_heirarchy):
     if len(names) == 1:
         return names[0], list()
     return names[0], names[1:]
-
-
-def get_name_keys(names_dict):
-    keys_list = []
-    for key in names_dict:
-        keys_list.append(key)
-    return str(sorted(keys_list))
-
-
-def get_attribute_keys(attributes_dict):
-    keys_list = []
-    for key in attributes_dict:
-        keys_list.append(key)
-    return set(keys_list)
 
 
 def make_umls_node(node_curie, iri, name, category, update_date, provided_by, synonyms, description, nodes_output):
@@ -158,7 +58,6 @@ def get_basic_info(curie_prefix, node_id, info, umls_code):
     name, synonyms = get_name_synonyms(names, accession_heirarchy)
 
     return node_curie, iri, name, category, synonyms, cuis, tuis
-
 
 def process_atc_item(node_id, info, nodes_output, edges_output, umls_code, curie_prefix, provided_by):
     node_curie, iri, name, category, synonyms, cuis, tuis = get_basic_info(curie_prefix, node_id, info, ['RXN_PT', 'PT', 'RXN_IN', 'IN'])
@@ -263,7 +162,7 @@ def process_hgnc_item(node_id, info, nodes_output, edges_output, umls_code, curi
     accession_heirarchy = ['PT', 'ACR', 'MTH_ACR', 'NA', 'SYN', 'NP', 'NS']
     node_curie, iri, name, category, synonyms, cuis, tuis = get_basic_info(curie_prefix, node_id.replace('HGNC:', ''), info, accession_heirarchy)
 
-    # Currently not used, but extracting them in case we want them in the future - descriptions from https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/attribute_names.html
+    # Currently not used, but extracting them in case we want them in the future
     attributes = info.get(INFO_KEY, dict())
     mgd_id = attributes.get('MGD_ID', list())
     vega_id = attributes.get('VEGA_ID', list())
@@ -672,77 +571,3 @@ def process_vandf_item(node_id, info, nodes_output, edges_output, umls_code, cur
     ddf = attributes.get('DDF', list())
 
     make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, create_description("", tuis), nodes_output)
-
-
-DESIRED_CODES = {'ATC': [process_atc_item, kg2_util.CURIE_PREFIX_ATC, make_node_id(UMLS_SOURCE_PREFIX, 'ATC')],
-                 'CHV': [process_chv_item, kg2_util.CURIE_PREFIX_CHV, make_node_id(UMLS_SOURCE_PREFIX, 'CHV')],
-                 'DRUGBANK': [process_drugbank_item, kg2_util.CURIE_PREFIX_DRUGBANK, make_node_id(UMLS_SOURCE_PREFIX, 'DRUGBANK')],
-                 'FMA': [process_fma_item, kg2_util.CURIE_PREFIX_FMA, make_node_id(UMLS_SOURCE_PREFIX, 'FMA')],
-                 'GO': [process_go_item, kg2_util.CURIE_PREFIX_GO, make_node_id(UMLS_SOURCE_PREFIX, 'GO')],
-                 'HCPCS': [process_hcpcs_item, kg2_util.CURIE_PREFIX_HCPCS, make_node_id(UMLS_SOURCE_PREFIX, 'HCPCS')],
-                 'HGNC': [process_hgnc_item, kg2_util.CURIE_PREFIX_HGNC, make_node_id(UMLS_SOURCE_PREFIX, 'HGNC')],
-                 'HL7V3.0': [process_hl7_item, kg2_util.CURIE_PREFIX_UMLS, make_node_id(UMLS_SOURCE_PREFIX, 'HL7')],
-                 'HPO': [process_hpo_item, kg2_util.CURIE_PREFIX_HP, make_node_id(UMLS_SOURCE_PREFIX, 'HPO')],
-                 'ICD10PCS': [process_icd10pcs_item, kg2_util.CURIE_PREFIX_ICD10PCS, make_node_id(UMLS_SOURCE_PREFIX, 'ICD10PCS')],
-                 'ICD9CM': [process_icd9cm_item, kg2_util.CURIE_PREFIX_ICD9, make_node_id(UMLS_SOURCE_PREFIX, 'ICD9CM')],
-                 'MED-RT': [process_medrt_item, kg2_util.CURIE_PREFIX_UMLS, make_node_id(UMLS_SOURCE_PREFIX, 'MED-RT')],
-                 'MEDLINEPLUS': [process_medlineplus_item, kg2_util.CURIE_PREFIX_UMLS, make_node_id(UMLS_SOURCE_PREFIX, 'MEDLINEPLUS')],
-                 'MSH': [process_msh_item, kg2_util.CURIE_PREFIX_MESH, make_node_id(UMLS_SOURCE_PREFIX, 'MSH')],
-                 'MTH': [process_mth_item, kg2_util.CURIE_PREFIX_UMLS, make_node_id(UMLS_SOURCE_PREFIX, 'MTH')],
-                 'NCBI': [process_ncbi_item, kg2_util.CURIE_PREFIX_NCBI_TAXON, make_node_id(UMLS_SOURCE_PREFIX, 'NCBITAXON')],
-                 'NCI': [process_nci_item, kg2_util.CURIE_PREFIX_NCIT, make_node_id(UMLS_SOURCE_PREFIX, 'NCI')],
-                 'NDDF': [process_nddf_item, kg2_util.CURIE_PREFIX_NDDF, make_node_id(UMLS_SOURCE_PREFIX, 'NCI')],
-                 'OMIM': [process_omim_item, kg2_util.CURIE_PREFIX_OMIM, make_node_id(UMLS_SOURCE_PREFIX, 'OMIM')],
-                 'PDQ': [process_pdq_item, kg2_util.CURIE_PREFIX_PDQ, make_node_id(UMLS_SOURCE_PREFIX, 'PDQ')],
-                 'PSY': [process_psy_item, kg2_util.CURIE_PREFIX_PSY, make_node_id(UMLS_SOURCE_PREFIX, 'PSY')],
-                 'RXNORM': [process_rxnorm_item, kg2_util.CURIE_PREFIX_RXNORM, make_node_id(UMLS_SOURCE_PREFIX, 'RXNORM')],
-                 'VANDF': [process_vandf_item, kg2_util.CURIE_PREFIX_VANDF, make_node_id(UMLS_SOURCE_PREFIX, 'VANDF')]}
-
-if __name__ == '__main__':
-    print("Starting umls_list_jsonl_to_kg_jsonl.py at", kg2_util.date())
-    args = get_args()
-    input_file_name = args.inputFile
-    test_mode = args.test
-    output_nodes_file_name = args.outputNodesFile
-    output_edges_file_name = args.outputEdgesFile
-
-    nodes_info, edges_info = kg2_util.create_kg2_jsonlines(test_mode)
-    nodes_output = nodes_info[0]
-    edges_output = edges_info[0]
-
-    input_read_jsonlines_info = kg2_util.start_read_jsonlines(input_file_name)
-    input_items = input_read_jsonlines_info[0]
-
-    name_keys = set()
-    attribute_keys = set()
-
-    with open('tui_combo_mappings.json') as mappings:
-        TUI_MAPPINGS = json.load(mappings)
-
-    iri_mappings_raw = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string('curies-to-urls-map.yaml'))['use_for_bidirectional_mapping']
-    heirarchy = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string('umls-name-heirarchy.yaml'))
-    print(json.dumps(heirarchy, indent=4))
-    for item in iri_mappings_raw:
-        for prefix in item:
-            IRI_MAPPINGS[prefix] = item[prefix]
-
-    for data in input_items:
-        # There should only be one item in the data dictionary
-        for entity in data:
-            if entity == "('NOCODE', 'MTH')":
-                continue
-            value = data[entity]
-            source, node_id = extract_node_id(entity)
-
-            if source not in DESIRED_CODES:
-                continue
-
-            # Process the data specifically by source
-            [source_function, curie_prefix, provided_by] = DESIRED_CODES[source]
-            source_function(node_id, value, nodes_output, edges_output, source, curie_prefix, provided_by)
-
-    kg2_util.end_read_jsonlines(input_read_jsonlines_info)
-    kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
-    print(json.dumps(name_keys, indent=4, sort_keys=True, default=list))
-    print(json.dumps(attribute_keys, indent=4, sort_keys=True, default=list))
-    print("Finishing umls_list_jsonl_to_kg_jsonl.py at", kg2_util.date())
