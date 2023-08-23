@@ -47,6 +47,7 @@ def code_sources(cursor, output):
     tui_key = 'tuis'
     cui_key = 'cuis'
     name_key = 'names'
+    definitions_key = 'definitions'
 
     # See info about these here: https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/attribute_names.html
     info_key = 'attributes'
@@ -55,6 +56,7 @@ def code_sources(cursor, output):
     names_sql_statement = "SELECT con.CODE, con.SAB, GROUP_CONCAT(DISTINCT con.CUI), GROUP_CONCAT(DISTINCT CONCAT(con.TTY, '|', con.ISPREF, '|', con.STR) SEPARATOR '\t') FROM MRCONSO con GROUP BY con.SAB, con.CODE"
     extra_info_sql_statement = "SELECT sat.CODE, sat.SAB, GROUP_CONCAT(DISTINCT CONCAT(sat.ATN, '|', REPLACE(sat.ATV, '\t', ' ')) SEPARATOR '\t') FROM MRSAT sat GROUP BY sat.SAB, sat.CODE"
     tuis_sql_statement = "SELECT con.CODE, con.SAB, GROUP_CONCAT(DISTINCT sty.TUI) FROM MRCONSO con LEFT JOIN MRSTY sty ON con.CUI = sty.CUI GROUP BY con.SAB, con.CODE"
+    definitions_sql_statement = "SELECT con.CODE, con.SAB, GROUP_CONCAT(DISTINCT def.DEF SEPARATOR ';') FROM MRCONSO con INNER JOIN MRDEF def on con.CUI=def.CUI GROUP BY con.SAB, con.CODE"
 
     cursor.execute(names_sql_statement)
     for result in cursor.fetchall():
@@ -106,6 +108,17 @@ def code_sources(cursor, output):
 
     print("Finished tuis_sql_statement at", kg2_util.date())
 
+    cursor.execute(definitions_sql_statement)
+    for result in cursor.fetchall():
+        (node_id, node_source, definition) = result
+        key = (node_source, node_id)
+        if key not in code_source_info:
+            # This occurs if a node doesn't have a name.
+            continue
+        code_source_info[key][definitions_key] = definition
+
+    print("Finished definitions_sql_statement at", kg2_util.date())
+
     record_num = 0
     for key, val in code_source_info.items():
         record_num += 1
@@ -129,7 +142,7 @@ def cui_sources(cursor, output, sources):
     names_sql_statement = "SELECT CUI, GROUP_CONCAT(DISTINCT CONCAT(TTY, '|', SAB, '|', ISPREF, '|', STR) SEPARATOR '\t') FROM MRCONSO WHERE SAB IN " + sources_where + " GROUP BY CUI"
     tuis_sql_statement = "SELECT CUI, GROUP_CONCAT(TUI) FROM MRSTY GROUP BY CUI"
     relations_sql_statement = "SELECT DISTINCT CUI1, REL, RELA, DIR, CUI2, SAB FROM MRREL WHERE SAB IN " + sources_where
-    definitions_sql_statement = "SELECT CUI, DEF FROM MRDEF WHERE SAB IN " + sources_where
+    definitions_sql_statement = "SELECT CUI, GROUP_CONCAT(DISTINCT DEF SEPARATOR ';') FROM MRDEF WHERE SAB IN " + sources_where + " GROUP BY CUI"
 
     cursor.execute(names_sql_statement)
     for result in cursor.fetchall():
