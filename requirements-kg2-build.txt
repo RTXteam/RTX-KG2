@@ -5,7 +5,7 @@ bmt==0.7.6
 CacheControl==0.12.6
 cachetools==5.1.0
 cachier==1.2.5
-certifi==2022.12.07
+certifi==2023.7.22
 chardet==3.0.4
 Click==8.0.0
 conf==0.4.

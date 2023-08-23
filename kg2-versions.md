@@ -67,7 +67,7 @@ Issues:
 - Issue [#303](https://github.com/RTXteam/RTX-KG2/issues/303) - we are using a pickled copy of an old version of FOODON in this build
 - Issue [#304](https://github.com/RTXteam/RTX-KG2/issues/304)
 - Issue [#305](https://github.com/RTXteam/RTX-KG2/issues/305)
-- Issue [#307](https://github.com/RTXteam/RTX-KG2/issues/307)
+- Issue [#307](https://github.com/RTXteam/RTX-KG2/issues/307) – LOINC dropped from KG2
 - Issue [#310](https://github.com/RTXteam/RTX-KG2/issues/310)
 - Issue [#311](https://github.com/RTXteam/RTX-KG2/issues/311)
 - Issue [#315](https://github.com/RTXteam/RTX-KG2/issues/315)
