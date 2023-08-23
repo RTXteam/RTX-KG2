@@ -332,7 +332,6 @@ class UMLS_Processor(object):
         hl7cs = attributes.get('HL7CS', list())
 
         self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
-        self.create_xref_edges(node_curie, cuis, provided_by)
 
 
     def process_hpo_item(self, node_id, info, umls_code):
@@ -390,7 +389,6 @@ class UMLS_Processor(object):
         concept_type = attributes.get('CONCEPT_TYPE', list())
 
         self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
-        self.create_xref_edges(node_curie, cuis, provided_by)
 
 
     def process_medlineplus_item(self, node_id, info, umls_code):
@@ -407,7 +405,6 @@ class UMLS_Processor(object):
         mp_other_language_url = attributes.get('MP_OTHER_LANGUAGE_URL', list())
 
         self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
-        self.create_xref_edges(node_curie, cuis, provided_by)
 
 
     def process_msh_item(self, node_id, info, umls_code):
@@ -473,7 +470,6 @@ class UMLS_Processor(object):
         sos = attributes.get('SOS', list())
 
         self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
-        self.create_xref_edges(node_curie, cuis, provided_by)
 
 
     def process_ncbi_item(self, node_id, info, umls_code):
@@ -668,4 +664,3 @@ class UMLS_Processor(object):
             return
 
         self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
-        self.create_xref_edges(node_curie, cuis, provided_by)
