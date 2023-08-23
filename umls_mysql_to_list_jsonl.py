@@ -56,7 +56,7 @@ def code_sources(cursor, output):
     names_sql_statement = "SELECT con.CODE, con.SAB, GROUP_CONCAT(DISTINCT con.CUI), GROUP_CONCAT(DISTINCT CONCAT(con.TTY, '|', con.ISPREF, '|', con.STR) SEPARATOR '\t') FROM MRCONSO con GROUP BY con.SAB, con.CODE"
     extra_info_sql_statement = "SELECT sat.CODE, sat.SAB, GROUP_CONCAT(DISTINCT CONCAT(sat.ATN, '|', REPLACE(sat.ATV, '\t', ' ')) SEPARATOR '\t') FROM MRSAT sat GROUP BY sat.SAB, sat.CODE"
     tuis_sql_statement = "SELECT con.CODE, con.SAB, GROUP_CONCAT(DISTINCT sty.TUI) FROM MRCONSO con LEFT JOIN MRSTY sty ON con.CUI = sty.CUI GROUP BY con.SAB, con.CODE"
-    definitions_sql_statement = "SELECT con.CODE, con.SAB, GROUP_CONCAT(DISTINCT def.DEF SEPARATOR ';') FROM MRCONSO con INNER JOIN MRDEF def on con.CUI=def.CUI GROUP BY con.SAB, con.CODE"
+    definitions_sql_statement = "SELECT con.CODE, con.SAB, GROUP_CONCAT(DISTINCT def.DEF SEPARATOR ';') FROM MRCONSO con INNER JOIN MRDEF def on con.CUI=def.CUI WHERE con.SAB=def.SAB GROUP BY con.SAB, con.CODE"
 
     cursor.execute(names_sql_statement)
     for result in cursor.fetchall():
