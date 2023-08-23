@@ -45,7 +45,8 @@ class UMLS_Processor(object):
                         'PDQ': [self.process_pdq_item, kg2_util.CURIE_PREFIX_PDQ, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'PDQ')],
                         'PSY': [self.process_psy_item, kg2_util.CURIE_PREFIX_PSY, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'PSY')],
                         'RXNORM': [self.process_rxnorm_item, kg2_util.CURIE_PREFIX_RXNORM, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'RXNORM')],
-                        'VANDF': [self.process_vandf_item, kg2_util.CURIE_PREFIX_VANDF, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'VANDF')]}
+                        'VANDF': [self.process_vandf_item, kg2_util.CURIE_PREFIX_VANDF, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'VANDF')],
+                        'UMLS': [self.process_umls_item, kg2_util.CURIE_PREFIX_UMLS, self.make_node_id(kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY, 'umls')]}
         self.create_umls_accession_heirarchy()
         self.create_accession_sources_heirarchy()
 
@@ -53,6 +54,7 @@ class UMLS_Processor(object):
         self.INFO_KEY = 'attributes'
         self.NAMES_KEY = 'names'
         self.TUIS_KEY = 'tuis'
+        self.DEFINITIONS_KEY = 'definitions'
 
 
     def process_node(self, source, node_id, data):
@@ -94,7 +96,8 @@ class UMLS_Processor(object):
                 names += [name for name in names_dict.get(key, dict()).get('Y', list())]
                 names += [name for name in names_dict.get(key, dict()).get('N', list())]
 
-        assert len(names) > 0
+        if len(names) == 0:
+            return None, None
         if len(names) == 1:
             return names[0], list()
         return names[0], names[1:]
@@ -103,8 +106,8 @@ class UMLS_Processor(object):
         curie_prefix = self.SOURCES[source][1]
         provided_by = self.SOURCES[source][2]
         cuis = info.get(self.CUIS_KEY, list())
-        tuis = info.get(self.TUIS_KEY, list())
-        if curie_prefix == kg2_util.CURIE_PREFIX_UMLS:
+        tuis = sorted(info.get(self.TUIS_KEY, list()))
+        if curie_prefix == kg2_util.CURIE_PREFIX_UMLS and source != 'UMLS':
             if len(cuis) != 1:
                 return None, None, None, None, None, None, None, None
             node_id = cuis[0]
@@ -114,6 +117,8 @@ class UMLS_Processor(object):
 
         names = info.get(self.NAMES_KEY, dict())
         name, synonyms = self.get_name_synonyms(names, source)
+        if name == None:
+            return None, None, None, None, None, None, None, None
 
         return node_curie, iri, name, category, provided_by, synonyms, cuis, tuis
 
@@ -616,3 +621,12 @@ class UMLS_Processor(object):
         ddf = attributes.get('DDF', list())
 
         self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis))
+
+    def process_umls_item(self, node_id, info, umls_code):
+        node_curie, iri, name, category, provided_by, synonyms, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
+        if node_curie == None:
+            return
+
+        description = info.get(self.DEFINITIONS_KEY, str())
+
+        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
