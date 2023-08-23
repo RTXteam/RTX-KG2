@@ -52,9 +52,9 @@ def code_sources(cursor, output):
     info_key = 'attributes'
 
     # See TTY meanings here: https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/abbreviations.html
-    names_sql_statement = "SELECT con.CODE, con.SAB, GROUP_CONCAT(DISTINCT con.CUI), GROUP_CONCAT(DISTINCT CONCAT(con.TTY, '|', con.ISPREF, '|', con.STR) SEPARATOR '\t') FROM MRCONSO con GROUP BY con.CODE, con.SAB"
-    extra_info_sql_statement = "SELECT sat.CODE, sat.SAB, GROUP_CONCAT(DISTINCT CONCAT(sat.ATN, '|', REPLACE(sat.ATV, '\t', ' ')) SEPARATOR '\t') FROM MRSAT sat GROUP BY sat.CODE, sat.SAB"
-    tuis_sql_statement = "SELECT con.CODE, con.SAB, GROUP_CONCAT(DISTINCT sty.TUI) FROM MRCONSO con LEFT JOIN MRSTY sty ON con.CUI = sty.CUI GROUP BY con.CODE, con.SAB"
+    names_sql_statement = "SELECT con.CODE, con.SAB, GROUP_CONCAT(DISTINCT con.CUI), GROUP_CONCAT(DISTINCT CONCAT(con.TTY, '|', con.ISPREF, '|', con.STR) SEPARATOR '\t') FROM MRCONSO con GROUP BY con.SAB, con.CODE"
+    extra_info_sql_statement = "SELECT sat.CODE, sat.SAB, GROUP_CONCAT(DISTINCT CONCAT(sat.ATN, '|', REPLACE(sat.ATV, '\t', ' ')) SEPARATOR '\t') FROM MRSAT sat GROUP BY sat.SAB, sat.CODE"
+    tuis_sql_statement = "SELECT con.CODE, con.SAB, GROUP_CONCAT(DISTINCT sty.TUI) FROM MRCONSO con LEFT JOIN MRSTY sty ON con.CUI = sty.CUI GROUP BY con.SAB, con.CODE"
 
     cursor.execute(names_sql_statement)
     for result in cursor.fetchall():
