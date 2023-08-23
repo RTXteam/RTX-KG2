@@ -55,9 +55,13 @@ class UMLS_Processor(object):
         self.NAMES_KEY = 'names'
         self.TUIS_KEY = 'tuis'
         self.DEFINITIONS_KEY = 'definitions'
+        self.last_source = ''
 
 
     def process_node(self, source, node_id, data):
+        if source != self.last_source and self.last_source != '' and self.last_source in self.SOURCES:
+            print("Finished processing", self.last_source, "at", kg2_util.date())
+        self.last_source = source
         if source in self.SOURCES:
             self.SOURCES[source][0](node_id, data, source)
 
@@ -102,14 +106,25 @@ class UMLS_Processor(object):
             return names[0], list()
         return names[0], names[1:]
 
+    def create_xref_edges(subject_id, cuis, provided_by):
+        relation_curie = 'UMLS:xref'
+        relation_label = 'xref'
+
+        for cui in cuis:
+            object_id = make_node_id(kg2_util.CURIE_PREFIX_UMLS, cui)
+            # TODO: resolve update_date
+            self.edges_output.write(make_edge(subject_id, object_id, relation_curie, relation_label, primary_knowledge_source, "2023"))
+
+
     def get_basic_info(self, source, node_id, info):
         curie_prefix = self.SOURCES[source][1]
         provided_by = self.SOURCES[source][2]
         cuis = info.get(self.CUIS_KEY, list())
         tuis = sorted(info.get(self.TUIS_KEY, list()))
+        description = info.get(self.DEFINITIONS_KEY, str())
         if curie_prefix == kg2_util.CURIE_PREFIX_UMLS and source != 'UMLS':
             if len(cuis) != 1:
-                return None, None, None, None, None, None, None, None
+                return None, None, None, None, None, None, None, None, None
             node_id = cuis[0]
         node_curie = self.make_node_id(curie_prefix, node_id)
         iri = self.IRI_MAPPINGS[curie_prefix] + node_id
@@ -118,9 +133,9 @@ class UMLS_Processor(object):
         names = info.get(self.NAMES_KEY, dict())
         name, synonyms = self.get_name_synonyms(names, source)
         if name == None:
-            return None, None, None, None, None, None, None, None
+            return None, None, None, None, None, None, None, None, None
 
-        return node_curie, iri, name, category, provided_by, synonyms, cuis, tuis
+        return node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis
 
     def create_description(self, tuis, comment=""):
         description = comment
@@ -131,17 +146,18 @@ class UMLS_Processor(object):
 
 
     def process_atc_item(self, node_id, info, umls_code):
-        node_curie, iri, name, category, provided_by, synonyms, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
+        node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
 
         # Currently not used, but extracting them in case we want them in the future
         atc_level = info.get(self.INFO_KEY, dict()).get('ATC_LEVEL', list())[0]
         is_drug_class = info.get(self.INFO_KEY, dict()).get('IS_DRUG_CLASS', list()) == ["Y"]
 
-        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis))
+        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
+        self.create_xref_edges(node_curie, cuis, provided_by)
 
 
     def process_chv_item(self, node_id, info, umls_code):
-        node_curie, iri, name, category, provided_by, synonyms, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
+        node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
 
         # Currently not used, but extracting them in case we want them in the future
         combo_score = info.get(self.INFO_KEY, dict()).get('COMBO_SCORE', list())
@@ -151,32 +167,35 @@ class UMLS_Processor(object):
         disparaged = info.get(self.INFO_KEY, dict()).get('DISPARAGED', list())
         frequency = info.get(self.INFO_KEY, dict()).get('FREQUENCY', list())
 
-        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis))
+        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
+        self.create_xref_edges(node_curie, cuis, provided_by)
 
 
     def process_drugbank_item(self, node_id, info, umls_code):
-        node_curie, iri, name, category, provided_by, synonyms, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
+        node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
 
         # Currently not used, but extracting them in case we want them in the future
         fda_codes = info.get(self.INFO_KEY, dict()).get('FDA_UNII_CODE', list())
         secondary_accession_keys = info.get(self.INFO_KEY, dict()).get('SID', list())
 
         # TODO: figure out update date
-        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis))
+        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
+        self.create_xref_edges(node_curie, cuis, provided_by)
 
 
     def process_fma_item(self, node_id, info, umls_code):
-        node_curie, iri, name, category, provided_by, synonyms, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
+        node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
 
         # Currently not used, but extracting them in case we want them in the future
         authority = info.get(self.INFO_KEY, dict()).get('AUTHORITY', list())
         date_last_modified = info.get(self.INFO_KEY, dict()).get('DATE_LAST_MODIFIED', list())
 
-        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis))
+        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
+        self.create_xref_edges(node_curie, cuis, provided_by)
 
 
     def process_go_item(self, node_id, info, umls_code):
-        node_curie, iri, name, category, provided_by, synonyms, cuis, tuis = self.get_basic_info(umls_code, node_id.replace('GO:', ''), info)
+        node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis = self.get_basic_info(umls_code, node_id.replace('GO:', ''), info)
 
         # GO-specific information
         attributes = info.get(self.INFO_KEY, dict())
@@ -200,10 +219,11 @@ class UMLS_Processor(object):
         sid = attributes.get('SID', list())
 
         self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, go_comment))
+        self.create_xref_edges(node_curie, cuis, provided_by)
 
 
     def process_hcpcs_item(self, node_id, info, umls_code):
-        node_curie, iri, name, category, provided_by, synonyms, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
+        node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
 
         # Currently not used, but extracting them in case we want them in the future - descriptions from https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/attribute_names.html
         attributes = info.get(self.INFO_KEY, dict())
@@ -225,11 +245,12 @@ class UMLS_Processor(object):
         hac = attributes.get('HAC', list()) # HCPCS action code - code denoting the change made to a procedure or modifier code within the HCPCS system.
         hbt = attributes.get('HBT', list()) # HCPCS Berenson-Eggers Type of Service Code - BETOS for the procedure code based on generally agreed upon clinically meaningful groupings of procedures and services.
 
-        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis))
+        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
+        self.create_xref_edges(node_curie, cuis, provided_by)
 
 
     def process_hgnc_item(self, node_id, info, umls_code):
-        node_curie, iri, name, category, provided_by, synonyms, cuis, tuis = self.get_basic_info(umls_code, node_id.replace('HGNC:', ''), info)
+        node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis = self.get_basic_info(umls_code, node_id.replace('HGNC:', ''), info)
 
         # Currently not used, but extracting them in case we want them in the future
         attributes = info.get(self.INFO_KEY, dict())
@@ -263,11 +284,12 @@ class UMLS_Processor(object):
         lncipedia = attributes.get('LNCIPEDIA', list())
         gene_fam_desc = attributes.get('GENE_FAM_DESC', list())
 
-        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis))
+        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
+        self.create_xref_edges(node_curie, cuis, provided_by)
 
 
     def process_hl7_item(self, node_id, info, umls_code):
-        node_curie, iri, name, category, provided_by, synonyms, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
+        node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
         if node_curie == None:
             return
 
@@ -309,36 +331,41 @@ class UMLS_Processor(object):
         hl7di = attributes.get('HL7DI', list())
         hl7cs = attributes.get('HL7CS', list())
 
-        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis))
+        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
+        self.create_xref_edges(node_curie, cuis, provided_by)
 
 
     def process_hpo_item(self, node_id, info, umls_code):
-        node_curie, iri, name, category, provided_by, synonyms, cuis, tuis = self.get_basic_info(umls_code, node_id.replace('HP:', ''), info)
+        node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis = self.get_basic_info(umls_code, node_id.replace('HP:', ''), info)
 
         # Currently not used, but extracting them in case we want them in the future
         attributes = info.get(self.INFO_KEY, dict())
         sid = attributes.get('SID', list())
-        hpo_comment = attributes.get('HPO_COMMENT', list())
+        hpo_comment = attributes.get('HPO_COMMENT', str())
+        if len(hpo_comment) > 0:
+            hpo_comment = hpo_comment[0]
         date_created = attributes.get('DATE_CREATED', list())
         syn_qualifier = attributes.get('SYN_QUALIFIER', list())
         ref = attributes.get('REF', list())
 
-        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis))
+        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
+        self.create_xref_edges(node_curie, cuis, provided_by)
 
 
     def process_icd10pcs_item(self, node_id, info, umls_code):
-        node_curie, iri, name, category, provided_by, synonyms, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
+        node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
 
         # Currently not used, but extracting them in case we want them in the future
         attributes = info.get(self.INFO_KEY, dict())
         added_meaning = attributes.get('ADDED_MEANING', list())
         order_no = attributes.get('ORDER_NO', list())
 
-        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis))
+        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
+        self.create_xref_edges(node_curie, cuis, provided_by)
 
 
     def process_icd9cm_item(self, node_id, info, umls_code):
-        node_curie, iri, name, category, provided_by, synonyms, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
+        node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
 
         # Currently not used, but extracting them in case we want them in the future
         attributes = info.get(self.INFO_KEY, dict())
@@ -349,10 +376,11 @@ class UMLS_Processor(object):
         icn = attributes.get('ICN', list())
         ica = attributes.get('ICA', list())
 
-        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis))
+        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
+        self.create_xref_edges(node_curie, cuis, provided_by)
 
     def process_medrt_item(self, node_id, info, umls_code):
-        node_curie, iri, name, category, provided_by, synonyms, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
+        node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
         if node_curie == None:
             return
 
@@ -361,11 +389,12 @@ class UMLS_Processor(object):
         term_status = attributes.get('TERM_STATUS', list())
         concept_type = attributes.get('CONCEPT_TYPE', list())
 
-        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis))
+        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
+        self.create_xref_edges(node_curie, cuis, provided_by)
 
 
     def process_medlineplus_item(self, node_id, info, umls_code):
-        node_curie, iri, name, category, provided_by, synonyms, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
+        node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
         if node_curie == None:
             return
 
@@ -377,11 +406,12 @@ class UMLS_Processor(object):
         mp_primary_institute_url = attributes.get('MP_PRIMARY_INSTITUTE_URL', list())
         mp_other_language_url = attributes.get('MP_OTHER_LANGUAGE_URL', list())
 
-        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis))
+        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
+        self.create_xref_edges(node_curie, cuis, provided_by)
 
 
     def process_msh_item(self, node_id, info, umls_code):
-        node_curie, iri, name, category, provided_by, synonyms, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
+        node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
 
         # Currently not used, but extracting them in case we want them in the future
         attributes = info.get(self.INFO_KEY, dict())
@@ -413,11 +443,12 @@ class UMLS_Processor(object):
         ol = attributes.get('OL', list())
         mn = attributes.get('MN', list())
 
-        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis))
+        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
+        self.create_xref_edges(node_curie, cuis, provided_by)
 
 
     def process_mth_item(self, node_id, info, umls_code):
-        node_curie, iri, name, category, provided_by, synonyms, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
+        node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
         if node_curie == None:
             return
 
@@ -441,11 +472,12 @@ class UMLS_Processor(object):
         mth_maptocomplexity = attributes.get('MTH_MAPTOCOMPLEXITY', list())
         sos = attributes.get('SOS', list())
 
-        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis))
+        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
+        self.create_xref_edges(node_curie, cuis, provided_by)
 
 
     def process_ncbi_item(self, node_id, info, umls_code):
-        node_curie, iri, name, category, provided_by, synonyms, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
+        node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
 
         # Currently not used, but extracting them in case we want them in the future
         attributes = info.get(self.INFO_KEY, dict())
@@ -453,11 +485,12 @@ class UMLS_Processor(object):
         authority_name = attributes.get('AUTHORITY_NAME', list())
         rank = attributes.get('RANK', list())
 
-        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis))
+        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
+        self.create_xref_edges(node_curie, cuis, provided_by)
 
 
     def process_nci_item(self, node_id, info, umls_code):
-        node_curie, iri, name, category, provided_by, synonyms, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
+        node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
 
         # Currently not used, but extracting them in case we want them in the future
         attributes = info.get(self.INFO_KEY, dict())
@@ -507,19 +540,21 @@ class UMLS_Processor(object):
         us_recommended_intake = attributes.get('US_RECOMMENDED_INTAKE', list())
         chemical_formula = attributes.get('CHEMICAL_FORMULA', list())
 
-        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis))
+        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
+        self.create_xref_edges(node_curie, cuis, provided_by)
 
     def process_nddf_item(self, node_id, info, umls_code):
-        node_curie, iri, name, category, provided_by, synonyms, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
+        node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
 
         # Currently not used, but extracting them in case we want them in the future
         attributes = info.get(self.INFO_KEY, dict())
         ndc = attributes.get('NDC', list())
 
-        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis))
+        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
+        self.create_xref_edges(node_curie, cuis, provided_by)
 
     def process_omim_item(self, node_id, info, umls_code):
-        node_curie, iri, name, category, provided_by, synonyms, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
+        node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
 
         # Currently not used, but extracting them in case we want them in the future
         attributes = info.get(self.INFO_KEY, dict())
@@ -531,11 +566,12 @@ class UMLS_Processor(object):
         mimtypemeaning = attributes.get('MIMTYPEMEANING', list())
         mimtype = attributes.get('MIMTYPE', list())
 
-        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis))
+        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
+        self.create_xref_edges(node_curie, cuis, provided_by)
 
 
     def process_pdq_item(self, node_id, info, umls_code):
-        node_curie, iri, name, category, provided_by, synonyms, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
+        node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
 
         # Currently not used, but extracting them in case we want them in the future
         attributes = info.get(self.INFO_KEY, dict())
@@ -552,22 +588,24 @@ class UMLS_Processor(object):
         orig_sty = attributes.get('ORIG_STY', list())
         menu_type = attributes.get('MENU_TYPE', list())
 
-        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis))
+        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
+        self.create_xref_edges(node_curie, cuis, provided_by)
 
 
     def process_psy_item(self, node_id, info, umls_code):
-        node_curie, iri, name, category, provided_by, synonyms, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
+        node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
 
         # Currently not used, but extracting them in case we want them in the future
         attributes = info.get(self.INFO_KEY, dict())
         hn = attributes.get('HN', list())
         pyr = attributes.get('PYR', list())
 
-        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis))
+        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
+        self.create_xref_edges(node_curie, cuis, provided_by)
 
 
     def process_rxnorm_item(self, node_id, info, umls_code):
-        node_curie, iri, name, category, provided_by, synonyms, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
+        node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
 
         # Currently not used, but extracting them in case we want them in the future
         attributes = info.get(self.INFO_KEY, dict())
@@ -596,11 +634,12 @@ class UMLS_Processor(object):
         rxn_qualitative_distinction = attributes.get('RXN_QUALITATIVE_DISTINCTION', list())
         orig_source = attributes.get('ORIG_SOURCE', list())
 
-        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis))
+        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
+        self.create_xref_edges(node_curie, cuis, provided_by)
 
 
     def process_vandf_item(self, node_id, info, umls_code):
-        node_curie, iri, name, category, provided_by, synonyms, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
+        node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
 
         # Currently not used, but extracting them in case we want them in the future
         attributes = info.get(self.INFO_KEY, dict())
@@ -620,13 +659,13 @@ class UMLS_Processor(object):
         va_dispense_unit = attributes.get('VA_DISPENSE_UNIT', list())
         ddf = attributes.get('DDF', list())
 
-        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis))
+        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
+        self.create_xref_edges(node_curie, cuis, provided_by)
 
     def process_umls_item(self, node_id, info, umls_code):
-        node_curie, iri, name, category, provided_by, synonyms, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
+        node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
         if node_curie == None:
             return
 
-        description = info.get(self.DEFINITIONS_KEY, str())
-
         self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
+        self.create_xref_edges(node_curie, cuis, provided_by)
