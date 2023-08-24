@@ -53,9 +53,6 @@ if __name__ == '__main__':
     input_read_jsonlines_info = kg2_util.start_read_jsonlines(input_file_name)
     input_items = input_read_jsonlines_info[0]
 
-    name_keys = set()
-    attribute_keys = set()
-
     with open('tui_combo_mappings.json') as mappings:
         TUI_MAPPINGS = json.load(mappings)
 
