@@ -142,7 +142,7 @@ def cui_sources(cursor, output, sources):
     names_sql_statement = "SELECT CUI, GROUP_CONCAT(DISTINCT CONCAT(TTY, '|', SAB, '|', ISPREF, '|', STR) SEPARATOR '\t') FROM MRCONSO WHERE SAB IN " + sources_where + " GROUP BY CUI"
     tuis_sql_statement = "SELECT CUI, GROUP_CONCAT(TUI) FROM MRSTY GROUP BY CUI"
     relations_sql_statement = "SELECT DISTINCT CUI1, REL, RELA, DIR, CUI2, SAB FROM MRREL WHERE SAB IN " + sources_where
-    definitions_sql_statement = "SELECT CUI, GROUP_CONCAT(DISTINCT DEF SEPARATOR ';') FROM MRDEF WHERE SAB IN " + sources_where + " GROUP BY CUI"
+    definitions_sql_statement = "SELECT CUI, GROUP_CONCAT(DISTINCT CONCAT(SAB, '|', DEF) SEPARATOR '\t') FROM MRDEF WHERE SAB IN " + sources_where + " GROUP BY CUI"
 
     cursor.execute(names_sql_statement)
     for result in cursor.fetchall():
@@ -204,7 +204,10 @@ def cui_sources(cursor, output, sources):
         if key not in cui_source_info:
             # See above for explanation
             continue
-        cui_source_info[key][definitions_key] = definition
+        for def_piece in definition.split('\t'):
+            split_def_piece = def_piece.split('|')
+            assert len(split_def_piece) == 2, split_def_piece
+            cui_source_info[key][definitions_key][split_def_piece[0]] = split_def_piece[1]
 
     print("Finished definitions_sql_statement at", kg2_util.date())
 

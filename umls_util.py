@@ -121,7 +121,16 @@ class UMLS_Processor(object):
         provided_by = self.SOURCES[source][2]
         cuis = info.get(self.CUIS_KEY, list())
         tuis = sorted(info.get(self.TUIS_KEY, list()))
-        description = info.get(self.DEFINITIONS_KEY, str())
+        description = str()
+        if source == 'UMLS':
+            description = list()
+            description_dict = info.get(self.DEFINITIONS_KEY, dict())
+            for description_key in description_dict:
+                if description_key in self.SOURCES:
+                    description.append(description_dict[description_key])
+            description = '; '.join(description)
+        else:
+            description = info.get(self.DEFINITIONS_KEY, str())
         if curie_prefix == kg2_util.CURIE_PREFIX_UMLS and source != 'UMLS':
             if len(cuis) != 1:
                 return None, None, None, None, None, None, None, None, None
