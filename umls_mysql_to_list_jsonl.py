@@ -142,7 +142,7 @@ def cui_sources(cursor, output, sources):
     names_sql_statement = "SELECT CUI, GROUP_CONCAT(DISTINCT CONCAT(TTY, '|', SAB, '|', ISPREF, '|', STR) SEPARATOR '\t') FROM MRCONSO WHERE SAB IN " + sources_where + " GROUP BY CUI"
     tuis_sql_statement = "SELECT CUI, GROUP_CONCAT(TUI) FROM MRSTY GROUP BY CUI"
     relations_sql_statement = "SELECT DISTINCT CUI1, REL, RELA, DIR, CUI2, SAB FROM MRREL WHERE SAB IN " + sources_where
-    definitions_sql_statement = "SELECT CUI, GROUP_CONCAT(DISTINCT CONCAT(SAB, '|', DEF) SEPARATOR '\t') FROM MRDEF WHERE SAB IN " + sources_where + " GROUP BY CUI"
+    definitions_sql_statement = "SELECT CUI, GROUP_CONCAT(DISTINCT CONCAT(SAB, '|', REPLACE(DEF, '\t', ' ')) SEPARATOR '\t') FROM MRDEF WHERE SAB IN " + sources_where + " GROUP BY CUI"
 
     cursor.execute(names_sql_statement)
     for result in cursor.fetchall():
