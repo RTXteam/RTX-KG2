@@ -106,14 +106,14 @@ class UMLS_Processor(object):
             return names[0], list()
         return names[0], names[1:]
 
-    def create_xref_edges(subject_id, cuis, provided_by):
+    def create_xref_edges(self, subject_id, cuis, provided_by):
         relation_curie = 'UMLS:xref'
         relation_label = 'xref'
 
         for cui in cuis:
-            object_id = make_node_id(kg2_util.CURIE_PREFIX_UMLS, cui)
+            object_id = self.make_node_id(kg2_util.CURIE_PREFIX_UMLS, cui)
             # TODO: resolve update_date
-            self.edges_output.write(make_edge(subject_id, object_id, relation_curie, relation_label, primary_knowledge_source, "2023"))
+            self.edges_output.write(kg2_util.make_edge(subject_id, object_id, relation_curie, relation_label, provided_by, "2023"))
 
 
     def get_basic_info(self, source, node_id, info):
@@ -147,7 +147,7 @@ class UMLS_Processor(object):
         return node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis
 
     def create_description(self, tuis, comment=""):
-        description = comment
+        description = comment.replace('<p>', '').replace('</p>', '').replace('<li>', '').replace('</li>', '').replace('<ul>', '').replace('</ul>', '')
         for tui in tuis:
             description += "; UMLS Semantic Type: STY:" + tui
         description = description.strip("; ")
