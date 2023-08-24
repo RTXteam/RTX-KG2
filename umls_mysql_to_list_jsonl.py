@@ -204,6 +204,8 @@ def cui_sources(cursor, output, sources):
         if key not in cui_source_info:
             # See above for explanation
             continue
+        if definitions_key not in cui_source_info[key]:
+            cui_source_info[key][definitions_key] = dict()
         for def_piece in definition.split('\t'):
             split_def_piece = def_piece.split('|')
             assert len(split_def_piece) == 2, split_def_piece
