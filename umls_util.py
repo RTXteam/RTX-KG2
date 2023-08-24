@@ -55,6 +55,7 @@ class UMLS_Processor(object):
         self.NAMES_KEY = 'names'
         self.TUIS_KEY = 'tuis'
         self.DEFINITIONS_KEY = 'definitions'
+        self.RELATIONS_KEY = 'relations'
         self.last_source = ''
 
 
@@ -115,6 +116,21 @@ class UMLS_Processor(object):
             # TODO: resolve update_date
             self.edges_output.write(kg2_util.make_edge(subject_id, object_id, relation_curie, relation_label, provided_by, "2023"))
 
+## TODO: make relation nodes
+## TODO: make TUI nodes
+
+    def create_umls_edges(self, subject_id, relations, provided_by):
+        for relation_source in relations:
+            if relation_source in self.SOURCES:
+                for relation in relations[relation_source]:
+                    relation_abbr, relation_label, relation_direction = relation.split(',')
+                    if relation_label == 'None':
+                        relation_label = relation_abbr
+                    relation_curie = self.make_node_id(kg2_util.CURIE_PREFIX_UMLS, relation_label)
+                    for cui in relations[relation_source][relation]:
+                        object_id = self.make_node_id(kg2_util.CURIE_PREFIX_UMLS, cui)
+                        # TODO: resolve update_date
+                        self.edges_output.write(kg2_util.make_edge(subject_id, object_id, relation_curie, relation_label, provided_by, "2023"))
 
     def get_basic_info(self, source, node_id, info):
         curie_prefix = self.SOURCES[source][1]
@@ -673,3 +689,4 @@ class UMLS_Processor(object):
             return
 
         self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
+        self.create_umls_edges(node_curie, info.get(RELATIONS_KEY, dict()), provided_by)
