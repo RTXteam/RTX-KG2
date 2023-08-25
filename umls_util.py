@@ -57,6 +57,7 @@ class UMLS_Processor(object):
         self.DEFINITIONS_KEY = 'definitions'
         self.RELATIONS_KEY = 'relations'
         self.last_source = ''
+        self.hgnc_to_omim = dict()
 
 
     def process_node(self, source, node_id, data):
@@ -305,13 +306,17 @@ class UMLS_Processor(object):
         ena = attributes.get('ENA', list())
         rgd_id = attributes.get('RGD_ID', list())
         date_symbol_changed = attributes.get('DATE_SYMBOL_CHANGED', list())
-        omim_id = attributes.get('OMIM_ID', list())
+        omim_id_list = attributes.get('OMIM_ID', list())
         gene_fam_id = attributes.get('GENE_FAM_ID', list())
         gene_symbol = attributes.get('GENESYMBOL', list())
         ez = attributes.get('EZ', list())
         ccds_id = attributes.get('CCDS_ID', list())
         lncipedia = attributes.get('LNCIPEDIA', list())
         gene_fam_desc = attributes.get('GENE_FAM_DESC', list())
+
+        if len(gene_symbol) > 0:
+            for omim_id in omim_id_list:
+                self.hgnc_to_omim[self.make_node_id(kg2_util.CURIE_PREFIX_OMIM, omim_id)] = gene_symbol[0]
 
         self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
         self.create_xref_edges(node_curie, cuis, provided_by)
@@ -583,13 +588,25 @@ class UMLS_Processor(object):
 
         # Currently not used, but extracting them in case we want them in the future
         attributes = info.get(self.INFO_KEY, dict())
-        genesymbol = attributes.get('GENESYMBOL', list())
+        gene_symbol = attributes.get('GENESYMBOL', list())
         mimtypevalue = attributes.get('MIMTYPEVALUE', list())
         moved_from = attributes.get('MOVED_FROM', list())
         sos = attributes.get('SOS', list())
         genelocus = attributes.get('GENELOCUS', list())
         mimtypemeaning = attributes.get('MIMTYPEMEANING', list())
         mimtype = attributes.get('MIMTYPE', list())
+
+        name = name.capitalize()
+        if len(mimtype) > 0:
+            mimtype = int(mimtype[0])
+            if mimtype in [0, 3, 5]:
+                category = kg2_util.BIOLINK_CATEGORY_PHENOTYPIC_FEATURE
+                name += " related phenotypic feature"
+            if mimtype in [1, 4]:
+                category = kg2_util.BIOLINK_CATEGORY_GENE
+                if len(gene_symbol) > 0:
+                    name = gene_symbol[0]
+                name = self.hgnc_to_omim.get(node_curie, name)
 
         self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
         self.create_xref_edges(node_curie, cuis, provided_by)
