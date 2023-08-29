@@ -317,6 +317,9 @@ class UMLS_Processor(object):
         if len(gene_symbol) > 0:
             for omim_id in omim_id_list:
                 self.hgnc_to_omim[self.make_node_id(kg2_util.CURIE_PREFIX_OMIM, omim_id)] = gene_symbol[0]
+            name = gene_symbol[0] + " (human)"
+
+        category = kg2_util.BIOLINK_CATEGORY_GENE
 
         self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
         self.create_xref_edges(node_curie, cuis, provided_by)
