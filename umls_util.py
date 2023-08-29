@@ -81,10 +81,13 @@ class UMLS_Processor(object):
                 self.ACCESSION_SOURCES_HEIRARCHY[source] = list()
             self.ACCESSION_SOURCES_HEIRARCHY[source].append(key)
 
-    def make_umls_node(self, node_curie, iri, name, category, update_date, provided_by, synonyms, description):
+    def make_umls_node(self, node_curie, iri, name, category, update_date, provided_by, synonyms, description, full_name=None):
         node = kg2_util.make_node(node_curie, iri, name, category, "2023", provided_by)
         node['synonym'] = synonyms
         node['description'] = description
+
+        if full_name is not None:
+            node['full_name'] = full_name
 
         self.nodes_output.write(node)
 
@@ -117,7 +120,6 @@ class UMLS_Processor(object):
             # TODO: resolve update_date
             self.edges_output.write(kg2_util.make_edge(subject_id, object_id, relation_curie, relation_label, provided_by, "2023"))
 
-## TODO: make relation nodes
 ## TODO: make TUI nodes
 
     def create_umls_edges(self, subject_id, relations):
@@ -282,6 +284,8 @@ class UMLS_Processor(object):
     def process_hgnc_item(self, node_id, info, umls_code):
         node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis = self.get_basic_info(umls_code, node_id.replace('HGNC:', ''), info)
 
+        full_name = name
+
         # Currently not used, but extracting them in case we want them in the future
         attributes = info.get(self.INFO_KEY, dict())
         mgd_id = attributes.get('MGD_ID', list())
@@ -317,11 +321,11 @@ class UMLS_Processor(object):
         if len(gene_symbol) > 0:
             for omim_id in omim_id_list:
                 self.hgnc_to_omim[self.make_node_id(kg2_util.CURIE_PREFIX_OMIM, omim_id)] = gene_symbol[0]
-            name = gene_symbol[0] + " (human)"
+            name = gene_symbol[0]
 
         category = kg2_util.BIOLINK_CATEGORY_GENE
 
-        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
+        self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description), full_name=full_name)
         self.create_xref_edges(node_curie, cuis, provided_by)
 
 
