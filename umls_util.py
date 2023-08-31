@@ -211,6 +211,9 @@ class UMLS_Processor(object):
         secondary_accession_keys = info.get(self.INFO_KEY, dict()).get('SID', list())
 
         # TODO: figure out update date
+
+        category = kg2_util.BIOLINK_CATEGORY_DRUG
+
         self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
         self.create_xref_edges(node_curie, cuis, provided_by)
 
@@ -481,6 +484,9 @@ class UMLS_Processor(object):
         ol = attributes.get('OL', list())
         mn = attributes.get('MN', list())
 
+        if tuis == ("T109", "T121"):
+            category = kg2_util.BIOLINK_CATEGORY_CHEMICAL_ENTITY
+
         self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
         self.create_xref_edges(node_curie, cuis, provided_by)
 
@@ -715,6 +721,9 @@ class UMLS_Processor(object):
         node_curie, iri, name, category, provided_by, synonyms, description, cuis, tuis = self.get_basic_info(umls_code, node_id, info)
         if node_curie == None:
             return
+
+        if tuis == ("T109", "T121"):
+            category = kg2_util.BIOLINK_CATEGORY_CHEMICAL_ENTITY
 
         self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
         self.create_umls_edges(node_curie, info.get(self.RELATIONS_KEY, dict()))
