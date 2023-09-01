@@ -728,7 +728,7 @@ class UMLS_Processor(object):
         if category == kg2_util.BIOLINK_CATEGORY_DRUG and "T109" in tuis:
             category = kg2_util.BIOLINK_CATEGORY_CHEMICAL_ENTITY
 
-        if category == kg2_util.BIOLINK_NAMED_THING and tuis == ["T028"] and ("gene" in name.lower() or "allele" in name.lower()):
+        if category == kg2_util.BIOLINK_CATEGORY_NAMED_THING and tuis == ["T028"] and ("gene" in name.lower() or "allele" in name.lower()):
             category = kg2_util.BIOLINK_CATEGORY_GENE
 
         self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
