@@ -484,7 +484,7 @@ class UMLS_Processor(object):
         ol = attributes.get('OL', list())
         mn = attributes.get('MN', list())
 
-        if tuis == ["T109", "T121"]:
+        if "T109" in tuis:
             category = kg2_util.BIOLINK_CATEGORY_CHEMICAL_ENTITY
 
         self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
@@ -725,7 +725,7 @@ class UMLS_Processor(object):
         if node_curie == None:
             return
 
-        if tuis == ["T109", "T121"]:
+        if "T109" in tuis:
             category = kg2_util.BIOLINK_CATEGORY_CHEMICAL_ENTITY
 
         self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
