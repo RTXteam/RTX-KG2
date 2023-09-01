@@ -63,7 +63,7 @@ class UMLS_Processor(object):
             source_id = self.SOURCES[source][2]
             curie_prefix = source_id.split(':')[0]
             node_specific_id = source_id.split(':')[1]
-            iri = IRI_MAPPINGS[curie_prefix] + node_specific_id
+            iri = self.IRI_MAPPINGS[curie_prefix] + node_specific_id
             name = self.SOURCES[source][3]
             self.make_umls_node(source_id, iri, name, kg2_util.SOURCE_NODE_CATEGORY, "2023", source_id, list(), "")
 
