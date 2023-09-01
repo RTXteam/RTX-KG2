@@ -74,6 +74,7 @@ if __name__ == '__main__':
 
             # Process the data specifically by source
             umls_processor.process_node(source, node_id, value)
+        print("Finished processing", umls_processor.last_source, "at", kg2_util.date())
 
     kg2_util.end_read_jsonlines(input_read_jsonlines_info)
     kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)

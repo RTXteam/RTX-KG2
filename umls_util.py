@@ -23,30 +23,31 @@ class UMLS_Processor(object):
         self.TUI_MAPPINGS = tui_mappings
         self.IRI_MAPPINGS = iri_mappings
         self.full_name_heirarchy = full_name_heirarchy
-        self.SOURCES = {'ATC': [self.process_atc_item, kg2_util.CURIE_PREFIX_ATC, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'ATC'), "Anatomical Therapeutic Chemical Classification System"],
-                        'CHV': [self.process_chv_item, kg2_util.CURIE_PREFIX_CHV, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'CHV'), "Consumer Health Vocabulary"],
-                        'DRUGBANK': [self.process_drugbank_item, kg2_util.CURIE_PREFIX_DRUGBANK, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'DRUGBANK'), "DrugBank"],
-                        'FMA': [self.process_fma_item, kg2_util.CURIE_PREFIX_FMA, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'FMA'), "Foundational Model of Anatomy"],
-                        'GO': [self.process_go_item, kg2_util.CURIE_PREFIX_GO, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'GO'), "Gene Ontology"],
-                        'HCPCS': [self.process_hcpcs_item, kg2_util.CURIE_PREFIX_HCPCS, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'HCPCS'), "Healthcare Common Procedure Coding System"],
-                        'HGNC': [self.process_hgnc_item, kg2_util.CURIE_PREFIX_HGNC, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'HGNC'), "HUGO Gene Nomenclature Committee"],
-                        'HL7V3.0': [self.process_hl7_item, kg2_util.CURIE_PREFIX_UMLS, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'HL7'), "HL7 Version 3.0"],
-                        'HPO': [self.process_hpo_item, kg2_util.CURIE_PREFIX_HP, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'HPO'), "Human Phenotype Ontology"],
-                        'ICD10PCS': [self.process_icd10pcs_item, kg2_util.CURIE_PREFIX_ICD10PCS, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'ICD10PCS'), "ICD-10 Procedure Coding System"],
-                        'ICD9CM': [self.process_icd9cm_item, kg2_util.CURIE_PREFIX_ICD9, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'ICD9CM'), "International Classification of Diseases, Ninth Revision, Clinical Modification"],
-                        'MED-RT': [self.process_medrt_item, kg2_util.CURIE_PREFIX_UMLS, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'MED-RT'), "Medication Reference Terminology"],
-                        'MEDLINEPLUS': [self.process_medlineplus_item, kg2_util.CURIE_PREFIX_UMLS, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'MEDLINEPLUS'), "MedlinePlus Health Topics"],
-                        'MSH': [self.process_msh_item, kg2_util.CURIE_PREFIX_MESH, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'MSH'), "Medical Subject Headings"],
-                        'MTH': [self.process_mth_item, kg2_util.CURIE_PREFIX_UMLS, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'MTH'), "Metathesaurus Names"],
-                        'NCBI': [self.process_ncbi_item, kg2_util.CURIE_PREFIX_NCBI_TAXON, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'NCBITAXON'), "NCBI Taxonomy"],
-                        'NCI': [self.process_nci_item, kg2_util.CURIE_PREFIX_NCIT, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'NCI'), "NCI Thesaurus"],
-                        'NDDF': [self.process_nddf_item, kg2_util.CURIE_PREFIX_NDDF, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'NDDF'), "National Drug Data File"],
-                        'OMIM': [self.process_omim_item, kg2_util.CURIE_PREFIX_OMIM, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'OMIM'), "Online Mendelian Inheritance in Man"],
-                        'PDQ': [self.process_pdq_item, kg2_util.CURIE_PREFIX_PDQ, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'PDQ'), "Physician Data Query"],
-                        'PSY': [self.process_psy_item, kg2_util.CURIE_PREFIX_PSY, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'PSY'), "Psychological Index Terms"],
-                        'RXNORM': [self.process_rxnorm_item, kg2_util.CURIE_PREFIX_RXNORM, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'RXNORM'), "RXNORM"],
-                        'VANDF': [self.process_vandf_item, kg2_util.CURIE_PREFIX_VANDF, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'VANDF'), "National Drug File"],
-                        'UMLS': [self.process_umls_item, kg2_util.CURIE_PREFIX_UMLS, self.make_node_id(kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY, 'umls'), "Unified Medical Language System"]}
+        self.SOURCES = {'UMLS_SOURCE': [self.process_umls_source_item, None, None],
+                        'ATC': [self.process_atc_item, kg2_util.CURIE_PREFIX_ATC, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'ATC')],
+                        'CHV': [self.process_chv_item, kg2_util.CURIE_PREFIX_CHV, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'CHV')],
+                        'DRUGBANK': [self.process_drugbank_item, kg2_util.CURIE_PREFIX_DRUGBANK, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'DRUGBANK')],
+                        'FMA': [self.process_fma_item, kg2_util.CURIE_PREFIX_FMA, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'FMA')],
+                        'GO': [self.process_go_item, kg2_util.CURIE_PREFIX_GO, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'GO')],
+                        'HCPCS': [self.process_hcpcs_item, kg2_util.CURIE_PREFIX_HCPCS, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'HCPCS')],
+                        'HGNC': [self.process_hgnc_item, kg2_util.CURIE_PREFIX_HGNC, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'HGNC')],
+                        'HL7V3.0': [self.process_hl7_item, kg2_util.CURIE_PREFIX_UMLS, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'HL7')],
+                        'HPO': [self.process_hpo_item, kg2_util.CURIE_PREFIX_HP, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'HPO')],
+                        'ICD10PCS': [self.process_icd10pcs_item, kg2_util.CURIE_PREFIX_ICD10PCS, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'ICD10PCS')],
+                        'ICD9CM': [self.process_icd9cm_item, kg2_util.CURIE_PREFIX_ICD9, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'ICD9CM')],
+                        'MED-RT': [self.process_medrt_item, kg2_util.CURIE_PREFIX_UMLS, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'MED-RT')],
+                        'MEDLINEPLUS': [self.process_medlineplus_item, kg2_util.CURIE_PREFIX_UMLS, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'MEDLINEPLUS')],
+                        'MSH': [self.process_msh_item, kg2_util.CURIE_PREFIX_MESH, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'MSH')],
+                        'MTH': [self.process_mth_item, kg2_util.CURIE_PREFIX_UMLS, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'MTH')],
+                        'NCBI': [self.process_ncbi_item, kg2_util.CURIE_PREFIX_NCBI_TAXON, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'NCBITAXON')],
+                        'NCI': [self.process_nci_item, kg2_util.CURIE_PREFIX_NCIT, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'NCI')],
+                        'NDDF': [self.process_nddf_item, kg2_util.CURIE_PREFIX_NDDF, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'NDDF')],
+                        'OMIM': [self.process_omim_item, kg2_util.CURIE_PREFIX_OMIM, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'OMIM')],
+                        'PDQ': [self.process_pdq_item, kg2_util.CURIE_PREFIX_PDQ, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'PDQ')],
+                        'PSY': [self.process_psy_item, kg2_util.CURIE_PREFIX_PSY, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'PSY')],
+                        'RXNORM': [self.process_rxnorm_item, kg2_util.CURIE_PREFIX_RXNORM, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'RXNORM')],
+                        'VANDF': [self.process_vandf_item, kg2_util.CURIE_PREFIX_VANDF, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'VANDF')],
+                        'UMLS': [self.process_umls_item, kg2_util.CURIE_PREFIX_UMLS, self.make_node_id(kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY, 'umls')]}
         self.create_umls_accession_heirarchy()
         self.create_accession_sources_heirarchy()
 
@@ -59,18 +60,11 @@ class UMLS_Processor(object):
         self.last_source = ''
         self.hgnc_to_omim = dict()
 
-        for source in self.SOURCES:
-            source_id = self.SOURCES[source][2]
-            curie_prefix = source_id.split(':')[0]
-            node_specific_id = source_id.split(':')[1]
-            iri = self.IRI_MAPPINGS[curie_prefix] + node_specific_id
-            name = self.SOURCES[source][3]
-            self.make_umls_node(source_id, iri, name, kg2_util.SOURCE_NODE_CATEGORY, "2023", source_id, list(), "")
-
 
     def process_node(self, source, node_id, data):
         if source != self.last_source and self.last_source != '' and self.last_source in self.SOURCES:
             print("Finished processing", self.last_source, "at", kg2_util.date())
+            print("Started processing", source, "at", kg2_util.date())
         self.last_source = source
         if source in self.SOURCES:
             self.SOURCES[source][0](node_id, data, source)
@@ -182,7 +176,17 @@ class UMLS_Processor(object):
         for tui in tuis:
             description += "; UMLS Semantic Type: STY:" + tui
         description = description.strip("; ")
-        return description    
+        return description
+
+
+    def process_umls_source_item(self, node_id, info, umls_code):
+        source_id = self.SOURCES[node_id][2]
+        curie_prefix = source_id.split(':')[0]
+        node_specific_id = source_id.split(':')[1]
+        iri = self.IRI_MAPPINGS[curie_prefix] + node_specific_id
+        name = info.get('source_name', '') + ' v' + info.get('version', '')
+        update_date = info.get('update_date', '')
+        self.make_umls_node(source_id, iri, name, kg2_util.SOURCE_NODE_CATEGORY, update_date, source_id, list(), "")
 
 
     def process_atc_item(self, node_id, info, umls_code):
