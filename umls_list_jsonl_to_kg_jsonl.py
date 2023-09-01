@@ -67,7 +67,7 @@ if __name__ == '__main__':
     for data in input_items:
         # There should only be one item in the data dictionary
         for entity in data:
-            if entity == "('NOCODE', 'MTH')":
+            if entity == "('MTH', 'NOCODE')":
                 continue
             value = data[entity]
             source, node_id = extract_node_id(entity)
