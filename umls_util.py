@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-'''umls_list_jsonl_to_kg_jsonl.py: converts UMLS MySQL JSON Lines dump into KG2 JSON format
+'''umls_util.py: handles source-specific conversion of UMLS MySQL JSON Lines dump into KG2 JSON format
 
-   Usage: umls_list_jsonl_to_kg_jsonl.py [--test] <inputFile.jsonl> <outputNodesFile.json> <outputEdgesFile.jsonl>
+   Usage: import umls_util.py
 '''
 
 __author__ = 'Erica Wood'
@@ -582,6 +582,9 @@ class UMLS_Processor(object):
         fda_unii_code = attributes.get('FDA_UNII_CODE', list())
         us_recommended_intake = attributes.get('US_RECOMMENDED_INTAKE', list())
         chemical_formula = attributes.get('CHEMICAL_FORMULA', list())
+
+        if tuis == ['T028'] and (len(entrezgene_id) > 0 or len(hgnc_id) > 0 or len(gene_encodes_product) > 0 or "gene" in name.lower() or "allele" in name.lower()):
+            category = kg2_util.BIOLINK_CATEGORY_GENE
 
         self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
         self.create_xref_edges(node_curie, cuis, provided_by)
