@@ -46,7 +46,7 @@ class UMLS_Processor(object):
                         'PSY': [self.process_psy_item, kg2_util.CURIE_PREFIX_PSY, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'PSY'), "Psychological Index Terms"],
                         'RXNORM': [self.process_rxnorm_item, kg2_util.CURIE_PREFIX_RXNORM, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'RXNORM'), "RXNORM"],
                         'VANDF': [self.process_vandf_item, kg2_util.CURIE_PREFIX_VANDF, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'VANDF'), "National Drug File"],
-                        'UMLS': [self.process_umls_item, kg2_util.CURIE_PREFIX_UMLS, self.make_node_id(kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY, 'umls')]}
+                        'UMLS': [self.process_umls_item, kg2_util.CURIE_PREFIX_UMLS, self.make_node_id(kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY, 'umls'), "Unified Medical Language System"]}
         self.create_umls_accession_heirarchy()
         self.create_accession_sources_heirarchy()
 
