@@ -484,7 +484,7 @@ class UMLS_Processor(object):
         ol = attributes.get('OL', list())
         mn = attributes.get('MN', list())
 
-        if category == kg2_util.BIOLINK_CATEGORY_GENE and "T109" in tuis:
+        if category == kg2_util.BIOLINK_CATEGORY_DRUG and "T109" in tuis:
             category = kg2_util.BIOLINK_CATEGORY_CHEMICAL_ENTITY
 
         self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
@@ -725,8 +725,11 @@ class UMLS_Processor(object):
         if node_curie == None:
             return
 
-        if category == kg2_util.BIOLINK_CATEGORY_GENE and "T109" in tuis:
+        if category == kg2_util.BIOLINK_CATEGORY_DRUG and "T109" in tuis:
             category = kg2_util.BIOLINK_CATEGORY_CHEMICAL_ENTITY
+
+        if category == kg2_util.BIOLINK_NAMED_THING and tuis == ["T028"] and ("gene" in name.lower() or "allele" in name.lower()):
+            category = kg2_util.BIOLINK_CATEGORY_GENE
 
         self.make_umls_node(node_curie, iri, name, category, "2023", provided_by, synonyms, self.create_description(tuis, description))
         self.create_umls_edges(node_curie, info.get(self.RELATIONS_KEY, dict()))
