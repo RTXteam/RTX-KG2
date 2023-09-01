@@ -27,15 +27,16 @@ def get_args():
     return arg_parser.parse_args()
 
 
-def get_english_sources(cursor):
-    sources_sql_statement = "SELECT RSAB, LAT FROM MRSAB"
+def get_english_sources(cursor, output):
+    sources_sql_statement = "SELECT RSAB, LAT, SSN, IMETA, SVER FROM MRSAB"
     sources = []
 
     cursor.execute(sources_sql_statement)
     for result in cursor.fetchall():
-        (source, language) = result
+        (source, language, source_name, version, update_date) = result
         if language == 'ENG':
             sources.append(source)
+            output.write({("UMLS_SOURCE", source): {"update_date": update_date, "source_name": source_name, "version": version}})
 
     print("Finished sources_sql_statement at", kg2_util.date())
 
@@ -241,7 +242,7 @@ if __name__ == '__main__':
         cursor.fetchall()
 
         # This ensure we don't have UMLS sources that overwrite each other's names
-        sources = get_english_sources(cursor)
+        sources = get_english_sources(cursor, output)
 
         code_sources(cursor, output)
         cui_sources(cursor, output, sources)
