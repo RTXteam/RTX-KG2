@@ -36,7 +36,7 @@ def get_english_sources(cursor, output):
         (source, language, source_name, version, update_date) = result
         if language == 'ENG':
             sources.append(source)
-            output.write({("UMLS_SOURCE", source): {"update_date": update_date, "source_name": source_name, "version": version}})
+            output.write({str(("UMLS_SOURCE", source)): {"update_date": update_date, "source_name": source_name, "version": version}})
 
     print("Finished sources_sql_statement at", kg2_util.date())
 
