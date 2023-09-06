@@ -31,14 +31,32 @@ def get_english_sources(cursor, output):
     sources_sql_statement = "SELECT RSAB, LAT, SSN, IMETA, SVER FROM MRSAB"
     sources = []
 
+    source_data = dict()
+
     cursor.execute(sources_sql_statement)
     for result in cursor.fetchall():
         (source, language, source_name, version, update_date) = result
         if language == 'ENG':
             sources.append(source)
-            output.write({str(("UMLS_SOURCE", source)): {"update_date": update_date, "source_name": source_name, "version": version}})
+            key = ("UMLS_SOURCE", source)
 
-    print("Finished sources_sql_statement at", kg2_util.date())
+            if key in source_data:
+                old_date = source_data[key].get('update_date', '')
+
+                old_date_val = old_date.strip('B').strip('A')
+                new_date_val = update_date.strip('B').strip('A')
+
+                if new_date_val < old_date_val or (new_date_val == old_date_val and old_date_val.endswith('AB')):
+                    continue
+
+            source_data[key] = {"update_date": update_date, "source_name": source_name, "version": version}
+
+    record_num = 0
+    for key, val in source_data.items():
+        record_num += 1
+        output.write({str(key): val})
+
+    print("Finished adding", record_num, "records in get_english_sources() at", kg2_util.date())
 
     return sources
 
