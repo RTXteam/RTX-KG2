@@ -62,7 +62,7 @@ class UMLS_Processor(object):
 
 
     def process_node(self, source, node_id, data):
-        if source != self.last_source and self.last_source != '' and self.last_source in self.SOURCES:
+        if source != self.last_source and self.last_source != '' and self.last_source in self.SOURCES and source in self.SOURCES:
             print("Finished processing", self.last_source, "at", kg2_util.date())
             print("Started processing", source, "at", kg2_util.date())
         self.last_source = source
