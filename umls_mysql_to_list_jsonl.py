@@ -46,7 +46,7 @@ def get_english_sources(cursor, output):
                 old_date_val = old_date.strip('B').strip('A')
                 new_date_val = update_date.strip('B').strip('A')
 
-                if new_date_val < old_date_val or (new_date_val == old_date_val and old_date_val.endswith('AB')):
+                if new_date_val < old_date_val or (new_date_val == old_date_val and old_date.endswith('AB')):
                     continue
 
             source_data[key] = {"update_date": update_date, "source_name": source_name, "version": version}
