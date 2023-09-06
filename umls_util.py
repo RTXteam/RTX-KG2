@@ -180,6 +180,8 @@ class UMLS_Processor(object):
 
 
     def process_umls_source_item(self, node_id, info, umls_code):
+        if node_id not in self.SOURCES:
+            return
         source_id = self.SOURCES[node_id][2]
         curie_prefix = source_id.split(':')[0]
         node_specific_id = source_id.split(':')[1]
