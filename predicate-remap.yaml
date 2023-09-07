@@ -1,3 +1,15 @@
+ATC:has_member:
+  operation: keep
+  core_predicate: biolink:related_to
+ATC:inverse_isa:
+  operation: invert
+  core_predicate: biolink:subclass_of
+ATC:isa:
+  operation: keep
+  core_predicate: biolink:subclass_of
+ATC:member_of:
+  operation: keep
+  core_predicate: biolink:related_to
 BFO:0000050: 
   operation: invert
   core_predicate: biolink:has_part
@@ -1320,6 +1332,12 @@ FMA:insertion_of:
 FMA:internal_to:
   operation: keep
   core_predicate: biolink:coexists_with
+FMA:inverse_isa:
+  operation: invert
+  core_predicate: biolink:subclass_of
+FMA:isa:
+  operation: keep
+  core_predicate: biolink:subclass_of 
 FMA:lateral_to:
   operation: keep
   core_predicate: biolink:coexists_with
@@ -1481,6 +1499,18 @@ GENEPIO:0001739:
 #   core_predicate: biolink:gene_associated_with_condition
 # GO:SIB:
 #   operation: delete
+GO:RB:
+  operation: invert
+  core_predicate: biolink:subclass_of
+GO:RN:
+  operation: keep
+  core_predicate: biolink:subclass_of
+GO:RO:
+  operation: keep
+  core_predicate: biolink:related_to 
+GO:SY:
+  operation: keep
+  core_predicate: biolink:close_match
 GO:acts_upstream_of:
   operation: keep
   core_predicate: biolink:affects
@@ -1554,6 +1584,12 @@ GO:isa:
 GO:located_in:
   operation: keep
   core_predicate: biolink:located_in
+GO:mth_expanded_form_of:
+  operation: keep
+  core_predicate: biolink:close_match
+GO:mth_has_expanded_form:
+  operation: keep
+  core_predicate: biolink:close_match
 GO:negatively_regulated_by:
   operation: invert
   core_predicate: biolink:regulates
@@ -1632,11 +1668,41 @@ HANCESTRO:0308:
 HANCESTRO:0330:
   operation: keep
   core_predicate: biolink:related_to
+HCPCS:CHD:
+  operation: invert
+  core_predicate: biolink:subclass_of
+HCPCS:PAR:
+  operation: keep
+  core_predicate: biolink:subclass_of
 HCPCS:mapped_from:
   operation: delete
 HCPCS:mapped_to:
   operation: keep
   core_predicate: biolink:related_to
+HGNC:alias_of:
+  operation: keep
+  core_predicate: biolink:close_match
+HGNC:expanded_form_of:
+  operation: keep
+  core_predicate: biolink:close_match
+HGNC:has_alias:
+  operation: keep
+  core_predicate: biolink:close_match
+HGNC:has_expanded_form:
+  operation: keep
+  core_predicate: biolink:close_match
+HGNC:has_prev_name:
+  operation: keep
+  core_predicate: biolink:close_match
+HGNC:has_prev_symbol:
+  operation: keep
+  core_predicate: biolink:close_match
+HGNC:prev_name_of:
+  operation: keep
+  core_predicate: biolink:close_match
+HGNC:prev_symbol_of:
+  operation: keep
+  core_predicate: biolink:close_match
 HMDB:at_cellular_location:
   operation: keep
   core_predicate: biolink:located_in
@@ -1655,8 +1721,24 @@ HMDB:in_biospecimen:
 HMDB:in_pathway:
   operation: invert
   core_predicate: biolink:has_participant
-# HP:SIB:
-#   operation: delete
+HP:RB:
+  operation: invert
+  core_predicate: biolink:subclass_of
+HP:RN:
+  operation: keep
+  core_predicate: biolink:subclass_of
+HP:RO:
+  operation: keep
+  core_predicate: biolink:related_to
+HP:SY:
+  operation: keep
+  core_predicate: biolink:close_match
+HP:inverse_isa:
+  operation: invert
+  core_predicate: biolink:subclass_of
+HP:isa:
+  operation: keep
+  core_predicate: biolink:close_match
 IAO:0000039:
   operation: keep
   core_predicate: biolink:related_to
@@ -1669,10 +1751,24 @@ IAO:0000142:
 IAO:0000219:
   operation: keep
   core_predicate: biolink:related_to
-# ICD10PCS:SIB:
-#   operation: delete
-# ICD9:SIB:
-#   operation: delete
+ICD10PCS:CHD:
+  operation: invert
+  core_predicate: biolink:subclass_of
+ICD10PCS:PAR:
+  operation: keep
+  core_predicate: biolink:subclass_of
+ICD10PCS:expanded_form_of:
+  operation: keep
+  core_predicate: biolink:close_match
+ICD10PCS:has_expanded_form:
+  operation: keep
+  core_predicate: biolink:close_match
+ICD9:CHD:
+  operation: invert
+  core_predicate: biolink:subclass_of
+ICD9:PAR:
+  operation: keep
+  core_predicate: biolink:subclass_of
 IDO:0000664:
   operation: invert
   core_predicate: biolink:contributes_to
@@ -1957,8 +2053,20 @@ LOINC:time_modifier_of:
 #   core_predicate: biolink:has_part
 MESH:AQ:
   operation: delete
+MESH:CHD:
+  operation: invert
+  core_predicate: biolink:subclass_of
+MESH:PAR:
+  operation: keep
+  core_predicate: biolink:subclass_of
 MESH:QB:
   operation: delete
+MESH:RB:
+  operation: invert
+  core_predicate: biolink:subclass_of
+MESH:RN:
+  operation: keep
+  core_predicate: biolink:subclass_of 
 MESH:RO:
   operation: keep
   core_predicate: biolink:related_to
@@ -1967,6 +2075,9 @@ MESH:RO:
 MESH:has_mapping_qualifier:
   operation: keep
   core_predicate: biolink:related_to
+MESH:has_permuted_term:
+  operation: keep
+  core_predicate: biolink:close_match
 MESH:inverse_isa:
   operation: keep
   core_predicate: biolink:superclass_of
@@ -1980,6 +2091,9 @@ MESH:mapped_to:
   core_predicate: biolink:related_to
 MESH:mapping_qualifier_of:
   operation: delete
+MESH:permuted_term_of:
+  operation: keep
+  core_predicate: biolink:close_match
 MI:0192:
   operation: keep
   core_predicate: biolink:directly_physically_interacts_with
@@ -2153,201 +2267,30 @@ MONDO:part_of_progression_of_disease:
 MONDO:predisposes_towards:
   operation: keep
   core_predicate: biolink:contributes_to
-# NBO-PROPERTY:by_means:
-#   operation: keep
-#   core_predicate: biolink:actively_involved_in
-# NBO-PROPERTY:has_participant:
-#   operation: keep
-#   core_predicate: biolink:has_participant
-# NBO-PROPERTY:in_response_to:
-#   operation: keep
-#   core_predicate: biolink:causes
-# NBO-PROPERTY:is_about:
-#   operation: keep
-#   core_predicate: biolink:related_to
-# NCIT:A11:
-#   operation: keep
-#   core_predicate: biolink:subclass_of
-# NCIT:A14:
-#   operation: keep
-#   core_predicate: biolink:subclass_of
-# NCIT:A16:
-#   operation: keep
-#   core_predicate: biolink:subclass_of
-# NCIT:A3:
-#   operation: keep
-#   core_predicate: biolink:subclass_of
-# NCIT:A7:
-#   operation: keep
-#   core_predicate: biolink:physically_interacts_with
-# NCIT:Anatomic_Structure_Has_Location_Role:
-#   operation: invert
-#   core_predicate: biolink:located_in
-# NCIT:C15220:
-#   operation: keep
-#   core_predicate: biolink:diagnoses
-# NCIT:C16798:
-#   operation: keep
-#   core_predicate: biolink:in_linkage_disequilibrium_with
+NCBITaxon:CHD:
+  operation: invert
+  core_predicate: biolink:subclass_of
+NCBITaxon:PAR:
+  operation: keep
+  core_predicate: biolink:subclass_of
+NCBITaxon:expanded_form_of:
+  operation: keep
+  core_predicate: biolink:close_match
+NCBITaxon:has_expanded_form:
+  operation: keep
+  core_predicate: biolink:close_match
 NCIT:C2861:
   operation: keep
   core_predicate: biolink:has_side_effect
-# NCIT:C37933:
-#   operation: keep
-#   core_predicate: biolink:contraindicated_for
-# NCIT:R100:
-#   operation: keep
-#   core_predicate: biolink:affects
-# NCIT:R101:
-#   operation: keep
-#   core_predicate: biolink:affects
-# NCIT:R102:
-#   operation: keep
-#   core_predicate: biolink:affects
-# NCIT:R108:
-#   operation: keep
-#   core_predicate: biolink:has_phenotype
-# NCIT:R113:
-#   operation: keep
-#   core_predicate: biolink:affects
-# NCIT:R115:
-#   operation: keep
-#   core_predicate: biolink:has_phenotype
-# NCIT:R124:
-#   operation: keep
-#   core_predicate: biolink:affects
-# NCIT:R130:
-#   operation: invert
-#   core_predicate: biolink:has_participant
-# NCIT:R131:
-#   operation: invert
-#   core_predicate: biolink:has_participant
-# NCIT:R133:
-#   operation: keep
-#   core_predicate: biolink:affects
-# NCIT:R145:
-#   operation: keep
-#   core_predicate: biolink:located_in
-# NCIT:R146:
-#   operation: keep
-#   core_predicate: biolink:affects
-# NCIT:R150:
-#   operation: keep
-#   core_predicate: biolink:affects
-# NCIT:R155:
-#   operation: keep
-#   core_predicate: biolink:located_in
-# NCIT:R156:
-#   operation: keep
-#   core_predicate: biolink:located_in
-# NCIT:R158:
-#   operation: keep
-#   core_predicate: biolink:affects
-# NCIT:R160:
-#   operation: keep
-#   core_predicate: biolink:affects
 NCIT:R163:
   operation: keep
   core_predicate: biolink:related_to
-# NCIT:R165:
-#   operation: keep
-#   core_predicate: biolink:located_in
-# NCIT:R166:
-#   operation: keep
-#   core_predicate: biolink:located_in
-# NCIT:R167:
-#   operation: keep
-#   core_predicate: biolink:located_in
-# NCIT:R168:
-#   operation: keep
-#   core_predicate: biolink:located_in
-# NCIT:R169:
-#   operation: keep
-#   core_predicate: biolink:located_in
-# NCIT:R170:
-#   operation: keep
-#   core_predicate: biolink:located_in
-# NCIT:R171:
-#   operation: keep
-#   core_predicate: biolink:located_in
-# NCIT:R173:
-#   operation: keep
-#   core_predicate: biolink:affects
-# NCIT:R175:
-#   operation: keep
-#   core_predicate: biolink:gene_associated_with_condition
-# NCIT:R176:
-#   operation: invert
-#   core_predicate: biolink:gene_associated_with_condition
-# NCIT:R178:
-#   operation: invert
-#   core_predicate: biolink:gene_product_of
-# NCIT:R23:
-#   operation: keep
-#   core_predicate: biolink:affects
-# NCIT:R25:
-#   operation: keep
-#   core_predicate: biolink:affects
-# NCIT:R27:
-#   operation: invert
-#   core_predicate: biolink:has_part
-# NCIT:R29:
-#   operation: keep
-#   core_predicate: biolink:produces
-# NCIT:R30:
-#   operation: keep
-#   core_predicate: biolink:affects
-# NCIT:R36:
-#   operation: keep
-#   core_predicate: biolink:subclass_of
-# NCIT:R37:
-#   operation: invert
-#   core_predicate: biolink:has_participant
-# NCIT:R38:
-#   operation: keep
-#   core_predicate: biolink:gene_associated_with_condition
-# NCIT:R39:
-#   operation: keep
-#   core_predicate: biolink:biomarker_for
-# NCIT:R40:
-#   operation: keep
-#   core_predicate: biolink:located_in
-# NCIT:R42:
-#   operation: keep
-#   core_predicate: biolink:subclass_of
-# NCIT:R47:
-#   operation: keep
-#   core_predicate: biolink:biomarker_for
-# NCIT:R48:
-#   operation: keep
-#   core_predicate: biolink:gene_associated_with_condition
-# NCIT:R50:
-#   operation: keep
-#   core_predicate: biolink:has_part
-# NCIT:R51:
-#   operation: invert
-#   core_predicate: biolink:has_participant
-# NCIT:R52:
-#   operation: keep
-#   core_predicate: biolink:capable_of
-# NCIT:R53:
-#   operation: invert
-#   core_predicate: biolink:has_participant
-# NCIT:R72:
-#   operation: keep
-#   core_predicate: biolink:affects
 NCIT:R81:
   operation: keep
   core_predicate: biolink:related_to
 NCIT:R82:
   operation: invert
   core_predicate: biolink:has_part
-# NCIT:R88:
-#   operation: keep
-#   core_predicate: biolink:related_to
-# NCIT:R89:
-#   operation: keep
-#   core_predicate: biolink:has_phenotype
 NCIT:abnormal_cell_affected_by_chemical_or_drug:
   operation: delete
 NCIT:abnormality_associated_with_allele:
@@ -2746,6 +2689,9 @@ NCIT:has_seronet_permissible_value:
 NCIT:has_target:
   operation: keep
   core_predicate: biolink:physically_interacts_with
+NCIT:has_tradename:
+  operation: keep
+  core_predicate: biolink:close_match
 NCIT:human_disease_maps_to_eo_disease:
   operation: keep
   core_predicate: biolink:related_to
@@ -2755,6 +2701,12 @@ NCIT:imaged_anatomy_has_procedure:
   operation: delete
 NCIT:inc_parent_of:
   operation: delete
+NCIT:inverse_isa:
+  operation: invert
+  core_predicate: biolink:close_match
+NCIT:isa:
+  operation: keep
+  core_predicate: biolink:close_match
 NCIT:is_abnormal_cell_of_disease:
   operation: keep
   core_predicate: biolink:related_to
@@ -2979,6 +2931,9 @@ NCIT:target_anatomy_has_procedure:
   operation: delete
 NCIT:tissue_is_expression_site_of_gene_product:
   operation: delete
+NCIT:tradename_of:
+  operation: keep
+  core_predicate: biolink:close_match
 NCIT:value_set_is_paired_with:
   operation: delete
 NDDF:dose_form_of:
@@ -3070,11 +3025,35 @@ OBO:nbo#is_about:
 # OIO:hasDbXref:
 #   operation: keep
 #   core_predicate: biolink:close_match
+OMIM:CHD:
+  operation: invert
+  core_predicate: biolink:subclass_of
+OMIM:PAR:
+  operation: keep
+  core_predicate: biolink:subclass_of
+OMIM:alias_of:
+  operation: keep
+  core_predicate: biolink:related_to
 OMIM:allelic_variant_of:
   operation: keep
   core_predicate: biolink:is_sequence_variant_of
+OMIM:entry_term_of:
+  operation: keep
+  core_predicate: biolink:related_to
+OMIM:expanded_form_of:
+  operation: keep
+  core_predicate: biolink:close_match 
+OMIM:has_alias:
+  operation: keep
+  core_predicate: biolink:related_to
 OMIM:has_allelic_variant:
   operation: delete
+OMIM:has_entry_term:
+  operation: keep
+  core_predicate: biolink:related_to 
+OMIM:has_expanded_form:
+  operation: keep
+  core_predicate: biolink:close_match
 OMIM:has_inheritance_type:
   operation: keep
   core_predicate: biolink:related_to
@@ -3176,6 +3155,9 @@ PATO:reciprocal_of:
 # PATO:towards:
 #   operation: invert
 #   core_predicate: biolink:actively_involved_in
+PDQ:SY:
+  operation: keep
+  core_predicate: biolink:close_match
 PDQ:associated_disease:
   operation: keep
   core_predicate: biolink:correlated_with
@@ -3184,9 +3166,33 @@ PDQ:associated_genetic_condition:
 PDQ:component_of:
   operation: invert
   core_predicate: biolink:has_part
+PDQ:expanded_form_of:
+  operation: keep
+  core_predicate: biolink:close_match
 PDQ:has_component:
   operation: keep
   core_predicate: biolink:has_part
+PDQ:has_expanded_form:
+  operation: keep
+  core_predicate: biolink:close_match
+PDQ:has_lab_number:
+  operation: keep
+  core_predicate: biolink:related_to
+PDQ:has_tradename:
+  operation: keep
+  core_predicate: biolink:related_to
+PDQ:inverse_isa:
+  operation: invert
+  core_predicate: biolink:subclass_of
+PDQ:isa:
+  operation: keep
+  core_predicate: biolink:subclass_of
+PDQ:lab_number_of:
+  operation: keep
+  core_predicate: biolink:related_to 
+PDQ:tradename_of:
+  operation: keep
+  core_predicate: biolink:related_to
 PHAROS:drug_targets:
   operation: keep
   core_predicate: biolink:directly_physically_interacts_with
@@ -3206,12 +3212,27 @@ PR:lacks_part:
 PR:non-covalently_bound_to:
   operation: keep
   core_predicate: biolink:physically_interacts_with
+PSY:CHD:
+  operation: invert
+  core_predicate: biolink:subclass_of
+PSY:PAR:
+  operation: keep
+  core_predicate: biolink:subclass_of
 PSY:RB:
   operation: invert
+  core_predicate: biolink:subclass_of
+PSY:RN:
+  operation: keep
   core_predicate: biolink:subclass_of
 PSY:RO:
   operation: keep
   core_predicate: biolink:related_to
+PSY:has_member:
+  operation: keep
+  core_predicate: biolink:subclass_of
+PSY:member_of:
+  operation: invert
+  core_predicate: biolink:subclass_of
 PSY:use:
   operation: keep
   core_predicate: biolink:subclass_of
@@ -4115,6 +4136,9 @@ RO:0040036:
 RO:participates_in:
   operation: invert
   core_predicate: biolink:has_participant
+RXNORM:SY:
+  operation: keep
+  core_predicate: biolink:close_match
 RXNORM:consists_of:
   operation: keep
   core_predicate: biolink:has_part
@@ -4156,6 +4180,12 @@ RXNORM:has_quantified_form:
   operation: keep
   core_predicate: biolink:close_match
 RXNORM:has_tradename:
+  operation: keep
+  core_predicate: biolink:related_to
+RXNORM:included_in:
+  operation: keep
+  core_predicate: biolink:related_to
+RXNORM:includes:
   operation: keep
   core_predicate: biolink:related_to
 RXNORM:ingredient_of:
@@ -4614,8 +4644,17 @@ UBERON_CORE:synapsed_by:
 # UBERON_NONAMESPACE:subdivision_of:
 #   operation: keep
 #   core_predicate: biolink:coexists_with
+UMLS:CHD:
+  operation: invert
+  core_predicate: biolink:subclass_of
+UMLS:PAR:
+  operation: keep
+  core_predicate: biolink:subclass_of
 UMLS:RB:
   operation: invert
+  core_predicate: biolink:subclass_of
+UMLS:RN:
+  operation: keep
   core_predicate: biolink:subclass_of
 UMLS:RO:
   operation: keep
@@ -4628,6 +4667,9 @@ UMLS:RQ:
 UMLS:SY:
   operation: keep
   core_predicate: biolink:close_match
+UMLS:active_metabolites_of:
+  operation: keep
+  core_predicate: biolink:related_to
 UMLS:class_code_classified_by:
   operation: keep
   core_predicate: biolink:related_to
@@ -4638,6 +4680,21 @@ UMLS:component_of:
   core_predicate: biolink:has_part
 UMLS:context_binding_of:
   operation: delete
+UMLS:contraindicated_class_of:
+  operation: keep
+  core_predicate: biolink:related_to
+UMLS:contraindicated_mechanism_of_action_of:
+  operation: keep
+  core_predicate: biolink:related_to
+UMLS:contraindicated_physiologic_effect_of:
+  operation: keep
+  core_predicate: biolink:related_to
+UMLS:contraindicated_with_disease:
+  operation: keep
+  core_predicate: biolink:related_to
+UMLS:effect_may_be_inhibited_by:
+  operation: keep
+  core_predicate: biolink:related_to
 UMLS:exhibited_by:
   operation: keep
   core_predicate: biolink:related_to
@@ -4645,16 +4702,34 @@ UMLS:exhibits:
   operation: delete
 UMLS:form_of:
   operation: delete
+UMLS:has_active_metabolites:
+  operation: keep
+  core_predicate: biolink:related_to
 UMLS:has_component:
   operation: keep
   core_predicate: biolink:has_part
 UMLS:has_context_binding:
   operation: keep
   core_predicate: biolink:related_to
+UMLS:has_contraindicated_class:
+  operation: keep
+  core_predicate: biolink:related_to
+UMLS:has_contraindicated_drug:
+  operation: keep
+  core_predicate: biolink:related_to
+UMLS:has_contraindicated_mechanism_of_action:
+  operation: keep
+  core_predicate: biolink:related_to
+UMLS:has_contraindicated_physiologic_effect:
+  operation: keep
+  core_predicate: biolink:related_to
 UMLS:has_form:
   operation: keep
   core_predicate: biolink:related_to
 UMLS:has_mapping_qualifier:
+  operation: keep
+  core_predicate: biolink:related_to
+UMLS:has_mechanism_of_action:
   operation: keep
   core_predicate: biolink:related_to
 UMLS:has_owning_affiliate:
@@ -4664,6 +4739,12 @@ UMLS:has_owning_section:
   operation: delete
 UMLS:has_owning_subsection:
   operation: delete
+UMLS:has_parent:
+  operation: keep
+  core_predicate: biolink:subclass_of
+UMLS:has_pharmacokinetics:
+  operation: keep
+  core_predicate: biolink:related_to
 UMLS:has_physiologic_effect:
   operation: keep
   core_predicate: biolink:causes
@@ -4676,22 +4757,61 @@ UMLS:has_supported_concept_property:
 UMLS:has_supported_concept_relationship:
   operation: keep
   core_predicate: biolink:related_to
+UMLS:has_therapeutic_class:
+  operation: keep
+  core_predicate: biolink:related_to
+UMLS:induced_by:
+  operation: keep
+  core_predicate: biolink:related_to
+UMLS:induces:
+  operation: keep
+  core_predicate: biolink:related_to
 UMLS:larger_than:
   operation: keep
   core_predicate: biolink:related_to
 UMLS:mapped_from:
   operation: delete
+UMLS:mapping_qualifier_of:
+  operation: keep
+  core_predicate: biolink:related_to
 UMLS:mapped_to:
+  operation: keep
+  core_predicate: biolink:related_to
+UMLS:may_be_diagnosed_by:
+  operation: keep
+  core_predicate: biolink:related_to
+UMLS:may_be_prevented_by:
   operation: keep
   core_predicate: biolink:related_to
 UMLS:may_be_qualified_by:
   operation: keep
   core_predicate: biolink:related_to
+UMLS:may_be_treated_by:
+  operation: keep
+  core_predicate: biolink:related_to
+UMLS:may_diagnose:
+  operation: keep
+  core_predicate: biolink:related_to
+UMLS:may_inhibit_effect_of:
+  operation: keep
+  core_predicate: biolink:related_to
+UMLS:may_prevent:
+  operation: keep
+  core_predicate: biolink:related_to
 UMLS:may_qualify:
   operation: delete
+UMLS:may_treat:
+  operation: keep
+  core_predicate: biolink:related_to
 UMLS:measured_by:
   operation: delete
 UMLS:measures:
+  operation: keep
+  core_predicate: biolink:related_to
+UMLS:mechanism_of_action_of:
+  operation: keep
+  core_predicate: biolink:related_to
+UMLS:metabolic_site_of:
   operation: keep
   core_predicate: biolink:related_to
 UMLS:owning_affiliate_of:
@@ -4702,13 +4822,37 @@ UMLS:owning_section_of:
 UMLS:owning_subsection_of:
   operation: invert
   core_predicate: biolink:has_part
+UMLS:parent_of:
+  operation: invert
+  core_predicate: biolink:subclass_of
+UMLS:pharmacokinetics_of:
+  operation: keep
+  core_predicate: biolink:related_to
+UMLS:physiologic_effect_of:
+  operation: keep
+  core_predicate: biolink:related_to
 UMLS:related_to:
+  operation: keep
+  core_predicate: biolink:related_to
+UMLS:site_of_metabolism:
+  operation: keep
+  core_predicate: biolink:related_to
+UMLS:smaller_than:
+  operation: keep
+  core_predicate: biolink:related_to
+UMLS:structural_class_of:
   operation: keep
   core_predicate: biolink:related_to
 UMLS:supported_concept_property_in:
   operation: delete
 UMLS:supported_concept_relationship_in:
   operation: delete
+UMLS:therapeutic_class_of:
+  operation: keep
+  core_predicate: biolink:related_to
+UMLS:xref:
+  operation: keep
+  core_predicate: biolink:close_match 
 # UO-PROPERTY:is_unit_of:
 #   operation: keep
 #   core_predicate: biolink:related_to
@@ -4718,6 +4862,9 @@ UMLS:supported_concept_relationship_in:
 VANDF:has_ingredient:
   operation: keep
   core_predicate: biolink:has_part
+VANDF:has_print_name:
+  operation: keep
+  core_predicate: biolink:close_match 
 VANDF:ingredient_of:
   operation: invert
   core_predicate: biolink:has_part
@@ -4727,6 +4874,9 @@ VANDF:inverse_isa:
 VANDF:isa:
   operation: keep
   core_predicate: biolink:subclass_of
+VANDF:print_name_of:
+  operation: keep
+  core_predicate: biolink:close_match 
 # WIKIDATA:P2888:
 #   operation: keep
 #   core_predicate: biolink:exact_match
