@@ -41,7 +41,9 @@ def get_english_sources(cursor, output):
             key = ("UMLS_SOURCE", source)
 
             if key in source_data:
-                if update_date < old_date:
+                old_ver = source_data[key].get('version', '')
+
+                if version < old_ver:
                     continue
 
             source_data[key] = {"update_date": update_date, "source_name": source_name, "version": version}
