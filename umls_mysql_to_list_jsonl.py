@@ -196,8 +196,8 @@ def cui_sources(cursor, output, sources):
 
     cursor.execute(relations_sql_statement)
     for result in cursor.fetchall():
-        (cui1, rel, rela, direction, cui2, source) = result
-        key = (umls_source_name, cui1)
+        (cui_object, rel, rela, direction, cui_subject, source) = result
+        key = (umls_source_name, cui_object)
         if key not in cui_source_info:
             # See above for explanation
             continue
@@ -209,7 +209,7 @@ def cui_sources(cursor, output, sources):
             cui_source_info[key][relation_key][source] = dict()
         if relation_type_key not in cui_source_info[key][relation_key][source]:
             cui_source_info[key][relation_key][source][relation_type_key] = list()
-        cui_source_info[key][relation_key][source][relation_type_key].append(cui2)
+        cui_source_info[key][relation_key][source][relation_type_key].append(cui_subject)
 
     print("Finished relations_sql_statement at", kg2_util.date())
 

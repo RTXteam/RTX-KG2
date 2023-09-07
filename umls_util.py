@@ -139,7 +139,7 @@ class UMLS_Processor(object):
                     for cui in relations[relation_source][relation]:
                         object_id = self.make_node_id(kg2_util.CURIE_PREFIX_UMLS, cui)
                         # TODO: resolve update_date
-                        if relation_direction == 'Y':
+                        if relation_direction == 'N':
                             self.edges_output.write(kg2_util.make_edge(object_id, subject_id, relation_curie, relation_label, provided_by, "2023"))
                         else:
                             self.edges_output.write(kg2_util.make_edge(subject_id, object_id, relation_curie, relation_label, provided_by, "2023"))
