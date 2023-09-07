@@ -130,11 +130,12 @@ class UMLS_Processor(object):
         for relation_source in relations:
             if relation_source in self.SOURCES:
                 provided_by = self.SOURCES[relation_source][2]
+                relation_prefix = self.SOURCES[relation_source][1]
                 for relation in relations[relation_source]:
                     relation_abbr, relation_label, relation_direction = relation.split(',')
                     if relation_label == 'None':
                         relation_label = relation_abbr
-                    relation_curie = self.make_node_id(relation_source, relation_label)
+                    relation_curie = self.make_node_id(relation_prefix, relation_label)
                     for cui in relations[relation_source][relation]:
                         object_id = self.make_node_id(kg2_util.CURIE_PREFIX_UMLS, cui)
                         # TODO: resolve update_date
