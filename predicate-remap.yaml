@@ -1,6 +1,6 @@
 ATC:has_member:
   operation: keep
-  core_predicate: biolink:related_to
+  core_predicate: biolink:has_member
 ATC:inverse_isa:
   operation: invert
   core_predicate: biolink:subclass_of
@@ -8,8 +8,8 @@ ATC:isa:
   operation: keep
   core_predicate: biolink:subclass_of
 ATC:member_of:
-  operation: keep
-  core_predicate: biolink:related_to
+  operation: invert
+  core_predicate: biolink:has_member
 BFO:0000050: 
   operation: invert
   core_predicate: biolink:has_part
@@ -1669,10 +1669,10 @@ HANCESTRO:0330:
   operation: keep
   core_predicate: biolink:related_to
 HCPCS:CHD:
-  operation: invert
+  operation: keep
   core_predicate: biolink:subclass_of
 HCPCS:PAR:
-  operation: keep
+  operation: invert
   core_predicate: biolink:subclass_of
 HCPCS:mapped_from:
   operation: delete
@@ -1738,7 +1738,7 @@ HP:inverse_isa:
   core_predicate: biolink:subclass_of
 HP:isa:
   operation: keep
-  core_predicate: biolink:close_match
+  core_predicate: biolink:subclass_of
 IAO:0000039:
   operation: keep
   core_predicate: biolink:related_to
@@ -1752,10 +1752,10 @@ IAO:0000219:
   operation: keep
   core_predicate: biolink:related_to
 ICD10PCS:CHD:
-  operation: invert
+  operation: keep
   core_predicate: biolink:subclass_of
 ICD10PCS:PAR:
-  operation: keep
+  operation: invert
   core_predicate: biolink:subclass_of
 ICD10PCS:expanded_form_of:
   operation: keep
@@ -1764,10 +1764,10 @@ ICD10PCS:has_expanded_form:
   operation: keep
   core_predicate: biolink:close_match
 ICD9:CHD:
-  operation: invert
+  operation: keep
   core_predicate: biolink:subclass_of
 ICD9:PAR:
-  operation: keep
+  operation: invert
   core_predicate: biolink:subclass_of
 IDO:0000664:
   operation: invert
@@ -2054,10 +2054,10 @@ LOINC:time_modifier_of:
 MESH:AQ:
   operation: delete
 MESH:CHD:
-  operation: invert
+  operation: keep
   core_predicate: biolink:subclass_of
 MESH:PAR:
-  operation: keep
+  operation: invert
   core_predicate: biolink:subclass_of
 MESH:QB:
   operation: delete
@@ -2268,10 +2268,10 @@ MONDO:predisposes_towards:
   operation: keep
   core_predicate: biolink:contributes_to
 NCBITaxon:CHD:
-  operation: invert
+  operation: keep
   core_predicate: biolink:subclass_of
 NCBITaxon:PAR:
-  operation: keep
+  operation: invert
   core_predicate: biolink:subclass_of
 NCBITaxon:expanded_form_of:
   operation: keep
@@ -2703,10 +2703,10 @@ NCIT:inc_parent_of:
   operation: delete
 NCIT:inverse_isa:
   operation: invert
-  core_predicate: biolink:close_match
+  core_predicate: biolink:subclass_of
 NCIT:isa:
   operation: keep
-  core_predicate: biolink:close_match
+  core_predicate: biolink:subclass_of
 NCIT:is_abnormal_cell_of_disease:
   operation: keep
   core_predicate: biolink:related_to
@@ -3026,10 +3026,10 @@ OBO:nbo#is_about:
 #   operation: keep
 #   core_predicate: biolink:close_match
 OMIM:CHD:
-  operation: invert
+  operation: keep
   core_predicate: biolink:subclass_of
 OMIM:PAR:
-  operation: keep
+  operation: invert
   core_predicate: biolink:subclass_of
 OMIM:alias_of:
   operation: keep
@@ -3176,11 +3176,10 @@ PDQ:has_expanded_form:
   operation: keep
   core_predicate: biolink:close_match
 PDQ:has_lab_number:
-  operation: keep
-  core_predicate: biolink:related_to
+  operation: delete
 PDQ:has_tradename:
   operation: keep
-  core_predicate: biolink:related_to
+  core_predicate: biolink:close_match
 PDQ:inverse_isa:
   operation: invert
   core_predicate: biolink:subclass_of
@@ -3188,11 +3187,10 @@ PDQ:isa:
   operation: keep
   core_predicate: biolink:subclass_of
 PDQ:lab_number_of:
-  operation: keep
-  core_predicate: biolink:related_to 
+  operation: delete
 PDQ:tradename_of:
   operation: keep
-  core_predicate: biolink:related_to
+  core_predicate: biolink:close_match
 PHAROS:drug_targets:
   operation: keep
   core_predicate: biolink:directly_physically_interacts_with
@@ -3213,10 +3211,10 @@ PR:non-covalently_bound_to:
   operation: keep
   core_predicate: biolink:physically_interacts_with
 PSY:CHD:
-  operation: invert
+  operation: keep
   core_predicate: biolink:subclass_of
 PSY:PAR:
-  operation: keep
+  operation: invert
   core_predicate: biolink:subclass_of
 PSY:RB:
   operation: invert
@@ -3229,10 +3227,10 @@ PSY:RO:
   core_predicate: biolink:related_to
 PSY:has_member:
   operation: keep
-  core_predicate: biolink:subclass_of
+  core_predicate: biolink:has_member
 PSY:member_of:
   operation: invert
-  core_predicate: biolink:subclass_of
+  core_predicate: biolink:has_member
 PSY:use:
   operation: keep
   core_predicate: biolink:subclass_of
@@ -4645,10 +4643,10 @@ UBERON_CORE:synapsed_by:
 #   operation: keep
 #   core_predicate: biolink:coexists_with
 UMLS:CHD:
-  operation: invert
+  operation: keep
   core_predicate: biolink:subclass_of
 UMLS:PAR:
-  operation: keep
+  operation: invert
   core_predicate: biolink:subclass_of
 UMLS:RB:
   operation: invert
@@ -4668,8 +4666,8 @@ UMLS:SY:
   operation: keep
   core_predicate: biolink:close_match
 UMLS:active_metabolites_of:
-  operation: keep
-  core_predicate: biolink:related_to
+  operation: invert
+  core_predicate: biolink:has_metabolite
 UMLS:class_code_classified_by:
   operation: keep
   core_predicate: biolink:related_to
@@ -4680,7 +4678,7 @@ UMLS:component_of:
   core_predicate: biolink:has_part
 UMLS:context_binding_of:
   operation: delete
-UMLS:contraindicated_class_of:
+UMLS:contraindicated_class_of: # Consider mapping this to drug interaction if and when that biolink predicate becomes available
   operation: keep
   core_predicate: biolink:related_to
 UMLS:contraindicated_mechanism_of_action_of:
@@ -4757,7 +4755,7 @@ UMLS:has_supported_concept_property:
 UMLS:has_supported_concept_relationship:
   operation: keep
   core_predicate: biolink:related_to
-UMLS:has_therapeutic_class:
+UMLS:has_therapeutic_class: # Come back to this one at another time, might have a chance to use has_member
   operation: keep
   core_predicate: biolink:related_to
 UMLS:induced_by:
@@ -4772,8 +4770,7 @@ UMLS:larger_than:
 UMLS:mapped_from:
   operation: delete
 UMLS:mapping_qualifier_of:
-  operation: keep
-  core_predicate: biolink:related_to
+  operation: delete
 UMLS:mapped_to:
   operation: keep
   core_predicate: biolink:related_to
@@ -4847,7 +4844,7 @@ UMLS:supported_concept_property_in:
   operation: delete
 UMLS:supported_concept_relationship_in:
   operation: delete
-UMLS:therapeutic_class_of:
+UMLS:therapeutic_class_of: # Look into this at a later time, there might be an opportunity to use has_member
   operation: keep
   core_predicate: biolink:related_to
 UMLS:xref:
