@@ -24,7 +24,7 @@
   download: true
   title: Relation Ontology
 -
-  url:  http://purl.obolibrary.org/obo/uberon/ext.owl
+  url:  http://purl.obolibrary.org/obo/uberon.owl
   file: uberon-ext.owl
   download: true
   title: Uber-anatomy Ontology
