@@ -9,7 +9,7 @@ rule UMLS_Conversion:
     log:
         config['UMLS_CONVERSION_LOG']
     shell:
-        "bash -x {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_FLAG'] + " > {log} 2>&1" 
+        config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_FLAG'] + " > {log} 2>&1" 
 
 rule Ontologies_Conversion:
     input:
@@ -27,7 +27,7 @@ rule SemMedDB_Conversion:
     input:
         code = config['SEMMEDDB_CONVERSION_SCRIPT'],
         real = config['SEMMEDDB_TUPLELIST_FILE'],
-        mrcui_req = config['UMLS_CUI_FILE'],
+        mrcui_req = config['UMLS_EXTRACT_FILE'],
         exclusion_list = config['SEMMEDDB_EXCLUSION_FILE'],
         version_file = config['SEMMEDDB_VERSION_FILE'],
         validation = config['VALIDATION_PLACEHOLDER']
