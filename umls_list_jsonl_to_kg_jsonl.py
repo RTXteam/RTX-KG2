@@ -26,6 +26,9 @@ IRI_MAPPINGS = dict()
 def get_args():
     arg_parser = argparse.ArgumentParser(description='umls_list_jsonl_to_kg_jsonl.py: converts UMLS MySQL JSON Lines dump into KG2 JSON format')
     arg_parser.add_argument('inputFile', type=str)
+    arg_parser.add_argument('curiesToURIFile', type=str)
+    arg_parser.add_argument('umlsNameHeirarchy', type=str)
+    arg_parser.add_argument('TUIComboMappings', type=str)
     arg_parser.add_argument('outputNodesFile', type=str)
     arg_parser.add_argument('outputEdgesFile', type=str)
     arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
@@ -43,6 +46,9 @@ if __name__ == '__main__':
     args = get_args()
     input_file_name = args.inputFile
     test_mode = args.test
+    curies_to_urls_map_file_name = args.curiesToURIFile
+    umls_name_heirarchy_file_name = args.umlsNameHeirarchy
+    tui_combo_mappings_file_name = args.TUIComboMappings
     output_nodes_file_name = args.outputNodesFile
     output_edges_file_name = args.outputEdgesFile
 
@@ -53,11 +59,11 @@ if __name__ == '__main__':
     input_read_jsonlines_info = kg2_util.start_read_jsonlines(input_file_name)
     input_items = input_read_jsonlines_info[0]
 
-    with open('tui_combo_mappings.json') as mappings:
+    with open(tui_combo_mappings_file_name) as mappings:
         TUI_MAPPINGS = json.load(mappings)
 
-    iri_mappings_raw = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string('curies-to-urls-map.yaml'))['use_for_bidirectional_mapping']
-    full_heirarchy = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string('umls-name-heirarchy.yaml'))
+    iri_mappings_raw = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_urls_map_file_name))['use_for_bidirectional_mapping']
+    full_heirarchy = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(umls_name_heirarchy_file_name))
     for item in iri_mappings_raw:
         for prefix in item:
             IRI_MAPPINGS[prefix] = item[prefix]
