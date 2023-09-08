@@ -1,13 +1,13 @@
 rule UMLS:
     input:
-        code = config['ONT_EXTRACTION_SCRIPT'],
+        code = config['UMLS_EXTRACTION_SCRIPT'],
         validation = config['VALIDATION_PLACEHOLDER']
     output:
-        config['UMLS_CUI_FILE']
+        config['UMLS_EXTRACT_FILE']
     log:
-        config['ONT_EXTRACTION_LOG']
+        config['UMLS_EXTRACTION_LOG']
     shell:
-        "bash -x {input.code} " + config['BUILD_DIR'] + " {output} > {log} 2>&1" 
+        "bash -x {input.code} {output} > {log} 2>&1" 
 
 rule SemMedDB:
     input:

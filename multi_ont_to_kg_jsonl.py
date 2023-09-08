@@ -1,12 +1,8 @@
 #!/usr/bin/env python3
 '''Builds the RTX "KG2" second-generation knowledge graph, from various OWL input files.
 
-   Usage: multi_ont_to_json_kg.py <categoriesFile.yaml> <curiesToURILALFile>
+   Usage: multi_ont_to_kg_jsonl.py <categoriesFile.yaml> <curiesToURILALFile>
                                   <ontLoadInventoryFile.yaml> <outputNodesFile> <outputEdgesFile>
-                                  <umlsCUITSVFile> <nodeDatatypePropertiesFile>
-   (note: outputFile can end in .json or in .gz; if the latter, it will be written as a gzipped file;
-   but using the gzip options for input or output seems to significantly increase transient memory
-   usage)
 '''
 
 __author__ = 'Stephen Ramsey'
@@ -28,7 +24,6 @@ import sys
 import urllib.parse
 import urllib.request
 from typing import Dict
-import json # temporary addition for Ontobio Issue #507
 import datetime
 
 # -------------- define globals here ---------------
@@ -130,7 +125,6 @@ def make_kg2(curies_to_categories: dict,
              nodes_output,
              edges_output,
              umls_cui_tsv_file: str,
-             node_datatype_properties_file: str, # temporary addition for Ontobio Issue #507
              test_mode: bool = False,
              save_pickle: bool = False):
 
@@ -159,32 +153,10 @@ def make_kg2(curies_to_categories: dict,
 
     kg2_util.log_message('Calling make_nodes_dict_from_ontologies_list')
 
-    # Temporary addition for addressing Ontobio Issue #507
-    select_datatype_properties = dict()
-    with open(node_datatype_properties_file, 'r') as node_properties:
-        select_datatype_properties = json.load(node_properties)
-
-    cui_lookup = dict()
-    with open(umls_cui_tsv_file, 'r') as cuis:
-        count = 0
-        for line in cuis:
-            count += 1
-            if count == 1:
-                continue
-            line = line.split('\t')
-            cui = line[0]
-            tuis = line[1].split(',')
-            name = line[2].strip()
-            if cui in cui_lookup:
-                kg2_util.log_message('CUI', cui, 'in TSV file multiple times')
-            cui_lookup[cui] = {'TUIs': tuis, 'Name': name}
-
     nodes_dict = make_nodes_dict_from_ontologies_list(ont_file_information_dict_list,
                                                       curies_to_categories,
                                                       uri_to_curie_shortener,
-                                                      curie_to_uri_expander,
-                                                      cui_lookup,
-                                                      select_datatype_properties) # temporary addition for Ontobio Issue #507
+                                                      curie_to_uri_expander)
 
     kg2_util.log_message('Calling make_map_of_node_ontology_ids_to_curie_ids')
 
@@ -513,9 +485,7 @@ def get_category_for_multiple_tui(biolink_category_tree: dict,
 def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                                          curies_to_categories: dict,
                                          uri_to_curie_shortener: callable,
-                                         curie_to_uri_expander: callable,
-                                         cui_lookup: dict,
-                                         select_datatype_properties: dict) -> Dict[str, dict]: # temporary addition for Ontobio Issue #507
+                                         curie_to_uri_expander: callable) -> Dict[str, dict]:
     ret_dict = dict()
     omim_to_hgnc_symbol = dict()
     ontologies_iris_to_curies = dict()
@@ -536,13 +506,6 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
 
     convert_bpv_pred_to_curie_func = make_convert_bpv_predicate_to_curie(uri_to_curie_shortener,
                                                                          curie_to_uri_expander)
-    for cui in cui_lookup:
-        tuis = cui_lookup[cui]['TUIs']
-        category = get_category_for_multiple_tui(biolink_category_tree,
-                                                 tuis,
-                                                 mappings_to_categories)
-        cui_lookup[cui]['Category'] = category
-
 
     def biolink_depth_getter(category: str):
         return biolink_categories_ontology_depths.get(category, None)
@@ -762,8 +725,6 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                         elif bpv_pred_curie == kg2_util.CURIE_ID_HGNC_GENE_SYMBOL:
                             node_gene_symbol = bpv_val
                             node_synonyms.add(node_gene_symbol)
-                        elif bpv_pred_curie == kg2_util.CURIE_ID_UMLS_HAS_CUI:
-                            node_has_cui = True
                     if len(node_tui_list) == 1:
                         node_tui = node_tui_list[0]
                         node_tui_curie = kg2_util.CURIE_PREFIX_UMLS_STY + ':' + node_tui
@@ -887,40 +848,6 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
                 if node_gene_symbol is not None:
                     node_name = node_gene_symbol
 
-            # Temporary code to address Ontobio Issue #507
-            if ontology_info_dict['file'] in select_datatype_properties:
-                filename = ontology_info_dict['file']
-                if filename == 'umls-omim.ttl':
-                    mimtype = select_datatype_properties[filename].get(node_curie_id, {}).get('MIMTYPE', None)
-                    if mimtype is not None:
-                        # 0, 3, 5 are phenotypes
-                        # 1, 4 are genes
-                        # There isn't a 2 anymore
-                        if mimtype == "1" or mimtype == "4":
-                            node_category_label = kg2_util.BIOLINK_CATEGORY_GENE
-                            gene_symbol = omim_to_hgnc_symbol.get(node_curie_id, None)
-                            if gene_symbol is not None:
-                                old_name = node_name
-                                node_name = gene_symbol
-                        else:
-                            node_name += " related phenotypic feature"
-                    else:
-                        node_category_label = kg2_util.BIOLINK_CATEGORY_NAMED_THING
-                if filename == 'umls-hgnc.ttl':
-                    hgnc_properties = select_datatype_properties[filename].get(node_curie_id, {})
-                    omim_id = hgnc_properties.get('OMIM_ID', None)
-                    gene_symbol = hgnc_properties.get('GENESYMBOL', None)
-                    if omim_id is not None:
-                        if isinstance(omim_id, list):
-                            for id in omim_id:
-                                omim_to_hgnc_symbol[kg2_util.CURIE_PREFIX_OMIM + ':' + id] = gene_symbol
-                        else:
-                            omim_to_hgnc_symbol[kg2_util.CURIE_PREFIX_OMIM + ':' + omim_id] = gene_symbol
-                    locus_group = hgnc_properties.get('LOCUS_GROUP', None)
-                    if locus_group is not None:
-                        if locus_group == "phenotype":
-                            continue
-
             node_dict = kg2_util.make_node(node_curie_id,
                                            iri,
                                            node_name,
@@ -939,53 +866,6 @@ def make_nodes_dict_from_ontologies_list(ontology_info_list: list,
             node_dict['synonym'] = sorted(list(node_synonyms))   # slot name is not biolink standard
             node_dict['publications'] = sorted(list(node_publications))
 
-            # check if we need to make a CUI node
-            if node_meta is not None and basic_property_values is not None:
-                for basic_property_value_dict in basic_property_values:
-                    bpv_pred = basic_property_value_dict['pred']
-                    bpv_pred_curie = convert_bpv_pred_to_curie_func(bpv_pred)
-                    bpv_val = basic_property_value_dict['val']
-                    if bpv_pred_curie == kg2_util.CURIE_ID_UMLS_HAS_CUI:
-                        cui_node_dict = dict(node_dict)
-                        cui_uri = kg2_util.BASE_URL_UMLS + bpv_val
-                        cui_curie = uri_to_curie_shortener(cui_uri)
-                        assert cui_curie is not None
-                        # Skip this CUI if it's identical to the ontology node itself (happens with files created
-                        # using 'load_on_cuis' - part of fix for issue #565)
-                        if get_local_id_from_curie_id(cui_curie) == get_local_id_from_curie_id(node_curie_id):
-                            continue
-                        cui_node_dict['id'] = cui_curie
-                        cui = cui_curie.split(':')[1]
-                        cui_node_dict['iri'] = cui_uri
-                        cui_node_dict['synonym'] = []
-                        cui_node_dict['category'] = kg2_util.convert_biolink_category_to_curie(cui_lookup[cui]['Category'])
-                        cui_node_dict['category_label'] = cui_lookup[cui]['Category'].replace(' ', '_')
-                        cui_name = cui_lookup[cui]['Name']
-                        if cui_name.isupper():
-                            cui_name = kg2_util.allcaps_to_only_first_letter_capitalized(cui_name)
-                        cui_node_dict['name'] = cui_name
-                        cui_node_dict['ontology node ids'] = []
-                        cui_node_dict['provided_by'] = kg2_util.CURIE_ID_UMLS_SOURCE_CUI
-                        cui_node_dict['xrefs'] = []  # blanking the "xrefs" here is *vital* in order to avoid issue #395
-                        cui_node_dict_existing = ret_dict.get(cui_curie, None)
-                        if cui_node_dict_existing is not None:
-                            cui_node_dict = kg2_util.merge_two_dicts(cui_node_dict,
-                                                                     cui_node_dict_existing,
-                                                                     biolink_depth_getter)
-                        ret_dict[cui_curie] = cui_node_dict
-                        node_dict_xrefs = node_dict['xrefs']
-                        node_dict_xrefs.append(cui_curie)
-                        node_dict['xrefs'] = sorted(list(set(node_dict_xrefs)))
-                    elif bpv_pred_curie == kg2_util.CURIE_ID_HGNC_ENTREZ_GENE_ID:
-                        entrez_gene_id = bpv_val
-                        entrez_node_dict = dict(node_dict)
-                        entrez_curie = kg2_util.CURIE_PREFIX_NCBI_GENE + ':' + entrez_gene_id
-                        entrez_node_dict['id'] = entrez_curie
-                        entrez_node_dict['iri'] = curie_to_uri_expander(entrez_curie)
-                        ret_dict[entrez_curie] = entrez_node_dict
-                        node_dict_xrefs = node_dict['xrefs']
-                        node_dict_xrefs.append(entrez_curie)
-                        node_dict['xrefs'] = sorted(list(set(node_dict_xrefs)))
             if node_curie_id in ret_dict:
                 if node_curie_id != provided_by:
                     node_dict = kg2_util.merge_two_dicts(ret_dict[node_curie_id],
@@ -1358,8 +1238,6 @@ def make_arg_parser():
     arg_parser.add_argument('ontLoadInventoryFile', type=str)
     arg_parser.add_argument('outputNodesFile', type=str)
     arg_parser.add_argument('outputEdgesFile', type=str)
-    arg_parser.add_argument('umlsCUITSVFile', type=str)
-    arg_parser.add_argument('nodeDatatypePropertiesFile', type=str) # temporary addition for Ontobio Issue #507
     return arg_parser
 
 
@@ -1374,8 +1252,6 @@ if __name__ == '__main__':
     ont_load_inventory_file = args.ontLoadInventoryFile
     output_nodes_file_name = args.outputNodesFile
     output_edges_file_name = args.outputEdgesFile
-    umls_cui_tsv_file = args.umlsCUITSVFile
-    node_datatype_properties_file = args.nodeDatatypePropertiesFile # temporary addition for Ontobio Issue #507
     save_pickle = args.save_pickle
     test_mode = args.test
     curies_to_categories = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_categories_file_name))
@@ -1394,8 +1270,6 @@ if __name__ == '__main__':
              ont_urls_and_files,
              nodes_output,
              edges_output,
-             umls_cui_tsv_file,
-             node_datatype_properties_file, # temporary addition for Ontobio Issue #507
              test_mode,
              save_pickle)
 

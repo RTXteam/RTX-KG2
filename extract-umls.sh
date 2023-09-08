@@ -5,11 +5,11 @@
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0 [output_dir] [umls_cui_file]"
+    echo Usage: "$0 [umls_cui_file]"
     exit 2
 fi
 
-# Usage: extract-umls.sh [OUTPUT_DIR] [UMLS_CUI_FILE]
+# Usage: extract-umls.sh [UMLS_CUI_FILE]
 
 echo "================= starting extract-umls.sh ================="
 date
@@ -17,14 +17,10 @@ date
 config_dir=`dirname "$0"`
 source ${config_dir}/master-config.shinc
 
-output_dir=${1:-${BUILD_DIR}}
 umls_cui_file=${2:-${BUILD_DIR}/umls_cuis.tsv}
 
 umls_ver=2023AA
 umls_file_base=umls-${umls_ver}-metathesaurus-full
-umls2rdf_release=rtx-2.2 # This is the version of umls2rdf NOT RTX-KG2; do not change to update RTX-KG2 version
-umls2rdf_pkgname=umls2rdf-${umls2rdf_release}
-umls2rdf_dir=${umls_dir}/${umls2rdf_pkgname}
 config_file=${umls_dir}/config.prop
 mysql_dbname=umls
 
@@ -79,41 +75,7 @@ sed -i "s/@LINE_TERMINATION@/'\n'/g" ${umls_dest_dir}/mysql_tables.sql
 cd ${umls_dest_dir}
 bash -x populate_mysql_db_configured.sh
 
-## download and unpack the umls2rdf software
-${curl_get} https://github.com/RTXteam/umls2rdf/archive/${umls2rdf_release}.tar.gz > ${umls2rdf_pkgname}.tar.gz
-tar xzf ${umls2rdf_pkgname}.tar.gz -C ${umls_dir}
-
-## make the umls2rdf config file
-cat ${umls2rdf_dir}/conf_sample.py | sed 's/your-host/localhost/g' | \
-    sed "s/umls2015ab/${mysql_dbname}/g" | \
-    sed "s/your db user/${mysql_user}/g" | \
-    sed "s/your db pass/${mysql_password}/g" | \
-    sed "s|output|${output_dir}|g" | \
-    sed "s/2015ab/${umls_ver}/g" > ${umls2rdf_dir}/conf.py
-
-cp ${umls2rdf_config_master} ${umls2rdf_dir}/umls.conf
-
-## change to the umls2rdf_dir directory
-cd ${umls2rdf_dir}
-
-## run umls2rdf
-${VENV_DIR}/bin/python3 umls2rdf.py
-
-## verify the output files
-./checkOutputSyntax.sh  ${output_dir} # uses "rapper" command from the "raptor" package
-
-umls_cuis_query="SELECT DISTINCT s.CUI, GROUP_CONCAT(DISTINCT s.TUI), GROUP_CONCAT(DISTINCT c.STR)
-FROM MRSTY s
-INNER JOIN MRCONSO c
-ON s.CUI=c.CUI
-WHERE c.LAT='ENG'
-AND c.TS='P'
-AND STT='PF'
-AND ISPREF='Y'
-GROUP BY s.CUI"
-
-mysql --defaults-extra-file=${mysql_conf} --database=${mysql_dbname} \
-      -e "${umls_cuis_query}" > ${umls_cui_file}
+${python_command} ${CODE_DIR}/umls_mysql_to_list_jsonl.py ${mysql_conf} ${mysql_dbname} ${output_file}
 
 date
 echo "================= finished extract-umls.sh ================="

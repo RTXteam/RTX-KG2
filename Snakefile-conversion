@@ -1,7 +1,19 @@
-rule Ontologies_and_TTL:
+rule UMLS_Conversion:
+    input:
+        code = config['UMLS_CONVERSION_SCRIPT'],
+        real = config['UMLS_EXTRACT_FILE'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        nodes = config['UMLS_OUTPUT_NODES_FILE'],
+        edges = config['UMLS_OUTPUT_EDGES_FILE']
+    log:
+        config['UMLS_CONVERSION_LOG']
+    shell:
+        "bash -x {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_FLAG'] + " > {log} 2>&1" 
+
+rule Ontologies_Conversion:
     input:
         code = config['ONT_CONVERSION_SCRIPT'],
-        real = config['UMLS_CUI_FILE'],
         validation = config['VALIDATION_PLACEHOLDER']
     output:
         nodes = config['ONT_OUTPUT_NODES_FILE'],
@@ -9,7 +21,7 @@ rule Ontologies_and_TTL:
     log:
         config['ONT_CONVERSION_LOG']
     shell:
-        "bash -x {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_FLAG'] + " > {log} 2>&1" 
+        "bash -x {input.code} {output.nodes} {output.edges} " + config['TEST_FLAG'] + " > {log} 2>&1" 
 
 rule SemMedDB_Conversion:
     input:

@@ -3,12 +3,19 @@ edges_suffix: -edges
 
 validation_placeholder: ${BUILD_DIR}/validation-placeholder.empty
 
-ont_extraction_base: extract-umls
+umls_extraction_base: extract-umls
+umls_conversion_base: umls_list_jsonl_to_kg_jsonl
+umls_output_base: kg2-umls
+umls_extraction_script: ${CODE_DIR}/${umls_extraction_base}.sh
+umls_extraction_log: ${BUILD_DIR}/${umls_extraction_base}${test_suffix}.log
+umls_extract_file: ${BUILD_DIR}/umls.jsonl
+umls_conversion_script: ${CODE_DIR}/${umls_conversion_base}.py
+umls_conversion_log: ${BUILD_DIR}/${umls_conversion_base}${test_suffix}.log
+umls_output_nodes_file: ${BUILD_DIR}/${umls_output_base}${nodes_suffix}${test_suffix}.jsonl
+umls_output_edges_file: ${BUILD_DIR}/${umls_output_base}${edges_suffix}${test_suffix}.jsonl
+
 ont_conversion_base: build-multi-ont-kg
 ont_output_base: kg2-ont
-ont_extraction_script: ${CODE_DIR}/${ont_extraction_base}.sh
-ont_extraction_log: ${BUILD_DIR}/${ont_extraction_base}${test_suffix}.log
-umls_cui_file: ${BUILD_DIR}/umls_cuis.tsv
 ont_conversion_script: ${CODE_DIR}/${ont_conversion_base}.sh
 ont_conversion_log: ${BUILD_DIR}/${ont_conversion_base}${test_suffix}.log
 ont_output_nodes_file: ${BUILD_DIR}/${ont_output_base}${nodes_suffix}${test_suffix}.jsonl
