@@ -1,6 +1,8 @@
 rule Merge:
     input:
         code = config['MERGE_SCRIPT'],
+        umls_nodes = config['UMLS_OUTPUT_NODES_FILE'],
+        umls_edges = config['UMLS_OUTPUT_EDGES_FILE'],
         ont_nodes = config['ONT_OUTPUT_NODES_FILE'],
         ont_edges = config['ONT_OUTPUT_EDGES_FILE'],
         uniprot_nodes = config['UNIPROTKB_OUTPUT_NODES_FILE'],
@@ -53,6 +55,7 @@ rule Merge:
             " --outputNodesFile {output.nodes} " + \
             " --outputEdgesFile {output.edges} " + \
             " --kgNodesFiles " + \
+            "{input.umls_nodes} " + \
             "{input.ont_nodes} " + \
             "{input.semmeddb_nodes} " + \
             "{input.uniprot_nodes} " + \
@@ -74,6 +77,7 @@ rule Merge:
             "{input.disgenet_nodes} " + \
             "{input.kegg_nodes} " + \
             " --kgEdgesFiles " + \
+            "{input.umls_edges} " + \
             "{input.ont_edges} " + \
             "{input.semmeddb_edges} " + \
             "{input.uniprot_edges} " + \
