@@ -110,7 +110,7 @@ OBO:ro.owl:
   source_name: Relations Ontology
   infores_curie: infores:ro
   knowledge_type: knowledge_source
-OBO:uberon:
+OBO:uberon.owl:
   source_name: Uber Anatomy Ontology
   infores_curie: infores:uberon
   knowledge_type: knowledge_source
