@@ -17,7 +17,7 @@ date
 config_dir=`dirname "$0"`
 source ${config_dir}/master-config.shinc
 
-umls_cui_file=${2:-${BUILD_DIR}/umls_cuis.tsv}
+output_file=${2:-${BUILD_DIR}/umls.jsonl}
 
 umls_ver=2023AA
 umls_file_base=umls-${umls_ver}-metathesaurus-full
