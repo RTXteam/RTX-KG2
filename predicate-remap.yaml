@@ -1055,6 +1055,11 @@ DrugCentral:positive_modulator:
   qualifiers:
     object_aspect: activity
     object_direction: increased
+DrugCentral:reduce_risk:
+  operation: keep
+  core_predicate: biolink:affects_risk_for
+  qualifiers:
+    object_direction: decreased
 DrugCentral:releasing_agent:
   operation: keep
   core_predicate: biolink:affects
@@ -3131,6 +3136,12 @@ ORPHANET:C016:
 ORPHANET:C017:
   operation: keep
   core_predicate: biolink:related_to
+ORPHANET:C056:
+  operation: keep
+  core_predicate: biolink:close_match
+ORPHANET:C057:
+  operation: keep
+  core_predicate: biolink:close_match
 # PATO:0000085:
 #   operation: keep
 #   core_predicate: biolink:associated_with_sensitivity_to
@@ -3782,6 +3793,9 @@ RO:0002411:
 RO:0002412:
   operation: keep
   core_predicate: biolink:precedes
+RO:0002428:
+  operation: keep
+  core_predicate: biolink:regulates
 # RO:0002432:
 #   operation: keep
 #   core_predicate: biolink:active_in
