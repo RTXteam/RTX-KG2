@@ -69,13 +69,6 @@ ${python_command} -u ${CODE_DIR}/validate_predicate_remap_yaml.py \
            ${biolink_model_yaml_url} \
            ${biolink_model_yaml_local_file}
 
-${python_command} -u ${CODE_DIR}/validate_ont_load_inventory.py \
-           ${ont_load_inventory_file} \
-           ${curies_to_urls_file} \
-           ${umls2rdf_config_master} \
-           ${biolink_model_owl_url} \
-           ${biolink_model_owl_local_file}
-
 ${python_command} -u ${CODE_DIR}/validate_provided_by_to_infores_map_yaml.py \
            ${infores_mapping_file} \
            ${infores_catalog_yaml}
