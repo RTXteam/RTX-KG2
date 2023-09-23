@@ -12,7 +12,7 @@ Issues:
 
 Build info:
 - Biolink Model version: 3.5.2
-- Build host: `kg285build.rtx.ai`
+- Build host: `kg286build.rtx.ai`
 - Build directory: `/home/ubuntu/kg2-build`
 - Build code branch: `issue-316`
 - Neo4j endpoint CNAME: 
