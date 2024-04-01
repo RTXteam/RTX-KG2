@@ -4,7 +4,7 @@ import pprint
 import urllib.request
 import yaml
 
-biolink_model = yaml.safe_load(urllib.request.urlopen('https://raw.githubusercontent.com/biolink/biolink-model/master/biolink-model.yaml'))
+biolink_model = yaml.safe_load(urllib.request.urlopen('https://raw.githubusercontent.com/biolink/biolink-model/master/project/owl/biolink_model.yaml'))
 
 biolink_to_external_mappings = {'biolink:' + relation.replace(' ', '_'):
                                 list(map(lambda x: x.lower(), relation_info.get('mappings', []))) for
