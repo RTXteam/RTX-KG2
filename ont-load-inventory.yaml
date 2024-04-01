@@ -1,6 +1,6 @@
 - # maps to CURIE prefix: biolink
-  url: https://raw.githubusercontent.com/biolink/biolink-model/master/biolink-model.owl.ttl
-  file: biolink-model.owl.ttl
+  url: https://raw.githubusercontent.com/biolink/biolink-model/v4.0.0/project/owl/biolink_model.owl.ttl
+  file: biolink_model.owl.ttl
   download: true
   title: Biolink meta-model
 - # maps to CURIE prefix: BFO
