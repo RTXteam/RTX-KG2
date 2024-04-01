@@ -2047,6 +2047,9 @@ LOINC:time_aspect_of:
   operation: delete
 LOINC:time_modifier_of:
   operation: delete
+MAXO:0000864:
+  operation: keep
+  core_predicate: biolink:related_to
 # MEDDRA:classified_as:
 #   operation: keep
 #   core_predicate: biolink:close_match
@@ -3419,6 +3422,9 @@ RO:0000086:
 RO:0000087:
   operation: keep
   core_predicate: biolink:related_to
+RO:0000091:
+  operation: keep
+  core_predicate: biolink:related_to
 # RO:00002325:
 #   operation: keep
 #   core_predicate: biolink:colocalizes_with
@@ -3617,6 +3623,9 @@ RO:0002234:
 # RO:0002241:
 #   operation: keep
 #   core_predicate: biolink:related_to
+RO:0002252:
+  operation: keep
+  core_predicate: biolink:related_to
 RO:0002254:
   operation: keep
   core_predicate: biolink:related_to
@@ -4080,6 +4089,9 @@ RO:0009004:
 RO:0009501:
   operation: invert
   core_predicate: biolink:causes
+RO:0012001:
+  operation: keep
+  core_predicate: biolink:has_participant
 RO:0012003:
   operation: keep
   core_predicate: biolink:affects
@@ -4497,9 +4509,23 @@ SIO:000203:
 # SO:0002054:
 #   operation: keep
 #   core_predicate: biolink:is_nonsense_variant_of
+SO:derives_from:
+  operation: keep
+  core_predicate: biolink:derives_from
 SO:has_origin:
   operation: keep
   core_predicate: biolink:coexists_with
+SO:has_part:
+  operation: keep
+  core_predicate: biolink:has_part
+SO:has_quality:
+  operation: delete
+SO:overlaps:
+  operation: keep
+  core_predicate: biolink:overlaps
+SO:member_of:
+  operation: invert
+  core_predicate: biolink:has_member
 # SO:similar_to:
 #   operation: keep
 #   core_predicate: biolink:similar_to
