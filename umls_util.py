@@ -126,7 +126,7 @@ class UMLS_Processor(object):
 
 ## TODO: make TUI nodes
 
-    def create_umls_edges(self, subject_id, relations):
+    def create_umls_edges(self, object_id, relations):
         for relation_source in relations:
             if relation_source in self.SOURCES:
                 provided_by = self.SOURCES[relation_source][2]
@@ -137,7 +137,7 @@ class UMLS_Processor(object):
                         relation_label = relation_abbr
                     relation_curie = self.make_node_id(relation_prefix, relation_label)
                     for cui in relations[relation_source][relation]:
-                        object_id = self.make_node_id(kg2_util.CURIE_PREFIX_UMLS, cui)
+                        subject_id = self.make_node_id(kg2_util.CURIE_PREFIX_UMLS, cui)
                         # TODO: resolve update_date
                         if relation_direction == 'N':
                             self.edges_output.write(kg2_util.make_edge(object_id, subject_id, relation_curie, relation_label, provided_by, "2023"))
