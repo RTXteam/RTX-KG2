@@ -32,7 +32,7 @@ use_for_bidirectional_mapping:
 #  -
 #    biolink: https://w3id.org/linkml/
   -
-    biolink_download_source: https://raw.githubusercontent.com/biolink/biolink-model/3.1.2/
+    biolink_download_source: https://raw.githubusercontent.com/biolink/biolink-model/v4.0.0/project/owl/biolink_model.owl.ttl
   -
     bioschemas: 'https://bioschemas.org/'
   -
@@ -178,9 +178,9 @@ use_for_bidirectional_mapping:
   -
     foaf: http://xmlns.com/foaf/0.1/
   -
-    foodb.compound: 'http://foodb.ca/foods/'
+    foodb.compound: 'http://foodb.ca/compounds/'
   -
-    foodb.food: 'http://foodb.ca/compounds/'
+    foodb.food: 'http://foodb.ca/foods/'
   -
     FOODON: http://purl.obolibrary.org/obo/FOODON_
   -
