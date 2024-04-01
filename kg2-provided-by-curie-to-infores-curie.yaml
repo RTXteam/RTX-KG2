@@ -146,6 +146,10 @@ OBO:uberon.owl:
   source_name: UniChem
   infores_curie: infores:unichem
   knowledge_type: aggregator_knowledge_source
+'biolink_download_source:':
+  source_name: Biolink ontology
+  infores_curie: infores:biolink-ontology
+  knowledge_type: knowledge_source
 biolink_download_source:biolink-model.owl.ttl:
   source_name: Biolink ontology
   infores_curie: infores:biolink-ontology
