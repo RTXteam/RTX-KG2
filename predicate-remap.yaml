@@ -991,7 +991,7 @@ DrugCentral:has_role:
   core_predicate: biolink:related_to
 DrugCentral:indication:
   operation: keep
-  core_predicate: biolink:treats
+  core_predicate: biolink:applied_to_treat
 DrugCentral:inhibitor:
   operation: keep
   core_predicate: biolink:affects
@@ -1023,7 +1023,7 @@ DrugCentral:negative_modulator:
     object_direction: decreased
 DrugCentral:off-label_use:
   operation: keep
-  core_predicate: biolink:treats
+  core_predicate: biolink:treats_or_studied_or_applied_to_treat
 DrugCentral:opener:
   operation: keep
   core_predicate: biolink:affects
@@ -1075,7 +1075,7 @@ DrugCentral:substrate:
   core_predicate: biolink:physically_interacts_with
 DrugCentral:symptomatic_treatment:
   operation: keep
-  core_predicate: biolink:treats
+  core_predicate: biolink:applied_to_treat
 EFO:0000784:
   operation: keep
   core_predicate: biolink:located_in
@@ -2250,7 +2250,7 @@ MONDO:disease_has_major_feature:
   core_predicate: biolink:has_part
 MONDO:disease_responds_to:
   operation: invert
-  core_predicate: biolink:treats
+  core_predicate: biolink:treats_or_studied_or_applied_to_treat
 MONDO:disease_shares_features_of:
   operation: keep
   core_predicate: biolink:related_to
@@ -2916,7 +2916,7 @@ NCIT:qualifier_applies_to:
   core_predicate: biolink:related_to
 NCIT:regimen_has_accepted_use_for_disease:
   operation: keep
-  core_predicate: biolink:treats
+  core_predicate: biolink:applied_to_treat
 NCIT:related_to_genetic_biomarker:
   operation: delete
 NCIT:role_has_domain:
@@ -3343,61 +3343,61 @@ REACT:related_to:
   core_predicate: biolink:related_to
 REPODB:clinically_tested_approved_unknown_phase:
   operation: keep
-  core_predicate: biolink:treats
+  core_predicate: biolink:applied_to_treat
 REPODB:clinically_tested_suspended_phase_0:
   operation: keep
-  core_predicate: biolink:treats
+  core_predicate: biolink:studied_to_treat
 REPODB:clinically_tested_suspended_phase_1:
   operation: keep
-  core_predicate: biolink:treats
+  core_predicate: biolink:studied_to_treat
 REPODB:clinically_tested_suspended_phase_1_or_phase_2:
   operation: keep
-  core_predicate: biolink:treats
+  core_predicate: biolink:studied_to_treat
 REPODB:clinically_tested_suspended_phase_2:
   operation: keep
-  core_predicate: biolink:treats
+  core_predicate: biolink:studied_to_treat
 REPODB:clinically_tested_suspended_phase_2_or_phase_3:
   operation: keep
-  core_predicate: biolink:treats
+  core_predicate: biolink:studied_to_treat
 REPODB:clinically_tested_suspended_phase_3:
   operation: keep
-  core_predicate: biolink:treats
+  core_predicate: biolink:studied_to_treat
 REPODB:clinically_tested_terminated_phase_0:
   operation: keep
-  core_predicate: biolink:treats
+  core_predicate: biolink:studied_to_treat
 REPODB:clinically_tested_terminated_phase_1:
   operation: keep
-  core_predicate: biolink:treats
+  core_predicate: biolink:studied_to_treat
 REPODB:clinically_tested_terminated_phase_1_or_phase_2:
   operation: keep
-  core_predicate: biolink:treats
+  core_predicate: biolink:studied_to_treat
 REPODB:clinically_tested_terminated_phase_2:
   operation: keep
-  core_predicate: biolink:treats
+  core_predicate: biolink:studied_to_treat
 REPODB:clinically_tested_terminated_phase_2_or_phase_3:
   operation: keep
-  core_predicate: biolink:treats
+  core_predicate: biolink:studied_to_treat
 REPODB:clinically_tested_terminated_phase_3:
   operation: keep
-  core_predicate: biolink:treats
+  core_predicate: biolink:studied_to_treat
 REPODB:clinically_tested_withdrawn_phase_0:
   operation: keep
-  core_predicate: biolink:treats
+  core_predicate: biolink:studied_to_treat
 REPODB:clinically_tested_withdrawn_phase_1:
   operation: keep
-  core_predicate: biolink:treats
+  core_predicate: biolink:studied_to_treat
 REPODB:clinically_tested_withdrawn_phase_1_or_phase_2:
   operation: keep
-  core_predicate: biolink:treats
+  core_predicate: biolink:studied_to_treat
 REPODB:clinically_tested_withdrawn_phase_2:
   operation: keep
-  core_predicate: biolink:treats
+  core_predicate: biolink:studied_to_treat
 REPODB:clinically_tested_withdrawn_phase_2_or_phase_3:
   operation: keep
-  core_predicate: biolink:treats
+  core_predicate: biolink:studied_to_treat
 REPODB:clinically_tested_withdrawn_phase_3:
   operation: keep
-  core_predicate: biolink:treats
+  core_predicate: biolink:studied_to_treat
 RO:0000052:
   operation: keep
   core_predicate: biolink:related_to
@@ -4451,10 +4451,10 @@ SEMMEDDB:stimulates:
     object_direction: increased
 SEMMEDDB:TREATS:
   operation: keep
-  core_predicate: biolink:treats
+  core_predicate: biolink:treats_or_studied_or_applied_to_treat
 SEMMEDDB:treats:
   operation: keep
-  core_predicate: biolink:treats
+  core_predicate: biolink:treats_or_studied_or_applied_to_treat
 SEMMEDDB:USES:
   operation: keep
   core_predicate: biolink:has_input
