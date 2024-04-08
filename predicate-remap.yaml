@@ -1057,7 +1057,7 @@ DrugCentral:positive_modulator:
     object_direction: increased
 DrugCentral:reduce_risk:
   operation: keep
-  core_predicate: biolink:affects_risk_for
+  core_predicate: biolink:treats_or_applied_or_studied_to_treat
   qualifiers:
     object_direction: decreased
 DrugCentral:releasing_agent:
@@ -4451,10 +4451,10 @@ SEMMEDDB:stimulates:
     object_direction: increased
 SEMMEDDB:TREATS:
   operation: keep
-  core_predicate: biolink:applied_to_treat
+  core_predicate: biolink:treats_or_applied_or_studied_to_treat
 SEMMEDDB:treats:
   operation: keep
-  core_predicate: biolink:applied_to_treat
+  core_predicate: biolink:treats_or_applied_or_studied_to_treat
 SEMMEDDB:USES:
   operation: keep
   core_predicate: biolink:has_input
