@@ -386,8 +386,8 @@ CHEMBL.MECHANISM:substrate:
   operation: keep
   core_predicate: biolink:physically_interacts_with
 CHEMBL.MECHANISM:superset_of:
-  operation: keep
-  core_predicate: biolink:superclass_of
+  operation: invert
+  core_predicate: biolink:subclass_of
 CL:4030044: # has not completed
   operation: keep
   core_predicate: biolink:has_not_completed
@@ -1575,8 +1575,8 @@ GO:inverse_ends_during:
 GO:inverse_happens_during:
   operation: delete
 GO:inverse_isa:
-  operation: keep
-  core_predicate: biolink:superclass_of
+  operation: invert
+  core_predicate: biolink:subclass_of
 GO:involved_in:
   operation: invert
   core_predicate: biolink:has_participant
@@ -2087,8 +2087,8 @@ MESH:has_permuted_term:
   operation: keep
   core_predicate: biolink:close_match
 MESH:inverse_isa:
-  operation: keep
-  core_predicate: biolink:superclass_of
+  operation: invert
+  core_predicate: biolink:subclass_of
 MESH:isa:
   operation: keep
   core_predicate: biolink:subclass_of
@@ -2418,8 +2418,8 @@ NCIT:conceptual_part_of:
   operation: invert
   core_predicate: biolink:has_part
 NCIT:ctcae_5_parent_of:
-  operation: keep
-  core_predicate: biolink:superclass_of
+  operation: invert
+  core_predicate: biolink:subclass_of
 NCIT:is_ctdc_value_of:
   operation: delete
 NCIT:cytogenetic_abnormality_involves_chromosome:
@@ -2933,8 +2933,8 @@ NCIT:role_is_parent_of:
 NCIT:special_category_includes_neoplasm:
   operation: delete
 NCIT:subset_includes_concept:
-  operation: keep
-  core_predicate: biolink:superclass_of
+  operation: invert
+  core_predicate: biolink:subclass_of
 NCIT:target_anatomy_has_procedure:
   operation: delete
 NCIT:tissue_is_expression_site_of_gene_product:
