@@ -1023,7 +1023,7 @@ DrugCentral:negative_modulator:
     object_direction: decreased
 DrugCentral:off-label_use:
   operation: keep
-  core_predicate: biolink:treats_or_studied_or_applied_to_treat
+  core_predicate: biolink:applied_to_treat
 DrugCentral:opener:
   operation: keep
   core_predicate: biolink:affects
@@ -2250,7 +2250,7 @@ MONDO:disease_has_major_feature:
   core_predicate: biolink:has_part
 MONDO:disease_responds_to:
   operation: invert
-  core_predicate: biolink:treats_or_studied_or_applied_to_treat
+  core_predicate: biolink:ameliorates_condition
 MONDO:disease_shares_features_of:
   operation: keep
   core_predicate: biolink:related_to
@@ -4451,10 +4451,10 @@ SEMMEDDB:stimulates:
     object_direction: increased
 SEMMEDDB:TREATS:
   operation: keep
-  core_predicate: biolink:treats_or_studied_or_applied_to_treat
+  core_predicate: biolink:applied_to_treat
 SEMMEDDB:treats:
   operation: keep
-  core_predicate: biolink:treats_or_studied_or_applied_to_treat
+  core_predicate: biolink:applied_to_treat
 SEMMEDDB:USES:
   operation: keep
   core_predicate: biolink:has_input
