@@ -4293,10 +4293,10 @@ SEMMEDDB:compared_with:
   core_predicate: biolink:related_to
 SEMMEDDB:COMPLICATES:
   operation: keep
-  core_predicate: biolink:exacerbates
+  core_predicate: biolink:exacerbates_condition
 SEMMEDDB:complicates:
   operation: keep
-  core_predicate: biolink:exacerbates
+  core_predicate: biolink:exacerbates_condition
 SEMMEDDB:CONVERTS_TO:
   operation: invert
   core_predicate: biolink:derives_from
