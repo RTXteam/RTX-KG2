@@ -978,7 +978,7 @@ DrugCentral:blocker:
     object_direction: decreased
 DrugCentral:contraindication:
   operation: keep
-  core_predicate: biolink:contraindicated_for
+  core_predicate: biolink:contraindicated_in
 DrugCentral:gating_inhibitor:
   operation: keep
   core_predicate: biolink:affects
