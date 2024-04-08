@@ -398,6 +398,7 @@ Job counts:
         1       Stats
         1       TSV
         1       UMLS
+        1       UMLS_Conversion
         1       UniChem
         1       UniChem_Conversion
         1       UniProtKB
@@ -405,7 +406,7 @@ Job counts:
         1       ValidationTests
         1       miRBase
         1       miRBase_Conversion
-        48
+        49
 This was a dry-run (flag -n). The order of jobs does not reflect the order of execution.
 + date
 Thu Aug  5 00:00:40 UTC 2021
