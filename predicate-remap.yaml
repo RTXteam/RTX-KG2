@@ -2916,7 +2916,7 @@ NCIT:qualifier_applies_to:
   core_predicate: biolink:related_to
 NCIT:regimen_has_accepted_use_for_disease:
   operation: keep
-  core_predicate: biolink:applied_to_treat
+  core_predicate: biolink:drug_regulatory_status_world_wide
 NCIT:related_to_genetic_biomarker:
   operation: delete
 NCIT:role_has_domain:
