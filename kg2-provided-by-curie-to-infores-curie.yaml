@@ -23,7 +23,7 @@ HP:hp.owl:
   infores_curie: infores:hpo
   knowledge_type: knowledge_source
 'JensenLab:':
-  source_name: Disease-gene associations mined from literature
+  source_name: DISEASES
   infores_curie: infores:diseases
   knowledge_type: knowledge_source
 'KEGG_source:':
