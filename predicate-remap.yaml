@@ -4403,20 +4403,20 @@ SEMMEDDB:precedes:
   core_predicate: biolink:precedes
 SEMMEDDB:PREDISPOSES:
   operation: keep
-  core_predicate: biolink:predisposes
+  core_predicate: biolink:predisposes_to_condition
 SEMMEDDB:predisposes:
   operation: keep
-  core_predicate: biolink:predisposes
+  core_predicate: biolink:predisposes_to_condition
 SEMMEDDB:PREP:
   operation: delete
 SEMMEDDB:prep:
   operation: delete
 SEMMEDDB:PREVENTS:
   operation: keep
-  core_predicate: biolink:prevents
+  core_predicate: biolink:preventative_for_condition
 SEMMEDDB:prevents:
   operation: keep
-  core_predicate: biolink:prevents
+  core_predicate: biolink:preventative_for_condition
 SEMMEDDB:PROCESS_OF:
   operation: keep
   core_predicate: biolink:occurs_in
@@ -4451,10 +4451,10 @@ SEMMEDDB:stimulates:
     object_direction: increased
 SEMMEDDB:TREATS:
   operation: keep
-  core_predicate: biolink:treats_or_applied_or_studied_to_treat
+  core_predicate: biolink:applied_to_treat
 SEMMEDDB:treats:
   operation: keep
-  core_predicate: biolink:treats_or_applied_or_studied_to_treat
+  core_predicate: biolink:applied_to_treat
 SEMMEDDB:USES:
   operation: keep
   core_predicate: biolink:has_input
