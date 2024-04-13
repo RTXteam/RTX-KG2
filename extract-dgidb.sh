@@ -18,6 +18,7 @@ source ${config_dir}/master-config.shinc
 dgidb_dir=${1:-"${BUILD_DIR}/dgidb/"}
 dgidb_file=interactions.tsv
 dgidb_latest_download_url="https://www.dgidb.org/data/2022-Feb/interactions.tsv"
+update_date="2022-Feb"
 
 mkdir -p ${dgidb_dir}
 
