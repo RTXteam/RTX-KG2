@@ -311,7 +311,7 @@ def get_nodes(connection, nodes_output, test):
                  ON dbobj.DB_ID=pe_sum.DB_ID \
                  LEFT JOIN Summation sum_fr_p \
                  ON pe_sum.summation = sum_fr_p.DB_ID \
-                 LEFT JOIN Regulation_2_summation reg_sum \
+                 LEFT JOIN Event_2_summation reg_sum \
                  on reg_sum.DB_ID=dbobj.DB_ID \
                  LEFT JOIN Summation sum_fr_r \
                  ON sum_fr_r.DB_ID=reg_sum.summation \
