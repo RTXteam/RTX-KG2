@@ -445,7 +445,7 @@ if __name__ == '__main__':
     for (chembl_id, mesh_id) in results:
         subject_curie_id = CHEMBL_CURIE_BASE_COMPOUND + ':' + chembl_id
         object_curie_id = kg2_util.CURIE_PREFIX_MESH + ':' + mesh_id
-        predicate_label = kg2_util.EDGE_LABEL_BIOLINK_TREATS
+        predicate_label = kg2_util.EDGE_LABEL_BIOLINK_APPLIED_TO_TREAT
         edges_output.write(kg2_util.make_edge_biolink(subject_curie_id,
                                                       object_curie_id,
                                                       predicate_label,
