@@ -1091,6 +1091,9 @@ EFO:is_executed_in:
 ENVO:01001307:
   operation: keep
   core_predicate: biolink:coexists_with
+ENVO:02000200: 
+  operation: keep 
+  core_predicate: biolink:has_increased_amount
 # FMA:SIB:
 #   operation: delete
 FMA:adheres_to:
@@ -1822,6 +1825,8 @@ KEGG:reaction_to_pathway:
 linkml:examples:
   operation: delete
 linkml:local_names:
+  operation: delete
+linkml:mixins:
   operation: delete
 LOINC:adjustment_of:
   operation: delete
