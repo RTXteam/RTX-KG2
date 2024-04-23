@@ -4456,10 +4456,10 @@ SEMMEDDB:stimulates:
     object_direction: increased
 SEMMEDDB:TREATS:
   operation: keep
-  core_predicate: biolink:applied_to_treat
+  core_predicate: biolink:treats_or_applied_or_studied_to_treat
 SEMMEDDB:treats:
   operation: keep
-  core_predicate: biolink:applied_to_treat
+  core_predicate: biolink:treats_or_applied_or_studied_to_treat
 SEMMEDDB:USES:
   operation: keep
   core_predicate: biolink:has_input
