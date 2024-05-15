@@ -57,6 +57,8 @@ def process_edges(input_edges_file, output_file_location, output_file):
         edge_dict['knowledge_level'] = 'not_provided'
         edges_info.write(edge_dict)
 
+    kg2_util.end_read_jsonlines(edges_read_jsonlines_data)
+
 
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
