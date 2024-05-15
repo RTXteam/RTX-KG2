@@ -35,7 +35,7 @@ def check_sources(agent_type_dict, sources):
 
 
 # Add knowledge_level and agent_type to edges
-def process_edges(input_edges_file, output_file_location, output_file, agent_type_map):
+def process_edges(input_edges_file, output_file_location, output_file):
 
     print(f"Adding knowledge_level and agent_type to edges from {input_edges_file} to {output_file_location}/{output_file}")
   #  print(f"Type: {type(agent_type_map)} /nAgent type map: {agent_type_map}")
