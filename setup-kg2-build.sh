@@ -95,10 +95,49 @@ then
     sudo apt-get install -y emacs
 fi
 
-rm temp.txt
-
 # we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
-# source ${CODE_DIR}/setup-python37-with-pip3-in-ubuntu.shinc
+sudo apt-get update
+sudo apt-get install -y software-properties-common
+sudo -E add-apt-repository -y ppa:deadsnakes/ppa
+sudo apt-get install -y python3.7 python3.7-dev python3.7-venv
+
+# some shenanigans required in order to install pip into python3.7 (not into python3.6!)
+curl -s -k https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py
+apt-get download python3-distutils
+if [ -f python3-distutils_3.6.9-1~18.04_all.deb ]
+then
+    python3_distutils_filename=python3-distutils_3.6.9-1~18.04_all.deb
+else
+    if [ -f python3-distutils_3.8.10-0ubuntu1~20.04_all.deb ]
+    then
+    python3_distutils_filename=python3-distutils_3.8.10-0ubuntu1~20.04_all.deb
+    else
+        if [ -f python3-distutils_3.10.6-1~22.04_all.deb ]
+        then
+            python3_distutils_filename=python3-distutils_3.10.6-1~22.04_all.deb
+        else
+            if [ -f python3-distutils_3.10.8-1~22.04_all.deb ]
+            then
+                python3_distutils_filename=python3-distutils_3.10.8-1~22.04_all.deb
+            else
+                >&2 echo "Unrecognized python3 distutils .deb package filename; this is a bug in setup-python37-with-pip3-in-ubuntu.shinc"
+                exit 1
+            fi
+        fi
+    fi
+fi
+mv ${python3_distutils_filename} /tmp
+sudo dpkg-deb -x /tmp/${python3_distutils_filename} /
+sudo -H python3.7 /tmp/get-pip.py 2>&1 | grep -v "WARNING: Running pip as the 'root' user"
+
+## create a virtualenv for building KG2
+python3.7 -m venv ${VENV_DIR}
+
+## Install python3 packages that we will need (Note: we are not using pymongo
+## directly, but installing it silences a runtime warning from ontobio):
+## (maybe we should eventually move this to a requirements.txt file?)
+${VENV_DIR}/bin/pip3 install wheel
+
 # ${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
 
 # ## install ROBOT (software: ROBOT is an OBO Tool) by downloading the jar file
