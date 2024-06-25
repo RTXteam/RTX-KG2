@@ -41,8 +41,8 @@ then
     trap "cat ${setup_log_file}" EXIT
 fi
 
-# {
-echo "================= starting setup-kg2.sh ================="
+function setup_kg2_build () {
+echo "================= starting setup-kg2-build.sh ================="
 date
 
 echo `hostname`
@@ -174,7 +174,9 @@ fi
 date
 
 echo "================= script finished ================="
-# } >> ${setup_log_file} 2>&1
+}
+
+setup_kg2_build >> ${setup_log_file} 2>&1
 
 if [[ "${build_flag}" != "ci" ]]
 then
