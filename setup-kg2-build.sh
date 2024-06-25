@@ -80,24 +80,24 @@ sudo apt-get install -y \
      libssl-dev \
      make
 
-# sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password ${mysql_password}"
-# sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password ${mysql_password}"
+sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password ${mysql_password}"
+sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password ${mysql_password}"
 
-# sudo apt-get install -y mysql-server \
-#      mysql-client \
-#      libmysqlclient-dev \
-#      python3-mysqldb
+sudo apt-get install -y mysql-server \
+     mysql-client \
+     libmysqlclient-dev \
+     python3-mysqldb
 
-# sudo service mysql start
-# if [[ "${build_flag}" != "ci" ]]
-# then
-#     ## this is for convenience when I am remote working
-#     sudo apt-get install -y emacs
-# fi
+sudo service mysql start
+if [[ "${build_flag}" != "ci" ]]
+then
+    ## this is for convenience when I am remote working
+    sudo apt-get install -y emacs
+fi
 
-# # we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
-# source ${CODE_DIR}/setup-python37-with-pip3-in-ubuntu.shinc
-# ${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
+# we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
+source ${CODE_DIR}/setup-python37-with-pip3-in-ubuntu.shinc
+${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
 
 # ## install ROBOT (software: ROBOT is an OBO Tool) by downloading the jar file
 # ## distribution and cURLing the startup script (note github uses URL redirection
