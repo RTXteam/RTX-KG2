@@ -3,17 +3,16 @@
 # Copyright 2019 Stephen A. Ramsey <stephen.ramsey@oregonstate.edu>
 
 # Options:
-# ./setup-kg2-build.sh test       Generates a logfile `setup-kg2-build-test.log` instead of `setup-kg2-build.log`
 # ./setup-kg2-build.sh ci   Accommodate Travis CI's special runtime environment
 
 set -o nounset -o pipefail -o errexit
 
 if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
-    echo Usage: "$0 [ci|test]" 
+    echo Usage: "$0 [ci]" 
     exit 2
 fi
 
-# Usage: setup-kg2-build.sh [ci|test]
+# Usage: setup-kg2-build.sh [ci]
 
 build_flag=${1:-""}
 
@@ -25,13 +24,6 @@ then
 fi
 source ${config_dir}/master-config.shinc
 
-if [[ "${build_flag}" != "test" ]]
-then
-    test_str=""
-else
-    test_str="-test"
-fi
-
 mysql_user=ubuntu
 mysql_password=1337
 if [[ "${build_flag}" != "ci" ]]
@@ -40,15 +32,16 @@ then
 fi
 
 mkdir -p ${BUILD_DIR}
-setup_log_file=${BUILD_DIR}/setup-kg2-build${test_str}.log
+setup_log_file=${BUILD_DIR}/setup-kg2-build.log
 touch ${setup_log_file}
+echo "TESTTESTTEST" > ${setup_log_file}
 
 if [[ "${build_flag}" == "ci" ]]
 then
     trap "cat ${setup_log_file}" EXIT
 fi
 
-{
+# {
 echo "================= starting setup-kg2.sh ================="
 date
 
@@ -181,7 +174,7 @@ fi
 date
 
 echo "================= script finished ================="
-} >> ${setup_log_file} 2>&1
+# } >> ${setup_log_file} 2>&1
 
 if [[ "${build_flag}" != "ci" ]]
 then
