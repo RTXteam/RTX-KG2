@@ -47,38 +47,38 @@ date
 
 echo `hostname`
 
-# ## sym-link into RTX-KG2/
-# if [ ! -L ${CODE_DIR} ]; then
-#     if [[ "${build_flag}" != "ci" ]]
-#     then
-#         ln -sf ~/RTX-KG2 ${CODE_DIR}
-#     fi
-# fi
+## sym-link into RTX-KG2/
+if [ ! -L ${CODE_DIR} ]; then
+    if [[ "${build_flag}" != "ci" ]]
+    then
+        ln -sf ~/RTX-KG2 ${CODE_DIR}
+    fi
+fi
 
-# ## install the Linux distro packages that we need (python3-minimal is for docker installations)
-# sudo apt-get update
+## install the Linux distro packages that we need (python3-minimal is for docker installations)
+sudo apt-get update
 
-# ## handle weird tzdata install (this makes UTC the timezone)
-# sudo DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
+## handle weird tzdata install (this makes UTC the timezone)
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
 
-# # install various other packages used by the build system
-# #  - curl is generally used for HTTP downloads
-# #  - wget is used by the neo4j installation script (some special "--no-check-certificate" mode)
-# sudo apt-get install -y \
-#      default-jre \
-#      awscli \
-#      zip \
-#      curl \
-#      wget \
-#      flex \
-#      bison \
-#      libxml2-dev \
-#      gtk-doc-tools \
-#      libtool \
-#      automake \
-#      git \
-#      libssl-dev \
-#      make
+# install various other packages used by the build system
+#  - curl is generally used for HTTP downloads
+#  - wget is used by the neo4j installation script (some special "--no-check-certificate" mode)
+sudo apt-get install -y \
+     default-jre \
+     awscli \
+     zip \
+     curl \
+     wget \
+     flex \
+     bison \
+     libxml2-dev \
+     gtk-doc-tools \
+     libtool \
+     automake \
+     git \
+     libssl-dev \
+     make
 
 # sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password ${mysql_password}"
 # sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password ${mysql_password}"
