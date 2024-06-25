@@ -126,17 +126,17 @@ else
         fi
     fi
 fi
-mv ${python3_distutils_filename} /tmp
-sudo dpkg-deb -x /tmp/${python3_distutils_filename} /
-sudo -H python3.7 /tmp/get-pip.py 2>&1 | grep -v "WARNING: Running pip as the 'root' user"
+# mv ${python3_distutils_filename} /tmp
+# sudo dpkg-deb -x /tmp/${python3_distutils_filename} /
+# sudo -H python3.7 /tmp/get-pip.py 2>&1 | grep -v "WARNING: Running pip as the 'root' user"
 
-## create a virtualenv for building KG2
-python3.7 -m venv ${VENV_DIR}
+# ## create a virtualenv for building KG2
+# python3.7 -m venv ${VENV_DIR}
 
-## Install python3 packages that we will need (Note: we are not using pymongo
-## directly, but installing it silences a runtime warning from ontobio):
-## (maybe we should eventually move this to a requirements.txt file?)
-${VENV_DIR}/bin/pip3 install wheel
+# ## Install python3 packages that we will need (Note: we are not using pymongo
+# ## directly, but installing it silences a runtime warning from ontobio):
+# ## (maybe we should eventually move this to a requirements.txt file?)
+# ${VENV_DIR}/bin/pip3 install wheel
 
 # ${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
 
