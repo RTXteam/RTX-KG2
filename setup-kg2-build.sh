@@ -102,7 +102,7 @@ sudo -E add-apt-repository -y ppa:deadsnakes/ppa
 sudo apt-get install -y python3.7 python3.7-dev python3.7-venv
 
 # some shenanigans required in order to install pip into python3.7 (not into python3.6!)
-curl -s -k https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py
+curl -s -k https://bootstrap.pypa.io/pip/3.7/get-pip.py -o /tmp/get-pip.py
 apt-get download python3-distutils
 if [ -f python3-distutils_3.6.9-1~18.04_all.deb ]
 then
@@ -129,7 +129,7 @@ fi
 mv ${python3_distutils_filename} /tmp
 sudo dpkg-deb -x /tmp/${python3_distutils_filename} /
 cat /tmp/get-pip.py
-# sudo -H python3.7 /tmp/get-pip.py 2>&1 | grep -v "WARNING: Running pip as the 'root' user"
+sudo -H python3.7 /tmp/get-pip.py 2>&1 | grep -v "WARNING: Running pip as the 'root' user"
 
 # ## create a virtualenv for building KG2
 # python3.7 -m venv ${VENV_DIR}
