@@ -34,7 +34,6 @@ fi
 mkdir -p ${BUILD_DIR}
 setup_log_file=${BUILD_DIR}/setup-kg2-build.log
 touch ${setup_log_file}
-echo "TESTTESTTEST" > ${setup_log_file}
 
 if [[ "${build_flag}" == "ci" ]]
 then
@@ -165,7 +164,7 @@ date
 echo "================= script finished ================="
 }
 
-setup_kg2_build_part1 >> ${setup_log_file} 2>&1
+setup_kg2_build_part1 > ${setup_log_file} 2>&1
 
 if [[ "${build_flag}" != "ci" ]]
 then
