@@ -43,7 +43,7 @@ mkdir -p ${BUILD_DIR}
 setup_log_file=${BUILD_DIR}/setup-kg2-build${test_str}.log
 touch ${setup_log_file}
 
-{
+# {
 
 echo "================= starting setup-kg2.sh ================="
 date
@@ -177,7 +177,7 @@ fi
 date
 
 echo "================= script finished ================="
-} >> ${setup_log_file} 2>&1
+# } >> ${setup_log_file} 2>&1
 
 if [[ "${build_flag}" != "ci" ]]
 then
