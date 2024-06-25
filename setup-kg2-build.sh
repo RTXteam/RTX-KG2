@@ -95,6 +95,8 @@ then
     sudo apt-get install -y emacs
 fi
 
+rm temp.txt
+
 # we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
 # source ${CODE_DIR}/setup-python37-with-pip3-in-ubuntu.shinc
 # ${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
