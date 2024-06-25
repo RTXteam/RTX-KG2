@@ -41,7 +41,7 @@ then
     trap "cat ${setup_log_file}" EXIT
 fi
 
-function setup_kg2_build () {
+function setup_kg2_build_part1 () {
 echo "================= starting setup-kg2-build.sh ================="
 date
 
@@ -96,127 +96,88 @@ then
 fi
 
 # we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
-sudo apt-get update
-sudo apt-get install -y software-properties-common
-sudo -E add-apt-repository -y ppa:deadsnakes/ppa
-sudo apt-get install -y python3.7 python3.7-dev python3.7-venv
+source ${CODE_DIR}/setup-python37-with-pip3-in-ubuntu.shinc
+${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
 
-# some shenanigans required in order to install pip into python3.7 (not into python3.6!)
-curl -s -k https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py
-# use https://bootstrap.pypa.io/pip/3.7/get-pip.py to not error
-apt-get download python3-distutils
-if [ -f python3-distutils_3.6.9-1~18.04_all.deb ]
+## install ROBOT (software: ROBOT is an OBO Tool) by downloading the jar file
+## distribution and cURLing the startup script (note github uses URL redirection
+## so we need the "-L" command-line option, and cURL doesn't like JAR files by
+## default so we need the "application/zip")
+${curl_get} -H "Accept: application/zip" https://github.com/RTXteam/robot/releases/download/v1.3.0/robot.jar > ${BUILD_DIR}/robot.jar 
+curl -s https://raw.githubusercontent.com/RTXteam/robot/v1.3.0/bin/robot > ${BUILD_DIR}/robot
+chmod +x ${BUILD_DIR}/robot
+
+## setup owltools
+${curl_get} ${BUILD_DIR} https://github.com/RTXteam/owltools/releases/download/v0.3.0/owltools > ${BUILD_DIR}/owltools
+chmod +x ${BUILD_DIR}/owltools
+}
+
+function setup_kg2_build_part2 () {
+RAPTOR_NAME=raptor2-2.0.15
+# setup raptor (used by the "checkOutputSyntax.sh" script in the umls2rdf package)
+${curl_get} -o ${BUILD_DIR}/${RAPTOR_NAME}.tar.gz http://download.librdf.org/source/${RAPTOR_NAME}.tar.gz
+rm -r -f ${BUILD_DIR}/${RAPTOR_NAME}
+tar xzf ${BUILD_DIR}/${RAPTOR_NAME}.tar.gz -C ${BUILD_DIR} 
+cd ${BUILD_DIR}/${RAPTOR_NAME}
+./autogen.sh --prefix=/usr/local
+make
+make check
+sudo make install
+sudo ldconfig
+
+if [[ "${build_flag}" != "ci" ]]
 then
-    python3_distutils_filename=python3-distutils_3.6.9-1~18.04_all.deb
-else
-    if [ -f python3-distutils_3.8.10-0ubuntu1~20.04_all.deb ]
-    then
-    python3_distutils_filename=python3-distutils_3.8.10-0ubuntu1~20.04_all.deb
-    else
-        if [ -f python3-distutils_3.10.6-1~22.04_all.deb ]
-        then
-            python3_distutils_filename=python3-distutils_3.10.6-1~22.04_all.deb
-        else
-            if [ -f python3-distutils_3.10.8-1~22.04_all.deb ]
-            then
-                python3_distutils_filename=python3-distutils_3.10.8-1~22.04_all.deb
-            else
-                >&2 echo "Unrecognized python3 distutils .deb package filename; this is a bug in setup-python37-with-pip3-in-ubuntu.shinc"
-                exit 1
-            fi
-        fi
-    fi
-fi
-mv ${python3_distutils_filename} /tmp
-sudo dpkg-deb -x /tmp/${python3_distutils_filename} /
-sudo -H python3.7 /tmp/get-pip.py # 2>&1 | grep -v "WARNING: Running pip as the 'root' user"
+    # setup MySQL
+    MYSQL_PWD=${mysql_password} mysql -u root -e "CREATE USER IF NOT EXISTS '${mysql_user}'@'localhost' IDENTIFIED BY '${mysql_password}'"
+    MYSQL_PWD=${mysql_password} mysql -u root -e "GRANT ALL PRIVILEGES ON *.* to '${mysql_user}'@'localhost'"
 
-# ## create a virtualenv for building KG2
-# python3.7 -m venv ${VENV_DIR}
+    cat >${mysql_conf} <<EOF
+[client]
+user = ${mysql_user}
+password = ${mysql_password}
+host = localhost
+[mysqld]
+skip-log-bin
+EOF
 
-# ## Install python3 packages that we will need (Note: we are not using pymongo
-# ## directly, but installing it silences a runtime warning from ontobio):
-# ## (maybe we should eventually move this to a requirements.txt file?)
-# ${VENV_DIR}/bin/pip3 install wheel
+    ## set mysql server variable to allow loading data from a local file
+    mysql --defaults-extra-file=${mysql_conf} \
+          -e "set global local_infile=1"
 
-# ${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
-
-# ## install ROBOT (software: ROBOT is an OBO Tool) by downloading the jar file
-# ## distribution and cURLing the startup script (note github uses URL redirection
-# ## so we need the "-L" command-line option, and cURL doesn't like JAR files by
-# ## default so we need the "application/zip")
-# ${curl_get} -H "Accept: application/zip" https://github.com/RTXteam/robot/releases/download/v1.3.0/robot.jar > ${BUILD_DIR}/robot.jar 
-# curl -s https://raw.githubusercontent.com/RTXteam/robot/v1.3.0/bin/robot > ${BUILD_DIR}/robot
-# chmod +x ${BUILD_DIR}/robot
-
-# ## setup owltools
-# ${curl_get} ${BUILD_DIR} https://github.com/RTXteam/owltools/releases/download/v0.3.0/owltools > ${BUILD_DIR}/owltools
-# chmod +x ${BUILD_DIR}/owltools
-
-# if [[ "${build_flag}" != "ci" ]]
-# then
-#     ## setup AWS CLI
-#     if ! ${s3_cp_cmd} s3://${s3_bucket}/test-file-do-not-delete /tmp/; then
-#         aws configure
-#     else
-#         rm -f /tmp/test-file-do-not-delete
-#     fi
-# fi
-
-# {
-# RAPTOR_NAME=raptor2-2.0.15
-# # setup raptor (used by the "checkOutputSyntax.sh" script in the umls2rdf package)
-# ${curl_get} -o ${BUILD_DIR}/${RAPTOR_NAME}.tar.gz http://download.librdf.org/source/${RAPTOR_NAME}.tar.gz
-# rm -r -f ${BUILD_DIR}/${RAPTOR_NAME}
-# tar xzf ${BUILD_DIR}/${RAPTOR_NAME}.tar.gz -C ${BUILD_DIR} 
-# cd ${BUILD_DIR}/${RAPTOR_NAME}
-# ./autogen.sh --prefix=/usr/local
-# make
-# make check
-# sudo make install
-# sudo ldconfig
-
-# if [[ "${build_flag}" != "ci" ]]
-# then
-#     # setup MySQL
-#     MYSQL_PWD=${mysql_password} mysql -u root -e "CREATE USER IF NOT EXISTS '${mysql_user}'@'localhost' IDENTIFIED BY '${mysql_password}'"
-#     MYSQL_PWD=${mysql_password} mysql -u root -e "GRANT ALL PRIVILEGES ON *.* to '${mysql_user}'@'localhost'"
-
-#     cat >${mysql_conf} <<EOF
-# [client]
-# user = ${mysql_user}
-# password = ${mysql_password}
-# host = localhost
-# [mysqld]
-# skip-log-bin
-# EOF
-
-#     ## set mysql server variable to allow loading data from a local file
-#     mysql --defaults-extra-file=${mysql_conf} \
-#           -e "set global local_infile=1"
-
-#     ## setup PostGreSQL
-#     sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-#     wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-#     sudo apt-get update
-#     sudo apt-get -y install postgresql
+    ## setup PostGreSQL
+    sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+    sudo apt-get update
+    sudo apt-get -y install postgresql
     
-#     # Addresses permission issues
-#     # https://stackoverflow.com/questions/38470952/postgres-can-not-change-directory-in-ubuntu-14-04
-#     cd ~postgres/
+    # Addresses permission issues
+    # https://stackoverflow.com/questions/38470952/postgres-can-not-change-directory-in-ubuntu-14-04
+    cd ~postgres/
 
-#     sudo -u postgres psql -c "DO \$do\$ BEGIN IF NOT EXISTS ( SELECT FROM pg_catalog.pg_roles WHERE rolname = '${psql_user}' ) THEN CREATE ROLE ${psql_user} LOGIN PASSWORD null; END IF; END \$do\$;"
-#     sudo -u postgres psql -c "ALTER USER ${psql_user} WITH password null"
-# else
-#     export PATH=$PATH:${BUILD_DIR}
-# fi
+    sudo -u postgres psql -c "DO \$do\$ BEGIN IF NOT EXISTS ( SELECT FROM pg_catalog.pg_roles WHERE rolname = '${psql_user}' ) THEN CREATE ROLE ${psql_user} LOGIN PASSWORD null; END IF; END \$do\$;"
+    sudo -u postgres psql -c "ALTER USER ${psql_user} WITH password null"
+else
+    export PATH=$PATH:${BUILD_DIR}
+fi
 
 date
 
 echo "================= script finished ================="
 }
 
-setup_kg2_build >> ${setup_log_file} 2>&1
+setup_kg2_build_part1 >> ${setup_log_file} 2>&1
+
+if [[ "${build_flag}" != "ci" ]]
+then
+    ## setup AWS CLI
+    if ! ${s3_cp_cmd} s3://${s3_bucket}/test-file-do-not-delete /tmp/; then
+        aws configure
+    else
+        rm -f /tmp/test-file-do-not-delete
+    fi
+fi
+
+setup_kg2_build_part2 >> ${setup_log_file} 2>&1
 
 if [[ "${build_flag}" != "ci" ]]
 then
