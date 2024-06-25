@@ -97,7 +97,7 @@ fi
 
 # we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
 source ${CODE_DIR}/setup-python37-with-pip3-in-ubuntu.shinc
-${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
+# ${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
 
 # ## install ROBOT (software: ROBOT is an OBO Tool) by downloading the jar file
 # ## distribution and cURLing the startup script (note github uses URL redirection
@@ -110,8 +110,6 @@ ${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
 # ## setup owltools
 # ${curl_get} ${BUILD_DIR} https://github.com/RTXteam/owltools/releases/download/v0.3.0/owltools > ${BUILD_DIR}/owltools
 # chmod +x ${BUILD_DIR}/owltools
-
-# } >${setup_log_file} 2>&1
 
 # if [[ "${build_flag}" != "ci" ]]
 # then
