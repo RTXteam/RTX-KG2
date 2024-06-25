@@ -128,7 +128,7 @@ else
 fi
 mv ${python3_distutils_filename} /tmp
 sudo dpkg-deb -x /tmp/${python3_distutils_filename} /
-sudo -H python3.7 /tmp/get-pip.py 2>&1 | grep -v "WARNING: Running pip as the 'root' user"
+# sudo -H python3.7 /tmp/get-pip.py 2>&1 | grep -v "WARNING: Running pip as the 'root' user"
 
 # ## create a virtualenv for building KG2
 # python3.7 -m venv ${VENV_DIR}
