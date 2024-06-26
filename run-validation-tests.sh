@@ -33,8 +33,8 @@ biolink_model_yaml=biolink_model.yaml
 biolink_model_yaml_url=${biolink_raw_base_url}src/biolink_model/schema/${biolink_model_yaml}
 biolink_model_yaml_local_file=${BUILD_DIR}/${biolink_model_yaml}
 
-infores_registry_base_url_no_version="https://github.com/biolink/information-resource-registry/tree/"
-infores_registry_base_url=${infores_registry_base_url_no_version}${infores_registry_version}
+infores_registry_base_url_no_version=https://raw.githubusercontent.com/biolink/information-resource-registry/
+infores_registry_base_url=${infores_registry_base_url_no_version}v${infores_registry_version}/
 infores_catalog_yaml=infores_catalog.yaml
 infores_catalog_yaml_url=${infores_registry_base_url}${infores_catalog_yaml}
 
