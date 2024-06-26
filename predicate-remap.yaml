@@ -4260,10 +4260,10 @@ SEMMEDDB:affects:
   core_predicate: biolink:affects
 SEMMEDDB:ASSOCIATED_WITH:
   operation: keep
-  core_predicate: biolink:related_to
+  core_predicate: biolink:associated_with
 SEMMEDDB:associated_with:
   operation: keep
-  core_predicate: biolink:related_to
+  core_predicate: biolink:associated_with
 SEMMEDDB:AUGMENTS:
   operation: keep
   core_predicate: biolink:affects
