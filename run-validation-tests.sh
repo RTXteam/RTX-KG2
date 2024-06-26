@@ -32,8 +32,11 @@ biolink_model_owl_url=${biolink_raw_base_url}project/owl/${biolink_model_owl}
 biolink_model_yaml=biolink_model.yaml
 biolink_model_yaml_url=${biolink_raw_base_url}src/biolink_model/schema/${biolink_model_yaml}
 biolink_model_yaml_local_file=${BUILD_DIR}/${biolink_model_yaml}
+
+infores_registry_base_url_no_version="https://github.com/biolink/information-resource-registry/tree/"
+infores_registry_base_url=${infores_registry_base_url_no_version}${infores_registry_version}
 infores_catalog_yaml=infores_catalog.yaml
-infores_catalog_yaml_url=${biolink_raw_base_url}${infores_catalog_yaml}
+infores_catalog_yaml_url=${infores_registry_base_url}${infores_catalog_yaml}
 
 sed -i "\@${biolink_base_url_no_version}@c${curies_urls_map_replace_string}" \
         ${curies_to_urls_file}
