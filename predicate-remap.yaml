@@ -4248,10 +4248,10 @@ SEMMEDDB:1532:
   operation: delete
 SEMMEDDB:ADMINISTERED_TO:
   operation: keep
-  core_predicate: biolink:related_to
+  core_predicate: biolink:applied_to_treat
 SEMMEDDB:administered_to:
   operation: keep
-  core_predicate: biolink:related_to
+  core_predicate: biolink:applied_to_treat
 SEMMEDDB:AFFECTS:
   operation: keep
   core_predicate: biolink:affects
