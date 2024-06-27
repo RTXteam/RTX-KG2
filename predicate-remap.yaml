@@ -3051,8 +3051,8 @@ OBO:mondo/mondo-base#disease_has_major_feature:
   operation: keep
   core_predicate: biolink:has_part
 OBO:mondo/mondo-base#disease_responds_to:
-  operation: keep
-  core_predicate: biolink:treats
+  operation: invert
+  core_predicate: biolink:ameliorates_condition
 # OBO:uo#is_unit_of:
 #   operation: invert
 #   core_predicate: biolink:related_to
