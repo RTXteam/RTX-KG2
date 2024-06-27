@@ -41,7 +41,7 @@ python-dateutil==2.8.1
 pytz==2022.2
 PyYAML==5.4
 rdflib==6.0.0
-requests==2.18.0
+requests==2.31.0
 scipy==1.7.3
 six==1.12.0
 snakemake==5.5.4
