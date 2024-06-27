@@ -3032,6 +3032,27 @@ OBO:nbo#in_response_to:
 OBO:nbo#is_about:
   operation: keep
   core_predicate: biolink:related_to
+OBO:mondo/mondo-base#predisposes_towards:
+  operation: keep
+  core_predicate: biolink:contributes_to
+OBO:mondo/mondo-base#part_of_progression_of_disease:
+  operation: invert
+  core_predicate: biolink:has_part
+OBO:mondo/mondo-base#disease_has_basis_in_development_of:
+  operation: keep
+  core_predicate: biolink:disease_has_basis_in
+OBO:mondo/mondo-base#disease_has_basis_in_accumulation_of:
+  operation: keep
+  core_predicate: biolink:disease_has_basis_in
+OBO:mondo/mondo-base#disease_shares_features_of:
+  operation: keep
+  core_predicate: biolink:related_to
+OBO:mondo/mondo-base#disease_has_major_feature:
+  operation: keep
+  core_predicate: biolink:has_part
+OBO:mondo/mondo-base#disease_responds_to:
+  operation: keep
+  core_predicate: biolink:treats
 # OBO:uo#is_unit_of:
 #   operation: invert
 #   core_predicate: biolink:related_to
@@ -3521,6 +3542,9 @@ RO:0002134:
   operation: keep
   core_predicate: biolink:related_to
 RO:0002150:
+  operation: keep
+  core_predicate: biolink:related_to
+RO:0002151: # partially overlaps
   operation: keep
   core_predicate: biolink:related_to
 RO:0002159:
@@ -4248,10 +4272,10 @@ SEMMEDDB:1532:
   operation: delete
 SEMMEDDB:ADMINISTERED_TO:
   operation: keep
-  core_predicate: biolink:applied_to_treat
+  core_predicate: biolink:treats_or_applied_or_studied_to_treat
 SEMMEDDB:administered_to:
   operation: keep
-  core_predicate: biolink:applied_to_treat
+  core_predicate: biolink:treats_or_applied_or_studied_to_treat
 SEMMEDDB:AFFECTS:
   operation: keep
   core_predicate: biolink:affects
@@ -4456,10 +4480,10 @@ SEMMEDDB:stimulates:
     object_direction: increased
 SEMMEDDB:TREATS:
   operation: keep
-  core_predicate: biolink:studied_to_treat
+  core_predicate: biolink:treats_or_applied_or_studied_to_treat
 SEMMEDDB:treats:
   operation: keep
-  core_predicate: biolink:studied_to_treat
+  core_predicate: biolink:treats_or_applied_or_studied_to_treat
 SEMMEDDB:USES:
   operation: keep
   core_predicate: biolink:has_input
