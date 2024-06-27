@@ -27,7 +27,7 @@ marshmallow==3.0.0b11
 mysqlclient==1.4.4
 neo4j==4.3
 networkx==2.5
-numpy==2.0.0
+numpy==1.21.6
 ontobio==2.8.0
 pandas==1.0.3
 pathtools==0.1.2
