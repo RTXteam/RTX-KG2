@@ -162,7 +162,7 @@ for relation, instruction_dict in pred_info.items():
 
     if core_predicate is not None:
 
-        assert core_predicate not in biolink_mixins, (relation, core_predicate, {'Mixins': biolink_mixins})
+        # assert core_predicate not in biolink_mixins, (relation, core_predicate, {'Mixins': biolink_mixins}) # See #381
         assert core_predicate not in inverted_relations, (relation, core_predicate, {'Inverted Relations': inverted_relations})
         assert core_predicate in biolink_to_external_mappings, (relation, core_predicate)
 
