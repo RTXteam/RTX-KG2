@@ -53,16 +53,12 @@ def get_nondeprecated_parent(biolink_model: dict, biolink_term: str) -> str:
 
 def create_biolink_to_external_mappings(biolink_model: dict, mapping_hierarchy: list) -> dict:
     # biolink_to_external[biolink relation][mapterm]= list([externals])
-    biolink_mixins = list()
     biolink_to_external_mappings = dict()
     inverted_relations = []
     deprecated_list = list()
     for relation, relation_info in biolink_model['slots'].items():
         predicate_str = convert_biolink_yaml_association_to_predicate(relation)
-        mixin = relation_info.get('mixin', False)
-        if mixin and predicate_str != 'biolink:regulates':
-            biolink_mixins.append(predicate_str)
-            continue
+
         is_a_type = relation_info.get('is_a', '')
         if is_a_type in ['node property', 'association slot', 'aggregate statistic']:
             continue
@@ -115,7 +111,7 @@ def create_biolink_to_external_mappings(biolink_model: dict, mapping_hierarchy: 
        biolink_to_external_mappings['biolink:subclass_of']['narrow_mappings'].remove("umls:rb")
     except ValueError:
        print('UMLS:RB work around no longer necessary')
-    return biolink_to_external_mappings, biolink_mixins, inverted_relations, deprecated_list
+    return biolink_to_external_mappings, inverted_relations, deprecated_list
 
 
 args = make_arg_parser().parse_args()
@@ -137,7 +133,7 @@ biolink_model = kg2_util.safe_load_yaml_from_string(
 
 mapping_hierarchy = ["exact_mappings", "close_mappings", "narrow_mappings", "broad_mappings", "related_mappings"]  # TODO: determine correct order of mappings
 
-biolink_to_external_mappings, biolink_mixins, inverted_relations, deprecated_list = create_biolink_to_external_mappings(
+biolink_to_external_mappings, inverted_relations, deprecated_list = create_biolink_to_external_mappings(
     biolink_model, mapping_hierarchy)
 
 external_to_biolink_mappings = dict()
@@ -164,7 +160,6 @@ for relation, instruction_dict in pred_info.items():
 
         # assert core_predicate not in biolink_mixins, (relation, core_predicate, {'Mixins': biolink_mixins}) # See #381
         assert core_predicate not in inverted_relations, (relation, core_predicate, {'Inverted Relations': inverted_relations})
-        print(biolink_to_external_mappings)
         assert core_predicate in biolink_to_external_mappings, (relation, core_predicate)
 
         allowed_biolink_curies_set = set()
