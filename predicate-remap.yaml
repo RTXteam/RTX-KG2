@@ -2255,7 +2255,7 @@ MONDO:disease_has_major_feature:
   core_predicate: biolink:has_part
 MONDO:disease_responds_to:
   operation: invert
-  core_predicate: biolink:ameliorates_condition
+  core_predicate: biolink:treats
 MONDO:disease_shares_features_of:
   operation: keep
   core_predicate: biolink:related_to
@@ -4366,10 +4366,10 @@ SEMMEDDB:inhibits:
     object_direction: decreased
 SEMMEDDB:INTERACTS_WITH:
   operation: keep
-  core_predicate: biolink:physically_interacts_with
+  core_predicate: biolink:interacts_with
 SEMMEDDB:interacts_with:
   operation: keep
-  core_predicate: biolink:physically_interacts_with
+  core_predicate: biolink:interacts_with
 SEMMEDDB:ISA:
   operation: keep
   core_predicate: biolink:subclass_of
