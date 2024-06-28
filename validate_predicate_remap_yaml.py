@@ -164,6 +164,7 @@ for relation, instruction_dict in pred_info.items():
 
         # assert core_predicate not in biolink_mixins, (relation, core_predicate, {'Mixins': biolink_mixins}) # See #381
         assert core_predicate not in inverted_relations, (relation, core_predicate, {'Inverted Relations': inverted_relations})
+        print(biolink_to_external_mappings)
         assert core_predicate in biolink_to_external_mappings, (relation, core_predicate)
 
         allowed_biolink_curies_set = set()
