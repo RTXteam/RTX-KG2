@@ -95,8 +95,8 @@ then
 fi
 
 # we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
-source ${CODE_DIR}/setup-python37-with-pip3-in-ubuntu.shinc
-${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-build.txt
+source ${SETUP_CODE_DIR}/setup-python37-with-pip3-in-ubuntu.shinc
+${VENV_DIR}/bin/pip3 install -r ${SETUP_CODE_DIR}/requirements-kg2-build.txt
 
 ## install ROBOT (software: ROBOT is an OBO Tool) by downloading the jar file
 ## distribution and cURLing the startup script (note github uses URL redirection
