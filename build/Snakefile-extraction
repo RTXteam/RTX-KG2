@@ -1,0 +1,221 @@
+rule UMLS:
+    input:
+        code = config['UMLS_EXTRACTION_SCRIPT'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['UMLS_EXTRACT_FILE']
+    log:
+        config['UMLS_EXTRACTION_LOG']
+    shell:
+        "bash -x {input.code} {output} > {log} 2>&1" 
+
+rule SemMedDB:
+    input:
+        code = config['SEMMEDDB_EXTRACTION_SCRIPT'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        tuplelist = config['SEMMEDDB_TUPLELIST_FILE'],
+        exclusion_list = config['SEMMEDDB_EXCLUSION_FILE'],
+        version_file = config['SEMMEDDB_VERSION_FILE']
+    log:
+        config['SEMMEDDB_EXTRACTION_LOG']
+    shell:
+        "bash -x {input.code} {output.tuplelist} {output.exclusion_list} {output.version_file} > {log} 2>&1"
+
+rule UniProtKB:
+    input:
+        code = config['UNIPROTKB_EXTRACTION_SCRIPT'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['UNIPROTKB_DAT_FILE']
+    log:
+        config['UNIPROTKB_EXTRACTION_LOG']
+    shell:
+        "bash -x {input.code} {output} > {log} 2>&1"
+
+rule Ensembl:
+    input:
+        code = config['ENSEMBL_EXTRACTION_SCRIPT'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['ENSEMBL_SOURCE_JSON_FILE']
+    log:
+        config['ENSEMBL_EXTRACTION_LOG']
+    shell:
+        "bash -x {input.code} > {log} 2>&1"
+
+rule UniChem:
+    input:
+        code = config['UNICHEM_EXTRACTION_SCRIPT'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['UNICHEM_OUTPUT_TSV_FILE']
+    log:
+        config['UNICHEM_EXTRACTION_LOG']
+    shell:
+        "bash -x {input.code} {output} > {log} 2>&1"
+
+rule ChEMBL:
+    input:
+        code = config['CHEMBL_EXTRACTION_SCRIPT'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        placeholder = config['BUILD_DIR'] + "/chembl-placeholder.empty"
+    log:
+        config['CHEMBL_EXTRACTION_LOG']
+    shell:
+        "bash -x {input.code} " + config['CHEMBL_MYSQL_DBNAME'] +" > {log} 2>&1 && touch {output.placeholder}"
+
+rule NCBIGene:
+    input:
+        code = config['NCBIGENE_EXTRACTION_SCRIPT'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['NCBIGENE_TSV_FILE']
+    log:
+        config['NCBIGENE_EXTRACTION_LOG']
+    shell:
+        "bash -x {input.code} {output} > {log} 2>&1"
+
+rule DGIdb:
+    input:
+        code = config['DGIDB_EXTRACTION_SCRIPT'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['DGIDB_DIR'] + "/interactions.tsv"
+    log:
+        config['DGIDB_EXTRACTION_LOG']
+    shell:
+        "bash -x {input.code} " + config['DGIDB_DIR'] + " > {log} 2>&1"
+
+rule RepoDB:
+    input:
+        code = config['REPODB_EXTRACTION_SCRIPT'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['REPODB_INPUT_FILE']
+    log:
+        config['REPODB_EXTRACTION_LOG']
+    shell:
+        "bash -x {input.code} " + config['REPODB_DIR'] + " > {log} 2>&1"
+
+rule DrugBank:
+    input:
+        code = config['DRUGBANK_EXTRACTION_SCRIPT'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['DRUGBANK_INPUT_FILE']
+    log:
+        config['DRUGBANK_EXTRACTION_LOG']
+    shell:
+        "bash -x {input.code} {output} > {log} 2>&1"
+
+rule SMPDB:
+    input:
+        code = config['SMPDB_EXTRACTION_SCRIPT'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['SMPDB_INPUT_FILE']
+    log:
+        config['SMPDB_EXTRACTION_LOG']
+    shell:
+        "bash -x {input.code} " + config['SMPDB_DIR'] + " > {log} 2>&1"
+
+rule HMDB:
+    input:
+        code = config['HMDB_EXTRACTION_SCRIPT'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['HMDB_INPUT_FILE']
+    log:
+        config['HMDB_EXTRACTION_LOG']
+    shell:
+        "bash -x {input.code} > {log} 2>&1"
+
+rule GO_Annotations:
+    input:
+        code = config['GO_ANNOTATIONS_EXTRACTION_SCRIPT'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['GO_ANNOTATIONS_INPUT_FILE']
+    log:
+        config['GO_ANNOTATIONS_EXTRACTION_LOG']
+    shell:
+        "bash -x {input.code} {output} > {log} 2>&1"
+
+rule Reactome:
+    input:
+        code = config['REACTOME_EXTRACTION_SCRIPT'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        placeholder = config['BUILD_DIR'] + "/reactome-placeholder.empty"
+    log:
+        config['REACTOME_EXTRACTION_LOG']
+    shell:
+        "bash -x {input.code} " + config['REACTOME_MYSQL_DBNAME'] +" > {log} 2>&1 && touch {output.placeholder}"
+
+rule miRBase:
+    input:
+        code = config['MIRBASE_EXTRACTION_SCRIPT'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['MIRBASE_INPUT_FILE']
+    log:
+        config['MIRBASE_EXTRACTION_LOG']
+    shell:
+        "bash -x {input.code} {output} > {log} 2>&1"
+
+rule JensenLab:
+    input:
+        code = config['JENSENLAB_EXTRACTION_SCRIPT'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        placeholder = config['BUILD_DIR'] + "/jensenlab-placeholder.empty"
+    log:
+        config['JENSENLAB_EXTRACTION_LOG']
+    shell:
+        "bash -x {input.code} > {log} 2>&1 && touch {output.placeholder}"
+
+rule DrugCentral:
+    input:
+        code = config['DRUGCENTRAL_EXTRACTION_SCRIPT'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['DRUGCENTRAL_INPUT_FILE']
+    log:
+        config['DRUGCENTRAL_EXTRACTION_LOG']
+    shell:
+        "bash -x {input.code} {output} " + config['DRUGCENTRAL_DIR'] + " > {log} 2>&1"
+
+rule IntAct:
+    input:
+        code = config['INTACT_EXTRACTION_SCRIPT'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['INTACT_INPUT_FILE']
+    log:
+        config['INTACT_EXTRACTION_LOG']
+    shell:
+        "bash -x {input.code} {output} > {log} 2>&1"
+
+rule DisGeNET:
+    input:
+        code = config['DISGENET_EXTRACTION_SCRIPT'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['DISGENET_INPUT_FILE']
+    log:
+        config['DISGENET_EXTRACTION_LOG']
+    shell:
+        "bash -x {input.code} {output} > {log} 2>&1"
+
+rule KEGG:
+    input:
+        code = config['KEGG_EXTRACTION_SCRIPT'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['KEGG_INPUT_FILE']
+    log:
+        config['KEGG_EXTRACTION_LOG']
+    shell:
+        "bash -x {input.code} {output} > {log} 2>&1"

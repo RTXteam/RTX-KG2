@@ -1,0 +1,171 @@
+#!/usr/bin/env python3
+'''dgidb_tsv_to_kg_json.py: Extracts a KG2 JSON file from the DGIdb interactions file in TSV format
+
+   Usage: dgidb_tsv_to_kg_json.py [--test] <inputFile.tsv> <outputNodesFile.json> <outputEdgesFile.json>
+'''
+
+__author__ = 'Stephen Ramsey'
+__copyright__ = 'Oregon State University'
+__credits__ = ['Stephen Ramsey']
+__license__ = 'MIT'
+__version__ = '0.1.0'
+__maintainer__ = ''
+__email__ = ''
+__status__ = 'Prototype'
+
+import argparse
+import kg2_util
+import re
+import sys
+import datetime
+
+DGIDB_BASE_IRI = kg2_util.BASE_URL_DGIDB
+DGIDB_CURIE_PREFIX = kg2_util.CURIE_PREFIX_DGIDB
+DGIDB_KB_CURIE = kg2_util.CURIE_PREFIX_DGIDB + ':'
+
+RE_PMID = re.compile(r'([^\[]+)[\[,\{](PMID: \d+)')
+
+GTPI_BASE_URL = kg2_util.BASE_URL_GTPI
+GTPI_SOURCE_BASE_URL = kg2_util.BASE_URL_GTPI_SOURCE
+GTPI_CURIE_PREFIX = kg2_util.CURIE_PREFIX_GTPI
+GTPI_KB_CURIE = kg2_util.CURIE_PREFIX_GTPI_SOURCE
+
+TTD_IRI_BASE = kg2_util.BASE_URL_TTD_TARGET
+TTD_CURIE_PREFIX = kg2_util.CURIE_PREFIX_TTD_TARGET
+TTD_KB_CURIE = kg2_util.CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY + ':' + kg2_util.CURIE_PREFIX_TTD_TARGET
+
+INTERACTION_CLAIM_SOURCE_TTD = 'TTD'
+INTERACTION_CLAIM_SOURCE_GTPI = 'GuideToPharmacologyInteractions'
+INTERACTION_CLAIM_SOURCE_DRUGBANK = 'DrugBank'
+INTERACTION_CLAIM_SOURCE_CHEMBL_INTERACTIONS = 'ChemblInteractions'
+
+MAKE_NODE_BY_CLAIM_SOURCE = [INTERACTION_CLAIM_SOURCE_TTD, INTERACTION_CLAIM_SOURCE_GTPI]
+
+
+def get_args():
+    arg_parser = argparse.ArgumentParser(description='dgidb_tsv_to_kg_json.py: builds a KG2 JSON file from the DGIdb interactions.tsv file')
+    arg_parser.add_argument('--test', dest='test', action="store_true", default=False)
+    arg_parser.add_argument('inputFile', type=str)
+    arg_parser.add_argument('outputNodesFile', type=str)
+    arg_parser.add_argument('outputEdgesFile', type=str)
+    return arg_parser.parse_args()
+
+
+def date():
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+
+def make_kg2_graph(input_file_name: str, nodes_output, edges_output, test_mode: bool = False):
+    line_ctr = 0
+    update_date = None
+    with open(input_file_name, 'r') as input_file:
+        for line in input_file:
+            line = line.rstrip("\n")
+            if line.startswith('#'):
+                update_date = line.replace('#', '')
+                continue
+            if line.startswith('gene_name\t'):
+                continue
+            line_ctr += 1
+            if test_mode and line_ctr > 10000:
+                break
+            fields = line.split("\t")
+            [gene_name,
+             gene_claim_name,
+             entrez_id,
+             interaction_claim_source,
+             interaction_types,
+             drug_claim_name,
+             drug_claim_primary_name,
+             drug_name,
+             drug_concept_id,
+             _, #12.5.2020 new field in tsv: interaction group score
+             PMIDs] = fields
+            if entrez_id != "":
+                object_curie_id = kg2_util.CURIE_PREFIX_NCBI_GENE + ':' + entrez_id
+                if drug_concept_id != "":   
+                    if "chembl" in drug_concept_id:
+                        _, chembl_id = drug_concept_id.split(":")                    
+                        subject_curie_id = kg2_util.CURIE_PREFIX_CHEMBL_COMPOUND + ':' + chembl_id
+                    else:
+                        print(f"DGIDB: Skipping row with drug concept id {drug_concept_id}", file=sys.stderr)
+                        continue #skipping over wikidata nodes, see #1185
+                else:
+                    if drug_claim_name != "":
+                        node_pubs_list = []
+                        subject_curie_id = None
+                        if interaction_claim_source == INTERACTION_CLAIM_SOURCE_GTPI:
+                            subject_curie_id = GTPI_CURIE_PREFIX + ':' + drug_claim_name
+                            pmid_match = RE_PMID.match(drug_claim_primary_name)
+                            if pmid_match is not None:
+                                node_pubs_list = [pmid_match[2].replace(' ', '').strip()]
+                                node_name = pmid_match[1].strip()
+                            else:
+                                node_name = drug_claim_primary_name
+                            node_iri = GTPI_BASE_URL + drug_claim_name
+                            provided_by = GTPI_KB_CURIE
+                        elif interaction_claim_source == INTERACTION_CLAIM_SOURCE_TTD:
+                            subject_curie_id = TTD_CURIE_PREFIX + ':' + drug_claim_name.replace(" ","_")
+                            node_name = drug_claim_primary_name
+                            node_iri = TTD_IRI_BASE + drug_claim_name.replace(" ", "_")
+                            provided_by = TTD_KB_CURIE
+                        elif interaction_claim_source == INTERACTION_CLAIM_SOURCE_DRUGBANK:
+                            subject_curie_id = kg2_util.CURIE_PREFIX_DRUGBANK + ':' + drug_claim_name
+                        elif interaction_claim_source == INTERACTION_CLAIM_SOURCE_CHEMBL_INTERACTIONS:
+                            subject_curie_id = kg2_util.CURIE_PREFIX_CHEMBL_COMPOUND + ':' + drug_claim_name
+                        if subject_curie_id is not None and interaction_claim_source in MAKE_NODE_BY_CLAIM_SOURCE:
+                            node_dict = kg2_util.make_node(subject_curie_id,
+                                                           node_iri,
+                                                           node_name,
+                                                           kg2_util.BIOLINK_CATEGORY_SMALL_MOLECULE,
+                                                           update_date,
+                                                           provided_by)
+                            node_dict['publications'] = node_pubs_list
+                            nodes_output.write(node_dict)
+                if subject_curie_id is None:
+                    print("DGIDB: no controlled ID was provided for this drug: " + drug_claim_primary_name +
+                          "; source DB: " + interaction_claim_source, file=sys.stderr)
+                    continue
+                if interaction_types == "":
+                    print("DGIDB: interaction type was empty. Setting to 'affects'.", file=sys.stderr)
+                    interaction_types = "affects"
+                pmids_list = []
+                if PMIDs.strip() != "":
+                    pmids_list = [(kg2_util.CURIE_PREFIX_PMID + ':' + pmid.strip()) for pmid in PMIDs.split(',')]
+                interaction_list = interaction_types.split(',')
+                for interaction in interaction_list:
+                    interaction = interaction.replace(' ', '_')
+                    edge_dict = kg2_util.make_edge(subject_curie_id,
+                                                   object_curie_id,
+                                                   DGIDB_CURIE_PREFIX + ':' + interaction,
+                                                   interaction,
+                                                   DGIDB_KB_CURIE,
+                                                   update_date)
+                    edge_dict['publications'] = pmids_list
+                    edges_output.write(edge_dict)
+    dgidb_kp_node = kg2_util.make_node(DGIDB_KB_CURIE,
+                                       DGIDB_BASE_IRI,
+                                       'The Drug Gene Interaction Database',
+                                       kg2_util.SOURCE_NODE_CATEGORY,
+                                       update_date,
+                                       DGIDB_KB_CURIE)
+    nodes_output.write(dgidb_kp_node)
+
+
+if __name__ == '__main__':
+    print("Start time: ", date())
+    args = get_args()
+    input_file_name = args.inputFile
+    output_nodes_file_name = args.outputNodesFile
+    output_edges_file_name = args.outputEdgesFile
+    test_mode = args.test
+
+    nodes_info, edges_info = kg2_util.create_kg2_jsonlines(test_mode)
+    nodes_output = nodes_info[0]
+    edges_output = edges_info[0]
+
+    make_kg2_graph(input_file_name, nodes_output, edges_output, test_mode)
+    
+    kg2_util.close_kg2_jsonlines(nodes_info, edges_info, output_nodes_file_name, output_edges_file_name)
+
+    print("Finish time: ", date())
