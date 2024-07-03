@@ -170,7 +170,3 @@ if [[ "${build_flag}" != "ci" ]]
 then
     ${s3_cp_cmd} ${setup_log_file} s3://${s3_bucket_versioned}/
 fi
-
-cat ${config_dir}/master-config.shinc
-cat ${config_dir}/../master-config.shinc
-cat ${config_dir}/../validate/master-config.shinc
