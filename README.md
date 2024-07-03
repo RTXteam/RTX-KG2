@@ -349,7 +349,7 @@ necessarily different code or bug fixes.
 
 (7) Run a "dry-run" build:
 
-    bash -x ~/kg2-code/build-kg2-snakemake.sh all -F -n
+    bash -x ~/kg2-code/build/build-kg2-snakemake.sh all -F -n
     
 and inspect the file `~/kg2-build/build-kg2-snakemake-n.log` that will be created, to make sure that
 all of the KG2 build tasks are included. Currently, the file should end with the following
@@ -423,7 +423,7 @@ Assuming the log file looks correct, proceed.
 
 (9) THIS STEP COMMENCES THE BUILD. Within the screen session, run:
 
-    bash -x ~/kg2-code/build-kg2-snakemake.sh all -F
+    bash -x ~/kg2-code/build/build-kg2-snakemake.sh all -F
 
 You may exit out of the screen session using the `ctrl-a d` key sequence.  The
 `all` command line argument specifies that you would like to run a full build.
@@ -442,7 +442,7 @@ downstream of that. This can be useful in cases where you are testing a change
 to one of the YAML configuration files for KG2, for example. To do a partial
 build, in Step (8) above, you would run
 
-    bash -x ~/kg2-code/build-kg2-snakemake.sh
+    bash -x ~/kg2-code/build/build-kg2-snakemake.sh
 
 (note the absence of the `all` argument to `build-kg2-snakemake.sh`). A partial build of KG2
 may take about 31 hours. Note, you have to have previously run an `all` build
@@ -462,7 +462,7 @@ Before you can do a test build, you must have previously done a full *non-test*
 build of KG2 (i.e., `build-kg2.sh all`) at least once. To execute a full *test*
 build, in Step (8) above, you would run:
 
-	bash -x ~/kg2-code/build-kg2-snakemake.sh alltest
+	bash -x ~/kg2-code/build/build-kg2-snakemake.sh alltest
 
 In the case of a test build, the a couple log file names are changed:
 
@@ -479,7 +479,7 @@ will have `-test` appended to the filename before the usual filename suffix
 
 To run a partial build of KG2 in "test" mode, the command would be:
 
-    bash -x ~/kg2-code/build-kg2-snakemake.sh test
+    bash -x ~/kg2-code/build/build-kg2-snakemake.sh test
 
 This option is frequently used in testing/development. Note, you have to have
 previously run an `alltest` build, or else a `test` build will not work.
@@ -561,7 +561,7 @@ partial rebuild starting with `filter_kg_and_remap_predicates.py`(the `Simplify`
 
 - Let's suppose the build failed on the rule `UniChem`. In that case, you could
 fix the bug and then test your bugfix by running ```
-/home/ubuntu/kg2-venv/bin/snakemake --snakefile /home/ubuntu/kg2-code/Snakefile
+/home/ubuntu/kg2-venv/bin/snakemake --snakefile /home/ubuntu/kg2-code/build/Snakefile
 -R --until UniChem ``` which *just* runs that rule. Note, you should only use
 the above command after you have run `build-kg2-snakemake.sh` (as in Step 8
 above) at least once, otherwise you will get an error because the required
@@ -570,7 +570,7 @@ command is successful, you could then proceed.
 
 - Restart the full build:
 ```
-bash -x ~/kg2-code/build-kg2-snakemake.sh all
+bash -x ~/kg2-code/build/build-kg2-snakemake.sh all
 ```
 (Note, you only need the `all` above if the rule is for an "extract-XXX.sh" script;
 if it is for a rule that is downstream of the extract scripts, you can omit `all`.
@@ -615,7 +615,7 @@ The version history for KG2 can be found [here](kg2-versions.md).
 
 (8) Within the `screen` session, run:
 
-    bash -x ~/kg2-code/build-kg2-DEPRECATED.sh all
+    bash -x ~/kg2-code/build/build-kg2-DEPRECATED.sh all
 
 Then exit screen (`ctrl-a d`). Note that there is no need to redirect `stdout`
 or `stderr` to a log file, when executing `build-kg2-DEPRECATED.sh`; this is because the
@@ -635,7 +635,7 @@ Caution: Be sure to remove any files that should not be in the build. Highly rec
 Like with the parallel build system, you can run a sequential partial build. To do a partial
 build, in Step (8) above, you would run
 
-    bash -x ~/kg2-code/build-kg2-DEPRECATED.sh
+    bash -x ~/kg2-code/build/build-kg2-DEPRECATED.sh
 
 (note the absence of the `all` argument to `build-kg2-DEPRECATED.sh`). A partial build of KG2
 may take about 40 hours. Note, you have to have previously run an `all` build
@@ -645,7 +645,7 @@ of KG2, or else the partial build will not work.
 
 To execute a sequential *test* build, in Step (8) above, you would run:
 
-    bash -x ~/kg2-code/build-kg2-DEPRECATED.sh alltest
+    bash -x ~/kg2-code/build/build-kg2-DEPRECATED.sh alltest
     
 In the case of a test build, the build log file names are changed:
 
@@ -660,7 +660,7 @@ will have `-test` appended to the filename before the usual filename suffix
 
 To run a partial sequential build of KG2 in "test" mode, the command would be:
 
-    bash -x ~/kg2-code/build-kg2-DEPRECATED.sh test
+    bash -x ~/kg2-code/build/build-kg2-DEPRECATED.sh test
     
 </details>
 
@@ -766,18 +766,18 @@ or node - `publications`). This process isn't currently optimized.
 
 (2) Generate a list of PMIDs referenced in KG2 in a screen session:
 
-    ~/kg2-venv/bin/python3 ~/kg2-code/extract_kg2_pmids.py ~/kg2-build/kg2.json ~/kg2-build/pmids-in-kg2.json
+    ~/kg2-venv/bin/python3 ~/kg2-code/extract/archive/extract_kg2_pmids.py ~/kg2-build/kg2.json ~/kg2-build/pmids-in-kg2.json
 
 (3) Potentially at the same time as step 2 -- this step doesn't take much memory --
 download the PubMed XML files.
 
-    bash -x ~/kg2-code/extract-pubmed.sh
+    bash -x ~/kg2-code/extract/archive/extract-pubmed.sh
 
 (4) On an `r5a.16xlarge` (or instance with comparable memory) instance with the
 PubMed XML files and the list of PMIDs in KG2 as a JSON file, build your KG2 JSON
 file for PubMed. This json file will be approximately `66GB` large.
 
-    ~/kg2-venv/bin/python3 ~/kg2-code/pubmed_xml_to_kg_json.py ~/kg2-build/pubmed ~/kg2-build/pmids-in-kg2.json ~/kg2-build/kg2-pubmed.json
+    ~/kg2-venv/bin/python3 ~/kg2-code/convert/archive/pubmed_xml_to_kg_json.py ~/kg2-build/pubmed ~/kg2-build/pmids-in-kg2.json ~/kg2-build/kg2-pubmed.json
 
 (5) The format of `kg2-pubmed.json` matches `kg2.json` but not `kg2-simplified.json`.
 For this reason, at this time, we have to merge `kg2-pubmed.json` into `kg2.json`.
@@ -786,20 +786,20 @@ preferred to have `kg2-pubmed.json` generated to match the format of `kg2-simpli
 especially since its predicates do not have to go through the predicate remap process and
 loading `kg2-pubmed.json` into memory takes a lot of memory. UNTESTED.
 
-    ~/kg2-venv/bin/python3 ~/kg2-code/merge_graphs.py --kgFileOrphanEdges ~/kg2-build/kg2-pubmed-merge-orphan-edges.json --outputFile ~/kg2-build/kg2-with-pubmed.json ~/kg2-build/kg2.json ~/kg2-build/kg2-pubmed.json
+    ~/kg2-venv/bin/python3 ~/kg2-code/process/merge_graphs.py --kgFileOrphanEdges ~/kg2-build/kg2-pubmed-merge-orphan-edges.json --outputFile ~/kg2-build/kg2-with-pubmed.json ~/kg2-build/kg2.json ~/kg2-build/kg2-pubmed.json
 
 (6) Run the `filter_kg_and_remap_predicates.py` script on this new JSON file (and optionally
 `get_nodes_json_from_kg_json.py` and `report_stats_on_json_kg.py` -- you can't run these in
 parallel due to memory considerations, so be aware of what is absolutely necessary to generate).
 UNTESTED
 
-    ~/kg2-venv/bin/python3 ~/kg2-code/filter_kg_and_remap_predicates.py ~/kg2-code/predicate-remap.yaml ~/kg2-build/kg2-with-pubmed.json ~/kg2-build/kg2-with-pubmed-simplified.json
+    ~/kg2-venv/bin/python3 ~/kg2-code/process/filter_kg_and_remap_predicates.py ~/kg2-code/maps/predicate-remap.yaml ~/kg2-build/kg2-with-pubmed.json ~/kg2-build/kg2-with-pubmed-simplified.json
 
 (7) Generate TSV (files for the new, simplified JSON file (and optionally run `get_nodes_json_from_kg_json.py` and `report_stats_on_json_kg.py` on the simplified JSON file). UNTESTED
 
 	rm -rf ~/kg2-build/PubMedKG2TSV/
 	mkdir -p ~/kg2-build/PubMedKG2TSV/
-	~/kg2-venv/bin/python3 ~/kg2-code/kg_json_to_tsv.py ~/kg2-code/kg2-with-pubmed-simplified.json ~/kg2-code/PubMedKG2TSV	
+	~/kg2-venv/bin/python3 ~/kg2-code/processkg_json_to_tsv.py ~/kg2-build/kg2-with-pubmed-simplified.json ~/kg2-build/PubMedKG2TSV	
 	
 	
 </details>
@@ -1083,7 +1083,7 @@ We emphasize knowledge souces that
 - An error like the following:
 
 ```
-File "/home/ubuntu/kg2-code/multi_ont_to_json_kg.py", line 1158, in convert_bpv_predicate_to_curie
+File "/home/ubuntu/kg2-code/convert/multi_ont_to_json_kg.py", line 1158, in convert_bpv_predicate_to_curie
      raise ValueError('unable to expand CURIE: ' + bpv_pred)
 ValueError: unable to expand CURIE: MONARCH:cliqueLeader     
 ```
@@ -1094,7 +1094,7 @@ would indicate that the CURIE prefix (in this case, `MONARCH`) needs to be added
 ## Error building DAG of jobs
 - In the case where Snakemake is forcibly quit due to a loss of power or other reason, it may result in the code directory becoming locked. To resolve, run:
 ```
-/home/ubuntu/kg2-venv/bin/snakemake --snakefile /home/ubuntu/kg2-code/Snakefile --unlock
+/home/ubuntu/kg2-venv/bin/snakemake --snakefile /home/ubuntu/kg2-code/build/Snakefile --unlock
 ```
 
 ## Authentication Error in `tsv-to-neo4j.sh`
