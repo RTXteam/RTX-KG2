@@ -20,7 +20,7 @@ source ${config_dir}/master-config.shinc
 
 output_file=${1:-"${BUILD_DIR}/kegg.json"}
 
-${VENV_DIR}/bin/python3 -u ${CODE_DIR}/query_kegg.py ${output_file}
+${VENV_DIR}/bin/python3 -u ${EXTRACT_CODE_DIR}/query_kegg.py ${output_file}
 
 date
 echo "================= finished extract-kegg.sh =================="
