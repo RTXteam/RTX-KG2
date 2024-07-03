@@ -37,7 +37,7 @@ mkdir -p ${umls_dest_dir}
 
 ## copy UMLS distribution files and MetamorphoSys config files from S3 to local dir
 ${s3_cp_cmd} s3://${s3_bucket}/${umls_file_base}.zip ${umls_dir}/
-cp ${CODE_DIR}/umls-config.prop ${config_file}
+cp ${EXTRACT_CODE_DIR}/umls-config.prop ${config_file}
 
 ## unpack UMLS zip archive
 unzip ${umls_dir}/${umls_file_base}.zip -d ${umls_dir}/
@@ -75,7 +75,7 @@ sed -i "s/@LINE_TERMINATION@/'\n'/g" ${umls_dest_dir}/mysql_tables.sql
 cd ${umls_dest_dir}
 bash -x populate_mysql_db_configured.sh
 
-${python_command} ${CODE_DIR}/umls_mysql_to_list_jsonl.py ${mysql_conf} ${mysql_dbname} ${output_file}
+${python_command} ${EXTRACT_CODE_DIR}/umls_mysql_to_list_jsonl.py ${mysql_conf} ${mysql_dbname} ${output_file}
 
 date
 echo "================= finished extract-umls.sh ================="
