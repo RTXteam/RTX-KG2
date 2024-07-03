@@ -22,9 +22,9 @@ jobs:
         cd RTX-KG2
         git checkout $GITHUB_REF_NAME
         bash -x ./setup/setup-kg2-build.sh ci
-        cat master_config.shinc
-        cat validate/master_config.shinc
-        cat setup/master_config.shinc
+        cat ./master_config.shinc
+        cat ./validate/master_config.shinc
+        cat ./setup/master_config.shinc
     - name: Run Tests
       run: |
         cd /home/runner/work/RTX-KG2/RTX-KG2/RTX-KG2
