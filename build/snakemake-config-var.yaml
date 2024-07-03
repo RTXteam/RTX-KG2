@@ -1,6 +1,9 @@
 nodes_suffix: -nodes
 edges_suffix: -edges
 
+validation_base: run-validation-tests
+validation_script: ${VALIDATE_CODE_DIR}/${validation_base}.sh
+validation_log: ${BUILD_DIR}/${validation_base}${test_suffix}.log
 validation_placeholder: ${BUILD_DIR}/validation-placeholder.empty
 
 umls_extraction_base: extract-umls
