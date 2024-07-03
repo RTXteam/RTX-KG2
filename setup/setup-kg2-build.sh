@@ -20,7 +20,7 @@ build_flag=${1:-""}
 config_dir=`dirname "$0"`
 if [[ "${build_flag}" == "ci" ]]
 then
-    sed -i "\@CODE_DIR=~/kg2-code@cCODE_DIR=/home/runner/work/RTX-KG2/RTX-KG2/RTX-KG2" ${config_dir}/master-config.shinc
+    sed -i "\@CODE_DIR=~/kg2-code@cCODE_DIR=/home/runner/work/RTX-KG2/RTX-KG2/RTX-KG2" ${config_dir}/../master-config.shinc # sed only propagates on the original file
 fi
 source ${config_dir}/master-config.shinc
 
