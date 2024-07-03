@@ -51,29 +51,29 @@ cd ${BUILD_DIR}
 
 ${curl_get} ${infores_catalog_yaml_url} -o ${infores_catalog_yaml}
 
-${python_command} -u ${CODE_DIR}/validate_curies_to_categories_yaml.py \
+${python_command} -u ${VALIDATE_CODE_DIR}/validate_curies_to_categories_yaml.py \
            ${curies_to_categories_file} \
            ${curies_to_urls_file} \
            ${biolink_model_owl_url} \
            ${biolink_model_owl_local_file}
 
-${python_command} -u ${CODE_DIR}/validate_curies_to_urls_map_yaml.py \
+${python_command} -u ${VALIDATE_CODE_DIR}/validate_curies_to_urls_map_yaml.py \
            ${curies_to_urls_file} \
            ${biolink_model_yaml_url} \
            ${biolink_model_yaml_local_file}
 
-${python_command} -u ${CODE_DIR}/validate_kg2_util_curies_urls_categories.py \
+${python_command} -u ${VALIDATE_CODE_DIR}/validate_kg2_util_curies_urls_categories.py \
            ${curies_to_urls_file} \
            ${biolink_model_owl_url} \
            ${biolink_model_owl_local_file}
 
-${python_command} -u ${CODE_DIR}/validate_predicate_remap_yaml.py \
+${python_command} -u ${VALIDATE_CODE_DIR}/validate_predicate_remap_yaml.py \
            ${curies_to_urls_file} \
            ${predicate_mapping_file} \
            ${biolink_model_yaml_url} \
            ${biolink_model_yaml_local_file}
 
-${python_command} -u ${CODE_DIR}/validate_provided_by_to_infores_map_yaml.py \
+${python_command} -u ${VALIDATE_CODE_DIR}/validate_provided_by_to_infores_map_yaml.py \
            ${infores_mapping_file} \
            ${infores_catalog_yaml}
 
