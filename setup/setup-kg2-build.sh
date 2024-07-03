@@ -112,18 +112,6 @@ chmod +x ${BUILD_DIR}/owltools
 }
 
 function setup_kg2_build_part2 () {
-RAPTOR_NAME=raptor2-2.0.15
-# setup raptor (used by the "checkOutputSyntax.sh" script in the umls2rdf package)
-${curl_get} -o ${BUILD_DIR}/${RAPTOR_NAME}.tar.gz http://download.librdf.org/source/${RAPTOR_NAME}.tar.gz
-rm -r -f ${BUILD_DIR}/${RAPTOR_NAME}
-tar xzf ${BUILD_DIR}/${RAPTOR_NAME}.tar.gz -C ${BUILD_DIR} 
-cd ${BUILD_DIR}/${RAPTOR_NAME}
-./autogen.sh --prefix=/usr/local
-make
-make check
-sudo make install
-sudo ldconfig
-
 if [[ "${build_flag}" != "ci" ]]
 then
     # setup MySQL
