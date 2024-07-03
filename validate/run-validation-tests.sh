@@ -38,6 +38,10 @@ infores_registry_base_url=${infores_registry_base_url_no_version}v${infores_regi
 infores_catalog_yaml=infores_catalog.yaml
 infores_catalog_yaml_url=${infores_registry_base_url}${infores_catalog_yaml}
 
+cat ${config_dir}/master-config.shinc
+echo ${VALIDATE_CODE_DIR}
+echo ${curies_to_urls_file}
+
 sed -i "\@${biolink_base_url_no_version}@c${curies_urls_map_replace_string}" \
         ${curies_to_urls_file}
 
