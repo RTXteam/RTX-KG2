@@ -1,6 +1,6 @@
 rule Finish:
     input:
-        code = config['BUILD_CODE_DIR'] + "/finish-snakemake.sh,
+        code = config['FINISH_SCRIPT'],
         merged_output_nodes_file = config['MERGED_OUTPUT_NODES_FILE'],
         final_output_edges_file = config['MERGED_OUTPUT_EDGES_FILE'],
         output_file_orphan_edges = config['OUTPUT_FILE_ORPHAN_EDGES'],

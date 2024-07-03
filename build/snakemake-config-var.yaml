@@ -275,4 +275,6 @@ kg2_tsv_dir: ${BUILD_DIR}/TSV
 kg2_tsv_tarball: ${BUILD_DIR}/kg2-tsv-for-neo4j${test_suffix}.tar.gz
 tsv_placeholder: ${BUILD_DIR}/tsv_placeholder.empty
 
+finish_script: ${BUILD_CODE_DIR}/finish-snakemake.sh
+
 version_file: ${BUILD_DIR}/kg2-version.txt
