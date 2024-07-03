@@ -16,7 +16,7 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     echo Usage: "$0 [final_output_file_full] [output_file_orphan_edges] [report_file_full] [simplified_output_file_full] [simplified_report_file_full]"
     echo "[slim_output_file_full] [kg2_tsv_dir] [s3_cp_cmd]"
     echo "[kg2_tsv_tarball] [s3_bucket] [s3_bucket_public] "
-    echo "[CODE_DIR] [s3_bucket_versioned] [BUILD_DIR] [simplified_report_file_base] [VENV_DIR]"
+    echo "[PROCESS_CODE_DIR] [s3_bucket_versioned] [BUILD_DIR] [simplified_report_file_base] [VENV_DIR]"
     exit 2
 fi
 
@@ -34,7 +34,7 @@ s3_cp_cmd=${11}
 kg2_tsv_tarball=${12}
 s3_bucket=${13}
 s3_bucket_public=${14}
-CODE_DIR=${15}
+PROCESS_CODE_DIR=${15}
 s3_bucket_versioned=${16}
 BUILD_DIR=${17}
 simplified_report_file_base=${18}
