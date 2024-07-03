@@ -50,12 +50,12 @@ sudo apt-get install -y \
 sudo apt-get install -y emacs
 
 # we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
-source ${CODE_DIR}/setup-python37-with-pip3-in-ubuntu.shinc
+source ${SETUP_CODE_DIR}/setup-python37-with-pip3-in-ubuntu.shinc
 
 ## Install python3 packages that we will need (Note: we are not using pymongo
 ## directly, but installing it silences a runtime warning from ontobio):
 ## (maybe we should eventually move this to a requirements.txt file?)
-${VENV_DIR}/bin/pip3 install -r ${CODE_DIR}/requirements-kg2-neo4j.txt
+${VENV_DIR}/bin/pip3 install -r ${NEO4J_CODE_DIR}/requirements-kg2-neo4j.txt
 
 mkdir -p ${BUILD_DIR}
 
@@ -69,7 +69,7 @@ else
 fi
 
 {
-    bash -x ${CODE_DIR}/install-neo4j.sh
+    bash -x ${NEO4J_CODE_DIR}/install-neo4j.sh
 
     # copy the RTX configuration file from S3 to ${BUILD_DIR}
     ${s3_cp_cmd} s3://${s3_bucket}/${rtx_config_file} ${BUILD_DIR}/${rtx_config_file}
@@ -81,7 +81,7 @@ fi
 
 
 # turn off auto-logging since the password is passed to this script on the command-line
-kg2_neo4j_password=`${VENV_DIR}/bin/python3 ${CODE_DIR}/read_kg2_password_from_rtxconfig.py -c ${BUILD_DIR}/${rtx_config_file}`
+kg2_neo4j_password=`${VENV_DIR}/bin/python3 ${NEO4J_CODE_DIR}/read_kg2_password_from_rtxconfig.py -c ${BUILD_DIR}/${rtx_config_file}`
 sudo -u neo4j neo4j-admin set-initial-password "${kg2_neo4j_password}"
 sudo service neo4j restart
 sleep 20
