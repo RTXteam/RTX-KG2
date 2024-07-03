@@ -71,7 +71,7 @@ then
     trap "cat ${build_kg2_log_file}" EXIT
 fi
 
-{
+function build_kg2 () {
 echo "================= starting build-kg2-snakemake.sh =================="
 date
 
@@ -118,7 +118,9 @@ cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} ${run_flag} -R Finish
 
 date
 echo "================ script finished ============================"
-} > ${build_kg2_log_file} 2>&1
+} 
+
+build_kg2 > ${build_kg2_log_file} 2>&1
 
 if [[ "${ci_flag}" != "ci" && "${dryrun}" != "-n" ]]
 then
