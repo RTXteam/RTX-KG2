@@ -52,35 +52,35 @@ touch ${output_file}
 
 external_ids_query="SELECT id_type, identifier, struct_id FROM public.identifier"
 ${psql_run_command} "${external_ids_query}" -F $'\t'
-${VENV_DIR}/bin/python3 ${CODE_DIR}/drugcentral_psql_to_drugcentral_json.py ${psql_dump_file} ${output_file} external_ids --query ${external_ids_query}
+${VENV_DIR}/bin/python3 ${EXTRACT_CODE_DIR}/drugcentral_psql_to_drugcentral_json.py ${psql_dump_file} ${output_file} external_ids --query ${external_ids_query}
 
 omop_relations_query="SELECT DISTINCT struct_id, relationship_name, snomed_full_name, snomed_conceptid, umls_cui, doid FROM public.omop_relationship_doid_view"
 ${psql_run_command} "${omop_relations_query}" -F $'\t'
-${VENV_DIR}/bin/python3 ${CODE_DIR}/drugcentral_psql_to_drugcentral_json.py ${psql_dump_file} ${output_file} omop_relations --query ${omop_relations_query}
+${VENV_DIR}/bin/python3 ${EXTRACT_CODE_DIR}/drugcentral_psql_to_drugcentral_json.py ${psql_dump_file} ${output_file} omop_relations --query ${omop_relations_query}
 
 faers_query="SELECT DISTINCT struct_id, meddra_name, meddra_code, llr, llr_threshold FROM public.faers"
 ${psql_run_command} "${faers_query}" -F $'\t'
-${VENV_DIR}/bin/python3 ${CODE_DIR}/drugcentral_psql_to_drugcentral_json.py ${psql_dump_file} ${output_file} faers_data --query ${faers_query}
+${VENV_DIR}/bin/python3 ${EXTRACT_CODE_DIR}/drugcentral_psql_to_drugcentral_json.py ${psql_dump_file} ${output_file} faers_data --query ${faers_query}
 
 atc_query="SELECT DISTINCT struct_id, atc_code FROM public.struct2atc"
 ${psql_run_command} "${atc_query}" -F $'\t'
-${VENV_DIR}/bin/python3 ${CODE_DIR}/drugcentral_psql_to_drugcentral_json.py ${psql_dump_file} ${output_file} atc_ids --query ${atc_query}
+${VENV_DIR}/bin/python3 ${EXTRACT_CODE_DIR}/drugcentral_psql_to_drugcentral_json.py ${psql_dump_file} ${output_file} atc_ids --query ${atc_query}
 
 drugcentral_ids_query="SELECT DISTINCT id, name, preferred_name FROM public.synonyms"
 ${psql_run_command} "${drugcentral_ids_query}" -F $'\t'
-${VENV_DIR}/bin/python3 ${CODE_DIR}/drugcentral_psql_to_drugcentral_json.py ${psql_dump_file} ${output_file} drugcentral_ids --query ${drugcentral_ids_query}
+${VENV_DIR}/bin/python3 ${EXTRACT_CODE_DIR}/drugcentral_psql_to_drugcentral_json.py ${psql_dump_file} ${output_file} drugcentral_ids --query ${drugcentral_ids_query}
 
 bioactivities_query="SELECT DISTINCT action_type, moa_source, moa_source_url, struct_id, act_source, act_source_url, accession FROM public.act_table_full"
 ${psql_run_command} "${bioactivities_query}" -F $'\t'
-${VENV_DIR}/bin/python3 ${CODE_DIR}/drugcentral_psql_to_drugcentral_json.py ${psql_dump_file} ${output_file} bioactivities --query ${bioactivities_query}
+${VENV_DIR}/bin/python3 ${EXTRACT_CODE_DIR}/drugcentral_psql_to_drugcentral_json.py ${psql_dump_file} ${output_file} bioactivities --query ${bioactivities_query}
 
 pharmacologic_action_query="SELECT DISTINCT struct_id, type, class_code, source FROM public.pharma_class"
 ${psql_run_command} "${pharmacologic_action_query}" -F $'\t'
-${VENV_DIR}/bin/python3 ${CODE_DIR}/drugcentral_psql_to_drugcentral_json.py ${psql_dump_file} ${output_file} pharmacologic_action --query ${pharmacologic_action_query}
+${VENV_DIR}/bin/python3 ${EXTRACT_CODE_DIR}/drugcentral_psql_to_drugcentral_json.py ${psql_dump_file} ${output_file} pharmacologic_action --query ${pharmacologic_action_query}
 
 version_query="SELECT version as version_number, dtime FROM public.dbversion"
 ${psql_run_command} "${version_query}" -F $'\t'
-${VENV_DIR}/bin/python3 ${CODE_DIR}/drugcentral_psql_to_drugcentral_json.py ${psql_dump_file} ${output_file} version --query ${version_query}
+${VENV_DIR}/bin/python3 ${EXTRACT_CODE_DIR}/drugcentral_psql_to_drugcentral_json.py ${psql_dump_file} ${output_file} version --query ${version_query}
 
 date
 echo "================= finished extract-drugcentral.sh =================="
