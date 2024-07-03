@@ -49,13 +49,13 @@ fi
 
 if [[ "${increment_flag}" != '' ]]
 then
-    ${VENV_DIR}/bin/python3 ${CODE_DIR}/update_version.py ${increment_flag} ${local_version_filename}
+    ${VENV_DIR}/bin/python3 ${PROCESS_CODE_DIR}/update_version.py ${increment_flag} ${local_version_filename}
 else
     echo "*** TEST MODE -- NO INCREMENT ***"
 fi
 
 # TODO: Inhibits and increase are not in biolink model anymore - Find out what that should be now
-${VENV_DIR}/bin/python3 -u ${CODE_DIR}/filter_kg_and_remap_predicates.py ${test_flag} --dropNegated \
+${VENV_DIR}/bin/python3 -u ${PROCESS_CODE_DIR}/filter_kg_and_remap_predicates.py ${test_flag} --dropNegated \
                         --dropSelfEdgesExcept interacts_with,regulates,inhibits,increase \
                         ${predicate_mapping_file} ${infores_mapping_file} ${curies_to_urls_file} ${input_nodes_json} ${input_edges_json} \
                         ${output_nodes_json} ${output_edges_json} ${local_version_filename}
