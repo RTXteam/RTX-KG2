@@ -20,8 +20,8 @@ echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
     cd ~
-    bash -x ${CODE_DIR}/delete-mysql-ubuntu.sh
-    bash -x ${CODE_DIR}/delete-postgresql-ubuntu.sh
+    bash -x ${INSTANCE_CODE_DIR}/delete-mysql-ubuntu.sh
+    bash -x ${INSTANCE_CODE_DIR}/delete-postgresql-ubuntu.sh
     rm -r -f ${BUILD_DIR}
     rm -r -f ${CODE_DIR}
     rm -r -f ${VENV_DIR}
