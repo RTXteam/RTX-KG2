@@ -71,7 +71,7 @@ sudo chown neo4j:adm ${tsv_dir}/import.report
 sudo service neo4j stop
 sudo rm -rf ${database_path}/databases/${database}
 
-mem_gb=`${CODE_DIR}/get-system-memory-gb.sh`
+mem_gb=`${INSTANCE_CODE_DIR}/get-system-memory-gb.sh`
 
 # import TSV files into Neo4j as Neo4j
 sudo -u neo4j neo4j-admin import --nodes "${tsv_dir}/nodes_header.tsv,${tsv_dir}/nodes.tsv" \
@@ -90,7 +90,7 @@ echo "Sleeping for 1 minute, please do not SIGINT...."
 sleep 1m
 
 # add indexes and constraints to the graph database
-${VENV_DIR}/bin/python3 -u ${CODE_DIR}/create_indexes_constraints.py --configFile ${rtx_config_file_full}
+${VENV_DIR}/bin/python3 -u ${NEO4J_CODE_DIR}/create_indexes_constraints.py --configFile ${rtx_config_file_full}
 
 date
 # wait for indexing to complete
