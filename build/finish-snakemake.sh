@@ -65,7 +65,7 @@ ${s3_cp_cmd} ${report_file_full} s3://${s3_bucket_public}/
 ${s3_cp_cmd} s3://${s3_bucket_public}/${simplified_report_file_base} ${BUILD_DIR}/${previous_simplified_report_base}
 if [ $? -eq 0 ]
 then
-    ${VENV_DIR}/bin/python3 -u ${CODE_DIR}/compare_edge_reports.py ${BUILD_DIR}/${previous_simplified_report_base} ${simplified_report_file_full}
+    ${VENV_DIR}/bin/python3 -u ${PROCESS_CODE_DIR}/compare_edge_reports.py ${BUILD_DIR}/${previous_simplified_report_base} ${simplified_report_file_full}
 else
     echo "Report from previous build not available."
 fi
@@ -75,8 +75,6 @@ ${s3_cp_cmd} ${simplified_report_file_full} s3://${s3_bucket_public}/
 ${s3_cp_cmd} ${output_file_orphan_edges}.gz s3://${s3_bucket_public}/
 ${s3_cp_cmd} ${slim_output_nodes_file_full}.gz s3://${s3_bucket}/
 ${s3_cp_cmd} ${slim_output_edges_file_full}.gz s3://${s3_bucket}/
-
-${s3_cp_cmd} ${CODE_DIR}/s3-index.html s3://${s3_bucket_public}/index.html
 
 ${s3_cp_cmd} ${report_file_full} s3://${s3_bucket_versioned}/
 ${s3_cp_cmd} ${simplified_report_file_full} s3://${s3_bucket_versioned}/
