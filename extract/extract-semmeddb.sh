@@ -76,7 +76,7 @@ domain_range_exclusion_link=${biolink_raw_base_url}${domain_range_exclusion_file
 
 ${curl_get} ${domain_range_exclusion_link} -o ${domain_range_exclusion_file}
 
-${python_command} ${CODE_DIR}/semmeddb_mysql_to_tuplelist_jsonl.py \
+${python_command} ${EXTRACT_CODE_DIR}/semmeddb_mysql_to_tuplelist_jsonl.py \
                     ${mysql_conf} \
                     ${mysql_dbname} \
                     ${semmed_output_file}
