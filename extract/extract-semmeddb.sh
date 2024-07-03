@@ -44,9 +44,6 @@ mysql_dbname=semmeddb
 mkdir -p ${semmed_dir}
 mkdir -p ${semmed_output_dir}
 
-## estimate amount of system ram, in GB
-mem_gb=`${CODE_DIR}/get-system-memory-gb.sh`
-
 ${s3_cp_cmd} s3://${s3_bucket}/${semmed_dump} ${semmed_dir}/
 
 # We have to extract into the semmeddb directory, then move all of the extracted files (which
