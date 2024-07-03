@@ -1,5 +1,6 @@
 rule Finish:
     input:
+        code = config['BUILD_CODE_DIR'] + "/finish-snakemake.sh,
         merged_output_nodes_file = config['MERGED_OUTPUT_NODES_FILE'],
         final_output_edges_file = config['MERGED_OUTPUT_EDGES_FILE'],
         output_file_orphan_edges = config['OUTPUT_FILE_ORPHAN_EDGES'],
@@ -11,6 +12,6 @@ rule Finish:
         slim_output_edges_file = config['SLIM_OUTPUT_EDGES_FILE'],
         placeholder = config['TSV_PLACEHOLDER']
     shell:
-        "bash -x " + config['CODE_DIR'] + "/finish-snakemake.sh {input.merged_output_nodes_file} {input.final_output_edges_file} {input.output_file_orphan_edges} {input.report_file} {input.simplified_output_nodes_file} {input.simplified_output_edges_file} {input.simplified_report_file} {input.slim_output_nodes_file} {input.slim_output_edges_file} " + config['KG2_TSV_DIR'] + " \"" + config['S3_CP_CMD'] + "\" " + config['KG2_TSV_TARBALL'] + " " + config['S3_BUCKET'] + " " + config['S3_BUCKET_PUBLIC'] + " " + config['CODE_DIR'] + " " + config['S3_BUCKET_VERSIONED'] + " " + config['BUILD_DIR'] + " " + config['SIMPLIFIED_REPORT_FILE_BASE'] + " " + config['VENV_DIR']
+        "bash -x " + {input.code} {input.merged_output_nodes_file} {input.final_output_edges_file} {input.output_file_orphan_edges} {input.report_file} {input.simplified_output_nodes_file} {input.simplified_output_edges_file} {input.simplified_report_file} {input.slim_output_nodes_file} {input.slim_output_edges_file} " + config['KG2_TSV_DIR'] + " \"" + config['S3_CP_CMD'] + "\" " + config['KG2_TSV_TARBALL'] + " " + config['S3_BUCKET'] + " " + config['S3_BUCKET_PUBLIC'] + " " + config['CODE_DIR'] + " " + config['S3_BUCKET_VERSIONED'] + " " + config['BUILD_DIR'] + " " + config['SIMPLIFIED_REPORT_FILE_BASE'] + " " + config['VENV_DIR']
 
 
