@@ -75,11 +75,11 @@ function build_kg2 () {
 echo "================= starting build-kg2-snakemake.sh =================="
 date
 
-snakemake_config_file=${CODE_DIR}/snakemake-config.yaml
-snakefile=${CODE_DIR}/Snakefile
+snakemake_config_file=${BUILD_CODE_DIR}/snakemake-config.yaml
+snakefile=${BUILD_CODE_DIR}/Snakefile
 
-${python_command} ${CODE_DIR}/generate_snakemake_config_file.py ${test_arg} ${config_dir}/master-config.shinc \
-                            ${CODE_DIR}/snakemake-config-var.yaml ${snakemake_config_file}
+${python_command} ${BUILD_CODE_DIR}/generate_snakemake_config_file.py ${test_arg} ${config_dir}/master-config.shinc \
+                            ${BUILD_CODE_DIR}/snakemake-config-var.yaml ${snakemake_config_file}
 
 # Run snakemake from the virtualenv but run the snakefile in kg2-code
 # -F: Run all of the rules in the snakefile
@@ -101,7 +101,7 @@ fi
 
 echo configfile: \"${snakemake_config_file}\" > ${snakefile}
 
-cat ${CODE_DIR}/Snakefile-finish >> ${snakefile}
+cat ${BUILD_CODE_DIR}/Snakefile-finish >> ${snakefile}
 
 echo 'include: "Snakefile-pre-etl"' >> ${snakefile}
 
