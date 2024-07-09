@@ -1,7 +1,0 @@
-rule ValidationTests:
-    output:
-        config['BUILD_DIR'] + "/validation-placeholder.empty"
-    log:
-        config['BUILD_DIR'] + "/run-validation-tests" + config['TEST_SUFFIX'] + ".log"
-    shell:
-        "bash -x " + config['CODE_DIR'] + "/run-validation-tests.sh > {log} 2>&1 && touch {output}"

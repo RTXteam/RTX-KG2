@@ -1,0 +1,9 @@
+rule ValidationTests:
+    input:
+        config['VALIDATION_SCRIPT']
+    output:
+        config['VALIDATION_PLACEHOLDER']
+    log:
+        config['VALIDATION_LOG']
+    shell:
+        "bash -x {input} > {log} 2>&1 && touch {output}"
