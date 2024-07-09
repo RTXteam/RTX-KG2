@@ -726,7 +726,7 @@ DRUGBANK:downregulator:
     object_direction: downregulated
 DRUGBANK:drug-interaction:
   operation: keep
-  core_predicate: biolink:physically_interacts_with
+  core_predicate: biolink:interacts_with
 DRUGBANK:external-identifier:
   operation: keep
   core_predicate: biolink:same_as
