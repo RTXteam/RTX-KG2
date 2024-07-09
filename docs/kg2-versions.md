@@ -1,3 +1,40 @@
+# 2.9.3
+**Date:  2024.07.03**
+
+Counts:
+- Nodes: 8,566,172
+- Edges: 57,646,688
+
+Issues:
+- Issue [#378](https://github.com/RTXteam/RTX-KG2/issues/378)
+- Issue [#380](https://github.com/RTXteam/RTX-KG2/issues/380)
+- Issue [#383](https://github.com/RTXteam/RTX-KG2/issues/383) - included in code, but not mapped into predicates
+- Issue [#385](https://github.com/RTXteam/RTX-KG2/issues/385)
+- Issue [#389](https://github.com/RTXteam/RTX-KG2/issues/389) - major code restructure
+- Issue [#390](https://github.com/RTXteam/RTX-KG2/issues/390) - partially done
+
+Build info:
+- Biolink Model version: 4.2.0
+- InfoRes Registry version: 0.2.8
+- Build host: `kg2erica2.rtx.ai`
+- Build directory: `/home/ubuntu/kg2-build`
+- Build code branch: `archiving2`
+- Neo4j endpoint CNAME: N/A
+- Neo4j endpoint hostname: N/A
+- Tracking issue for the build: N/A
+- Major knowledge source versions:
+  - SemMedDB: `43 (2023)`
+  - UMLS: `2023AA`
+  - ChEMBL: `33`
+  - DrugBank: `5.1.10`
+  - Ensembl: `106`
+  - GO annotations: `2024-6-14`
+  - UniProtKB: `2024_03`
+  - DrugCentral: `52`
+  - KEGG: `111.0`
+
+
+
 # 2.9.0
 **Date:  2024.03.18**
 
