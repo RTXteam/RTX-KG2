@@ -90,6 +90,17 @@ def warning_knowledge_source_curies_not_in_config_nodes(knowledge_source_curies_
             file=sys.stderr)
         exit(1)
 
+def warning_knowledge_level_agent_source_not_in_config_edges(knowledge_source_not_in_klat_map):
+    for infores_curie in knowledge_source_not_in_klat_map:
+        print('infores is missing from the YAML config file for knowledge_level and agent_type: ' + infores_curie,
+               file=sys.stderr)
+
+    if len(knowledge_source_curies_not_in_config_nodes) > 0:
+        print(
+            "There are edges infores_curies missing from the yaml config file for knowledge_level and agent_type. Please add them and try again. Exiting.",
+            file=sys.stderr)
+        exit(1)
+
 
 def warning_source_predicate_curies_not_in_config(source_predicate_curies_not_in_config):
     source_predicate_curies_not_in_config_for_iteration = list(source_predicate_curies_not_in_config)
@@ -160,7 +171,7 @@ def process_nodes(input_nodes_file_name, infores_remap_config, nodes_output):
     return nodes_set
 
 
-def process_edges(input_edges_file_name, infores_remap_config, predicate_remap_file_name, curies_to_uri_file_name, edges_output, drop_self_edges_except, nodes):
+def process_edges(input_edges_file_name, infores_remap_config, knowledge_level_agent_type_map, predicate_remap_file_name, curies_to_uri_file_name, edges_output, drop_self_edges_except, nodes):
     predicate_remap_config = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(predicate_remap_file_name))
     map_dict = kg2_util.make_uri_curie_mappers(curies_to_uri_file_name)
 
@@ -279,6 +290,17 @@ def process_edges(input_edges_file_name, infores_remap_config, predicate_remap_f
             infores_curie = infores_curie_dict['infores_curie']
             edge_dict['primary_knowledge_source'] = infores_curie
 
+        # Added for #358; a bit roundabout given setup of infores_curie, which might not exist if infores_curie_dict was None
+        kl_at_search_source = edge_dict.get('primary_knowledge_source', primary_knowledge_source)
+        knowledge_level_agent_type_dict = knowledge_level_agent_type_map.get(kl_at_search_source, None)
+        if knowledge_level_agent_type_dict is None:
+            knowledge_source_not_in_klat_map.add(kl_at_search_source)
+        else:
+            knowledge_level = knowledge_level_agent_type_dict['knowledge_level']
+            agent_type = knowledge_level_agent_type_dict['agent_type']
+            edge_dict['knowledge_level'] = knowledge_level
+            edge_dict['agent_type'] = agent_type
+
         edge_subject = edge_dict['subject'] 
         edge_object = edge_dict['object']
 
@@ -294,6 +316,7 @@ def process_edges(input_edges_file_name, infores_remap_config, predicate_remap_f
     warning_source_predicate_curies_not_in_nodes(source_predicate_curies_not_in_nodes)
     warning_source_predicate_curies_not_in_config(source_predicate_curies_not_in_config)
     warning_knowledge_source_curies_not_in_config_edges(knowledge_source_curies_not_in_config_edges)
+    warning_knowledge_level_agent_source_not_in_config_edges(knowledge_source_not_in_klat_map)
 
 
 if __name__ == '__main__':
@@ -328,7 +351,7 @@ if __name__ == '__main__':
 
     nodes = process_nodes(input_nodes_file_name, infores_remap_config, nodes_output)
     
-    process_edges(input_edges_file_name, infores_remap_config, predicate_remap_file_name, curies_to_uri_file_name, edges_output, drop_self_edges_except, nodes)
+    process_edges(input_edges_file_name, infores_remap_config, knowledge_level_agent_type_map, predicate_remap_file_name, curies_to_uri_file_name, edges_output, drop_self_edges_except, nodes)
     
     update_date = datetime.now().strftime("%Y-%m-%d %H:%M")
     version_file = open(args.versionFile, 'r')
