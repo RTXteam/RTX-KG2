@@ -1,0 +1,256 @@
+infores:atc-codes-umls:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://atcddd.fhi.no/atc_ddd_methodology/who_international_working_group/
+infores:bfo:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://basic-formal-ontology.org/
+infores:biolink-ontology:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://github.com/biolink/biolink-model/blob/master/biolink-model.yaml
+infores:bspo:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://github.com/obophenotype/biological-spatial-ontology
+infores:chebi:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://en.wikipedia.org/wiki/ChEBI
+infores:chembl:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://www.ebi.ac.uk/chembl/
+infores:chv-umls:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://academic.oup.com/jamia/article/13/1/24/781148
+infores:cl:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://obophenotype.github.io/cell-ontology/contributing/
+infores:dda:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: http://dictybase.org/Dicty_Info/dicty_anatomy_ontology.html
+infores:dgidb:
+  agent_type: automated_agent
+  knowledge_level: prediction
+  reference: https://www.dgidb.org/about
+infores:disease-ontology:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8728220/
+infores:diseases:
+  agent_type: text_mining_agent
+  knowledge_level: prediction
+  reference: https://diseases.jensenlab.org/About
+infores:disgenet:
+  agent_type: automated_agent
+  knowledge_level: prediction
+  reference: https://www.disgenet.com/About#sources
+infores:drugbank:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://academic.oup.com/nar/article/46/D1/D1074/4602867?login=false
+infores:drugcentral:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://www.nature.com/articles/sdata201729
+infores:efo:
+  agent_type: manual_validation_of_automated_agent
+  knowledge_level: knowledge_assertion
+  reference: https://en.wikipedia.org/wiki/Experimental_factor_ontology; https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2853691/
+infores:ehdaa2:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://obofoundry.org/ontology/ehdaa2.html
+infores:ensembl-gene:
+  agent_type: automated_agent
+  knowledge_level: knowledge_assertion
+  reference: https://academic.oup.com/nar/article/48/D1/D682/5613682?login=false
+infores:fma-obo:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: http://sig.biostr.washington.edu/projects/fm/AboutFM.html
+infores:fma-umls:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: http://sig.biostr.washington.edu/projects/fm/AboutFM.html
+infores:foodon:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://foodon.org/design/curation-rules/
+infores:genepio:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://genepio.org/home/consortium/
+infores:go:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://en.wikipedia.org/wiki/Gene_Ontology
+infores:go-plus:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://en.wikipedia.org/wiki/Gene_Ontology
+infores:goa:
+  agent_type: manual_validation_of_automated_agent
+  knowledge_level: knowledge_assertion
+  reference: https://en.wikipedia.org/wiki/Gene_Ontology#Annotation
+infores:hcp-codes-umls:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://www.cms.gov/medicare/regulations-guidance/physician-self-referral/list-cpt-hcpcs-codes
+infores:hgnc:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://www.genenames.org/about/
+infores:hl7-umls:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/HL7V3.0/index.html
+infores:hmdb:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://hmdb.ca/about
+infores:hpo:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://academic.oup.com/nar/article/52/D1/D1333/7416384?login=false
+infores:icd10pcs-umls:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://en.wikipedia.org/wiki/ICD-10_Procedure_Coding_System
+infores:icd9cm-umls:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD9CM/index.html
+infores:ino:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4362819/
+infores:intact:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://europepmc.org/article/MED/34761267
+infores:kegg:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://academic.oup.com/nar/article/51/D1/D587/6775388
+infores:medlineplus:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://medlineplus.gov/about/general/aboutmedlineplus/
+infores:medrt-umls:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MED-RT/index.html
+infores:mesh:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MSH/index.html
+infores:mi:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://github.com/HUPO-PSI/psi-mi-CV
+infores:mirbase:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://academic.oup.com/nar/article/32/suppl_1/D109/2505171?login=false
+infores:mondo:
+  agent_type: manual_validation_of_automated_agent
+  knowledge_level: knowledge_assertion
+  reference: https://mondo.monarchinitiative.org/
+infores:nbo:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://www.sciencedirect.com/science/article/pii/B9780123884084000046
+infores:ncbi-gene:
+  agent_type: automated_agent
+  knowledge_level: knowledge_assertion
+  reference: https://www.ncbi.nlm.nih.gov/books/NBK3840/#genefaq.Sources
+infores:ncbi-taxon:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://www.ncbi.nlm.nih.gov/taxonomy/
+infores:ncbi-taxonomy:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://www.ncbi.nlm.nih.gov/taxonomy/
+infores:ncit:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://wiki.nci.nih.gov/pages/viewpage.action?pageId=7472532
+infores:nddf-umls:
+  agent_type: automated_agent
+  knowledge_level: knowledge_assertion
+  reference: https://www.nlm.nih.gov/research/umls/rxnorm/sourcereleasedocs/nddf.html
+infores:omim:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://academic.oup.com/nar/article/43/D1/D789/2439148
+infores:ordo:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://www.orphadata.com/ordo/
+infores:pathwhiz:
+  agent_type: automated_agent
+  knowledge_level: prediction
+  reference: https://academic.oup.com/nar/article/52/D1/D654/7420099
+infores:pato:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6169674/
+infores:pdq-umls:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://www.cancer.gov/publications/pdq/editorial-processes
+infores:pr:
+  agent_type: manual_validation_of_automated_agent
+  knowledge_level: knowledge_assertion
+  reference: https://www.nature.com/articles/s41597-020-00679-9
+infores:psy-umls:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://www.apa.org/pubs/databases/training/thesaurus
+infores:reactome:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://en.wikipedia.org/wiki/Reactome
+infores:repodb:
+  agent_type: automated_agent
+  knowledge_level: knowledge_assertion
+  reference: https://www.nature.com/articles/sdata201729
+infores:ro:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://github.com/oborel/obo-relations/blob/master/CONTRIBUTING.md
+infores:rxnorm:
+  agent_type: automated_agent
+  knowledge_level: knowledge_assertion
+  reference: https://www.nlm.nih.gov/research/umls/rxnorm/overview.html
+infores:semmeddb:
+  agent_type: text_mining_agent
+  knowledge_level: prediction
+  reference: https://academic.oup.com/bioinformatics/article/28/23/3158/195282
+infores:uberon:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://genomebiology.biomedcentral.com/articles/10.1186/gb-2012-13-1-r5
+infores:umls-metathesaurus:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://www.ncbi.nlm.nih.gov/books/NBK9684/
+infores:unichem:
+  agent_type: automated_agent
+  knowledge_level: logical_entailment
+  reference: http://chembl.blogspot.com/2011/11/unichem.html
+infores:uniprot:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://www.uniprot.org/uniprotkb
+infores:vandf-umls:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/VANDF/index.html
