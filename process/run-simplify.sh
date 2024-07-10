@@ -57,7 +57,8 @@ fi
 # TODO: Inhibits and increase are not in biolink model anymore - Find out what that should be now
 ${VENV_DIR}/bin/python3 -u ${PROCESS_CODE_DIR}/filter_kg_and_remap_predicates.py ${test_flag} --dropNegated \
                         --dropSelfEdgesExcept interacts_with,regulates,inhibits,increase \
-                        ${predicate_mapping_file} ${infores_mapping_file} ${curies_to_urls_file} ${input_nodes_json} ${input_edges_json} \
+                        ${predicate_mapping_file} ${infores_mapping_file} ${curies_to_urls_file} \
+                        ${knowledge_level_agent_type_mapping_file} ${input_nodes_json} ${input_edges_json} \
                         ${output_nodes_json} ${output_edges_json} ${local_version_filename}
 ${s3_cp_cmd} ${local_version_filename} s3://${s3_bucket_public}/${s3_version_filename}
 

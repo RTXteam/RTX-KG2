@@ -7,7 +7,7 @@
 
 __author__ = 'Stephen Ramsey'
 __copyright__ = 'Oregon State University'
-__credits__ = ['Stephen Ramsey']
+__credits__ = ['Stephen Ramsey', 'Erica Wood']
 __license__ = 'MIT'
 __version__ = '0.1.0'
 __maintainer__ = ''
@@ -44,6 +44,7 @@ def make_arg_parser():
     arg_parser.add_argument('predicateRemapYaml', type=str, help="The YAML file describing how predicates should be remapped to simpler predicates")
     arg_parser.add_argument('inforesRemapYaml', type=str, help="The YAML file describing how knowledge_source fields should be remapped to Translator infores curies")
     arg_parser.add_argument('curiesToURIFile', type=str, help="The file mapping CURIE prefixes to URI fragments")
+    arg_parser.add_argument('knowledgeLevelAgentTypeFile', type=str, help="The file mapping infores curies to knowledge_level and agent_type source information")
     arg_parser.add_argument('inputNodesFile', type=str, help="The input KG2 graph, in JSON format")
     arg_parser.add_argument('inputEdgesFile', type=str, help="The input KG2 graph, in JSON format")
     arg_parser.add_argument('outputNodesFile', type=str, help="The output KG2 graph, in JSON format")
@@ -300,6 +301,7 @@ if __name__ == '__main__':
     predicate_remap_file_name = args.predicateRemapYaml
     infores_remap_file_name = args.inforesRemapYaml
     curies_to_uri_file_name = args.curiesToURIFile
+    knowledge_level_agent_type_file_name = args.knowledgeLevelAgentTypeFile
     input_nodes_file_name = args.inputNodesFile
     input_edges_file_name = args.inputEdgesFile
     output_nodes_file_name = args.outputNodesFile
@@ -313,6 +315,7 @@ if __name__ == '__main__':
     edges_output = edges_info[0]
 
     infores_remap_config = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(infores_remap_file_name))
+    knowledge_level_agent_type_map = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(knowledge_level_agent_type_file_name))
 
     source_predicate_curies_not_in_config = set()
     knowledge_source_curies_not_in_config_nodes = set()
