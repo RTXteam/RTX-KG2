@@ -8,15 +8,15 @@ assignees: ''
 ---
 
 ##### 1. Build and load KG2:
-- [ ] Clear the instance using `bash -x clear-instance.sh`
+- [ ] (if necessary) Clear the instance using `bash -x instance_management/clear-instance.sh`
 - [ ] Clone the RTX repo from Github `git clone https://github.com/RTXteam/RTX-KG2.git`
-- [ ] Setup the KG2 build system `bash -x RTX-KG2/setup-kg2-build.sh`
+- [ ] Setup the KG2 build system `bash -x RTX-KG2/setup/setup-kg2-build.sh`
 - [ ] Check `~/kg2-build/setup-kg2-build.log` to ensure setup completed successfully 
-- [ ] Run a dry build using `bash -x ~/kg2-code/build-kg2-snakemake.sh all -F -n`
+- [ ] Run a dry build using `bash -x ~/kg2-code/build/build-kg2-snakemake.sh all -F -n`
 - [ ] Check `~/kg2-build/build-kg2-snakemake-n.log` to ensure all rules are included
 - [ ] Run `touch ~/kg2-build/minor-release` for a minor release or `touch ~/kg2-build/major-release` for a major release. If you don't want to change the version number, ignore this step.
 - [ ] Initiate a screen session `screen -S buildkg2`
-- [ ] Start the build `bash -x ~/kg2-code/build-kg2-snakemake.sh all -F`
+- [ ] Start the build `bash -x ~/kg2-code/build/build-kg2-snakemake.sh all -F`
 - [ ] Verify build completed by checking `~/kg2-build/build-kg2-snakemake.log`
 - [ ] Check the build version number in `~/kg2-build/kg2-version.txt`
 - [ ] Check report file `kg2-simplified-report.json`; compare against previous `kg2-simplified-report.json` to identify any major changes
