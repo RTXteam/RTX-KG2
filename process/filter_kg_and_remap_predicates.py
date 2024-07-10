@@ -291,6 +291,7 @@ def process_edges(input_edges_file_name, infores_remap_config, knowledge_level_a
             edge_dict['primary_knowledge_source'] = infores_curie
 
         # Added for #358; a bit roundabout given setup of infores_curie, which might not exist if infores_curie_dict was None
+        knowledge_source_not_in_klat_map = set()
         kl_at_search_source = edge_dict.get('primary_knowledge_source', primary_knowledge_source)
         knowledge_level_agent_type_dict = knowledge_level_agent_type_map.get(kl_at_search_source, None)
         if knowledge_level_agent_type_dict is None:
