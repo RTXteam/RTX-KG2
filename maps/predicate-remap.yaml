@@ -3589,6 +3589,9 @@ RO:0002203:
 RO:0002207:
   operation: keep
   core_predicate: biolink:develops_from
+RO:0002210:  # regulates
+  operation: invert
+  core_predicate: biolink:develops_from
 RO:0002211:  # regulates
   operation: keep
   core_predicate: biolink:regulates
@@ -4178,6 +4181,12 @@ RO:0019002:
   qualified_predicate: biolink:causes
   qualifiers:
     object_direction: downregulated
+RO:0020101:
+  operation: keep
+  core_predicate: biolink:affects
+RO:0020102:
+  operation: keep
+  core_predicate: biolink:affects
 RO:0040036:
   operation: delete
 # RO:HOM0000000:
