@@ -1,12 +1,10 @@
 argh==0.26.2
 bmt==0.7.6
-conf==0.4.
 graphviz==0.20.1
 HTMLParser==0.0.2
 isodate==0.6.0
 jsonlines==3.0.0
 jsonpickle==1.0.0
-kgx==1.5.6
 ontobio==2.8.0
 prefixcommons==0.1.9
 pymongo==3.8.0
