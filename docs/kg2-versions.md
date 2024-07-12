@@ -1,3 +1,36 @@
+# 2.10.0
+**Date:  2024.07.11**
+
+Counts:
+- Nodes: 8,566,249
+- Edges: 57,650,718
+
+Issues:
+- Issue [#358](https://github.com/RTXteam/RTX-KG2/issues/358)
+- Issue [#383](https://github.com/RTXteam/RTX-KG2/issues/383) - temporary patch for `DRUGBANK:drug-interaction`
+- Additional issues that arose during the build: [#395 (Comment)](https://github.com/RTXteam/RTX-KG2/issues/395#issuecomment-2223612095)
+
+Build info:
+- Biolink Model version: 4.2.0
+- InfoRes Registry version: 0.2.8
+- Build host: `kg2100build.rtx.ai`
+- Build directory: `/home/ubuntu/kg2-build`
+- Build code branch: `kg2100build`
+- Neo4j endpoint CNAME: `kg2endpoint-kg2-10-0.rtx.ai`
+- Neo4j endpoint hostname: `kg2endpoint3.rtx.ai`
+- Tracking issue for the build: [#395](https://github.com/RTXteam/RTX-KG2/issues/395)
+- Major knowledge source versions:
+  - SemMedDB: `43 (2023)`
+  - UMLS: `2023AA`
+  - ChEMBL: `33`
+  - DrugBank: `5.1.10`
+  - Ensembl: `106`
+  - GO annotations: `2024-6-14`
+  - UniProtKB: `2024_03`
+  - DrugCentral: `52`
+  - KEGG: `111.0`
+
+
 # 2.9.3
 **Date:  2024.07.03**
 
