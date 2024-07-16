@@ -47,6 +47,36 @@ def format_id(id: str, prefix: str):
     return prefix + ':' + id.strip()
 
 
+def format_date(date_field):
+    dates = date_field.split(',')
+
+    # Arbitrarily far back date to improve on
+    latest_date = datetime.date(1700, 1, 1)
+
+    if len(dates) > 1:
+        split_date = date.split('-')
+        year = split_date[0]
+        month = split_date[1]
+        day = 1 # most of the time, there's no day
+        if len(split_date) > 2:
+            day = split_date[2]
+        curr_date = datetime.date(year, month, day)
+
+        if curr_date > latest_date:
+            latest_date = curr_date
+    else:
+        split_date = date.split('-')
+        year = split_date[0]
+        month = split_date[1]
+        day = 1 # most of the time, there's no day
+        if len(split_date) > 2:
+            day = split_date[2]
+        latest_date = datetime.date(year, month, day)
+
+    return latest_date
+
+
+
 def make_edges(input_file: str, edges_output, test_mode: bool):
     count = 0
     version = "v"
@@ -89,7 +119,7 @@ def make_edges(input_file: str, edges_output, test_mode: bool):
                                               object_id,
                                               predicate,
                                               CLINICALTRIALSKG_CURIE,
-                                              start_date)
+                                              format_date(start_date))
             edges_output.write(edge)
 
     return version
