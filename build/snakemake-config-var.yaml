@@ -240,6 +240,17 @@ kegg_conversion_log: ${BUILD_DIR}/${kegg_conversion_base}${test_suffix}.log
 kegg_output_nodes_file: ${BUILD_DIR}/${kegg_output_base}${nodes_suffix}${test_suffix}.jsonl
 kegg_output_edges_file: ${BUILD_DIR}/${kegg_output_base}${edges_suffix}${test_suffix}.jsonl
 
+clinicaltrialskg_extraction_base: extract-clinicaltrialskg
+clinicaltrialskg_conversion_base: clinicaltrialskg_tsv_to_kg_jsonl
+clinicaltrialskg_output_base: kg2-clinicaltrialskg
+clinicaltrialskg_extraction_script: ${EXTRACT_CODE_DIR}/${clinicaltrialskg_extraction_base}.sh
+clinicaltrialskg_extraction_log: ${BUILD_DIR}/${clinicaltrialskg_extraction_base}${test_suffix}.log
+clinicaltrialskg_input_file: ${BUILD_DIR}/clinicaltrialskg-edges.tsv
+clinicaltrialskg_conversion_script: ${CONVERT_CODE_DIR}/${clinicaltrialskg_conversion_base}.py
+clinicaltrialskg_conversion_log: ${BUILD_DIR}/${clinicaltrialskg_conversion_base}${test_suffix}.log
+clinicaltrialskg_output_nodes_file: ${BUILD_DIR}/${clinicaltrialskg_conversion_base}${nodes_suffix}${test_suffix}.jsonl
+clinicaltrialskg_output_edges_file: ${BUILD_DIR}/${clinicaltrialskg_conversion_base}${edges_suffix}${test_suffix}.jsonl
+
 merge_base: merge_graphs
 merge_script: ${PROCESS_CODE_DIR}/${merge_base}.py
 merged_output_base: kg2-merged

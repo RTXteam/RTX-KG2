@@ -219,3 +219,14 @@ rule KEGG:
         config['KEGG_EXTRACTION_LOG']
     shell:
         "bash -x {input.code} {output} > {log} 2>&1"
+
+rule ClinicalTrialsKG:
+    input:
+        code = config['CLINICALTRIALSKG_EXTRACTION_SCRIPT'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['CLINICALTRIALSKG_INPUT_FILE']
+    log:
+        config['CLINICALTRIALSKG_EXTRACTION_LOG']
+    shell:
+        "bash -x {input.code} {output} > {log} 2>&1"

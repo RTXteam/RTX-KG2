@@ -275,3 +275,16 @@ rule KEGG_Conversion:
         config['KEGG_CONVERSION_LOG']
     shell:
         config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
+
+rule ClinicalTrialsKG_Conversion:
+    input:
+        code = config['CLINICALTRIALSKG_CONVERSION_SCRIPT'],
+        real = config['CLINICALTRIALSKG_INPUT_FILE'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        nodes = config['CLINICALTRIALSKG_OUTPUT_NODES_FILE'],
+        edges = config['CLINICALTRIALSKG_OUTPUT_EDGES_FILE']
+    log:
+        config['CLINICALTRIALSKG_CONVERSION_LOG']
+    shell:
+        config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
