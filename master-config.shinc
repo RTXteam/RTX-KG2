@@ -30,3 +30,4 @@ ont_load_inventory_file=${MAPS_CODE_DIR}/ont-load-inventory${test_suffix}.yaml
 rtx_config_file=RTXConfiguration-config.json
 biolink_model_version=4.2.0
 infores_registry_version=0.2.8
+version=

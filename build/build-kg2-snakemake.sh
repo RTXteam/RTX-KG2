@@ -75,6 +75,44 @@ function build_kg2 () {
 echo "================= starting build-kg2-snakemake.sh =================="
 date
 
+export PATH=$PATH:${BUILD_DIR}
+
+kg2_version_file="kg2-version.txt"
+local_kg2_version_file="${BUILD_DIR}/${kg2_version_file}"
+trigger_file_is_major_release=${BUILD_DIR}/major-release
+trigger_file_is_minor_release=${BUILD_DIR}/minor-release
+
+increment_flag=''
+if [[ "${test_flag}" == "test" || "${dryrun}" == "-n" ]]
+then
+    increment_flag=''
+else
+    if [ -e ${trigger_file_is_major_release} ]
+    then
+        increment_flag='--increment_major'
+    else
+        if [ -e ${trigger_file_is_minor_release} ]
+        then
+            increment_flag='--increment_minor'
+        fi
+    fi
+fi
+
+if [[ "${ci_flag}" == "ci" ]]
+then
+    sed -i "\@^version=@cversion=KG2.CI" ${CODE_DIR}/master-config.shinc
+else
+    ${s3_cp_cmd} s3://${s3_bucket_public}/${kg2_version_file} ${local_kg2_version_file}
+    if [[ "${increment_flag}" != '' ]]
+    then
+        ${VENV_DIR}/bin/python3 ${PROCESS_CODE_DIR}/update_version.py ${increment_flag} ${local_kg2_version_file}
+    else
+        echo "*** TEST MODE -- NO INCREMENT ***"
+    fi
+    kg2_version=`cat ${local_kg2_version_file}`
+    sed -i "\@^version=@cversion=${kg2_version}" ${CODE_DIR}/master-config.shinc
+fi
+
 snakemake_config_file=${BUILD_CODE_DIR}/snakemake-config.yaml
 snakefile=${BUILD_CODE_DIR}/Snakefile
 
@@ -90,8 +128,6 @@ ${python_command} ${BUILD_CODE_DIR}/generate_snakemake_config_file.py ${test_arg
 # -config: Give the test arguments to the snakefile (NO LONGER USED)
 # --dag | dot -Tpng > ~/kg2-build/snakemake_diagram.png: Creates Snakemake workflow diagram (when combined with -F and -j)
 # -n: dry run REMOVE THIS BEFORE BUILDING
-
-export PATH=$PATH:${BUILD_DIR}
 
 graphic=""
 if [[ "${build_flag}" == "graphic" || "${secondary_build_flag}" == "graphic" || "${tertiary_build_flag}" == "graphic" ]]
@@ -115,6 +151,13 @@ then
 fi
 
 cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} ${run_flag} -R Finish -j 16 ${dryrun} ${graphic}
+
+${s3_cp_cmd} ${local_kg2_version_file} s3://${s3_bucket_public}/${kg2_version_file}
+
+if [[ -f ${trigger_file_is_major_release} ]]
+then
+   rm -f ${trigger_file_is_major_release}
+fi
 
 date
 echo "================ script finished ============================"
