@@ -435,22 +435,22 @@ if __name__ == '__main__':
                                                           update_date))
 
 # get molecule-to-disease indications
-
-    sql = '''select md.chembl_id, di.mesh_id from molecule_dictionary as md inner join drug_indication as di on md.molregno = di.molregno'''
-    if test_mode:
-        sql += str_sql_row_limit_test_mode
-    with connection.cursor() as cursor:
-        cursor.execute(sql)
-        results = cursor.fetchall()
-    for (chembl_id, mesh_id) in results:
-        subject_curie_id = CHEMBL_CURIE_BASE_COMPOUND + ':' + chembl_id
-        object_curie_id = kg2_util.CURIE_PREFIX_MESH + ':' + mesh_id
-        predicate_label = kg2_util.EDGE_LABEL_BIOLINK_APPLIED_TO_TREAT
-        edges_output.write(kg2_util.make_edge_biolink(subject_curie_id,
-                                                      object_curie_id,
-                                                      predicate_label,
-                                                      CHEMBL_KB_CURIE_ID,
-                                                      update_date))
+# Removed per #393
+    # sql = '''select md.chembl_id, di.mesh_id from molecule_dictionary as md inner join drug_indication as di on md.molregno = di.molregno'''
+    # if test_mode:
+    #     sql += str_sql_row_limit_test_mode
+    # with connection.cursor() as cursor:
+    #     cursor.execute(sql)
+    #     results = cursor.fetchall()
+    # for (chembl_id, mesh_id) in results:
+    #     subject_curie_id = CHEMBL_CURIE_BASE_COMPOUND + ':' + chembl_id
+    #     object_curie_id = kg2_util.CURIE_PREFIX_MESH + ':' + mesh_id
+    #     predicate_label = kg2_util.EDGE_LABEL_BIOLINK_APPLIED_TO_TREAT
+    #     edges_output.write(kg2_util.make_edge_biolink(subject_curie_id,
+    #                                                   object_curie_id,
+    #                                                   predicate_label,
+    #                                                   CHEMBL_KB_CURIE_ID,
+    #                                                   update_date))
 # get metabolism information
 
     sql = '''select m1.chembl_id as drug_id,
