@@ -55,7 +55,7 @@ def make_edges(input_file: str, edges_output, test_mode: bool):
         for line in tsvreader:
             count += 1
             if count == 1:
-                version += str(line)
+                version += line[0].strip('#').strip(' ')
                 continue
             if count == 2:
                 continue
