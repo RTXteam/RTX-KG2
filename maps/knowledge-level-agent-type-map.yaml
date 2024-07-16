@@ -10,6 +10,10 @@ infores:biolink-ontology:
   agent_type: manual_agent
   knowledge_level: knowledge_assertion
   reference: https://github.com/biolink/biolink-model/blob/master/biolink-model.yaml
+infores:biothings-multiomics-clinicaltrials:
+  agent_type: manual_agent
+  knowledge_level: knowledge_assertion
+  reference: https://github.com/biolink/information-resource-registry/blob/d84a524bfaf749d92a42c867b1b6798a88e905c8/infores_catalog.yaml#L650-L651
 infores:bspo:
   agent_type: manual_agent
   knowledge_level: knowledge_assertion
