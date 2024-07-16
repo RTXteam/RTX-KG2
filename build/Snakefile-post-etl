@@ -56,7 +56,7 @@ rule Merge:
             " --kgFileOrphanEdges {output.orph}" + \
             " --outputNodesFile {output.nodes} " + \
             " --outputEdgesFile {output.edges} " + \
-            " --kgNodesFiles 
+            " --kgNodesFiles " + \
             "{input.umls_nodes} " + \
             "{input.ont_nodes} " + \
             "{input.semmeddb_nodes} " + \
