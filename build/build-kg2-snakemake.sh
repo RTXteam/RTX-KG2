@@ -152,11 +152,19 @@ fi
 
 cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} ${run_flag} -R Finish -j 16 ${dryrun} ${graphic}
 
-${s3_cp_cmd} ${local_kg2_version_file} s3://${s3_bucket_public}/${kg2_version_file}
+if [[ "${ci_flag}" != "ci" ]]
+then
+    ${s3_cp_cmd} ${local_kg2_version_file} s3://${s3_bucket_public}/${kg2_version_file}
+fi
 
 if [[ -f ${trigger_file_is_major_release} ]]
 then
    rm -f ${trigger_file_is_major_release}
+fi
+
+if [[ -f ${trigger_file_is_minor_release} ]]
+then
+   rm -f ${trigger_file_is_minor_release}
 fi
 
 date
