@@ -64,19 +64,6 @@ then
     run_flag="-F"
 fi
 
-build_kg2_log_file=${BUILD_DIR}/build-kg2-snakemake${dryrun}${test_suffix}.log
-touch ${build_kg2_log_file}
-if [[ "${ci_flag}" == "ci" ]]
-then
-    trap "cat ${build_kg2_log_file}" EXIT
-fi
-
-function build_kg2 () {
-echo "================= starting build-kg2-snakemake.sh =================="
-date
-
-export PATH=$PATH:${BUILD_DIR}
-
 kg2_version_file="kg2-version.txt"
 local_kg2_version_file="${BUILD_DIR}/${kg2_version_file}"
 trigger_file_is_major_release=${BUILD_DIR}/major-release
@@ -100,7 +87,7 @@ fi
 
 if [[ "${ci_flag}" == "ci" ]]
 then
-    sed -i "\@^version=@cversion=KG2.CI" ${CODE_DIR}/master-config.shinc
+    sed -i "\@^kg2_version=@ckg2_version=KG2.CI" ${CODE_DIR}/master-config.shinc
 else
     ${s3_cp_cmd} s3://${s3_bucket_public}/${kg2_version_file} ${local_kg2_version_file}
     if [[ "${increment_flag}" != '' ]]
@@ -109,9 +96,24 @@ else
     else
         echo "*** TEST MODE -- NO INCREMENT ***"
     fi
-    kg2_version=`cat ${local_kg2_version_file}`
-    sed -i "\@^version=@cversion=${kg2_version}" ${CODE_DIR}/master-config.shinc
+    curr_kg2_version=`cat ${local_kg2_version_file}`
+    sed -i "\@^kg2_version=@ckg2_version=${curr_kg2_version}" ${CODE_DIR}/master-config.shinc
 fi
+
+source ${config_dir}/master-config.shinc
+
+build_kg2_log_file=${BUILD_DIR}/build-kg2-snakemake-${kg2_version}${dryrun}${test_suffix}.log
+touch ${build_kg2_log_file}
+if [[ "${ci_flag}" == "ci" ]]
+then
+    trap "cat ${build_kg2_log_file}" EXIT
+fi
+
+function build_kg2 () {
+echo "================= starting build-kg2-snakemake.sh =================="
+date
+
+export PATH=$PATH:${BUILD_DIR}
 
 snakemake_config_file=${BUILD_CODE_DIR}/snakemake-config.yaml
 snakefile=${BUILD_CODE_DIR}/Snakefile
