@@ -101,7 +101,7 @@ rule Merge:
             "{input.intact_edges} " + \
             "{input.disgenet_edges} " + \
             "{input.kegg_edges} " + \
-            "{input.clinicaltrialskg_edges > {log} 2>&1"
+            "{input.clinicaltrialskg_edges} > {log} 2>&1"
 
 rule Stats:
     input:
