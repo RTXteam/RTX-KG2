@@ -49,11 +49,15 @@ def format_id(id: str, prefix: str):
 
 def make_edges(input_file: str, edges_output, test_mode: bool):
     count = 0
+    version = "v"
     with open(input_file, 'r') as input_tsv:
         tsvreader = csv.reader(input_tsv, delimiter='\t')
         for line in tsvreader:
             count += 1
             if count == 1:
+                version += str(line)
+                continue
+            if count == 2:
                 continue
             if test_mode and count >= TEST_MODE_LIMIT:
                 break
@@ -88,6 +92,8 @@ def make_edges(input_file: str, edges_output, test_mode: bool):
                                               start_date)
             edges_output.write(edge)
 
+    return version
+
 
 if __name__ == '__main__':
     print("Start time: ", date())
@@ -101,11 +107,11 @@ if __name__ == '__main__':
     nodes_output = nodes_info[0]
     edges_output = edges_info[0]
 
-    make_edges(input_file_name, edges_output, test_mode)
+    version = make_edges(input_file_name, edges_output, test_mode)
 
     kp_node = kg2_util.make_node(CLINICALTRIALSKG_CURIE,
                                  CLINICALTRIALSKG_BASE_IRI,
-                                 "Clinical Trials Knowledge Graph",
+                                 "Clinical Trials Knowledge Graph " + version,
                                  kg2_util.SOURCE_NODE_CATEGORY,
                                  None,
                                  CLINICALTRIALSKG_CURIE)

@@ -23,7 +23,8 @@ version="2.2.6"
 
 clinicaltrialskg_download_link="https://db.systemsbiology.net/gestalt/KG/clinical_trials_kg_edges_v${version}.tsv"
 
-${curl_get} ${clinicaltrialskg_download_link} > ${clinicaltrialskg_output_file}
+echo "# ${version}" > ${clinicaltrialskg_output_file}
+${curl_get} ${clinicaltrialskg_download_link} >> ${clinicaltrialskg_output_file}
 
 date
 echo "================= finishing extract-clinicaltrialskg.sh =================="
