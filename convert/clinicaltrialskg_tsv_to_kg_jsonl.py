@@ -74,7 +74,7 @@ def format_date(date_field):
             day = int(split_date[2])
         latest_date = datetime.date(year, month, day)
 
-    return latest_date
+    return str(latest_date)
 
 
 
