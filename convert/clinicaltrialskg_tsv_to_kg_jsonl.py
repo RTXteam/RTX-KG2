@@ -78,7 +78,7 @@ def make_edges(input_file: str, edges_output, test_mode: bool):
              age_range,
              child,
              adult,
-             older_adult
+             older_adult,
              unii] = line
 
             edge = kg2_util.make_edge_biolink(subject_id,
