@@ -56,22 +56,22 @@ def format_date(date_field):
     if len(dates) > 1:
         for date in dates:
             split_date = date.split('-')
-            year = split_date[0]
-            month = split_date[1]
+            year = int(split_date[0])
+            month = int(split_date[1])
             day = 1 # most of the time, there's no day
             if len(split_date) > 2:
-                day = split_date[2]
+                day = int(split_date[2])
             curr_date = datetime.date(year, month, day)
 
             if curr_date > latest_date:
                 latest_date = curr_date
     else:
         split_date = dates[0].split('-')
-        year = split_date[0]
-        month = split_date[1]
+        year = int(split_date[0])
+        month = int(split_date[1])
         day = 1 # most of the time, there's no day
         if len(split_date) > 2:
-            day = split_date[2]
+            day = int(split_date[2])
         latest_date = datetime.date(year, month, day)
 
     return latest_date
