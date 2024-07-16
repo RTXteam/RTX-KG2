@@ -143,7 +143,7 @@ BASE_URL_BIOLINK_META = 'https://w3id.org/biolink/biolinkml/meta/'
 BASE_URL_CHEMBL_COMPOUND = BASE_BASE_URL_IDENTIFIERS_ORG + 'chembl.compound:'
 BASE_URL_CHEMBL_TARGET = BASE_BASE_URL_IDENTIFIERS_ORG + 'chembl.target:'
 BASE_URL_CHEMBL_MECHANISM = 'https://www.ebi.ac.uk/chembl/mechanism/inspect/'
-BASE_URL_CLINICALTRIALS = BASE_BASE_URL_IDENTIFIERS_ORG + 'clinicaltrials:'
+BASE_URL_CLINICALTRIALS_KG = 'https://github.com/NCATSTranslator/Translator-All/wiki/Clinical-Trials-KP/'
 BASE_URL_DGIDB = 'https://www.dgidb.org/interaction_types'
 BASE_URL_DISGENET = 'http://www.disgenet.org'
 BASE_URL_DRUGBANK = BASE_BASE_URL_IDENTIFIERS_ORG + 'drugbank:'
@@ -216,6 +216,7 @@ BIOLINK_CATEGORY_TRANSCRIPT = 'transcript'
 # Since this has changed 2(?) times now, this will make it easier going forward if things change again
 SOURCE_NODE_CATEGORY = BIOLINK_CATEGORY_RETRIEVAL_SOURCE
 
+CURIE_ID_CLINICALTRIALSKG = 'ClinicalTrialsKG:'
 CURIE_ID_DCTERMS_ISSUED = CURIE_PREFIX_DCTERMS + ':' + 'issued'
 CURIE_ID_DISGENET = 'DisGeNET:'
 CURIE_ID_DRUGCENTRAL_SOURCE = CURIE_PREFIX_DRUGCENTRAL + ':'

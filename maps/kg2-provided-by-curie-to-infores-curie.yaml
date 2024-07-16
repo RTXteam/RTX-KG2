@@ -1,3 +1,11 @@
+'ClinicalTrialKG:':
+  source_name: Multiomics ClinicalTrials KP API
+  infores_curie: infores:biothings-multiomics-clinicaltrials
+  knowledge_type: knowledge_source
+'DGIdb:':
+  source_name: Drug Gene Interaction Database
+  infores_curie: infores:dgidb
+  knowledge_type: aggregator_knowledge_source
 'DGIdb:':
   source_name: Drug Gene Interaction Database
   infores_curie: infores:dgidb
