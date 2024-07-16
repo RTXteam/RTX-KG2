@@ -18,7 +18,7 @@ date
 config_dir=`dirname "$0"`
 source ${config_dir}/master-config.shinc
 
-clinicaltrialskgoutput_file=${1:-"${BUILD_DIR}/clinicaltrialskg-edges.tsv"}
+clinicaltrialskg_output_file=${1:-"${BUILD_DIR}/clinicaltrialskg-edges.tsv"}
 version="2.2.6"
 
 clinicaltrialskg_download_link="https://db.systemsbiology.net/gestalt/KG/clinical_trials_kg_edges_v${version}.tsv"
