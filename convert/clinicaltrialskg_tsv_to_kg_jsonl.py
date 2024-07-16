@@ -48,6 +48,8 @@ def format_id(id: str, prefix: str):
 
 
 def format_date(date_field):
+    if len(date_field) == 0:
+        return str()
     dates = date_field.split(',')
 
     # Arbitrarily far back date to improve on
