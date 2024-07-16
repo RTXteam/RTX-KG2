@@ -57,8 +57,9 @@ def format_date(date_field):
 
     if len(dates) > 1:
         for date in dates:
+            if len(date) == 0:
+                continue
             split_date = date.split('-')
-            print(split_date, date, date_field)
             year = int(split_date[0])
             month = int(split_date[1])
             day = 1 # most of the time, there's no day
