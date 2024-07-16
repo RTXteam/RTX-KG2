@@ -71,7 +71,6 @@ def format_date(date_field):
                 latest_date = curr_date
     else:
         split_date = dates[0].split('-')
-        print(split_date, date_field)
         year = int(split_date[0])
         month = int(split_date[1])
         day = 1 # most of the time, there's no day
