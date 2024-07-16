@@ -66,6 +66,8 @@ use_for_bidirectional_mapping:
   -
     CL: http://purl.obolibrary.org/obo/CL_
   -
+    ClinicalTrialsKG: 'https://github.com/NCATSTranslator/Translator-All/wiki/Clinical-Trials-KP/'
+  -
     clinicaltrials: "https://identifiers.org/clinicaltrials:"
   -
     CLINVAR: 'http://identifiers.org/clinvar'
