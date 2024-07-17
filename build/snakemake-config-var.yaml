@@ -256,32 +256,32 @@ merge_base: merge_graphs
 merge_script: ${PROCESS_CODE_DIR}/${merge_base}.py
 merged_output_base: kg2-merged
 merge_log: ${BUILD_DIR}/${merge_base}${version_suffix}${test_suffix}.log
-merged_output_nodes_file: ${BUILD_DIR}/${merged_output_base}${nodes_suffix}${test_suffix}.jsonl
-merged_output_edges_file: ${BUILD_DIR}/${merged_output_base}${edges_suffix}${test_suffix}.jsonl
-output_file_orphan_edges: ${BUILD_DIR}/kg2-orphan${edges_suffix}${test_suffix}.jsonl
+merged_output_nodes_file: ${BUILD_DIR}/${merged_output_base}${version_suffix}${nodes_suffix}${test_suffix}.jsonl
+merged_output_edges_file: ${BUILD_DIR}/${merged_output_base}${version_suffix}${edges_suffix}${test_suffix}.jsonl
+output_file_orphan_edges: ${BUILD_DIR}/kg2-orphan${edges_suffix}${version_suffix}${test_suffix}.jsonl
 
 simplify_base: run-simplify
 simplified_output_base: kg2-simplified
 simplify_script: ${PROCESS_CODE_DIR}/${simplify_base}.sh
 simplify_log: ${BUILD_DIR}/${simplify_base}${version_suffix}${test_suffix}.log
-simplified_output_nodes_file: ${BUILD_DIR}/${simplified_output_base}${nodes_suffix}${test_suffix}.jsonl
-simplified_output_edges_file: ${BUILD_DIR}/${simplified_output_base}${edges_suffix}${test_suffix}.jsonl
+simplified_output_nodes_file: ${BUILD_DIR}/${simplified_output_base}${version_suffix}${nodes_suffix}${test_suffix}.jsonl
+simplified_output_edges_file: ${BUILD_DIR}/${simplified_output_base}${version_suffix}${edges_suffix}${test_suffix}.jsonl
 
 report_base: report_stats_on_kg_jsonl
 report_script: ${PROCESS_CODE_DIR}/${report_base}.py
 report_log: ${BUILD_DIR}/${report_base}${version_suffix}${test_suffix}.log
-report_file: ${BUILD_DIR}/kg2-report${test_suffix}.json
+report_file: ${BUILD_DIR}/kg2-report${version_suffix}${test_suffix}.json
 
 simplified_report_log: ${BUILD_DIR}/${report_base}-simplified${version_suffix}${test_suffix}.log
-simplified_report_file_base: kg2-simplified-report${test_suffix}.json
+simplified_report_file_base: kg2-simplified-report${version_suffix}${test_suffix}.json
 simplified_report_file: ${BUILD_DIR}/${simplified_report_file_base}
 
 slim_base: slim_kg2
 slim_output_base: kg2-slim
 slim_script: ${PROCESS_CODE_DIR}/${slim_base}.py
 slim_log: ${BUILD_DIR}/${slim_base}${version_suffix}${test_suffix}.log
-slim_output_nodes_file: ${BUILD_DIR}/${slim_output_base}${nodes_suffix}${test_suffix}.jsonl
-slim_output_edges_file: ${BUILD_DIR}/${slim_output_base}${edges_suffix}${test_suffix}.jsonl
+slim_output_nodes_file: ${BUILD_DIR}/${slim_output_base}${version_suffix}${nodes_suffix}${test_suffix}.jsonl
+slim_output_edges_file: ${BUILD_DIR}/${slim_output_base}${version_suffix}${edges_suffix}${test_suffix}.jsonl
 
 tsv_base: kg_json_to_tsv
 tsv_script: ${PROCESS_CODE_DIR}/${tsv_base}.py
