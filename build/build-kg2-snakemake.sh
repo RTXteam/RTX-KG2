@@ -64,8 +64,6 @@ then
     run_flag="-F"
 fi
 
-kg2_version_file="kg2-version.txt"
-local_kg2_version_file="${BUILD_DIR}/${kg2_version_file}"
 trigger_file_is_major_release=${BUILD_DIR}/major-release
 trigger_file_is_minor_release=${BUILD_DIR}/minor-release
 
@@ -89,14 +87,14 @@ if [[ "${ci_flag}" == "ci" ]]
 then
     sed -i "\@^kg2_version=@ckg2_version=KG2.CI" ${CODE_DIR}/master-config.shinc
 else
-    ${s3_cp_cmd} s3://${s3_bucket_public}/${kg2_version_file} ${local_kg2_version_file}
+    ${s3_cp_cmd} s3://${s3_bucket_public}/${kg2_version_file} ${kg2_version_file_local}
     if [[ "${increment_flag}" != '' ]]
     then
-        ${VENV_DIR}/bin/python3 ${PROCESS_CODE_DIR}/update_version.py ${increment_flag} ${local_kg2_version_file}
+        ${VENV_DIR}/bin/python3 ${PROCESS_CODE_DIR}/update_version.py ${increment_flag} ${kg2_version_file_local}
     else
         echo "*** TEST MODE -- NO INCREMENT ***"
     fi
-    curr_kg2_version=`cat ${local_kg2_version_file}`
+    curr_kg2_version=`cat ${kg2_version_file_local}`
     sed -i "\@^kg2_version=@ckg2_version=${curr_kg2_version}" ${CODE_DIR}/master-config.shinc
 fi
 
@@ -156,7 +154,7 @@ cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} ${run_flag} -R Finish
 
 if [[ "${ci_flag}" != "ci" ]]
 then
-    ${s3_cp_cmd} ${local_kg2_version_file} s3://${s3_bucket_public}/${kg2_version_file}
+    ${s3_cp_cmd} ${kg2_version_file_local} s3://${s3_bucket_public}/${kg2_version_file}
 fi
 
 if [[ -f ${trigger_file_is_major_release} ]]

@@ -54,9 +54,8 @@ rm -r -f ${tsv_dir}
 mkdir -p ${tsv_dir}
 
 # get the latest KG2 version
-kg2_version_file="kg2-version.txt"
-${s3_cp_cmd} s3://${s3_bucket}/${kg2_version_file} ${BUILD_DIR}/${kg2_version_file}
-kg2_version=`cat ${BUILD_DIR}/${kg2_version_file}`
+${s3_cp_cmd} s3://${s3_bucket}/${kg2_version_file} ${kg2_version_file_local}
+kg2_version=`cat ${kg2_version_file_local}`
 
 # download the latest TSV files from the S3 Bucket
 ${s3_cp_cmd} s3://${s3_bucket}/kg2-tsv-for-neo4j-${kg2_version}${test_arg}.tar.gz ${tsv_tarball}
