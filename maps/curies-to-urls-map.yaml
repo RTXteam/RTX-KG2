@@ -378,7 +378,7 @@ use_for_bidirectional_mapping:
   -
     OPL: http://purl.obolibrary.org/obo/OPL_
   -
-    orphanet: http://purl.bioontology.org/ontology/ORDO/
+    orphanet: http://www.orpha.net/ORDO/Orphanet_
   -
     owl: http://www.w3.org/2002/07/owl#
   -
@@ -664,7 +664,7 @@ use_for_contraction_only:
   -
     OMOP: http://purl.obolibrary.org/obo/COHD_
   -
-    orphanet: http://www.orpha.net/ORDO/Orphanet_
+    orphanet: http://purl.bioontology.org/ontology/ORDO/
   -
     orphanet: https://data.bioontology.org/ontologies/ORDO/submissions/27/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
   -
