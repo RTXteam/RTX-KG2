@@ -728,7 +728,9 @@ use_for_expansion_only:
   -
     FlyBase: https://flybase.org/reports/
   -
-    Orphanet: http://purl.bioontology.org/ontology/ORDO/
+    Orphanet: http://www.orpha.net/ORDO/Orphanet_
+  -
+    ORPHANET: http://www.orpha.net/ORDO/Orphanet_  
   -
     oboInOwl: http://www.geneontology.org/formats/oboInOwl#
   -
