@@ -120,19 +120,6 @@ rule DGIdb_Conversion:
     shell:
         config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
-rule RepoDB_Conversion:
-    input:
-        code = config['REPODB_CONVERSION_SCRIPT'],
-        real = config['REPODB_INPUT_FILE'],
-        validation = config['VALIDATION_PLACEHOLDER']
-    output:
-        nodes = config['REPODB_OUTPUT_NODES_FILE'],
-        edges = config['REPODB_OUTPUT_EDGES_FILE']
-    log:
-        config['REPODB_CONVERSION_LOG']
-    shell:
-        config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
-
 rule DrugBank_Conversion:
     input:
         code = config['DRUGBANK_CONVERSION_SCRIPT'],

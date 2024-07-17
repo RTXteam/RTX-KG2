@@ -19,8 +19,6 @@ rule Merge:
         ncbigene_edges = config['NCBIGENE_OUTPUT_EDGES_FILE'],
         dgidb_nodes = config['DGIDB_OUTPUT_NODES_FILE'],
         dgidb_edges = config['DGIDB_OUTPUT_EDGES_FILE'],
-        repodb_nodes = config['REPODB_OUTPUT_NODES_FILE'],
-        repodb_edges = config['REPODB_OUTPUT_EDGES_FILE'],
         drugbank_nodes = config['DRUGBANK_OUTPUT_NODES_FILE'],
         drugbank_edges = config['DRUGBANK_OUTPUT_EDGES_FILE'],
         smpdb_nodes = config['SMPDB_OUTPUT_NODES_FILE'],
@@ -66,7 +64,6 @@ rule Merge:
             "{input.chembl_nodes} " + \
             "{input.ncbigene_nodes} " + \
             "{input.dgidb_nodes} " + \
-            "{input.repodb_nodes} " + \
             "{input.smpdb_nodes} " + \
             "{input.drugbank_nodes} " + \
             "{input.hmdb_nodes} " + \
@@ -89,7 +86,6 @@ rule Merge:
             "{input.chembl_edges} " + \
             "{input.ncbigene_edges} " + \
             "{input.dgidb_edges} " + \
-            "{input.repodb_edges} " + \
             "{input.smpdb_edges} " + \
             "{input.drugbank_edges} " + \
             "{input.hmdb_edges} " + \

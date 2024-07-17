@@ -3367,63 +3367,6 @@ REACT:positively_regulates_gene_expression:
 REACT:related_to:
   operation: keep
   core_predicate: biolink:related_to
-REPODB:clinically_tested_approved_unknown_phase:
-  operation: keep
-  core_predicate: biolink:drug_regulatory_status_world_wide
-REPODB:clinically_tested_suspended_phase_0:
-  operation: keep
-  core_predicate: biolink:drug_regulatory_status_world_wide
-REPODB:clinically_tested_suspended_phase_1:
-  operation: keep
-  core_predicate: biolink:drug_regulatory_status_world_wide
-REPODB:clinically_tested_suspended_phase_1_or_phase_2:
-  operation: keep
-  core_predicate: biolink:drug_regulatory_status_world_wide
-REPODB:clinically_tested_suspended_phase_2:
-  operation: keep
-  core_predicate: biolink:drug_regulatory_status_world_wide
-REPODB:clinically_tested_suspended_phase_2_or_phase_3:
-  operation: keep
-  core_predicate: biolink:drug_regulatory_status_world_wide
-REPODB:clinically_tested_suspended_phase_3:
-  operation: keep
-  core_predicate: biolink:drug_regulatory_status_world_wide
-REPODB:clinically_tested_terminated_phase_0:
-  operation: keep
-  core_predicate: biolink:drug_regulatory_status_world_wide
-REPODB:clinically_tested_terminated_phase_1:
-  operation: keep
-  core_predicate: biolink:drug_regulatory_status_world_wide
-REPODB:clinically_tested_terminated_phase_1_or_phase_2:
-  operation: keep
-  core_predicate: biolink:drug_regulatory_status_world_wide
-REPODB:clinically_tested_terminated_phase_2:
-  operation: keep
-  core_predicate: biolink:drug_regulatory_status_world_wide
-REPODB:clinically_tested_terminated_phase_2_or_phase_3:
-  operation: keep
-  core_predicate: biolink:drug_regulatory_status_world_wide
-REPODB:clinically_tested_terminated_phase_3:
-  operation: keep
-  core_predicate: biolink:drug_regulatory_status_world_wide
-REPODB:clinically_tested_withdrawn_phase_0:
-  operation: keep
-  core_predicate: biolink:drug_regulatory_status_world_wide
-REPODB:clinically_tested_withdrawn_phase_1:
-  operation: keep
-  core_predicate: biolink:drug_regulatory_status_world_wide
-REPODB:clinically_tested_withdrawn_phase_1_or_phase_2:
-  operation: keep
-  core_predicate: biolink:drug_regulatory_status_world_wide
-REPODB:clinically_tested_withdrawn_phase_2:
-  operation: keep
-  core_predicate: biolink:drug_regulatory_status_world_wide
-REPODB:clinically_tested_withdrawn_phase_2_or_phase_3:
-  operation: keep
-  core_predicate: biolink:drug_regulatory_status_world_wide
-REPODB:clinically_tested_withdrawn_phase_3:
-  operation: keep
-  core_predicate: biolink:drug_regulatory_status_world_wide
 RO:0000052:
   operation: keep
   core_predicate: biolink:related_to

@@ -428,8 +428,6 @@ use_for_bidirectional_mapping:
   -
     REACT: "https://identifiers.org/reactome:"
   -
-    REPODB: http://apps.chiragjpgroup.org/repoDB/
-  -
     RGD: "https://identifiers.org/rgd:"
   -
     RHEA: "https://www.rhea-db.org/reaction?id="

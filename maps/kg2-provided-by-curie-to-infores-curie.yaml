@@ -134,10 +134,6 @@ OBO:uberon.owl:
   source_name: PathWhiz
   infores_curie: infores:pathwhiz
   knowledge_type: primary_knowledge_source
-'REPODB:':
-  source_name: Drug Repositioning Database
-  infores_curie: infores:repodb
-  knowledge_type: knowledge_source
 'RTX:':
   source_name: RTX KG2
   infores_curie: infores:rtx-kg2

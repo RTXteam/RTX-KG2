@@ -106,18 +106,6 @@ dgidb_conversion_log: ${BUILD_DIR}/${dgidb_conversion_base}${version_suffix}${te
 dgidb_output_nodes_file: ${BUILD_DIR}/${dgidb_output_base}${nodes_suffix}${test_suffix}.jsonl
 dgidb_output_edges_file: ${BUILD_DIR}/${dgidb_output_base}${edges_suffix}${test_suffix}.jsonl
 
-repodb_extraction_base: extract-repodb
-repodb_conversion_base: repodb_csv_to_kg_jsonl
-repodb_output_base: kg2-repodb
-repodb_extraction_script: ${EXTRACT_CODE_DIR}/${repodb_extraction_base}.sh
-repodb_extraction_log: ${BUILD_DIR}/${repodb_extraction_base}${version_suffix}${test_suffix}.log
-repodb_dir: ${BUILD_DIR}/repodb
-repodb_input_file: ${repodb_dir}/repodb.csv
-repodb_conversion_script: ${CONVERT_CODE_DIR}/${repodb_conversion_base}.py
-repodb_conversion_log: ${BUILD_DIR}/${repodb_conversion_base}${version_suffix}${test_suffix}.log
-repodb_output_nodes_file: ${BUILD_DIR}/${repodb_output_base}${nodes_suffix}${test_suffix}.jsonl
-repodb_output_edges_file: ${BUILD_DIR}/${repodb_output_base}${edges_suffix}${test_suffix}.jsonl
-
 drugbank_extraction_base: extract-drugbank
 drugbank_conversion_base: drugbank_xml_to_kg_jsonl
 drugbank_output_base: kg2-drugbank

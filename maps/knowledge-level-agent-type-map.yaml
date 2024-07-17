@@ -222,10 +222,6 @@ infores:reactome:
   agent_type: manual_agent
   knowledge_level: knowledge_assertion
   reference: https://en.wikipedia.org/wiki/Reactome
-infores:repodb:
-  agent_type: automated_agent
-  knowledge_level: knowledge_assertion
-  reference: https://www.nature.com/articles/sdata201729
 infores:ro:
   agent_type: manual_agent
   knowledge_level: knowledge_assertion
