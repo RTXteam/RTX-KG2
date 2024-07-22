@@ -1,0 +1,32 @@
+-
+  subject_name: Vaccines
+  subject_ids:
+    - UMLS:C0042210
+  predicate: biolink:causes
+  object_name: Autism
+  object_ids:
+    - UMLS:C0004352
+-
+  subject_name: Measles-Mumps-Rubella Vaccine
+  subject_ids:
+    - UMLS:C0065828
+  predicate: biolink:causes
+  object_name: Autism
+  object_ids:
+    - UMLS:C0004352
+-
+  subject_name: Mercury
+  subject_ids:
+    - UMLS:C0025424
+  predicate: biolink:causes
+  object_name: Autism
+  object_ids:
+    - UMLS:C0004352
+-
+  subject_name: Thimerosal
+  subject_ids:
+    - UMLS:C0039867
+  predicate: biolink:causes
+  object_name: Autism
+  object_ids:
+    - UMLS:C0004352
