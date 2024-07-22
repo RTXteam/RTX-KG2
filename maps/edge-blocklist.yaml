@@ -1,7 +1,10 @@
 -
   subject_name: Vaccines
   subject_ids:
+    - ATC:J07
+    - MESH:D014612
     - UMLS:C0042210
+    - VANDF:4021642
   predicate: biolink:causes
   object_name: Autism
   object_ids:
@@ -30,9 +33,13 @@
     - UMLS:C0004352
     - UMLS:C0856975
     - UMLS:C1510586
-    - UMLS:C1968924-
+    - UMLS:C1968924
+-
   subject_name: Measles-Mumps-Rubella Vaccine
   subject_ids:
+    - MESH:D022542
+    - NCIT:C96403
+    - PDQ:CDR0000702931
     - UMLS:C0065828
   predicate: biolink:causes
   object_name: Autism
@@ -62,10 +69,19 @@
     - UMLS:C0004352
     - UMLS:C0856975
     - UMLS:C1510586
-    - UMLS:C1968924-
+    - UMLS:C1968924
+-
   subject_name: Mercury
   subject_ids:
+    - CHEBI:16170
+    - CHEMBL.TARGET:CHEMBL2363061
+    - KEGG.COMPOUND:C01319
+    - MESH:D008628
+    - NCIT:C66842
+    - NCIT:C68270
+    - RXNORM:6769
     - UMLS:C0025424
+    - VANDF:4025953
   predicate: biolink:causes
   object_name: Autism
   object_ids:
@@ -94,10 +110,23 @@
     - UMLS:C0004352
     - UMLS:C0856975
     - UMLS:C1510586
-    - UMLS:C1968924-
+    - UMLS:C1968924
+-
   subject_name: Thimerosal
   subject_ids:
+    - ATC:D08AK06
+    - CHEBI:9546
+    - CHEMBL.COMPOUND:CHEMBL508338
+    - CHV:0000012180
+    - DRUGBANK:DB11590
+    - DrugCentral:4733
+    - KEGG.DRUG:D00864
+    - MESH:D013849
+    - NCIT:C47751
+    - NDDF:003125
+    - RXNORM:10472
     - UMLS:C0039867
+    - VANDF:4017480
   predicate: biolink:causes
   object_name: Autism
   object_ids:
