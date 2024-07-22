@@ -5,28 +5,125 @@
   predicate: biolink:causes
   object_name: Autism
   object_ids:
+    - CHV:0000001598
+    - CHV:0000050438
+    - DOID:0060041
+    - DOID:12849
+    - EFO:0003756
+    - EFO:0003758
+    - HP:0000717
+    - HP:0000729
+    - ICD9:299.0
+    - MESH:D000067877
+    - MESH:D001321
+    - MONDO:0005258
+    - MONDO:0005260
+    - NCIT:C88412
+    - NCIT:C97161
+    - OMIM:209850
+    - OMIM:MTHU004240
+    - OMIM:MTHU038054
+    - OMIM:MTHU043125
+    - OMIM:MTHU043132
+    - PSY:04850
+    - PSY:04855
     - UMLS:C0004352
--
+    - UMLS:C0856975
+    - UMLS:C1510586
+    - UMLS:C1968924-
   subject_name: Measles-Mumps-Rubella Vaccine
   subject_ids:
     - UMLS:C0065828
   predicate: biolink:causes
   object_name: Autism
   object_ids:
+    - CHV:0000001598
+    - CHV:0000050438
+    - DOID:0060041
+    - DOID:12849
+    - EFO:0003756
+    - EFO:0003758
+    - HP:0000717
+    - HP:0000729
+    - ICD9:299.0
+    - MESH:D000067877
+    - MESH:D001321
+    - MONDO:0005258
+    - MONDO:0005260
+    - NCIT:C88412
+    - NCIT:C97161
+    - OMIM:209850
+    - OMIM:MTHU004240
+    - OMIM:MTHU038054
+    - OMIM:MTHU043125
+    - OMIM:MTHU043132
+    - PSY:04850
+    - PSY:04855
     - UMLS:C0004352
--
+    - UMLS:C0856975
+    - UMLS:C1510586
+    - UMLS:C1968924-
   subject_name: Mercury
   subject_ids:
     - UMLS:C0025424
   predicate: biolink:causes
   object_name: Autism
   object_ids:
+    - CHV:0000001598
+    - CHV:0000050438
+    - DOID:0060041
+    - DOID:12849
+    - EFO:0003756
+    - EFO:0003758
+    - HP:0000717
+    - HP:0000729
+    - ICD9:299.0
+    - MESH:D000067877
+    - MESH:D001321
+    - MONDO:0005258
+    - MONDO:0005260
+    - NCIT:C88412
+    - NCIT:C97161
+    - OMIM:209850
+    - OMIM:MTHU004240
+    - OMIM:MTHU038054
+    - OMIM:MTHU043125
+    - OMIM:MTHU043132
+    - PSY:04850
+    - PSY:04855
     - UMLS:C0004352
--
+    - UMLS:C0856975
+    - UMLS:C1510586
+    - UMLS:C1968924-
   subject_name: Thimerosal
   subject_ids:
     - UMLS:C0039867
   predicate: biolink:causes
   object_name: Autism
   object_ids:
+    - CHV:0000001598
+    - CHV:0000050438
+    - DOID:0060041
+    - DOID:12849
+    - EFO:0003756
+    - EFO:0003758
+    - HP:0000717
+    - HP:0000729
+    - ICD9:299.0
+    - MESH:D000067877
+    - MESH:D001321
+    - MONDO:0005258
+    - MONDO:0005260
+    - NCIT:C88412
+    - NCIT:C97161
+    - OMIM:209850
+    - OMIM:MTHU004240
+    - OMIM:MTHU038054
+    - OMIM:MTHU043125
+    - OMIM:MTHU043132
+    - PSY:04850
+    - PSY:04855
     - UMLS:C0004352
+    - UMLS:C0856975
+    - UMLS:C1510586
+    - UMLS:C1968924
