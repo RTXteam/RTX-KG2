@@ -2,8 +2,12 @@ import json
 import argparse
 
 COMMENT = "!--"
+XML_TAG = "?xml"
+RDF_TAG = "rdf:RDF"
 
-LINE_TYPE_COMMENT = "comment"
+OUTMOST_TAGS_SKIP = [XML_TAG, RDF_TAG]
+
+LINE_TYPE_IGNORE = "ignore"
 LINE_TYPE_START_NEST = "start nest"
 LINE_TYPE_START_NEST_WITH_ATTR = "start nest with attributes"
 LINE_TYPE_ENTRY = "entry"
@@ -15,6 +19,8 @@ KEY_TAG = "tag"
 KEY_ATTRIBUTES = "attributes"
 KEY_TEXT = "text"
 KEY_TYPE = "type"
+
+IGNORED_ATTRIBUTES = ["xml:lang"]
 
 def get_args():
 	arg_parser = argparse.ArgumentParser()
@@ -73,7 +79,8 @@ def convert_line(line):
 			start_reading_attribute_tag = False
 			start_reading_attribute_text = False
 			start_reading_main = True
-			attributes[attribute_tag] = attribute_text.strip('/').strip('"')
+			if attribute_tag not in IGNORED_ATTRIBUTES:
+				attributes[attribute_tag] = attribute_text.strip('/').strip('"')
 			attribute_tag = ""
 			attribute_text = ""
 
@@ -91,7 +98,8 @@ def convert_line(line):
 			if letter == ' ' and start_reading_attribute_text:
 				start_reading_attribute_tag = True
 				start_reading_attribute_text = False
-				attributes[attribute_tag] = attribute_text.strip('/').strip('"')
+				if attribute_tag not in IGNORED_ATTRIBUTES:
+					attributes[attribute_tag] = attribute_text.strip('/').strip('"')
 				attribute_tag = ""
 				attribute_text = ""
 				continue
@@ -113,8 +121,8 @@ def convert_line(line):
 	# Categorize the type of line
 	line_type = str()
 	out = dict()
-	if tag == COMMENT:
-		line_type = "comment"
+	if tag == COMMENT or tag in OUTMOST_TAGS_SKIP:
+		line_type = LINE_TYPE_IGNORE
 	else:
 		start_tag_exists = (tag != str())
 		attributes_exist = (attributes != dict())
@@ -154,7 +162,8 @@ def convert_line(line):
 
 def divide_into_lines(input_file_name):
 	curr_str = ""
-	keys = set()
+	curr_nest = list()
+	curr_nest_tag = str()
 
 	with open(input_file_name) as input_file:
 		for line in input_file:
@@ -174,20 +183,28 @@ def divide_into_lines(input_file_name):
 					line_parsed = convert_line(curr_str)
 
 					tag = line_parsed.get(KEY_TAG, None)
+					line_type = line_parsed.get(KEY_TYPE, None)
 					attribute_keys = line_parsed.get(KEY_ATTRIBUTES, dict()).keys()
 
-					if tag is not None:
-						keys.add(tag)
-					for attribute_key in attribute_keys:
-						keys.add(attribute_key)
-					# print(json.dumps(convert_line(curr_str), indent=4))
+					if curr_nest_tag == str():
+						if line_type in [LINE_TYPE_START_NEST, LINE_TYPE_START_NEST_WITH_ATTR]:
+							curr_nest_tag = tag
+							curr_nest.append(line_parsed)
+						elif line_type != LINE_TYPE_IGNORE:
+							print(json.dumps(line_parsed, indent=4)) # replacement for processing right now
+					else:
+						if line_type == LINE_TYPE_END_NEST and curr_nest_tag == tag:
+							print(json.dumps(curr_nest, indent=4)) # replacement for processing right now
+							curr_nest = list()
+							curr_nest_tag = str()
+						else:
+							curr_nest.append(line_parsed)
+
 					curr_str = ""
 
 			if curr_str != "":
 				# divide lines by a space
 				curr_str += ' '
-
-	print(json.dumps(list(keys), indent=4))
 
 
 if __name__ == '__main__':
