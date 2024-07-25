@@ -160,6 +160,46 @@ def convert_line(line):
 	return out
 
 
+def convert_nest(nest, index, working_dict):
+	if index >= len(nest):
+		return working_dict
+
+	element = nest[index]
+	line_type = element[KEY_TYPE]
+	line_tag = element[KEY_TAG]
+	line_text = element.get(KEY_TEXT, None)
+	line_attributes = element.get(KEY_ATTRIBUTES, None)
+
+	if line_type in [LINE_TYPE_START_NEST, LINE_TYPE_START_NEST_WITH_ATTR]:
+		working_dict[line_tag] = dict()
+
+		converted_nest = convert_nest(nest, index + 1, dict())
+		working_dict[line_tag] = converted_nest
+
+		if line_type == LINE_TYPE_START_NEST_WITH_ATTR:
+			working_dict[line_tag][KEY_ATTRIBUTES] = line_attributes
+
+	if line_type in [LINE_TYPE_ENTRY, LINE_TYPE_ENTRY_WITH_ATTR, LINE_TYPE_ENTRY_ONLY_ATTR]:
+		if line_tag not in working_dict:
+			working_dict[line_tag] = list()
+
+		curr_dict = dict()
+
+		if line_text is not None:
+			curr_dict[KEY_TEXT] = line_text
+
+		if line_attributes is not None:
+			for attribute in line_attributes:
+				curr_dict[attribute] = line_attributes[attribute]
+
+		working_dict[line_tag].append(curr_dict)
+
+		convert_nest(nest, index + 1, working_dict)
+
+	return working_dict
+
+
+
 def divide_into_lines(input_file_name):
 	curr_str = ""
 	curr_nest = list()
@@ -191,10 +231,13 @@ def divide_into_lines(input_file_name):
 							curr_nest_tag = tag
 							curr_nest.append(line_parsed)
 						elif line_type != LINE_TYPE_IGNORE:
+							print("THIS VERSION")
 							print(json.dumps(line_parsed, indent=4)) # replacement for processing right now
 					else:
 						if line_type == LINE_TYPE_END_NEST and curr_nest_tag == tag:
 							print(json.dumps(curr_nest, indent=4)) # replacement for processing right now
+							nest_dict = convert_nest(curr_nest, 0, dict())
+							print(json.dumps(nest_dict, indent=4))
 							curr_nest = list()
 							curr_nest_tag = str()
 						else:
