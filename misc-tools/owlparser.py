@@ -17,7 +17,7 @@ LINE_TYPE_END_NEST = "end nest"
 
 KEY_TAG = "tag"
 KEY_ATTRIBUTES = "attributes"
-KEY_TEXT = "text"
+KEY_TEXT = "ENTRY_TEXT"
 KEY_TYPE = "type"
 
 IGNORED_ATTRIBUTES = ["xml:lang"]
@@ -121,7 +121,8 @@ def convert_line(line):
 	# Categorize the type of line
 	line_type = str()
 	out = dict()
-	if tag == COMMENT or tag in OUTMOST_TAGS_SKIP:
+
+	if tag == COMMENT or tag in OUTMOST_TAGS_SKIP or end_tag in OUTMOST_TAGS_SKIP:
 		line_type = LINE_TYPE_IGNORE
 	else:
 		start_tag_exists = (tag != str())
@@ -160,50 +161,60 @@ def convert_line(line):
 	return out
 
 
-def convert_nest(nest, index, working_dict):
-	if index >= len(nest):
-		return working_dict
+def convert_nest(nest, start_index):
+	nest_dict = dict()
+	curr_index = start_index
 
-	element = nest[index]
-	line_type = element[KEY_TYPE]
-	line_tag = element[KEY_TAG]
-	line_text = element.get(KEY_TEXT, None)
-	line_attributes = element.get(KEY_ATTRIBUTES, None)
+	while curr_index < len(nest):
+		element = nest[curr_index]
+		line_type = element[KEY_TYPE]
+		line_tag = element[KEY_TAG]
+		line_text = element.get(KEY_TEXT, None)
+		line_attributes = element.get(KEY_ATTRIBUTES, None)
 
-	if line_type in [LINE_TYPE_START_NEST, LINE_TYPE_START_NEST_WITH_ATTR]:
-		working_dict[line_tag] = dict()
+		if line_type in [LINE_TYPE_START_NEST, LINE_TYPE_START_NEST_WITH_ATTR]:
+			if line_tag not in nest_dict:
+				nest_dict[line_tag] = list()
 
-		converted_nest = convert_nest(nest, index + 1, dict())
-		working_dict[line_tag] = converted_nest
+			converted_nest, ret_index = convert_nest(nest, curr_index + 1)
 
-		if line_type == LINE_TYPE_START_NEST_WITH_ATTR:
-			working_dict[line_tag][KEY_ATTRIBUTES] = line_attributes
+			if line_attributes is not None:
+				for attribute in line_attributes:
+					converted_nest[attribute] = line_attributes[attribute]
 
-	if line_type in [LINE_TYPE_ENTRY, LINE_TYPE_ENTRY_WITH_ATTR, LINE_TYPE_ENTRY_ONLY_ATTR]:
-		if line_tag not in working_dict:
-			working_dict[line_tag] = list()
+			nest_dict[line_tag].append(converted_nest)
 
-		curr_dict = dict()
+			curr_index = ret_index + 1
+			continue
 
-		if line_text is not None:
-			curr_dict[KEY_TEXT] = line_text
+		if line_type in [LINE_TYPE_ENTRY, LINE_TYPE_ENTRY_WITH_ATTR, LINE_TYPE_ENTRY_ONLY_ATTR]:
+			if line_tag not in nest_dict:
+				nest_dict[line_tag] = list()
 
-		if line_attributes is not None:
-			for attribute in line_attributes:
-				curr_dict[attribute] = line_attributes[attribute]
+			curr_dict = dict()
 
-		working_dict[line_tag].append(curr_dict)
+			if line_text is not None:
+				curr_dict[KEY_TEXT] = line_text
 
-		convert_nest(nest, index + 1, working_dict)
+			if line_attributes is not None:
+				for attribute in line_attributes:
+					curr_dict[attribute] = line_attributes[attribute]
 
-	return working_dict
+			nest_dict[line_tag].append(curr_dict)
 
+			curr_index += 1
+			continue
+
+		if line_type in [LINE_TYPE_END_NEST]:
+			return nest_dict, curr_index
+
+	return nest_dict, curr_index
 
 
 def divide_into_lines(input_file_name):
 	curr_str = ""
 	curr_nest = list()
-	curr_nest_tag = str()
+	curr_nest_tags = list() # Treating it as a stack
 
 	with open(input_file_name) as input_file:
 		for line in input_file:
@@ -219,29 +230,26 @@ def divide_into_lines(input_file_name):
 
 				if letter == '>' and (next_letter == '<' or next_letter == ""):
 					# Only return if nesting
-					# print(curr_str)
 					line_parsed = convert_line(curr_str)
 
 					tag = line_parsed.get(KEY_TAG, None)
+					assert tag != KEY_TEXT # This could cause a massive conflict, but it is unlikely
 					line_type = line_parsed.get(KEY_TYPE, None)
 					attribute_keys = line_parsed.get(KEY_ATTRIBUTES, dict()).keys()
 
-					if curr_nest_tag == str():
-						if line_type in [LINE_TYPE_START_NEST, LINE_TYPE_START_NEST_WITH_ATTR]:
-							curr_nest_tag = tag
-							curr_nest.append(line_parsed)
-						elif line_type != LINE_TYPE_IGNORE:
-							print("THIS VERSION")
-							print(json.dumps(line_parsed, indent=4)) # replacement for processing right now
-					else:
-						if line_type == LINE_TYPE_END_NEST and curr_nest_tag == tag:
-							print(json.dumps(curr_nest, indent=4)) # replacement for processing right now
-							nest_dict = convert_nest(curr_nest, 0, dict())
+					if line_type != LINE_TYPE_IGNORE:
+						curr_nest.append(line_parsed)
+
+					if line_type in [LINE_TYPE_START_NEST, LINE_TYPE_START_NEST_WITH_ATTR]:
+						curr_nest_tags.append(tag)
+					elif line_type == LINE_TYPE_END_NEST:
+						popped_curr_nest_tag = curr_nest_tags.pop()
+						assert popped_curr_nest_tag == tag
+						if len(curr_nest_tags) == 0:
+							nest_dict, _ = convert_nest(curr_nest, 0)
 							print(json.dumps(nest_dict, indent=4))
 							curr_nest = list()
 							curr_nest_tag = str()
-						else:
-							curr_nest.append(line_parsed)
 
 					curr_str = ""
 
