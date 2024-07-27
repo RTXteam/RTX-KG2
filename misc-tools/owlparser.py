@@ -1,5 +1,6 @@
 import json
 import argparse
+import datetime
 
 COMMENT = "!--"
 XML_TAG = "?xml"
@@ -28,6 +29,9 @@ def get_args():
 							action="store_true", default=False)
 	arg_parser.add_argument('inputFile', type=str)
 	return arg_parser.parse_args()
+
+def date():
+	return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 def convert_line(line):
 	tag = ""
@@ -240,16 +244,20 @@ def divide_into_lines(input_file_name):
 					if line_type != LINE_TYPE_IGNORE:
 						curr_nest.append(line_parsed)
 
+					output_nest = (line_type in [LINE_TYPE_ENTRY, LINE_TYPE_ENTRY_WITH_ATTR, LINE_TYPE_ENTRY_ONLY_ATTR] and len(curr_nest_tags) == 0)
+
 					if line_type in [LINE_TYPE_START_NEST, LINE_TYPE_START_NEST_WITH_ATTR]:
 						curr_nest_tags.append(tag)
 					elif line_type == LINE_TYPE_END_NEST:
 						popped_curr_nest_tag = curr_nest_tags.pop()
 						assert popped_curr_nest_tag == tag
 						if len(curr_nest_tags) == 0:
-							nest_dict, _ = convert_nest(curr_nest, 0)
-							print(json.dumps(nest_dict, indent=4))
-							curr_nest = list()
-							curr_nest_tag = str()
+							output_nest = True
+					if output_nest: 
+						nest_dict, _ = convert_nest(curr_nest, 0)
+						print(json.dumps(nest_dict, indent=4))
+						curr_nest = list()
+						curr_nest_tag = str()
 
 					curr_str = ""
 
@@ -262,4 +270,7 @@ if __name__ == '__main__':
 	args = get_args()
 	input_file_name = args.inputFile
 
+	print("File:", input_file_name)
+	print("Start Time:", date())
 	divide_into_lines(input_file_name)
+	print("End Time:", date())
