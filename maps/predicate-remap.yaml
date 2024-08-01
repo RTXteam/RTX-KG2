@@ -4236,10 +4236,10 @@ SEMMEDDB:affects:
   core_predicate: biolink:affects
 SEMMEDDB:ASSOCIATED_WITH:
   operation: keep
-  core_predicate: biolink:associated_with
+  core_predicate: biolink:related_to
 SEMMEDDB:associated_with:
   operation: keep
-  core_predicate: biolink:associated_with
+  core_predicate: biolink:related_to
 SEMMEDDB:AUGMENTS:
   operation: keep
   core_predicate: biolink:affects
