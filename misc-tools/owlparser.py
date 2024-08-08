@@ -5,8 +5,9 @@ import datetime
 COMMENT = "!--"
 XML_TAG = "?xml"
 RDF_TAG = "rdf:RDF"
+DOCTYPE_TAG = "!DOCTYPE"
 
-OUTMOST_TAGS_SKIP = [XML_TAG, RDF_TAG]
+OUTMOST_TAGS_SKIP = [XML_TAG, RDF_TAG, DOCTYPE_TAG]
 
 LINE_TYPE_IGNORE = "ignore"
 LINE_TYPE_START_NEST = "start nest"
@@ -48,6 +49,8 @@ def convert_line(line):
 	start_reading_main = False
 	start_reading_end_tag = False
 
+	start_brackets = 0
+
 	for letter_index in range(len(line)):
 		letter = line[letter_index]
 		next_letter = ""
@@ -56,6 +59,11 @@ def convert_line(line):
 			next_letter = line[letter_index + 1]
 		if letter_index - 1 >= 0:
 			prev_letter = line[letter_index - 1]
+
+		if letter == '<':
+			start_brackets += 1
+		if letter == '>':
+			start_brackets -= 1
 
 		# First <
 		if letter == '<' and letter_index == 0:
@@ -71,14 +79,14 @@ def convert_line(line):
 			start_reading_attributes = True
 			start_reading_attribute_tag = True
 			continue
-		elif letter == '>' and start_reading_tag:
+		elif letter == '>' and start_reading_tag and start_brackets == 0:
 			start_reading_tag = False
 			start_reading_main = True
 			continue
 		elif start_reading_tag:
 			tag += letter
 
-		if letter == '>' and start_reading_attributes:
+		if letter == '>' and start_reading_attributes and start_brackets == 0:
 			start_reading_attributes = False
 			start_reading_attribute_tag = False
 			start_reading_attribute_text = False
@@ -117,7 +125,7 @@ def convert_line(line):
 		elif start_reading_main:
 			main_text += letter
 
-		if letter == '>' and start_reading_end_tag:
+		if letter == '>' and start_reading_end_tag and start_brackets == 0:
 			continue
 		elif start_reading_end_tag:
 			end_tag += letter
@@ -219,6 +227,7 @@ def divide_into_lines(input_file_name):
 	curr_str = ""
 	curr_nest = list()
 	curr_nest_tags = list() # Treating it as a stack
+	start_brackets = 0
 
 	with open(input_file_name) as input_file:
 		for line in input_file:
@@ -226,13 +235,18 @@ def divide_into_lines(input_file_name):
 
 			for letter_index in range(len(line_str)):
 				letter = line_str[letter_index]
+				if letter == '<':
+					start_brackets += 1
+				if letter == '>':
+					start_brackets -= 1
+
 				next_letter = ""
 				if letter_index + 1 < len(line_str):
 					next_letter = line_str[letter_index + 1]
 
 				curr_str += letter
 
-				if letter == '>' and (next_letter == '<' or next_letter == ""):
+				if letter == '>' and (next_letter == '<' or next_letter == "") and start_brackets == 0:
 					# Only return if nesting
 					line_parsed = convert_line(curr_str)
 
@@ -264,6 +278,7 @@ def divide_into_lines(input_file_name):
 			if curr_str != "":
 				# divide lines by a space
 				curr_str += ' '
+	# print(json.dumps(curr_nest, indent=4))
 
 
 if __name__ == '__main__':
