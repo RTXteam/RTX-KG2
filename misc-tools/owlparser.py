@@ -6,6 +6,10 @@ COMMENT = "!--"
 XML_TAG = "?xml"
 RDF_TAG = "rdf:RDF"
 DOCTYPE_TAG = "!DOCTYPE"
+CLASS_TAG = "owl:Class"
+SUBCLASS_TAG = "rdfs:subClassOf"
+NODEID_TAG = "rdf:nodeID"
+GENID_PREFIX = "genid"
 
 OUTMOST_TAGS_SKIP = [XML_TAG, RDF_TAG, DOCTYPE_TAG]
 
@@ -23,6 +27,11 @@ KEY_TEXT = "ENTRY_TEXT"
 KEY_TYPE = "type"
 
 IGNORED_ATTRIBUTES = ["xml:lang"]
+
+OUTPUT_NESTS = []
+GENID_REMAINING_NESTS = dict()
+GENID_TO_ID = dict()
+ID_TO_GENIDS = dict()
 
 def get_args():
 	arg_parser = argparse.ArgumentParser()
@@ -223,6 +232,22 @@ def convert_nest(nest, start_index):
 	return nest_dict, curr_index
 
 
+def check_for_genids(nest_dict):
+	CLASS_TAG = "owl:Class"
+	SUBCLASS_TAG = "rdfs:subClassOf"
+	NODEID_TAG = "rdf:nodeID"
+	GENID_PREFIX = "genid"
+
+	genids = list()
+
+	for nest_class in nest_dict.get(CLASS_TAG, dict()):
+		for nest_subclass in nest_class.get(SUBCLASS_TAG, dict()):
+			potential_genid = nest_subclass.get(NODEID_TAG, str())
+			if potential_genid.startswith(GENID_PREFIX):
+				genids.append(potential_genid)
+
+	return genids
+
 def divide_into_lines(input_file_name):
 	curr_str = ""
 	curr_nest = list()
@@ -269,6 +294,9 @@ def divide_into_lines(input_file_name):
 							output_nest = True
 					if output_nest: 
 						nest_dict, _ = convert_nest(curr_nest, 0)
+						genids = check_for_genids(nest_dict)
+						if len(genids) > 0:
+							nest_dict['genids'] = genids
 						print(json.dumps(nest_dict, indent=4))
 						curr_nest = list()
 						curr_nest_tag = str()
@@ -278,8 +306,6 @@ def divide_into_lines(input_file_name):
 			if curr_str != "":
 				# divide lines by a space
 				curr_str += ' '
-	# print(json.dumps(curr_nest, indent=4))
-
 
 if __name__ == '__main__':
 	args = get_args()
