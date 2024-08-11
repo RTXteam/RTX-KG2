@@ -7,8 +7,10 @@ XML_TAG = "?xml"
 RDF_TAG = "rdf:RDF"
 DOCTYPE_TAG = "!DOCTYPE"
 CLASS_TAG = "owl:Class"
+RESTRICTION_TAG = "owl:Restriction"
 SUBCLASS_TAG = "rdfs:subClassOf"
 NODEID_TAG = "rdf:nodeID"
+RDF_ABOUT_TAG = "rdf:about"
 GENID_PREFIX = "genid"
 
 OUTMOST_TAGS_SKIP = [XML_TAG, RDF_TAG, DOCTYPE_TAG]
@@ -43,107 +45,21 @@ def get_args():
 def date():
 	return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-def convert_line(line):
-	tag = ""
-	attributes = dict()
-	attribute_tag = ""
-	attribute_text = ""
-	main_text = ""
-	end_tag = ""
+class LineElementRead():
+	TAG = 1
+	ATTRIBUTE_TAG = 2
+	ATTRIBUTE_TEXT = 3
+	MAIN = 4
+	END_TAG = 5
 
-	start_reading_tag = False
-	start_reading_attributes = False
-	start_reading_attribute_tag = False
-	start_reading_attribute_text = False
-	start_reading_main = False
-	start_reading_end_tag = False
 
-	start_brackets = 0
-
-	for letter_index in range(len(line)):
-		letter = line[letter_index]
-		next_letter = ""
-		prev_letter = ""
-		if letter_index + 1 < len(line):
-			next_letter = line[letter_index + 1]
-		if letter_index - 1 >= 0:
-			prev_letter = line[letter_index - 1]
-
-		if letter == '<':
-			start_brackets += 1
-		if letter == '>':
-			start_brackets -= 1
-
-		# First <
-		if letter == '<' and letter_index == 0:
-			if next_letter != '/':
-				start_reading_tag = True
-			continue
-		if letter == '/' and prev_letter == '<':
-			start_reading_end_tag = True
-			continue
-
-		if letter == ' ' and start_reading_tag:
-			start_reading_tag = False
-			start_reading_attributes = True
-			start_reading_attribute_tag = True
-			continue
-		elif letter == '>' and start_reading_tag and start_brackets == 0:
-			start_reading_tag = False
-			start_reading_main = True
-			continue
-		elif start_reading_tag:
-			tag += letter
-
-		if letter == '>' and start_reading_attributes and start_brackets == 0:
-			start_reading_attributes = False
-			start_reading_attribute_tag = False
-			start_reading_attribute_text = False
-			start_reading_main = True
-			if attribute_tag not in IGNORED_ATTRIBUTES:
-				attributes[attribute_tag] = attribute_text.strip('/').strip('"')
-			attribute_tag = ""
-			attribute_text = ""
-
-			if prev_letter == '/':
-				end_tag = tag
-			continue
-		elif start_reading_attributes:
-			if letter == '=' and start_reading_attribute_tag:
-				start_reading_attribute_text = True
-				start_reading_attribute_tag = False
-				continue
-			elif start_reading_attribute_tag:
-				attribute_tag += letter
-
-			if letter == ' ' and start_reading_attribute_text:
-				start_reading_attribute_tag = True
-				start_reading_attribute_text = False
-				if attribute_tag not in IGNORED_ATTRIBUTES:
-					attributes[attribute_tag] = attribute_text.strip('/').strip('"')
-				attribute_tag = ""
-				attribute_text = ""
-				continue
-			elif start_reading_attribute_text:
-				attribute_text += letter
-
-		if letter == '<' and start_reading_main:
-			start_reading_main = False
-			start_reading_end_tag = True
-			continue
-		elif start_reading_main:
-			main_text += letter
-
-		if letter == '>' and start_reading_end_tag and start_brackets == 0:
-			continue
-		elif start_reading_end_tag:
-			end_tag += letter
-
+def categorize_line(tag, attributes, main_text, end_tag, only_tag):
 	# Categorize the type of line
 	line_type = str()
 	out = dict()
 
-	if tag == COMMENT or tag in OUTMOST_TAGS_SKIP or end_tag in OUTMOST_TAGS_SKIP:
+	# Putting "only_tag" here isn't necessarily the best idea, but I don't know what else to do with it
+	if tag == COMMENT or tag in OUTMOST_TAGS_SKIP or end_tag in OUTMOST_TAGS_SKIP or only_tag:
 		line_type = LINE_TYPE_IGNORE
 	else:
 		start_tag_exists = (tag != str())
@@ -180,6 +96,143 @@ def convert_line(line):
 	out[KEY_TYPE] = line_type
 
 	return out
+
+def get_letters(line, letter_index, start_brackets):
+	letter = line[letter_index]
+	next_letter = ""
+	prev_letter = ""
+	if letter_index + 1 < len(line):
+		next_letter = line[letter_index + 1]
+	if letter_index - 1 >= 0:
+		prev_letter = line[letter_index - 1]
+
+	if letter == '<':
+		start_brackets += 1
+	if letter == '>':
+		start_brackets -= 1
+
+	return letter, next_letter, prev_letter, start_brackets
+
+
+def identify_tag_type(letter_index, letter, next_letter, prev_letter, type_to_read):
+	changed = False
+
+	if letter == '<' and letter_index == 0:
+		if next_letter != '/':
+			type_to_read = LineElementRead.TAG
+		changed = True
+	if letter == '/' and prev_letter == '<':
+		type_to_read = LineElementRead.END_TAG
+		changed = True
+
+	return changed, type_to_read
+
+
+def read_tag(letter, prev_letter, type_to_read, start_brackets, tag, line):
+	only_tag = False
+	changed = False
+
+	if letter == ' ' and type_to_read == LineElementRead.TAG:
+		type_to_read = LineElementRead.ATTRIBUTE_TAG
+		changed = True
+	elif letter == '>' and type_to_read == LineElementRead.TAG and start_brackets == 0:
+		type_to_read = LineElementRead.MAIN
+
+		if prev_letter == '/':
+			print("Warning - strange tag, ignoring", line)
+			only_tag = True
+		changed = True
+	elif type_to_read == LineElementRead.TAG:
+		tag += letter
+		changed = True
+
+	return changed, type_to_read, (only_tag, tag)
+
+
+def store_attribute(attributes, attribute_tag, attribute_text):
+	if attribute_tag not in IGNORED_ATTRIBUTES:
+		attributes[attribute_tag] = attribute_text.strip('/').strip('"')
+	attribute_tag = ""
+	attribute_text = ""
+
+	return attributes, attribute_tag, attribute_text
+
+
+def process_attributes(letter, prev_letter, type_to_read, start_brackets, attributes, attribute_tag, attribute_text, tag, end_tag):
+	changed = False
+	start_reading_attributes = (type_to_read == LineElementRead.ATTRIBUTE_TAG or type_to_read == LineElementRead.ATTRIBUTE_TEXT)
+
+	if letter == '>' and start_reading_attributes and start_brackets == 0:
+		type_to_read = LineElementRead.MAIN
+		attributes, attribute_tag, attribute_text = store_attribute(attributes, attribute_tag, attribute_text)
+
+		if prev_letter == '/':
+			end_tag = tag
+		changed = True
+	elif start_reading_attributes:
+		if letter == '=' and type_to_read == LineElementRead.ATTRIBUTE_TAG:
+			type_to_read = LineElementRead.ATTRIBUTE_TEXT
+			changed = True
+		elif type_to_read == LineElementRead.ATTRIBUTE_TAG:
+			attribute_tag += letter
+			changed = True
+
+		elif letter == ' ' and type_to_read == LineElementRead.ATTRIBUTE_TEXT:
+			type_to_read = LineElementRead.ATTRIBUTE_TAG
+			attributes, attribute_tag, attribute_text = store_attribute(attributes, attribute_tag, attribute_text)
+			changed = True
+		elif type_to_read == LineElementRead.ATTRIBUTE_TEXT:
+			attribute_text += letter
+			changed = True
+
+	return changed, type_to_read, (attributes, attribute_tag, attribute_text, end_tag)
+
+
+
+def convert_line(line):
+	tag = ""
+	attributes = dict()
+	attribute_tag = ""
+	attribute_text = ""
+	main_text = ""
+	end_tag = ""
+
+	type_to_read = 0
+
+	only_tag = False
+
+	start_brackets = 0
+
+	for letter_index in range(len(line)):
+		letter, next_letter, prev_letter, start_brackets = get_letters(line, letter_index, start_brackets)
+
+		# First <
+		tag_identified, type_to_read = identify_tag_type(letter_index, letter, next_letter, prev_letter, type_to_read)
+		if tag_identified:
+			continue
+
+		tag_read, type_to_read, tag_read_data = read_tag(letter, prev_letter, type_to_read, start_brackets, tag, line)
+		if tag_read:
+			(only_tag, tag) = tag_read_data
+			continue
+
+		attributes_read, type_to_read, attributes_read_data = process_attributes(letter, prev_letter, type_to_read, start_brackets, attributes, attribute_tag, attribute_text, tag, end_tag)
+		if attributes_read:
+			(attributes, attribute_tag, attribute_text, end_tag) = attributes_read_data
+			continue
+
+		if letter == '<' and type_to_read == LineElementRead.MAIN:
+			type_to_read = LineElementRead.END_TAG
+			continue
+		elif type_to_read == LineElementRead.MAIN:
+			main_text += letter
+
+		if letter == '>' and type_to_read == LineElementRead.END_TAG and start_brackets == 0:
+			continue
+		elif type_to_read == LineElementRead.END_TAG:
+			end_tag += letter
+
+	return categorize_line(tag, attributes, main_text, end_tag, only_tag)
 
 
 def convert_nest(nest, start_index):
@@ -232,21 +285,82 @@ def convert_nest(nest, start_index):
 	return nest_dict, curr_index
 
 
-def check_for_genids(nest_dict):
-	CLASS_TAG = "owl:Class"
-	SUBCLASS_TAG = "rdfs:subClassOf"
-	NODEID_TAG = "rdf:nodeID"
-	GENID_PREFIX = "genid"
-
+def check_for_class_genids(nest_dict):
 	genids = list()
 
-	for nest_class in nest_dict.get(CLASS_TAG, dict()):
-		for nest_subclass in nest_class.get(SUBCLASS_TAG, dict()):
+	nest_dict_classes = nest_dict.get(CLASS_TAG, list())
+	for nest_class_index in range(len(nest_dict_classes)):
+		nest_class = nest_dict_classes[nest_class_index]
+		nest_subclasses = nest_class.get(SUBCLASS_TAG, list())
+		for nest_subclass_index in range(len(nest_subclasses)):
+			nest_subclass = nest_subclasses[nest_subclass_index]
 			potential_genid = nest_subclass.get(NODEID_TAG, str())
 			if potential_genid.startswith(GENID_PREFIX):
 				genids.append(potential_genid)
 
 	return genids
+
+
+def check_for_restriction_genids(nest_dict):
+	for nest_restriction in nest_dict.get(RESTRICTION_TAG, dict()):
+		potential_genid = nest_restriction.get(NODEID_TAG, str())
+		if potential_genid.startswith(GENID_PREFIX):
+				return potential_genid
+	return None
+
+def extract_class_id(nest_dict):
+	nest_dict_classes = nest_dict.get(CLASS_TAG, list())
+	# Can't have competing class_ids
+	assert len(nest_dict_classes) <= 1
+
+	for nest_class_index in range(len(nest_dict_classes)):
+		nest_class = nest_dict_classes[nest_class_index]
+		return nest_class.get(RDF_ABOUT_TAG, str())
+
+def store_genid_nest_in_class_nest(genid, genid_nest, class_nest):
+	output_class_nest = class_nest
+	
+	nest_dict_classes = class_nest.get(CLASS_TAG, list())
+	for nest_class_index in range(len(nest_dict_classes)):
+		nest_class = nest_dict_classes[nest_class_index]
+		nest_subclasses = nest_class.get(SUBCLASS_TAG, list())
+		for nest_subclass_index in range(len(nest_subclasses)):
+			nest_subclass = nest_subclasses[nest_subclass_index]
+			potential_genid = nest_subclass.get(NODEID_TAG, str())
+			if potential_genid == genid:
+				output_class_nest[CLASS_TAG][nest_class_index][SUBCLASS_TAG][nest_subclass_index][RESTRICTION_TAG] = genid_nest[RESTRICTION_TAG]
+
+	return output_class_nest
+
+
+def triage_nest_dict(nest_dict):
+	genids = check_for_class_genids(nest_dict)
+	restriction_genid = check_for_restriction_genids(nest_dict)
+	class_id = extract_class_id(nest_dict)
+
+	if len(genids) > 0:
+		for genid in genids:
+			GENID_TO_ID[genid] = class_id
+		ID_TO_GENIDS[class_id] = genids
+		GENID_REMAINING_NESTS[class_id] = nest_dict
+	elif restriction_genid is not None:
+		class_id = GENID_TO_ID.get(restriction_genid, str())
+		if len(class_id) == 0:
+			print("WARNING WITH:", restriction_genid, "- NO CLASS_ID FOUND")
+			OUTPUT_NESTS.append(nest_dict)
+			return
+		class_nest = GENID_REMAINING_NESTS[class_id]
+		ID_TO_GENIDS[class_id].remove(restriction_genid)
+		updated_class_nest = store_genid_nest_in_class_nest(restriction_genid, nest_dict, class_nest)
+
+		if len(ID_TO_GENIDS[class_id]) > 0:
+			GENID_REMAINING_NESTS[class_id] = updated_class_nest
+		else:
+			OUTPUT_NESTS.append(updated_class_nest)
+			GENID_REMAINING_NESTS[class_id] = None
+	else:
+		OUTPUT_NESTS.append(nest_dict)
+
 
 def divide_into_lines(input_file_name):
 	curr_str = ""
@@ -289,15 +403,18 @@ def divide_into_lines(input_file_name):
 						curr_nest_tags.append(tag)
 					elif line_type == LINE_TYPE_END_NEST:
 						popped_curr_nest_tag = curr_nest_tags.pop()
-						assert popped_curr_nest_tag == tag
+						assert popped_curr_nest_tag == tag, curr_nest
 						if len(curr_nest_tags) == 0:
 							output_nest = True
 					if output_nest: 
 						nest_dict, _ = convert_nest(curr_nest, 0)
-						genids = check_for_genids(nest_dict)
-						if len(genids) > 0:
-							nest_dict['genids'] = genids
-						print(json.dumps(nest_dict, indent=4))
+						# genids = check_for_class_genids(nest_dict)
+						triage_nest_dict(nest_dict)
+						# restriction_genid = check_for_restriction_genids(nest_dict)
+
+						# if len(genids) > 0:
+						# 	nest_dict['genids'] = genids
+						# print(json.dumps(nest_dict, indent=4))
 						curr_nest = list()
 						curr_nest_tag = str()
 
@@ -306,6 +423,16 @@ def divide_into_lines(input_file_name):
 			if curr_str != "":
 				# divide lines by a space
 				curr_str += ' '
+
+	print(json.dumps(OUTPUT_NESTS, indent=4))
+
+	print("=========")
+
+	print("Remaining:")
+	for item in GENID_REMAINING_NESTS:
+		if GENID_REMAINING_NESTS[item] != None:
+			print(item)
+			print(json.dumps(GENID_REMAINING_NESTS[item], indent=4))
 
 if __name__ == '__main__':
 	args = get_args()
