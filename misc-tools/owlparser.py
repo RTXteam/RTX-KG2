@@ -115,36 +115,35 @@ def get_letters(line, letter_index, start_brackets):
 
 
 def identify_tag_type(letter_index, letter, next_letter, prev_letter, type_to_read):
-	changed = False
+	changed = True
 
 	if letter == '<' and letter_index == 0:
 		if next_letter != '/':
 			type_to_read = LineElementRead.TAG
-		changed = True
-	if letter == '/' and prev_letter == '<':
+	elif letter == '/' and prev_letter == '<':
 		type_to_read = LineElementRead.END_TAG
-		changed = True
+	else:
+		changed = False
 
 	return changed, type_to_read
 
 
 def read_tag(letter, prev_letter, type_to_read, start_brackets, tag, line):
 	only_tag = False
-	changed = False
+	changed = True
 
 	if letter == ' ' and type_to_read == LineElementRead.TAG:
 		type_to_read = LineElementRead.ATTRIBUTE_TAG
-		changed = True
 	elif letter == '>' and type_to_read == LineElementRead.TAG and start_brackets == 0:
 		type_to_read = LineElementRead.MAIN
 
 		if prev_letter == '/':
 			print("Warning - strange tag, ignoring", line)
 			only_tag = True
-		changed = True
 	elif type_to_read == LineElementRead.TAG:
 		tag += letter
-		changed = True
+	else:
+		changed = False
 
 	return changed, type_to_read, (only_tag, tag)
 
@@ -158,8 +157,8 @@ def store_attribute(attributes, attribute_tag, attribute_text):
 	return attributes, attribute_tag, attribute_text
 
 
-def process_attributes(letter, prev_letter, type_to_read, start_brackets, attributes, attribute_tag, attribute_text, tag, end_tag):
-	changed = False
+def read_attributes(letter, prev_letter, type_to_read, start_brackets, attributes, attribute_tag, attribute_text, tag, end_tag):
+	changed = True
 	start_reading_attributes = (type_to_read == LineElementRead.ATTRIBUTE_TAG or type_to_read == LineElementRead.ATTRIBUTE_TEXT)
 
 	if letter == '>' and start_reading_attributes and start_brackets == 0:
@@ -168,25 +167,44 @@ def process_attributes(letter, prev_letter, type_to_read, start_brackets, attrib
 
 		if prev_letter == '/':
 			end_tag = tag
-		changed = True
 	elif start_reading_attributes:
 		if letter == '=' and type_to_read == LineElementRead.ATTRIBUTE_TAG:
 			type_to_read = LineElementRead.ATTRIBUTE_TEXT
-			changed = True
 		elif type_to_read == LineElementRead.ATTRIBUTE_TAG:
 			attribute_tag += letter
-			changed = True
-
 		elif letter == ' ' and type_to_read == LineElementRead.ATTRIBUTE_TEXT:
 			type_to_read = LineElementRead.ATTRIBUTE_TAG
 			attributes, attribute_tag, attribute_text = store_attribute(attributes, attribute_tag, attribute_text)
-			changed = True
 		elif type_to_read == LineElementRead.ATTRIBUTE_TEXT:
 			attribute_text += letter
-			changed = True
+	else:
+		changed = False
 
 	return changed, type_to_read, (attributes, attribute_tag, attribute_text, end_tag)
 
+
+def read_main(letter, type_to_read, main_text):
+	changed = True
+	if letter == '<' and type_to_read == LineElementRead.MAIN:
+		type_to_read = LineElementRead.END_TAG
+	elif type_to_read == LineElementRead.MAIN:
+		main_text += letter
+	else:
+		changed = False
+
+	return changed, type_to_read, (main_text)
+
+
+def read_end_tag(letter, type_to_read, start_brackets, end_tag):
+	changed = True
+	if letter == '>' and type_to_read == LineElementRead.END_TAG and start_brackets == 0:
+		pass
+	elif type_to_read == LineElementRead.END_TAG:
+		end_tag += letter
+	else:
+		changed = False
+
+	return changed, type_to_read, (end_tag)
 
 
 def convert_line(line):
@@ -216,21 +234,20 @@ def convert_line(line):
 			(only_tag, tag) = tag_read_data
 			continue
 
-		attributes_read, type_to_read, attributes_read_data = process_attributes(letter, prev_letter, type_to_read, start_brackets, attributes, attribute_tag, attribute_text, tag, end_tag)
+		attributes_read, type_to_read, attributes_read_data = read_attributes(letter, prev_letter, type_to_read, start_brackets, attributes, attribute_tag, attribute_text, tag, end_tag)
 		if attributes_read:
 			(attributes, attribute_tag, attribute_text, end_tag) = attributes_read_data
 			continue
 
-		if letter == '<' and type_to_read == LineElementRead.MAIN:
-			type_to_read = LineElementRead.END_TAG
+		main_read, type_to_read, main_read_data = read_main(letter, type_to_read, main_text)
+		if main_read:
+			(main_text) = main_read_data
 			continue
-		elif type_to_read == LineElementRead.MAIN:
-			main_text += letter
 
-		if letter == '>' and type_to_read == LineElementRead.END_TAG and start_brackets == 0:
+		end_tag_read, type_to_read, end_tag_read_data = read_end_tag(letter, type_to_read, start_brackets, end_tag)
+		if end_tag_read:
+			(end_tag) = end_tag_read_data
 			continue
-		elif type_to_read == LineElementRead.END_TAG:
-			end_tag += letter
 
 	return categorize_line(tag, attributes, main_text, end_tag, only_tag)
 
