@@ -1,12 +1,14 @@
 import json
 import argparse
 import datetime
+import kg2_util
 
 def get_args():
 	arg_parser = argparse.ArgumentParser()
 	arg_parser.add_argument('--test', dest='test',
 							action="store_true", default=False)
 	arg_parser.add_argument('inputFile', type=str)
+	arg_parser.add_argument('outputFile', type=str)
 	return arg_parser.parse_args()
 
 def date():
@@ -349,7 +351,7 @@ class XMLParser():
 
 
 class OWLParser():
-	def __init__(self, input_file_name):
+	def __init__(self, input_file_name, output_file_name):
 		self.XML_TAG = "?xml"
 		self.RDF_TAG = "rdf:RDF"
 		self.DOCTYPE_TAG = "!DOCTYPE"
@@ -366,12 +368,16 @@ class OWLParser():
 
 		self.xml_parser = XMLParser(self.skip_tags, self.ignored_attributes, self.triage_nest_dict)
 
-		self.OUTPUT_NESTS = []
 		self.GENID_REMAINING_NESTS = dict()
 		self.GENID_TO_ID = dict()
 		self.ID_TO_GENIDS = dict()
 
 		self.input_file = input_file_name
+		self.output_file_name = output_file_name
+
+		self.output_info = create_single_jsonlines()
+		self.output = output_info[0]
+
 
 	def check_for_class_genids(self, nest_dict):
 		genids = list()
@@ -435,7 +441,9 @@ class OWLParser():
 			class_id = self.GENID_TO_ID.get(restriction_genid, str())
 			if len(class_id) == 0:
 				print("WARNING WITH:", restriction_genid, "- NO CLASS_ID FOUND")
-				self.OUTPUT_NESTS.append(nest_dict)
+
+				# Save to output despite not matching with an existing class
+				self.output.write(nest_dict)
 				return
 			class_nest = self.GENID_REMAINING_NESTS[class_id]
 			self.ID_TO_GENIDS[class_id].remove(restriction_genid)
@@ -444,31 +452,32 @@ class OWLParser():
 			if len(self.ID_TO_GENIDS[class_id]) > 0:
 				self.GENID_REMAINING_NESTS[class_id] = updated_class_nest
 			else:
-				self.OUTPUT_NESTS.append(updated_class_nest)
+				# Since all of the genids used in this class have been matched, output
+				self.output.write(nest_dict)
 				self.GENID_REMAINING_NESTS[class_id] = None
 		else:
-			self.OUTPUT_NESTS.append(nest_dict)
+			# There are no genids that need to be worked with, so just output
+			self.output.write(nest_dict)
 
 
 	def parse_OWL_file(self):
 		self.xml_parser.divide_into_lines(self.input_file)
-		print(json.dumps(self.OUTPUT_NESTS, indent=4))
 
-		print("=========")
-
-		print("Remaining:")
+		# Genid wasn't filled, still want to include them though
 		for item in self.GENID_REMAINING_NESTS:
 			if self.GENID_REMAINING_NESTS[item] != None:
-				print(item)
-				print(json.dumps(self.GENID_REMAINING_NESTS[item], indent=4))
+				self.output.write(self.GENID_REMAINING_NESTS[item])
+
+		close_single_jsonlines(self.output_info, self.output_file_name)
 
 
 if __name__ == '__main__':
 	args = get_args()
 	input_file_name = args.inputFile
+	output_file_name = args.outputFile
 
 	print("File:", input_file_name)
 	print("Start Time:", date())
-	owl_parser = OWLParser(input_file_name)
+	owl_parser = OWLParser(input_file_name, output_file_name)
 	owl_parser.parse_OWL_file()
 	print("End Time:", date())
