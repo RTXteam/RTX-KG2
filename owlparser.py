@@ -1,7 +1,7 @@
 import json
 import argparse
 import datetime
-import kg2_util
+import kg2_util_thin as kg2_util
 
 def get_args():
 	arg_parser = argparse.ArgumentParser()
@@ -41,204 +41,205 @@ class XMLParser():
 		self.KEY_TEXT = "ENTRY_TEXT"
 		self.KEY_TYPE = "type"
 
+		# Variables for line reading
+		self.tag = ""
+		self.attributes = dict()
+		self.attribute_tag = ""
+		self.attribute_text = ""
+		self.main_text = ""
+		self.end_tag = ""
+		self.only_tag = False
+		self.start_brackets = 0
+		self.line = ""
+		self.letter = ""
+		self.next_letter = ""
+		self.prev_letter = ""
+		self.type_to_read = 0
 
-	def categorize_line(self, tag, attributes, main_text, end_tag, only_tag):
+	def categorize_line(self):
 		# Categorize the type of line
 		line_type = str()
 		out = dict()
 
 		# Putting "only_tag" here isn't necessarily the best idea, but I don't know what else to do with it
-		if tag == self.COMMENT or tag in self.OUTMOST_TAGS_SKIP or end_tag in self.OUTMOST_TAGS_SKIP or only_tag:
+		if self.tag == self.COMMENT or self.tag in self.OUTMOST_TAGS_SKIP or self.end_tag in self.OUTMOST_TAGS_SKIP or self.only_tag:
 			line_type = self.LINE_TYPE_IGNORE
 		else:
-			start_tag_exists = (tag != str())
-			attributes_exist = (attributes != dict())
-			text_exists = (main_text != str())
-			end_tag_exists = (end_tag != str())
+			start_tag_exists = (self.tag != str())
+			attributes_exist = (self.attributes != dict())
+			text_exists = (self.main_text != str())
+			end_tag_exists = (self.end_tag != str())
 
 			if start_tag_exists:
 				if attributes_exist:
 					if text_exists:
 						line_type = self.LINE_TYPE_ENTRY_WITH_ATTR
-						out[self.KEY_TAG] = tag
-						out[self.KEY_ATTRIBUTES] = attributes
-						out[self.KEY_TEXT] = main_text
+						out[self.KEY_TAG] = self.tag
+						out[self.KEY_ATTRIBUTES] = self.attributes
+						out[self.KEY_TEXT] = self.main_text
 					elif end_tag_exists:
 						line_type = self.LINE_TYPE_ENTRY_ONLY_ATTR
-						out[self.KEY_TAG] = tag
-						out[self.KEY_ATTRIBUTES] = attributes
+						out[self.KEY_TAG] = self.tag
+						out[self.KEY_ATTRIBUTES] = self.attributes
 					else:
 						line_type = self.LINE_TYPE_START_NEST_WITH_ATTR
-						out[self.KEY_TAG] = tag
-						out[self.KEY_ATTRIBUTES] = attributes
+						out[self.KEY_TAG] = self.tag
+						out[self.KEY_ATTRIBUTES] = self.attributes
 				elif text_exists:
 					line_type = self.LINE_TYPE_ENTRY
-					out[self.KEY_TAG] = tag
-					out[self.KEY_TEXT] = main_text
+					out[self.KEY_TAG] = self.tag
+					out[self.KEY_TEXT] = self.main_text
 				else:
 					line_type = self.LINE_TYPE_START_NEST
-					out[self.KEY_TAG] = tag
+					out[self.KEY_TAG] = self.tag
 			elif end_tag_exists:
 				line_type = self.LINE_TYPE_END_NEST
-				out[self.KEY_TAG] = end_tag
+				out[self.KEY_TAG] = self.end_tag
 
 		out[self.KEY_TYPE] = line_type
 
 		return out
 
-	def get_letters(self, line, letter_index, start_brackets):
-		letter = line[letter_index]
-		next_letter = ""
-		prev_letter = ""
-		if letter_index + 1 < len(line):
-			next_letter = line[letter_index + 1]
+	def get_letters(self, letter_index):
+		self.letter = self.line[letter_index]
+		self.next_letter = ""
+		self.prev_letter = ""
+		if letter_index + 1 < len(self.line):
+			self.next_letter = self.line[letter_index + 1]
 		if letter_index - 1 >= 0:
-			prev_letter = line[letter_index - 1]
+			self.prev_letter = self.line[letter_index - 1]
 
-		if letter == '<':
-			start_brackets += 1
-		if letter == '>':
-			start_brackets -= 1
-
-		return letter, next_letter, prev_letter, start_brackets
+		if self.letter == '<':
+			self.start_brackets += 1
+		if self.letter == '>':
+			self.start_brackets -= 1
 
 
-	def identify_tag_type(self, letter_index, letter, next_letter, prev_letter, type_to_read):
+	def identify_tag_type(self, letter_index):
 		changed = True
 
-		if letter == '<' and letter_index == 0:
-			if next_letter != '/':
-				type_to_read = LineElementRead.TAG
-		elif letter == '/' and prev_letter == '<':
-			type_to_read = LineElementRead.END_TAG
+		if self.letter == '<' and letter_index == 0:
+			if self.next_letter != '/':
+				self.type_to_read = LineElementRead.TAG
+		elif self.letter == '/' and self.prev_letter == '<':
+			self.type_to_read = LineElementRead.END_TAG
 		else:
 			changed = False
 
-		return changed, type_to_read
+		return changed
 
 
-	def read_tag(self, letter, prev_letter, type_to_read, start_brackets, tag, line):
-		only_tag = False
+	def read_tag(self):
 		changed = True
 
-		if letter == ' ' and type_to_read == LineElementRead.TAG:
-			type_to_read = LineElementRead.ATTRIBUTE_TAG
-		elif letter == '>' and type_to_read == LineElementRead.TAG and start_brackets == 0:
-			type_to_read = LineElementRead.MAIN
+		if self.letter == ' ' and self.type_to_read == LineElementRead.TAG:
+			self.type_to_read = LineElementRead.ATTRIBUTE_TAG
+		elif self.letter == '>' and self.type_to_read == LineElementRead.TAG and self.start_brackets == 0:
+			self.type_to_read = LineElementRead.MAIN
 
-			if prev_letter == '/':
-				print("Warning - strange tag, ignoring", line)
-				only_tag = True
-		elif type_to_read == LineElementRead.TAG:
-			tag += letter
+			if self.prev_letter == '/':
+				print("Warning - strange tag, ignoring", self.line)
+				self.only_tag = True
+		elif self.type_to_read == LineElementRead.TAG:
+			self.tag += self.letter
 		else:
 			changed = False
 
-		return changed, type_to_read, (only_tag, tag)
+		return changed
 
 
-	def store_attribute(self, attributes, attribute_tag, attribute_text):
-		if attribute_tag not in self.IGNORED_ATTRIBUTES:
-			attributes[attribute_tag] = attribute_text.strip('/').strip('"')
-		attribute_tag = ""
-		attribute_text = ""
-
-		return attributes, attribute_tag, attribute_text
+	def store_attribute(self):
+		if self.attribute_tag not in self.IGNORED_ATTRIBUTES:
+			self.attributes[self.attribute_tag] = self.attribute_text.strip('/').strip('"')
+		self.attribute_tag = ""
+		self.attribute_text = ""
 
 
-	def read_attributes(self, letter, prev_letter, type_to_read, start_brackets, attributes, attribute_tag, attribute_text, tag, end_tag):
+	def read_attributes(self):
 		changed = True
-		start_reading_attributes = (type_to_read == LineElementRead.ATTRIBUTE_TAG or type_to_read == LineElementRead.ATTRIBUTE_TEXT)
+		start_reading_attributes = (self.type_to_read == LineElementRead.ATTRIBUTE_TAG or self.type_to_read == LineElementRead.ATTRIBUTE_TEXT)
 
-		if letter == '>' and start_reading_attributes and start_brackets == 0:
-			type_to_read = LineElementRead.MAIN
-			attributes, attribute_tag, attribute_text = self.store_attribute(attributes, attribute_tag, attribute_text)
+		if self.letter == '>' and start_reading_attributes and self.start_brackets == 0:
+			self.type_to_read = LineElementRead.MAIN
+			
+			self.store_attribute()
 
-			if prev_letter == '/':
-				end_tag = tag
+			if self.prev_letter == '/':
+				self.end_tag = self.tag
 		elif start_reading_attributes:
-			if letter == '=' and type_to_read == LineElementRead.ATTRIBUTE_TAG:
-				type_to_read = LineElementRead.ATTRIBUTE_TEXT
-			elif type_to_read == LineElementRead.ATTRIBUTE_TAG:
-				attribute_tag += letter
-			elif letter == ' ' and type_to_read == LineElementRead.ATTRIBUTE_TEXT:
-				type_to_read = LineElementRead.ATTRIBUTE_TAG
-				attributes, attribute_tag, attribute_text = self.store_attribute(attributes, attribute_tag, attribute_text)
-			elif type_to_read == LineElementRead.ATTRIBUTE_TEXT:
-				attribute_text += letter
+			if self.letter == '=' and self.type_to_read == LineElementRead.ATTRIBUTE_TAG:
+				self.type_to_read = LineElementRead.ATTRIBUTE_TEXT
+			elif self.type_to_read == LineElementRead.ATTRIBUTE_TAG:
+				self.attribute_tag += self.letter
+			elif self.letter == ' ' and self.type_to_read == LineElementRead.ATTRIBUTE_TEXT:
+				self.type_to_read = LineElementRead.ATTRIBUTE_TAG
+				self.store_attribute()
+			elif self.type_to_read == LineElementRead.ATTRIBUTE_TEXT:
+				self.attribute_text += self.letter
 		else:
 			changed = False
 
-		return changed, type_to_read, (attributes, attribute_tag, attribute_text, end_tag)
+		return changed
 
 
-	def read_main(self, letter, type_to_read, main_text):
+	def read_main(self):
 		changed = True
-		if letter == '<' and type_to_read == LineElementRead.MAIN:
-			type_to_read = LineElementRead.END_TAG
-		elif type_to_read == LineElementRead.MAIN:
-			main_text += letter
+		if self.letter == '<' and self.type_to_read == LineElementRead.MAIN:
+			self.type_to_read = LineElementRead.END_TAG
+		elif self.type_to_read == LineElementRead.MAIN:
+			self.main_text += self.letter
 		else:
 			changed = False
 
-		return changed, type_to_read, (main_text)
+		return changed
 
 
-	def read_end_tag(self, letter, type_to_read, start_brackets, end_tag):
+	def read_end_tag(self):
 		changed = True
-		if letter == '>' and type_to_read == LineElementRead.END_TAG and start_brackets == 0:
+		if self.letter == '>' and self.type_to_read == LineElementRead.END_TAG and self.start_brackets == 0:
 			pass
-		elif type_to_read == LineElementRead.END_TAG:
-			end_tag += letter
+		elif self.type_to_read == LineElementRead.END_TAG:
+			self.end_tag += self.letter
 		else:
 			changed = False
 
-		return changed, type_to_read, (end_tag)
+		return changed
 
 
-	def convert_line(self, line):
-		tag = ""
-		attributes = dict()
-		attribute_tag = ""
-		attribute_text = ""
-		main_text = ""
-		end_tag = ""
+	def convert_line(self):
+		self.tag = ""
+		self.attributes = dict()
+		self.attribute_tag = ""
+		self.attribute_text = ""
+		self.main_text = ""
+		self.end_tag = ""
 
-		type_to_read = 0
+		self.type_to_read = 0
 
-		only_tag = False
+		self.only_tag = False
 
-		start_brackets = 0
+		self.start_brackets = 0
 
-		for letter_index in range(len(line)):
-			letter, next_letter, prev_letter, start_brackets = self.get_letters(line, letter_index, start_brackets)
+		for letter_index in range(len(self.line)):
+			self.get_letters(letter_index)
 
 			# First <
-			tag_identified, type_to_read = self.identify_tag_type(letter_index, letter, next_letter, prev_letter, type_to_read)
-			if tag_identified:
+			if self.identify_tag_type(letter_index):
 				continue
 
-			tag_read, type_to_read, tag_read_data = self.read_tag(letter, prev_letter, type_to_read, start_brackets, tag, line)
-			if tag_read:
-				(only_tag, tag) = tag_read_data
+			if self.read_tag():
 				continue
 
-			attributes_read, type_to_read, attributes_read_data = self.read_attributes(letter, prev_letter, type_to_read, start_brackets, attributes, attribute_tag, attribute_text, tag, end_tag)
-			if attributes_read:
-				(attributes, attribute_tag, attribute_text, end_tag) = attributes_read_data
+			if self.read_attributes():
 				continue
 
-			main_read, type_to_read, main_read_data = self.read_main(letter, type_to_read, main_text)
-			if main_read:
-				(main_text) = main_read_data
+			if self.read_main():
 				continue
 
-			end_tag_read, type_to_read, end_tag_read_data = self.read_end_tag(letter, type_to_read, start_brackets, end_tag)
-			if end_tag_read:
-				(end_tag) = end_tag_read_data
+			if self.read_end_tag():
 				continue
 
-		return self.categorize_line(tag, attributes, main_text, end_tag, only_tag)
+		return self.categorize_line()
 
 
 	def convert_nest(self, nest, start_index):
@@ -316,7 +317,8 @@ class XMLParser():
 
 					if letter == '>' and (next_letter == '<' or next_letter == "") and start_brackets == 0:
 						# Only return if nesting
-						line_parsed = self.convert_line(curr_str)
+						self.line = curr_str
+						line_parsed = self.convert_line()
 
 						tag = line_parsed.get(self.KEY_TAG, None)
 						assert tag != self.KEY_TEXT # This could cause a massive conflict, but it is unlikely
@@ -375,9 +377,8 @@ class OWLParser():
 		self.input_file = input_file_name
 		self.output_file_name = output_file_name
 
-		self.output_info = create_single_jsonlines()
-		self.output = output_info[0]
-
+		self.output_info = kg2_util.create_single_jsonlines()
+		self.output = self.output_info[0]
 
 	def check_for_class_genids(self, nest_dict):
 		genids = list()
@@ -468,7 +469,7 @@ class OWLParser():
 			if self.GENID_REMAINING_NESTS[item] != None:
 				self.output.write(self.GENID_REMAINING_NESTS[item])
 
-		close_single_jsonlines(self.output_info, self.output_file_name)
+		kg2_util.close_single_jsonlines(self.output_info, self.output_file_name)
 
 
 if __name__ == '__main__':
