@@ -15,6 +15,7 @@ def date():
 	return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 class LineElementRead():
+	NONE = 0
 	TAG = 1
 	ATTRIBUTE_TAG = 2
 	ATTRIBUTE_TEXT = 3
@@ -54,7 +55,7 @@ class XMLParser():
 		self.letter = ""
 		self.next_letter = ""
 		self.prev_letter = ""
-		self.type_to_read = 0
+		self.type_to_read = LineElementRead.NONE
 
 	def categorize_line(self):
 		# Categorize the type of line
@@ -214,7 +215,7 @@ class XMLParser():
 		self.main_text = ""
 		self.end_tag = ""
 
-		self.type_to_read = 0
+		self.type_to_read = LineElementRead.NONE
 
 		self.only_tag = False
 
@@ -353,7 +354,7 @@ class XMLParser():
 
 
 class OWLParser():
-	def __init__(self, input_file_name, output_file_name):
+	def __init__(self, input_files, output_file_name):
 		self.XML_TAG = "?xml"
 		self.RDF_TAG = "rdf:RDF"
 		self.DOCTYPE_TAG = "!DOCTYPE"
@@ -374,7 +375,7 @@ class OWLParser():
 		self.GENID_TO_ID = dict()
 		self.ID_TO_GENIDS = dict()
 
-		self.input_file = input_file_name
+		self.input_files = input_files
 		self.output_file_name = output_file_name
 
 		self.output_info = kg2_util.create_single_jsonlines()
@@ -462,23 +463,40 @@ class OWLParser():
 
 
 	def parse_OWL_file(self):
-		self.xml_parser.divide_into_lines(self.input_file)
+		for input_file in self.input_files:
+			print("Reading:", input_file, "starting at", date())
+			self.xml_parser.divide_into_lines(input_file)
 
-		# Genid wasn't filled, still want to include them though
-		for item in self.GENID_REMAINING_NESTS:
-			if self.GENID_REMAINING_NESTS[item] != None:
-				self.output.write(self.GENID_REMAINING_NESTS[item])
+			# Genid wasn't filled, still want to include them though
+			for item in self.GENID_REMAINING_NESTS:
+				if self.GENID_REMAINING_NESTS[item] != None:
+					self.output.write(self.GENID_REMAINING_NESTS[item])
+
+			# Refresh everything for the next file
+			self.GENID_REMAINING_NESTS = dict()
+			self.GENID_TO_ID = dict()
+			self.ID_TO_GENIDS = dict()
 
 		kg2_util.close_single_jsonlines(self.output_info, self.output_file_name)
 
+
+def identify_input_files(ont_load_inventory):
+	input_files = list()
+	for item in ont_load_inventory:
+		input_files.append(item['file'])
+
+	return input_files
 
 if __name__ == '__main__':
 	args = get_args()
 	input_file_name = args.inputFile
 	output_file_name = args.outputFile
 
-	print("File:", input_file_name)
+	ont_load_inventory = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(input_file_name))
+	input_files = identify_input_files(ont_load_inventory)
+
+	print("Files:", input_files)
 	print("Start Time:", date())
-	owl_parser = OWLParser(input_file_name, output_file_name)
+	owl_parser = OWLParser(input_files, output_file_name)
 	owl_parser.parse_OWL_file()
 	print("End Time:", date())
