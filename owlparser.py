@@ -1,7 +1,7 @@
 import json
 import argparse
 import datetime
-import kg2_util_thin as kg2_util
+import kg2_util
 
 def get_args():
 	arg_parser = argparse.ArgumentParser()
@@ -365,6 +365,8 @@ class OWLParser():
 		self.RDF_ABOUT_TAG = "rdf:about"
 		self.GENID_PREFIX = "genid"
 
+		self.OWL_SOURCE_KEY = "owl_source"
+
 		self.skip_tags = [self.XML_TAG, self.RDF_TAG, self.DOCTYPE_TAG]
 
 		self.ignored_attributes = ["xml:lang"]
@@ -429,6 +431,13 @@ class OWLParser():
 		return output_class_nest
 
 
+	def write_to_output(self, output_dict, source_file):
+		output_dict[self.OWL_SOURCE_KEY] = source_file
+		self.output.write(output_dict)
+
+		return
+
+
 	def triage_nest_dict(self, nest_dict):
 		genids = self.check_for_class_genids(nest_dict)
 		restriction_genid = self.check_for_restriction_genids(nest_dict)
@@ -445,7 +454,7 @@ class OWLParser():
 				print("WARNING WITH:", restriction_genid, "- NO CLASS_ID FOUND")
 
 				# Save to output despite not matching with an existing class
-				self.output.write(nest_dict)
+				self.write_to_output(nest_dict, self.input_file)
 				return
 			class_nest = self.GENID_REMAINING_NESTS[class_id]
 			self.ID_TO_GENIDS[class_id].remove(restriction_genid)
@@ -464,13 +473,14 @@ class OWLParser():
 
 	def parse_OWL_file(self):
 		for input_file in self.input_files:
+			self.input_file = input_file
 			print("Reading:", input_file, "starting at", date())
 			self.xml_parser.divide_into_lines(input_file)
 
 			# Genid wasn't filled, still want to include them though
 			for item in self.GENID_REMAINING_NESTS:
 				if self.GENID_REMAINING_NESTS[item] != None:
-					self.output.write(self.GENID_REMAINING_NESTS[item])
+					self.write_to_output(self.GENID_REMAINING_NESTS[item], self.input_file)
 
 			# Refresh everything for the next file
 			self.GENID_REMAINING_NESTS = dict()
