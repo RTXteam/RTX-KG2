@@ -684,6 +684,8 @@ use_for_contraction_only:
   -
     IAO: "&obo;IAO_"
   -
+    IAO: "obo:IAO_"
+  -
     ICD10: http://purl.bioontology.org/ontology/ICD10/
   -
     ICD10: http://purl.obolibrary.org/obo/ICD10_
@@ -751,6 +753,8 @@ use_for_contraction_only:
     MONDO: http://purl.obolibrary.org/obo/mondo#
   -
     MONDO: "MONDO:"
+  -
+    MONDO: "mondo-base:"
   -
     NCBIGene: "https://identifiers.org/ncbigene:"
   -
@@ -857,6 +861,8 @@ use_for_contraction_only:
     sgd: http://www.yeastgenome.org/cgi-bin/locus.fpl?dbid=
   -
     skos: http://www.w3.org/2008/05/skos#
+  -
+    skos: "skos:"
   -
     SNOMED: http://purl.bioontology.org/ontology/SNOMEDCT/
   -

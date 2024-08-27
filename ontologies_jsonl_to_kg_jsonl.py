@@ -20,6 +20,28 @@ KEYS_DICT = dict()
 
 COMMENT_PREFIX = "COMMENTS: "
 
+BASE_EDGE_TYPES = {"mondo-base:exactMatch": RESOURCE_KEY,
+				   "mondo-base:closeMatch": RESOURCE_KEY,
+				   "mondo-base:relatedMatch": RESOURCE_KEY,
+				   "mondo-base:broadMatch": RESOURCE_KEY,
+				   "mondo-base:narrowMatch": RESOURCE_KEY,
+				   "skos:exactMatch": RESOURCE_KEY,
+				   "skos:closeMatch": RESOURCE_KEY,
+				   "skos:broadMatch": RESOURCE_KEY,
+				   "skos:relatedMatch": RESOURCE_KEY,
+				   "skos:narrowMatch": RESOURCE_KEY,
+				   "obo:IAO_0100001": RESOURCE_KEY,
+				   "obo:RO_0002175": RESOURCE_KEY,
+				   "obo:RO_0002161": RESOURCE_KEY,
+				   "obo:RO_0002604": RESOURCE_KEY,
+				   "obo:RO_0002171": RESOURCE_KEY,
+				   "obo:RO_0002174": RESOURCE_KEY,
+				   "obo:RO_0002475": RESOURCE_KEY,
+				   "obo:RO_0001900": RESOURCE_KEY,
+				   "oboInOwl:hasAlternativeId": TEXT_KEY,
+				   "oboInOwl:hasDbXref": TEXT_KEY,
+				   "oboInOwl:xref": TEXT_KEY}
+
 CLASSES_DICT = dict()
 
 URI_MAP = dict()
@@ -69,15 +91,11 @@ def process_ontology_item(ontology_item):
 		# Extract edge triples
 		edges_list = list()
 
-		for edge_type in ["obo:RO_0002175", "obo:RO_0002161", "obo:RO_0002604", "obo:RO_0002171", "obo:RO_0002174", "obo:RO_0002475", "obo:RO_0001900", "obo:RO_0004050"]:
+		for edge_type in BASE_EDGE_TYPES:
 			for edge in owl_class.get(edge_type, list()):
-				if RESOURCE_KEY in edge:
-					edges_list.append((edge_type, edge.get(RESOURCE_KEY, None)))
+				if BASE_EDGE_TYPES[edge_type] in edge:
+					edges_list.append((edge_type, edge.get(BASE_EDGE_TYPES[edge_type], None)))
 
-		for edge_type in ["oboInOwl:hasDbXref"]:
-			for edge in owl_class.get(edge_type, list()):
-				if TEXT_KEY in edge:
-					edges_list.append((edge_type, edge.get(TEXT_KEY, None)))
 
 		restriction_edges = list()
 		restriction_edges += [(edge, "rdfs:subClassOf") for edge in owl_class.get("rdfs:subClassOf", list())]
