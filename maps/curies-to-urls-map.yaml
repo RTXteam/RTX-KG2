@@ -180,6 +180,8 @@ use_for_bidirectional_mapping:
   -
     FIX: http://purl.obolibrary.org/obo/FIX_
   -
+    FLOPO: http://purl.obolibrary.org/obo/FLOPO_
+  -
     FLU: http://purl.obolibrary.org/obo/FLU_
   -
     FMA: http://purl.obolibrary.org/obo/FMA_
@@ -382,6 +384,8 @@ use_for_bidirectional_mapping:
   -
     OncoTree: http://purl.obolibrary.org/obo/ONCOTREE_
   -
+    ONS: http://purl.obolibrary.org/obo/ONS_
+  -
     OPL: http://purl.obolibrary.org/obo/OPL_
   -
     orphanet: http://www.orpha.net/ORDO/Orphanet_
@@ -445,6 +449,8 @@ use_for_bidirectional_mapping:
     RXNORM: http://purl.bioontology.org/ontology/RXNORM/
   -
     SEMMEDDB: https://skr3.nlm.nih.gov/SemMedDB
+  -
+    SEPIO: http://purl.obolibrary.org/obo/SEPIO_
   -
     sgd: "https://identifiers.org/sgd:"
   -
@@ -600,6 +606,8 @@ use_for_contraction_only:
   -
     FBgn: https://flybase.org/reports/FBgn
   -
+    FLOPO: "&obo;FLOPO_"
+  -
     FMA: http://purl.obolibrary.org/obo/fma#
   -
     FMA: http://purl.bioontology.org/ontology/FMA/
@@ -708,6 +716,8 @@ use_for_contraction_only:
   -
     NCIT: "&obo;NCIT_"
   -
+    OBI: "&obo;OBI_"
+  -
     OBO: http://purl.obolibrary.org/obo#
   -
     OBOREL: "http://purl.org/obo/owl/OBO_REL#"
@@ -718,7 +728,13 @@ use_for_contraction_only:
   -
     OMIM: http://identifiers.org/omim/
   -
+    OMIT: "&obo;OMIT_"
+  -
     OMOP: http://purl.obolibrary.org/obo/COHD_
+  -
+    OMP: "&obo;OMP_"
+  -
+    ONS: "&obo;ONS_"
   -
     orphanet: http://purl.bioontology.org/ontology/ORDO/
   -
@@ -726,11 +742,23 @@ use_for_contraction_only:
   -
     PATO: http://purl.obolibrary.org/obo/pato#
   -
+    PATO: "&obo;PATO_"
+  -
+    PCO: "&obo;PCO_"
+  -
+    PO: "&obo;PO_"
+  -
     PomBase: http://www.pombase.org/spombe/result/
   -
     PR: http://purl.obolibrary.org/obo/pr#
   -
+    PR: "&obo;PR_"
+  -
     RO: http://www.obofoundry.org/ro/ro.owl#
+  -
+    RO: "&obo;RO_"
+  -
+    SEPIO: "&obo;SEPIO_"
   -
     sgd: http://www.yeastgenome.org/cgi-bin/locus.fpl?dbid=
   -
@@ -748,9 +776,17 @@ use_for_contraction_only:
   -
     SO: http://purl.obolibrary.org/obo/so#
   -
+    SO: "&obo;SO_"
+  -
+    STATO: "&obo;STATO_"
+  -
+    TRANS: "&obo;TRANS_"
+  -
     UBERON: http://purl.obolibrary.org/obo/uberon/insect-anatomy#
   -
     UBERON: http://purl.obolibrary.org/obo/uberon#
+  -
+    UBERON: "&obo;UBERON_"
   -
     UMLS: http://purl.obolibrary.org/obo/UMLS_
   -
@@ -767,6 +803,8 @@ use_for_contraction_only:
     UMLS: http://purl.bioontology.org/ontology/MEDLINEPLUS/
   -
     UniProtKB: "http://identifiers.org/uniprot/"
+  -
+    UO: "&obo;UO_"
   -
     wb: http://www.wormbase.org/species/c_elegans/gene/
   -
