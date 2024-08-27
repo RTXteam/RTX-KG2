@@ -544,6 +544,8 @@ use_for_contraction_only:
   -
     ARO: "&obo;ARO_"
   -
+    ATC: "ATC_code:"
+  -
     BAO: http://www.bioassayontology.org/bao#
   -
     BFO: http://www.ifomis.org/bfo/1.1/snap#
@@ -557,6 +559,10 @@ use_for_contraction_only:
     biolink: https://w3id.org/biolink/biolink-model
   -
     BTO: http://purl.obolibrary.org/obo/bto#
+  -
+    BTO: "BTO:"
+  -
+    BTO: "&obo;BTO_"
   -
     CDNO: "&obo;CDNO_"
   -
@@ -572,6 +578,8 @@ use_for_contraction_only:
   -
     CL: http://purl.obolibrary.org/obo/cl#
   -
+    CL: "&obo;CL_"
+  -
     COB: "&obo;COB_"
   -
     CPT: http://purl.bioontology.org/ontology/HCPT/
@@ -584,9 +592,13 @@ use_for_contraction_only:
   -
     DOID: "&obo;DOID_"
   -
+    DOID: "DOID:"
+  -
     DRUGBANK: http://purl.bioontology.org/ontology/DRUGBANK/
   -
     DRUGBANK: "DrugBank:"
+  -
+    DrugCentral: "Drug_Central:"
   -
     ECOCORE: "&obo;ECOCORE_"
   -
@@ -598,9 +610,17 @@ use_for_contraction_only:
   -
     EFO: http://www.ebi.ac.uk/efoIri
   -
+    EFO: "EFO:"
+  -
+    EFO: "&efo;EFO_"
+  -
+    EHDAA2: "EHDAA2:"
+  -
     ENSEMBL: http://www.ensembl.org/id/
   -
     ENVO: "&obo;ENVO_"
+  -
+    ENVO: "ENVO:"
   -
     EPO: "&obo;EPO_"
   -
@@ -616,13 +636,23 @@ use_for_contraction_only:
   -
     FMA: http://purl.bioontology.org/ontology/FMA/
   -
+    FMA: "FMA:"
+  -
     FOODON: "&obo;FOODON_"
+  -
+    GARD: "GARD:"
   -
     GAZ: "&obo;GAZ_"
   -
+    GAZ: "GAZ:"
+  -
     GENEPIO: "&obo;GENEPIO_"
   -
+    GENEPIO: "&obo;GENEPIO:"
+  -
     GO: "&obo;GO_"
+  -
+    GO: "GO:"
   -
     GO: "http://purl.bioontology.org/ontology/GO/GO%3A"
   -
@@ -638,6 +668,8 @@ use_for_contraction_only:
   -
     HGNC: "http://identifiers.org/hgnc/"
   -
+    HGNC: "HGNC:"
+  -
     HGNC: http://purl.bioontology.org/ontology/HGNC/
   -
     HMDB: "HMDB:"
@@ -645,6 +677,10 @@ use_for_contraction_only:
     HP: "http://purl.bioontology.org/ontology/HPO/HP%3A"
   -
     HP: http://purl.bioontology.org/ontology/HPO/
+  -
+    HP: "HP:"
+  -
+    HP: "&obo;HP_"
   -
     IAO: "&obo;IAO_"
   -
@@ -656,6 +692,10 @@ use_for_contraction_only:
   -
     ICD10: http://purl.obolibrary.org/obo/ICD10CM_
   -
+    ICD10: "ICD10CM:"
+  -
+    ICD10: "ICD10:"
+  -
     ICD10: http://purl.bioontology.org/ontology/ICD10AE/
   -
     ICD10: http://purl.bioontology.org/ontology/ICD10CM/
@@ -663,6 +703,8 @@ use_for_contraction_only:
     ICD9: http://purl.bioontology.org/ontology/ICD9CM/
   -
     ICD9: http://purl.obolibrary.org/obo/ICD9_
+  -
+    ICD9: "ICD9:"
   -
     IDO: "&obo;IDO_"
   -
@@ -676,15 +718,29 @@ use_for_contraction_only:
   -
     MEDDRA: http://identifiers.org/meddra/
   -
+    MEDDRA: "MedDRA:"
+  -
+    MEDDRA: "MEDDRA:"
+  -
     medgen: http://purl.obolibrary.org/obo/MEDGEN_
   -
     medgen: http://identifiers.org/medgen/
+  -
+    medgen: "MEDGEN:"
+  -
+    medgen: "MedGen:"
+  -
+    medgen: "Medgen:"
   -
     MESH: http://purl.bioontology.org/ontology/MESH/
   -
     MESH: http://purl.bioontology.org/ontology/MSH/
   -
     MESH: http://identifiers.org/mesh/
+  -
+    MESH: "MESH:"
+  -
+    MESH : "MeSH:"
   -
     MGI: "http://www.informatics.jax.org/marker/MGI:"
   -
@@ -693,6 +749,8 @@ use_for_contraction_only:
     miRBase: "https://identifiers.org/mirbase:"
   -
     MONDO: http://purl.obolibrary.org/obo/mondo#
+  -
+    MONDO: "MONDO:"
   -
     NCBIGene: "https://identifiers.org/ncbigene:"
   -
@@ -724,6 +782,16 @@ use_for_contraction_only:
   -
     NCIT: "&obo;NCIT_"
   -
+    NCIT: "NCI:"
+  -
+    NCIT: "NCIT:"
+  -
+    NCIT: "NCIt:"
+  -
+    NCIT: "NCI Metathesaurus:"
+  -
+    NCIT: "NCI_"
+  -
     OBI: "&obo;OBI_"
   -
     OBO: http://purl.obolibrary.org/obo#
@@ -732,9 +800,15 @@ use_for_contraction_only:
   -
     OCRe: http://purl.org/net/OCRe/research.owl#
   -
+    OIO: "oboInOwl:"
+  -
     OMIM: http://purl.bioontology.org/ontology/OMIM/
   -
     OMIM: http://identifiers.org/omim/
+  -
+    OMIM: "MIM:"
+  -
+    OMIM: "OMIM:"
   -
     OMIT: "&obo;OMIT_"
   -
@@ -746,6 +820,10 @@ use_for_contraction_only:
   -
     orphanet: http://purl.bioontology.org/ontology/ORDO/
   -
+    orphanet: "ORDO:"
+  -
+    orphanet: "Orphanet:"
+  -
     orphanet: https://data.bioontology.org/ontologies/ORDO/submissions/27/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
   -
     PATO: http://purl.obolibrary.org/obo/pato#
@@ -753,6 +831,8 @@ use_for_contraction_only:
     PATO: "&obo;PATO_"
   -
     PCO: "&obo;PCO_"
+  -
+    PMID: "PMID:"
   -
     PO: "&obo;PO_"
   -
@@ -762,11 +842,15 @@ use_for_contraction_only:
   -
     PR: "&obo;PR_"
   -
+    rdfs: "rdfs:"
+  -
     REACT: "Reactome:"
   -
     RO: http://www.obofoundry.org/ro/ro.owl#
   -
     RO: "&obo;RO_"
+  -
+    RO: "obo:RO_"
   -
     SEPIO: "&obo;SEPIO_"
   -
@@ -811,6 +895,12 @@ use_for_contraction_only:
     UMLS: http://purl.bioontology.org/ontology/MED-RT/
   -
     UMLS: http://purl.bioontology.org/ontology/MEDLINEPLUS/
+  -
+    UMLS: "MedlinePlus:"
+  -
+    UMLS: "UMLS_CUI:"
+  -
+    UMLS: "UMLS:"
   -
     UniProtKB: "http://identifiers.org/uniprot/"
   -
