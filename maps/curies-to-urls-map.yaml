@@ -580,9 +580,13 @@ use_for_contraction_only:
   -
     DGIdb: https://www.dgidb.org/interaction_types/
   -
+    dictybase.gene: http://dictybase.org/gene/DDB_
+  -
     DOID: "&obo;DOID_"
   -
     DRUGBANK: http://purl.bioontology.org/ontology/DRUGBANK/
+  -
+    DRUGBANK: "DrugBank:"
   -
     ECOCORE: "&obo;ECOCORE_"
   -
@@ -636,6 +640,8 @@ use_for_contraction_only:
   -
     HGNC: http://purl.bioontology.org/ontology/HGNC/
   -
+    HMDB: "HMDB:"
+  -
     HP: "http://purl.bioontology.org/ontology/HPO/HP%3A"
   -
     HP: http://purl.bioontology.org/ontology/HPO/
@@ -661,6 +667,8 @@ use_for_contraction_only:
     IDO: "&obo;IDO_"
   -
     KEGG: http://purl.obolibrary.org/obo/KEGG_
+  -
+    KEGG.ENZYME: "EC:"
   -
     LOINC: http://purl.bioontology.org/ontology/LNC/
   -
@@ -754,6 +762,8 @@ use_for_contraction_only:
   -
     PR: "&obo;PR_"
   -
+    REACT: "Reactome:"
+  -
     RO: http://www.obofoundry.org/ro/ro.owl#
   -
     RO: "&obo;RO_"
@@ -803,6 +813,8 @@ use_for_contraction_only:
     UMLS: http://purl.bioontology.org/ontology/MEDLINEPLUS/
   -
     UniProtKB: "http://identifiers.org/uniprot/"
+  -
+    UniProtKB: "UniProtKB:"
   -
     UO: "&obo;UO_"
   -
