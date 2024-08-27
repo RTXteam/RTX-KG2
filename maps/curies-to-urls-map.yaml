@@ -594,15 +594,29 @@ use_for_contraction_only:
   -
     EPO: "&obo;EPO_"
   -
+    ExO: "&obo;ExO_"
+  -
+    FAO: "&obo;FAO_"
+  -
     FBgn: https://flybase.org/reports/FBgn
   -
     FMA: http://purl.obolibrary.org/obo/fma#
   -
     FMA: http://purl.bioontology.org/ontology/FMA/
   -
+    FOODON: "&obo;FOODON_"
+  -
+    GAZ: "&obo;GAZ_"
+  -
+    GENEPIO: "&obo;GENEPIO_"
+  -
+    GO: "&obo;GO_"
+  -
     GO: "http://purl.bioontology.org/ontology/GO/GO%3A"
   -
     GO: http://purl.bioontology.org/ontology/GO/
+  -
+    HANCESTRO: "&obo;HANCESTRO_"
   -
     HCPCS: https://hcpcs.codes/a-codes/
   -
@@ -617,6 +631,8 @@ use_for_contraction_only:
     HP: "http://purl.bioontology.org/ontology/HPO/HP%3A"
   -
     HP: http://purl.bioontology.org/ontology/HPO/
+  -
+    IAO: "&obo;IAO_"
   -
     ICD10: http://purl.bioontology.org/ontology/ICD10/
   -
@@ -633,6 +649,8 @@ use_for_contraction_only:
     ICD9: http://purl.bioontology.org/ontology/ICD9CM/
   -
     ICD9: http://purl.obolibrary.org/obo/ICD9_
+  -
+    IDO: "&obo;IDO_"
   -
     KEGG: http://purl.obolibrary.org/obo/KEGG_
   -
@@ -654,6 +672,8 @@ use_for_contraction_only:
   -
     MGI: "http://www.informatics.jax.org/marker/MGI:"
   -
+    MI: "&obo;MI_"
+  -
     miRBase: "https://identifiers.org/mirbase:"
   -
     MONDO: http://purl.obolibrary.org/obo/mondo#
@@ -665,6 +685,10 @@ use_for_contraction_only:
     NCBITaxon: http://purl.bioontology.org/ontology/NCBITAXON/
   -
     NCBITaxon: http://purl.obolibrary.org/obo/ncbitaxon#
+  -
+    NCBITaxon: "&obo;NCBITaxon"
+  -
+    NCBITaxon: "&obo;NCBITaxon#"
   -
     NCIT: http://purl.bioontology.org/ontology/NCI/
   -
@@ -681,6 +705,8 @@ use_for_contraction_only:
     NCIT: http://purl.bioontology.org/ontology/NCI_CTCAE_5/
   -
     NCIT: http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#
+  -
+    NCIT: "&obo;NCIT_"
   -
     OBO: http://purl.obolibrary.org/obo#
   -
