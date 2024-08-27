@@ -48,6 +48,8 @@ use_for_bidirectional_mapping:
   -
     CARO: http://purl.obolibrary.org/obo/CARO_
   -
+    CDNO: http://purl.obolibrary.org/obo/CDNO_
+  -
     CEPH: http://purl.obolibrary.org/obo/CEPH_
   -
     CGNC: "http://birdgenenames.org/cgnc/GeneReport?id="
@@ -77,6 +79,8 @@ use_for_bidirectional_mapping:
     CLO: http://purl.obolibrary.org/obo/CLO_
   -
     COAR_RESOURCE: 'http://purl.org/coar/resource_type/'
+  -
+    COB: http://purl.obolibrary.org/obo/COB_
   -
     COG: 'https://www.ncbi.nlm.nih.gov/research/cog-project/'
   -
@@ -526,9 +530,13 @@ use_for_contraction_only:
   -
     AGRO: "&obo;AGRO_"
   -
+    apollo: "&obo;APOLLO_"
+  -
     AraPort: https://www.araport.org/locus/
   -
     AraPort: https://bar.utoronto.ca/thalemine/portal.do?externalids=
+  -
+    ARO: "&obo;ARO_"
   -
     BAO: http://www.bioassayontology.org/bao#
   -
@@ -536,19 +544,29 @@ use_for_contraction_only:
   -
     BFO: http://www.ifomis.org/bfo/1.1/span#
   -
+    BFO: "&obo;BFO_"
+  -
     biolink: https://w3id.org/biolink/biolinkml/meta/
   -
     biolink: https://w3id.org/biolink/biolink-model
   -
     BTO: http://purl.obolibrary.org/obo/bto#
   -
+    CDNO: "&obo;CDNO_"
+  -
     CHEBI: http://purl.obolibrary.org/obo/chebi/
   -
     CHEBI: http://purl.obolibrary.org/obo/chebi#
   -
+    CHEBI: "&obo;CHEBI_"
+  -
     CHEMBL.COMPOUND: https://www.ebi.ac.uk/chembl/compound/inspect/
   -
+    CHMO: "&obo;CHMO_"
+  -
     CL: http://purl.obolibrary.org/obo/cl#
+  -
+    COB: "&obo;COB_"
   -
     CPT: http://purl.bioontology.org/ontology/HCPT/
   -
@@ -556,7 +574,11 @@ use_for_contraction_only:
   -
     DGIdb: https://www.dgidb.org/interaction_types/
   -
+    DOID: "&obo;DOID_"
+  -
     DRUGBANK: http://purl.bioontology.org/ontology/DRUGBANK/
+  -
+    ECOCORE: "&obo;ECOCORE_"
   -
     ecogene: http://www.ecogene.org/gene/
   -
@@ -567,6 +589,10 @@ use_for_contraction_only:
     EFO: http://www.ebi.ac.uk/efoIri
   -
     ENSEMBL: http://www.ensembl.org/id/
+  -
+    ENVO: "&obo;ENVO_"
+  -
+    EPO: "&obo;EPO_"
   -
     FBgn: https://flybase.org/reports/FBgn
   -
