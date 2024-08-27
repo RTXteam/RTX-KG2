@@ -6,6 +6,8 @@ use_for_bidirectional_mapping:
   -
     AEO: http://purl.obolibrary.org/obo/AEO_
   -
+    AGRO: http://purl.obolibrary.org/obo/AGRO_
+  -
     AIR: https://identifiers.org/umls/AIR/
   -
     alliancegenome: 'https://www.alliancegenome.org/'
@@ -521,6 +523,8 @@ use_for_bidirectional_mapping:
     ZFIN: "https://identifiers.org/zfin:"
 ##########################################3
 use_for_contraction_only:
+  -
+    AGRO: "&obo;AGRO_"
   -
     AraPort: https://www.araport.org/locus/
   -
