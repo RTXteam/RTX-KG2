@@ -47,6 +47,9 @@ biolink_edge_labels = kg2_util.ont_children_recursive(biolink_ont,
                                                       kg2_util.CURIE_PREFIX_BIOLINK + ':' +
                                                       kg2_util.EDGE_LABEL_BIOLINK_RELATED_TO)
 
+print("TESTTESTTEST")
+print(biolink_edge_labels)
+
 for variable_name in dir(kg2_util):
     variable_value = getattr(kg2_util, variable_name)
     if variable_name.startswith('CURIE_PREFIX_'):
