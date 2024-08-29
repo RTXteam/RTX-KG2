@@ -324,7 +324,7 @@ use_for_bidirectional_mapping:
   -
     NBO-PROPERTY: 'http://purl.obolibrary.org/obo/nbo#'
   -
-    NCBIGene: 'https://identifiers.org/ncbigene:'
+    NCBIGene: 'http://identifiers.org/ncbigene/'
 #   - 
 #     NCBITaxon: 'http://purl.obolibrary.org/obo/ncbitaxon/subsets/taxslim.owl'
   -
