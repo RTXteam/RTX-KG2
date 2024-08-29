@@ -68,8 +68,8 @@ ${python_command} -u ${VALIDATE_CODE_DIR}/validate_curies_to_urls_map_yaml.py \
 
 ${python_command} -u ${VALIDATE_CODE_DIR}/validate_kg2_util_curies_urls_categories.py \
            ${curies_to_urls_file} \
-           ${biolink_model_owl_url} \
-           ${biolink_model_owl_local_file}
+           ${biolink_model_yaml_url} \
+           ${biolink_model_yaml_local_file}
 
 ${python_command} -u ${VALIDATE_CODE_DIR}/validate_predicate_remap_yaml.py \
            ${curies_to_urls_file} \
