@@ -30,8 +30,8 @@ def make_arg_parser():
 args = make_arg_parser().parse_args()
 curies_to_categories_file_name = args.curiesToCategoriesFile
 curies_to_urls_map_file_name = args.curiesToURLsMapFile
-biolink_model_url = args.biolinkModelOWLURL
-biolink_model_file_name = args.biolinkModelOWLLocalFile
+biolink_model_url = args.biolinkModelYAMLURL
+biolink_model_file_name = args.biolinkModelYAMLLocalFile
 curies_to_categories_data = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_categories_file_name))
 curies_to_url_map_data = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_urls_map_file_name))
 curies_to_url_map_data_bidir = {next(iter(listitem.keys())) for listitem in curies_to_url_map_data['use_for_bidirectional_mapping']}
