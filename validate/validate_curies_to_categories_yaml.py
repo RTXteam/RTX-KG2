@@ -7,7 +7,7 @@
 
 __author__ = 'Stephen Ramsey'
 __copyright__ = 'Oregon State University'
-__credits__ = ['Stephen Ramsey']
+__credits__ = ['Stephen Ramsey', 'Erica Wood']
 __license__ = 'MIT'
 __version__ = '0.1.0'
 __maintainer__ = ''
@@ -22,8 +22,8 @@ def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='validate_curies_to_categories.py: checks the file `curies-to-categories.yaml` for correctness.')
     arg_parser.add_argument('curiesToCategoriesFile', type=str)
     arg_parser.add_argument('curiesToURLsMapFile', type=str)
-    arg_parser.add_argument('biolinkModelOWLURL', type=str)
-    arg_parser.add_argument('biolinkModelOWLLocalFile', type=str)
+    arg_parser.add_argument('biolinkModelYAMLURL', type=str)
+    arg_parser.add_argument('biolinkModelYAMLLocalFile', type=str)
     return arg_parser
 
 
@@ -37,8 +37,8 @@ curies_to_url_map_data = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_
 curies_to_url_map_data_bidir = {next(iter(listitem.keys())) for listitem in curies_to_url_map_data['use_for_bidirectional_mapping']}
 
 kg2_util.download_file_if_not_exist_locally(biolink_model_url, biolink_model_file_name)
-biolink_ont = kg2_util.make_ontology_from_local_file(biolink_model_file_name)
-biolink_categories_ontology_depths = kg2_util.get_biolink_categories_ontology_depths(biolink_ont)
+biolink_model = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(biolink_model_file_name))
+_, biolink_categories = kg2_util.identify_biolink_terms(biolink_model)
 
 for prefix in curies_to_categories_data['prefix-mappings'].keys():
     assert prefix in curies_to_url_map_data_bidir, prefix
@@ -53,4 +53,4 @@ categories_to_check = list(curies_to_categories_data['prefix-mappings'].values()
 for category in categories_to_check:
     category_camelcase = kg2_util.convert_space_case_to_camel_case(category)
     category_curie = kg2_util.CURIE_PREFIX_BIOLINK + ':' + category_camelcase
-    assert category_curie in biolink_categories_ontology_depths, category_curie
+    assert category_curie in biolink_categories, category_curie

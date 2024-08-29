@@ -58,8 +58,8 @@ ${curl_get} ${infores_catalog_yaml_url} -o ${infores_catalog_yaml}
 ${python_command} -u ${VALIDATE_CODE_DIR}/validate_curies_to_categories_yaml.py \
            ${curies_to_categories_file} \
            ${curies_to_urls_file} \
-           ${biolink_model_owl_url} \
-           ${biolink_model_owl_local_file}
+           ${biolink_model_yaml_url} \
+           ${biolink_model_yaml_local_file}
 
 ${python_command} -u ${VALIDATE_CODE_DIR}/validate_curies_to_urls_map_yaml.py \
            ${curies_to_urls_file} \
