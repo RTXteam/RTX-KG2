@@ -51,6 +51,4 @@ categories_to_check = list(curies_to_categories_data['prefix-mappings'].values()
     list(curies_to_categories_data['term-mappings'].values())
 
 for category in categories_to_check:
-    category_camelcase = kg2_util.convert_space_case_to_camel_case(category)
-    category_curie = kg2_util.CURIE_PREFIX_BIOLINK + ':' + category_camelcase
-    assert category_curie in biolink_categories, category_curie
+    assert category in biolink_categories, category_curie
