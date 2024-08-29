@@ -42,6 +42,13 @@ BASE_EDGE_TYPES = {"mondo-base:exactMatch": RESOURCE_KEY,
 				   "oboInOwl:hasDbXref": TEXT_KEY,
 				   "oboInOwl:xref": TEXT_KEY}
 
+CLASS_TO_SUPERCLASSES = dict()
+SAVED_NODE_INFO = dict()
+SOURCE_INFO = dict()
+
+NODE_CATEGORY_MAPPINGS = dict()
+PREFIX_MAPPINGS = dict()
+
 CLASSES_DICT = dict()
 
 URI_MAP = dict()
@@ -49,13 +56,50 @@ URI_MAP_KEYS = list()
 
 MISSING_ID_PREFIXES = set()
 
+FILE_MAPPING = "file"
+PREFIX_MAPPING = "prefix"
+RECURSE_MAPPING = "recurse"
+
 def get_args():
 	arg_parser = argparse.ArgumentParser()
 	arg_parser.add_argument('--test', dest='test',
 							action="store_true", default=False)
 	arg_parser.add_argument('inputFile', type=str)
+	arg_parser.add_argument('curiesToCategoriesYAML', type=str)
 	arg_parser.add_argument('outputFile', type=str)
 	return arg_parser.parse_args()
+
+def categorize_node(node_id, recursion_depth=0):
+	node_prefix = node_id.split(':')[0]
+
+	if node_id in NODE_CATEGORY_MAPPINGS and NODE_CATEGORY_MAPPINGS[node_id][1] == FILE_MAPPING:
+		return NODE_CATEGORY_MAPPINGS[node_id][0]
+
+	if node_prefix in PREFIX_MAPPINGS:
+		node_category = PREFIX_MAPPINGS[node_prefix]
+		NODE_CATEGORY_MAPPINGS[node_id] = (node_category, PREFIX_MAPPING)
+		return PREFIX_MAPPINGS[node_prefix]
+
+	# Get try to get the most common superclass categorization
+	superclass_categorizations = dict()
+	highest_value = 0
+	highest_category = kg2_util.BIOLINK_CATEGORY_NAMED_THING
+	if recursion_depth == 10:
+		return kg2_util.BIOLINK_CATEGORY_NAMED_THING
+
+	for superclass in CLASS_TO_SUPERCLASSES.get(node_id, list()):
+		superclass_category = categorize_node(superclass, recursion_depth + 1)
+		if superclass_category not in superclass_categorizations:
+			superclass_categorizations[superclass_category] = 0
+		superclass_categorizations[superclass_category] += 1
+		if superclass_categorizations[superclass_category] > highest_value:
+			highest_value = superclass_categorizations[superclass_category]
+			highest_category = superclass_category
+
+	NODE_CATEGORY_MAPPINGS[node_id] = (highest_category, RECURSE_MAPPING)
+	return highest_category
+
+
 
 def process_ontology_item(ontology_item):
 	source = ontology_item.get(OWL_SOURCE_KEY, str())
@@ -63,7 +107,6 @@ def process_ontology_item(ontology_item):
 		# Typically genid classes which don't neatly map onto the KG2 schema
 		if ID_TAG not in owl_class:
 			continue
-		# TODO: MAP THIS HERE, since not all sources use same IRIs for the same nodes
 		node_id = match_prefix(owl_class.get(ID_TAG, str()))
 		if node_id is None:
 			continue
@@ -123,6 +166,7 @@ def process_ontology_item(ontology_item):
 			if RESOURCE_KEY in edge:
 				edges_list.append((general_edge_type, edge.get(RESOURCE_KEY, None)))
 
+		superclasses = set()
 		final_edges_list = list()
 		for (edge_relation, edge_object) in edges_list:
 			edge_object = match_prefix(edge_object)
@@ -131,37 +175,38 @@ def process_ontology_item(ontology_item):
 			edge_relation = match_prefix(edge_relation)
 			if edge_relation is None:
 				continue
+			if edge_relation in ["rdfs:subClassOf"]:
+				superclasses.add(edge_object)
 			final_edges_list.append((edge_relation, edge_object))
 
+		# Imperfect way to make it deterministic
+		superclasses = sorted(list(superclasses))
+		if node_id not in CLASS_TO_SUPERCLASSES:
+			CLASS_TO_SUPERCLASSES[node_id] = list()
+		CLASS_TO_SUPERCLASSES[node_id] += superclasses
+		CLASS_TO_SUPERCLASSES[node_id] = sorted(list(set(CLASS_TO_SUPERCLASSES[node_id])))
 
-		# node_id = owl_class.get(ID_TAG, list())
+		if node_id not in SAVED_NODE_INFO:
+			SAVED_NODE_INFO[node_id] = list()
+		SAVED_NODE_INFO[node_id].append({"id": node_id, "description_list": description_list, "name": name_list, "source": source, "has_biological_sequence": has_biological_sequence, "edges": final_edges_list})
 
-		# superclasses = [superclass.get(RESOURCE_KEY, str()) for superclass in owl_class.get(SUBCLASS_TAG, list())]
+	for ontology_node in ontology_item.get("owl:Ontology", list()):
+		ontology_version = None
+		ontology_versions = [version.get(TEXT_KEY, str()) for version in ontology_node.get("owl:versionInfo", list()) if TEXT_KEY in version]
+		ontology_version_iri = [version.get(RESOURCE_KEY, str()) for version in ontology_node.get("owl:versionIRI", list()) if RESOURCE_KEY in version]
+		ontology_date = [version.get(TEXT_KEY, str()) for date_type in ["oboInOwl:date", "dcterms:date", "dc:date"] for version in ontology_node.get(date_type, list()) if TEXT_KEY in version]
+		if len(ontology_versions) == 1:
+			ontology_version = ontology_versions[0]
+		elif len(ontology_version_iri) == 1:
+			ontology_version = ontology_version_iri[0]
+		elif len(ontology_date) == 1:
+			ontology_version = ontology_date[0]
 
-		# # Also query for comments?
-		# # Descriptions appear to be additive in current KG2
-		# descriptions = owl_class.get(DESCRIPTION_TAG, list())
-		# assert len(descriptions) <= 1
-		# description = str()
-		# for element in descriptions:
-		# 	description += element[TEXT_KEY]
+		if ontology_version is None:
+			print("Warning: source", source, "lacks any versioning information.")
+		if source not in SOURCE_INFO:
+			SOURCE_INFO[source] = {"source": source, "ontology_date": ontology_date, "ontology_version": ontology_version}
 
-		# xrefs = [xref[TEXT_KEY] for xref in owl_class.get(XREF_TAG, list())]
-		# for element in owl_class.get(XREF_TAG, list()):
-		# 	xrefs.append(element[TEXT_KEY])
-
-		# exact_matches = [exact_match[RESOURCE_KEY] for exact_match in owl_class.get(EXACT_MATCH_TAG, list())]
-
-		# names = owl_class.get(NAME_TAG, list())
-		# assert len(names) <= 1, ontology_item
-		# name = str()
-		# for element in names:
-		# 	name += element[TEXT_KEY]
-
-		# node = {"id": node_id, "superclasses": superclasses, "description": description, "xrefs": xrefs, "name": name, "exact_matches": exact_matches}
-
-		node = {"id": node_id, "description_list": description_list, "name": name_list, "source": source, "has_biological_sequence": has_biological_sequence, "edges": final_edges_list}
-		print(json.dumps(node, indent=4))
 
 def generate_uri_map():
 	uri_input_map = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string("maps/curies-to-urls-map.yaml"))
@@ -201,7 +246,14 @@ def match_prefix(node_id):
 if __name__ == '__main__':
 	args = get_args()
 	input_file_name = args.inputFile
+	curies_to_categories_file_name = args.curiesToCategoriesYAML
 	output_file_name = args.outputFile
+
+	curies_to_categories_data = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_categories_file_name))
+	for mapping_node in curies_to_categories_data["term-mappings"]:
+		NODE_CATEGORY_MAPPINGS[mapping_node] = (curies_to_categories_data["term-mappings"][mapping_node], FILE_MAPPING)
+	for prefix in curies_to_categories_data["prefix-mappings"]:
+		PREFIX_MAPPINGS[prefix] = curies_to_categories_data["prefix-mappings"][prefix]
 
 	input_read_jsonlines_info = kg2_util.start_read_jsonlines(input_file_name)
 	input_data = input_read_jsonlines_info[0]
@@ -211,9 +263,11 @@ if __name__ == '__main__':
 	generate_uri_map()
 	for ontology_item in input_data:
 		process_ontology_item(ontology_item)
-	print(json.dumps(sorted(list(MISSING_ID_PREFIXES)), indent=4))
 
-	# print("OWL Classes:", owl_class_count)
-	# for key in KEYS_DICT:
-	# 	KEYS_DICT[key] = KEYS_DICT[key] / owl_class_count
-	# print(json.dumps(KEYS_DICT, indent=4, sort_keys=True))
+	for node_id in SAVED_NODE_INFO:
+		categorize_node(node_id)
+
+	print(json.dumps(NODE_CATEGORY_MAPPINGS, indent=4))
+
+	# Can add this back in later
+	# print(json.dumps(sorted(list(MISSING_ID_PREFIXES)), indent=4))
