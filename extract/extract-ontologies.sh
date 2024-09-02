@@ -28,6 +28,9 @@ mkdir -p ${ontologies_dir}
 # Temporary adjustment for https://github.com/HUPO-PSI/psi-mi-CV/issues/456
 ${s3_cp_cmd} s3://${s3_bucket}/mi.owl ${ontologies_dir}/mi.owl
 
+# Temporary adjustment due to lack of resolution of chebi PURL
+${s3_cp_cmd} s3://${s3_bucket}/chebi.owl ${ontologies_dir}/mi.owl
+
 # Generate the ontologies.jsonl file
 ${python_command} ${parsing_script} ${ontologies_load_inventory} ${ontologies_dir} ${output_file}
 
