@@ -24,7 +24,10 @@ version="2.2.6"
 clinicaltrialskg_download_link="https://db.systemsbiology.net/gestalt/KG/clinical_trials_kg_edges_v${version}.tsv"
 
 echo "# ${version}" > ${clinicaltrialskg_output_file}
-${curl_get} ${clinicaltrialskg_download_link} >> ${clinicaltrialskg_output_file}
+# ${curl_get} ${clinicaltrialskg_download_link} >> ${clinicaltrialskg_output_file}
+
+# Short term fix because download link is not resolving and I cannot identify the correct download link
+${aws_s3_cp} s3://${s3_bucket}/clinicaltrialskg-edges.tsv ${clinicaltrialskg_output_file}
 
 date
 echo "================= finishing extract-clinicaltrialskg.sh =================="
