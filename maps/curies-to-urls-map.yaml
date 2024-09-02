@@ -34,7 +34,7 @@ use_for_bidirectional_mapping:
 #  -
 #    biolink: https://w3id.org/linkml/
   -
-    biolink_download_source: https://raw.githubusercontent.com/biolink/biolink-model/vVERSION_HERE/project/owl/biolink_model.owl.ttl
+    biolink_download_source: https://raw.githubusercontent.com/biolink/biolink-model/
   -
     bioschemas: 'https://bioschemas.org/'
   -
