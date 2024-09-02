@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 ''' ontologies_jsonl_to_kg_jsonl.py: Converts JSON Lines representation of ontologies into KG JSON Lines format
 
-    Usage: ontologies_jsonl_to_kg_jsonl.py [--test] <inputFile.jsonl> <curiesToCategoriesYAML.yaml> <curiesToURLsYAML.yaml> <outputNodesFile.jsonl> <outputEdgesFile.jsonl>
+    Usage: ontologies_jsonl_to_kg_jsonl.py [--test] <inputFile.jsonl> <curiesToCategoriesYAML.yaml> <curiesToURLsYAML.yaml>  <biolink_version_number> <outputNodesFile.jsonl> <outputEdgesFile.jsonl>
 '''
 
 
@@ -108,6 +108,7 @@ def get_args():
     arg_parser.add_argument('inputFile', type=str)
     arg_parser.add_argument('curiesToCategoriesYAML', type=str)
     arg_parser.add_argument('curiesToURLsYAML', type=str)
+    arg_parser.add_argument('biolinkVersionNumber', type=str)
     arg_parser.add_argument('outputNodesFile', type=str)
     arg_parser.add_argument('outputEdgesFile', type=str)
     return arg_parser.parse_args()
@@ -220,6 +221,17 @@ def pick_most_recent_date(dates, alternate_date=None):
             return None
 
     return latest_date.isoformat(sep=' ')
+
+
+def save_biolink_information(biolink_version_number):
+    """
+        Save the Biolink version with the ontologies versions so we can construct a Biolink version node (hacky workaround)
+    """
+    source = kg2_util.CURIE_PREFIX_BIOLINK_SOURCE
+    source_id = source + ":"
+    ontology_iri = URI_MAP[source]
+    name = "Biolink"
+    SOURCE_INFO[source] = {SOURCE_KEY: source_id, IRI_KEY: ontology_iri, NAME_KEY: ontology_name, UPDATE_DATE_KEY: None, VERSION_KEY: biolink_version_number}
 
 
 def process_ontology_term(ontology_node, source, ontology_name, owl_source=True):
@@ -494,7 +506,7 @@ def construct_nodes_and_edges(nodes_output, edges_output):
         source_name = SOURCE_INFO[source][NAME_KEY] + " v" + SOURCE_INFO[source][VERSION_KEY]
         source_id = SOURCE_INFO[source][SOURCE_KEY]
         source_iri = SOURCE_INFO[source][IRI_KEY]
-        node = kg2_util.make_node(source_id, source_iri, source_name, kg2_util.BIOLINK_CATEGORY_INFORMATION_CONTENT_ENTITY, source_date, source_id)
+        node = kg2_util.make_node(source_id, source_iri, source_name, kg2_util.SOURCE_NODE_CATEGORY, source_date, source_id)
 
         nodes_output.write(node)
 
@@ -548,6 +560,7 @@ if __name__ == '__main__':
     input_file_name = args.inputFile
     curies_to_categories_file_name = args.curiesToCategoriesYAML
     curies_to_urls_file_name = args.curiesToURLsYAML
+    biolink_version_number = args.biolinkVersionNumber
     output_nodes_file_name = args.outputNodesFile
     output_edges_file_name = args.outputEdgesFile
     test_mode = args.test
