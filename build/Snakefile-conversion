@@ -18,7 +18,7 @@ rule Ontologies_Conversion:
     input:
         code = config['ONTOLOGIES_CONVERSION_SCRIPT'],
         real = config['ONTOLOGIES_EXTRACT_FILE'],
-        curies_to_categories_map = config['CURIES_TO_CATEGORIES_MAP'],
+        curies_to_categories_map = config['CURIES_TO_CATEGORIES_FILE'],
         curies_to_urls_map = config['CURIES_TO_URLS_FILE'],
         validation = config['VALIDATION_PLACEHOLDER']
     output:
