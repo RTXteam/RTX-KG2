@@ -415,6 +415,12 @@ CL:lacks_part:
 CL:lacks_plasma_membrane_part:
   operation: keep
   core_predicate: biolink:lacks_part
+COB:0000078:
+  operation: delete
+COB:0000081:
+  operation: delete
+COB:0000087:
+  operation: delete
 CTD:increases_expression_of:
   operation: keep
   core_predicate: biolink:affects
@@ -425,6 +431,9 @@ CTD:increases_expression_of:
 DDANAT:develops_from:
   operation: keep
   core_predicate: biolink:develops_from
+DDANAT:part_of:
+  operation: invert
+  core_predicate: biolink:has_part
 DGIdb:activator:
   operation: keep
   core_predicate: biolink:affects
@@ -1469,6 +1478,9 @@ FMA:surrounded_by:
 FMA:surrounds:
   operation: keep
   core_predicate: biolink:coexists_with
+FMA:systemic_part_of:
+  operation: invert
+  core_predicate: biolink:has_part
 FMA:transforms_from:
   operation: invert
   core_predicate: biolink:precedes
@@ -1759,6 +1771,8 @@ IAO:0000142:
 IAO:0000219:
   operation: keep
   core_predicate: biolink:related_to
+IAO:0100001:
+  operation: delete
 ICD10PCS:CHD:
   operation: keep
   core_predicate: biolink:subclass_of
@@ -2280,6 +2294,16 @@ MONDO:part_of_progression_of_disease:
 MONDO:predisposes_towards:
   operation: keep
   core_predicate: biolink:contributes_to
+NBO-PROPERTY:by_means:
+  operation: delete
+NBO-PROPERTY:has_participant:
+  operation: keep
+  core_predicate: biolink:has_participant
+NBO-PROPERTY:in_response_to:
+  operation: invert
+  core_predicate: biolink:causes
+NBO-PROPERTY:is_about:
+  operation: delete
 NCBITaxon:CHD:
   operation: keep
   core_predicate: biolink:subclass_of
@@ -2969,6 +2993,9 @@ OBI:0000295:
 OBI:0000299:
   operation: keep
   core_predicate: biolink:has_output
+OBI:0000312:
+  operation: invert
+  core_predicate: biolink:has_output
 OBI:0000417:
   operation: keep
   core_predicate: biolink:has_output
@@ -3020,6 +3047,10 @@ OBO:HANCESTRO_0308:
 OBO:HANCESTRO_0330:
   operation: keep
   core_predicate: biolink:related_to
+OBO:INO_0000154:
+  operation: delete
+OBO:MF#manifestationOf:
+  operation: delete
 OBO:nbo#by_means:
   operation: invert
   core_predicate: biolink:actively_involved_in
@@ -3030,6 +3061,18 @@ OBO:nbo#in_response_to:
   operation: invert
   core_predicate: biolink:causes
 OBO:nbo#is_about:
+  operation: keep
+  core_predicate: biolink:related_to
+OBO:NCIT_R163:
+  operation: keep
+  core_predicate: biolink:related_to
+OBO:NCIT_R81:
+  operation: keep
+  core_predicate: biolink:related_to
+OBO:NCIT_R82:
+  operation: keep
+  core_predicate: biolink:related_to
+OBO:has_role:
   operation: keep
   core_predicate: biolink:related_to
 OBO:mondo/mondo-base#predisposes_towards:
@@ -3056,7 +3099,13 @@ OBO:mondo/mondo-base#disease_responds_to:
 # OBO:uo#is_unit_of:
 #   operation: invert
 #   core_predicate: biolink:related_to
+OIO:hasAlternativeId:
+  operation: keep
+  core_predicate: biolink:close_match
 OIO:hasDbXref:
+  operation: keep
+  core_predicate: biolink:close_match
+OIO:xref:
   operation: keep
   core_predicate: biolink:close_match
 OMIM:CHD:
@@ -3114,7 +3163,7 @@ OMIM:phenotype_of:
 # ORPHA:317346:
 #   operation: keep
 #   core_predicate: biolink:causes
-# ORPHANET:327767:
+# orphanet:327767:
 #   operation: keep
 #   core_predicate: biolink:actively_involved_in
 # ORPHA:410295:
@@ -3126,49 +3175,46 @@ OMIM:phenotype_of:
 # ORPHA:465410:
 #   operation: keep
 #   core_predicate: biolink:biomarker_for
-ORPHANET:317343:
+orphanet:317343:
   operation: keep
   core_predicate: biolink:causes
-ORPHANET:317344:
+orphanet:317344:
   operation: keep
   core_predicate: biolink:causes
-ORPHANET:317345:
+orphanet:317345:
   operation: keep
   core_predicate: biolink:correlated_with
 orphanet:317346:
   operation: keep
   core_predicate: biolink:causes
-ORPHANET:317346:
-  operation: keep
-  core_predicate: biolink:causes
-ORPHANET:317348:
+orphanet:317348:
   operation: keep
   core_predicate: biolink:actively_involved_in
-ORPHANET:317349:
+orphanet:317349:
   operation: keep
   core_predicate: biolink:actively_involved_in
-ORPHANET:327767:
+orphanet:327767:
   operation: keep
   core_predicate: biolink:actively_involved_in
-ORPHANET:410295:
+orphanet:410295:
   operation: keep
   core_predicate: biolink:causes
-ORPHANET:410296:
+orphanet:410296:
   operation: keep
   core_predicate: biolink:causes
-ORPHANET:465410:
+orphanet:465410:
   operation: keep
   core_predicate: biolink:biomarker_for
-ORPHANET:C016:
+orphanet:C016:
   operation: keep
   core_predicate: biolink:related_to
-ORPHANET:C017:
+orphanet:C017:
   operation: keep
   core_predicate: biolink:related_to
-ORPHANET:C056:
+orphanet:C056:
   operation: keep
   core_predicate: biolink:close_match
-ORPHANET:C057:
+orphanet:C057:
   operation: keep
   core_predicate: biolink:close_match
 # PATO:0000085:
@@ -3418,6 +3464,9 @@ RO:0001022:
 RO:0001025:
   operation: keep
   core_predicate: biolink:located_in
+RO:0001900:
+  operation: keep
+  core_predicate: biolink:related_to
 RO:0002001:
   operation: keep
   core_predicate: biolink:related_to
@@ -3500,6 +3549,15 @@ RO:0002162:
   operation: keep
   core_predicate: biolink:in_taxon
 RO:0002170:
+  operation: keep
+  core_predicate: biolink:related_to
+RO:0002171:
+  operation: keep
+  core_predicate: biolink:related_to
+RO:0002174:
+  operation: keep
+  core_predicate: biolink:related_to
+RO:0002175:
   operation: keep
   core_predicate: biolink:related_to
 RO:0002176:
@@ -3768,6 +3826,8 @@ RO:0002387:
   core_predicate: biolink:related_to
 RO:0002388:
   operation: delete
+RO:0002404:
+  operation: delete
 # RO:0002410:
 #   operation: keep
 #   core_predicate: biolink:causes
@@ -3822,6 +3882,9 @@ RO:0002470:
 RO:0002473:
   operation: keep
   core_predicate: biolink:composed_primarily_of
+RO:0002475:
+  operation: keep
+  core_predicate: biolink:related_to
 RO:0002488:
   operation: keep
   core_predicate: biolink:temporally_related_to
@@ -3921,9 +3984,9 @@ RO:0002596: # capable of regulating
 # RO:0002599:
 #   operation: keep
 #   core_predicate: biolink:prevents
-# RO:0002604:
-#   operation: keep
-#   core_predicate: biolink:opposite_of
+RO:0002604:
+  operation: keep
+  core_predicate: biolink:opposite_of
 # RO:0002606:
 #   operation: keep
 #   core_predicate: biolink:treats
@@ -4501,12 +4564,15 @@ SO:has_part:
   core_predicate: biolink:has_part
 SO:has_quality:
   operation: delete
-SO:overlaps:
-  operation: keep
-  core_predicate: biolink:overlaps
 SO:member_of:
   operation: invert
   core_predicate: biolink:has_member
+SO:overlaps:
+  operation: keep
+  core_predicate: biolink:overlaps
+SO:part_of:
+  operation: invert
+  core_predicate: biolink:has_part
 # SO:similar_to:
 #   operation: keep
 #   core_predicate: biolink:similar_to
@@ -4612,9 +4678,9 @@ UBERON_CORE:in_outermost_side_of:
 UBERON_CORE:indirectly_supplies:
   operation: keep
   core_predicate: biolink:coexists_with
-# UBERON_CORE:layer_part_of:
-#   operation: invert
-#   core_predicate: biolink:has_part
+UBERON_CORE:layer_part_of:
+  operation: invert
+  core_predicate: biolink:has_part
 UBERON_CORE:posteriorly_connected_to:
   operation: keep
   core_predicate: biolink:coexists_with
@@ -4648,9 +4714,9 @@ UBERON_CORE:synapsed_by:
 # UBERON_CORE:transitively_proximally_connected_to:
 #   operation: keep
 #   core_predicate: biolink:coexists_with
-# UBERON_CORE:trunk_part_of:
-#   operation: invert
-#   core_predicate: biolink:has_part
+UBERON_CORE:trunk_part_of:
+  operation: invert
+  core_predicate: biolink:has_part
 # UBERON_NONAMESPACE:connected_to:
 #   operation: keep
 #   core_predicate: biolink:related_to
@@ -5021,21 +5087,21 @@ rdfs:subClassOf:
 rdfs:subPropertyOf: 
   operation: keep
   core_predicate: biolink:subclass_of
-# skos:broadMatch: 
-#   operation: keep
-#   core_predicate: biolink:broad_match
-# skos:closeMatch: 
-#   operation: keep
-#   core_predicate: biolink:close_match
-# skos:exactMatch: 
-#   operation: keep
-#   core_predicate: biolink:exact_match
+skos:broadMatch: 
+  operation: keep
+  core_predicate: biolink:broad_match
+skos:closeMatch: 
+  operation: keep
+  core_predicate: biolink:close_match
+skos:exactMatch: 
+  operation: keep
+  core_predicate: biolink:exact_match
 skos:member:
   operation: keep
   core_predicate: biolink:has_member
-# skos:narrowMatch: 
-#   operation: invert
-#   core_predicate: biolink:broad_match
-# skos:relatedMatch: 
-#   operation: keep
-#   core_predicate: biolink:related_to
+skos:narrowMatch: 
+  operation: invert
+  core_predicate: biolink:broad_match
+skos:relatedMatch: 
+  operation: keep
+  core_predicate: biolink:related_to
