@@ -229,7 +229,7 @@ def save_biolink_information(biolink_version_number):
     """
     source = kg2_util.CURIE_PREFIX_BIOLINK_SOURCE
     source_id = source + ":"
-    ontology_iri = URI_MAP[source]
+    ontology_iri = PREFIX_TO_IRI_MAP[source]
     name = "Biolink"
     SOURCE_INFO[source] = {SOURCE_KEY: source_id, IRI_KEY: ontology_iri, NAME_KEY: ontology_name, UPDATE_DATE_KEY: None, VERSION_KEY: biolink_version_number}
 
@@ -584,12 +584,12 @@ if __name__ == '__main__':
     # Prepare the URI maps for mapping ontology information to KG2 CURIE IDs and IRIs
     generate_uri_map(curies_to_urls_file_name)
 
+    # Save the Biolink node information before processing
+    save_biolink_information(biolink_version_number)
+
     # Extract all of the necessary information from the ontologies
     for ontology_item in input_data:
         process_ontology_item(ontology_item)
-
-    # Save the Biolink node information before processing
-    save_biolink_information(biolink_version_number)
 
     # Categorize every node and save the information in the information dictionary for the node
     for node_id in SAVED_NODE_INFO:
