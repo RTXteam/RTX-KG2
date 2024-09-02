@@ -24,6 +24,7 @@ curies_to_urls_file=${MAPS_CODE_DIR}/curies-to-urls-map.yaml
 predicate_mapping_file=${MAPS_CODE_DIR}/predicate-remap.yaml
 infores_mapping_file=${MAPS_CODE_DIR}/kg2-provided-by-curie-to-infores-curie.yaml
 knowledge_level_agent_type_mapping_file=${MAPS_CODE_DIR}/knowledge-level-agent-type-map.yaml
+edge_blocklist_file=${MAPS_CODE_DIR}/edge-blocklist.yaml
 rtx_config_file=RTXConfiguration-config.json
 biolink_model_version=4.2.1
 infores_registry_version=0.2.8

@@ -22,13 +22,13 @@ input_nodes_json=${1:-}
 input_edges_json=${2:-}
 output_nodes_json=${3:-}
 output_edges_json=${4:-}
-build_flag=${5:-""}
+test_flag=${5:-""}
 
 # TODO: Inhibits and increase are not in biolink model anymore - Find out what that should be now
 ${VENV_DIR}/bin/python3 -u ${PROCESS_CODE_DIR}/filter_kg_and_remap_predicates.py ${test_flag} --dropNegated \
                         --dropSelfEdgesExcept interacts_with,regulates,inhibits,increase \
                         ${predicate_mapping_file} ${infores_mapping_file} ${curies_to_urls_file} \
-                        ${knowledge_level_agent_type_mapping_file} ${input_nodes_json} ${input_edges_json} \
+                        ${knowledge_level_agent_type_mapping_file} ${edge_blocklist_file} ${input_nodes_json} ${input_edges_json} \
                         ${output_nodes_json} ${output_edges_json} ${kg2_version_file_local}
 
 date
