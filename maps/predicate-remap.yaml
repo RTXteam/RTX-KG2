@@ -3056,9 +3056,9 @@ OBO:mondo/mondo-base#disease_responds_to:
 # OBO:uo#is_unit_of:
 #   operation: invert
 #   core_predicate: biolink:related_to
-# OIO:hasDbXref:
-#   operation: keep
-#   core_predicate: biolink:close_match
+OIO:hasDbXref:
+  operation: keep
+  core_predicate: biolink:close_match
 OMIM:CHD:
   operation: keep
   core_predicate: biolink:subclass_of
