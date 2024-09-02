@@ -3,14 +3,8 @@ import kg2_util
 import json
 import datetime
 
-OWL_CLASS_TAG = "owl:Class"
-SUBCLASS_TAG = "rdfs:subClassOf"
-DESCRIPTION_TAG = "obo:IAO_0000115"
-XREF_TAG = "oboInOwl:hasDbXref"
 ID_TAG = "rdf:about"
 NAME_TAG = "rdfs:label"
-EXACT_MATCH_TAG = "skos:exactMatch"
-COMMENT_TAG = "rdfs:comment"
 
 TEXT_KEY = "ENTRY_TEXT"
 RESOURCE_KEY = "rdf:resource"
@@ -202,127 +196,138 @@ def process_ontology_term(ontology_node, source, ontology_name, owl_source=True)
 		SOURCE_INFO[source] = {SOURCE_KEY: source_id, IRI_KEY: ontology_iri, NAME_KEY: ontology_name, UPDATE_DATE_KEY: ontology_date, VERSION_KEY: ontology_version}
 
 
+def process_ontology_class(owl_class, source, ontology_name, owl_source=True):
+	owl_prefix = ""
+	if owl_source:
+		owl_prefix = "owl:"
+	# Typically genid classes which don't neatly map onto the KG2 schema
+	if ID_TAG not in owl_class:
+		return
+	node_id = match_prefix(owl_class.get(ID_TAG, str()))
+	if node_id is None:
+		return
+	node_prefix = node_id.split(':')[0]
+	node_iri = PREFIX_TO_IRI_MAP[node_prefix] + node_id.replace(node_prefix + ':', '')
+
+	# Configure the name
+	name_list = [name.get(TEXT_KEY, None) for name in owl_class.get("rdfs:label", dict()) if TEXT_KEY in name]
+	if len(name_list) == 0:
+		return
+
+	# Configure the description
+	description_list = list()
+	description_list += [description.get(TEXT_KEY, None) for description in owl_class.get("obo:IAO_0000115", list()) if (TEXT_KEY in description)]
+	description_list += [COMMENT_PREFIX + description.get(TEXT_KEY, str()) for description in owl_class.get("rdfs:comment", list()) if (TEXT_KEY in description)]
+	description_list += [description.get(TEXT_KEY, None) for description in owl_class.get("obo:UBPROP_0000001", list()) if (TEXT_KEY in description)]
+	description_list += [description.get(TEXT_KEY, None) for description in owl_class.get("obo:UBPROP_0000005", list()) if (TEXT_KEY in description)]
+	description_list += [description.get(TEXT_KEY, None) for description in owl_class.get("efo1:source_description", list()) if (TEXT_KEY in description)]
+
+	deprecated = "true" in owl_class.get(owl_prefix + "deprecated", list())
+	for name in name_list:
+		search_name = name.lower()
+		if search_name.startswith("obsolete") or search_name.startswith("(obsolete") or search_name.endswith("obsolete"):
+			deprecated = True
+
+	# Configure the synonyms
+	synonym_list = list()
+	synonym_keys = ["oboInOwl:hasExactSynonym", "oboInOwl:hasRelatedSynonym", "oboInOwl:hasNarrowSynonym", "oboInOwl:hasBroadSynonym", "go:hasExactSynonym",
+					"go:hasSynonym", "go:hasNarrowSynonym", "go:hasBroadSynonym", "obo:IAO_0000118", "obo:IAO_0000589", "go:hasRelatedSynonym", "obo:IAO_0000111",
+					"obo:IAO_0000028", "skos:prefLabel"]
+	synonym_list += [synonym.get(TEXT_KEY, None) for synonym_key in synonym_keys for synonym in owl_class.get(synonym_key, list()) if (TEXT_KEY in synonym)]
+
+	update_date_list = list()
+	update_date_keys = ["dc:date", "dcterms:date", "terms:date"]
+	update_date_list += [reformat_obo_date(update_date.get(TEXT_KEY, None)) for update_date_key in update_date_keys for update_date in owl_class.get(update_date_key, list()) if (TEXT_KEY in update_date)]
+
+	creation_date_list = list()
+	creation_date_keys = ["oboInOwl:creation_date", "go:creation_date"]
+	creation_date_list += [reformat_obo_date(creation_date.get(TEXT_KEY, None)) for creation_date_key in creation_date_keys for creation_date in owl_class.get(creation_date_key, list()) if (TEXT_KEY in creation_date)]
+
+	# Configure the biological sequence
+	has_biological_sequence = dict()
+	has_biological_sequence['formula'] = [biological_sequence.get(TEXT_KEY, None) for biological_sequence in owl_class.get("chebi:formula", list()) if TEXT_KEY in biological_sequence]
+	has_biological_sequence['smiles'] = [biological_sequence.get(TEXT_KEY, None) for biological_sequence in owl_class.get("chebi:smiles", list()) if TEXT_KEY in biological_sequence]
+	has_biological_sequence['inchi'] = [biological_sequence.get(TEXT_KEY, None) for biological_sequence in owl_class.get("chebi:inchi", list()) if TEXT_KEY in biological_sequence]
+	has_biological_sequence['inchikey'] = [biological_sequence.get(TEXT_KEY, None) for biological_sequence in owl_class.get("chebi:inchikey", list()) if TEXT_KEY in biological_sequence]
+
+	# Extract edge triples
+	edges_list = list()
+
+	for edge_type in BASE_EDGE_TYPES:
+		for edge in owl_class.get(edge_type, list()):
+			if BASE_EDGE_TYPES[edge_type] in edge:
+				edges_list.append((edge_type, edge.get(BASE_EDGE_TYPES[edge_type], None)))
+
+
+	restriction_edges = list()
+	restriction_edges += [(edge, "rdfs:subClassOf") for edge in owl_class.get("rdfs:subClassOf", list())]
+	for equiv in owl_class.get(owl_prefix + "equivalentClass", list()):
+		for mini_class in equiv.get(owl_prefix + "Class", list()):
+			for edge in mini_class.get(owl_prefix + "intersectionOf", list()):
+				restriction_edges.append((edge, owl_prefix + "equivalentClass"))
+
+	for (edge, general_edge_type) in restriction_edges:
+		for restriction in edge.get(owl_prefix + "Restriction", list()):
+			edge_type = restriction.get(owl_prefix + "onProperty", list())
+			edge_object = restriction.get(owl_prefix + "someValuesFrom", list())
+			if len(edge_type) != 1:
+				assert len(edge_type) <= 1, edge 
+				continue
+			if len(edge_object) != 1:
+				assert len(edge_object) <= 1, edge
+				continue
+			edge_type = edge_type[0].get(RESOURCE_KEY, None)
+			edge_object = edge_object[0].get(RESOURCE_KEY, None)
+
+			if edge_type != None and edge_object != None:
+				edges_list.append((edge_type, edge_object))
+
+		if RESOURCE_KEY in edge:
+			edges_list.append((general_edge_type, edge.get(RESOURCE_KEY, None)))
+
+	superclasses = set()
+	final_edges_list = list()
+	for (edge_relation, edge_object) in edges_list:
+		edge_object = match_prefix(edge_object)
+		if edge_object is None:
+			continue
+		edge_relation = match_prefix(edge_relation)
+		if edge_relation is None:
+			continue
+		if edge_relation in ["rdfs:subClassOf"]:
+			superclasses.add(edge_object)
+		final_edges_list.append((edge_relation, edge_object))
+
+	# Imperfect way to make it deterministic
+	superclasses = sorted(list(superclasses))
+	if node_id not in CLASS_TO_SUPERCLASSES:
+		CLASS_TO_SUPERCLASSES[node_id] = list()
+	CLASS_TO_SUPERCLASSES[node_id] += superclasses
+	CLASS_TO_SUPERCLASSES[node_id] = sorted(list(set(CLASS_TO_SUPERCLASSES[node_id])))
+
+	if node_id not in SAVED_NODE_INFO:
+		SAVED_NODE_INFO[node_id] = list()
+	SAVED_NODE_INFO[node_id].append({ID_KEY: node_id,
+									 DEPRECATED_KEY: deprecated,
+									 UPDATE_DATE_KEY: update_date_list,
+									 CREATION_DATE_KEY: creation_date_list,
+									 SYNONYM_KEY: synonym_list,
+									 DESCRIPTION_KEY: description_list,
+									 NAME_KEY: name_list,
+									 SOURCE_KEY: source,
+									 BIOLOGICAL_SEQUENCE_KEY: has_biological_sequence,
+									 IRI_KEY: node_iri,
+									 EDGES_KEY: final_edges_list})
+
 def process_ontology_item(ontology_item):
 	source = ontology_item.get(OWL_SOURCE_KEY, str())
 	ontology_name = ontology_item.get(OWL_SOURCE_NAME_KEY, str())
-	for owl_class in ontology_item.get(OWL_CLASS_TAG, list()):
-		# Typically genid classes which don't neatly map onto the KG2 schema
-		if ID_TAG not in owl_class:
-			continue
-		node_id = match_prefix(owl_class.get(ID_TAG, str()))
-		if node_id is None:
-			continue
-		node_prefix = node_id.split(':')[0]
-		node_iri = PREFIX_TO_IRI_MAP[node_prefix] + node_id.replace(node_prefix + ':', '')
 
-		# Configure the name
-		name_list = [name.get(TEXT_KEY, None) for name in owl_class.get("rdfs:label", dict()) if TEXT_KEY in name]
-		if len(name_list) == 0:
-			continue
+	for owl_class in ontology_item.get("owl:Class", list()):
+		process_ontology_class(owl_class, source, ontology_name)
 
-		# Configure the description
-		description_list = list()
-		description_list += [description.get(TEXT_KEY, None) for description in owl_class.get("obo:IAO_0000115", list()) if (TEXT_KEY in description)]
-		description_list += [COMMENT_PREFIX + description.get(TEXT_KEY, str()) for description in owl_class.get("rdfs:comment", list()) if (TEXT_KEY in description)]
-		description_list += [description.get(TEXT_KEY, None) for description in owl_class.get("obo:UBPROP_0000001", list()) if (TEXT_KEY in description)]
-		description_list += [description.get(TEXT_KEY, None) for description in owl_class.get("obo:UBPROP_0000005", list()) if (TEXT_KEY in description)]
-		description_list += [description.get(TEXT_KEY, None) for description in owl_class.get("efo1:source_description", list()) if (TEXT_KEY in description)]
-
-		deprecated = "true" in owl_class.get("owl:deprecated", list())
-		for name in name_list:
-			if name.startswith("obsolete") or name.startswith("(obsolete") or name.endswith("obsolete"):
-				deprecated = True
-
-		# Configure the synonyms
-		synonym_list = list()
-		synonym_keys = ["oboInOwl:hasExactSynonym", "oboInOwl:hasRelatedSynonym", "oboInOwl:hasNarrowSynonym", "oboInOwl:hasBroadSynonym", "go:hasExactSynonym",
-						"go:hasSynonym", "go:hasNarrowSynonym", "go:hasBroadSynonym", "obo:IAO_0000118", "obo:IAO_0000589", "go:hasRelatedSynonym", "obo:IAO_0000111",
-						"obo:IAO_0000028", "skos:prefLabel"]
-		synonym_list += [synonym.get(TEXT_KEY, None) for synonym_key in synonym_keys for synonym in owl_class.get(synonym_key, list()) if (TEXT_KEY in synonym)]
-
-		update_date_list = list()
-		update_date_keys = ["dc:date", "dcterms:date", "terms:date"]
-		update_date_list += [reformat_obo_date(update_date.get(TEXT_KEY, None)) for update_date_key in update_date_keys for update_date in owl_class.get(update_date_key, list()) if (TEXT_KEY in update_date)]
-
-		creation_date_list = list()
-		creation_date_keys = ["oboInOwl:creation_date", "go:creation_date"]
-		creation_date_list += [reformat_obo_date(creation_date.get(TEXT_KEY, None)) for creation_date_key in creation_date_keys for creation_date in owl_class.get(creation_date_key, list()) if (TEXT_KEY in creation_date)]
-
-		# Configure the biological sequence
-		has_biological_sequence = dict()
-		has_biological_sequence['formula'] = [biological_sequence.get(TEXT_KEY, None) for biological_sequence in owl_class.get("chebi:formula", list()) if TEXT_KEY in biological_sequence]
-		has_biological_sequence['smiles'] = [biological_sequence.get(TEXT_KEY, None) for biological_sequence in owl_class.get("chebi:smiles", list()) if TEXT_KEY in biological_sequence]
-		has_biological_sequence['inchi'] = [biological_sequence.get(TEXT_KEY, None) for biological_sequence in owl_class.get("chebi:inchi", list()) if TEXT_KEY in biological_sequence]
-		has_biological_sequence['inchikey'] = [biological_sequence.get(TEXT_KEY, None) for biological_sequence in owl_class.get("chebi:inchikey", list()) if TEXT_KEY in biological_sequence]
-
-		# Extract edge triples
-		edges_list = list()
-
-		for edge_type in BASE_EDGE_TYPES:
-			for edge in owl_class.get(edge_type, list()):
-				if BASE_EDGE_TYPES[edge_type] in edge:
-					edges_list.append((edge_type, edge.get(BASE_EDGE_TYPES[edge_type], None)))
-
-
-		restriction_edges = list()
-		restriction_edges += [(edge, "rdfs:subClassOf") for edge in owl_class.get("rdfs:subClassOf", list())]
-		for equiv in owl_class.get("owl:equivalentClass", list()):
-			for mini_class in equiv.get("owl:Class", list()):
-				for edge in mini_class.get("owl:intersectionOf", list()):
-					restriction_edges.append((edge, "owl:equivalentClass"))
-
-		for (edge, general_edge_type) in restriction_edges:
-			for restriction in edge.get("owl:Restriction", list()):
-				edge_type = restriction.get("owl:onProperty", list())
-				edge_object = restriction.get("owl:someValuesFrom", list())
-				if len(edge_type) != 1:
-					assert len(edge_type) <= 1, edge 
-					continue
-				if len(edge_object) != 1:
-					assert len(edge_object) <= 1, edge
-					continue
-				edge_type = edge_type[0].get(RESOURCE_KEY, None)
-				edge_object = edge_object[0].get(RESOURCE_KEY, None)
-
-				if edge_type != None and edge_object != None:
-					edges_list.append((edge_type, edge_object))
-
-			if RESOURCE_KEY in edge:
-				edges_list.append((general_edge_type, edge.get(RESOURCE_KEY, None)))
-
-		superclasses = set()
-		final_edges_list = list()
-		for (edge_relation, edge_object) in edges_list:
-			edge_object = match_prefix(edge_object)
-			if edge_object is None:
-				continue
-			edge_relation = match_prefix(edge_relation)
-			if edge_relation is None:
-				continue
-			if edge_relation in ["rdfs:subClassOf"]:
-				superclasses.add(edge_object)
-			final_edges_list.append((edge_relation, edge_object))
-
-		# Imperfect way to make it deterministic
-		superclasses = sorted(list(superclasses))
-		if node_id not in CLASS_TO_SUPERCLASSES:
-			CLASS_TO_SUPERCLASSES[node_id] = list()
-		CLASS_TO_SUPERCLASSES[node_id] += superclasses
-		CLASS_TO_SUPERCLASSES[node_id] = sorted(list(set(CLASS_TO_SUPERCLASSES[node_id])))
-
-		if node_id not in SAVED_NODE_INFO:
-			SAVED_NODE_INFO[node_id] = list()
-		SAVED_NODE_INFO[node_id].append({ID_KEY: node_id,
-										 DEPRECATED_KEY: deprecated,
-										 UPDATE_DATE_KEY: update_date_list,
-										 CREATION_DATE_KEY: creation_date_list,
-										 SYNONYM_KEY: synonym_list,
-										 DESCRIPTION_KEY: description_list,
-										 NAME_KEY: name_list,
-										 SOURCE_KEY: source,
-										 BIOLOGICAL_SEQUENCE_KEY: has_biological_sequence,
-										 IRI_KEY: node_iri,
-										 EDGES_KEY: final_edges_list})
+	for owl_class in ontology_item.get("Class", list()):
+		process_ontology_class(owl_class, source, ontology_name, False)
 
 	for ontology_node in ontology_item.get("owl:Ontology", list()):
 		process_ontology_term(ontology_node, source, ontology_name)
