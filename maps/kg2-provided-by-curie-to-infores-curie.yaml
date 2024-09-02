@@ -78,7 +78,7 @@ OBO:genepio.owl:
   source_name: Genomic Epidemiology Ontology
   infores_curie: infores:genepio
   knowledge_type: knowledge_source
-OBO:go/extensions/go-plus.owl:
+OBO:go-plus.owl:
   source_name: Gene Ontology Plus
   infores_curie: infores:go-plus
   knowledge_type: knowledge_source
@@ -102,7 +102,7 @@ OBO:nbo.owl:
   source_name: Neuro Behavior Ontology
   infores_curie: infores:nbo
   knowledge_type: knowledge_source
-OBO:ncbitaxon/subsets/taxslim.owl:
+OBO:taxslim.owl:
   source_name: NCBI Taxonomy Ontology
   infores_curie: infores:ncbi-taxon
   knowledge_type: knowledge_source
@@ -118,7 +118,7 @@ OBO:ro.owl:
   source_name: Relations Ontology
   infores_curie: infores:ro
   knowledge_type: knowledge_source
-OBO:uberon.owl:
+OBO:uberon-ext.owl:
   source_name: Uber Anatomy Ontology
   infores_curie: infores:uberon
   knowledge_type: knowledge_source
@@ -126,7 +126,7 @@ OBO:uberon.owl:
   source_name: Online Mendelian Inheritance in Man (OMIM)
   infores_curie: infores:omim
   knowledge_type: knowledge_source
-'ORPHANET:':
+OBO:ordo.owl:
   source_name: Orphanet Rare Disease Ontology
   infores_curie: infores:ordo
   knowledge_type: knowledge_source
