@@ -229,9 +229,9 @@ def save_biolink_information(biolink_version_number):
     """
     source = kg2_util.CURIE_PREFIX_BIOLINK_SOURCE
     source_id = source + ":"
-    ontology_iri = PREFIX_TO_IRI_MAP[source]
+    iri = PREFIX_TO_IRI_MAP[source]
     name = "Biolink"
-    SOURCE_INFO[source] = {SOURCE_KEY: source_id, IRI_KEY: ontology_iri, NAME_KEY: ontology_name, UPDATE_DATE_KEY: None, VERSION_KEY: biolink_version_number}
+    SOURCE_INFO[source] = {SOURCE_KEY: source_id, IRI_KEY: iri, NAME_KEY: name, UPDATE_DATE_KEY: None, VERSION_KEY: biolink_version_number}
 
 
 def process_ontology_term(ontology_node, source, ontology_name, owl_source=True):
