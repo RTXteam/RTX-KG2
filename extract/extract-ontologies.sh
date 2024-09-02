@@ -19,9 +19,9 @@ config_dir=`dirname "$0"`
 source ${config_dir}/master-config.shinc
 
 parsing_script=${1-"${EXTRACT_CODE_DIR}/owlparser.py"}
-ontologies_load_inventory=${1-"${MAPS_CODE_DIR}/ont-load-inventory.yaml"}
-output_file=${2-"${BUILD_DIR}/ontologies.jsonl"}
-ontologies_dir=${3-"${BUILD_DIR}/owl_files"}
+ontologies_load_inventory=${2-"${MAPS_CODE_DIR}/ont-load-inventory.yaml"}
+output_file=${3-"${BUILD_DIR}/ontologies.jsonl"}
+ontologies_dir=${4-"${BUILD_DIR}/owl_files"}
 
 rm -rf ${ontologies_dir}
 mkdir -p ${ontologies_dir}
