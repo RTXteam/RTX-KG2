@@ -588,6 +588,9 @@ if __name__ == '__main__':
     for ontology_item in input_data:
         process_ontology_item(ontology_item)
 
+    # Save the Biolink node information before processing
+    save_biolink_information(biolink_version_number)
+
     # Categorize every node and save the information in the information dictionary for the node
     for node_id in SAVED_NODE_INFO:
         categorize_node(node_id)
