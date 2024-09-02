@@ -45,6 +45,7 @@ def make_arg_parser():
     arg_parser.add_argument('inforesRemapYaml', type=str, help="The YAML file describing how knowledge_source fields should be remapped to Translator infores curies")
     arg_parser.add_argument('curiesToURIFile', type=str, help="The file mapping CURIE prefixes to URI fragments")
     arg_parser.add_argument('knowledgeLevelAgentTypeFile', type=str, help="The file mapping infores curies to knowledge_level and agent_type source information")
+    arg_parser.add_argument('edgeBlocklistFile', type=str, help="File containing blocked edges from KG2")
     arg_parser.add_argument('inputNodesFile', type=str, help="The input KG2 graph, in JSON format")
     arg_parser.add_argument('inputEdgesFile', type=str, help="The input KG2 graph, in JSON format")
     arg_parser.add_argument('outputNodesFile', type=str, help="The output KG2 graph, in JSON format")
@@ -171,11 +172,11 @@ def process_nodes(input_nodes_file_name, infores_remap_config, nodes_output):
     return nodes_set
 
 
-def process_edges(input_edges_file_name, infores_remap_config, knowledge_level_agent_type_map, predicate_remap_file_name, curies_to_uri_file_name, edges_output, drop_self_edges_except, nodes):
+def process_edges(input_edges_file_name, infores_remap_config, knowledge_level_agent_type_map, predicate_remap_file_name, curies_to_uri_file_name, edges_output, drop_self_edges_except, nodes, edge_blocklist):
     predicate_remap_config = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(predicate_remap_file_name))
-    map_dict = kg2_util.make_uri_curie_mappers(curies_to_uri_file_name)
+    # map_dict = kg2_util.make_uri_curie_mappers(curies_to_uri_file_name)
 
-    curie_to_uri_expander = map_dict['expand']
+    # curie_to_uri_expander = map_dict['expand']
     source_predicate_curies_not_in_config = set()
     source_predicate_curies_not_in_nodes = set()
     knowledge_source_curies_not_in_config_edges = set()
@@ -275,10 +276,11 @@ def process_edges(input_edges_file_name, infores_remap_config, knowledge_level_a
 
         if predicate_curie not in nodes:
             predicate_curie_prefix = predicate_curie.split(':')[0]
-            predicate_uri_prefix = curie_to_uri_expander(predicate_curie_prefix + ':')
-            # Create list of curies to complain about if not in biolink
-            if predicate_uri_prefix == predicate_curie_prefix:
-                source_predicate_curies_not_in_nodes.add(predicate_curie)
+            # predicate_uri_prefix = curie_to_uri_expander(predicate_curie_prefix + ':')
+            # # Create list of curies to complain about if not in biolink
+            # if predicate_uri_prefix == predicate_curie_prefix:
+            #     source_predicate_curies_not_in_nodes.add(predicate_curie)
+            source_predicate_curies_not_in_nodes.add(predicate_curie)
         if edge_dict.get("primary_knowledge_source") is None:
             #print(f"{edge_dict}")
             edge_dict["primary_knowledge_source"] = edge_dict.pop("knowledge_source")
@@ -305,6 +307,11 @@ def process_edges(input_edges_file_name, infores_remap_config, knowledge_level_a
         edge_subject = edge_dict['subject'] 
         edge_object = edge_dict['object']
 
+        edge_triple = (edge_subject, edge_dict['predicate'], edge_object)
+        if edge_triple in edge_blocklist:
+            print("Edge:", edge_triple, "in the edge blocklist. Not adding it to edges_output.")
+            continue
+
         edge_key = f"{edge_subject} /// {predicate_curie} /// {qualified_predicate} /// {qualified_object_aspect} /// {qualified_object_direction} /// {edge_object} /// {primary_knowledge_source}"
 
         edges_output.write(edge_dict)
@@ -320,12 +327,23 @@ def process_edges(input_edges_file_name, infores_remap_config, knowledge_level_a
     warning_knowledge_level_agent_source_not_in_config_edges(knowledge_source_not_in_klat_map)
 
 
+def load_edge_blocklist(edge_blocklist_dict):
+    edge_blocklist = list()
+    for edge in edge_blocklist_dict:
+        for edge_subject in edge['subject_ids']:
+            for edge_object in edge['object_ids']:
+                edge_blocklist.append((edge_subject, edge['predicate'], edge_object))
+
+    return edge_blocklist
+
+
 if __name__ == '__main__':
     args = make_arg_parser().parse_args()
     predicate_remap_file_name = args.predicateRemapYaml
     infores_remap_file_name = args.inforesRemapYaml
     curies_to_uri_file_name = args.curiesToURIFile
     knowledge_level_agent_type_file_name = args.knowledgeLevelAgentTypeFile
+    edge_blocklist_file_name = args.edgeBlocklistFile
     input_nodes_file_name = args.inputNodesFile
     input_edges_file_name = args.inputEdgesFile
     output_nodes_file_name = args.outputNodesFile
@@ -340,6 +358,7 @@ if __name__ == '__main__':
 
     infores_remap_config = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(infores_remap_file_name))
     knowledge_level_agent_type_map = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(knowledge_level_agent_type_file_name))
+    edge_blocklist_map = load_edge_blocklist(kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(edge_blocklist_file_name)))
 
     source_predicate_curies_not_in_config = set()
     knowledge_source_curies_not_in_config_nodes = set()
@@ -352,7 +371,7 @@ if __name__ == '__main__':
 
     nodes = process_nodes(input_nodes_file_name, infores_remap_config, nodes_output)
     
-    process_edges(input_edges_file_name, infores_remap_config, knowledge_level_agent_type_map, predicate_remap_file_name, curies_to_uri_file_name, edges_output, drop_self_edges_except, nodes)
+    process_edges(input_edges_file_name, infores_remap_config, knowledge_level_agent_type_map, predicate_remap_file_name, curies_to_uri_file_name, edges_output, drop_self_edges_except, nodes, edge_blocklist_map)
     
     update_date = datetime.now().strftime("%Y-%m-%d %H:%M")
     version_file = open(args.versionFile, 'r')

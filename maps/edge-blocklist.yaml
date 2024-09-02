@@ -1,4 +1,4 @@
--
+- # "Vaccines---causes---Autism/Autism Spectrum Disorders"
   subject_name: Vaccines
   subject_ids:
     - ATC:J07
@@ -6,7 +6,7 @@
     - UMLS:C0042210
     - VANDF:4021642
   predicate: biolink:causes
-  object_name: Autism
+  object_name: Autism/Autism Spectrum Disorders
   object_ids:
     - CHV:0000001598
     - CHV:0000050438
@@ -34,7 +34,7 @@
     - UMLS:C0856975
     - UMLS:C1510586
     - UMLS:C1968924
--
+- # "Measles-Mumps-Rubella Vaccine---causes---Autism/Autism Spectrum Disorders"
   subject_name: Measles-Mumps-Rubella Vaccine
   subject_ids:
     - MESH:D022542
@@ -42,7 +42,7 @@
     - PDQ:CDR0000702931
     - UMLS:C0065828
   predicate: biolink:causes
-  object_name: Autism
+  object_name: Autism/Autism Spectrum Disorders
   object_ids:
     - CHV:0000001598
     - CHV:0000050438
@@ -70,7 +70,7 @@
     - UMLS:C0856975
     - UMLS:C1510586
     - UMLS:C1968924
--
+- # "Mercury---causes---Autism/Autism Spectrum Disorders"
   subject_name: Mercury
   subject_ids:
     - CHEBI:16170
@@ -83,7 +83,7 @@
     - UMLS:C0025424
     - VANDF:4025953
   predicate: biolink:causes
-  object_name: Autism
+  object_name: Autism/Autism Spectrum Disorders
   object_ids:
     - CHV:0000001598
     - CHV:0000050438
@@ -111,7 +111,7 @@
     - UMLS:C0856975
     - UMLS:C1510586
     - UMLS:C1968924
--
+- # "Thimerosal---causes---Autism/Autism Spectrum Disorders"
   subject_name: Thimerosal
   subject_ids:
     - ATC:D08AK06
@@ -128,7 +128,7 @@
     - UMLS:C0039867
     - VANDF:4017480
   predicate: biolink:causes
-  object_name: Autism
+  object_name: Autism/Autism Spectrum Disorders
   object_ids:
     - CHV:0000001598
     - CHV:0000050438
