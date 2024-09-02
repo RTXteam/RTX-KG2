@@ -23,6 +23,7 @@ ontologies_load_inventory=${1-"${MAPS_CODE_DIR}/ont-load-inventory.yaml"}
 output_file=${2-"${BUILD_DIR}/ontologies.jsonl"}
 ontologies_dir=${3-"${BUILD_DIR}/owl_files"}
 
+rm -rf ${ontologies_dir}
 mkdir -p ${ontologies_dir}
 
 # Temporary adjustment for https://github.com/HUPO-PSI/psi-mi-CV/issues/456
