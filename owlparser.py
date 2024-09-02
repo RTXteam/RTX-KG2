@@ -8,6 +8,7 @@ def get_args():
 	arg_parser.add_argument('--test', dest='test',
 							action="store_true", default=False)
 	arg_parser.add_argument('inputFile', type=str)
+	arg_parser.add_argument('owlFilePath', type=str)
 	arg_parser.add_argument('outputFile', type=str)
 	return arg_parser.parse_args()
 
@@ -354,7 +355,7 @@ class XMLParser():
 
 
 class OWLParser():
-	def __init__(self, input_files, output_file_name):
+	def __init__(self, input_files, input_file_names, owl_file_path, output_file_name):
 		self.XML_TAG = "?xml"
 		self.RDF_TAG = "rdf:RDF"
 		self.DOCTYPE_TAG = "!DOCTYPE"
@@ -366,6 +367,7 @@ class OWLParser():
 		self.GENID_PREFIX = "genid"
 
 		self.OWL_SOURCE_KEY = "owl_source"
+		self.OWL_SOURCE_NAME_KEY = "owl_source_name"
 
 		self.skip_tags = [self.XML_TAG, self.RDF_TAG, self.DOCTYPE_TAG]
 
@@ -378,6 +380,8 @@ class OWLParser():
 		self.ID_TO_GENIDS = dict()
 
 		self.input_files = input_files
+		self.input_file_names = input_file_names
+		self.owl_file_path = owl_file_path
 		self.output_file_name = output_file_name
 
 		self.output_info = kg2_util.create_single_jsonlines()
@@ -433,6 +437,7 @@ class OWLParser():
 
 	def write_to_output(self, output_dict, source_file):
 		output_dict[self.OWL_SOURCE_KEY] = source_file
+		output_dict[self.OWL_SOURCE_NAME_KEY] = self.input_file_names[source_file]
 		self.output.write(output_dict)
 
 		return
@@ -464,18 +469,18 @@ class OWLParser():
 				self.GENID_REMAINING_NESTS[class_id] = updated_class_nest
 			else:
 				# Since all of the genids used in this class have been matched, output
-				self.output.write(nest_dict)
+				self.write_to_output(nest_dict, self.input_file)
 				self.GENID_REMAINING_NESTS[class_id] = None
 		else:
 			# There are no genids that need to be worked with, so just output
-			self.output.write(nest_dict)
+			self.write_to_output(nest_dict, self.input_file)
 
 
 	def parse_OWL_file(self):
 		for input_file in self.input_files:
 			self.input_file = input_file
 			print("Reading:", input_file, "starting at", date())
-			self.xml_parser.divide_into_lines(input_file)
+			self.xml_parser.divide_into_lines(self.owl_file_path + input_file)
 
 			# Genid wasn't filled, still want to include them though
 			for item in self.GENID_REMAINING_NESTS:
@@ -490,23 +495,30 @@ class OWLParser():
 		kg2_util.close_single_jsonlines(self.output_info, self.output_file_name)
 
 
-def identify_input_files(ont_load_inventory):
+def identify_and_download_input_files(ont_load_inventory, path_to_owl_files):
 	input_files = list()
+	input_file_names = dict()
+	owl_file_path = path_to_owl_files.rstrip('/') + "/"
 	for item in ont_load_inventory:
 		input_files.append(item['file'])
+		input_file_names[item['file']] = item['title']
+		print("Downloading:", item['file'], "starting at", date())
+		kg2_util.download_file_if_not_exist_locally(item['url'], owl_file_path + item['file'])
+		print("Download of:", item['file'], "finished at", date())
 
-	return input_files
+	return input_files, input_file_names, owl_file_path
 
 if __name__ == '__main__':
 	args = get_args()
 	input_file_name = args.inputFile
+	owl_path = args.owlFilePath
 	output_file_name = args.outputFile
 
 	ont_load_inventory = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(input_file_name))
-	input_files = identify_input_files(ont_load_inventory)
+	input_files, input_file_names, owl_file_path = identify_and_download_input_files(ont_load_inventory, owl_path)
 
 	print("Files:", input_files)
 	print("Start Time:", date())
-	owl_parser = OWLParser(input_files, output_file_name)
+	owl_parser = OWLParser(input_files, input_file_names, owl_file_path, output_file_name)
 	owl_parser.parse_OWL_file()
 	print("End Time:", date())
