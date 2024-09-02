@@ -30,8 +30,8 @@ ontologies_extraction_parser: ${EXTRACT_CODE_DIR}/owlparser.py
 ontologies_extraction_log: ${BUILD_DIR}/${ontologies_extraction_base}${version_suffix}${test_suffix}.log
 ontologies_load_inventory_file: ${MAPS_CODE_DIR}/ont-load-inventory.yaml
 ontologies_extract_file: ${BUILD_DIR}/ontologies.jsonl
-ontologies_conversion_script: ${CONVERT_CODE_DIR}/${ont_conversion_base}.py
-ontologies_conversion_log: ${BUILD_DIR}/${ont_conversion_base}${version_suffix}${test_suffix}.log
+ontologies_conversion_script: ${CONVERT_CODE_DIR}/${ontologies_conversion_base}.py
+ontologies_conversion_log: ${BUILD_DIR}/${ontologies_conversion_base}${version_suffix}${test_suffix}.log
 ontologies_output_nodes_file: ${BUILD_DIR}/${ontologies_output_base}${nodes_suffix}${test_suffix}.jsonl
 ontologies_output_edges_file: ${BUILD_DIR}/${ontologies_output_base}${edges_suffix}${test_suffix}.jsonl
 
