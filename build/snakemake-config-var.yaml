@@ -13,8 +13,6 @@ umls_output_base: kg2-umls
 umls_extraction_script: ${EXTRACT_CODE_DIR}/${umls_extraction_base}.sh
 umls_extraction_log: ${BUILD_DIR}/${umls_extraction_base}${version_suffix}${test_suffix}.log
 umls_extract_file: ${BUILD_DIR}/umls.jsonl
-umls_dir: ${BUILD_DIR}/umls
-umls_dest_dir: ${umls_dir}/META
 umls_conversion_script: ${CONVERT_CODE_DIR}/${umls_conversion_base}.py
 umls_conversion_log: ${BUILD_DIR}/${umls_conversion_base}${version_suffix}${test_suffix}.log
 umls_name_heirarchy: ${MAPS_CODE_DIR}/umls-name-heirarchy.yaml

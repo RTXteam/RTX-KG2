@@ -19,6 +19,8 @@ source ${config_dir}/master-config.shinc
 
 output_file=${2:-${BUILD_DIR}/umls.jsonl}
 
+umls_dir=${BUILD_DIR}/umls
+umls_dest_dir=${umls_dir}/META
 umls_ver=2023AA
 umls_file_base=umls-${umls_ver}-metathesaurus-full
 config_file=${umls_dir}/config.prop
