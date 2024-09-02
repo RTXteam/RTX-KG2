@@ -78,6 +78,7 @@ def get_args():
 							action="store_true", default=False)
 	arg_parser.add_argument('inputFile', type=str)
 	arg_parser.add_argument('curiesToCategoriesYAML', type=str)
+	arg_parser.add_argument('curiesToURLsYAML', type=str)
 	arg_parser.add_argument('outputNodesFile', type=str)
 	arg_parser.add_argument('outputEdgesFile', type=str)
 	return arg_parser.parse_args()
@@ -336,8 +337,8 @@ def process_ontology_item(ontology_item):
 	for ontology_node in ontology_item.get("Ontology", list()):
 		process_ontology_term(ontology_node, source, ontology_name, False)
 
-def generate_uri_map():
-	uri_input_map = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string("maps/curies-to-urls-map.yaml"))
+def generate_uri_map(curies_to_urls_file_name):
+	uri_input_map = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_urls_file_name))
 	bidirectional_map = uri_input_map['use_for_bidirectional_mapping']
 	contraction_map = uri_input_map['use_for_contraction_only']
 
@@ -420,6 +421,7 @@ if __name__ == '__main__':
 	args = get_args()
 	input_file_name = args.inputFile
 	curies_to_categories_file_name = args.curiesToCategoriesYAML
+	curies_to_urls_file_name = args.curiesToURLsYAML
 	output_nodes_file_name = args.outputNodesFile
 	output_edges_file_name = args.outputEdgesFile
 	test_mode = args.test
@@ -438,7 +440,7 @@ if __name__ == '__main__':
 	input_data = input_read_jsonlines_info[0]
 
 	ontology_prefixes = set()
-	generate_uri_map()
+	generate_uri_map(curies_to_urls_file_name)
 	for ontology_item in input_data:
 		process_ontology_item(ontology_item)
 

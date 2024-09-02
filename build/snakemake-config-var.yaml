@@ -13,6 +13,8 @@ umls_output_base: kg2-umls
 umls_extraction_script: ${EXTRACT_CODE_DIR}/${umls_extraction_base}.sh
 umls_extraction_log: ${BUILD_DIR}/${umls_extraction_base}${version_suffix}${test_suffix}.log
 umls_extract_file: ${BUILD_DIR}/umls.jsonl
+umls_dir: ${BUILD_DIR}/umls
+umls_dest_dir: ${umls_dir}/META
 umls_conversion_script: ${CONVERT_CODE_DIR}/${umls_conversion_base}.py
 umls_conversion_log: ${BUILD_DIR}/${umls_conversion_base}${version_suffix}${test_suffix}.log
 umls_name_heirarchy: ${MAPS_CODE_DIR}/umls-name-heirarchy.yaml
@@ -20,12 +22,18 @@ umls_tui_map: ${MAPS_CODE_DIR}/tui_combo_mappings.json
 umls_output_nodes_file: ${BUILD_DIR}/${umls_output_base}${nodes_suffix}${test_suffix}.jsonl
 umls_output_edges_file: ${BUILD_DIR}/${umls_output_base}${edges_suffix}${test_suffix}.jsonl
 
-ont_conversion_base: build-multi-ont-kg
-ont_output_base: kg2-ont
-ont_conversion_script: ${CONVERT_CODE_DIR}/${ont_conversion_base}.sh
-ont_conversion_log: ${BUILD_DIR}/${ont_conversion_base}${version_suffix}${test_suffix}.log
-ont_output_nodes_file: ${BUILD_DIR}/${ont_output_base}${nodes_suffix}${test_suffix}.jsonl
-ont_output_edges_file: ${BUILD_DIR}/${ont_output_base}${edges_suffix}${test_suffix}.jsonl
+ontologies_extraction_base: extract-ontologies
+ontologies_conversion_base: ontologies_jsonl_to_kg_jsonl
+ontologies_output_base: kg2-ontologies
+ontologies_extraction_script: ${EXTRACT_CODE_DIR}/${ontologies_extraction_base}.sh
+ontologies_extraction_parser: ${EXTRACT_CODE_DIR}/owlparser.py
+ontologies_extraction_log: ${BUILD_DIR}/${ontologies_extraction_base}${version_suffix}${test_suffix}.log
+ontologies_load_inventory_file: ${MAPS_CODE_DIR}/ont-load-inventory.yaml
+ontologies_extract_file: ${BUILD_DIR}/ontologies.jsonl
+ontologies_conversion_script: ${CONVERT_CODE_DIR}/${ont_conversion_base}.py
+ontologies_conversion_log: ${BUILD_DIR}/${ont_conversion_base}${version_suffix}${test_suffix}.log
+ontologies_output_nodes_file: ${BUILD_DIR}/${ontologies_output_base}${nodes_suffix}${test_suffix}.jsonl
+ontologies_output_edges_file: ${BUILD_DIR}/${ontologies_output_base}${edges_suffix}${test_suffix}.jsonl
 
 semmeddb_extraction_base: extract-semmeddb
 semmeddb_conversion_base: semmeddb_tuplelist_json_to_kg_jsonl

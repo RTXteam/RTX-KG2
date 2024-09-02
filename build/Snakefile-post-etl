@@ -3,8 +3,8 @@ rule Merge:
         code = config['MERGE_SCRIPT'],
         umls_nodes = config['UMLS_OUTPUT_NODES_FILE'],
         umls_edges = config['UMLS_OUTPUT_EDGES_FILE'],
-        ont_nodes = config['ONT_OUTPUT_NODES_FILE'],
-        ont_edges = config['ONT_OUTPUT_EDGES_FILE'],
+        ontologies_nodes = config['ONTOLOGIES_OUTPUT_NODES_FILE'],
+        ontologies_edges = config['ONTOLOGIES_OUTPUT_EDGES_FILE'],
         uniprot_nodes = config['UNIPROTKB_OUTPUT_NODES_FILE'],
         uniprot_edges = config['UNIPROTKB_OUTPUT_EDGES_FILE'],
         semmeddb_nodes = config['SEMMEDDB_OUTPUT_NODES_FILE'],
@@ -56,7 +56,7 @@ rule Merge:
             " --outputEdgesFile {output.edges} " + \
             " --kgNodesFiles " + \
             "{input.umls_nodes} " + \
-            "{input.ont_nodes} " + \
+            "{input.ontologies_nodes} " + \
             "{input.semmeddb_nodes} " + \
             "{input.uniprot_nodes} " + \
             "{input.ensembl_nodes} " + \
@@ -78,7 +78,7 @@ rule Merge:
             "{input.clinicaltrialskg_nodes} " + \
             " --kgEdgesFiles " + \
             "{input.umls_edges} " + \
-            "{input.ont_edges} " + \
+            "{input.ontologies_edges} " + \
             "{input.semmeddb_edges} " + \
             "{input.uniprot_edges} " + \
             "{input.ensembl_edges} " + \
