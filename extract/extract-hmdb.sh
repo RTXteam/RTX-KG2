@@ -22,7 +22,10 @@ output_file=hmdb_metabolites
 
 hmdb_link="https://hmdb.ca/system/downloads/current/hmdb_metabolites.zip"
 
-${curl_get} ${hmdb_link} > ${BUILD_DIR}/${output_file}.zip
+# ${curl_get} ${hmdb_link} > ${BUILD_DIR}/${output_file}.zip
+
+# Temporary patch due to cURL issues
+${s3_cp_cmd} s3://${s3_bucket}/hmdb_metabolites.zip ${BUILD_DIR}/${output_file}.zip
 
 unzip -o ${BUILD_DIR}/${output_file}.zip -d ${BUILD_DIR}
 
