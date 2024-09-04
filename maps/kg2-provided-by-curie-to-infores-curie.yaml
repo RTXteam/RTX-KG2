@@ -1,4 +1,4 @@
-'ClinicalTrialKG:':
+'ClinicalTrialsKG:':
   source_name: Multiomics ClinicalTrials KP API
   infores_curie: infores:biothings-multiomics-clinicaltrials
   knowledge_type: knowledge_source
@@ -22,7 +22,7 @@ DOID:doid.owl:
   source_name: DrugCentral
   infores_curie: infores:drugcentral
   knowledge_type: knowledge_source
-EFO:efo.owl:
+OBO:efo.owl:
   source_name: Experimental Factor Ontology
   infores_curie: infores:efo
   knowledge_type: knowledge_source
