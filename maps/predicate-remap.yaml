@@ -3545,6 +3545,8 @@ RO:0002159:
 RO:0002160:
   operation: keep
   core_predicate: biolink:in_taxon
+RO:0002161:
+  operation: delete
 RO:0002162:
   operation: keep
   core_predicate: biolink:in_taxon
