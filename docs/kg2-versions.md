@@ -6,11 +6,18 @@ Counts:
 - Edges: 57,418,405
 
 Issues:
+- Issue [#140](https://github.com/RTXteam/RTX-KG2/issues/140)
+- Issue [#387](https://github.com/RTXteam/RTX-KG2/issues/387)
 - Issue [#388](https://github.com/RTXteam/RTX-KG2/issues/388)
+- Issue [#390](https://github.com/RTXteam/RTX-KG2/issues/390)
 - Issue [#392](https://github.com/RTXteam/RTX-KG2/issues/392)
+- Issue [#393](https://github.com/RTXteam/RTX-KG2/issues/393)
 - Issue [#398](https://github.com/RTXteam/RTX-KG2/issues/398)
+- Issue [#399](https://github.com/RTXteam/RTX-KG2/issues/399)
+- Issue [#400](https://github.com/RTXteam/RTX-KG2/issues/400)
 - Issue [#404](https://github.com/RTXteam/RTX-KG2/issues/404)
-- Additional issues that arose during the build: [#395 (Comment)](https://github.com/RTXteam/RTX-KG2/issues/395#issuecomment-2223612095)
+- Issue [#405](https://github.com/RTXteam/RTX-KG2/issues/405)
+- Additional issues that arose during the build: [#408 (Comment)](https://github.com/RTXteam/RTX-KG2/issues/408#issuecomment-2336826509)
 
 Build info:
 - Biolink Model version: 4.2.1
