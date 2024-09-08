@@ -16,15 +16,18 @@ rule UMLS_Conversion:
 
 rule Ontologies_Conversion:
     input:
-        code = config['ONT_CONVERSION_SCRIPT'],
+        code = config['ONTOLOGIES_CONVERSION_SCRIPT'],
+        real = config['ONTOLOGIES_EXTRACT_FILE'],
+        curies_to_categories_map = config['CURIES_TO_CATEGORIES_FILE'],
+        curies_to_urls_map = config['CURIES_TO_URLS_FILE'],
         validation = config['VALIDATION_PLACEHOLDER']
     output:
-        nodes = config['ONT_OUTPUT_NODES_FILE'],
-        edges = config['ONT_OUTPUT_EDGES_FILE']
+        nodes = config['ONTOLOGIES_OUTPUT_NODES_FILE'],
+        edges = config['ONTOLOGIES_OUTPUT_EDGES_FILE']
     log:
-        config['ONT_CONVERSION_LOG']
+        config['ONTOLOGIES_CONVERSION_LOG']
     shell:
-        "bash -x {input.code} {output.nodes} {output.edges} " + config['TEST_FLAG'] + " > {log} 2>&1" 
+        config['PYTHON_COMMAND'] + " {input.code} {input.real} {input.curies_to_categories_map} {input.curies_to_urls_map} " + config['BIOLINK_MODEL_VERSION'] + " {output.nodes} {output.edges} " + config['TEST_FLAG'] + " > {log} 2>&1" 
 
 rule SemMedDB_Conversion:
     input:
@@ -117,19 +120,6 @@ rule DGIdb_Conversion:
         edges = config['DGIDB_OUTPUT_EDGES_FILE']
     log:
         config['DGIDB_CONVERSION_LOG']
-    shell:
-        config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
-
-rule RepoDB_Conversion:
-    input:
-        code = config['REPODB_CONVERSION_SCRIPT'],
-        real = config['REPODB_INPUT_FILE'],
-        validation = config['VALIDATION_PLACEHOLDER']
-    output:
-        nodes = config['REPODB_OUTPUT_NODES_FILE'],
-        edges = config['REPODB_OUTPUT_EDGES_FILE']
-    log:
-        config['REPODB_CONVERSION_LOG']
     shell:
         config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
@@ -273,5 +263,18 @@ rule KEGG_Conversion:
         edges = config['KEGG_OUTPUT_EDGES_FILE']
     log:
         config['KEGG_CONVERSION_LOG']
+    shell:
+        config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
+
+rule ClinicalTrialsKG_Conversion:
+    input:
+        code = config['CLINICALTRIALSKG_CONVERSION_SCRIPT'],
+        real = config['CLINICALTRIALSKG_INPUT_FILE'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        nodes = config['CLINICALTRIALSKG_OUTPUT_NODES_FILE'],
+        edges = config['CLINICALTRIALSKG_OUTPUT_EDGES_FILE']
+    log:
+        config['CLINICALTRIALSKG_CONVERSION_LOG']
     shell:
         config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"

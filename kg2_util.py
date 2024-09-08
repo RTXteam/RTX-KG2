@@ -7,7 +7,7 @@
 
 __author__ = 'Stephen Ramsey'
 __copyright__ = 'Oregon State University'
-__credits__ = ['Stephen Ramsey']
+__credits__ = ['Stephen Ramsey', 'Erica Wood']
 __license__ = 'MIT'
 __version__ = '0.1.0'
 __maintainer__ = ''
@@ -24,12 +24,10 @@ import io
 import json
 import jsonlines
 import math
-import ontobio
 import os
 import pathlib
 import pickle
 import pprint
-import prefixcommons
 import re
 import shutil
 import ssl
@@ -112,7 +110,6 @@ CURIE_PREFIX_PSY = 'PSY'
 CURIE_PREFIX_RDF = 'rdf'
 CURIE_PREFIX_RDFS = 'rdfs'
 CURIE_PREFIX_REACTOME='REACT'
-CURIE_PREFIX_REPODB = 'REPODB'
 CURIE_PREFIX_RHEA = 'RHEA'
 CURIE_PREFIX_RHEA_COMP = 'RHEA.COMP'
 CURIE_PREFIX_RO = 'RO'
@@ -138,12 +135,10 @@ BASE_BASE_URL_IDENTIFIERS_ORG = 'https://identifiers.org/'
 BASE_URL_IDENTIFIERS_ORG_REGISTRY = \
     'https://registry.identifiers.org/registry/'
 BASE_URL_BIOLINK_CONCEPTS = 'https://w3id.org/biolink/vocab/'
-BASE_URL_BIOLINK_ONTOLOGY = 'https://w3id.org/biolink/biolink-model.owl.ttl'
-BASE_URL_BIOLINK_META = 'https://w3id.org/biolink/biolinkml/meta/'
 BASE_URL_CHEMBL_COMPOUND = BASE_BASE_URL_IDENTIFIERS_ORG + 'chembl.compound:'
 BASE_URL_CHEMBL_TARGET = BASE_BASE_URL_IDENTIFIERS_ORG + 'chembl.target:'
 BASE_URL_CHEMBL_MECHANISM = 'https://www.ebi.ac.uk/chembl/mechanism/inspect/'
-BASE_URL_CLINICALTRIALS = BASE_BASE_URL_IDENTIFIERS_ORG + 'clinicaltrials:'
+BASE_URL_CLINICALTRIALSKG = 'https://github.com/NCATSTranslator/Translator-All/wiki/Clinical-Trials-KP/'
 BASE_URL_DGIDB = 'https://www.dgidb.org/interaction_types'
 BASE_URL_DISGENET = 'http://www.disgenet.org'
 BASE_URL_DRUGBANK = BASE_BASE_URL_IDENTIFIERS_ORG + 'drugbank:'
@@ -161,7 +156,7 @@ BASE_URL_KEGG_ENZYME = BASE_BASE_URL_IDENTIFIERS_ORG + 'kegg.enzyme:'
 BASE_URL_KEGG_GLYCAN = BASE_BASE_URL_IDENTIFIERS_ORG + 'kegg.glycan:'
 BASE_URL_KEGG_REACTION = BASE_BASE_URL_IDENTIFIERS_ORG + 'kegg.reaction:'
 BASE_URL_MIRBASE = BASE_BASE_URL_IDENTIFIERS_ORG + 'mirbase:'
-BASE_URL_NCBIGENE = BASE_BASE_URL_IDENTIFIERS_ORG + 'ncbigene:'
+BASE_URL_NCBIGENE = 'http://identifiers.org/ncbigene/'
 BASE_URL_OBO_FORMAT = 'http://purl.org/obo/owl/oboFormat#oboFormat_'
 BASE_URL_OWL = 'http://www.w3.org/2002/07/owl#'
 BASE_URL_PATHWHIZ = 'http://smpdb.ca/pathways/#'
@@ -175,7 +170,6 @@ BASE_URL_PATHWHIZ_REACTION = 'https://pathbank.org/lims#/reactions/'
 BASE_URL_PATHWHIZ_BOUND = 'https://pathbank.org/lims#/bounds/'
 BASE_URL_PMID = "http://www.ncbi.nlm.nih.gov/pubmed/"
 BASE_URL_REACTOME = BASE_BASE_URL_IDENTIFIERS_ORG + 'reactome:'
-BASE_URL_REPODB = 'http://apps.chiragjpgroup.org/repoDB/'
 BASE_URL_RTX = 'http://rtx.ai/identifiers#'
 BASE_URL_SEMMEDDB = 'https://skr3.nlm.nih.gov/SemMedDB'
 BASE_URL_SMPDB = BASE_BASE_URL_IDENTIFIERS_ORG + 'smpdb:'
@@ -216,6 +210,7 @@ BIOLINK_CATEGORY_TRANSCRIPT = 'transcript'
 # Since this has changed 2(?) times now, this will make it easier going forward if things change again
 SOURCE_NODE_CATEGORY = BIOLINK_CATEGORY_RETRIEVAL_SOURCE
 
+CURIE_ID_CLINICALTRIALSKG = 'ClinicalTrialsKG:'
 CURIE_ID_DCTERMS_ISSUED = CURIE_PREFIX_DCTERMS + ':' + 'issued'
 CURIE_ID_DISGENET = 'DisGeNET:'
 CURIE_ID_DRUGCENTRAL_SOURCE = CURIE_PREFIX_DRUGCENTRAL + ':'
@@ -246,9 +241,6 @@ CURIE_ID_UMLS_SOURCE_CUI = CURIE_PREFIX_IDENTIFIERS_ORG_REGISTRY + ':' + 'umls'
 CURIE_ID_UNICHEM = CURIE_PREFIX_UNICHEM_SOURCE + ':'
 CURIE_ID_RDFS_SUBCLASS_OF = CURIE_PREFIX_RDFS + ':' + 'subClassOf'
 
-IRI_OBO_FORMAT_XREF = BASE_URL_OBO_FORMAT + 'xref'
-IRI_OWL_SAME_AS = BASE_URL_OWL + 'sameAs'
-
 EDGE_LABEL_OWL_SAME_AS = 'same_as'
 EDGE_LABEL_BIOLINK_GENE_ASSOCIATED_WITH_CONDITION = 'gene_associated_with_condition'
 EDGE_LABEL_BIOLINK_GENE_PRODUCT_OF = 'gene_product_of'
@@ -276,6 +268,9 @@ OBO_REL_CURIE_RE = re.compile(r'OBO:([^#]+)#([^#]+)')
 OBO_ONT_CURIE_RE = re.compile(r'OBO:([^\.]+)\.owl')
 LOWER_TO_UPPER_RE = re.compile(r'([a-z0-9])([A-Z][^A-Z])')
 
+DESCENDANT_KEY = "is_a"
+BASE_PREDICATE = EDGE_LABEL_BIOLINK_RELATED_TO.replace('_', ' ')
+BASE_CATEGORY = BIOLINK_CATEGORY_NAMED_THING
 
 def convert_date(time):
     return datetime.datetime.fromtimestamp(time).strftime('%Y-%m-%d %H:%M:%S')
@@ -410,126 +405,6 @@ def allcaps_to_only_first_letter_capitalized(allcaps: str):
 
 def safe_load_yaml_from_string(yaml_string: str):
     return yaml.safe_load(io.StringIO(yaml_string))
-
-
-def shorten_iri_to_curie(iri: str, curie_to_iri_map: list) -> str:
-    if iri is None:
-        raise ValueError('cannot shorten an IRI with value None')
-    curie_list = prefixcommons.contract_uri(iri,
-                                            curie_to_iri_map)
-    if len(curie_list) == 0:
-        return None
-
-    if len(curie_list) == 1:
-        curie_id = curie_list[0]
-    else:
-        assert False, \
-            "somehow got a list after calling prefixcommons.contract: " + \
-            iri + "; list is: " + str(curie_list)
-        curie_id = None
-
-    # if curie_id is not None:
-    #     # deal with IRIs like 'https://identifiers.org/umls/ATC/L01AX02' which get converted to CURIE 'UMLS:ATC/L01AX02'
-    #     umls_match = REGEX_UMLS_CURIE.match(curie_id)
-    #     if umls_match is not None:
-    #         curie_id = umls_match[1] + ':' + umls_match[2]
-
-    return curie_id
-
-
-def make_uri_to_curie_shortener(curie_to_iri_map=None) -> callable:
-    if curie_to_iri_map is None:
-        curie_to_iri_map = []
-    return lambda iri: shorten_iri_to_curie(iri, curie_to_iri_map)
-
-
-def expand_curie_to_iri(curie_id: str, curie_to_iri_map: list) -> Optional[str]:
-    if curie_id.startswith('UMLS:CN'):
-        curie_id = curie_id.replace('UMLS:CN', 'medgen:CN')  # see GitHub issue 810
-    iri = prefixcommons.expand_uri(curie_id, curie_to_iri_map)
-    if iri == curie_id:
-        iri = None
-    return iri
-
-
-def make_curie_to_uri_expander(curie_to_iri_map: list = None) -> callable:
-    if curie_to_iri_map is None:
-        curie_to_iri_map = []
-    return lambda curie_id: expand_curie_to_iri(curie_id, curie_to_iri_map)
-
-
-class IDMapperType(enum.Enum):
-    EXPAND = 1
-    CONTRACT = 2
-
-
-def make_curies_to_uri_map(curies_to_uri_map_yaml_string: str, mapper_type: IDMapperType) -> dict:
-    yaml_data_structure_dict = safe_load_yaml_from_string(curies_to_uri_map_yaml_string)
-    if mapper_type == IDMapperType.CONTRACT:
-        return typing.cast(list, typing.cast(list, typing.cast(list, yaml_data_structure_dict['use_for_bidirectional_mapping']) +
-                                             yaml_data_structure_dict['use_for_contraction_only']))
-    elif mapper_type == IDMapperType.EXPAND:
-        return typing.cast(list, typing.cast(list, yaml_data_structure_dict['use_for_bidirectional_mapping']) +
-                           typing.cast(list, yaml_data_structure_dict['use_for_expansion_only']))
-    else:
-        raise ValueError("Invalid mapper type: " + str(mapper_type))
-
-
-def get_biolink_category_tree(biolink_ontology: ontobio.ontol.Ontology):
-    queue = collections.deque([CURIE_PREFIX_BIOLINK + ':' + 'NamedThing'])
-    biolink_category_dict = dict()
-    biolink_category_tree = dict()
-
-    while len(queue) > 0:
-        node_id = queue.popleft()
-        biolink_category_dict[node_id] = []
-        for child_node_id in biolink_ontology.children(node_id, ['subClassOf']):
-            biolink_category_dict[node_id].append(child_node_id)
-            queue.append(child_node_id)
-
-    for parent, children in biolink_category_dict.items():
-        parent = biolink_ontology.node(parent)['lbl']
-        for child in children:
-            if parent not in biolink_category_tree:
-                biolink_category_tree[parent] = []
-            child = biolink_ontology.node(child)['lbl']
-            biolink_category_tree[parent].append(child)
-            biolink_category_tree[parent] = sorted(biolink_category_tree[parent])
-
-    return biolink_category_tree
-
-
-def get_depths_of_ontology_terms(ontology: ontobio.ontol.Ontology,
-                                 top_node_id: str):
-    queue = collections.deque([top_node_id])
-    distances = dict()
-    distances[top_node_id] = 0
-    while len(queue) > 0:
-        node_id = queue.popleft()
-        node_dist = distances.get(node_id, math.inf)
-        assert not math.isinf(node_dist)
-        for child_node_id in ontology.children(node_id, ['subClassOf']):
-            if math.isinf(distances.get(child_node_id, math.inf)):
-                distances[child_node_id] = node_dist + 1
-                queue.append(child_node_id)
-    return distances
-
-
-def get_biolink_categories_ontology_depths(biolink_ontology: ontobio.ontol.Ontology):
-    url_depths = get_depths_of_ontology_terms(biolink_ontology, CURIE_PREFIX_BIOLINK + ':NamedThing')
-    ret_depths = {key.replace(BASE_URL_BIOLINK_META, ''): value for key, value in url_depths.items()}
-    ret_depths['UnknownCategory'] = -1
-    return ret_depths
-
-
-def make_uri_curie_mappers(curies_to_uri_file_name: str) -> Dict[str, callable]:
-    yaml_string = read_file_to_string(curies_to_uri_file_name)
-    expand_map = make_curies_to_uri_map(yaml_string, IDMapperType.EXPAND)
-    contract_map = make_curies_to_uri_map(yaml_string, IDMapperType.CONTRACT)
-    expander = make_curie_to_uri_expander(expand_map)
-    contracter = make_uri_to_curie_shortener(contract_map)
-    return {'expand': expander, 'contract': contracter}
-
 
 def log_message(message: str,
                 ontology_name: str = None,
@@ -808,15 +683,32 @@ def predicate_label_to_curie(predicate_label: str,
         predicate_label_to_use = predicate_label.replace(':', '_')
     return relation_curie_prefix + ':' + predicate_label_to_use
 
+def construct_biolink_term_set(is_a_base, biolink_terms):
+    output_set = set()
+    for key in biolink_terms:
+        key_is_a = biolink_terms[key]
+        if key_is_a == is_a_base:
+            for item in construct_biolink_term_set(key, biolink_terms):
+                output_set.add(item)
+    output_set.add(is_a_base)
+    return output_set
 
-def ont_children_recursive(ont_hier: ontobio.ontol.Ontology,
-                           node_name: str):
-    res_set = {node_name}
-    for child_node_name in ont_hier.children(node_name):
-        res_set |= ont_children_recursive(ont_hier, child_node_name)
-    return res_set
+def identify_biolink_terms(biolink_model):
+    biolink_predicate_terms = dict()
+    biolink_category_terms = dict()
+    for predicate in biolink_model["slots"]:
+        if DESCENDANT_KEY in biolink_model["slots"][predicate]:
+            biolink_predicate_terms[predicate] = biolink_model["slots"][predicate][DESCENDANT_KEY]
 
-    
+    for category in biolink_model["classes"]:
+        if DESCENDANT_KEY in biolink_model["classes"][category]:
+            biolink_category_terms[category] = biolink_model["classes"][category][DESCENDANT_KEY]
+
+    biolink_predicates = construct_biolink_term_set(BASE_PREDICATE, biolink_predicate_terms)
+    biolink_categories = construct_biolink_term_set(BASE_CATEGORY, biolink_category_terms)
+
+    return list(biolink_predicates), list(biolink_categories)
+ 
 def make_edge_biolink(subject_curie_id: str,
                       object_curie_id: str,
                       predicate_label: str,
@@ -841,56 +733,3 @@ def is_a_valid_http_url(id: str) -> bool:
     except validators.ValidationFailure:
         valid = False
     return valid
-
-
-def load_ontology_from_owl_or_json_file(ontology_file_name: str):
-    if ontology_file_name.startswith('./'):
-        ontology_file_name = ontology_file_name[2:(len(ontology_file_name)+1)]
-    ont_factory = ontobio.ontol_factory.OntologyFactory()
-    return ont_factory.create(ontology_file_name, ignore_cache=True)
-
-
-# This function will load the ontology object from a pickle file (if it exists)
-# or it will create the ontology object by parsing the OWL-XML ontology file
-# NOTE: it seems that ontobio can't directly read a TTL file (at least, it is
-# not working for me), so we convert all input files (whether OWL or TTL) to
-# JSON and then load the JSON files using ontobio, for "simplicity". A second
-# reason why we load using JSON is because when it loads an OWL file, ontobio
-# does some internal caching that cannot be opted out of; it does not do this
-# caching if you load an ontology in JSON format.
-def make_ontology_from_local_file(file_name: str, save_pickle: bool = False):
-    file_name_without_ext = os.path.splitext(file_name)[0]
-    file_name_with_pickle_ext = file_name_without_ext + ".pickle"
-    if not os.path.isfile(file_name_with_pickle_ext) or save_pickle:
-        # the ontology hsa not been saved as a pickle file, so we need to load it from a text file
-        if not file_name.endswith('.json'):
-            temp_file_name = tempfile.mkstemp(prefix=TEMP_FILE_PREFIX + '-')[1] + '.json'
-            size = os.path.getsize(file_name)
-            log_message(message="Reading ontology file: " + file_name + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
-                        ontology_name=None)
-            cp = subprocess.run(['owltools', file_name, '-o', '-f', 'json', temp_file_name],
-                                check=True)
-            # robot commented out because it is giving a NullPointerException on umls-semantictypes.owl
-            # Once robot no longer gives a NullPointerException, we can use it like this:
-            #cp = subprocess.run(['robot', 'convert', '--input', file_name, '--output', temp_file_name])
-            if cp.stdout is not None:
-                log_message(message="OWL convert result: " + cp.stdout, ontology_name=None, output_stream=sys.stdout)
-            if cp.stderr is not None:
-                log_message(message="OWL convert result: " + cp.stderr, ontology_name=None, output_stream=sys.stderr)
-            assert cp.returncode == 0
-            json_file = file_name_without_ext + ".json"
-            shutil.move(temp_file_name, json_file)
-        else:
-            json_file = file_name
-        size = os.path.getsize(json_file)
-        log_message(message="Reading ontology JSON file: " + json_file + "; size: " + "{0:.2f}".format(size/1024) + " KiB",
-                    ontology_name=None)
-        assert os.path.exists(json_file)
-        ont_return = load_ontology_from_owl_or_json_file(json_file)
-        if save_pickle:
-            pickle.dump(ont_return, open(file_name_with_pickle_ext, 'wb'))
-    else:
-        size = os.path.getsize(file_name_with_pickle_ext)
-        log_message("Reading ontology file: " + file_name_with_pickle_ext + "; size: " + "{0:.2f}".format(size/1024) + " KiB", ontology_name=None)
-        ont_return = pickle.load(open(file_name_with_pickle_ext, "rb"))
-    return ont_return

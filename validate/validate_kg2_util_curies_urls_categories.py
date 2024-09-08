@@ -6,7 +6,7 @@
 
 __author__ = 'Stephen Ramsey'
 __copyright__ = 'Oregon State University'
-__credits__ = ['Stephen Ramsey']
+__credits__ = ['Stephen Ramsey', 'Erica Wood']
 __license__ = 'MIT'
 __version__ = '0.1.0'
 __maintainer__ = ''
@@ -15,6 +15,7 @@ __status__ = 'Prototype'
 
 import argparse
 import kg2_util
+import json
 
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(description='validate_kg2_util_curies_urls_categories.py: ' +
@@ -24,28 +25,23 @@ def make_arg_parser():
     arg_parser.add_argument('biolinkModelLocalFile', type=str)
     return arg_parser
 
-
 args = make_arg_parser().parse_args()
 biolink_model_url = args.biolinkModelURL
 biolink_model_file_name = args.biolinkModelLocalFile
 curies_to_urls_map_file_name = args.curiesToURLsMapFile
-
-iri_shortener = kg2_util.make_uri_to_curie_shortener(kg2_util.make_curies_to_uri_map(kg2_util.read_file_to_string(curies_to_urls_map_file_name),
-                                                                                     kg2_util.IDMapperType.CONTRACT))
 
 curies_to_url_map_data = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(curies_to_urls_map_file_name))
 curies_to_url_map_data_bidir = {key: listitem[key] for listitem in curies_to_url_map_data['use_for_bidirectional_mapping'] for key in listitem.keys()}
 
 curies_to_url_map_data_cont = {key: listitem[key] for listitem in curies_to_url_map_data['use_for_contraction_only'] for key in listitem.keys()}
 
+valid_base_urls = list()
+valid_base_urls += [value for value in curies_to_url_map_data_bidir.values()]
+valid_base_urls += [value for value in curies_to_url_map_data_cont.values()]
 
 kg2_util.download_file_if_not_exist_locally(biolink_model_url, biolink_model_file_name)
-biolink_ont = kg2_util.make_ontology_from_local_file(biolink_model_file_name)
-biolink_categories_ontology_depths = kg2_util.get_biolink_categories_ontology_depths(biolink_ont)
-
-biolink_edge_labels = kg2_util.ont_children_recursive(biolink_ont,
-                                                      kg2_util.CURIE_PREFIX_BIOLINK + ':' +
-                                                      kg2_util.EDGE_LABEL_BIOLINK_RELATED_TO)
+biolink_model = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(biolink_model_file_name))
+biolink_edge_labels, biolink_categories = kg2_util.identify_biolink_terms(biolink_model)
 
 for variable_name in dir(kg2_util):
     variable_value = getattr(kg2_util, variable_name)
@@ -53,21 +49,15 @@ for variable_name in dir(kg2_util):
         assert variable_value in curies_to_url_map_data_bidir, variable_name
     elif variable_name.startswith('BASE_URL_'):
         url_str = variable_value
-        curie = iri_shortener(url_str)
-        assert curie is not None, url_str
+        assert url_str in valid_base_urls, url_str
     elif variable_name.startswith('BIOLINK_CATEGORY_'):
         category_label = variable_value
-        category_camelcase = kg2_util.convert_space_case_to_camel_case(category_label)
-        category_curie = kg2_util.CURIE_PREFIX_BIOLINK + ':' + category_camelcase
-        assert category_curie in biolink_categories_ontology_depths, category_curie
+        assert category_label in biolink_categories, category_curie
         #  assert category_label in categories_to_check, category_label
     elif variable_name.startswith('CURIE_ID_'):
         curie_id = variable_value
         assert ':' in curie_id, variable_name
         assert curie_id.split(':')[0] in curies_to_url_map_data_bidir, variable_name
-    elif variable_name.startswith('IRI_'):
-        url = variable_value
-        assert iri_shortener(url) is not None, url
     elif variable_name.startswith('EDGE_LABEL_BIOLINK_'):
-        relation_label = variable_value
-        assert kg2_util.CURIE_PREFIX_BIOLINK + ':' + relation_label in biolink_edge_labels, relation_label
+        relation_label = variable_value.replace('_', ' ')
+        assert relation_label in biolink_edge_labels, relation_label

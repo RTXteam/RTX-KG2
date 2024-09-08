@@ -22,9 +22,12 @@ disgenet_output_file=${1:-"${BUILD_DIR}/all_gene_disease_pmid_associations.tsv"}
 
 disgenet_download_link="https://www.disgenet.org/static/disgenet_ap1/files/downloads/all_gene_disease_pmid_associations.tsv.gz"
 
-${curl_get} ${disgenet_download_link} > ${disgenet_output_file}.gz
+# ${curl_get} ${disgenet_download_link} > ${disgenet_output_file}.gz
 
-gzip -d ${disgenet_output_file}.gz
+# gzip -d ${disgenet_output_file}.gz
+
+# Temporary patch due to link failing to resolve
+${s3_cp_cmd} s3://${s3_bucket}/all_gene_disease_pmid_associations.tsv ${disgenet_output_file}
 
 
 date

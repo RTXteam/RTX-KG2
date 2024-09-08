@@ -22,13 +22,6 @@ export PATH=$PATH:${BUILD_DIR}
 
 biolink_base_url_no_version=https://raw.githubusercontent.com/biolink/biolink-model/
 biolink_raw_base_url=${biolink_base_url_no_version}v${biolink_model_version}/
-biolink_download_url=${biolink_raw_base_url}/project/owl/biolink_model.owl.ttl
-curies_urls_map_replace_string="\    biolink_download_source: ${biolink_download_url}"
-ont_load_inventory_replace_string="\  url: ${biolink_download_url}"
-biolink_url_context_jsonld=${biolink_raw_base_url}context.jsonld
-biolink_model_owl=biolink_model.owl.ttl
-biolink_model_owl_local_file=${BUILD_DIR}/${biolink_model_owl}
-biolink_model_owl_url=${biolink_raw_base_url}project/owl/${biolink_model_owl}
 biolink_model_yaml=biolink_model.yaml
 biolink_model_yaml_url=${biolink_raw_base_url}src/biolink_model/schema/${biolink_model_yaml}
 biolink_model_yaml_local_file=${BUILD_DIR}/${biolink_model_yaml}
@@ -42,13 +35,6 @@ cat ${config_dir}/master-config.shinc
 echo ${VALIDATE_CODE_DIR}
 echo ${curies_to_urls_file}
 
-sed -i "\@${biolink_base_url_no_version}@c${curies_urls_map_replace_string}" \
-        ${curies_to_urls_file}
-
-sed -i "\@${biolink_base_url_no_version}@c${ont_load_inventory_replace_string}" \
-        ${ont_load_inventory_file}
-
-rm -f ${biolink_model_owl_local_file}
 rm -f ${biolink_model_yaml_local_file}
 
 cd ${BUILD_DIR}
@@ -58,8 +44,8 @@ ${curl_get} ${infores_catalog_yaml_url} -o ${infores_catalog_yaml}
 ${python_command} -u ${VALIDATE_CODE_DIR}/validate_curies_to_categories_yaml.py \
            ${curies_to_categories_file} \
            ${curies_to_urls_file} \
-           ${biolink_model_owl_url} \
-           ${biolink_model_owl_local_file}
+           ${biolink_model_yaml_url} \
+           ${biolink_model_yaml_local_file}
 
 ${python_command} -u ${VALIDATE_CODE_DIR}/validate_curies_to_urls_map_yaml.py \
            ${curies_to_urls_file} \
@@ -68,8 +54,8 @@ ${python_command} -u ${VALIDATE_CODE_DIR}/validate_curies_to_urls_map_yaml.py \
 
 ${python_command} -u ${VALIDATE_CODE_DIR}/validate_kg2_util_curies_urls_categories.py \
            ${curies_to_urls_file} \
-           ${biolink_model_owl_url} \
-           ${biolink_model_owl_local_file}
+           ${biolink_model_yaml_url} \
+           ${biolink_model_yaml_local_file}
 
 ${python_command} -u ${VALIDATE_CODE_DIR}/validate_predicate_remap_yaml.py \
            ${curies_to_urls_file} \

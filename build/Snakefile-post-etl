@@ -3,8 +3,8 @@ rule Merge:
         code = config['MERGE_SCRIPT'],
         umls_nodes = config['UMLS_OUTPUT_NODES_FILE'],
         umls_edges = config['UMLS_OUTPUT_EDGES_FILE'],
-        ont_nodes = config['ONT_OUTPUT_NODES_FILE'],
-        ont_edges = config['ONT_OUTPUT_EDGES_FILE'],
+        ontologies_nodes = config['ONTOLOGIES_OUTPUT_NODES_FILE'],
+        ontologies_edges = config['ONTOLOGIES_OUTPUT_EDGES_FILE'],
         uniprot_nodes = config['UNIPROTKB_OUTPUT_NODES_FILE'],
         uniprot_edges = config['UNIPROTKB_OUTPUT_EDGES_FILE'],
         semmeddb_nodes = config['SEMMEDDB_OUTPUT_NODES_FILE'],
@@ -19,8 +19,6 @@ rule Merge:
         ncbigene_edges = config['NCBIGENE_OUTPUT_EDGES_FILE'],
         dgidb_nodes = config['DGIDB_OUTPUT_NODES_FILE'],
         dgidb_edges = config['DGIDB_OUTPUT_EDGES_FILE'],
-        repodb_nodes = config['REPODB_OUTPUT_NODES_FILE'],
-        repodb_edges = config['REPODB_OUTPUT_EDGES_FILE'],
         drugbank_nodes = config['DRUGBANK_OUTPUT_NODES_FILE'],
         drugbank_edges = config['DRUGBANK_OUTPUT_EDGES_FILE'],
         smpdb_nodes = config['SMPDB_OUTPUT_NODES_FILE'],
@@ -42,7 +40,9 @@ rule Merge:
         disgenet_nodes = config['DISGENET_OUTPUT_NODES_FILE'],
         disgenet_edges = config['DISGENET_OUTPUT_EDGES_FILE'],
         kegg_nodes = config['KEGG_OUTPUT_NODES_FILE'],
-        kegg_edges = config['KEGG_OUTPUT_EDGES_FILE']
+        kegg_edges = config['KEGG_OUTPUT_EDGES_FILE'],
+        clinicaltrialskg_nodes = config['CLINICALTRIALSKG_OUTPUT_NODES_FILE'],
+        clinicaltrialskg_edges = config['CLINICALTRIALSKG_OUTPUT_EDGES_FILE']
     output:
         nodes = config['MERGED_OUTPUT_NODES_FILE'],
         edges = config['MERGED_OUTPUT_EDGES_FILE'],
@@ -56,7 +56,7 @@ rule Merge:
             " --outputEdgesFile {output.edges} " + \
             " --kgNodesFiles " + \
             "{input.umls_nodes} " + \
-            "{input.ont_nodes} " + \
+            "{input.ontologies_nodes} " + \
             "{input.semmeddb_nodes} " + \
             "{input.uniprot_nodes} " + \
             "{input.ensembl_nodes} " + \
@@ -64,7 +64,6 @@ rule Merge:
             "{input.chembl_nodes} " + \
             "{input.ncbigene_nodes} " + \
             "{input.dgidb_nodes} " + \
-            "{input.repodb_nodes} " + \
             "{input.smpdb_nodes} " + \
             "{input.drugbank_nodes} " + \
             "{input.hmdb_nodes} " + \
@@ -76,9 +75,10 @@ rule Merge:
             "{input.intact_nodes} " + \
             "{input.disgenet_nodes} " + \
             "{input.kegg_nodes} " + \
+            "{input.clinicaltrialskg_nodes} " + \
             " --kgEdgesFiles " + \
             "{input.umls_edges} " + \
-            "{input.ont_edges} " + \
+            "{input.ontologies_edges} " + \
             "{input.semmeddb_edges} " + \
             "{input.uniprot_edges} " + \
             "{input.ensembl_edges} " + \
@@ -86,7 +86,6 @@ rule Merge:
             "{input.chembl_edges} " + \
             "{input.ncbigene_edges} " + \
             "{input.dgidb_edges} " + \
-            "{input.repodb_edges} " + \
             "{input.smpdb_edges} " + \
             "{input.drugbank_edges} " + \
             "{input.hmdb_edges} " + \
@@ -97,7 +96,8 @@ rule Merge:
             "{input.drugcentral_edges} " + \
             "{input.intact_edges} " + \
             "{input.disgenet_edges} " + \
-            "{input.kegg_edges} > {log} 2>&1"
+            "{input.kegg_edges} " + \
+            "{input.clinicaltrialskg_edges} > {log} 2>&1"
 
 rule Stats:
     input:
@@ -122,7 +122,7 @@ rule Simplify:
     log:
         config['SIMPLIFY_LOG']
     shell:
-        "bash -x {input.code} {input.nodes} {input.edges} {output.nodes} {output.edges} " + config['VERSION_FILE'] + " " + config['TEST_FLAG'] + " > {log} 2>&1" 
+        "bash -x {input.code} {input.nodes} {input.edges} {output.nodes} {output.edges} " + config['TEST_FLAG'] + " > {log} 2>&1" 
 
 rule Slim:
     input:

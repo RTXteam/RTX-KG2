@@ -9,6 +9,19 @@ rule UMLS:
     shell:
         "bash -x {input.code} {output} > {log} 2>&1" 
 
+rule Ontologies:
+    input:
+        code = config['ONTOLOGIES_EXTRACTION_SCRIPT'],
+        parser = config['ONTOLOGIES_EXTRACTION_PARSER'],
+        ontologies_load_inventory = config['ONTOLOGIES_LOAD_INVENTORY_FILE'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['ONTOLOGIES_EXTRACT_FILE']
+    log:
+        config['ONTOLOGIES_EXTRACTION_LOG']
+    shell:
+        "bash -x {input.code} {input.parser} {input.ontologies_load_inventory} {output} > {log} 2>&1" 
+
 rule SemMedDB:
     input:
         code = config['SEMMEDDB_EXTRACTION_SCRIPT'],
@@ -87,17 +100,6 @@ rule DGIdb:
         config['DGIDB_EXTRACTION_LOG']
     shell:
         "bash -x {input.code} " + config['DGIDB_DIR'] + " > {log} 2>&1"
-
-rule RepoDB:
-    input:
-        code = config['REPODB_EXTRACTION_SCRIPT'],
-        validation = config['VALIDATION_PLACEHOLDER']
-    output:
-        config['REPODB_INPUT_FILE']
-    log:
-        config['REPODB_EXTRACTION_LOG']
-    shell:
-        "bash -x {input.code} " + config['REPODB_DIR'] + " > {log} 2>&1"
 
 rule DrugBank:
     input:
@@ -217,5 +219,16 @@ rule KEGG:
         config['KEGG_INPUT_FILE']
     log:
         config['KEGG_EXTRACTION_LOG']
+    shell:
+        "bash -x {input.code} {output} > {log} 2>&1"
+
+rule ClinicalTrialsKG:
+    input:
+        code = config['CLINICALTRIALSKG_EXTRACTION_SCRIPT'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['CLINICALTRIALSKG_INPUT_FILE']
+    log:
+        config['CLINICALTRIALSKG_EXTRACTION_LOG']
     shell:
         "bash -x {input.code} {output} > {log} 2>&1"

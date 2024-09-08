@@ -97,18 +97,6 @@ fi
 # we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
 source ${SETUP_CODE_DIR}/setup-python37-with-pip3-in-ubuntu.shinc
 ${VENV_DIR}/bin/pip3 install -r ${SETUP_CODE_DIR}/requirements-kg2-build.txt
-
-## install ROBOT (software: ROBOT is an OBO Tool) by downloading the jar file
-## distribution and cURLing the startup script (note github uses URL redirection
-## so we need the "-L" command-line option, and cURL doesn't like JAR files by
-## default so we need the "application/zip")
-${curl_get} -H "Accept: application/zip" https://github.com/RTXteam/robot/releases/download/v1.3.0/robot.jar > ${BUILD_DIR}/robot.jar 
-curl -s https://raw.githubusercontent.com/RTXteam/robot/v1.3.0/bin/robot > ${BUILD_DIR}/robot
-chmod +x ${BUILD_DIR}/robot
-
-## setup owltools
-${curl_get} ${BUILD_DIR} https://github.com/RTXteam/owltools/releases/download/v0.3.0/owltools > ${BUILD_DIR}/owltools
-chmod +x ${BUILD_DIR}/owltools
 }
 
 function setup_kg2_build_part2 () {

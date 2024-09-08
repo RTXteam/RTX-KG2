@@ -1,3 +1,11 @@
+'ClinicalTrialsKG:':
+  source_name: Multiomics ClinicalTrials KP API
+  infores_curie: infores:biothings-multiomics-clinicaltrials
+  knowledge_type: knowledge_source
+'DGIdb:':
+  source_name: Drug Gene Interaction Database
+  infores_curie: infores:dgidb
+  knowledge_type: aggregator_knowledge_source
 'DGIdb:':
   source_name: Drug Gene Interaction Database
   infores_curie: infores:dgidb
@@ -14,7 +22,7 @@ DOID:doid.owl:
   source_name: DrugCentral
   infores_curie: infores:drugcentral
   knowledge_type: knowledge_source
-EFO:efo.owl:
+OBO:efo.owl:
   source_name: Experimental Factor Ontology
   infores_curie: infores:efo
   knowledge_type: knowledge_source
@@ -70,7 +78,7 @@ OBO:genepio.owl:
   source_name: Genomic Epidemiology Ontology
   infores_curie: infores:genepio
   knowledge_type: knowledge_source
-OBO:go/extensions/go-plus.owl:
+OBO:go-plus.owl:
   source_name: Gene Ontology Plus
   infores_curie: infores:go-plus
   knowledge_type: knowledge_source
@@ -94,7 +102,7 @@ OBO:nbo.owl:
   source_name: Neuro Behavior Ontology
   infores_curie: infores:nbo
   knowledge_type: knowledge_source
-OBO:ncbitaxon/subsets/taxslim.owl:
+OBO:taxslim.owl:
   source_name: NCBI Taxonomy Ontology
   infores_curie: infores:ncbi-taxon
   knowledge_type: knowledge_source
@@ -110,7 +118,7 @@ OBO:ro.owl:
   source_name: Relations Ontology
   infores_curie: infores:ro
   knowledge_type: knowledge_source
-OBO:uberon.owl:
+OBO:uberon-ext.owl:
   source_name: Uber Anatomy Ontology
   infores_curie: infores:uberon
   knowledge_type: knowledge_source
@@ -118,7 +126,7 @@ OBO:uberon.owl:
   source_name: Online Mendelian Inheritance in Man (OMIM)
   infores_curie: infores:omim
   knowledge_type: knowledge_source
-'ORPHANET:':
+OBO:ordo.owl:
   source_name: Orphanet Rare Disease Ontology
   infores_curie: infores:ordo
   knowledge_type: knowledge_source
@@ -126,10 +134,6 @@ OBO:uberon.owl:
   source_name: PathWhiz
   infores_curie: infores:pathwhiz
   knowledge_type: primary_knowledge_source
-'REPODB:':
-  source_name: Drug Repositioning Database
-  infores_curie: infores:repodb
-  knowledge_type: knowledge_source
 'RTX:':
   source_name: RTX KG2
   infores_curie: infores:rtx-kg2

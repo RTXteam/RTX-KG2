@@ -27,8 +27,12 @@ smpdb_link="https://pathbank.org/downloads/pathbank_all_pathways.csv.zip"
 pwml_link="https://pathbank.org/downloads/pathbank_all_pwml.zip"
 smpdb_pmids_file="SMPDB_pubmed_IDs.csv"
 
-${curl_get} ${output_dir}/ ${smpdb_link} > ${output_dir}/${smpdb_output_file}.zip
-${curl_get} ${output_dir}/ ${pwml_link} > ${output_dir}/${pw_output_file}
+# ${curl_get} ${output_dir}/ ${smpdb_link} > ${output_dir}/${smpdb_output_file}.zip
+# ${curl_get} ${output_dir}/ ${pwml_link} > ${output_dir}/${pw_output_file}
+
+# Temporary patch due to cURL failure
+${s3_cp_cmd} s3://${s3_bucket}/${smpdb_output_file}.zip ${output_dir}/${smpdb_output_file}.zip
+${s3_cp_cmd} s3://${s3_bucket}/${pw_output_file} ${output_dir}/${pw_output_file}
 
 unzip -o ${output_dir}/${smpdb_output_file}.zip -d ${output_dir}/
 unzip -o -q ${output_dir}/${pw_output_file} -d ${output_dir}/
