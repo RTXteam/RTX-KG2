@@ -157,12 +157,12 @@ then
     ${s3_cp_cmd} ${kg2_version_file_local} s3://${s3_bucket_public}/${kg2_version_file}
 fi
 
-if [[ -f ${trigger_file_is_major_release} ]]
+if [[ "${test_flag}" != "test" && "${dryrun}" != "-n" && -f ${trigger_file_is_major_release} ]]
 then
    rm -f ${trigger_file_is_major_release}
 fi
 
-if [[ -f ${trigger_file_is_minor_release} ]]
+if [[ "${test_flag}" != "test" && "${dryrun}" != "-n" && -f ${trigger_file_is_minor_release} ]]
 then
    rm -f ${trigger_file_is_minor_release}
 fi
