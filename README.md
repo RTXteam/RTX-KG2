@@ -68,7 +68,6 @@ miRBase | data | [link](http://mirbase.org/help/FAQs.shtml#Do%20I%20need%20permi
 NCBIGene | data |   | [link](https://www.ncbi.nlm.nih.gov/gene)
 PathWhiz | data |   | [link](https://smpdb.ca/pathwhiz)
 Reactome | data | [link](https://reactome.org/license) | [link](https://reactome.org/)
-RepoDB | data |   | [link](https://repodb.net/)
 SemMedDB | data | [link](https://skr3.nlm.nih.gov/TermsAndCond.html) | [link](https://skr3.nlm.nih.gov/SemMedDB/)
 SMPDB | data | [link](https://smpdb.ca/about#citing) | [link](https://smpdb.ca/)
 Therapuetic Target Database | data | | [link](http://db.idrblab.net/ttd/)
@@ -76,7 +75,6 @@ Unichem | data |   | [link](https://www.ebi.ac.uk/unichem/)
 UniprotKB | data | [link](https://www.uniprot.org/help/license) | [link](https://www.uniprot.org/help/uniprotkb)
 Anatomical Therapeutic Chemical Classification System | ontology |   | [link](https://www.whocc.no/atc_ddd_index/)
 Basic Formal Ontology | ontology |   | [link](http://www.obofoundry.org/ontology/bfo.html)
-Biolink meta-model | ontology |   | [link](https://github.com/biolink/biolink-api)
 Biological Spatial Ontology | ontology |   | [link](http://www.obofoundry.org/ontology/bspo.html)
 Cell Ontology | ontology |   | [link](http://www.obofoundry.org/ontology/cl.html)
 Chemical Entities of Biological Interest | ontology |   | [link](http://www.obofoundry.org/ontology/chebi.html)
@@ -96,13 +94,8 @@ HUGO Gene Nomenclature Committee | ontology |   | [link](https://www.genenames.o
 Human developmental anatomy, abstract | ontology |   | [link](http://obofoundry.org/ontology/ehdaa2.html)
 Human Phenotype Ontology | ontology |   | [link](http://www.obofoundry.org/ontology/hp.html)
 ICD-10 Procedure Coding System | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD10PCS/index.html)
-ICD-10, American English Equivalents | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD10AE)
 Interaction Network Ontology | ontology |   | [link](http://www.obofoundry.org/ontology/ino.html)
-International Classification of Diseases and Related Health Problems, | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD10/index.html)
 International Classification of Diseases, Ninth Revision, Clinical Modification | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD9CM)
-International Classification of Diseases, Tenth Revision, Clinical Modification | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/ICD10CM)
-Logical Observation Identifiers Names and Codes | ontology |   | [link](https://loinc.org/)
-MedDRA | ontology |   | [link](https://www.meddra.org/)
 Medical Subject Headings | ontology |   | [link](https://www.nlm.nih.gov/mesh/meshhome.html)
 Medication Reference Terminology | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MED-RT)
 MedlinePlus Health Topics | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/MEDLINEPLUS/index.html)
@@ -123,17 +116,15 @@ Protein Ontology | ontology |   | [link](http://www.obofoundry.org/ontology/pr.h
 Psychological Index Terms | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/PSY)
 Relation Ontology | ontology |   | [link](http://www.obofoundry.org/ontology/ro.html)
 RXNORM | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcereleasedocs/current/RXNORM/index.html)
-SNOMED Clinical Terms US Edition | ontology | [link](https://www.nlm.nih.gov/healthit/snomedct/snomed_licensing.html) | [link](http://www.snomed.org)
 Uber-anatomy Ontology | ontology |   | [link](http://www.obofoundry.org/ontology/uberon.html)
-UMLS Semantic Types | ontology | [link](https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/license_agreement.html) | [link](https://www.nlm.nih.gov/research/umls/index.html)
 
 
-# How to build RTX KG2 from its upstream sources
+# How to build RTX-KG2 from its upstream sources
 
 ## General notes:
 
-The KG2 build system is designed only to run in an **Ubuntu 18.04** environment
-(i.e., either (i)&nbsp;an Ubuntu 18.04 host OS or (ii)&nbsp;Ubuntu 18.04 running in a
+The KG2 build system is designed only to run in an **Ubuntu 22.04** environment
+(i.e., either (i)&nbsp;an Ubuntu 22.04 host OS or (ii)&nbsp;Ubuntu 22.04 running in a
 Docker container) as a non-root user which must have passwordless `sudo` enabled
 and should have `bash` as the default shell (the build commands in the
 instructions in this README page assume a `bash` shell). The build system will
@@ -177,14 +168,16 @@ sources.
 ## Setup your computing environment
 
 The computing environment where you will be running the KG2 build should be
-running **Ubuntu 18.04**.  Your build environment should have the following
+running **Ubuntu 22.04**.  Your build environment should have the following
 *minimum* hardware specifications:
 
-- 256 GiB of system memory
+- 128 GiB of system memory
 - 1,023 GiB of disk space in the root file system 
 - high-speed networking (20 Gb/s networking) and storage
 - if you are on the RTX-KG2 team: ideally your build system should be in the AWS
   region `us-west-2` since that is where the RTX KG2 S3 buckets are located
+
+We use `r5a.4xlarge` AWS instances for KG2 builds.
 
 ## The KG2 build system assumes there is no MySQL already installed
 
@@ -208,12 +201,11 @@ buckets, `s3://rtx-kg2`, `s3://rtx-kg2-public`, and `s3://rtx-kg2-versioned`,
 which are in the `us-west-2` AWS region) and you will need to have an AWS
 authentication key pair that is configured to be able to read from (and write
 to) the bucket(s), so that the build script can download a copy of the full
-Unified Medical Language System (UMLS) distribution. The full UMLS distribution
-(including SNOMED CT) (`umls-2022AA-metathesaurus.zip`; IANAL, but it appears
+Unified Medical Language System (UMLS) distribution. The full UMLS distribution (`umls-2023AA-metathesaurus.zip`); IANAL, but it appears
 that the UMLS is encumbered by a license preventing redistribution so I have not
 hosted them on a public server for download; but you can get it for free at the
 [UMLS website](https://www.nlm.nih.gov/research/umls/) if you agree to the UMLS
-license terms)) and the DrugBank distribution (`drugbank.xml.gz`) will need to
+license terms)), the DrugBank distribution (`drugbank.xml.gz`), the SMPDB publications CSV file (obtained from the Wishart Lab), and the SemMedDB distriction will need to
 be pre-placed in the S3 bucket and the local copy of `master-config.shinc` will
 need to be configured so that variables `s3_bucket`, `s3_bucket_public`, and
 `s3_bucket_versioned` point to the S3 bucket(s) and so that the shell variable
@@ -250,26 +242,17 @@ directory).
 
 The KG2 build software has been tested with the following instance type:
 
-- AMI: Ubuntu Server 18.04 LTS (HVM), SSD Volume Type - `ami-005bdb005fb00e791` (64-bit x86)
-- Instance type: `r5a.8xlarge` (256 GiB of memory)
+- AMI: Ubuntu Server 22.04 LTS (HVM), SSD Volume Type - `ami-005bdb005fb00e791` (64-bit x86)
+- Instance type: `r5a.4xlarge` (128 GiB of memory)
 - Storage: 1,023 GiB, Elastic Block Storage
 - Security Group: ingress TCP packets on port 22 (`ssh`) permitted
 
-As of summer 2020, an on-demand `r5a.8xlarge` instance in the `us-west-2` AWS
-region costs $1.808 per hour, so the cost to build KG2 (estimated to take 54
-hours with Snakemake) would be approximately $98 (rough estimate, plus or minus
-20%). (Unfortunately, AWS doesn't seem to allow the provisioning of spot
-instances while specifying minimum memory greater than 240 GiB; but perhaps soon
-that will happen, and if so, it could save significantly on the cost of updating
-the RTX KG2.)
+As of summer 2024, an on-demand `r5a.4xlarge` instance in the `us-west-2` AWS
+region costs $0.904 per hour, so the cost to build KG2 (estimated to take 25
+hours) would be approximately $23 (rough estimate, plus or minus
+20%).
 
 ## Build instructions
-
-Note: to follow the instructions for Option 3 and Option 4 below, in addition to
-the requirements as described above, you will need to be using the `bash` shell
-on your *local* computer.
-
-### Build Option 1: build KG2 in parallel directly on an Ubuntu system:
 
 These instructions assume that you are logged into the target Ubuntu system, and
 that the Ubuntu system has *not* previously had `setup-kg2-build.sh` run (if it
@@ -280,7 +263,7 @@ that you are getting the exact python packages needed in the latest
 your build does not inadvertantly reuse artifacts from a previous RTX-KG2 build:
 
 (1) Install the `git` and `screen` packages if they are not already installed (though
-in an Ubuntu 18.04 instance created using the standard AWS AMI, they should already
+in an Ubuntu 22.04 instance created using the standard AWS AMI, they should already
 be installed):
 
     sudo apt-get update && sudo apt-get install -y screen git
@@ -296,9 +279,14 @@ be installed):
 [An advantage to having the `git clone` command separated out from the install script is
 that it provides control over which branch you want to use for the KG2 build code.]
 
-(4) Setup the KG2 build system: 
+(4) Change branches to the KG2 buid code if necessary
 
-    bash -x RTX-KG2/setup-kg2-build.sh
+    cd ~/RTX-KG2/
+    git checkout [branch name]
+
+(5) Setup the KG2 build system: 
+
+    bash -x ~/RTX-KG2/setup-kg2-build.sh
 
 Note that there is no need to redirect `stdout` or `stderr` to a log file, when
 executing `setup-kg2-build.sh`; this is because the script saves its own `stdout` and
@@ -324,11 +312,11 @@ If all goes well, the setup script should end with the message:
 printed to the console. The aforementioned message means that the logfile from
 running the setup script has been archived in the `rtx-kg2-versioned` S3 bucket.
 
-(5) Look in the log file `~/kg2-build/setup-kg2-build.log` to see if the script
+(6) Look in the log file `~/kg2-build/setup-kg2-build.log` to see if the script
 completed successfully; it should end with `======= script finished ======`.
 In that case it is safe to proceed.
 
-(6) [**THIS STEP IS NORMALLY SKIPPED**] If (and *only* if) you have made code
+(7) [**THIS STEP IS NORMALLY SKIPPED**] If (and *only* if) you have made code
 changes to KG2 that will cause a change to the schema for KG2 (or added a major
 new upstream source database), you will want to increment the "major" release
 number for KG2. To do that, at this step of the build process, you would run
@@ -347,81 +335,88 @@ If you don't increment the release number at all, you should not be planning to 
 the build. This is useful for cases where you are testing the build system, but not
 necessarily different code or bug fixes.
 
-(7) Run a "dry-run" build:
+(8) Run a "dry-run" build:
 
     bash -x ~/kg2-code/build/build-kg2-snakemake.sh all -F -n
     
-and inspect the file `~/kg2-build/build-kg2-snakemake-n.log` that will be created, to make sure that
+and inspect the file `~/kg2-build/build-kg2-snakemake-KG2.{major version}.{minor version}-n.log` that will be created, to make sure that
 all of the KG2 build tasks are included. Currently, the file should end with the following
 count of tasks:
 ```
 Job counts:
         count   jobs
-        1       ChEMBL
-        1       ChEMBL_Conversion
-        1       DGIdb
-        1       DGIdb_Conversion
-        1       DisGeNET
-        1       DisGeNET_Conversion
-        1       DrugBank
-        1       DrugBank_Conversion
-        1       DrugCentral
-        1       DrugCentral_Conversion
-        1       Ensembl
-        1       Ensembl_Conversion
-        1       Finish
-        1       GO_Annotations
-        1       GO_Annotations_Conversion
-        1       HMDB
-        1       HMDB_Conversion
-        1       IntAct
-        1       IntAct_Conversion
-        1       JensenLab
-        1       Jensenlab_Conversion
-        1       KEGG
-        1       KEGG_Conversion
-        1       Merge
-        1       NCBIGene
-        1       NCBIGene_Conversion
-        1       Ontologies_and_TTL
-        1       Reactome
-        1       Reactome_Conversion
-        1       RepoDB
-        1       RepoDB_Conversion
-        1       SMPDB
-        1       SMPDB_Conversion
-        1       SemMedDB
-        1       SemMedDB_Conversion
-        1       Simplify
-        1       Simplify_Stats
-        1       Slim
-        1       Stats
-        1       TSV
-        1       UMLS
-        1       UMLS_Conversion
-        1       UniChem
-        1       UniChem_Conversion
-        1       UniProtKB
-        1       UniProtKB_Conversion
-        1       ValidationTests
-        1       miRBase
-        1       miRBase_Conversion
-        49
+        1         ChEMBL
+        1         ChEMBL_Conversion
+        1         ClinicalTrialsKG
+        1         ClinicalTrialsKG_Conversion
+        1         DGIdb
+        1         DGIdb_Conversion
+        1         DisGeNET
+        1         DisGeNET_Conversion
+        1         DrugBank
+        1         DrugBank_Conversion
+        1         DrugCentral
+        1         DrugCentral_Conversion
+        1         Ensembl
+        1         Ensembl_Conversion
+        1         Finish
+        1         GO_Annotations
+        1         GO_Annotations_Conversion
+        1         HMDB
+        1         HMDB_Conversion
+        1         IntAct
+        1         IntAct_Conversion
+        1         JensenLab
+        1         JensenLab_Conversion
+        1         KEGG
+        1         KEGG_Conversion
+        1         Merge
+        1         NCBIGene
+        1         NCBIGene_Conversion
+        1         Ontologies
+        1         Ontologies_Conversion
+        1         Reactome
+        1         Reactome_Conversion
+        1         SMPDB
+        1         SMPDB_Conversion
+        1         SemMedDB
+        1         SemMedDB_Conversion
+        1         Simplify
+        1         Simplify_Stats
+        1         Slim
+        1         Stats
+        1         TSV
+        1         UMLS
+        1         UMLS_Conversion
+        1         UniChem
+        1         UniChem_Conversion
+        1         UniProtKB
+        1         UniProtKB_Conversion
+        1         ValidationTests
+        1         miRBase
+        1         miRBase_Conversion
+        50
 This was a dry-run (flag -n). The order of jobs does not reflect the order of execution.
++ [[ '' != \t\e\s\t ]]
++ [[ -n != \-\n ]]
++ [[ '' != \t\e\s\t ]]
++ [[ -n != \-\n ]]
++ [[ '' != \t\e\s\t ]]
++ [[ -n != \-\n ]]
 + date
-Thu Aug  5 00:00:40 UTC 2021
+Mon Sep  9 02:17:09 UTC 2024
 + echo '================ script finished ============================'
 ================ script finished ============================
 ```
 Assuming the log file looks correct, proceed.
 
-(8) Initiate a `screen` session to provide a stable pseudo-tty:
+(9) Initiate a `screen` session to provide a stable pseudo-tty:
 
     screen
 
 (then hit return to get into the screen session).
 
-(9) THIS STEP COMMENCES THE BUILD. Within the screen session, run:
+(10) THIS STEP COMMENCES THE BUILD. Within the screen session, run:
 
     bash -x ~/kg2-code/build/build-kg2-snakemake.sh all -F
 
@@ -431,21 +426,20 @@ This is the best option if you are running on a new instance, or have added
 upstream sources.  Otherwise, consider the following options:
 
 <details>
-	<summary> Partial Build of KG2 </summary>
+  <summary> Partial Build of KG2 </summary>
 
 
 In some circumstances, if there are no updates to any of the upstream source
 databases (like UMLS, ChEMBL, SemMedDB, etc.) that are extracted using
 `extract*.sh` scripts (as shown in the list of KG2 scripts), you can trigger
-a "partial" build that just downloads the OBO ontologies and does a build
-downstream of that. This can be useful in cases where you are testing a change
+a "partial" build. This can be useful in cases where you are testing a change
 to one of the YAML configuration files for KG2, for example. To do a partial
 build, in Step (8) above, you would run
 
     bash -x ~/kg2-code/build/build-kg2-snakemake.sh
 
 (note the absence of the `all` argument to `build-kg2-snakemake.sh`). A partial build of KG2
-may take about 31 hours. Note, you have to have previously run an `all` build
+may take about 12 hours. Note, you have to have previously run an `all` build
 of KG2, or else the partial build will not work. Note, when doing a partial build,
 existing KG2 JSON files in the `/home/ubuntu/kg2-build` directory from previous
 builds will just get used and will not get updated; if you want any of those files
@@ -453,45 +447,28 @@ to get updated, you should delete them before running the partial build.
 </details>
 
 <details>
-	<summary> Test Build of KG2 </summary>
+  <summary> Test Build of KG2 </summary>
 
 For testing/debugging purposes, it is helpful to have a faster way to exercise
 the KG2 build code. For this, you may want to execute a "test" build. This build
 mode builds a smaller graph with a significantly reduced set of nodes and edges.
 Before you can do a test build, you must have previously done a full *non-test*
-build of KG2 (i.e., `build-kg2.sh all`) at least once. To execute a full *test*
+build of KG2 at least once. To execute a full *test*
 build, in Step (8) above, you would run:
 
-	bash -x ~/kg2-code/build/build-kg2-snakemake.sh alltest
+  bash -x ~/kg2-code/build/build-kg2-snakemake.sh test
 
-In the case of a test build, the a couple log file names are changed:
-
-       ~/kg2-build/build-kg2-snakemake-test.log
-       ~/kg2-build/build-kg2-ont-test-stderr.log
-
-and all of the intermediate JSON and TSV files that the build system creates
+In the case of a test build, the intermediate JSON and TSV and log files created by the build system
 will have `-test` appended to the filename before the usual filename suffix
 (`.json`).
 </details>
-
-<details>
-	<summary> Partial Test Build of KG2 </summary>
-
-To run a partial build of KG2 in "test" mode, the command would be:
-
-    bash -x ~/kg2-code/build/build-kg2-snakemake.sh test
-
-This option is frequently used in testing/development. Note, you have to have
-previously run an `alltest` build, or else a `test` build will not work.
-</details>
-
 
 Note that there is no need to redirect `stdout` or `stderr` to a log file, when
 executing `build-kg2-snakemake.sh`; this is because the script saves its own
 `stdout` and `stderr` to a log file `~/kg2-build/build-kg2-snakemake.log`. You
 can watch the progress of your KG2 build by using this command:
 
-    tail -f ~/kg2-build/build-kg2-snakemake.log
+    tail -f ~/kg2-build/build-kg2-snakemake-KG2.{major version}.{minor version}.log
     
 That file shows what has finished and what is still happening. If any line says
 
@@ -499,53 +476,7 @@ That file shows what has finished and what is still happening. If any line says
 
 the code has failed. However, since the code is 
 running in parallel, to minimize confusion, `stdout` and `stderr`
-for many of the scripts is piped into its own final, including:
-- `build-multi-ont-kg.sh` -> `~/kg2-build/build-multi-ont-kg.log`
-- `dgidb_tsv_to_kg_json.py` -> `~/kg2-build/dgidb/dgidb-tsv-to-kg-stderr.log`
-- `download-repodb-csv.sh` -> `~/kg2-build/download-repodb-csv.log`
-- `drugbank_xml_to_kg_json.py` -> `~/kg2-build/drugbank-xml-to-kg-json.log`
-- `extract-chembl.sh` -> `~/kg2-build/extract-chembl.log`
-- `extract-dgidb.sh` -> `~/kg2-build/extract-dgidb.log`
-- `extract-drugbank.sh` -> `~/kg2-build/extract-drugbank.log`
-- `extract-ensembl.sh` -> `~/kg2-build/extract-ensembl.log`
-- `extract-go-annotations.sh` -> `~/kg2-build/extract-go-annotations.log`
-- `extract-hmdb.sh` -> `~/kg2-build/extract-hmdb.log`
-- `extract-kegg.sh` -> `~/kg2-build/extract-kegg.log`
-- `extract-ncbigene.sh` -> `~/kg2-build/extract-ncbigene.log`
-- `extract-semmeddb.sh` -> `~/kg2-build/extract-semmeddb.log`
-- `extract-smpdb.sh` -> `~/kg2-build/extract-smpdb.log`
-- `extract-umls.sh` -> `~/kg2-build/extract-umls.log`
-- `extract-uniprotkb.sh` -> `~/kg2-build/extract-uniprotkb.log`
-- `extract-unichem.sh` -> `~/kg2-build/extract-unichem.log`
-- `filter_kg_and_remap_predicates.py` -> `~/kg2-build/filter_kg_and_remap_predicates.log`
-- `go_gpa_to_kg_json.py` -> `~/kg2-build/go-gpa-to-kg-json.log`
-- `hmdb_xml_to_kg_json.py` -> `~/kg2-build/hmdb-xml-to-kg-json.log`
-- `run-validation-tests.sh` -> `~/kg2-build/run-validation-tests.log`
-- `semmeddb_tuple_list_json_to_kg_json.py` -> `~/kg2-build/semmeddb-tuple-list-json-to-kg-json.log`
-- `smpdb_csv_to_kg_json.py` -> `~/kg2-build/smpdb/smpdb-csv-to-kg-json.log`
-
-If a build using Snakemake fails and the output file for the rule it failed on doesn't exist, you
-can continue the build such that it only reruns the rule(s) that don't already have an output file
-and all of the rules after that rule(s). For example, if a build fails on `multi_ont_to_json_kg.py`,
-wait for the build to completely fail (`build-kg2-snakemake.sh` won't be running at all, which you can check
-using `top` or `htop`), then change the following line in `build-kg2-snakemake.sh` to have it run 
-`multi_ont_to_json_kg.py`, `merge_graphs.py`,
-etc.
-
-Normal Line:
-
-	cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} -F -j
-
-New Line:
-
-	cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} -R Finish -j
-
-Note the `-F`, which forces all rules that lead up to `Finish` -- the first rule in the Snakefile -- to run,
-regardless of the existence of output files,
-has changed to `-R Finish`, which only forces the rule that failed and the rules that depend on that rule's output
-to run. You can always add `-n` if you're unsure of what rules your edited snakemake command will run: this will 
-cause snakemake to do a dry-run, which just prints the snakemake rules that will be run to the log file without 
-actually running them.
+for extraction and conversion scripts is piped into its own final based on the name of the script that runs. Log scripts are stored in `~/kg2-build/`
 
 At the end of the build process, you should inspect the logfile
 `~/kg2-build/filter_kg_and_remap_predicates.log` to see if there are warnings
@@ -604,128 +535,11 @@ you should check what state the file`s3://rtx-kg2-public/kg2-version.txt` was le
 The version history for KG2 can be found [here](kg2-versions.md).
 
 
-
-
-### Build Option 2: build KG2 serially (about 67 hours) directly on an Ubuntu system (DEPRECATED):
-
-<details>
-	<summary> This method is deprecated. Click here to view steps anyway. </summary>
-	
-(1)-(7) Follow steps (1)-(7) in Build Option 1.
-
-(8) Within the `screen` session, run:
-
-    bash -x ~/kg2-code/build/build-kg2-DEPRECATED.sh all
-
-Then exit screen (`ctrl-a d`). Note that there is no need to redirect `stdout`
-or `stderr` to a log file, when executing `build-kg2-DEPRECATED.sh`; this is because the
-script saves its own `stdout` and `stderr` to a log file `build-kg2.log`. You can 
-watch the progress of your KG2 build by using this command:
-
-    tail -f ~/kg2-build/build-kg2.log
-    
-Note that the `build-multi-ont-kg.sh` script also saves `stderr` from running `multi_ont_to_json_kg.py`
-to a file `~/kg2-build/build-kg2-ont-stderr.log`.
-
-#### Partial build of KG2
-
-Caution: Be sure to remove any files that should not be in the build. Highly recommend 
-    rm kg2-build/kg2*json
-	
-Like with the parallel build system, you can run a sequential partial build. To do a partial
-build, in Step (8) above, you would run
-
-    bash -x ~/kg2-code/build/build-kg2-DEPRECATED.sh
-
-(note the absence of the `all` argument to `build-kg2-DEPRECATED.sh`). A partial build of KG2
-may take about 40 hours. Note, you have to have previously run an `all` build
-of KG2, or else the partial build will not work.
-
-#### Test build of KG2
-
-To execute a sequential *test* build, in Step (8) above, you would run:
-
-    bash -x ~/kg2-code/build/build-kg2-DEPRECATED.sh alltest
-    
-In the case of a test build, the build log file names are changed:
-
-    ~/kg2-build/build-kg2-test.log
-    ~/kg2-build/build-kg2-ont-test-stderr.log
-
-and all of the intermediate JSON and TSV files that the build system creates
-will have `-test` appended to the filename before the usual filename suffix
-(`.json`).
-
-#### Partial test build of KG2
-
-To run a partial sequential build of KG2 in "test" mode, the command would be:
-
-    bash -x ~/kg2-code/build/build-kg2-DEPRECATED.sh test
-    
-</details>
-
-### Build Option 3: setup ssh key exchange so you can build KG2 in a remote EC2 instance
-
-This option requires that you have `curl` installed on your local computer. In a
-`bash` terminal session, set up the remote EC2 instance by running this command
-(requires `ssh` installed and in your path):
-
-    source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX-KG2/master/ec2-setup-remote-instance.sh)
-
-You will be prompted to enter the path to your AWS PEM file and the hostname of
-your AWS instance.  The script should then initiate a `bash` session on the
-remote instance. Within that `bash` session, continue to follow the instructions
-for Build Option 1, starting at step (4).
-
-### Build Option 4: In an Ubuntu container in Docker
-<details>
-	<summary> Click here to view steps </summary>
-	
-	For Build Option 4, you will need a *lot* of disk space (see disk storage
-requirements above) in the root file system, unless you modify the Docker
-installation to store containers in some other (non-default) file system
-location. Here are the instructions:
-
-(1) Install Docker. If you are on Ubuntu 18.04 and you need to install Docker, you can
-run this command in `bash` on the host OS:
-   
-    source <(curl -s https://raw.githubusercontent.com/RTXteam/RTX-KG2/master/install-docker-ubuntu18.sh)
-    
-(otherwise, the subsequent commands in this section assume that Docker is
-installed on whatever host system you are running). For some notes on how to
-install Docker on MacOS via the Homebrew system, see
-[macos-docker-notes.md](macos-docker-notes.md).  NOTE: if your docker
-installation (like on macOS Homebrew) does not require `sudo`, just omit
-`sudo` everywhere you see `sudo docker` in the steps below.
-
-(2) Build a Docker image `kg2:latest`:
-
-    sudo docker image build -t kg2 https://raw.githubusercontent.com/RTXteam/RTX-KG2/master/Dockerfile 
-    
-(3) Create a container called `kg2` from the `kg2:latest` image 
-
-    sudo docker create --name kg2 kg2:latest
-
-(4) Start the `kg2` container:
-
-    sudo docker start kg2
-    
-(5) Open a bash shell as user `root` inside the container:
-
-    sudo docker exec -it kg2 /bin/bash
-    
-(6) Become user `ubuntu`:
-
-    su - ubuntu
-    
-Now follow the instructions for Build Option 1 above.
-</details>
-
 ## Possible failure modes for the KG2 build
 
 Occasionally a build will fail due to a connection error in attempting to
 cURL a file from one of the upstream sources (e.g., SMPDB, and less frequently, 
-UniChem).
+UniChem). **As of KG2.10.1, several sources have hardcoded downloads from the S3 bucket - HMDB, DisGeNET, CHEBI, and ClinicalTrials KG. These hardcoded downloads should be backed out as the resolution improves.** If KEGG's download fails, the conversion will fail and the extraction log will finish extremely fast. If KEGG's extraction finishes in less than 15 minutes, there is a connection issue.
 
 Another failure mode is the versioning of ChemBL. Once ChemBL upgrades their dataset, 
 old datasets may become unavailable. This will result in failure when downloading. To 
@@ -733,16 +547,17 @@ fix this, change the version number in `extract-chembl.sh`.
 
 ## The output KG
 
-The `build-kg2.sh` script (run via one of the three methods shown above) creates
-a gzipped JSON file `kg2-simplified.json.gz` and copies it to an S3 bucket
-`rtx-kg2`. You can access the gzipped JSON file using the AWS command-line
+The `build-kg2-snakemake.sh` script creates
+ gzipped JSON Lines files and copies them to an S3 bucket
+`rtx-kg2`. You can access the gzipped JSON Lines files using the AWS command-line
 interface (CLI) tool `aws` with the command
 
-    aws s3 cp s3://rtx-kg2/kg2-simplified.json.gz .
+    aws s3 cp s3://rtx-kg2/kg2-simplified-KG2.{major version}.{minor version}-nodes.jsonl.gz .
+    aws s3 cp s3://rtx-kg2/kg2-simplified-KG2.{major version}.{minor version}-edges.jsonl.gz .
 
 The TSV files for the knowledge graph can be accessed via HTTP as well, 
 
-    aws s3 cp s3://rtx-kg2/kg2-tsv.tar.gz .
+    aws s3 cp s3://rtx-kg2/kg2-tsv-KG2.{major version}.{minor version}.tar.gz .
 
 You can access the various artifacts from the KG2 build (config file, log file,
 etc.) at the AWS static website endpoint for the 
@@ -750,60 +565,7 @@ etc.) at the AWS static website endpoint for the
 
 Each build of KG2 is labeled with a unique build date/timestamp. The build timestamp
 can be found in the `build` slot of the `kg2-simplified.json` file and it can be
-found in the node with ID `RTX:KG2` in the Neo4j KG2 database. Due to the size of KG2,
-we are not currently archiving old builds of KG2 and that is why `kg2-simplified.json`
-and the related large KG2 JSON files are stored in a *non-versioned* S3 bucket.
-
-## Optional KG2 PubMed Build
-<details>
-	<summary> Click here to view steps </summary>
-
-To add PubMed ID nodes and Pubmed->MeSH edges to your KG2, you can add those for every
-PubMed ID referenced in KG2 (whether in an edge - `publications`, `publications_info` - 
-or node - `publications`). This process isn't currently optimized.
-
-(1) Build KG2 up through the merge step (`merge_graphs.py`).
-
-(2) Generate a list of PMIDs referenced in KG2 in a screen session:
-
-    ~/kg2-venv/bin/python3 ~/kg2-code/extract/archive/extract_kg2_pmids.py ~/kg2-build/kg2.json ~/kg2-build/pmids-in-kg2.json
-
-(3) Potentially at the same time as step 2 -- this step doesn't take much memory --
-download the PubMed XML files.
-
-    bash -x ~/kg2-code/extract/archive/extract-pubmed.sh
-
-(4) On an `r5a.16xlarge` (or instance with comparable memory) instance with the
-PubMed XML files and the list of PMIDs in KG2 as a JSON file, build your KG2 JSON
-file for PubMed. This json file will be approximately `66GB` large.
-
-    ~/kg2-venv/bin/python3 ~/kg2-code/convert/archive/pubmed_xml_to_kg_json.py ~/kg2-build/pubmed ~/kg2-build/pmids-in-kg2.json ~/kg2-build/kg2-pubmed.json
-
-(5) The format of `kg2-pubmed.json` matches `kg2.json` but not `kg2-simplified.json`.
-For this reason, at this time, we have to merge `kg2-pubmed.json` into `kg2.json`.
-Then, a `kg2-simplified.json` can be make from the output. Eventually, it might be
-preferred to have `kg2-pubmed.json` generated to match the format of `kg2-simplified.json`,
-especially since its predicates do not have to go through the predicate remap process and
-loading `kg2-pubmed.json` into memory takes a lot of memory. UNTESTED.
-
-    ~/kg2-venv/bin/python3 ~/kg2-code/process/merge_graphs.py --kgFileOrphanEdges ~/kg2-build/kg2-pubmed-merge-orphan-edges.json --outputFile ~/kg2-build/kg2-with-pubmed.json ~/kg2-build/kg2.json ~/kg2-build/kg2-pubmed.json
-
-(6) Run the `filter_kg_and_remap_predicates.py` script on this new JSON file (and optionally
-`get_nodes_json_from_kg_json.py` and `report_stats_on_json_kg.py` -- you can't run these in
-parallel due to memory considerations, so be aware of what is absolutely necessary to generate).
-UNTESTED
-
-    ~/kg2-venv/bin/python3 ~/kg2-code/process/filter_kg_and_remap_predicates.py ~/kg2-code/maps/predicate-remap.yaml ~/kg2-build/kg2-with-pubmed.json ~/kg2-build/kg2-with-pubmed-simplified.json
-
-(7) Generate TSV (files for the new, simplified JSON file (and optionally run `get_nodes_json_from_kg_json.py` and `report_stats_on_json_kg.py` on the simplified JSON file). UNTESTED
-
-	rm -rf ~/kg2-build/PubMedKG2TSV/
-	mkdir -p ~/kg2-build/PubMedKG2TSV/
-	~/kg2-venv/bin/python3 ~/kg2-code/processkg_json_to_tsv.py ~/kg2-build/kg2-with-pubmed-simplified.json ~/kg2-build/PubMedKG2TSV	
-	
-	
-</details>
-
+found in the node with ID `RTX:KG2` in the Neo4j KG2 database.
 
 ## Updating the installed KG2 build system software
 
@@ -835,9 +597,14 @@ instance, as user `ubuntu`, run the following commands:
 
     git clone https://github.com/RTXteam/RTX-KG2.git
 
-(3) Install and configure Neo4j, with APOC:
+(3) Change branches to the KG2 buid code if necessary
 
-    RTX-KG2/setup-kg2-neo4j.sh
+    cd ~/RTX-KG2/
+    git checkout [branch name]
+
+(4) Install and configure Neo4j, with APOC:
+
+    bash -x ~/RTX-KG2/neo4j/setup-kg2-neo4j.sh
 
 This script takes just a few minutes to complete. At some point, the script will
 print
@@ -859,12 +626,12 @@ that is installed (indirectly) by the setup script actually sets the limit to 60
 for when the Neo4j database system is run via systemd (but when running `neo4j-admin`
 at the CLI to set the password, Neo4j doesn't know this and it reports a limit warning).]
 
-(4) Look in the log file `${HOME}/setup-kg2-neo4j.log` to see if the script
+(5) Look in the log file `${HOME}/setup-kg2-neo4j.log` to see if the script
 completed successfully; it should end with `======= script finished ======`.
 
-(5) Start up a `screen` session, and within that screen session, load KG2 into Neo4j:
+(6) Start up a `screen` session, and within that screen session, load KG2 into Neo4j:
 
-    RTX-KG2/tsv-to-neo4j.sh > ~/kg2-build/tsv-to-neo4j.log 2>&1
+    bash -x ~/RTX-KG2/neo4j/tsv-to-neo4j.sh > ~/kg2-build/tsv-to-neo4j.log 2>&1
 
 This script takes over three hours to complete.
 
@@ -876,7 +643,7 @@ completed successfully; it should end with `======= script finished ======`.
 Once you have loaded KG2 into Neo4j as described above, if you want to reload
 KG2, just run (as user `ubuntu`):
 
-    ~/RTX-KG2/tsv-to-neo4j.sh > ~/kg2-build/tsv-to-neo4j.log 2>&1
+    bash -x ~/RTX-KG2/tsv-to-neo4j.sh > ~/kg2-build/tsv-to-neo4j.log 2>&1
 
 ## Co-hosting the KG2 build system and Neo4j server?
 
@@ -896,12 +663,7 @@ the form `kg2endpoint-kg2-X-Y.rtx.ai`, where `X` is the major version number and
 [version history markdown file](kg2-versions.md) with the new build version and
 the numbers of the GitHub issues that are addressed/implemented in the new KG2
 version.
-	- After a build has successfully completed, add a tag with the kg2 version number 
-	- Follow the format "KG2.X.Y", where X is the major version number and Y is the minor version number 
-	```
-	git tag -a KG2.X.Y -m "<name of build host used>"
-	git push --tags
-	```
+- After a build has successfully completed and verified, add a new release with the KG2 version number to GitHub. Include the `kg2-versions.md` entry for the version in the release text.
 - Wherever possible we try to document the name of the build host (EC2 instance)
 used for the KG2 build in `kg2-versions.md` and we try to preserve the `kg2-build`
 directory and its contents on that host, until a new build has superseded the build.
@@ -912,17 +674,17 @@ should also be noted in the `kg2-versions.md` file.
 
 - One of the key build artifacts that should be inspected in order to assess the
 build quality is the JSON report
-[kg-simplified-report.json](https://rtx-kg2-public.s3-us-west-2.amazonaws.com/kg2-simplified-report.json).
+`kg-simplified-report-KG2.{major version}.{minor version}.json`.
 This file should be inspected as a part of the post-build quality assessment process.
 
 # Schema of the JSON KG2
 
-The file `kg2.json` is an intermediate file that is probably only of use to KG2
-developers.  The file `kg2-simplified.json` is a key artifact of the build
-process that feeds into several downstream artifacts and may be of direct use to
+The files `kg2-merged-KG2.{major version}.{minor version}-edges.jsonl` and `kg2-merged-KG2.{major version}.{minor version}-nodes.jsonl` are intermediate files probably only of use to KG2
+developers.  The files `kg2-simplified-KG2.{major version}.{minor version}-edges.jsonl` and `kg2-simplified-KG2.{major version}.{minor version}-nodes.jsonl` are key artifacts of the build
+process that feed into several downstream artifacts and may be of direct use to
 application developers. Newlines, carriage returns, linefeed characters, or hard
 tabs are not allowed in any string property or in any string scalar within a
-list property in KG2. The `kg2-simplified.json` JSON data structure is a
+list property in KG2. The JSON LInes data structure is a
 name-value pair object (i.e., dictionary) with the following keys:
 
 ## `build` slot
@@ -954,10 +716,9 @@ the following keys:
   - `iri`: a URI where the user can get more information about this node (we try
     to make these resolvable wherever possible)
   - `name`: a display name for the node
-  - `knowledge_source`: A CURIE ID (which corresponds to an actual node in KG2) for the 
+  - `provided_by`: A CURIE ID list (which corresponds to an actual node in KG2) for the 
   upstream information resource that is the definitive source for information about
   this node. 
-  - `provided_by`: This slot is deprecated. Refer to `knowledge_source`.
   - `publications`: a list of CURIE IDs of publications (e.g., `PMID` or `ISBN`
     or `DOI` identifiers) that contain information about this node
   - `replaced_by`: a CURIE ID for the node that replaces this node, for cases
@@ -988,7 +749,7 @@ the following keys:
     is "negated"; usually `false`, in the normal build process for KG2
   - `object`: the CURIE ID (`id`) for the KG2 node that is the object of the
     edge
-  - `knowledge_source`: A list containing CURIE IDs (each of which corresponds to an actual node in KG2) for the 
+  - `primary_knowledge_source`: A list containing CURIE IDs (each of which corresponds to an actual node in KG2) for the 
   upstream information resources that reported this edge's specific
   combination of subject/predicate/object (in the case of multiple providers for
   an edge, the other fields like `publications` are merged from the information
@@ -1006,12 +767,12 @@ the following keys:
   - `update_date`: a string identifier of the date in which the information for
   this node object was last updated in the upstream source database; it has (at
   present) no consitent format, unfortunately; it is usually not `null`.
-  - `id`: a concatenated string of other edge attributes that uniquely identifies the edge. it
-  follows the format `subject---relation---object---provided_by`.
+  - `id`: a concatenated string of other edge attributes that uniquely identifies the edge
   - `source_predicate`: a CURIE ID for the relation as reported by the upstream
     database source.
-  - `provided_by`: _deprecated_. Refer to `knowledge_source`.
-  - `relation`: _deprecated_. See `source_predicate`.
+  - `qualified_predicate`
+  - `qualified_object_aspect`
+  - `qualified_object_direction`
 
 ### `publications_info` slot
 
@@ -1033,15 +794,7 @@ the following name/value pairs:
 
 ## Biolink compliance
 
-KG2 aims to comply with the [Biolink knowledge graph format](biolink-kg-schema.md).
-
-# Files generated by the KG2 build system (UNDER DEVELOPMENT)
-
-- `kg2-simplified.json`: This is the main KG2 graph, in JSON format (48 GiB).
-- `kg2-slim.json`: This is the simplified KG2 graph with a restricted set of node and edge properties included.
-- `kg2.json`: This is the KG2 graph before Biolink predicates are added; it is only of interest to KG2 developers.
-- `kg2-simplified-report.json`: A JSON report giving statistics on the `kg2-simplified.json` knowledge graph.
-- `kg2-version.txt`: Tracks the version of the last build of KG2.
+KG2 aims to comply with the Biolink knowledge graph format.
 
 # Frequently asked questions
 
@@ -1074,22 +827,7 @@ We emphasize knowledge souces that
 4. Connect concept identifiers that are already in KG2.
 5. Ideally, provide knowledge based on human curation (favored over computational text-mining).
 
-# Troubleshooting (UNDER DEVELOPMENT)
-
-## Errors in `multi_ont_to_json_kg.py`
-
-### Errors in `convert_bpv_predicate_to_curie`
-
-- An error like the following:
-
-```
-File "/home/ubuntu/kg2-code/convert/multi_ont_to_json_kg.py", line 1158, in convert_bpv_predicate_to_curie
-     raise ValueError('unable to expand CURIE: ' + bpv_pred)
-ValueError: unable to expand CURIE: MONARCH:cliqueLeader     
-```
-
-would indicate that the CURIE prefix (in this case, `MONARCH`) needs to be added to the
-`use_for_bidirectional_mapping` section of `curies-to-urls-map.yaml` config file.
+# Troubleshooting
 
 ## Error building DAG of jobs
 - In the case where Snakemake is forcibly quit due to a loss of power or other reason, it may result in the code directory becoming locked. To resolve, run:
