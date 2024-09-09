@@ -68,7 +68,7 @@ trigger_file_is_major_release=${BUILD_DIR}/major-release
 trigger_file_is_minor_release=${BUILD_DIR}/minor-release
 
 increment_flag=''
-if [[ "${test_flag}" == "test" || "${dryrun}" == "-n" ]]
+if [[ "${test_flag}" == "test" ]]
 then
     increment_flag=''
 else
@@ -152,7 +152,7 @@ fi
 
 cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} ${run_flag} -R Finish -j 16 ${dryrun} ${graphic}
 
-if [[ "${ci_flag}" != "ci" ]]
+if [[ "${test_flag}" != "test" && "${dryrun}" != "-n" && "${ci_flag}" != "ci" ]]
 then
     ${s3_cp_cmd} ${kg2_version_file_local} s3://${s3_bucket_public}/${kg2_version_file}
 fi
