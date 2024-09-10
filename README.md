@@ -1,4 +1,6 @@
+
 [![RTX-KG2 Continous Integration](https://github.com/RTXteam/RTX-KG2/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/RTXteam/RTX-KG2/actions/workflows/main.yml)
+<!-- TOC --><a name="kg2-the-second-generation-rtx-knowledge-graph"></a>
 # KG2: the second-generation RTX knowledge graph
 
 KG2 is the second-generation knowledge graph for the
@@ -16,8 +18,67 @@ build system can produce an export of the KG2 knowledge graph that is suitable
 for importing into the [mediKanren](https://github.com/webyrd/mediKanren)
 biomedical reasoning system.
 
+The table of contents for this README is as follows:
+
+<!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
+
+- [KG2: the second-generation RTX knowledge graph](#kg2-the-second-generation-rtx-knowledge-graph)
+- [KG2 team contact information](#kg2-team-contact-information)
+   * [KG2 Team](#kg2-team)
+   * [Bug reports](#bug-reports)
+- [Is RTX-KG2 published?](#is-rtx-kg2-published)
+- [How to access RTX-KG2](#how-to-access-rtx-kg2)
+   * [Neo4j read-only endpoint for RTX KG2 as a graph database](#neo4j-read-only-endpoint-for-rtx-kg2-as-a-graph-database)
+- [What data sources are used in KG2?](#what-data-sources-are-used-in-kg2)
+- [How to build RTX-KG2 from its upstream sources](#how-to-build-rtx-kg2-from-its-upstream-sources)
+   * [General notes:](#general-notes)
+   * [Setup your computing environment](#setup-your-computing-environment)
+   * [The KG2 build system assumes there is no MySQL already installed](#the-kg2-build-system-assumes-there-is-no-mysql-already-installed)
+   * [AWS buckets](#aws-buckets)
+   * [AWS authentication](#aws-authentication)
+   * [Typical EC2 instance type used for building KG2](#typical-ec2-instance-type-used-for-building-kg2)
+   * [Build instructions](#build-instructions)
+         - [What to do if a build fails](#what-to-do-if-a-build-fails)
+         - [Note about versioning of KG2](#note-about-versioning-of-kg2)
+   * [Possible failure modes for the KG2 build](#possible-failure-modes-for-the-kg2-build)
+   * [The output KG](#the-output-kg)
+   * [Updating the installed KG2 build system software](#updating-the-installed-kg2-build-system-software)
+   * [Hosting KG2 in a Neo4j server on a new AWS instance](#hosting-kg2-in-a-neo4j-server-on-a-new-aws-instance)
+   * [Reloading KG2 into an existing Neo4j server](#reloading-kg2-into-an-existing-neo4j-server)
+   * [Co-hosting the KG2 build system and Neo4j server?](#co-hosting-the-kg2-build-system-and-neo4j-server)
+- [Post-setup tasks](#post-setup-tasks)
+- [Schema of the JSON KG2](#schema-of-the-json-kg2)
+   * [`build` slot](#build-slot)
+   * [`nodes` slot](#nodes-slot)
+   * [`edges` slot](#edges-slot)
+      + [`publications_info` slot](#publications_info-slot)
+   * [Biolink compliance](#biolink-compliance)
+- [Frequently asked questions](#frequently-asked-questions)
+   * [Where can I download a pre-built copy of KG2?](#where-can-i-download-a-pre-built-copy-of-kg2)
+   * [What licenses cover KG2?](#what-licenses-cover-kg2)
+   * [What criteria do you use to select sources to include in KG2?](#what-criteria-do-you-use-to-select-sources-to-include-in-kg2)
+- [Troubleshooting](#troubleshooting)
+   * [Error building DAG of jobs](#error-building-dag-of-jobs)
+   * [Authentication Error in `tsv-to-neo4j.sh`](#authentication-error-in-tsv-to-neo4jsh)
+   * [Errors in Extraction rules](#errors-in-extraction-rules)
+      + [Role exists error](#role-exists-error)
+- [For Developers](#for-developers)
+   * [KG2 coding standards](#kg2-coding-standards)
+      + [Python coding standards for KG2](#python-coding-standards-for-kg2)
+- [Shell coding standards for KG2](#shell-coding-standards-for-kg2)
+      + [File naming](#file-naming)
+- [Credits](#credits)
+   * [Code and development work](#code-and-development-work)
+   * [Advice and feedback](#advice-and-feedback)
+   * [Funding](#funding)
+
+<!-- TOC end -->
+
+
+<!-- TOC --><a name="kg2-team-contact-information"></a>
 # KG2 team contact information
 
+<!-- TOC --><a name="kg2-team"></a>
 ## KG2 Team
 
 - Stephen Ramsey, Oregon State University (ramseyst@oregonstate.edu)
@@ -25,11 +86,13 @@ biomedical reasoning system.
 - Amy Glen, Oregon State University (glena@oregonstate.edu)
 - E. C. Wood, Stanford University
 
+<!-- TOC --><a name="bug-reports"></a>
 ## Bug reports
 
 Please use the GitHub [issues](https://github.com/RTXteam/RTX-KG2/issues) page for
 this project.
 
+<!-- TOC --><a name="is-rtx-kg2-published"></a>
 # Is RTX-KG2 published?
 
 Yes, please see:
@@ -37,12 +100,15 @@ Yes, please see:
 
 The preprint can be found at: [doi:10.1101/2021.10.17.464747](https://doi.org/10.1101/2021.10.17.464747).
 
+<!-- TOC --><a name="how-to-access-rtx-kg2"></a>
 # How to access RTX-KG2
 
+<!-- TOC --><a name="neo4j-read-only-endpoint-for-rtx-kg2-as-a-graph-database"></a>
 ## Neo4j read-only endpoint for RTX KG2 as a graph database
 
 (RTX-KG2 team members only: contact the KG2 maintainer for the endpoint, username, and password)
 
+<!-- TOC --><a name="what-data-sources-are-used-in-kg2"></a>
 # What data sources are used in KG2?
 
 Information from many knowledge databases is combined in building KG2. The table below was compiled from the [Snakemake diagram](https://user-images.githubusercontent.com/36611732/114226788-ea163e80-9928-11eb-808d-5d77e633d278.png) and [ont-load-inventory.yaml](https://github.com/RTXteam/RTX-KG2/blob/master/ont-load-inventory.yaml).
@@ -119,8 +185,10 @@ RXNORM | ontology |   | [link](https://www.nlm.nih.gov/research/umls/sourcerelea
 Uber-anatomy Ontology | ontology |   | [link](http://www.obofoundry.org/ontology/uberon.html)
 
 
+<!-- TOC --><a name="how-to-build-rtx-kg2-from-its-upstream-sources"></a>
 # How to build RTX-KG2 from its upstream sources
 
+<!-- TOC --><a name="general-notes"></a>
 ## General notes:
 
 The KG2 build system is designed only to run in an **Ubuntu 22.04** environment
@@ -165,6 +233,7 @@ are currently aiming to build KG2 approximately once per month, to keep it as
 current as feasible given the cost to build and validate KG2 from its upstream
 sources.
 
+<!-- TOC --><a name="setup-your-computing-environment"></a>
 ## Setup your computing environment
 
 The computing environment where you will be running the KG2 build should be
@@ -179,6 +248,7 @@ running **Ubuntu 22.04**.  Your build environment should have the following
 
 We use `r5a.4xlarge` AWS instances for KG2 builds.
 
+<!-- TOC --><a name="the-kg2-build-system-assumes-there-is-no-mysql-already-installed"></a>
 ## The KG2 build system assumes there is no MySQL already installed
 
 The target Ubuntu system in which you will run the KG2 build should *not* have
@@ -193,6 +263,7 @@ The KG2 build system has been tested *only* under Ubuntu 18.04. If you want to
 build KG2 but don't have a native installation of Ubuntu 18.04 available, your
 best bet would be to use Docker (see Option 3 below). 
 
+<!-- TOC --><a name="aws-buckets"></a>
 ## AWS buckets
 
 In order to be able to build KG2, you'll need to have at least one AWS S3 bucket
@@ -211,6 +282,7 @@ need to be configured so that variables `s3_bucket`, `s3_bucket_public`, and
 `s3_bucket_versioned` point to the S3 bucket(s) and so that the shell variable
 `s3_region` identifies the AWS region in which the bucket(s) reside(s).
 
+<!-- TOC --><a name="aws-authentication"></a>
 ## AWS authentication
 
 For the KG2 build system that we (the creators of KG2) have set up for use by
@@ -238,6 +310,7 @@ that config file can contain authentication information for additional server
 types in the RTX system; those are not shown in the example file in this code
 directory).
 
+<!-- TOC --><a name="typical-ec2-instance-type-used-for-building-kg2"></a>
 ## Typical EC2 instance type used for building KG2
 
 The KG2 build software has been tested with the following instance type:
@@ -252,6 +325,7 @@ region costs $0.904 per hour, so the cost to build KG2 (estimated to take 25
 hours) would be approximately $23 (rough estimate, plus or minus
 20%).
 
+<!-- TOC --><a name="build-instructions"></a>
 ## Build instructions
 
 These instructions assume that you are logged into the target Ubuntu system, and
@@ -488,6 +562,7 @@ above format in `filter_kg_and_remap_predicates.log` probably indicates that an
 addition needs to be made to the file `predicate-remap.yaml`, followed by a
 partial rebuild starting with `filter_kg_and_remap_predicates.py`(the `Simplify` rule).
 
+<!-- TOC --><a name="what-to-do-if-a-build-fails"></a>
 #### What to do if a build fails
 
 - Let's suppose the build failed on the rule `UniChem`. In that case, you could
@@ -506,6 +581,7 @@ bash -x ~/kg2-code/build/build-kg2-snakemake.sh all
 (Note, you only need the `all` above if the rule is for an "extract-XXX.sh" script;
 if it is for a rule that is downstream of the extract scripts, you can omit `all`.
 
+<!-- TOC --><a name="note-about-versioning-of-kg2"></a>
 #### Note about versioning of KG2
 
 KG2 has semantic versioning with a graph/major/minor release system:
@@ -535,6 +611,7 @@ you should check what state the file`s3://rtx-kg2-public/kg2-version.txt` was le
 The version history for KG2 can be found [here](kg2-versions.md).
 
 
+<!-- TOC --><a name="possible-failure-modes-for-the-kg2-build"></a>
 ## Possible failure modes for the KG2 build
 
 Occasionally a build will fail due to a connection error in attempting to
@@ -545,6 +622,7 @@ Another failure mode is the versioning of ChemBL. Once ChemBL upgrades their dat
 old datasets may become unavailable. This will result in failure when downloading. To 
 fix this, change the version number in `extract-chembl.sh`.
 
+<!-- TOC --><a name="the-output-kg"></a>
 ## The output KG
 
 The `build-kg2-snakemake.sh` script creates
@@ -567,6 +645,7 @@ Each build of KG2 is labeled with a unique build date/timestamp. The build times
 can be found in the `build` slot of the `kg2-simplified.json` file and it can be
 found in the node with ID `RTX:KG2` in the Neo4j KG2 database.
 
+<!-- TOC --><a name="updating-the-installed-kg2-build-system-software"></a>
 ## Updating the installed KG2 build system software
 
 We generally try to make the KG2 shell scripts idempotent, following best
@@ -580,6 +659,7 @@ would trigger such an upgrade (e.g., from Python3.7 to Python3.8), instead of
 rerunning `setup-kg2-build.sh` on your existing build system, we recommend that
 you create a clean Ubuntu 18.04 instance and install using `setup-kg2-build.sh`.
 
+<!-- TOC --><a name="hosting-kg2-in-a-neo4j-server-on-a-new-aws-instance"></a>
 ## Hosting KG2 in a Neo4j server on a new AWS instance
 
 We host our production KG2 graph database in Neo4j version 3.5.13 with APOC
@@ -638,6 +718,7 @@ This script takes over three hours to complete.
 (6) Look in the log file `~/kg2-build/tsv-to-neo4j.log` to see if the script
 completed successfully; it should end with `======= script finished ======`.
 
+<!-- TOC --><a name="reloading-kg2-into-an-existing-neo4j-server"></a>
 ## Reloading KG2 into an existing Neo4j server
 
 Once you have loaded KG2 into Neo4j as described above, if you want to reload
@@ -645,6 +726,7 @@ KG2, just run (as user `ubuntu`):
 
     bash -x ~/RTX-KG2/tsv-to-neo4j.sh > ~/kg2-build/tsv-to-neo4j.log 2>&1
 
+<!-- TOC --><a name="co-hosting-the-kg2-build-system-and-neo4j-server"></a>
 ## Co-hosting the KG2 build system and Neo4j server?
 
 In theory, it should be possible to install Neo4j and load KG2 into it on the
@@ -654,6 +736,7 @@ hosting on separate AWS instances. This is because the system requirements
 to build KG2 are much greater than the system requirements to host KG2 in 
 Neo4j.
 
+<!-- TOC --><a name="post-setup-tasks"></a>
 # Post-setup tasks
 
 - We typically define a DNS `CNAME` record for the KG2 Neo4j server hostname, of
@@ -677,6 +760,7 @@ build quality is the JSON report
 `kg-simplified-report-KG2.{major version}.{minor version}.json`.
 This file should be inspected as a part of the post-build quality assessment process.
 
+<!-- TOC --><a name="schema-of-the-json-kg2"></a>
 # Schema of the JSON KG2
 
 The files `kg2-merged-KG2.{major version}.{minor version}-edges.jsonl` and `kg2-merged-KG2.{major version}.{minor version}-nodes.jsonl` are intermediate files probably only of use to KG2
@@ -687,6 +771,7 @@ tabs are not allowed in any string property or in any string scalar within a
 list property in KG2. The JSON LInes data structure is a
 name-value pair object (i.e., dictionary) with the following keys:
 
+<!-- TOC --><a name="build-slot"></a>
 ## `build` slot
 The top-level `build` slot contains a dictionary whose keys are:
 
@@ -696,6 +781,7 @@ The top-level `build` slot contains a dictionary whose keys are:
   - `timestamp_utc`: a string containing the ISO 8601 date/timestamp (in UTC)
   for the build, like this: `2020-08-11 21:51`.
   
+<!-- TOC --><a name="nodes-slot"></a>
 ## `nodes` slot
 
 The top-level `nodes` slot contains a list of node objects. Each node object has
@@ -740,6 +826,7 @@ the following keys:
   UniprotKB ("sequence" - also appears to be amino acids). For nodes from other sources,
   this property is `null`.
 
+<!-- TOC --><a name="edges-slot"></a>
 ## `edges` slot
 - `edges`: a list of edge objects. Each edge object has the following keys:
   - `relation_label`: a `snake_case` representation of the plain English label for
@@ -774,6 +861,7 @@ the following keys:
   - `qualified_object_aspect`
   - `qualified_object_direction`
 
+<!-- TOC --><a name="publications_info-slot"></a>
 ### `publications_info` slot
 
 If it is not `null`, the `publications_info` object's values are objects containing
@@ -792,18 +880,22 @@ the following name/value pairs:
     with which the subject of the triple was correctly identified; otherwise
     `null`
 
+<!-- TOC --><a name="biolink-compliance"></a>
 ## Biolink compliance
 
 KG2 aims to comply with the Biolink knowledge graph format.
 
+<!-- TOC --><a name="frequently-asked-questions"></a>
 # Frequently asked questions
 
+<!-- TOC --><a name="where-can-i-download-a-pre-built-copy-of-kg2"></a>
 ## Where can I download a pre-built copy of KG2?
 
 Dump files of RTX-KG2pre and RTX-KG2c are available for download in the
 [github:ncats/translator-lfs-artifacts](https://github.com/ncats/translator-lfs-artifacts/tree/main/files)
 project area.
 
+<!-- TOC --><a name="what-licenses-cover-kg2"></a>
 ## What licenses cover KG2?
 
 It's complicated. The KG2 build software is provided free-of-charge via the
@@ -817,6 +909,7 @@ only creative product our team (documentation, reports, and knowledge graph
 formatting); the actual content of the KG2 knowledge graph is encumbered by
 various licenses (e.g., UMLS) that prevent its redistribution.
 
+<!-- TOC --><a name="what-criteria-do-you-use-to-select-sources-to-include-in-kg2"></a>
 ## What criteria do you use to select sources to include in KG2?
 
 We emphasize knowledge souces that
@@ -827,14 +920,17 @@ We emphasize knowledge souces that
 4. Connect concept identifiers that are already in KG2.
 5. Ideally, provide knowledge based on human curation (favored over computational text-mining).
 
+<!-- TOC --><a name="troubleshooting"></a>
 # Troubleshooting
 
+<!-- TOC --><a name="error-building-dag-of-jobs"></a>
 ## Error building DAG of jobs
 - In the case where Snakemake is forcibly quit due to a loss of power or other reason, it may result in the code directory becoming locked. To resolve, run:
 ```
 /home/ubuntu/kg2-venv/bin/snakemake --snakefile /home/ubuntu/kg2-code/build/Snakefile --unlock
 ```
 
+<!-- TOC --><a name="authentication-error-in-tsv-to-neo4jsh"></a>
 ## Authentication Error in `tsv-to-neo4j.sh`
 Sometimes, when hosting KG2 in a Neo4j server on a new AWS instance, the initial password does not get set correctly, which will lead to an Authentication Error in `tsv-to-neo4j.sh`. To fix this, do the following:
 1. Start up Neo4 (sudo service neo4j start)
@@ -843,8 +939,10 @@ Sometimes, when hosting KG2 in a Neo4j server on a new AWS instance, the initial
 4. Fill in "neo4j" and "neo4j" for username and password, respectively, and submit the form. You should be immediately prompted to set a new password. At that 	time, type in our "usual" Neo4j password (you'll have to enter it twice).
 5. When you submit the form, Neo4j should be running and it should now have the correct password set.
 
+<!-- TOC --><a name="errors-in-extraction-rules"></a>
 ## Errors in Extraction rules
 
+<!-- TOC --><a name="role-exists-error"></a>
 ### Role exists error
 Occasionally, when a database needs to be re-extracted, the error `ERROR:  role "jjyang" already exists` occurs.
 If the following is not in the extraction script, add it to the line above where the role is created.
@@ -852,34 +950,41 @@ If the following is not in the extraction script, add it to the line above where
 sudo -u postgres psql -c "DROP ROLE IF EXISTS ${role}"
 ```
 
+<!-- TOC --><a name="for-developers"></a>
 # For Developers
 
 This section has some guidelines for the development team for the KG2 build system.
 
+<!-- TOC --><a name="kg2-coding-standards"></a>
 ## KG2 coding standards
 
 - Hard tabs are not permitted in source files such as python or bash (use spaces).
 
+<!-- TOC --><a name="python-coding-standards-for-kg2"></a>
 ### Python coding standards for KG2
 
 - Only python3 is allowed.
 - Please follow PEP8 formatting standards, except we allow line length to go to 160.
 - Please use type hints wherever possible.
 
+<!-- TOC --><a name="shell-coding-standards-for-kg2"></a>
 # Shell coding standards for KG2
 
 - Use lower-case for variable names except for environment variables.
 - The flags `nounset`, `pipefail`, *and* `errexit` should be set.
 
+<!-- TOC --><a name="file-naming"></a>
 ### File naming
 
 - For config files and shell scripts, use `kabob-case`
 - For python modules, use `snake_case`.
 
+<!-- TOC --><a name="credits"></a>
 # Credits
 
 Thank you to the many people who have contributed to the development of RTX KG2:
 
+<!-- TOC --><a name="code-and-development-work"></a>
 ## Code and development work
 Stephen Ramsey, 
 E. C. Wood,
@@ -890,11 +995,13 @@ Liliana Acevedo,
 Veronica Flores, and
 Deqing Qu.
 
+<!-- TOC --><a name="advice-and-feedback"></a>
 ## Advice and feedback
 David Koslicki, Eric Deutsch, Yao Yao, Jared Roach, Chris Mungall, Tom Conlin, Matt Brush,
 Chunlei Wu, Harold Solbrig, Will Byrd, Michael Patton, Jim Balhoff, Chunyu Ma, Chris Bizon,  
 Deepak Unni, Richard Bruskiewich, and Jeff Henrikson.
 
+<!-- TOC --><a name="funding"></a>
 ## Funding
 National Center for Advancing Translational Sciences (award number OT2TR002520).
 
