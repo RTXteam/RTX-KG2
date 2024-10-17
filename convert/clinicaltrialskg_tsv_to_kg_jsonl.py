@@ -120,9 +120,15 @@ def make_edges(input_file: str, edges_output, test_mode: bool):
              older_adult,
              unii] = line
 
+            predicate_list = predicate.split(kg2_util.CURIE_PREFIX_BIOLINK +
+                                             ':')
+            if len(predicate_list) == 1:
+                raise ValueError("predicate does not start with biolink "
+                                 f"prefix as expected: {predicate}")
+            predicate_suffix = predicate_list[1]
             edge = kg2_util.make_edge_biolink(subject_id,
                                               object_id,
-                                              predicate,
+                                              predicate_suffix,
                                               CLINICALTRIALSKG_CURIE,
                                               format_date(start_date))
             edges_output.write(edge)
