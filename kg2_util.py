@@ -125,6 +125,7 @@ CURIE_PREFIX_UMLS = 'UMLS'
 CURIE_PREFIX_UMLS_STY = 'STY'
 CURIE_PREFIX_UMLS_SOURCE = 'umls_source'
 CURIE_PREFIX_UNICHEM_SOURCE = 'UNICHEM_source'
+CURIE_PREFIX_UNII = 'UNII'
 CURIE_PREFIX_UNIPROT = 'UniProtKB'
 CURIE_PREFIX_VANDF = 'VANDF'
 
@@ -178,6 +179,7 @@ BASE_URL_TTD_TARGET = BASE_BASE_URL_IDENTIFIERS_ORG + \
 BASE_URL_UMLS = BASE_BASE_URL_IDENTIFIERS_ORG + 'umls:'
 BASE_URL_UMLS_STY = 'http://purl.bioontology.org/ontology/STY/'
 BASE_URL_UNICHEM = 'https://www.ebi.ac.uk/unichem/'
+BASE_URL_UNII = 'https://precision.fda.gov/uniisearch/srs/unii/'
 BASE_URL_UNIPROTKB = 'http://purl.uniprot.org/uniprot/'
 
 BIOLINK_CATEGORY_ANATOMICAL_ENTITY = 'anatomical entity'
@@ -352,14 +354,20 @@ def close_single_jsonlines(info: tuple, output_file_name: str):
     temp_output_file.close()
 
 
-def create_kg2_jsonlines(test_mode: bool = False):
-    return create_single_jsonlines(test_mode), create_single_jsonlines(test_mode)
+def create_kg2_jsonlines(test_mode: bool = False, include_edges = True):
+    jl_nodes = create_single_jsonlines(test_mode)
+    if include_edges:
+        jl_edges = create_single_jsonlines(test_mode)
+    else:
+        jl_edges = None
+    return jl_nodes, jl_edges
 
 
 def close_kg2_jsonlines(nodes_info: tuple, edges_info: tuple,
                         output_nodes_file_name: str, output_edges_file_name: str):
     close_single_jsonlines(nodes_info, output_nodes_file_name)
-    close_single_jsonlines(edges_info, output_edges_file_name)
+    if edges_info is not None:
+        close_single_jsonlines(edges_info, output_edges_file_name)
 
 
 def start_read_jsonlines(file_name: str, type=dict):

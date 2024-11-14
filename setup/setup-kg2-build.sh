@@ -77,7 +77,8 @@ sudo apt-get install -y \
      automake \
      git \
      libssl-dev \
-     make
+     make \
+     unzip
 
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password ${mysql_password}"
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password ${mysql_password}"
