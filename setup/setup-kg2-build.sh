@@ -63,7 +63,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
 # install various other packages used by the build system
 #  - curl is generally used for HTTP downloads
 #  - wget is used by the neo4j installation script (some special "--no-check-certificate" mode)
-sudo apt-get install -y \
+sudo DEBIAN_FRONTEND=noninateractive apt-get install -y \
      default-jre \
      awscli \
      zip \
@@ -77,7 +77,8 @@ sudo apt-get install -y \
      automake \
      git \
      libssl-dev \
-     make
+     make \
+     jq
 
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password ${mysql_password}"
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password ${mysql_password}"
