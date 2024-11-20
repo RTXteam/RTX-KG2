@@ -97,6 +97,18 @@ rule ChEMBL_Conversion:
     shell:
         config['PYTHON_COMMAND'] + " {input.code} " + config['MYSQL_CONF'] + " " + config['CHEMBL_MYSQL_DBNAME'] + " {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
+rule UNII_Conversion:
+    input:
+        code = config['UNII_CONVERSION_SCRIPT'],
+	real = config['UNII_TSV_FILE'],
+	validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        nodes = config['UNII_OUTPUT_NODES_FILE']
+    log:
+        config['UNII_CONVERSION_LOG']
+    shell:
+        config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} " + config['TEST_ARG'] + " > {log} 2>&1"
+
 rule NCBIGene_Conversion:
     input:
         code = config['NCBIGENE_CONVERSION_SCRIPT'],

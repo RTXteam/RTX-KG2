@@ -78,7 +78,8 @@ sudo DEBIAN_FRONTEND=noninateractive apt-get install -y \
      git \
      libssl-dev \
      make \
-     jq
+     jq \
+     unzip
 
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password ${mysql_password}"
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password ${mysql_password}"

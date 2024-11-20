@@ -101,6 +101,16 @@ ncbigene_conversion_log: ${BUILD_DIR}/${ncbigene_conversion_base}${version_suffi
 ncbigene_output_nodes_file: ${BUILD_DIR}/${ncbigene_output_base}${nodes_suffix}${test_suffix}.jsonl
 ncbigene_output_edges_file: ${BUILD_DIR}/${ncbigene_output_base}${edges_suffix}${test_suffix}.jsonl
 
+unii_extraction_base: extract-unii
+unii_conversion_base: unii_tsv_to_kg_jsonl
+unii_output_base: kg2-unii
+unii_extraction_script: ${EXTRACT_CODE_DIR}/${unii_extraction_base}.sh
+unii_extraction_log: ${BUILD_DIR}/${unii_extraction_base}${version_suffix}${test_suffix}.log
+unii_tsv_file: ${BUILD_DIR}/unii/unii.tsv
+unii_conversion_script: ${CONVERT_CODE_DIR}/${unii_conversion_base}.py
+unii_conversion_log: ${BUILD_DIR}/${unii_conversion_base}${version_suffix}${test_suffix}.log
+unii_output_nodes_file: ${BUILD_DIR}/${unii_output_base}${nodes_suffix}${test_suffix}.jsonl
+
 dgidb_extraction_base: extract-dgidb
 dgidb_conversion_base: dgidb_tsv_to_kg_jsonl
 dgidb_output_base: kg2-dgidb

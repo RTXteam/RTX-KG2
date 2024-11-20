@@ -498,6 +498,8 @@ use_for_bidirectional_mapping:
   -
     UNICHEM_source: "https://www.ebi.ac.uk/unichem/"
   -
+    UNII: "https://precision.fda.gov/uniisearch/srs/unii/"
+  -
     UniProtKB: "http://purl.uniprot.org/uniprot/"
   -
     UO: http://purl.obolibrary.org/obo/UO_

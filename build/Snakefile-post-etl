@@ -41,6 +41,7 @@ rule Merge:
         disgenet_edges = config['DISGENET_OUTPUT_EDGES_FILE'],
         kegg_nodes = config['KEGG_OUTPUT_NODES_FILE'],
         kegg_edges = config['KEGG_OUTPUT_EDGES_FILE'],
+	unii_nodes = config['UNII_OUTPUT_NODES_FILE'],
         clinicaltrialskg_nodes = config['CLINICALTRIALSKG_OUTPUT_NODES_FILE'],
         clinicaltrialskg_edges = config['CLINICALTRIALSKG_OUTPUT_EDGES_FILE']
     output:
@@ -76,6 +77,7 @@ rule Merge:
             "{input.disgenet_nodes} " + \
             "{input.kegg_nodes} " + \
             "{input.clinicaltrialskg_nodes} " + \
+	    "{input.unii_nodes} " + \
             " --kgEdgesFiles " + \
             "{input.umls_edges} " + \
             "{input.ontologies_edges} " + \
