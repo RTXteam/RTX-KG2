@@ -290,3 +290,17 @@ rule ClinicalTrialsKG_Conversion:
         config['CLINICALTRIALSKG_CONVERSION_LOG']
     shell:
         config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
+
+rule DrugApprovalsKG_Conversion:
+    input:
+        code = config['DRUGAPPROVALSKG_CONVERSION_SCRIPT'],
+        real = config['DRUGAPPROVALSKG_INPUT_FILE'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        nodes = config['DRUGAPPROVALSKG_OUTPUT_NODES_FILE'],
+        edges = config['DRUGAPPROVALSKG_OUTPUT_EDGES_FILE']
+    log:
+        config['DRUGAPPROVALSKG_CONVERSION_LOG']
+    shell:
+        config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
+

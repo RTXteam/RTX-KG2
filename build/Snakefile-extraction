@@ -232,3 +232,14 @@ rule ClinicalTrialsKG:
         config['CLINICALTRIALSKG_EXTRACTION_LOG']
     shell:
         "bash -x {input.code} {output} > {log} 2>&1"
+
+rule DrugApprovalsKG:
+    input:
+        code = config['DRUGAPPROVALSKG_EXTRACTION_SCRIPT'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['DRUGAPPROVALSKG_INPUT_FILE']
+    log:
+        config['DRUGAPPROVALSKG_EXTRACTION_LOG']
+    shell:
+        "bash -x {input.code} {output} > {log} 2>&1"
