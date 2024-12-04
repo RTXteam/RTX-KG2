@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-'''clinicaltrialskg_tsv_to_kg_jsonl.py: Extracts a KG2 JSON file from the ClinicalTrials Knowledge Graphy in TSV format
+'''clinicaltrialskg_tsv_to_kg_jsonl.py: Extracts a KG2 JSON file from the ClinicalTrials Knowledge Graph in TSV format
 
    Usage: clinicaltrialskg_tsv_to_kg_jsonl.py [--test] <inputFile.tsv> <outputNodesFile.json> <outputEdgesFile.json>
 '''
