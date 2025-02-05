@@ -1,3 +1,33 @@
+# 2.10.2
+**Date:  2025.02.XX**
+
+Counts:
+- Nodes: XXX
+- Edges: XXX
+
+Issues:
+ - Issue [#412](https://github.com/RTXteam/RTX-KG2/issues/412)
+
+Build info:
+- Biolink Model version: 4.2.5?
+- InfoRes Registry version: 1.0.0?
+- Build host: `kg2102build.rtx.ai`
+- Build directory: `/home/ubuntu/kg2-build`
+- Build code branch: `kg2.10.2`
+- Neo4j endpoint CNAME: `kg2endpoint-kg2-10-2.rtx.ai`
+- Neo4j endpoint hostname: `kg2endpointXXX.rtx.ai`
+- Tracking project for the build: [RTXteam/projects/4](https://github.com/orgs/RTXteam/projects/4)
+- Major knowledge source versions:
+  - SemMedDB: `43 (2023)`
+  - UMLS: `2023AA`
+  - ChEMBL: `33`
+  - DrugBank: `5.1.10`
+  - Ensembl: `106`
+  - Reactome: `80`
+  - UniProtKB: `2024_04`
+  - DrugCentral: `52`
+  - KEGG: `111.0`
+    
 # 2.10.1
 **Date:  2024.9.02**
 
