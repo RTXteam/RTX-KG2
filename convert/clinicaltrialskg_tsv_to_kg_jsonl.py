@@ -50,7 +50,7 @@ def format_id(id: str, prefix: str):
 def format_date(date_field):
     if len(date_field) == 0:
         return str()
-    dates = date_field.split(',')
+    dates = date_field.split('|')
 
     # Arbitrarily far back date to improve on
     latest_date = datetime.date(1700, 1, 1)
@@ -107,6 +107,7 @@ def make_edges(input_file: str, edges_output, test_mode: bool):
              agent_type,
              nctid,
              phase,
+             tested,
              primary_purpose,
              intervention_model,
              time_perspective,
@@ -118,7 +119,12 @@ def make_edges(input_file: str, edges_output, test_mode: bool):
              child,
              adult,
              older_adult,
-             unii] = line
+             intervention_boxed_warning,
+             brief_title,
+             unii,
+             tested_intervention,
+             elevate_to_prediction,
+             max_research_phase] = line
 
             predicate_list = predicate.split(kg2_util.CURIE_PREFIX_BIOLINK +
                                              ':')
