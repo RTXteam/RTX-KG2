@@ -360,7 +360,8 @@ that it provides control over which branch you want to use for the KG2 build cod
 
 (5) Setup the KG2 build system: 
 
-    bash -x ~/RTX-KG2/setup-kg2-build.sh
+    cd
+    bash -x ~/RTX-KG2/setup/setup-kg2-build.sh
 
 Note that there is no need to redirect `stdout` or `stderr` to a log file, when
 executing `setup-kg2-build.sh`; this is because the script saves its own `stdout` and
