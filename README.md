@@ -353,7 +353,7 @@ be installed):
 [An advantage to having the `git clone` command separated out from the install script is
 that it provides control over which branch you want to use for the KG2 build code.]
 
-(4) Change branches to the KG2 buid code if necessary
+(4) Change branches to the KG2 build code if necessary
 
     cd ~/RTX-KG2/
     git checkout [branch name]
