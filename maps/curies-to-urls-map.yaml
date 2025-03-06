@@ -98,6 +98,8 @@ use_for_bidirectional_mapping:
   -
     CVDO: http://purl.obolibrary.org/obo/CVDO_
   -
+    DrugApprovalsKP: 'https://github.com/NCATSTranslator/Translator-All/wiki/Multiomics-Drug-Approvals-KP/'
+  -
     dbpedia: http://dbpedia.org/resource/
   -
     dc: http://purl.org/dc/elements/1.1/
