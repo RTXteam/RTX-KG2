@@ -10,6 +10,10 @@
   source_name: Multiomics ClinicalTrials KP API
   infores_curie: infores:multiomics-clinicaltrials
   knowledge_type: knowledge_source
+'DrugApprovalsKG:':
+  source_name: Multiomics DrugApprovals KP API
+  infores_curie: infores:multiomics-drugapprovals
+  knowledge_type: knowledge_source
 'DGIdb:':
   source_name: Drug Gene Interaction Database
   infores_curie: infores:dgidb
