@@ -100,7 +100,7 @@ use_for_bidirectional_mapping:
   -
     DrugApprovalsKG: 'https://github.com/NCATSTranslator/Translator-All/wiki/Multiomics-Drug-Approvals-KP/'
   -
-    drugapprovals: https://identifiers.org/ndc:
+    drugapprovals: "https://identifiers.org/ndc:"
   -
     dbpedia: http://dbpedia.org/resource/
   -
