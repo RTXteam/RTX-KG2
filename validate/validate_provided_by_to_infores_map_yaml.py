@@ -60,7 +60,7 @@ def make_kg2_infores_look_up(infores_map):
 def validate_infores_curies(infores_look_up, kg2_infores_look_up):
     name_exceptions = ["Consumer Health Vocabulary (CHV) (from UMLS)", 
                        "FDA Unique Ingredient Identifiers",
-+                       "Foundational Model of Anatomy Ontology (FMA -- both from UMLS and from OBO)"]
+                       "Foundational Model of Anatomy Ontology (FMA -- both from UMLS and from OBO)"]
     for kg2_infores_name in kg2_infores_look_up:
         kg2_infores_curies = kg2_infores_look_up[kg2_infores_name]
         exceptions = False
