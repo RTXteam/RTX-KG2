@@ -9,6 +9,7 @@
 import kg2_util
 import argparse
 import json
+import sys
 
 __author__ = 'Erica Wood'
 __copyright__ = 'Oregon State University'
@@ -31,11 +32,16 @@ def make_infores_look_up(infores_catalog):
     infores_dict = kg2_util.safe_load_yaml_from_string(kg2_util.read_file_to_string(infores_catalog))
     infores_look_up = dict()
     for infores_entry in infores_dict['information_resources']:
-        infores_name = infores_entry['name']
-        infores_curie = infores_entry['id']
-        if infores_name not in infores_look_up:
-            infores_look_up[infores_name] = list()
-        infores_look_up[infores_name].append(infores_curie)
+        if 'name' not in infores_entry:
+            print(f"Infores catalog entry does not have a name; this should get reported to the Biolink team: {infores_entry}",
+                  file=sys.stderr)
+            continue
+        else:
+            infores_name = infores_entry['name']
+            infores_curie = infores_entry['id']
+            if infores_name not in infores_look_up:
+                infores_look_up[infores_name] = list()
+                infores_look_up[infores_name].append(infores_curie)
     return infores_look_up
 
 
@@ -52,7 +58,9 @@ def make_kg2_infores_look_up(infores_map):
 
 
 def validate_infores_curies(infores_look_up, kg2_infores_look_up):
-    name_exceptions = ["Consumer Health Vocabulary (CHV) (from UMLS)"]
+    name_exceptions = ["Consumer Health Vocabulary (CHV) (from UMLS)", 
+                       "FDA Unique Ingredient Identifiers",
++                       "Foundational Model of Anatomy Ontology (FMA -- both from UMLS and from OBO)"]
     for kg2_infores_name in kg2_infores_look_up:
         kg2_infores_curies = kg2_infores_look_up[kg2_infores_name]
         exceptions = False
