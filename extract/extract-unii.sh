@@ -15,7 +15,7 @@ date
 config_dir=`dirname "$0"`
 source ${config_dir}/master-config.shinc
 
-unii_dir=${1:-"${BUILD_DIR}/unii/"}
+unii_dir="${BUILD_DIR}/unii/"
 unii_latest_download_url="https://precision.fda.gov/uniisearch/archive/latest/UNIIs.zip"
 unii_zip_file="UNIIs.zip"
 unii_file='unii.tsv'
