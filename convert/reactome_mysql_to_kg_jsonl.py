@@ -378,12 +378,12 @@ def get_nodes(connection, nodes_output, test):
 
 
 def get_reaction_inputs_and_outputs(connection, edges_output, test):
-    # This MySQL statement uses the ReactionlikeEvent_2_input
+    # This MySQL statement uses the reactionlikeevent_2_input
     # table to gather the DB_ID's for each reaction and its inputs.
     # Then, it retreives the Reactome ID for both the reaction and
     # the input using the stableidentifier table.
     in_sql = "SELECT DISTINCT si_sub.identifier, si_obj.identifier \
-              FROM ReactionlikeEvent_2_input reaction \
+              FROM reactionlikeevent_2_input reaction \
               INNER JOIN databaseobject dbobj_sub \
               ON reaction.DB_ID=dbobj_sub.DB_ID \
               INNER JOIN stableidentifier si_sub \
@@ -404,12 +404,12 @@ def get_reaction_inputs_and_outputs(connection, edges_output, test):
         edge = format_edge(subject_id, object_id, predicate)
         edges_output.write(edge)
 
-    # This MySQL statement uses the ReactionlikeEvent_2_output
+    # This MySQL statement uses the reactionlikeevent_2_output
     # table to gather the DB_ID's for each reaction and its outputs.
     # Then, it retreives the Reactome ID for both the reaction and
     # the output using the stableidentifier table.
     out_sql = "SELECT DISTINCT si_sub.identifier, si_obj.identifier \
-               FROM ReactionlikeEvent_2_output reaction \
+               FROM reactionlikeevent_2_output reaction \
                INNER JOIN databaseobject dbobj_sub \
                ON reaction.DB_ID=dbobj_sub.DB_ID \
                INNER JOIN stableidentifier si_sub \
@@ -432,13 +432,13 @@ def get_reaction_inputs_and_outputs(connection, edges_output, test):
 
 
 def get_pathway_events(connection, edges_output, test):
-    # This MySQL query uses the Pathway_2_hasEvent
+    # This MySQL query uses the pathway_2_hasevent
     # table to connect pathways to their events (reactions,
     # black box events, polymerisation, etc). It takes the DB_ID's
     # of both the pathway and the event and connects each to its
     # Reactome identifier using the stableidentifier table.
     event_sql = "SELECT DISTINCT si_sub.identifier, si_obj.identifier \
-                 FROM Pathway_2_hasEvent pathway \
+                 FROM pathway_2_hasevent pathway \
                  INNER JOIN databaseobject dbobj_sub \
                  ON pathway.DB_ID=dbobj_sub.DB_ID \
                  INNER JOIN stableidentifier si_sub \
@@ -481,14 +481,14 @@ def get_author_of_PMID(pmid: str, connection):
 
 
 def get_event_characteristics(connection, edges_output, test):
-    # This MySQL query uses the Event_2_disease table to
+    # This MySQL query uses the event_2_disease table to
     # connect events to diseases they are related to. It takes
     # the DB_ID of both the disease and the event from that table,
     # then connects the event's DB_ID to its Reactome ID within
     # stableidentifier. The disease's DB_ID is connected to
     # externalontology to return its DOID ID.
     event_to_disease_sql = "SELECT si.identifier, eo.identifier \
-                            FROM Event_2_disease ev_dis \
+                            FROM event_2_disease ev_dis \
                             INNER JOIN databaseobject dbobj_sub \
                             ON dbobj_sub.DB_ID=ev_dis.DB_ID \
                             INNER JOIN stableidentifier si \
@@ -506,7 +506,7 @@ def get_event_characteristics(connection, edges_output, test):
         edge = format_edge(subject_id, object_id, predicate)
         edges_output.write(edge)
 
-    # This MySQL query uses the Event_2_compartment table to
+    # This MySQL query uses the event_2_compartment table to
     # connect events to the parts of the cell they occur in.
     # The event's Reactome ID is retreived from the stableidentifier
     # table and the compartment's GO ID is retrieved from the
@@ -514,7 +514,7 @@ def get_event_characteristics(connection, edges_output, test):
 
     # This table doesn't exist in the latest version of Reactome.
     # compartment_sql = "SELECT si_sub.identifier, go.accession \
-    #                    FROM Event_2_compartment ev_comp \
+    #                    FROM event_2_compartment ev_comp \
     #                    INNER JOIN compartment compart \
     #                    ON compart.DB_ID=ev_comp.compartment \
     #                    INNER JOIN go_cellularcomponent_2_instanceof go_io \
@@ -537,7 +537,7 @@ def get_event_characteristics(connection, edges_output, test):
     #     edge = format_edge(subject_id, object_id, predicate)
     #     edges_output.write(edge)
 
-    # This MySQL query uses the ReactionlikeEvent_2_regulatedBy
+    # This MySQL query uses the reactionlikeevent_2_regulatedby
     # table to link Reactionlike Events (Reaction, BlackBoxEvent, etc)
     # to things that regulate them. This uses the regulation nodes
     # (Requirement, PositiveRegulation, Negative regulation,
@@ -558,7 +558,7 @@ def get_event_characteristics(connection, edges_output, test):
                       si_obj.identifier, \
                       GROUP_CONCAT(DISTINCT sum_fr_r.text), \
                       GROUP_CONCAT(DISTINCT lit.pubMedIdentifier)\
-                      FROM ReactionlikeEvent_2_regulatedBy rl_rb \
+                      FROM reactionlikeevent_2_regulatedby rl_rb \
                       INNER JOIN databaseobject dbobj_obj \
                       ON dbobj_obj.DB_ID=rl_rb.DB_ID \
                       INNER JOIN stableidentifier si_obj \
@@ -644,14 +644,14 @@ def get_event_characteristics(connection, edges_output, test):
 
 
 def get_physical_entity_characteristics(connection, edges_output, test):
-    # This MySQL query uses the PhysicalEntity_2_disease table to
+    # This MySQL query uses the physicalentity_2_disease table to
     # connect physical entities to diseases they are related to. It takes
     # the DB_ID of both the disease and the entity from that table,
     # then connects the entity's DB_ID to its Reactome ID within
     # stableidentifier. The disease's DB_ID is connected to
     # externalontology to return its DOID ID.
     entity_to_disease_sql = "SELECT si.identifier, eo.identifier \
-                             FROM PhysicalEntity_2_disease pe_dis \
+                             FROM physicalentity_2_disease pe_dis \
                              INNER JOIN databaseobject dbobj \
                              ON dbobj.DB_ID=pe_dis.DB_ID \
                              INNER JOIN stableidentifier si \
@@ -669,7 +669,7 @@ def get_physical_entity_characteristics(connection, edges_output, test):
         edge = format_edge(subject_id, object_id, predicate)
         edges_output.write(edge)
 
-    # This MySQL query uses the PhysicalEntity_2_compartment table to
+    # This MySQL query uses the physicalentity_2_compartment table to
     # connect physical entities to the parts of the cell they occur in.
     # The entity's Reactome ID is retreived from the stableidentifier
     # table and the compartment's GO ID is retrieved from the
@@ -677,7 +677,7 @@ def get_physical_entity_characteristics(connection, edges_output, test):
 
     # This table doesn't exist in the latest version of Reactome.
     # compartment_sql = "SELECT si.identifier, go.accession \
-    #                    FROM PhysicalEntity_2_compartment pe_c \
+    #                    FROM physicalentity_2_compartment pe_c \
     #                    INNER JOIN compartment c \
     #                    ON c.DB_ID=pe_c.compartment \
     #                    INNER JOIN go_cellularcomponent_2_instanceof g \
@@ -701,12 +701,12 @@ def get_physical_entity_characteristics(connection, edges_output, test):
 
 
 def get_equivalencies(connection, edges_output, test):
-    # This MySQL query uses the Event table to match
+    # This MySQL query uses the event table to match
     # Reactome IDs (from the stableidentifier table)
     # with their equivalent GO Biological Processes
     # using the GO_Biological_Process table.
     go_eq_sql = "SELECT go.accession, si.identifier \
-                 FROM Event event \
+                 FROM event event \
                  INNER JOIN databaseobject dbobj \
                  ON event.DB_ID=dbobj.DB_ID \
                  INNER JOIN stableidentifier si \
@@ -724,14 +724,14 @@ def get_equivalencies(connection, edges_output, test):
         edge = format_edge(react_id, go_id, predicate)
         edges_output.write(edge)
 
-    # This MySQL query uses the PhysicalEntity_2_crossReference
+    # This MySQL query uses the physicalentity_2_crossreference
     # table to generate related_to edges from Reactome IDs
     # (which are discovered using the stableidentifier table)
     # to IDs from various other sources. Some are very close
     # matches and others are very loose, so we use the related_to
     # predicate to accommodate this.
     ex_ont_sql = "SELECT rd_n.name, di.identifier, si.identifier, rd.accessUrl \
-                  FROM PhysicalEntity_2_crossReference pe \
+                  FROM physicalentity_2_crossreference pe \
                   INNER JOIN databaseobject dbobj \
                   ON dbobj.DB_ID=pe.DB_ID \
                   INNER JOIN stableidentifier si \
@@ -802,13 +802,13 @@ def get_equivalencies(connection, edges_output, test):
 
 
 def get_elements_of_complex(connection, edges_output, test):
-    # This MySQL query uses the Complex_2_hasComponent
+    # This MySQL query uses the complex_2_hascomponent
     # table to get edges between Reactome complexes and
     # their elements. It uses the stableidentifier table
     # to retreive the Reactome IDs for each, based on
-    # their DB_IDs from Complex_2_hasComponent.
+    # their DB_IDs from complex_2_hascomponent.
     complex_elements_sql = "SELECT si.identifier, si2.identifier \
-                            FROM Complex_2_hasComponent complex \
+                            FROM complex_2_hascomponent complex \
                             INNER JOIN databaseobject dbobj \
                             ON dbobj.DB_ID=complex.DB_ID \
                             INNER JOIN stableidentifier si \
@@ -830,13 +830,13 @@ def get_elements_of_complex(connection, edges_output, test):
 
 
 def get_members_of_set(connection, edges_output, test):
-    # This MySQL query uses the EntitySet_2_hasMember
+    # This MySQL query uses the entityset_2_hasmember
     # table to get edges between Reactome sets and
     # their members. It uses the stableidentifier table
     # to retreive the Reactome IDs for each, based on
-    # their DB_IDs from EntitySet_2_hasMember.
+    # their DB_IDs from entityset_2_hasmember.
     complex_members_sql = "SELECT si_sub.identifier, si_obj.identifier \
-                           FROM EntitySet_2_hasMember es_hm \
+                           FROM entityset_2_hasmember es_hm \
                            INNER JOIN databaseobject dbobj_sub \
                            ON dbobj_sub.DB_ID=es_hm.DB_ID \
                            INNER JOIN stableidentifier si_sub \
