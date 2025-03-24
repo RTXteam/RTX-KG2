@@ -257,7 +257,7 @@ def get_nodes(connection, nodes_output, test):
     # This MySQL query uses the stableidentifier table,
     # which holds all of the node IDs for Reactome, as
     # its left most table. Then, it inner joins the
-    # DatabaseObject table, which contains identifiers (called
+    # databaseobject table, which contains identifiers (called
     # the DB_ID) that can be linked to all of the other tables,
     # which the stableidentifier can not be. Then, the
     # various node properties are added on using left joins.
@@ -291,7 +291,7 @@ def get_nodes(connection, nodes_output, test):
                  GROUP_CONCAT(DISTINCT ins_ed.dateTime) as created_date, \
                  GROUP_CONCAT(DISTINCT ewas.referenceEntity_class) as refclass  \
                  FROM stableidentifier si \
-                 INNER JOIN DatabaseObject dbobj \
+                 INNER JOIN databaseobject dbobj \
                  ON si.DB_ID=dbobj.stableidentifier \
                  LEFT JOIN InstanceEdit ins_ed \
                  ON dbobj.created=ins_ed.DB_ID \
@@ -384,11 +384,11 @@ def get_reaction_inputs_and_outputs(connection, edges_output, test):
     # the input using the stableidentifier table.
     in_sql = "SELECT DISTINCT si_sub.identifier, si_obj.identifier \
               FROM ReactionlikeEvent_2_input reaction \
-              INNER JOIN DatabaseObject dbobj_sub \
+              INNER JOIN databaseobject dbobj_sub \
               ON reaction.DB_ID=dbobj_sub.DB_ID \
               INNER JOIN stableidentifier si_sub \
               ON si_sub.DB_ID=dbobj_sub.stableidentifier \
-              INNER JOIN DatabaseObject dbobj_obj \
+              INNER JOIN databaseobject dbobj_obj \
               ON dbobj_obj.DB_ID=reaction.input \
               INNER JOIN stableidentifier si_obj \
               ON si_obj.DB_ID=dbobj_obj.stableidentifier"
@@ -410,11 +410,11 @@ def get_reaction_inputs_and_outputs(connection, edges_output, test):
     # the output using the stableidentifier table.
     out_sql = "SELECT DISTINCT si_sub.identifier, si_obj.identifier \
                FROM ReactionlikeEvent_2_output reaction \
-               INNER JOIN DatabaseObject dbobj_sub \
+               INNER JOIN databaseobject dbobj_sub \
                ON reaction.DB_ID=dbobj_sub.DB_ID \
                INNER JOIN stableidentifier si_sub \
                ON si_sub.DB_ID=dbobj_sub.stableidentifier \
-               INNER JOIN DatabaseObject dbobj_obj \
+               INNER JOIN databaseobject dbobj_obj \
                ON dbobj_obj.DB_ID=reaction.output \
                INNER JOIN stableidentifier si_obj \
                ON si_obj.DB_ID=dbobj_obj.stableidentifier"
@@ -439,11 +439,11 @@ def get_pathway_events(connection, edges_output, test):
     # Reactome identifier using the stableidentifier table.
     event_sql = "SELECT DISTINCT si_sub.identifier, si_obj.identifier \
                  FROM Pathway_2_hasEvent pathway \
-                 INNER JOIN DatabaseObject dbobj_sub \
+                 INNER JOIN databaseobject dbobj_sub \
                  ON pathway.DB_ID=dbobj_sub.DB_ID \
                  INNER JOIN stableidentifier si_sub \
                  ON si_sub.DB_ID=dbobj_sub.stableidentifier \
-                 INNER JOIN DatabaseObject dbobj_obj \
+                 INNER JOIN databaseobject dbobj_obj \
                  ON dbobj_obj.DB_ID=pathway.hasEvent \
                  INNER JOIN stableidentifier si_obj \
                  ON si_obj.DB_ID=dbobj_obj.stableidentifier"
@@ -489,7 +489,7 @@ def get_event_characteristics(connection, edges_output, test):
     # ExternalOntology to return its DOID ID.
     event_to_disease_sql = "SELECT si.identifier, eo.identifier \
                             FROM Event_2_disease ev_dis \
-                            INNER JOIN DatabaseObject dbobj_sub \
+                            INNER JOIN databaseobject dbobj_sub \
                             ON dbobj_sub.DB_ID=ev_dis.DB_ID \
                             INNER JOIN stableidentifier si \
                             ON si.DB_ID=dbobj_sub.stableidentifier \
@@ -521,7 +521,7 @@ def get_event_characteristics(connection, edges_output, test):
     #                    ON go_io.instanceOf=compart.DB_ID \
     #                    INNER JOIN GO_CellularComponent go \
     #                    ON go.DB_ID=go_io.instanceOf \
-    #                    INNER JOIN DatabaseObject dbobj_sub \
+    #                    INNER JOIN databaseobject dbobj_sub \
     #                    ON ec.DB_ID=dbobj_sub.DB_ID \
     #                    INNER JOIN stableidentifier si_sub \
     #                    ON si_sub.DB_ID=dbobj_sub.stableidentifier"
@@ -559,17 +559,17 @@ def get_event_characteristics(connection, edges_output, test):
                       GROUP_CONCAT(DISTINCT sum_fr_r.text), \
                       GROUP_CONCAT(DISTINCT lit.pubMedIdentifier)\
                       FROM ReactionlikeEvent_2_regulatedBy rl_rb \
-                      INNER JOIN DatabaseObject dbobj_obj \
+                      INNER JOIN databaseobject dbobj_obj \
                       ON dbobj_obj.DB_ID=rl_rb.DB_ID \
                       INNER JOIN stableidentifier si_obj \
                       ON dbobj_obj.stableidentifier=si_obj.DB_ID \
-                      INNER JOIN DatabaseObject dbobj_reg \
+                      INNER JOIN databaseobject dbobj_reg \
                       ON dbobj_reg.DB_ID=rl_rb.regulatedBy \
                       INNER JOIN stableidentifier si_reg \
                       ON dbobj_reg.stableidentifier=si_reg.DB_ID \
                       INNER JOIN Regulation reg \
                       ON reg.DB_ID=rl_rb.regulatedBy \
-                      INNER JOIN DatabaseObject dbobj_sub \
+                      INNER JOIN databaseobject dbobj_sub \
                       ON dbobj_sub.DB_ID=reg.regulator \
                       INNER JOIN stableidentifier si_sub \
                       ON si_sub.DB_ID=dbobj_sub.stableidentifier \
@@ -652,7 +652,7 @@ def get_physical_entity_characteristics(connection, edges_output, test):
     # ExternalOntology to return its DOID ID.
     entity_to_disease_sql = "SELECT si.identifier, eo.identifier \
                              FROM PhysicalEntity_2_disease pe_dis \
-                             INNER JOIN DatabaseObject dbobj \
+                             INNER JOIN databaseobject dbobj \
                              ON dbobj.DB_ID=pe_dis.DB_ID \
                              INNER JOIN stableidentifier si \
                              ON si.DB_ID=dbobj.stableidentifier \
@@ -684,7 +684,7 @@ def get_physical_entity_characteristics(connection, edges_output, test):
     #                    ON g.instanceOf=c.DB_ID \
     #                    INNER JOIN GO_CellularComponent go \
     #                    ON go.DB_ID=g.instanceOf \
-    #                    INNER JOIN DatabaseObject dbobj \
+    #                    INNER JOIN databaseobject dbobj \
     #                    ON pe_c.DB_ID=dbobj.DB_ID \
     #                    INNER JOIN stableidentifier si \
     #                    ON si.DB_ID=dbobj.stableidentifier"
@@ -707,7 +707,7 @@ def get_equivalencies(connection, edges_output, test):
     # using the GO_Biological_Process table.
     go_eq_sql = "SELECT go.accession, si.identifier \
                  FROM Event event \
-                 INNER JOIN DatabaseObject dbobj \
+                 INNER JOIN databaseobject dbobj \
                  ON event.DB_ID=dbobj.DB_ID \
                  INNER JOIN stableidentifier si \
                  ON dbobj.stableidentifier=si.DB_ID \
@@ -732,7 +732,7 @@ def get_equivalencies(connection, edges_output, test):
     # predicate to accommodate this.
     ex_ont_sql = "SELECT rd_n.name, di.identifier, si.identifier, rd.accessUrl \
                   FROM PhysicalEntity_2_crossReference pe \
-                  INNER JOIN DatabaseObject dbobj \
+                  INNER JOIN databaseobject dbobj \
                   ON dbobj.DB_ID=pe.DB_ID \
                   INNER JOIN stableidentifier si \
                   ON dbobj.stableidentifier=si.DB_ID \
@@ -774,13 +774,13 @@ def get_equivalencies(connection, edges_output, test):
         reference_entity_sql = f"SELECT si_sub.identifier, re.identifier, \
                                  dbobj_obj._displayName \
                                  FROM {reference_entity_table} ewas \
-                                 INNER JOIN DatabaseObject dbobj_sub \
+                                 INNER JOIN databaseobject dbobj_sub \
                                  ON dbobj_sub.DB_ID=ewas.DB_ID \
                                  INNER JOIN stableidentifier si_sub \
                                  ON si_sub.DB_ID=dbobj_sub.stableidentifier \
                                  INNER JOIN ReferenceEntity re \
                                  ON re.DB_ID=ewas.referenceEntity \
-                                 INNER JOIN DatabaseObject dbobj_obj \
+                                 INNER JOIN databaseobject dbobj_obj \
                                  ON dbobj_obj.DB_ID=re.referenceDatabase"
         if test:
             reference_entity_sql += " LIMIT " + str(ROW_LIMIT_TEST_MODE)
@@ -809,11 +809,11 @@ def get_elements_of_complex(connection, edges_output, test):
     # their DB_IDs from Complex_2_hasComponent.
     complex_elements_sql = "SELECT si.identifier, si2.identifier \
                             FROM Complex_2_hasComponent complex \
-                            INNER JOIN DatabaseObject dbobj \
+                            INNER JOIN databaseobject dbobj \
                             ON dbobj.DB_ID=complex.DB_ID \
                             INNER JOIN stableidentifier si \
                             ON si.DB_ID=dbobj.stableidentifier \
-                            INNER JOIN DatabaseObject dbobj2 \
+                            INNER JOIN databaseobject dbobj2 \
                             ON dbobj2.DB_ID=complex.hasComponent \
                             INNER JOIN stableidentifier si2 \
                             ON si2.DB_ID=dbobj2.stableidentifier"
@@ -837,11 +837,11 @@ def get_members_of_set(connection, edges_output, test):
     # their DB_IDs from EntitySet_2_hasMember.
     complex_members_sql = "SELECT si_sub.identifier, si_obj.identifier \
                            FROM EntitySet_2_hasMember es_hm \
-                           INNER JOIN DatabaseObject dbobj_sub \
+                           INNER JOIN databaseobject dbobj_sub \
                            ON dbobj_sub.DB_ID=es_hm.DB_ID \
                            INNER JOIN stableidentifier si_sub \
                            ON si_sub.DB_ID=dbobj_sub.stableidentifier \
-                           INNER JOIN DatabaseObject dbobj_obj \
+                           INNER JOIN databaseobject dbobj_obj \
                            ON dbobj_obj.DB_ID=es_hm.hasMember \
                            INNER JOIN stableidentifier si_obj \
                            ON si_obj.DB_ID=dbobj_obj.stableidentifier"
@@ -872,9 +872,9 @@ def get_species(connection, edges_output, test):
     for to_species_table in to_species_tables:
         species_sql = f"SELECT si_sub.identifier, dbobj_obj._displayName \
                         FROM {to_species_table} sp \
-                        INNER JOIN DatabaseObject dbobj_obj \
+                        INNER JOIN databaseobject dbobj_obj \
                         ON dbobj_obj.DB_ID=sp.species \
-                        INNER JOIN DatabaseObject dbobj_sub \
+                        INNER JOIN databaseobject dbobj_sub \
                         ON dbobj_sub.DB_ID=sp.DB_ID \
                         INNER JOIN stableidentifier si_sub \
                         ON si_sub.DB_ID=dbobj_sub.stableidentifier"
