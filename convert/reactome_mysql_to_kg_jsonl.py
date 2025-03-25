@@ -208,29 +208,29 @@ def match_species_to_id(species: str):
 def match_reactome_category_to_biolink(reactome_category: str,
                                        reference_class: str):
     category_dict = {'Reaction': BIOLOGICAL_PROCESS,
-                     'otherentity': BIOLOGICAL_ENTITY,
-                     'simpleentity': BIOLOGICAL_ENTITY,
-                     'genomeencodedentity': BIOLOGICAL_ENTITY,
-                     'blackboxevent': BIOLOGICAL_PROCESS,
-                     'definedset': BIOLOGICAL_ENTITY,
-                     'chemicaldrug': SMALL_MOLECULE,
-                     'complex': BIOLOGICAL_ENTITY,
-                     'failedreaction': PATHOLOGICAL_PROCESS,
-                     'pathway': kg2_util.BIOLINK_CATEGORY_PATHWAY,
-                     'depolymerisation': BIOLOGICAL_PROCESS,
-                     'positiveregulation': BIOLOGICAL_PROCESS,
-                     'negativegeneexpressionregulation': BIOLOGICAL_PROCESS,
-                     'negativeregulation': BIOLOGICAL_PROCESS,
-                     'candidateset': BIOLOGICAL_ENTITY,
-                     'requirement': BIOLOGICAL_PROCESS,
-                     'proteindrug': CHEMICAL_ENTITY,
-                     'polymer': BIOLOGICAL_ENTITY,
-                     'entitywithaccessionedsequence': BIOLOGICAL_ENTITY,
-                     'polymerisation': BIOLOGICAL_PROCESS,
-                     'positivegeneexpressionregulation': BIOLOGICAL_PROCESS}
+                     'OtherEntity': BIOLOGICAL_ENTITY,
+                     'SimpleEntity': BIOLOGICAL_ENTITY,
+                     'GenomeEncodedEntity': BIOLOGICAL_ENTITY,
+                     'BlackBoxEvent': BIOLOGICAL_PROCESS,
+                     'DefinedSet': BIOLOGICAL_ENTITY,
+                     'ChemicalDrug': SMALL_MOLECULE,
+                     'Complex': BIOLOGICAL_ENTITY,
+                     'FailedReaction': PATHOLOGICAL_PROCESS,
+                     'Pathway': kg2_util.BIOLINK_CATEGORY_PATHWAY,
+                     'Depolymerisation': BIOLOGICAL_PROCESS,
+                     'PositiveRegulation': BIOLOGICAL_PROCESS,
+                     'NegativeGeneExpressionRegulation': BIOLOGICAL_PROCESS,
+                     'NegativeRegulation': BIOLOGICAL_PROCESS,
+                     'CandidateSet': BIOLOGICAL_ENTITY,
+                     'Requirement': BIOLOGICAL_PROCESS,
+                     'ProteinDrug': CHEMICAL_ENTITY,
+                     'Polymer': BIOLOGICAL_ENTITY,
+                     'EntityWithAccessionedSequence': BIOLOGICAL_ENTITY,
+                     'Polymerisation': BIOLOGICAL_PROCESS,
+                     'PositiveGeneExpressionRegulation': BIOLOGICAL_PROCESS}
 
     biolink_category = category_dict[reactome_category]
-    if reactome_category == 'entitywithaccessionedsequence' and reference_class is not None \
+    if reactome_category == 'EntityWithAccessionedSequence' and reference_class is not None \
        and reference_class == 'ReferenceGeneProduct':
         biolink_category = PROTEIN
         
