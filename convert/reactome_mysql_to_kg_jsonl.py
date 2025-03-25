@@ -933,7 +933,7 @@ if __name__ == '__main__':
     get_nodes(connection, nodes_output, test_mode)
     get_edges(connection, edges_output, test_mode)
 
-    [update_date, version_number] = list(run_sql('SELECT releaseDate, releaseNumber FROM _Release', connection)[0])
+    [update_date, version_number] = list(run_sql('SELECT releaseDate, releaseNumber FROM _release', connection)[0])
 
     kp_node = kg2_util.make_node(REACTOME_KB_CURIE_ID,
                                  REACTOME_KB_IRI,
