@@ -865,10 +865,10 @@ def get_species(connection, edges_output, test):
     # for the Reactome node and the species name
     # for the species (which is linked to NCBITaxon
     # using match_species_to_id).
-    to_species_tables = ['Event_2_species',
-                         'Polymer_2_species',
-                         'Complex_2_species',
-                         'EntitySet_2_species']
+    to_species_tables = ['event_2_species',
+                         'polymer_2_species',
+                         'complex_2_species',
+                         'entityset_2_species']
     for to_species_table in to_species_tables:
         species_sql = f"SELECT si_sub.identifier, dbobj_obj._displayName \
                         FROM {to_species_table} sp \
