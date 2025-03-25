@@ -769,7 +769,7 @@ def get_equivalencies(connection, edges_output, test):
     # and they are precise, so we use the 'same_as' predicate.
     reference_entity_tables = ['entitywithaccessionedsequence',
                                'simpleentity',
-                               'Drug']
+                               'drug']
     for reference_entity_table in reference_entity_tables:
         reference_entity_sql = f"SELECT si_sub.identifier, re.identifier, \
                                  dbobj_obj._displayName \
