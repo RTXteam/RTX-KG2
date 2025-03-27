@@ -3002,6 +3002,8 @@ OBI:0000417:
 OBI:0001927:
   operation: invert
   core_predicate: biolink:related_to
+OBI:0001938:
+  operation: delete
 OBO:INO_0000154:
   operation: keep
   core_predicate: biolink:related_to
@@ -3485,6 +3487,8 @@ RO:0002007:
 RO:0002008:
   operation: keep
   core_predicate: biolink:related_to
+RO:0002010:
+  operation: delete
 RO:0002082:
   operation: keep
   core_predicate: biolink:temporally_related_to
@@ -4129,6 +4133,9 @@ RO:0009004:
 RO:0009501:
   operation: invert
   core_predicate: biolink:causes
+RO:0012000:
+  operation: invert
+  core_predicate: biolink:affects
 RO:0012001:
   operation: keep
   core_predicate: biolink:has_participant
@@ -4138,6 +4145,10 @@ RO:0012003:
 RO:0012008:
   operation: keep
   core_predicate: biolink:affects
+RO:0012013:
+  operation: delete
+RO:0012014:
+  operation: delete
 RO:0013001:
   operation: keep
   core_predicate: biolink:related_to
@@ -4148,6 +4159,9 @@ RO:0014001:
   operation: keep
   core_predicate: biolink:related_to
 # increased in magnitude relative to
+RO:0015004:
+  operation: keep
+  core_predicate: biolink:has_part
 RO:0015007: 
   operation: delete
 # decreased in magnitude relative to
@@ -4160,6 +4174,7 @@ RO:0015010:
 RO:0015011:
   operation: delete
 # reciprocal of
+
 RO:0015012:
   operation: keep
   core_predicate: biolink:related_to
@@ -4197,6 +4212,8 @@ RO:0020102:
   core_predicate: biolink:affects
 RO:0040036:
   operation: delete
+
+
 # RO:HOM0000000:
 #   operation: keep
 #   core_predicate: biolink:similar_to
@@ -4555,6 +4572,9 @@ SIO:000203:
 # SO:0002054:
 #   operation: keep
 #   core_predicate: biolink:is_nonsense_variant_of
+SO:adjacent_to:
+  operation: keep
+  core_predicate: biolink:coexists_with
 SO:derives_from:
   operation: keep
   core_predicate: biolink:derives_from
@@ -4569,6 +4589,9 @@ SO:has_quality:
 SO:member_of:
   operation: invert
   core_predicate: biolink:has_member
+SO:non_functional_homolog_of:
+  operation: keep
+  core_predicate: biolink:homologous_to
 SO:overlaps:
   operation: keep
   core_predicate: biolink:overlaps
