@@ -622,7 +622,7 @@ Another failure mode is the versioning of ChemBL. Once ChemBL upgrades their dat
 old datasets may become unavailable. This will result in failure when downloading. To 
 fix this, change the version number in `extract-chembl.sh`.
 
-If the extract script is run too many times, MySQL might make too many binary log files filling up the instance storage. This can be verified using the following command:
+If the extract script is run too many times, MySQL might generate too many binary log files filling up the instance storage. This can be verified using the following command:
 ```
 sudo su - root
 cd /var/lib/mysql
