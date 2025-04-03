@@ -138,6 +138,12 @@ class UMLS_Processor(object):
                     relation_curie = self.make_node_id(relation_prefix, relation_label)
                     for cui in relations[relation_source][relation]:
                         subject_id = self.make_node_id(kg2_util.CURIE_PREFIX_UMLS, cui)
+                        if relation_source == 'MED-RT' and \
+                           relation_label == 'has_parent' and \
+                           relation_direction == 'N':
+                            relation_direction = 'Y'  # this is a patch for issue
+                                                      # 377; that bug seems to come
+                                                      # from UMLS MED-RT source
                         # TODO: resolve update_date
                         if relation_direction == 'N':
                             self.edges_output.write(kg2_util.make_edge(object_id, subject_id, relation_curie, relation_label, provided_by, "2023"))
