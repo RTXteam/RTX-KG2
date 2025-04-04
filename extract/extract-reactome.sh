@@ -21,6 +21,9 @@ source ${config_dir}/master-config.shinc
 mysql_dbname=${1:-"reactome"}
 mysql_file=reactome.sql.gz
 
+# Please check this web page (and cross-reference the date of the reactome download
+# by the KG2pre build system) to determine what version was used: 
+# https://reactome.org/about/release-calendar
 ${curl_get} https://reactome.org/download/current/databases/gk_current.sql.gz \
             > ${BUILD_DIR}/${mysql_file}
 
