@@ -95,7 +95,7 @@ def warning_knowledge_level_agent_source_not_in_config_edges(knowledge_source_no
     for infores_curie in knowledge_source_not_in_klat_map:
         print('infores is missing from the YAML config file for knowledge_level and agent_type: ' + infores_curie,
                file=sys.stderr)
-        # To terminate build in the future in case they are missing columns `knowledge_level` and `agent_type` 
+        # To terminate build in the future in case they are missing columns `knowledge_level` and `agent_type` mentioned issue number #441 to keep track
         exit(1)
 
     if len(knowledge_source_curies_not_in_config_nodes) > 0:
