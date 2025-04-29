@@ -90,6 +90,17 @@ rule NCBIGene:
     shell:
         "bash -x {input.code} {output} > {log} 2>&1"
 
+rule UNII:
+    input:
+        code = config['UNII_EXTRACTION_SCRIPT'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['UNII_TSV_FILE']
+    log:
+        config['UNII_EXTRACTION_LOG']
+    shell:
+        "bash -x {input.code} {output} > {log} 2>&1"
+
 rule DGIdb:
     input:
         code = config['DGIDB_EXTRACTION_SCRIPT'],
@@ -230,5 +241,16 @@ rule ClinicalTrialsKG:
         config['CLINICALTRIALSKG_INPUT_FILE']
     log:
         config['CLINICALTRIALSKG_EXTRACTION_LOG']
+    shell:
+        "bash -x {input.code} {output} > {log} 2>&1"
+
+rule DrugApprovalsKG:
+    input:
+        code = config['DRUGAPPROVALSKG_EXTRACTION_SCRIPT'],
+        validation = config['VALIDATION_PLACEHOLDER']
+    output:
+        config['DRUGAPPROVALSKG_INPUT_FILE']
+    log:
+        config['DRUGAPPROVALSKG_EXTRACTION_LOG']
     shell:
         "bash -x {input.code} {output} > {log} 2>&1"

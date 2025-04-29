@@ -256,6 +256,17 @@ clinicaltrialskg_conversion_log: ${BUILD_DIR}/${clinicaltrialskg_conversion_base
 clinicaltrialskg_output_nodes_file: ${BUILD_DIR}/${clinicaltrialskg_conversion_base}${nodes_suffix}${test_suffix}.jsonl
 clinicaltrialskg_output_edges_file: ${BUILD_DIR}/${clinicaltrialskg_conversion_base}${edges_suffix}${test_suffix}.jsonl
 
+drugapprovalskg_extraction_base: extract-drugapprovalskg
+drugapprovalskg_conversion_base: drugapprovalskg_tsv_to_kg_jsonl
+drugapprovalskg_output_base: kg2-drugapprovalskg
+drugapprovalskg_extraction_script: ${EXTRACT_CODE_DIR}/${drugapprovalskg_extraction_base}.sh
+drugapprovalskg_extraction_log: ${BUILD_DIR}/${drugapprovalskg_extraction_base}${version_suffix}${test_suffix}.log
+drugapprovalskg_input_file: ${BUILD_DIR}/drugapprovalskg-edges.tsv
+drugapprovalskg_conversion_script: ${CONVERT_CODE_DIR}/${drugapprovalskg_conversion_base}.py
+drugapprovalskg_conversion_log: ${BUILD_DIR}/${drugapprovalskg_conversion_base}${version_suffix}${test_suffix}.log
+drugapprovalskg_output_nodes_file: ${BUILD_DIR}/${drugapprovalskg_conversion_base}${nodes_suffix}${test_suffix}.jsonl
+drugapprovalskg_output_edges_file: ${BUILD_DIR}/${drugapprovalskg_conversion_base}${edges_suffix}${test_suffix}.jsonl
+
 merge_base: merge_graphs
 merge_script: ${PROCESS_CODE_DIR}/${merge_base}.py
 merged_output_base: kg2-merged

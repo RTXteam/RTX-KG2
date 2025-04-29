@@ -19,6 +19,9 @@ uniprotkb_dat_file=${1:-"${BUILD_DIR}/uniprot_sprot.dat"}
 
 uniprotkb_dir=`dirname ${uniprotkb_dat_file}`
 
+# To determine what version of UniProtKB was downloaded in the KG2pre build, 
+# it may be helpful to view the release date of uniprot_sprot.dat on this
+# web page: https://ftp.uniprot.org/pub/databases/uniprot/current_release/
 mkdir -p ${uniprotkb_dir}
 ${curl_get} ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.dat.gz  \
             > ${uniprotkb_dir}/uniprot_sprot.dat.gz

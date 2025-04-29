@@ -353,14 +353,15 @@ be installed):
 [An advantage to having the `git clone` command separated out from the install script is
 that it provides control over which branch you want to use for the KG2 build code.]
 
-(4) Change branches to the KG2 buid code if necessary
+(4) Change branches to the KG2 build code if necessary
 
     cd ~/RTX-KG2/
     git checkout [branch name]
 
 (5) Setup the KG2 build system: 
 
-    bash -x ~/RTX-KG2/setup-kg2-build.sh
+    cd
+    bash -x ~/RTX-KG2/setup/setup-kg2-build.sh
 
 Note that there is no need to redirect `stdout` or `stderr` to a log file, when
 executing `setup-kg2-build.sh`; this is because the script saves its own `stdout` and

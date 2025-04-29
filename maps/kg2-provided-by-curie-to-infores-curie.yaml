@@ -1,3 +1,11 @@
+'identifiers_org_registry:unii':
+  source_name: FDA Unique Ingredient Identifiers
+  infores_curie: infores:unii
+  knowledge_type: knowledge_source
+'DrugApprovalsKG:':
+  source_name: Multiomics Drug Approvals KP API
+  infores_curie: infores:multiomics-drugapprovals
+  knowledge_type: knowledge_source
 'ClinicalTrialsKG:':
   source_name: Multiomics ClinicalTrials KP API
   infores_curie: infores:multiomics-clinicaltrials

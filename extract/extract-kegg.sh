@@ -15,6 +15,9 @@ fi
 echo "================= starting extract-kegg.sh =================="
 date
 
+# KEGG release history can be found on this web page (cross-reference to date of KG2pre build):
+# https://www.genome.jp/kegg/docs/upd_all.html
+
 config_dir=`dirname "$0"`
 source ${config_dir}/master-config.shinc
 
