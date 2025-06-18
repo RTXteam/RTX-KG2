@@ -80,7 +80,7 @@ def make_rel(edges_output,
         publication_curie = kg2_util.CURIE_PREFIX_PMID + ':' + pmid
         publication_info_dict = {
             'publication date': pub_date,
-            'sentence': sentence,
+            'supporting_text': sentence,
             'subject score': subject_score,
             'object score': object_score}
         edge_publications_info[publication_curie] = publication_info_dict
