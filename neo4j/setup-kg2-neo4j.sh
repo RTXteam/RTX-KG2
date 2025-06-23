@@ -33,13 +33,14 @@ sudo apt-get update
 ## handle weird tzdata install (this makes UTC the timezone)
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
 
+## from gcc to gfortran, these are to address the use-case of a "minimal" Ubuntu (bionic)
 sudo apt-get install -y \
      awscli \
      zip \
      curl \
      software-properties-common \
      wget \
-     gcc \   ## from gcc to gfortran, these are to address the use-case of a "minimal" Ubuntu (bionic)
+     gcc \
      g++ \
      libblas3 \
      liblapack3 \
