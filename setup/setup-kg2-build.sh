@@ -96,8 +96,8 @@ then
     sudo DEBIAN_FRONTEND=noninateractive apt-get install -y awscli 
 fi
 
-# we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
-source ${SETUP_CODE_DIR}/setup-python37-with-pip3-in-ubuntu.shinc
+# we want python3.13 (also need python3.13-dev or else pip cannot install the python package "mysqlclient")
+source ${SETUP_CODE_DIR}/setup-python313-with-pip3-in-ubuntu.shinc
 ${VENV_DIR}/bin/pip3 install -r ${SETUP_CODE_DIR}/requirements-kg2-build.txt
 }
 
