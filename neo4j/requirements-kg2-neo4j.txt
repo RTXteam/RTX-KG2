@@ -1,7 +1,6 @@
-neo4j==1.7.4
-Cython==0.29.35
-numpy==1.22
-pybind11==2.10.4
-pythran==0.13.1
-pandas==0.24.2
-ontobio==1.10.1
+neo4j==5.28.1
+# Cython==0.29.35
+# numpy==1.22
+# pybind11==2.10.4
+# pythran==0.13.1
+# pandas==0.24.2

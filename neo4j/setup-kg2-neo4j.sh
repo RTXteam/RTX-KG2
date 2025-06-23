@@ -2,6 +2,7 @@
 # setup-kg2-neo4j.sh: setup the environment for hosting the KG2 knowledge graph
 # for the RTX biomedical reasoning system, in the Neo4j graph database
 # Copyright 2019 Stephen A. Ramsey <stephen.ramsey@oregonstate.edu>
+# Author Erica Wood
 
 set -o nounset -o pipefail -o errexit
 
@@ -13,7 +14,7 @@ fi
 # Usage: setup-kg2-neo4j.sh
 
 {
-echo "================= starting setup-kg2.sh ================="
+echo "================= starting setup-kg2-neo4j.sh ================="
 date
 
 ## setup the shell variables for various directories
@@ -49,8 +50,8 @@ sudo apt-get install -y \
 ## this is for convenience when I am remote working
 sudo apt-get install -y emacs
 
-# we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
-source ${SETUP_CODE_DIR}/setup-python37-with-pip3-in-ubuntu.shinc
+# we want python3.13
+source ${SETUP_CODE_DIR}/setup-python313-with-pip3-in-ubuntu.shinc
 
 ## Install python3 packages that we will need (Note: we are not using pymongo
 ## directly, but installing it silences a runtime warning from ontobio):
@@ -74,9 +75,6 @@ fi
     # copy the RTX configuration file from S3 to ${BUILD_DIR}
     ${s3_cp_cmd} s3://${s3_bucket}/${rtx_config_file} ${BUILD_DIR}/${rtx_config_file}
 
-    ## setup owltools
-    ${curl_get} ${BUILD_DIR} https://github.com/RTXteam/owltools/releases/download/v0.3.0/owltools > ${BUILD_DIR}/owltools
-    chmod +x ${BUILD_DIR}/owltools
 } >>~/setup-kg2-neo4j.log 2>&1
 
 
