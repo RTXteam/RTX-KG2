@@ -65,7 +65,6 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
 #  - wget is used by the neo4j installation script (some special "--no-check-certificate" mode)
 sudo DEBIAN_FRONTEND=noninateractive apt-get install -y \
      default-jre \
-     awscli \
      zip \
      curl \
      wget \
@@ -94,6 +93,7 @@ if [[ "${build_flag}" != "ci" ]]
 then
     ## this is for convenience when I am remote working
     sudo apt-get install -y emacs
+    sudo DEBIAN_FRONTEND=noninateractive apt-get install -y awscli 
 fi
 
 # we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
