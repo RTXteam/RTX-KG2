@@ -4,7 +4,7 @@ PyMySQL==0.9.3
 python-dateutil==2.8.1
 PyYAML==6.0.2
 requests==2.31.0
-snakemake==5.5.4
+snakemake==9.6.1
 urllib3>=1.25.9
 xmltodict==0.12.0
 validators==0.15.0
