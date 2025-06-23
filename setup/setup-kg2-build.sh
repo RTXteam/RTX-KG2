@@ -142,7 +142,7 @@ date
 echo "================= script finished ================="
 }
 
-setup_kg2_build_part1 > ${setup_log_file} 2>&1
+setup_kg2_build_part1 # > ${setup_log_file} 2>&1
 
 if [[ "${build_flag}" != "ci" ]]
 then
@@ -154,7 +154,7 @@ then
     fi
 fi
 
-setup_kg2_build_part2 >> ${setup_log_file} 2>&1
+setup_kg2_build_part2 # >> ${setup_log_file} 2>&1
 
 if [[ "${build_flag}" != "ci" ]]
 then
