@@ -84,7 +84,7 @@ The table of contents for this README is as follows:
 - Stephen Ramsey, Oregon State University (ramseyst@oregonstate.edu)
 - Lili Acevedo, Oregon State University (acevedol@oregonstate.edu)
 - Amy Glen, Oregon State University (glena@oregonstate.edu)
-- E. C. Wood, Stanford University
+- Erica Wood, Stanford University
 
 <!-- TOC --><a name="bug-reports"></a>
 ## Bug reports
