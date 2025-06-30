@@ -4406,10 +4406,10 @@ SEMMEDDB:interacts_with:
   core_predicate: biolink:interacts_with
 SEMMEDDB:ISA:
   operation: keep
-  core_predicate: biolink:related_to
+  core_predicate: biolink:subclass_of # Should be related_to
 SEMMEDDB:isa:
   operation: keep
-  core_predicate: biolink:related_to
+  core_predicate: biolink:subclass_of # Should be related_to
 SEMMEDDB:LOCATION_OF:
   operation: invert
   core_predicate: biolink:located_in

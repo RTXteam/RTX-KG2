@@ -65,7 +65,6 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
 #  - wget is used by the neo4j installation script (some special "--no-check-certificate" mode)
 sudo DEBIAN_FRONTEND=noninateractive apt-get install -y \
      default-jre \
-     awscli \
      zip \
      curl \
      wget \
@@ -94,10 +93,11 @@ if [[ "${build_flag}" != "ci" ]]
 then
     ## this is for convenience when I am remote working
     sudo apt-get install -y emacs
+    sudo DEBIAN_FRONTEND=noninateractive apt-get install -y awscli 
 fi
 
-# we want python3.7 (also need python3.7-dev or else pip cannot install the python package "mysqlclient")
-source ${SETUP_CODE_DIR}/setup-python37-with-pip3-in-ubuntu.shinc
+# we want python3.13 (also need python3.13-dev or else pip cannot install the python package "mysqlclient")
+source ${SETUP_CODE_DIR}/setup-python313-with-pip3-in-ubuntu.shinc
 ${VENV_DIR}/bin/pip3 install -r ${SETUP_CODE_DIR}/requirements-kg2-build.txt
 }
 
@@ -142,7 +142,7 @@ date
 echo "================= script finished ================="
 }
 
-setup_kg2_build_part1 > ${setup_log_file} 2>&1
+setup_kg2_build_part1 # > ${setup_log_file} 2>&1
 
 if [[ "${build_flag}" != "ci" ]]
 then
@@ -154,7 +154,7 @@ then
     fi
 fi
 
-setup_kg2_build_part2 >> ${setup_log_file} 2>&1
+setup_kg2_build_part2 # >> ${setup_log_file} 2>&1
 
 if [[ "${build_flag}" != "ci" ]]
 then

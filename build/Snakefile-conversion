@@ -100,8 +100,8 @@ rule ChEMBL_Conversion:
 rule UNII_Conversion:
     input:
         code = config['UNII_CONVERSION_SCRIPT'],
-	real = config['UNII_TSV_FILE'],
-	validation = config['VALIDATION_PLACEHOLDER']
+        real = config['UNII_TSV_FILE'],
+        validation = config['VALIDATION_PLACEHOLDER']
     output:
         nodes = config['UNII_OUTPUT_NODES_FILE']
     log:
