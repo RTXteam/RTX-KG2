@@ -11,7 +11,7 @@ Erica Wood by logging a GitHub issue and assigning @ecwood or contacting them di
 
 # Understanding Snakemake
 
-![Overview of Snakemake Build System](https://user-images.githubusercontent.com/36611732/119391891-ceba8500-bc83-11eb-8847-aad7f2edcb58.png)
+![Overview of Snakemake Build System](https://github.com/user-attachments/assets/72da5028-7281-4155-9107-411c1aea28d9)
 
 The Snakemake build system relies on three files to work:
 - `build-kg2-snakemake.sh`
