@@ -132,7 +132,7 @@ ${python_command} ${BUILD_CODE_DIR}/generate_snakemake_config_file.py ${test_arg
 graphic=""
 if [[ "${build_flag}" == "graphic" || "${secondary_build_flag}" == "graphic" || "${tertiary_build_flag}" == "graphic" ]]
 then
-    graphic="--dag | dot -Tpng > ${BUILD_DIR}/snakemake_diagram.png"
+    graphic="--dag dot -Tpng > ${BUILD_DIR}/snakemake_diagram.png"
 fi
 
 echo configfile: \"${snakemake_config_file}\" > ${snakefile}
