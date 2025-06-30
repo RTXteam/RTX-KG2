@@ -7,7 +7,7 @@ Hover over the menu (circled in red) for a clickable table of contents.
 
 If you have any questions about these instructions or
 the snakemake build system, please contact
-Erica Wood (Crescent Valley High School) by logging a GitHub issue and assigning @ericawood or contacting them directly through email.
+Erica Wood by logging a GitHub issue and assigning @ecwood or contacting them directly through email.
 
 # Understanding Snakemake
 
