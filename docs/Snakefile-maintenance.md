@@ -31,7 +31,7 @@ These variables are passed in through the processed config file `snakemake-confi
 `build-kg2-snakemake.sh` passes into `Snakefile` the different sub-`Snakefile`s. `Snakefile-finish` (the last rule in the build process) must be listed first in the `Snakefile`. It must be added using `cat`, so that its contents are in `Snakefile` as they are in `Snakefile-finish`. The other `Snakefile-*`s can be incorporated into the `Snakefile` through an `include` statment. The order of these, with the exception of `Snakefile-finish`, does not matter as `snakemake` figures it out. All of the `Snakefile-*`s also have access to the `snakemake-config.yaml` variables.
 
 ```
-cat ${CODE_DIR}/Snakefile-finish >> ${snakefile}
+cat ${BUILD_CODE_DIR}/Snakefile-finish >> ${snakefile}
 
 echo 'include: "Snakefile-pre-etl"' >> ${snakefile}
 
@@ -39,21 +39,10 @@ echo 'include: "Snakefile-conversion"' >> ${snakefile}
 
 echo 'include: "Snakefile-post-etl"' >> ${snakefile}
 
-if [[ "${build_flag}" == "all" || "${build_flag}" == "alltest" ]]
-then
-    echo 'include: "Snakefile-semmeddb-extraction"' >> ${snakefile}
-fi
-
 if [[ "${build_flag}" == "all" ]]
 then
     echo 'include: "Snakefile-extraction"' >> ${snakefile}
 fi
-
-if [[ "${nodes_flag}" == "nodes" ]]
-then
-    echo 'include: "Snakefile-generate-nodes"' >> ${snakefile}
-fi
-
 ```
 
 ### Snakemake Command Flags
@@ -63,7 +52,6 @@ Here are the available options: (Format: `flag` [slots it works in, starting at 
 
 - `test` [1]: This flag initiates a test build, which creates a much smaller graph (which can be used for debugging).
 - `all` [1]: This flag initiates a full build, which includes the extraction scripts. (Omitting this flag initiates a partial build, which requires that the output of all of the extraction scripts already exits).
-- `alltest` [1]: This flag initaites a test build that includes extracting SemMedDB's test edges file. Before you can run a build with the `test` flag, you **must** run a build on that same instance with the `alltest` flag. (SemMedDB's conversion requires a test version of the input). 
 - `-n` [1-4]: This flag initiates a dryrun of the build, outputting to a different file (with the `-n` flag in the file name). This is good to do before running a real build to make sure that the scripts you want to run will be included and the scripts you don't won't.
 - `nodes` [1-4]: This flag generates a version of `kg2-simplified.json` that is exclusively the nodes (for debugging purposes). It takes extra time, so it should only be included when necessary. Also, if you plan to use it, familiarize yourself with the `nodes` related code in `build-kg2-snakemake.sh`.
 - `-R_*` [1-3]: This is our version of Snakemake's `-R` flag. However, rather than using it in the form `-R Rule` (ex. `-R Merge`), we add an underscore between them (`-R_Rule`) to simplify the command line options decoding process. This forces a rerun of all the rules that provide an input to the rule listed. For example, if you wanted to rerun all of the conversion rules, you might use `-R_Merge`. This one is more tricky to use and I'd recommend both reading up on what Snakemake says about it and doing dryruns until you get the effect you are looking for.
