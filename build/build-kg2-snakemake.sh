@@ -149,19 +149,19 @@ then
     echo 'include: "Snakefile-extraction"' >> ${snakefile}
 fi
 
-cd ~ && eval `${VENV_DIR}/bin/snakemake --snakefile ${snakefile} ${run_flag} -R Finish -j 16 ${dryrun} ${graphic}`
+cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} ${run_flag} -R Finish -j 16 ${dryrun} ${graphic}
 
-if [[ "${test_flag}" != "test" && "${dryrun}" != "-n" && "${ci_flag}" != "ci" ]]
+if [[ "${test_flag}" != "test" && "${dryrun}" != "-n" && "${ci_flag}" != "ci" && "${graphic}" == "" ]]
 then
     ${s3_cp_cmd} ${kg2_version_file_local} s3://${s3_bucket_public}/${kg2_version_file}
 fi
 
-if [[ "${test_flag}" != "test" && "${dryrun}" != "-n" && -f ${trigger_file_is_major_release} ]]
+if [[ "${test_flag}" != "test" && "${dryrun}" != "-n" && -f ${trigger_file_is_major_release} && "${graphic}" == "" ]]
 then
    rm -f ${trigger_file_is_major_release}
 fi
 
-if [[ "${test_flag}" != "test" && "${dryrun}" != "-n" && -f ${trigger_file_is_minor_release} ]]
+if [[ "${test_flag}" != "test" && "${dryrun}" != "-n" && -f ${trigger_file_is_minor_release} && "${graphic}" == "" ]]
 then
    rm -f ${trigger_file_is_minor_release}
 fi
