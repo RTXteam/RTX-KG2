@@ -1,9 +1,9 @@
 HTMLParser==0.0.2
 jsonlines==3.0.0
-PyMySQL==0.9.3
+PyMySQL==1.1.1
 python-dateutil==2.8.1
 PyYAML==6.0.2
-requests==2.31.0
+requests==2.32.4
 snakemake==9.6.1
 urllib3>=1.25.9
 xmltodict==0.12.0
