@@ -132,6 +132,7 @@ alias graphic=""
 if [[ "${build_flag}" == "graphic" || "${secondary_build_flag}" == "graphic" || "${tertiary_build_flag}" == "graphic" ]]
 then
     graphic="--dag | dot -Tpng > ${BUILD_DIR}/snakemake_diagram.png"
+fi
 
 echo configfile: \"${snakemake_config_file}\" > ${snakefile}
 
@@ -167,9 +168,9 @@ fi
 
 date
 echo "================ script finished ============================"
-} 
+}
 
-build_kg2 # > ${build_kg2_log_file} 2>&1
+build_kg2 > ${build_kg2_log_file} 2>&1
 
 if [[ "${ci_flag}" != "ci" && "${dryrun}" != "-n" ]]
 then
