@@ -172,7 +172,7 @@ echo "================ script finished ============================"
 
 build_kg2 > ${build_kg2_log_file} 2>&1
 
-if [[ "${ci_flag}" != "ci" && "${dryrun}" != "-n" ]]
+if [[ "${ci_flag}" != "ci" && "${dryrun}" != "-n" && "${graphic}" == "" ]]
 then
     ${s3_cp_cmd} ${build_kg2_log_file} s3://${s3_bucket_public}/
     ${s3_cp_cmd} ${build_kg2_log_file} s3://${s3_bucket_versioned}/
