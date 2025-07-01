@@ -149,7 +149,7 @@ then
     echo 'include: "Snakefile-extraction"' >> ${snakefile}
 fi
 
-cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} ${run_flag} -R Finish -j 16 ${dryrun} ${graphic}
+cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} ${run_flag} -R Finish -j 16 ${dryrun} $graphic
 
 if [[ "${test_flag}" != "test" && "${dryrun}" != "-n" && "${ci_flag}" != "ci" ]]
 then
