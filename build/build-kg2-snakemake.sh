@@ -128,12 +128,10 @@ ${python_command} ${BUILD_CODE_DIR}/generate_snakemake_config_file.py ${test_arg
 # --dag | dot -Tpng > ~/kg2-build/snakemake_diagram.png: Creates Snakemake workflow diagram (when combined with -F and -j)
 # -n: dry run REMOVE THIS BEFORE BUILDING
 
-# alias graphic=""
+graphic=""
 if [[ "${build_flag}" == "graphic" || "${secondary_build_flag}" == "graphic" || "${tertiary_build_flag}" == "graphic" ]]
 then
     alias graphic="--dag | dot -Tpng > ${BUILD_DIR}/snakemake_diagram.png"
-else
-    alias graphic=""
 fi
 
 echo configfile: \"${snakemake_config_file}\" > ${snakefile}
