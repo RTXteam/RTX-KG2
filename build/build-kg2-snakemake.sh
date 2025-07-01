@@ -128,11 +128,10 @@ ${python_command} ${BUILD_CODE_DIR}/generate_snakemake_config_file.py ${test_arg
 # --dag | dot -Tpng > ~/kg2-build/snakemake_diagram.png: Creates Snakemake workflow diagram (when combined with -F and -j)
 # -n: dry run REMOVE THIS BEFORE BUILDING
 
-graphic=""
+alias graphic=""
 if [[ "${build_flag}" == "graphic" || "${secondary_build_flag}" == "graphic" || "${tertiary_build_flag}" == "graphic" ]]
 then
-    graphic='--dag | dot -Tpng > ~/kg2-build/snakemake_diagram.png'
-fi
+    graphic="--dag | dot -Tpng > ${BUILD_DIR}/snakemake_diagram.png"
 
 echo configfile: \"${snakemake_config_file}\" > ${snakefile}
 
@@ -149,7 +148,7 @@ then
     echo 'include: "Snakefile-extraction"' >> ${snakefile}
 fi
 
-cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} ${run_flag} -R Finish -j 16 ${dryrun} $graphic
+cd ~ && ${VENV_DIR}/bin/snakemake --snakefile ${snakefile} ${run_flag} -R Finish -j 16 ${dryrun} ${graphic}
 
 if [[ "${test_flag}" != "test" && "${dryrun}" != "-n" && "${ci_flag}" != "ci" ]]
 then
