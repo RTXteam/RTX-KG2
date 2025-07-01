@@ -11,7 +11,7 @@ Erica Wood by logging a GitHub issue and assigning @ecwood or contacting them di
 
 # Understanding Snakemake
 
-![Overview of Snakemake Build System](https://github.com/user-attachments/assets/72da5028-7281-4155-9107-411c1aea28d9)
+![Overview of Snakemake Build System](https://github.com/user-attachments/assets/bb0f9c48-2b41-44a7-9ff0-2b5945aebdc6)
 
 The Snakemake build system relies on three files to work:
 - `build-kg2-snakemake.sh`
@@ -282,8 +282,6 @@ ___
 #### General Steps
 
 (1) For the scripts after merge, we cannot run the build in parallel, despite the `input`/`output` allowing for it. On an r5a.8xlarge AWS instance, loading the merged KG2 JSON file into memory in Python uses approximately 70% of the memory. Thus, it cannot be loaded into two different scripts at once without running out of memory. Therefore, the first step in editing `Snakefile-post-etl` is to determine where in the build process the script should go. It will likely look similar to the order in `build-kg2.sh`.
-
-![End of Snakemake Build System](https://user-images.githubusercontent.com/36611732/90065571-5b6df680-dca1-11ea-95fc-25ed1c5f6c4d.png)
 
 Once you have determined where in the pipeline you would like your new rule to go, you will need to change the `input` of nearby rules. In this example, we will use the example of a rule between `Stats` and `Simplify`.
 
