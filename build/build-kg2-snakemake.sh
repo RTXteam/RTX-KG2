@@ -169,7 +169,7 @@ date
 echo "================ script finished ============================"
 } 
 
-build_kg2 > ${build_kg2_log_file} 2>&1
+build_kg2 # > ${build_kg2_log_file} 2>&1
 
 if [[ "${ci_flag}" != "ci" && "${dryrun}" != "-n" ]]
 then
