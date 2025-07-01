@@ -1,4 +1,4 @@
-rule UMLS:
+rule UMLS_Extraction:
     input:
         code = config['UMLS_EXTRACTION_SCRIPT'],
         validation = config['VALIDATION_PLACEHOLDER']
@@ -9,7 +9,7 @@ rule UMLS:
     shell:
         "bash -x {input.code} {output} > {log} 2>&1" 
 
-rule Ontologies:
+rule Ontologies_Extraction:
     input:
         code = config['ONTOLOGIES_EXTRACTION_SCRIPT'],
         parser = config['ONTOLOGIES_EXTRACTION_PARSER'],
@@ -22,7 +22,7 @@ rule Ontologies:
     shell:
         "bash -x {input.code} {input.parser} {input.ontologies_load_inventory} {output} > {log} 2>&1" 
 
-rule SemMedDB:
+rule SemMedDB_Extraction:
     input:
         code = config['SEMMEDDB_EXTRACTION_SCRIPT'],
         validation = config['VALIDATION_PLACEHOLDER']
@@ -35,7 +35,7 @@ rule SemMedDB:
     shell:
         "bash -x {input.code} {output.tuplelist} {output.exclusion_list} {output.version_file} > {log} 2>&1"
 
-rule UniProtKB:
+rule UniProtKB_Extraction:
     input:
         code = config['UNIPROTKB_EXTRACTION_SCRIPT'],
         validation = config['VALIDATION_PLACEHOLDER']
@@ -46,7 +46,7 @@ rule UniProtKB:
     shell:
         "bash -x {input.code} {output} > {log} 2>&1"
 
-rule Ensembl:
+rule Ensembl_Extraction:
     input:
         code = config['ENSEMBL_EXTRACTION_SCRIPT'],
         validation = config['VALIDATION_PLACEHOLDER']
@@ -57,7 +57,7 @@ rule Ensembl:
     shell:
         "bash -x {input.code} > {log} 2>&1"
 
-rule UniChem:
+rule UniChem_Extraction:
     input:
         code = config['UNICHEM_EXTRACTION_SCRIPT'],
         validation = config['VALIDATION_PLACEHOLDER']
@@ -68,7 +68,7 @@ rule UniChem:
     shell:
         "bash -x {input.code} {output} > {log} 2>&1"
 
-rule ChEMBL:
+rule ChEMBL_Extraction:
     input:
         code = config['CHEMBL_EXTRACTION_SCRIPT'],
         validation = config['VALIDATION_PLACEHOLDER']
@@ -79,7 +79,7 @@ rule ChEMBL:
     shell:
         "bash -x {input.code} " + config['CHEMBL_MYSQL_DBNAME'] +" > {log} 2>&1 && touch {output.placeholder}"
 
-rule NCBIGene:
+rule NCBIGene_Extraction:
     input:
         code = config['NCBIGENE_EXTRACTION_SCRIPT'],
         validation = config['VALIDATION_PLACEHOLDER']
@@ -90,7 +90,7 @@ rule NCBIGene:
     shell:
         "bash -x {input.code} {output} > {log} 2>&1"
 
-rule UNII:
+rule UNII_Extraction:
     input:
         code = config['UNII_EXTRACTION_SCRIPT'],
         validation = config['VALIDATION_PLACEHOLDER']
@@ -101,7 +101,7 @@ rule UNII:
     shell:
         "bash -x {input.code} {output} > {log} 2>&1"
 
-rule DGIdb:
+rule DGIdb_Extraction:
     input:
         code = config['DGIDB_EXTRACTION_SCRIPT'],
         validation = config['VALIDATION_PLACEHOLDER']
@@ -112,7 +112,7 @@ rule DGIdb:
     shell:
         "bash -x {input.code} " + config['DGIDB_DIR'] + " > {log} 2>&1"
 
-rule DrugBank:
+rule DrugBank_Extraction:
     input:
         code = config['DRUGBANK_EXTRACTION_SCRIPT'],
         validation = config['VALIDATION_PLACEHOLDER']
@@ -123,7 +123,7 @@ rule DrugBank:
     shell:
         "bash -x {input.code} {output} > {log} 2>&1"
 
-rule SMPDB:
+rule SMPDB_Extraction:
     input:
         code = config['SMPDB_EXTRACTION_SCRIPT'],
         validation = config['VALIDATION_PLACEHOLDER']
@@ -134,7 +134,7 @@ rule SMPDB:
     shell:
         "bash -x {input.code} " + config['SMPDB_DIR'] + " > {log} 2>&1"
 
-rule HMDB:
+rule HMDB_Extraction:
     input:
         code = config['HMDB_EXTRACTION_SCRIPT'],
         validation = config['VALIDATION_PLACEHOLDER']
@@ -145,7 +145,7 @@ rule HMDB:
     shell:
         "bash -x {input.code} > {log} 2>&1"
 
-rule GO_Annotations:
+rule GO_Annotations_Extraction:
     input:
         code = config['GO_ANNOTATIONS_EXTRACTION_SCRIPT'],
         validation = config['VALIDATION_PLACEHOLDER']
@@ -156,7 +156,7 @@ rule GO_Annotations:
     shell:
         "bash -x {input.code} {output} > {log} 2>&1"
 
-rule Reactome:
+rule Reactome_Extraction:
     input:
         code = config['REACTOME_EXTRACTION_SCRIPT'],
         validation = config['VALIDATION_PLACEHOLDER']
@@ -167,7 +167,7 @@ rule Reactome:
     shell:
         "bash -x {input.code} " + config['REACTOME_MYSQL_DBNAME'] +" > {log} 2>&1 && touch {output.placeholder}"
 
-rule miRBase:
+rule miRBase_Extraction:
     input:
         code = config['MIRBASE_EXTRACTION_SCRIPT'],
         validation = config['VALIDATION_PLACEHOLDER']
@@ -178,7 +178,7 @@ rule miRBase:
     shell:
         "bash -x {input.code} {output} > {log} 2>&1"
 
-rule JensenLab:
+rule JensenLab_Extraction:
     input:
         code = config['JENSENLAB_EXTRACTION_SCRIPT'],
         validation = config['VALIDATION_PLACEHOLDER']
@@ -189,7 +189,7 @@ rule JensenLab:
     shell:
         "bash -x {input.code} > {log} 2>&1 && touch {output.placeholder}"
 
-rule DrugCentral:
+rule DrugCentral_Extraction:
     input:
         code = config['DRUGCENTRAL_EXTRACTION_SCRIPT'],
         validation = config['VALIDATION_PLACEHOLDER']
@@ -200,7 +200,7 @@ rule DrugCentral:
     shell:
         "bash -x {input.code} {output} " + config['DRUGCENTRAL_DIR'] + " > {log} 2>&1"
 
-rule IntAct:
+rule IntAct_Extraction:
     input:
         code = config['INTACT_EXTRACTION_SCRIPT'],
         validation = config['VALIDATION_PLACEHOLDER']
@@ -211,7 +211,7 @@ rule IntAct:
     shell:
         "bash -x {input.code} {output} > {log} 2>&1"
 
-rule DisGeNET:
+rule DisGeNET_Extraction:
     input:
         code = config['DISGENET_EXTRACTION_SCRIPT'],
         validation = config['VALIDATION_PLACEHOLDER']
@@ -222,7 +222,7 @@ rule DisGeNET:
     shell:
         "bash -x {input.code} {output} > {log} 2>&1"
 
-rule KEGG:
+rule KEGG_Extraction:
     input:
         code = config['KEGG_EXTRACTION_SCRIPT'],
         validation = config['VALIDATION_PLACEHOLDER']
@@ -233,7 +233,7 @@ rule KEGG:
     shell:
         "bash -x {input.code} {output} > {log} 2>&1"
 
-rule ClinicalTrialsKG:
+rule ClinicalTrialsKG_Extraction:
     input:
         code = config['CLINICALTRIALSKG_EXTRACTION_SCRIPT'],
         validation = config['VALIDATION_PLACEHOLDER']
@@ -244,7 +244,7 @@ rule ClinicalTrialsKG:
     shell:
         "bash -x {input.code} {output} > {log} 2>&1"
 
-rule DrugApprovalsKG:
+rule DrugApprovalsKG_Extraction:
     input:
         code = config['DRUGAPPROVALSKG_EXTRACTION_SCRIPT'],
         validation = config['VALIDATION_PLACEHOLDER']
