@@ -25,7 +25,7 @@ class UMLS_Processor(object):
         self.full_name_heirarchy = full_name_heirarchy
         self.SOURCES = {'UMLS_SOURCE': [self.process_umls_source_item, None, None],
                         'ATC': [self.process_atc_item, kg2_util.CURIE_PREFIX_ATC, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'ATC')],
-                        'CHV': [self.process_chv_item, kg2_util.CURIE_PREFIX_CHV, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'CHV')],
+#                        'CHV': [self.process_chv_item, kg2_util.CURIE_PREFIX_CHV, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'CHV')],
                         'DRUGBANK': [self.process_drugbank_item, kg2_util.CURIE_PREFIX_DRUGBANK, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'DRUGBANK')],
                         'FMA': [self.process_fma_item, kg2_util.CURIE_PREFIX_FMA, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'FMA')],
                         'GO': [self.process_go_item, kg2_util.CURIE_PREFIX_GO, self.make_node_id(kg2_util.CURIE_PREFIX_UMLS_SOURCE, 'GO')],
