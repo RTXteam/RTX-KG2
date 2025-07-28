@@ -23,11 +23,11 @@
   file: uberon-ext.owl
   download: true
   title: Uber-anatomy Ontology
--
-  url:  http://www.ebi.ac.uk/efo/efo.owl
-  file: efo.owl
-  download: true
-  title: Experimental Factor Ontology
+# -
+#   url:  http://www.ebi.ac.uk/efo/efo.owl
+#   file: efo.owl
+#   download: true
+#   title: Experimental Factor Ontology
 -
   url:  http://purl.obolibrary.org/obo/fma.owl
   file: fma.owl
