@@ -24,6 +24,8 @@ mysql_file=reactome.sql.gz
 # Please check this web page (and cross-reference the date of the reactome download
 # by the KG2pre build system) to determine what version was used: 
 # https://reactome.org/about/release-calendar
+
+## TODO: replace link with versioned file: https://download.reactome.org/XX/databases/gk_current.sql.gz
 ${curl_get} https://reactome.org/download/current/databases/gk_current.sql.gz \
             > ${BUILD_DIR}/${mysql_file}
 

@@ -128,7 +128,12 @@ def match_name_to_prefix(name: str):
                         'PubChem': None,
                         'PubChem SID': None,
                         'Guide to Pharmacology': kg2_util.CURIE_PREFIX_GTPI,
-                        'NCIthesaurus': kg2_util.CURIE_PREFIX_NCIT}
+                        'NCIthesaurus': kg2_util.CURIE_PREFIX_NCIT,
+                        'ChemSpider': None,
+                        'RNAcentral': None,
+                        'LOVD': None,
+                        'Leiden Open Variation Database': None,
+                        'Dfam': None}
 
     return name_prefix_dict[name]
 
@@ -227,7 +232,11 @@ def match_reactome_category_to_biolink(reactome_category: str,
                      'Polymer': BIOLOGICAL_ENTITY,
                      'EntityWithAccessionedSequence': BIOLOGICAL_ENTITY,
                      'Polymerisation': BIOLOGICAL_PROCESS,
-                     'PositiveGeneExpressionRegulation': BIOLOGICAL_PROCESS}
+                     'PositiveGeneExpressionRegulation': BIOLOGICAL_PROCESS,
+                     'RNADrug': SMALL_MOLECULE,
+                     'CellLineagePath': BIOLOGICAL_ENTITY,
+                     'Cell': BIOLOGICAL_ENTITY,
+                     'CellDevelopmentStep': BIOLOGICAL_PROCESS}
 
     biolink_category = category_dict[reactome_category]
     if reactome_category == 'EntityWithAccessionedSequence' and reference_class is not None \
@@ -341,7 +350,7 @@ def get_nodes(connection, nodes_output, test):
             if category_label is None:
                 continue
         except KeyError:
-            print("Category for \"", reactome_category, "\" not in match_reactome_category_to_biolink")
+            print("Category for \"" + reactome_category + "\" not in match_reactome_category_to_biolink")
             continue
         iri = REACTOME_BASE_IRI + result[0]
         
@@ -933,7 +942,7 @@ if __name__ == '__main__':
     get_nodes(connection, nodes_output, test_mode)
     get_edges(connection, edges_output, test_mode)
 
-    [update_date, version_number] = list(run_sql('SELECT releaseDate, releaseNumber FROM _release', connection)[0])
+    [update_date, version_number] = list(run_sql('SELECT releaseDate, releaseNumber FROM _release', connection)[-1])
 
     kp_node = kg2_util.make_node(REACTOME_KB_CURIE_ID,
                                  REACTOME_KB_IRI,
