@@ -171,3 +171,38 @@ rule TSV:
         shell("mkdir -p " + config['KG2_TSV_DIR'])
         shell(config['PYTHON_COMMAND'] + " {input.code} {input.nodes} {input.edges} {input.mapping_file} " + config['KG2_TSV_DIR'] + " > {log} 2>&1")
         shell("touch {output.placeholder}")
+
+# There is no reason that this has to be done post-ETL, but it is easiest to put it here, because it is the input for the Normalize steps and doesn't need to take a core that the ETL steps could take
+rule Download_Babel:
+    input:
+        placeholder = config['MERGED_OUTPUT_NODES_FILE']
+    output:
+        config['BABEL_LOCAL']
+    log:
+        config['DOWNLOAD_BABEL_LOG']
+    shell:
+        config['S3_CP_CMD'] + " s3://" + config['S3_BUCKET_PUBLIC'] + "/" + config['BABEL_DB'] + " {output} > {log} > 2&1"
+
+rule Normalize_Nodes:
+    input:
+        code = config['KG2C_NODES_SCRIPT'],
+        nodes = config['SIMPLIFIED_OUTPUT_NODES_FILE'],
+        babel_db = config['BABEL_LOCAL']
+    ouptut:
+        nodes = config['KG2C_OUTPUT_NODES_FILE']
+    log:
+        config['KG2C_NODES_LOG']
+    shell:
+        config['PYTHON_COMMAND'] + " {input.code} {input.nodes} {input.babel_db} {output.nodes} > {log} 2>&1"
+
+rule Normalize_Edges:
+    input:
+        code = config['KG2C_EDGES_SCRIPT'],
+        edges = config['SIMPLIFIED_OUTPUT_EDGES_FILE'],
+        babel_db = config['BABEL_LOCAL']
+    ouptut:
+        edges = config['KG2C_OUTPUT_EDGES_FILE']
+    log:
+        config['KG2C_EDGES_LOG']
+    shell:
+        config['PYTHON_COMMAND'] + " {input.code} {input.edges} {input.babel_db} {output.edges} > {log} 2>&1"
