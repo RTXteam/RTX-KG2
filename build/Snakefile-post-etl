@@ -188,7 +188,7 @@ rule Normalize_Nodes:
         code = config['KG2C_NODES_SCRIPT'],
         nodes = config['SIMPLIFIED_OUTPUT_NODES_FILE'],
         babel_db = config['BABEL_LOCAL']
-    ouptut:
+    output:
         nodes = config['KG2C_OUTPUT_NODES_FILE']
     log:
         config['KG2C_NODES_LOG']
@@ -200,7 +200,7 @@ rule Normalize_Edges:
         code = config['KG2C_EDGES_SCRIPT'],
         edges = config['SIMPLIFIED_OUTPUT_EDGES_FILE'],
         babel_db = config['BABEL_LOCAL']
-    ouptut:
+    output:
         edges = config['KG2C_OUTPUT_EDGES_FILE']
     log:
         config['KG2C_EDGES_LOG']
