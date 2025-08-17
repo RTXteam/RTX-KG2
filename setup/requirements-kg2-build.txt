@@ -1,7 +1,7 @@
 HTMLParser==0.0.2
 jsonlines==3.0.0
 PyMySQL==1.1.1
-python-dateutil==2.8.1
+python-dateutil==2.9.0.post0
 PyYAML==6.0.2
 requests==2.32.4
 snakemake==9.6.1
