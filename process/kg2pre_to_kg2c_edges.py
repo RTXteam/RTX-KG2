@@ -11,10 +11,9 @@ from typing import Any, Optional
 
 import bmt
 import pandas as pd
-import tqdm
 
 import local_babel as lb
-import stitchutils as su
+import kg2_util
 
 DEFAULT_CHUNK_SIZE = 10_000
 DEFAULT_ESTIM_NUM_EDGES = 57_803_754
@@ -133,7 +132,7 @@ def _fix_curie_if_broken(curie: str) -> str:
 def _check_if_property_exists(prop_val: Any):
     if prop_val == {} or prop_val == []:
         return False
-    return su.nan_to_none(prop_val)
+    return kg2_util.nan_to_none(prop_val)
 
 # the "Any" type hint is because Pandas doesn't play
 # well with mypy, specifically when using ".itertuples".
@@ -218,19 +217,16 @@ def main(edges_file: str,
     print(f"number of chunks: {estim_num_chunks}")
     global _pick_category
     _pick_category = _make_pick_category()
-    chunks_iter = su.read_jsonl_file_chunks(edges_file, chunk_size)
+    chunks_iter = kg2_util.read_jsonl_file_chunks(edges_file, chunk_size)
     global _process_chunk_of_edges
     process_chunk_of_edges = functools.partial(_process_chunk_of_edges,
                                                babel_db)
     with multiprocessing.pool.Pool() as p:
         mapped_iter = p.imap_unordered(process_chunk_of_edges,
                                        chunks_iter)
-        tqdm_iter = tqdm.tqdm(mapped_iter, total=estim_num_chunks, desc="Processing")
-        chained_iter = it.chain.from_iterable(tqdm_iter)
-        filtered_iter = filter(lambda t: t[0] is not None, chained_iter)
-        edges_iter = map(operator.itemgetter(0), filtered_iter)
-        su.write_jsonl_file(edges_iter, edges_output_file)
+        edge_tuples = tuple(t[0] for t in it.chain.from_iterable(mapped_iter) if t[0] is not None)
+        kg2_util.write_jsonl_file(edges_iter, edges_output_file)
 
 if __name__ == "__main__":
-    main(**su.namespace_to_dict(_get_args()))
+    main(**kg2_util.namespace_to_dict(_get_args()))
 

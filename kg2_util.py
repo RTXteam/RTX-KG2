@@ -14,6 +14,7 @@ __maintainer__ = ''
 __email__ = ''
 __status__ = 'Prototype'
 
+import argparse
 import collections
 import copy
 import datetime
@@ -25,6 +26,8 @@ import json
 import jsonlines
 import math
 import os
+import numpy as np
+import pandas as pd
 import pathlib
 import pickle
 import pprint
@@ -744,3 +747,42 @@ def is_a_valid_http_url(id: str) -> bool:
     except validators.ValidationFailure:
         valid = False
     return valid
+
+
+## Next few functions from stitchutils.py
+T = TypeVar("T", bound=object)
+def nan_to_none(o: Union[float, T]) -> Union[None, T]:
+    if isinstance(o, float) and np.isnan(o):
+        return None
+    return cast(T, o)
+
+
+def read_jsonl_file_chunks(filename: str,
+                           lines_per_chunk: int) -> Iterable[pd.DataFrame]:
+    open_func = gzip.open if filename.endswith(".gz") else open
+    with open_func(filename, "rt", encoding="utf-8") as f:
+        reader = jsonlines.Reader(f)
+        chunk = []
+        for obj in reader:
+            chunk.append(obj)
+            if len(chunk) >= lines_per_chunk:
+                yield pd.DataFrame(chunk)
+                chunk.clear()
+        if chunk:
+            yield pd.DataFrame(chunk)
+
+def namespace_to_dict(namespace: argparse.Namespace) -> dict[str, Any]:
+    return {
+        k: namespace_to_dict(v) if isinstance(v, argparse.Namespace) else v
+        for k, v in vars(namespace).items()
+    }
+
+def write_jsonl_file(recs_iter: Iterable[dict],
+                     file_name: str):
+    output_file_info = create_single_jsonlines(False)
+    output_jsonlines = output_file_info[0]
+
+    for record in recs_iter:
+        output_jsonlines.write(record)
+
+    close_single_jsonlines(output_file_info, file_name)
