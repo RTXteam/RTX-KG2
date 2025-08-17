@@ -43,7 +43,7 @@ import urllib.parse
 import urllib.request
 import validators
 import yaml
-from typing import Dict, Optional, TypeVar
+from typing import Dict, Optional, TypeVar, Union
 from decimal import *
 
 TEMP_FILE_PREFIX = 'kg2'
