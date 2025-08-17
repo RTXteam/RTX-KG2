@@ -235,6 +235,7 @@ def main(edges_file: str,
          edges_output_file: str,
          chunk_size: int,
          estim_num_edges: int):
+    print("Starting at:", kg2_util.date())
     print(f"edges file is: {edges_file}")
     print(f"babel-db file is: {babel_db}")
     estim_num_chunks = math.ceil(estim_num_edges / chunk_size)
@@ -249,7 +250,8 @@ def main(edges_file: str,
         mapped_iter = p.imap_unordered(process_chunk_of_edges,
                                        chunks_iter)
         edge_tuples = tuple(t[0] for t in it.chain.from_iterable(mapped_iter) if t[0] is not None)
-        kg2_util.write_jsonl_file(edges_iter, edges_output_file)
+        kg2_util.write_jsonl_file(edge_tuples, edges_output_file)
+    print("Ending at:", kg2_util.date())
 
 if __name__ == "__main__":
     main(**kg2_util.namespace_to_dict(_get_args()))
