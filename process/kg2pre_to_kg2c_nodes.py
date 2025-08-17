@@ -4,7 +4,7 @@ import argparse
 import sqlite3
 from typing import Any, Optional
 import local_babel as lb
-import stitchutils as su
+import kg2_util
 import datetime
 import json
 
