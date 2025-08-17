@@ -18,8 +18,17 @@ import kg2_util
 DEFAULT_CHUNK_SIZE = 10_000
 DEFAULT_ESTIM_NUM_EDGES = 57_803_754
 
-def _predicate_curie_to_space_case(curie: str) -> str: # noqa
-    return curie[len('biolink:'):].replace('_', ' ')
+# kg2_util.py imports to parameterize the file
+PROTEIN_CATEGORY = kg2_util.convert_biolink_category_to_curie(kg2_util.BIOLINK_CATEGORY_PROTEIN)
+SMALL_MOLECULE_CATEGORY = kg2_util.convert_biolink_category_to_curie(kg2_util.BIOLINK_CATEGORY_SMALL_MOLECULE)
+CHEMICAL_ENTITY_CATEGORY = kg2_util.convert_biolink_category_to_curie(kg2_util.BIOLINK_CATEGORY_CHEMICAL_ENTITY)
+
+AFFECTS_PREDICATE = kg2_util.CURIE_PREFIX_BIOLINK + ':' + kg2_util.EDGE_LABEL_BIOLINK_AFFECTS
+HAS_INPUT_PREDICATE = kg2_util.CURIE_PREFIX_BIOLINK + ':' + kg2_util.EDGE_LABEL_BIOLINK_HAS_INPUT
+MAY_BE_TREATED_BY_PREDICATE = kg2_util.CURIE_PREFIX_BIOLINK + ':' + kg2_util.EDGE_LABEL_BIOLINK_MAY_BE_TREATED_BY
+COEXISTS_WITH_PREDICATE = kg2_util.CURIE_PREFIX_BIOLINK + ':' + kg2_util.EDGE_LABEL_BIOLINK_COEXISTS_WITH
+MAY_TREAT_PREDICATE = kg2_util.CURIE_PREFIX_BIOLINK + ':' + kg2_util.EDGE_LABEL_BIOLINK_MAY_TREAT
+CAUSES_PREDICATE = kg2_util.CURIE_PREFIX_BIOLINK + ':' + EDGE_LABEL_BIOLINK_CAUSES
 
 def _get_args() -> argparse.Namespace:
     ap = argparse.ArgumentParser(description='kg2pre_to_kg2c_edges.py: '
@@ -93,21 +102,21 @@ def _make_pick_category():
             allowed_preds = pred_finder(category, check_ancestors=True, formatted=True)
             if predicate in allowed_preds:
                 return {category}
-        if categories == {'biolink:Protein', 'biolink:SmallMolecule'}:
-            return {'biolink:SmallMolecule'}
-        if categories == {'biolink:Protein', 'biolink:ChemicalEntity'}:
-            if predicate == 'biolink:coexists_with':
-                return {'biolink:Protein'}
-            if (predicate == 'biolink:may_be_treated_by' \
+        if categories == {PROTEIN_CATEGORY, SMALL_MOLECULE_CATEGORY}:
+            return {SMALL_MOLECULE_CATEGORY}
+        if categories == {PROTEIN_CATEGORY, CHEMICAL_ENTITY_CATEGORY}:
+            if predicate == COEXISTS_WITH_PREDICATE:
+                return {PROTEIN_CATEGORY}
+            if (predicate == MAY_BE_TREATED_BY_PREDICATE \
                 and sub_obj == 'object') \
                 or \
-                (predicate == 'biolink:may_treat' \
+                (predicate == MAY_TREAT_PREDICATE \
                  and sub_obj == 'subject'):
-                return {'biolink:ChemicalEntity'}
-            if (predicate == 'biolink:affects' and sub_obj == 'object') or \
-               (predicate in {'biolink:causes', 'biolink:has_input'} and \
+                return {CHEMICAL_ENTITY_CATEGORY}
+            if (predicate == AFFECTS_PREDICATE and sub_obj == 'object') or \
+               (predicate in {CAUSES_PREDICATE, HAS_INPUT_PREDICATE} and \
                 sub_obj == 'subject'):
-                return {'biolink:Protein'}
+                return {PROTEIN_CATEGORY}
         return categories
     return pick_category
 
@@ -125,7 +134,7 @@ def _filter_pref_curies(pref_curie_tuple: tuple[tuple[str, str, str], ...],
 
 def _fix_curie_if_broken(curie: str) -> str:
     if curie.startswith('OBO:NCIT_'):
-        curie = 'NCIT:' + curie[len('OBO:NCIT_'):]
+        curie = kg2_util.CURIE_PREFIX_NCIT + ':' + curie[len('OBO:NCIT_'):]
     return curie
 
 # Returns a boolean based on whether or not an entity (str, list, or dict) exists

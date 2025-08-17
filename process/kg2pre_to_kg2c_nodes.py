@@ -19,6 +19,9 @@ SYNONYM_KEY = 'synonym'
 TAXON_KEY = 'in_taxon' # Not in KGX yet
 CHEMBL_COMPOUND_PREFIX = 'CHEMBL.COMPOUND'
 
+PROTEIN_CATEGORY = kg2_util.convert_biolink_category_to_curie(kg2_util.BIOLINK_CATEGORY_PROTEIN)
+GENE_CATEGORY = kg2_util.convert_biolink_category_to_curie(kg2_util.BIOLINK_CATEGORY_GENE)
+
 def date():
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -51,7 +54,7 @@ def _is_chembl_compound(node_curie: str):
 def process_nodes(conn, nodes_input_file, nodes_output_file):
     cursor = conn.cursor()
 
-    nodes_read_jsonlines_info = su.start_read_jsonlines(nodes_input_file)
+    nodes_read_jsonlines_info = kg2_util.start_read_jsonlines(nodes_input_file)
     nodes = nodes_read_jsonlines_info[0]
 
     kg2c_nodes = dict()
@@ -122,7 +125,7 @@ def process_nodes(conn, nodes_input_file, nodes_output_file):
 
             if len(preferred_node_category) > 0:
                 for one_preferred_node_category in preferred_node_category:
-                    if one_preferred_node_category in {"biolink:Protein", "biolink:Gene"}:
+                    if one_preferred_node_category in {PROTEIN_CATEGORY, GENE_CATEGORY}:
                         preferred_node_organism_taxon = lb.get_taxon_for_gene_or_protein(conn, preferred_node_curie)
 
                         if not _is_str_none_or_empty(preferred_node_organism_taxon):
@@ -141,20 +144,20 @@ def process_nodes(conn, nodes_input_file, nodes_output_file):
         if node_count % 100000 == 0:
             print(node_count, "nodes processed.")
 
-    su.end_read_jsonlines(nodes_read_jsonlines_info)
+    kg2_util.end_read_jsonlines(nodes_read_jsonlines_info)
 
     print("Finished processing nodes.")
     print(curie_skipped, "skipped due to missing preferred curie. This is a total of", len(curie_skipped), "nodes excluded.")
     print(name_skipped, "skipped due to missing preferred name. This is a total of", len(name_skipped), "nodes excluded.")
     print(category_skipped, "skipped due to missing preferred category. This is a total of", len(category_skipped), "nodes excluded.")
 
-    nodes_output_info = su.create_single_jsonlines()
+    nodes_output_info = kg2_util.create_single_jsonlines()
     nodes_output = nodes_output_info[0]
 
     for node_curie in kg2c_nodes:
         nodes_output.write(kg2c_nodes[node_curie])
 
-    su.close_single_jsonlines(nodes_output_info, nodes_output_file)
+    kg2_util.close_single_jsonlines(nodes_output_info, nodes_output_file)
 
 
 def main(nodes_file: str,
@@ -170,4 +173,4 @@ def main(nodes_file: str,
     print("Ending time:", date())
 
 if __name__ == "__main__":
-    main(**su.namespace_to_dict(_get_args()))
+    main(**kg2_util.namespace_to_dict(_get_args()))
