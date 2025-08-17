@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.12
+#!/usr/bin/env python3
 
 import argparse
 import functools
@@ -26,10 +26,6 @@ def _get_args() -> argparse.Namespace:
     ap = argparse.ArgumentParser(description='kg2pre_to_kg2c_edges.py: '
                                  'from a JSON-lines format of KG2pre edges'
                                  'as input, produce a JSON-lines KG2c edges file')
-    ap.add_argument('nodes_file',
-                    type=str,
-                    help=('the nodes JSON-lines file, like kg2-10-3-nodes.jsonl'
-                          'or kg2-10-3-nodes.jsonl.gz (i.e., compression is OK)'))
     ap.add_argument('edges_file',
                     type=str,
                     help=('the edges JSON lines file, like kg2-10-3-edges.jsonl'
@@ -211,13 +207,11 @@ def _process_chunk_of_edges(db_filename: str,
                     result.append(entry)
         return result
 
-def main(nodes_file: str,
-         edges_file: str,
+def main(edges_file: str,
          babel_db: str,
          edges_output_file: str,
          chunk_size: int,
          estim_num_edges: int):
-    print(f"nodes file is: {nodes_file}")
     print(f"edges file is: {edges_file}")
     print(f"babel-db file is: {babel_db}")
     estim_num_chunks = math.ceil(estim_num_edges / chunk_size)
