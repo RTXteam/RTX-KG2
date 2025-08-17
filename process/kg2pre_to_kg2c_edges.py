@@ -25,8 +25,9 @@ CHEMICAL_ENTITY_CATEGORY = kg2_util.convert_biolink_category_to_curie(kg2_util.B
 
 AFFECTS_PREDICATE = kg2_util.CURIE_PREFIX_BIOLINK + ':' + kg2_util.EDGE_LABEL_BIOLINK_AFFECTS
 HAS_INPUT_PREDICATE = kg2_util.CURIE_PREFIX_BIOLINK + ':' + kg2_util.EDGE_LABEL_BIOLINK_HAS_INPUT
+# MAY_BE_TREATED_BY_PREDICATE = kg2_util.CURIE_PREFIX_BIOLINK + ':' + kg2_util.EDGE_LABEL_BIOLINK_MAY_BE_TREATED_BY ## DOESN'T EXIST IN BIOLINK
 COEXISTS_WITH_PREDICATE = kg2_util.CURIE_PREFIX_BIOLINK + ':' + kg2_util.EDGE_LABEL_BIOLINK_COEXISTS_WITH
-MAY_TREAT_PREDICATE = kg2_util.CURIE_PREFIX_BIOLINK + ':' + kg2_util.EDGE_LABEL_BIOLINK_MAY_TREAT
+# MAY_TREAT_PREDICATE = kg2_util.CURIE_PREFIX_BIOLINK + ':' + kg2_util.EDGE_LABEL_BIOLINK_MAY_TREAT  ## DOESN'T EXIST IN BIOLINK
 CAUSES_PREDICATE = kg2_util.CURIE_PREFIX_BIOLINK + ':' + EDGE_LABEL_BIOLINK_CAUSES
 
 def _get_args() -> argparse.Namespace:
@@ -106,9 +107,12 @@ def _make_pick_category():
         if categories == {PROTEIN_CATEGORY, CHEMICAL_ENTITY_CATEGORY}:
             if predicate == COEXISTS_WITH_PREDICATE:
                 return {PROTEIN_CATEGORY}
-            if (predicate == MAY_TREAT_PREDICATE \
-                 and sub_obj == 'subject'):
-                return {CHEMICAL_ENTITY_CATEGORY}
+            # if (predicate == MAY_BE_TREATED_BY_PREDICATE \
+            #     and sub_obj == 'object') \
+            #     or \
+            #     (predicate == MAY_TREAT_PREDICATE \
+            #      and sub_obj == 'subject'):
+            #     return {CHEMICAL_ENTITY_CATEGORY} ## NONE OF THESE PREDICATES EXIST
             if (predicate == AFFECTS_PREDICATE and sub_obj == 'object') or \
                (predicate in {CAUSES_PREDICATE, HAS_INPUT_PREDICATE} and \
                 sub_obj == 'subject'):
