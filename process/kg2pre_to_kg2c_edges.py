@@ -30,6 +30,21 @@ COEXISTS_WITH_PREDICATE = kg2_util.CURIE_PREFIX_BIOLINK + ':' + kg2_util.EDGE_LA
 # MAY_TREAT_PREDICATE = kg2_util.CURIE_PREFIX_BIOLINK + ':' + kg2_util.EDGE_LABEL_BIOLINK_MAY_TREAT  ## DOESN'T EXIST IN BIOLINK
 CAUSES_PREDICATE = kg2_util.CURIE_PREFIX_BIOLINK + ':' + EDGE_LABEL_BIOLINK_CAUSES
 
+SUBJECT_KEY = kg2_util.EDGE_SUBJECT_SLOT
+OBJECT_KEY = kg2_util.EDGE_OBJECT_SLOT
+ID_KEY = kg2_util.EDGE_ID_SLOT
+KG2_IDS_KEY = kg2_util.EDGE_KG2_IDS_SLOT
+PREDICATE_KEY = kg2_util.EDGE_PREDICATE_SLOT
+AGENT_TYPE_KEY = kg2_util.EDGE_AGENT_TYPE_SLOT
+KNOWLEDGE_LEVEL_KEY = kg2_util.EDGE_KNOWLEDGE_LEVEL_SLOT
+PRIMARY_KNOWLEDGE_SOURCE_KEY = kg2_util.EDGE_PRIMARY_KNOWLEDGE_SOURCE_SLOT
+DOMAIN_RANGE_EXCLUSION_KEY = kg2_util.EDGE_DOMAIN_RANGE_EXCLUSION_SLOT
+QUALIFIED_PREDICATE_KEY = kg2_util.EDGE_QUALIFIED_PREDICATE_SLOT
+QUALIFIED_OBJECT_DIRECTION_KEY = kg2_util.EDGE_QUALIFIED_OBJECT_DIRECTION_SLOT
+QUALIFIED_OBJECT_ASPECT_KEY = kg2_util.EDGE_QUALIFIED_OBJECT_ASPECT_SLOT
+PUBLICATIONS_KEY = kg2_util.EDGE_PUBLICATIONS_SLOT
+PUBLICATIONS_INFO_KEY = kg2_util.EDGE_PUBLICATIONS_INFO_SLOT
+
 def _get_args() -> argparse.Namespace:
     ap = argparse.ArgumentParser(description='kg2pre_to_kg2c_edges.py: '
                                  'from a JSON-lines format of KG2pre edges'
@@ -37,7 +52,7 @@ def _get_args() -> argparse.Namespace:
     ap.add_argument('edges_file',
                     type=str,
                     help=('the edges JSON lines file, like kg2-10-3-edges.jsonl'
-                          'or kg2-10-3-edges.jsonl.gz (i.e., compression is OK)'))
+                          'or kg2-10-3-edges.jsonl'))
     ap.add_argument('babel_db',
                     type=str,
                     help='the sqlite database file for the local Babel database')
@@ -58,18 +73,18 @@ def _get_args() -> argparse.Namespace:
     return ap.parse_args()
 
 EDGE_PROPERTIES_COPY_FROM_KG2PRE = \
-    ('agent_type',
-     'knowledge_level',
-     'predicate',
-     'primary_knowledge_source',
-     'domain_range_exclusion',)
+    (AGENT_TYPE_KEY,
+     KNOWLEDGE_LEVEL_KEY,
+     PREDICATE_KEY,
+     PRIMARY_KNOWLEDGE_SOURCE_KEY,
+     DOMAIN_RANGE_EXCLUSION_KEY,)
 
 EDGE_PROPERTIES_COPY_FROM_KG2PRE_IF_EXIST = \
-    ('qualified_predicate',
-     'qualified_object_direction',
-     'qualified_object_aspect',
-     'publications',
-     'publications_info')
+    (QUALIFIED_PREDICATE_KEY,
+     QUALIFIED_OBJECT_DIRECTION_KEY,
+     QUALIFIED_OBJECT_ASPECT_KEY,
+     PUBLICATIONS_KEY,
+     PUBLICATIONS_INFO_KEY)
 
 PREDICATE_CURIES_SKIP: tuple[str, ...] = \
     tuple(
@@ -91,9 +106,9 @@ def _make_pick_category():
     def pick_category(categories: set[str],
                       sub_obj: str,
                       predicate: str) -> set[str]:
-        if sub_obj == "subject":
+        if sub_obj == SUBJECT_KEY:
             pred_finder = tk.get_all_predicates_with_class_domain
-        elif sub_obj == "object":
+        elif sub_obj == OBJECT_KEY:
             pred_finder = tk.get_all_predicates_with_class_range
         else:
             raise ValueError(f"invalid value for sub_obj: {sub_obj}; "
@@ -108,14 +123,14 @@ def _make_pick_category():
             if predicate == COEXISTS_WITH_PREDICATE:
                 return {PROTEIN_CATEGORY}
             # if (predicate == MAY_BE_TREATED_BY_PREDICATE \
-            #     and sub_obj == 'object') \
+            #     and sub_obj == OBJECT_KEY) \
             #     or \
             #     (predicate == MAY_TREAT_PREDICATE \
-            #      and sub_obj == 'subject'):
+            #      and sub_obj == SUBJECT_KEY):
             #     return {CHEMICAL_ENTITY_CATEGORY} ## NONE OF THESE PREDICATES EXIST
-            if (predicate == AFFECTS_PREDICATE and sub_obj == 'object') or \
+            if (predicate == AFFECTS_PREDICATE and sub_obj == OBJECT_KEY) or \
                (predicate in {CAUSES_PREDICATE, HAS_INPUT_PREDICATE} and \
-                sub_obj == 'subject'):
+                sub_obj == SUBJECT_KEY):
                 return {PROTEIN_CATEGORY}
         return categories
     return pick_category
@@ -149,14 +164,14 @@ def _process_edges_row(conn: sqlite3.Connection,
                        edge_pandas: Any) -> \
         tuple[tuple[Optional[dict[str, Any]], str, str], ...]:
     edge = edge_pandas._asdict()
-    kg2pre_edge_id = edge['id']
+    kg2pre_edge_id = edge[ID_KEY]
     res_edge = {k: edge[k] for k in EDGE_PROPERTIES_COPY_FROM_KG2PRE}
-    res_edge['id'] = None  # this will eventually be a global integer index
+    res_edge[ID_KEY] = None  # this will eventually be a global integer index
                            # of the edge in a list of all edges (can't compute
                            # that information here since we are processing one
                            # edge only, within this function
-    res_edge['kg2_ids'] = [kg2pre_edge_id]
-    predicate = res_edge['predicate']
+    res_edge[KG2_IDS_KEY] = [kg2pre_edge_id]
+    predicate = res_edge[PREDICATE_KEY]
     if predicate in PREDICATE_CURIES_SKIP:
         return ((None,
                  kg2pre_edge_id,
@@ -164,21 +179,21 @@ def _process_edges_row(conn: sqlite3.Connection,
     res_edge.update({k: edge[k] for k in \
                      EDGE_PROPERTIES_COPY_FROM_KG2PRE_IF_EXIST
                      if _check_if_property_exists(edge[k])})
-    kg2pre_subject_curie = _fix_curie_if_broken(edge['subject'])
+    kg2pre_subject_curie = _fix_curie_if_broken(edge[SUBJECT_KEY])
     pref_curie_tuple = lb.map_curie_to_preferred_curies(conn,
                                                         kg2pre_subject_curie)
     picked_pref_curies_subject = _filter_pref_curies(pref_curie_tuple,
-                                                     "subject",
+                                                     SUBJECT_KEY,
                                                      predicate)
     if len(picked_pref_curies_subject)==0:
         return ((None, kg2pre_edge_id,
                  "unable to find preferred CURIE for subject: "
                  f"{kg2pre_subject_curie}"),)
-    kg2pre_object_curie = _fix_curie_if_broken(edge['object'])
+    kg2pre_object_curie = _fix_curie_if_broken(edge[OBJECT_KEY])
     pref_curie_tuple = lb.map_curie_to_preferred_curies(conn,
                                                         kg2pre_object_curie)
     picked_pref_curies_object = _filter_pref_curies(pref_curie_tuple,
-                                                    "object",
+                                                    OBJECT_KEY,
                                                     predicate)
     if len(picked_pref_curies_object)==0:
         return ((None, kg2pre_edge_id,
@@ -192,8 +207,8 @@ def _process_edges_row(conn: sqlite3.Connection,
     for subject_curie, object_curie in it.product(picked_pref_curies_subject,
                                                   picked_pref_curies_object):
         new_res_edge = res_edge
-        new_res_edge['subject'] = subject_curie
-        new_res_edge['object'] = object_curie
+        new_res_edge[SUBJECT_KEY] = subject_curie
+        new_res_edge[OBJECT_KEY] = object_curie
         res.append((new_res_edge, kg2pre_edge_id, 'OK'))
     if len(res) == 0:
         res.append((None,

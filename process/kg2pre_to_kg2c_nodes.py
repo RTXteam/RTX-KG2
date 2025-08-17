@@ -8,16 +8,15 @@ import stitchutils as su
 import datetime
 import json
 
-# Fill in with kg2_util.py when merged
-CURIE_ID_KEY = 'id'
-IRI_KEY = 'iri'
-PUBLICATIONS_KEY = 'publications'
-DESCRIPTION_KEY = 'description'
-NAME_KEY = 'name'
-CATEGORY_KEY = 'category'
-SYNONYM_KEY = 'synonym'
-TAXON_KEY = 'in_taxon' # Not in KGX yet
-CHEMBL_COMPOUND_PREFIX = 'CHEMBL.COMPOUND'
+CURIE_ID_KEY = kg2_util.NODE_ID_SLOT
+PUBLICATIONS_KEY = kg2_util.NODE_PUBLICATIONS_SLOT
+DESCRIPTION_KEY = kg2_util.NODE_DESCRIPTION_SLOT
+NAME_KEY = kg2_util.NODE_NAME_SLOT
+CATEGORY_KEY = kg2_util.NODE_CATEGORY_SLOT
+SYNONYM_KEY = kg2_util.NODE_SYNONYM_SLOT
+TAXON_KEY = kg2_util.NODE_TAXON_SLOT
+
+CHEMBL_COMPOUND_PREFIX = kg2_util.CURIE_PREFIX_CHEMBL_COMPOUND
 
 PROTEIN_CATEGORY = kg2_util.convert_biolink_category_to_curie(kg2_util.BIOLINK_CATEGORY_PROTEIN)
 GENE_CATEGORY = kg2_util.convert_biolink_category_to_curie(kg2_util.BIOLINK_CATEGORY_GENE)

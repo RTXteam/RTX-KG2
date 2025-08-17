@@ -269,6 +269,42 @@ EDGE_LABEL_BIOLINK_APPLIED_TO_TREAT = 'applied_to_treat'
 EDGE_LABEL_BIOLINK_STUDIED_TO_TREAT = 'studied_to_treat'
 EDGE_LABEL_BIOLINK_CAUSES = 'causes'
 
+NODE_ID_SLOT = 'id'
+NODE_IRI_SLOT = 'iri'
+NODE_PUBLICATIONS_SLOT = 'publications'
+NODE_DESCRIPTION_SLOT = 'description'
+NODE_NAME_SLOT = 'name'
+NODE_CATEGORY_SLOT = 'category'
+NODE_SYNONYM_SLOT = 'synonym'
+NODE_TAXON_SLOT = 'in_taxon' # NOTE: Not yet in Biolink, see issue #468
+NODE_FULL_NAME_SLOT = 'full_name'
+NODE_CATEGORY_LABEL_SLOT = 'category_label'
+NODE_CREATION_DATE_SLOT = 'creation_date'
+NODE_UPDATE_DATE_SLOT = 'update_date'
+NODE_DEPRECATED_SLOT = 'deprecated'
+NODE_REPLACED_BY_SLOT = 'replaced_by'
+NODE_PROVIDED_BY_SLOT = 'provided_by'
+NODE_HAS_BIOLOGICAL_SEQUENCE_SLOT = 'has_biological_sequence'
+
+EDGE_ID_SLOT = 'id'
+EDGE_KG2_IDS_SLOT = 'kg2_ids'
+EDGE_SUBJECT_SLOT = 'subject'
+EDGE_OBJECT_SLOT = 'object'
+EDGE_PREDICATE_SLOT = 'predicate'
+EDGE_AGENT_TYPE_SLOT = 'agent_type'
+EDGE_KNOWLEDGE_LEVEL_SLOT = 'knowledge_level'
+EDGE_PRIMARY_KNOWLEDGE_SOURCE_SLOT = 'primary_knowledge_source'
+EDGE_DOMAIN_RANGE_EXCLUSION_SLOT = 'domain_range_exclusion'
+EDGE_QUALIFIED_PREDICATE_SLOT = 'qualified_predicate'
+EDGE_QUALIFIED_OBJECT_DIRECTION_SLOT = 'qualified_object_direction'
+EDGE_QUALIFIED_OBJECT_ASPECT_SLOT = 'qualified_object_aspect'
+EDGE_PUBLICATIONS_SLOT = 'publications'
+EDGE_PUBLICATIONS_INFO_SLOT = 'publications_info'
+EDGE_RELATION_LABEL_SLOT = 'relation_label'
+EDGE_SOURCE_PREDICATE_SLOT = 'source_predicate'
+EDGE_NEGATED_SLOT = 'negated'
+EDGE_UPDATE_DATE_SLOT = 'update_date'
+
 RDFS_EDGE_NAMES_SET = {'subClassOf', 'subPropertyOf'}
 OWL_EDGE_NAMES_SET = {'equivalentClass', 'equivalentProperty', 'sameAs',
                       'differentFrom', 'inverseOf'}
@@ -632,21 +668,21 @@ def make_node(id: str,
               provided_by: str):
     if '-' in category_label:
         raise ValueError('underscore character detected in category_label argument to function kg2_util.make_node: ' + category_label)
-    return {'id': id,
-            'iri': iri,
-            'name': name,
-            'full_name': name,
-            'category': convert_biolink_category_to_curie(category_label),
-            'category_label': category_label.replace(' ', '_'),
-            'description': None,
-            'synonym': [],
-            'publications': [],
-            'creation_date': None,
-            'update_date': update_date,
-            'deprecated': False,
-            'replaced_by': None,
-            'provided_by': [provided_by],
-            'has_biological_sequence': None}
+    return {NODE_ID_SLOT: id,
+            NODE_IRI_SLOT: iri,
+            NODE_NAME_SLOT: name,
+            NODE_FULL_NAME_SLOT: name,
+            NODE_CATEGORY_SLOT: convert_biolink_category_to_curie(category_label),
+            NODE_CATEGORY_LABEL_SLOT: category_label.replace(' ', '_'),
+            NODE_DESCRIPTION_SLOT: None,
+            NODE_SYNONYM_SLOT: [],
+            NODE_PUBLICATIONS_SLOT: [],
+            NODE_CREATION_DATE_SLOT: None,
+            NODE_UPDATE_DATE_SLOT: update_date,
+            NODE_DEPRECATED_SLOT: False,
+            NODE_REPLACED_BY_SLOT: None,
+            NODE_PROVIDED_BY_SLOT: [provided_by],
+            NODE_HAS_BIOLOGICAL_SEQUENCE_SLOT: None}
 
 
 def make_edge_key(edge_dict: dict):
@@ -669,22 +705,22 @@ def make_edge(subject_id: str,
               primary_knowledge_source: str,
               update_date: str = None):
 
-    edge = {'subject': subject_id,
-            'object': object_id,
-            'relation_label': relation_label,
-            'source_predicate': relation_curie,
-            'predicate': None,
-            'qualified_predicate': None,
-            'qualified_object_aspect': None,
-            'qualified_object_direction': None,
-            'negated': False,
-            'publications': [],
-            'publications_info': {},
-            'update_date': update_date,
-            'primary_knowledge_source': primary_knowledge_source,
-            'domain_range_exclusion': False}
+    edge = {EDGE_SUBJECT_SLOT: subject_id,
+            EDGE_OBJECT_SLOT: object_id,
+            EDGE_RELATION_LABEL_SLOT: relation_label,
+            EDGE_SOURCE_PREDICATE_SLOT: relation_curie,
+            EDGE_PREDICATE_SLOT: None,
+            EDGE_QUALIFIED_PREDICATE_SLOT: None,
+            EDGE_QUALIFIED_OBJECT_ASPECT_SLOT: None,
+            EDGE_QUALIFIED_OBJECT_DIRECTION_SLOT: None,
+            EDGE_NEGATED_SLOT: False,
+            EDGE_PUBLICATIONS_SLOT: [],
+            EDGE_PUBLICATIONS_INFO_SLOT: {},
+            EDGE_UPDATE_DATE_SLOT: update_date,
+            EDGE_PRIMARY_KNOWLEDGE_SOURCE_SLOT: primary_knowledge_source,
+            EDGE_DOMAIN_RANGE_EXCLUSION_SLOT: False}
     edge_id = make_edge_key(edge)
-    edge["id"] = edge_id
+    edge[EDGE_ID_SLOT] = edge_id
     return edge
 
 
