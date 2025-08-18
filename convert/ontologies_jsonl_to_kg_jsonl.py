@@ -191,6 +191,7 @@ def reformat_obo_date(date_str):
         else:
             return datetime.datetime(year, month, day)
     else:
+        date_str = date_str.replace('/', ':') # https://github.com/RTXteam/RTX-KG2/issues/470#issuecomment-3196620554
         date_spl = date_str.split(' ')
         date_fh = date_spl[0].split(':')
         year = int(date_fh[2])
