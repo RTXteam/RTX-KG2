@@ -37,8 +37,8 @@ rule Merge:
         drugcentral_edges = config['DRUGCENTRAL_OUTPUT_EDGES_FILE'],
         intact_nodes = config['INTACT_OUTPUT_NODES_FILE'],
         intact_edges = config['INTACT_OUTPUT_EDGES_FILE'],
-        disgenet_nodes = config['DISGENET_OUTPUT_NODES_FILE'],
-        disgenet_edges = config['DISGENET_OUTPUT_EDGES_FILE'],
+        # disgenet_nodes = config['DISGENET_OUTPUT_NODES_FILE'],
+        # disgenet_edges = config['DISGENET_OUTPUT_EDGES_FILE'],
         kegg_nodes = config['KEGG_OUTPUT_NODES_FILE'],
         kegg_edges = config['KEGG_OUTPUT_EDGES_FILE'],
         unii_nodes = config['UNII_OUTPUT_NODES_FILE'],
@@ -76,7 +76,7 @@ rule Merge:
             "{input.jensenlab_nodes} " + \
             "{input.drugcentral_nodes} " + \
             "{input.intact_nodes} " + \
-            "{input.disgenet_nodes} " + \
+            # "{input.disgenet_nodes} " + \
             "{input.kegg_nodes} " + \
             "{input.clinicaltrialskg_nodes} " + \
 	    "{input.unii_nodes} " + \
@@ -100,7 +100,7 @@ rule Merge:
             "{input.jensenlab_edges} " + \
             "{input.drugcentral_edges} " + \
             "{input.intact_edges} " + \
-            "{input.disgenet_edges} " + \
+            # "{input.disgenet_edges} " + \
             "{input.kegg_edges} " + \
             "{input.clinicaltrialskg_edges} " + \
             "{input.drugapprovalskg_edges} " + \
