@@ -15,7 +15,7 @@ Issues:
  - Issue [#461](https://github.com/RTXteam/RTX-KG2/issues/461)
  - Issue [#465](https://github.com/RTXteam/RTX-KG2/issues/465)
  - Issue [#469](https://github.com/RTXteam/RTX-KG2/issues/469)
-- Additional issues that arose during the build: [#470 (Comment)](https://github.com/RTXteam/RTX-KG2/issues/470#issuecomment-3196189379), [#470 (Comment)](https://github.com/RTXteam/RTX-KG2/issues/470#issuecomment-3196216291)
+- Additional issues that arose during the build: [#470 (Comment 1)](https://github.com/RTXteam/RTX-KG2/issues/470#issuecomment-3196189379), [#470 (Comment 2)](https://github.com/RTXteam/RTX-KG2/issues/470#issuecomment-3196216291), [#470 (Comment 3)](https://github.com/RTXteam/RTX-KG2/issues/470#issuecomment-3196620554)
 
 Build info:
 - Biolink Model version: 4.2.5
@@ -35,7 +35,7 @@ Build info:
   - Reactome: `93`
   - UniProtKB: `2025_03`
   - DrugCentral: `11012023`
-  - KEGG: ``
+  - KEGG: ` `
 
 # 2.10.2
 **Date:  2025.04.02**
