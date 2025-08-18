@@ -6,6 +6,9 @@ Counts:
 - Edges: XX,XXX,XXX
 
 Issues:
+ - Issue [#367](https://github.com/RTXteam/RTX-KG2/issues/367)
+ - Issue [#377](https://github.com/RTXteam/RTX-KG2/issues/377)
+ - Issue [#420](https://github.com/RTXteam/RTX-KG2/issues/420)
  - Issue [#438](https://github.com/RTXteam/RTX-KG2/issues/438)
  - Issue [#439](https://github.com/RTXteam/RTX-KG2/issues/439)
  - Issue [#440](https://github.com/RTXteam/RTX-KG2/issues/440)
