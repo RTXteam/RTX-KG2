@@ -27,7 +27,7 @@ mkdir -p ${drugcentral_dir}
 
 # It appears that you can get release history information for Drug Central on this
 # web page: https://unmtid-shinyapps.net/download/
-drugcentral_date=08222022
+drugcentral_date=11012023
 source="https://unmtid-shinyapps.net/download/drugcentral.dump.${drugcentral_date}.sql.gz"
 download_filename=${drugcentral_dir}/drugcentral.sql.gz
 
