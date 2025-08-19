@@ -306,7 +306,7 @@ kg2_tsv_tarball: ${BUILD_DIR}/kg2-tsv-for-neo4j${version_suffix}${test_suffix}.t
 tsv_placeholder: ${BUILD_DIR}/tsv_placeholder.empty
 
 download_babel_base: download-babel
-download_babel_script: ${download_babel_base}.sh
+download_babel_script: ${PROCESS_CODE_DIR}/${download_babel_base}.sh
 download_babel_log: ${BUILD_DIR}/${download_babel_base}-${babel_db}.log
 babel_local: ${BUILD_DIR}/${babel_db}
 
