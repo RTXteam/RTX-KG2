@@ -268,6 +268,12 @@ CHEMBL.MECHANISM:disrupting_agent:
 CHEMBL.MECHANISM:equivalent_to:
   operation: keep
   core_predicate: biolink:same_as
+CHEMBL.MECHANISM:exogenous_gene:
+  operation: keep
+  core_predicate: biolink:related_to
+CHEMBL.MECHANISM:exogenous_protein:
+  operation: keep
+  core_predicate: biolink:related_to
 CHEMBL.MECHANISM:hydrolytic_enzyme:
   operation: keep
   core_predicate: biolink:affects
@@ -3289,6 +3295,8 @@ PR:confers_resistance_to:
   qualifiers:
     object_aspect: activity
     object_direction: decreased
+PR:has_constituent_monomer: # can't find it anywhere
+  operation: delete
 PR:has_gene_template:
   operation: keep
   core_predicate: biolink:gene_product_of
@@ -3525,6 +3533,9 @@ RO:0002103:  # synapsed by
 RO:0002104:
   operation: keep
   core_predicate: biolink:has_plasma_membrane_part
+RO:0002113: # has presynaptic terminal in
+  operation: keep
+  core_predicate: biolink:overlaps
 RO:0002120:  # synapsed to
   operation: keep
   core_predicate: biolink:physically_interacts_with
@@ -3806,6 +3817,8 @@ RO:0002355:
 RO:0002356:
   operation: keep
   core_predicate: biolink:related_to
+RO:0002360: # can't find a name for it
+  operation: delete
 RO:0002371:
   operation: keep
   core_predicate: biolink:related_to
@@ -4598,6 +4611,10 @@ SO:overlaps:
 SO:part_of:
   operation: invert
   core_predicate: biolink:has_part
+STATO:0000101: # has numerator
+  operation: delete
+STATO:0000259: # has denominator
+  operation: delete
 # SO:similar_to:
 #   operation: keep
 #   core_predicate: biolink:similar_to
