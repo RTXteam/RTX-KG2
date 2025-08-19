@@ -29,16 +29,18 @@ simplified_output_edges_file_full=${6}
 simplified_report_file_full=${7}
 slim_output_nodes_file_full=${8}
 slim_output_edges_file_full=${9}
-kg2_tsv_dir=${10}
-s3_cp_cmd=${11}
-kg2_tsv_tarball=${12}
-s3_bucket=${13}
-s3_bucket_public=${14}
-PROCESS_CODE_DIR=${15}
-s3_bucket_versioned=${16}
-BUILD_DIR=${17}
-simplified_report_file_base=${18}
-VENV_DIR=${19}
+kg2c_nodes = ${10}
+kg2c_edges = ${11}
+kg2_tsv_dir=${12}
+s3_cp_cmd=${13}
+kg2_tsv_tarball=${14}
+s3_bucket=${15}
+s3_bucket_public=${16}
+PROCESS_CODE_DIR=${17}
+s3_bucket_versioned=${18}
+BUILD_DIR=${19}
+simplified_report_file_base=${20}
+VENV_DIR=${21}
 previous_simplified_report_base="previous-${simplified_report_file_base}"
 
 echo "================= starting finish-snakemake.sh =================="
@@ -54,11 +56,15 @@ gzip -fk ${simplified_output_edges_file_full}
 gzip -fk ${output_file_orphan_edges}
 gzip -fk ${slim_output_nodes_file_full}
 gzip -fk ${slim_output_edges_file_full}
+gzip -fk ${kg2c_nodes}
+gzip -fk ${kg2c_edges}
 
 ${s3_cp_cmd} ${final_output_nodes_file_full}.gz s3://${s3_bucket}/
 ${s3_cp_cmd} ${final_output_edges_file_full}.gz s3://${s3_bucket}/
 ${s3_cp_cmd} ${simplified_output_nodes_file_full}.gz s3://${s3_bucket}/
 ${s3_cp_cmd} ${simplified_output_edges_file_full}.gz s3://${s3_bucket}/
+${s3_cp_cmd} ${kg2c_nodes}.gz s3://${s3_bucket}/
+${s3_cp_cmd} ${kg2c_edges}.gz s3://${s3_bucket}/
 ${s3_cp_cmd} ${report_file_full} s3://${s3_bucket_public}/
 
 # Attempt to compare the report from the previous build to the current build
