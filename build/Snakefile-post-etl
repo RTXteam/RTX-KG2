@@ -175,13 +175,14 @@ rule TSV:
 # There is no reason that this has to be done post-ETL, but it is easiest to put it here, because it is the input for the Normalize steps and doesn't need to take a core that the ETL steps could take
 rule Download_Babel:
     input:
-        placeholder = config['MERGED_OUTPUT_NODES_FILE']
+        placeholder = config['MERGED_OUTPUT_NODES_FILE'],
+        code = config['DOWNLOAD_BABEL_SCRIPT']
     output:
         config['BABEL_LOCAL']
     log:
         config['DOWNLOAD_BABEL_LOG']
     shell:
-        config['S3_CP_CMD'] + " s3://" + config['S3_BUCKET_PUBLIC'] + "/" + config['BABEL_DB'] + " {output} > {log} > 2&1"
+        "{input.code} {output} > {log} 2>&1"
 
 rule Normalize_Nodes:
     input:
