@@ -1,5 +1,8 @@
 # KG2.10.3 Build Report
 
+## Build Snakemake Diagram
+<img width="5107" height="635" alt="Image" src="https://github.com/user-attachments/assets/895c926e-aaeb-4ca8-adfa-ec9dd93bcb99" />
+
 ## Build Time Breakdown
 
 Subsection/Rule | Section Time (hours:minutes:seconds) | Start Time | End Time
