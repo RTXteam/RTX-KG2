@@ -37,8 +37,8 @@ rule Merge:
         drugcentral_edges = config['DRUGCENTRAL_OUTPUT_EDGES_FILE'],
         intact_nodes = config['INTACT_OUTPUT_NODES_FILE'],
         intact_edges = config['INTACT_OUTPUT_EDGES_FILE'],
-        disgenet_nodes = config['DISGENET_OUTPUT_NODES_FILE'],
-        disgenet_edges = config['DISGENET_OUTPUT_EDGES_FILE'],
+        # disgenet_nodes = config['DISGENET_OUTPUT_NODES_FILE'],
+        # disgenet_edges = config['DISGENET_OUTPUT_EDGES_FILE'],
         kegg_nodes = config['KEGG_OUTPUT_NODES_FILE'],
         kegg_edges = config['KEGG_OUTPUT_EDGES_FILE'],
         unii_nodes = config['UNII_OUTPUT_NODES_FILE'],
@@ -76,7 +76,7 @@ rule Merge:
             "{input.jensenlab_nodes} " + \
             "{input.drugcentral_nodes} " + \
             "{input.intact_nodes} " + \
-            "{input.disgenet_nodes} " + \
+            # "{input.disgenet_nodes} " + \
             "{input.kegg_nodes} " + \
             "{input.clinicaltrialskg_nodes} " + \
 	    "{input.unii_nodes} " + \
@@ -100,7 +100,7 @@ rule Merge:
             "{input.jensenlab_edges} " + \
             "{input.drugcentral_edges} " + \
             "{input.intact_edges} " + \
-            "{input.disgenet_edges} " + \
+            # "{input.disgenet_edges} " + \
             "{input.kegg_edges} " + \
             "{input.clinicaltrialskg_edges} " + \
             "{input.drugapprovalskg_edges} " + \
@@ -171,3 +171,39 @@ rule TSV:
         shell("mkdir -p " + config['KG2_TSV_DIR'])
         shell(config['PYTHON_COMMAND'] + " {input.code} {input.nodes} {input.edges} {input.mapping_file} " + config['KG2_TSV_DIR'] + " > {log} 2>&1")
         shell("touch {output.placeholder}")
+
+# There is no reason that this has to be done post-ETL, but it is easiest to put it here, because it is the input for the Normalize steps and doesn't need to take a core that the ETL steps could take
+rule Download_Babel:
+    input:
+        placeholder = config['MERGED_OUTPUT_NODES_FILE'],
+        code = config['DOWNLOAD_BABEL_SCRIPT']
+    output:
+        config['BABEL_LOCAL']
+    log:
+        config['DOWNLOAD_BABEL_LOG']
+    shell:
+        "{input.code} {output} > {log} 2>&1"
+
+rule Normalize_Nodes:
+    input:
+        code = config['KG2C_NODES_SCRIPT'],
+        nodes = config['SIMPLIFIED_OUTPUT_NODES_FILE'],
+        babel_db = config['BABEL_LOCAL']
+    output:
+        nodes = config['KG2C_OUTPUT_NODES_FILE']
+    log:
+        config['KG2C_NODES_LOG']
+    shell:
+        config['PYTHON_COMMAND'] + " {input.code} {input.nodes} {input.babel_db} {output.nodes} > {log} 2>&1"
+
+rule Normalize_Edges:
+    input:
+        code = config['KG2C_EDGES_SCRIPT'],
+        edges = config['SIMPLIFIED_OUTPUT_EDGES_FILE'],
+        babel_db = config['BABEL_LOCAL']
+    output:
+        edges = config['KG2C_OUTPUT_EDGES_FILE']
+    log:
+        config['KG2C_EDGES_LOG']
+    shell:
+        config['PYTHON_COMMAND'] + " {input.code} {input.edges} {input.babel_db} {output.edges} > {log} 2>&1"

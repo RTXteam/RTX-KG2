@@ -5,6 +5,9 @@ kg2.json
 *.out
 *.log
 *.jar
+*.json
+*.csv
+*.tsv
 save/*
 old/*
 venv/*

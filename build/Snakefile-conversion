@@ -252,18 +252,18 @@ rule IntAct_Conversion:
     shell:
         config['PYTHON_COMMAND'] + " {input.code} {input.real} {output} " + config['TEST_ARG'] + " > {log} 2>&1"
 
-rule DisGeNET_Conversion:
-    input:
-        code = config['DISGENET_CONVERSION_SCRIPT'],
-        real = config['DISGENET_INPUT_FILE'],
-        validation = config['VALIDATION_PLACEHOLDER']
-    output:
-        nodes = config['DISGENET_OUTPUT_NODES_FILE'],
-        edges = config['DISGENET_OUTPUT_EDGES_FILE']
-    log:
-        config['DISGENET_CONVERSION_LOG']
-    shell:
-        config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
+# rule DisGeNET_Conversion:
+#     input:
+#         code = config['DISGENET_CONVERSION_SCRIPT'],
+#         real = config['DISGENET_INPUT_FILE'],
+#         validation = config['VALIDATION_PLACEHOLDER']
+#     output:
+#         nodes = config['DISGENET_OUTPUT_NODES_FILE'],
+#         edges = config['DISGENET_OUTPUT_EDGES_FILE']
+#     log:
+#         config['DISGENET_CONVERSION_LOG']
+#     shell:
+#         config['PYTHON_COMMAND'] + " {input.code} {input.real} {output.nodes} {output.edges} " + config['TEST_ARG'] + " > {log} 2>&1"
 
 rule KEGG_Conversion:
     input:

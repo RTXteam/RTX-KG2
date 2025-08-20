@@ -98,6 +98,7 @@ def make_kg2_graph(input_file_name: str, nodes_output, test_mode: bool = False):
                              'of': set(),
                              'bn': set(),
                              'cd': set(),
+                             'mn': set(),
                              'synonyms': set()}
                 node_info_by_id[unii_ingredient_id] = node_info
             assert ingredient_name_type in node_info, f"unknown ingredient name type ({ingredient_name_type}): " + line
@@ -118,6 +119,8 @@ def make_kg2_graph(input_file_name: str, nodes_output, test_mode: bool = False):
             [name, display_name] = next(iter(node_info['bn']))
         elif node_info['sys']:
             [name, display_name] = next(iter(node_info['sys']))
+        elif node_info['mn']:
+            [name, display_name] = next(iter(node_info['mn']))
         else:
             assert False
         node_synonyms = node_info['synonyms']

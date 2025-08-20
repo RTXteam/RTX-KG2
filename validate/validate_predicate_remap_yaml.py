@@ -24,7 +24,7 @@ BIOLINK_SLOT_TYPES_SKIP = {"biolink:has_attribute",
                            "biolink:synonym",
                            "biolink:has_attribute_type"}
 
-relation_mapping_exceptions = {"SEMMEDDB:diagnoses", "OMIM:has_manifestation", "SEMMEDDB:ADMINISTERED_TO", "SEMMEDDB:administered_to", "DRUGBANK:drug-interaction"}
+relation_mapping_exceptions = {"SEMMEDDB:diagnoses", "OMIM:has_manifestation", "SEMMEDDB:ADMINISTERED_TO", "SEMMEDDB:administered_to", "DRUGBANK:drug-interaction", "SEMMEDDB:isa", "SEMMEDDB:ISA"}
 
 def make_arg_parser():
     arg_parser = argparse.ArgumentParser(
