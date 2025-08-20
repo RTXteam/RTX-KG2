@@ -1,5 +1,8 @@
 # KG2.10.3 Build Report
 
+## Preamble
+This report was inspired by the [JSONLines_Time_Comparison.md](https://github.com/RTXteam/RTX-KG2/blob/master/docs/JSONLines_Time_Comparison.md), which I often reference while running builds to estimate completion times or measure the imapct of code changes. Since that file is a couple years out of date, I wanted to create a new one before departing. I hope that future RTX-KG2 developers find this helpful.
+
 ## Build Snakemake Diagram
 <img width="5107" height="635" alt="Image" src="https://github.com/user-attachments/assets/895c926e-aaeb-4ca8-adfa-ec9dd93bcb99" />
 
@@ -89,8 +92,6 @@ Total | 21:22:11 | Tue Aug 19 06:35:59 2025 | Wed Aug 20 03:58:10 2025
 
 ## Disk Space Usage
 
-## Notes
-This report was inspired by the [JSONLines_Time_Comparison.md](https://github.com/RTXteam/RTX-KG2/blob/master/docs/JSONLines_Time_Comparison.md), which I often reference while running builds to estimate completion times or measure the imapct of code changes. Since that file is a couple years out of date, I wanted to create a new one before departing. I hope that future RTX-KG2 developers find this helpful.
 
 # Appendix
 ## Snakemake Log File
