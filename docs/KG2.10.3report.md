@@ -89,9 +89,11 @@ Finish | 1:49:47 | Wed Aug 20 02:08:23 2025 | Wed Aug 20 03:58:10 2025
 Total | 21:22:11 | Tue Aug 19 06:35:59 2025 | Wed Aug 20 03:58:10 2025
 
 ## Memory Usage
+<img width="761" height="471" alt="Image" src="https://github.com/user-attachments/assets/74c810ca-b2de-449c-9574-38f807856119" />
+<img width="780" height="483" alt="Image" src="https://github.com/user-attachments/assets/12052bc7-08f8-4d4f-a039-a022b7ba0b71" />
 
 ## Disk Space Usage
-
+<img width="808" height="500" alt="Image" src="https://github.com/user-attachments/assets/7499b0bc-a50c-473b-961b-83c67be03e6e" />
 
 # Appendix
 ## Snakemake Log File
