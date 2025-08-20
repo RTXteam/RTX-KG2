@@ -1,9 +1,9 @@
 # 2.10.3
-**Date:  2025.08.18**
+**Date:  2025.08.19**
 
 Counts:
-- Nodes: X,XXX,XXX
-- Edges: XX,XXX,XXX
+- Nodes: 8,678,189
+- Edges: 56,122,165
 
 Issues:
  - Issue [#367](https://github.com/RTXteam/RTX-KG2/issues/367)
@@ -18,16 +18,16 @@ Issues:
  - Issue [#461](https://github.com/RTXteam/RTX-KG2/issues/461)
  - Issue [#465](https://github.com/RTXteam/RTX-KG2/issues/465)
  - Issue [#469](https://github.com/RTXteam/RTX-KG2/issues/469)
-- Additional issues that arose during the build: [#470 (Comment 1)](https://github.com/RTXteam/RTX-KG2/issues/470#issuecomment-3196189379), [#470 (Comment 2)](https://github.com/RTXteam/RTX-KG2/issues/470#issuecomment-3196216291), [#470 (Comment 3)](https://github.com/RTXteam/RTX-KG2/issues/470#issuecomment-3196620554)
+- Additional issues that arose during the build: [#470 (Comment 1)](https://github.com/RTXteam/RTX-KG2/issues/470#issuecomment-3196189379), [#470 (Comment 2)](https://github.com/RTXteam/RTX-KG2/issues/470#issuecomment-3196216291), [#470 (Comment 3)](https://github.com/RTXteam/RTX-KG2/issues/470#issuecomment-3196620554), [#470 (Comment 4)](https://github.com/RTXteam/RTX-KG2/issues/470#issuecomment-3199290061), [#470 (Comment 5)](https://github.com/RTXteam/RTX-KG2/issues/470#issuecomment-3199524590)
 
 Build info:
 - Biolink Model version: 4.2.5
 - InfoRes Catalog version: 1.0.0
-- Build host: `kg2103build.rtx.ai`
+- Build host: `kg2103-2.rtx.ai`
 - Build directory: `/home/ubuntu/kg2-build`
 - Build code branch: `issue461`
 - Neo4j endpoint CNAME: `kg2endpoint-kg2-10-3.rtx.ai`
-- Neo4j endpoint hostname: `kg2endpoint3.rtx.ai`
+- Neo4j endpoint hostname: `kg2endpoint4.rtx.ai`
 - Tracking issue for the build: [#470](https://github.com/RTXteam/RTX-KG2/issues/470)
 - Major knowledge source versions:
   - SemMedDB: `43 (2023)`
@@ -38,7 +38,7 @@ Build info:
   - Reactome: `93`
   - UniProtKB: `2025_03`
   - DrugCentral: `11012023`
-  - KEGG: ` `
+  - KEGG: `115.0`
 
 # 2.10.2
 **Date:  2025.04.02**
