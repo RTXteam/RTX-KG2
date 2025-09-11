@@ -31,4 +31,4 @@ infores_registry_version=1.0.0
 kg2_version_file=kg2-version.txt
 kg2_version_file_local=${BUILD_DIR}/${kg2_version_file}
 kg2_version=
-babel_db=babel-20250331.sqlite
+babel_db=babel-20250901.sqlite
