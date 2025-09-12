@@ -272,10 +272,8 @@ buckets, `s3://rtx-kg2`, `s3://rtx-kg2-public`, and `s3://rtx-kg2-versioned`,
 which are in the `us-west-2` AWS region) and you will need to have an AWS
 authentication key pair that is configured to be able to read from (and write
 to) the bucket(s), so that the build script can download a copy of the full
-Unified Medical Language System (UMLS) distribution. The full UMLS distribution (`umls-2023AA-metathesaurus.zip`); IANAL, but it appears
-that the UMLS is encumbered by a license preventing redistribution so I have not
-hosted them on a public server for download; but you can get it for free at the
-[UMLS website](https://www.nlm.nih.gov/research/umls/) if you agree to the UMLS
+Unified Medical Language System (UMLS) distribution. The full UMLS distribution (`umls-2023AA-metathesaurus.zip`) can be obtained at the
+[UMLS website](https://www.nlm.nih.gov/research/umls/) (only if you agree to the UMLS
 license terms)), the DrugBank distribution (`drugbank.xml.gz`), the SMPDB publications CSV file (obtained from the Wishart Lab), and the SemMedDB distriction will need to
 be pre-placed in the S3 bucket and the local copy of `master-config.shinc` will
 need to be configured so that variables `s3_bucket`, `s3_bucket_public`, and
