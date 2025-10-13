@@ -15,6 +15,8 @@ NAME_KEY = kg2_util.NODE_NAME_SLOT
 CATEGORY_KEY = kg2_util.NODE_CATEGORY_SLOT
 SYNONYM_KEY = kg2_util.NODE_SYNONYM_SLOT
 TAXON_KEY = kg2_util.NODE_TAXON_SLOT
+ALL_NAMES_KEY = kg2_util.NODE_ALL_NAMES_SLOT
+ALL_CATEGORIES_KEY = kg2_util.NODE_ALL_CATEGORIES_SLOT
 
 CHEMBL_COMPOUND_PREFIX = kg2_util.CURIE_PREFIX_CHEMBL_COMPOUND
 
@@ -114,6 +116,15 @@ def process_nodes(conn, nodes_input_file, nodes_output_file):
             preferred_node_dict[CURIE_ID_KEY] = preferred_node_curie
             preferred_node_dict[NAME_KEY] = preferred_node_name
             preferred_node_dict[CATEGORY_KEY] = preferred_node_category
+
+            all_names = lb.get_all_names_for_curie(conn, preferred_node_curie)
+            if all_names:
+                preferred_node_dict[ALL_NAMES_KEY] = list(all_names)
+            all_categories = lb.get_categories_for_curie(conn, preferred_node_curie)
+            if all_categories:
+                preferred_node_dict[ALL_CATEGORIES_KEY] = list(all_categories)
+
+
 
             if _is_str_none_or_empty(preferred_node_description):
                 if preferred_node_curie == node_curie: # Description choosing system discussed with SAR on slack
