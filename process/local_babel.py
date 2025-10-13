@@ -60,7 +60,6 @@ def connect_to_db_read_only(db_filename: str) -> sqlite3.Connection:
     # opening with "?mode=ro" is compatible with multiple python processes
     # reading the database at the same time, which we need for multiprocessing;
     # this is why we are not opening the database file with "?immutable=1"
-    db_filename = "/Volumes/SSunDar/" + db_filename
     conn = sqlite3.connect("file:" + db_filename + "?mode=ro",
                            uri=True)
     conn.execute('PRAGMA foreign_keys = ON;')
