@@ -17,7 +17,7 @@ SYNONYM_KEY = kg2_util.NODE_SYNONYM_SLOT
 TAXON_KEY = kg2_util.NODE_TAXON_SLOT
 ALL_NAMES_KEY = kg2_util.NODE_ALL_NAMES_SLOT
 ALL_CATEGORIES_KEY = kg2_util.NODE_ALL_CATEGORIES_SLOT
-
+NODE_IRI_KEY = kg2_util.NODE_IRI_SLOT
 CHEMBL_COMPOUND_PREFIX = kg2_util.CURIE_PREFIX_CHEMBL_COMPOUND
 
 PROTEIN_CATEGORY = kg2_util.convert_biolink_category_to_curie(kg2_util.BIOLINK_CATEGORY_PROTEIN)
@@ -70,7 +70,7 @@ def process_nodes(conn, nodes_input_file, nodes_output_file):
         node_curie = node[CURIE_ID_KEY]
         node_publications = node[PUBLICATIONS_KEY]
         node_description = node[DESCRIPTION_KEY]
-
+        node_iri = node[NODE_IRI_KEY]
         node_cliques = lb.map_any_curie_to_cliques(conn, node_curie)
         
         if _is_list_none_or_empty(node_cliques):
@@ -123,7 +123,8 @@ def process_nodes(conn, nodes_input_file, nodes_output_file):
             all_categories = lb.get_categories_for_curie(conn, preferred_node_curie)
             if all_categories:
                 preferred_node_dict[ALL_CATEGORIES_KEY] = list(all_categories)
-
+            if not _is_str_none_or_empty(node_iri):
+                preferred_node_dict[NODE_IRI_KEY] = node_iri
 
 
             if _is_str_none_or_empty(preferred_node_description):
