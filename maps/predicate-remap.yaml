@@ -5081,13 +5081,7 @@ VANDF:print_name_of:
 # WIKIDATA_PROPERTY:P98: 
 #   operation: keep
 #   core_predicate: biolink:editor
-biolink:in_taxon: 
-  operation: keep
-  core_predicate: biolink:subclass_of
 biolink:part_of: 
-  operation: invert
-  core_predicate: biolink:has_part
-biolink:subclass_of: 
   operation: invert
   core_predicate: biolink:has_part
 # dct:contributor: 
