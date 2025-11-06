@@ -296,8 +296,8 @@ EDGE_KNOWLEDGE_LEVEL_SLOT = 'knowledge_level'
 EDGE_PRIMARY_KNOWLEDGE_SOURCE_SLOT = 'primary_knowledge_source'
 EDGE_DOMAIN_RANGE_EXCLUSION_SLOT = 'domain_range_exclusion'
 EDGE_QUALIFIED_PREDICATE_SLOT = 'qualified_predicate'
-EDGE_QUALIFIED_OBJECT_DIRECTION_SLOT = 'qualified_object_direction'
-EDGE_QUALIFIED_OBJECT_ASPECT_SLOT = 'qualified_object_aspect'
+EDGE_OBJECT_DIRECTION_QUALIFIER_SLOT = 'object_direction_qualifier'
+EDGE_OBJECT_ASPECT_QUALIFIER_SLOT = 'object_aspect_qualifier'
 EDGE_PUBLICATIONS_SLOT = 'publications'
 EDGE_PUBLICATIONS_INFO_SLOT = 'publications_info'
 EDGE_RELATION_LABEL_SLOT = 'relation_label'
@@ -690,9 +690,9 @@ def make_edge_key(edge_dict: dict):
            edge_dict['source_predicate'] + '---' + \
            (edge_dict['qualified_predicate'] if edge_dict['qualified_predicate'] is not None else 'None') + \
            '---' + \
-           (edge_dict['qualified_object_aspect'] if edge_dict['qualified_object_aspect'] is not None else 'None') + \
+           (edge_dict['object_aspect_qualifier'] if edge_dict['object_aspect_qualifier'] is not None else 'None') + \
            '---' + \
-           (edge_dict['qualified_object_direction'] if edge_dict['qualified_object_direction'] is not None else 'None') + \
+           (edge_dict['object_direction_qualifier'] if edge_dict['object_direction_qualifier'] is not None else 'None') + \
            '---' + \
            edge_dict['object'] + '---' + \
            edge_dict['primary_knowledge_source']
@@ -711,8 +711,8 @@ def make_edge(subject_id: str,
             EDGE_SOURCE_PREDICATE_SLOT: relation_curie,
             EDGE_PREDICATE_SLOT: None,
             EDGE_QUALIFIED_PREDICATE_SLOT: None,
-            EDGE_QUALIFIED_OBJECT_ASPECT_SLOT: None,
-            EDGE_QUALIFIED_OBJECT_DIRECTION_SLOT: None,
+            EDGE_OBJECT_ASPECT_QUALIFIER_SLOT: None,
+            EDGE_OBJECT_DIRECTION_QUALIFIER_SLOT: None,
             EDGE_NEGATED_SLOT: False,
             EDGE_PUBLICATIONS_SLOT: [],
             EDGE_PUBLICATIONS_INFO_SLOT: {},

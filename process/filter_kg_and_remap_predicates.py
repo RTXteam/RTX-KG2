@@ -57,14 +57,14 @@ def make_arg_parser():
     return arg_parser
 
 
-def update_edge_id(edge_id: str, qualified_predicate=None, qualified_object_aspect=None,
-                   qualified_object_direction=None):
+def update_edge_id(edge_id: str, qualified_predicate=None, object_aspect_qualifier=None,
+                   object_direction_qualifier=None):
     edge_id_keys = edge_id.split("---")
     subject = edge_id_keys[0]
     predicate = edge_id_keys[1]
     object = edge_id_keys[-2]
     knowledge_source = edge_id_keys[-1]
-    new_edge_id = f"{subject}---{predicate}---{qualified_predicate}---{qualified_object_aspect}---{qualified_object_direction}---{object}---{knowledge_source}"
+    new_edge_id = f"{subject}---{predicate}---{qualified_predicate}---{object_aspect_qualifier}---{object_direction_qualifier}---{object}---{knowledge_source}"
     return new_edge_id
 
 
@@ -240,8 +240,8 @@ def process_edges(input_edges_file_name, infores_remap_config, knowledge_level_a
             get_new_rel_info = False
 
         qualified_predicate = None
-        qualified_object_aspect = None
-        qualified_object_direction = None
+        object_aspect_qualifier = None
+        object_direction_qualifier = None
 
         if get_new_rel_info:
             assert pred_remap_info.get("core_predicate") is not None
@@ -250,9 +250,9 @@ def process_edges(input_edges_file_name, infores_remap_config, knowledge_level_a
             qualifiers = pred_remap_info.get("qualifiers", None)
             if qualifiers is not None:
                 qualifiers_dict = qualifiers
-                qualified_object_aspect = qualifiers_dict.get("object_aspect", None)
-                qualified_object_direction = qualifiers_dict.get("object_direction", None)
-            if qualified_object_aspect is not None and qualified_object_direction is not None and \
+                object_aspect_qualifier = qualifiers_dict.get("object_aspect", None)
+                object_direction_qualifier = qualifiers_dict.get("object_direction", None)
+            if object_aspect_qualifier is not None and object_direction_qualifier is not None and \
                     qualifiers is None:
                 assert qualified_predicate is not None, f"Qualifier but not qualified predicate {edge_dict}"
         if invert:
@@ -267,13 +267,13 @@ def process_edges(input_edges_file_name, infores_remap_config, knowledge_level_a
             continue
         edge_dict['predicate'] = predicate_curie
         edge_dict['qualified_predicate'] = qualified_predicate
-        edge_dict['qualified_object_aspect'] = qualified_object_aspect
-        edge_dict['qualified_object_direction'] = qualified_object_direction
+        edge_dict['object_aspect_qualifier'] = object_aspect_qualifier
+        edge_dict['object_direction_qualifier'] = object_direction_qualifier
         if core_predicate_curie is None and predicate_curie.startswith(kg2_util.CURIE_PREFIX_BIOLINK + ":"):
             core_predicate_curie = predicate_curie
         edge_dict['predicate'] = core_predicate_curie
         edge_id = edge_dict["id"]
-        new_edge_id = update_edge_id(edge_id, qualified_predicate, qualified_object_aspect, qualified_object_direction)
+        new_edge_id = update_edge_id(edge_id, qualified_predicate, object_aspect_qualifier, object_direction_qualifier)
         edge_dict["id"] = new_edge_id
 
         if predicate_curie not in nodes:
@@ -314,7 +314,7 @@ def process_edges(input_edges_file_name, infores_remap_config, knowledge_level_a
             print("Edge:", edge_triple, "in the edge blocklist. Not adding it to edges_output.")
             continue
 
-        edge_key = f"{edge_subject} /// {predicate_curie} /// {qualified_predicate} /// {qualified_object_aspect} /// {qualified_object_direction} /// {edge_object} /// {primary_knowledge_source}"
+        edge_key = f"{edge_subject} /// {predicate_curie} /// {qualified_predicate} /// {object_aspect_qualifier} /// {object_direction_qualifier} /// {edge_object} /// {primary_knowledge_source}"
 
         edges_output.write(edge_dict)
 
