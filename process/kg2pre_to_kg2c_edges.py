@@ -206,7 +206,10 @@ def _process_edges_row(conn: sqlite3.Connection,
     res: list[tuple[Optional[dict[str, Any]], str, str]] = []
     for subject_curie, object_curie in it.product(picked_pref_curies_subject,
                                                   picked_pref_curies_object):
-        new_res_edge = res_edge
+        if subject_curie == object_curie: 
+            if predicate in {"biolink:same_as", "biolink:exact_match", "biolink:close_match"}:
+                continue 
+        new_res_edge = res_edge 
         new_res_edge[SUBJECT_KEY] = subject_curie
         new_res_edge[OBJECT_KEY] = object_curie
         res.append((new_res_edge, kg2pre_edge_id, 'OK'))
