@@ -285,6 +285,9 @@ NODE_DEPRECATED_SLOT = 'deprecated'
 NODE_REPLACED_BY_SLOT = 'replaced_by'
 NODE_PROVIDED_BY_SLOT = 'provided_by'
 NODE_HAS_BIOLOGICAL_SEQUENCE_SLOT = 'has_biological_sequence'
+NODE_ALL_NAMES_SLOT = 'all_names'
+NODE_ALL_CATEGORIES_SLOT = 'all_categories'
+
 
 EDGE_ID_SLOT = 'id'
 EDGE_KG2_IDS_SLOT = 'kg2_ids'
