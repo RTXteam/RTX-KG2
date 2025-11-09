@@ -52,7 +52,20 @@ def join_array(arr):
 def sanitize_entry(entry):
     if entry is None:
         return ""
-    entry = join_array(entry)
+
+    # Handle different field types properly
+    if isinstance(entry, list):
+        entry = join_array(entry)
+    elif isinstance(entry, dict):
+        # Convert dicts to JSON before truncation
+        entry = json.dumps(entry, ensure_ascii=False)
+    else:
+        entry = str(entry)
+
+    # Truncate everything uniformly
+    entry = truncate_lists(entry)
+
+    # Clean up
     entry = (entry
              .replace("', '", "; ")
              .replace("'", "")
@@ -60,7 +73,9 @@ def sanitize_entry(entry):
              .replace("]", "")
              .replace("\n", " ")
              .replace("\r", " "))
+
     return entry
+
 
 def get_headers(input_file):
     headers = []

@@ -179,44 +179,59 @@ def _process_edges_row(conn: sqlite3.Connection,
     res_edge.update({k: edge[k] for k in \
                      EDGE_PROPERTIES_COPY_FROM_KG2PRE_IF_EXIST
                      if _check_if_property_exists(edge[k])})
+    # -------------------
+    # SUBJECT VALIDATION
+    # -------------------
     kg2pre_subject_curie = _fix_curie_if_broken(edge[SUBJECT_KEY])
-    pref_curie_tuple = lb.map_curie_to_preferred_curies(conn,
-                                                        kg2pre_subject_curie)
-    picked_pref_curies_subject = _filter_pref_curies(pref_curie_tuple,
-                                                     SUBJECT_KEY,
-                                                     predicate)
-    if len(picked_pref_curies_subject)==0:
+    subject_cliques = lb.map_any_curie_to_cliques(conn, kg2pre_subject_curie)
+
+    preferred_subject_curie = preferred_subject_name = preferred_subject_category = None
+    for node_clique in subject_cliques:
+        curie = node_clique['id'].get('identifier')
+        name = node_clique['id'].get('label')
+        category = node_clique.get('type')
+        if curie and name and category:
+            preferred_subject_curie = curie
+            preferred_subject_name = name
+            preferred_subject_category = category
+            break  # take the first valid one
+
+    if not (preferred_subject_curie and preferred_subject_name and preferred_subject_category):
         return ((None, kg2pre_edge_id,
-                 "unable to find preferred CURIE for subject: "
-                 f"{kg2pre_subject_curie}"),)
+                 f"subject missing required fields: {kg2pre_subject_curie}"),)
+
+    # -------------------
+    # OBJECT VALIDATION
+    # -------------------
     kg2pre_object_curie = _fix_curie_if_broken(edge[OBJECT_KEY])
-    pref_curie_tuple = lb.map_curie_to_preferred_curies(conn,
-                                                        kg2pre_object_curie)
-    picked_pref_curies_object = _filter_pref_curies(pref_curie_tuple,
-                                                    OBJECT_KEY,
-                                                    predicate)
-    if len(picked_pref_curies_object)==0:
+    object_cliques = lb.map_any_curie_to_cliques(conn, kg2pre_object_curie)
+
+    preferred_object_curie = preferred_object_name = preferred_object_category = None
+    for node_clique in object_cliques:
+        curie = node_clique['id'].get('identifier')
+        name = node_clique['id'].get('label')
+        category = node_clique.get('type')
+        if curie and name and category:
+            preferred_object_curie = curie
+            preferred_object_name = name
+            preferred_object_category = category
+            break
+
+    if not (preferred_object_curie and preferred_object_name and preferred_object_category):
         return ((None, kg2pre_edge_id,
-                 "unable to find preferred CURIE for object: "
-                 f"{kg2pre_object_curie}"),)
-    if len(picked_pref_curies_subject) > 2 or \
-       len(picked_pref_curies_object) > 2:
-        print(edge_pandas)
-        assert False
+                 f"object missing required fields: {kg2pre_object_curie}"),)
+
+    # -------------------
+    # BUILD EDGE
+    # -------------------
+    if preferred_subject_curie == preferred_object_curie:
+        return ((None, kg2pre_edge_id, "skipped self-same_as edge"),)
     res: list[tuple[Optional[dict[str, Any]], str, str]] = []
-    for subject_curie, object_curie in it.product(picked_pref_curies_subject,
-                                                  picked_pref_curies_object):
-        if subject_curie == object_curie: 
-            if predicate in {"biolink:same_as", "biolink:exact_match", "biolink:close_match"}:
-                continue 
-        new_res_edge = res_edge 
-        new_res_edge[SUBJECT_KEY] = subject_curie
-        new_res_edge[OBJECT_KEY] = object_curie
-        res.append((new_res_edge, kg2pre_edge_id, 'OK'))
-    if len(res) == 0:
-        res.append((None,
-                    kg2pre_edge_id,
-                    "no preferred curies available"))
+    new_res_edge = res_edge.copy()
+    new_res_edge[SUBJECT_KEY] = preferred_subject_curie
+    new_res_edge[OBJECT_KEY] = preferred_object_curie
+    res.append((new_res_edge, kg2pre_edge_id, 'OK'))
+
     return tuple(res)
 
 def _non_null_first_tuple_entry(t: tuple) -> bool:
