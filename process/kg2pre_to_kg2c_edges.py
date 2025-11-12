@@ -201,12 +201,8 @@ def _process_edges_row(conn: sqlite3.Connection,
         category = node_clique['type']
 
         # Apply fallback for missing name, same as node script
-        if _is_str_none_or_empty(name):
-            # No label in clique, try original KG2pre node name (if available)
-            name = edge.get(SUBJECT_NAME_KEY) if SUBJECT_NAME_KEY in edge else None
-            # If still empty, fallback to CURIE string
-            if _is_str_none_or_empty(name):
-                name = curie
+        if _is_str_none_or_empty(name):    
+            name = curie
 
         # Require all three to be present
         if not _is_str_none_or_empty(curie) and \
@@ -234,9 +230,7 @@ def _process_edges_row(conn: sqlite3.Connection,
         category = node_clique['type']
 
         if _is_str_none_or_empty(name):
-            name = edge.get(OBJECT_NAME_KEY) if OBJECT_NAME_KEY in edge else None
-            if _is_str_none_or_empty(name):
-                name = curie
+            name = curie
 
         if not _is_str_none_or_empty(curie) and \
         not _is_str_none_or_empty(name) and \
