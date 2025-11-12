@@ -215,7 +215,6 @@ def _process_edges_row(conn: sqlite3.Connection,
             break  # one valid clique is 
 
     if _is_str_none_or_empty(preferred_subject_name):
-        invalid_subject[kg2pre_edge_id] = kg2pre_subject_curie
         return ((None, kg2pre_edge_id,
                 f"subject missing required fields: {kg2pre_subject_curie}"),)
 
