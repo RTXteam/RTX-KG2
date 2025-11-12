@@ -7,6 +7,7 @@ import local_babel as lb
 import kg2_util
 import datetime
 import json
+from tqdm import tqdm
 
 CURIE_ID_KEY = kg2_util.NODE_ID_SLOT
 PUBLICATIONS_KEY = kg2_util.NODE_PUBLICATIONS_SLOT
@@ -65,7 +66,7 @@ def process_nodes(conn, nodes_input_file, nodes_output_file):
     category_skipped = set()
 
     node_count = 0
-    for node in nodes:
+    for node in tqdm(nodes, total=len(nodes), desc="Processing nodes", unit="node"):
         node_count += 1
         node_curie = node[CURIE_ID_KEY]
         node_publications = node[PUBLICATIONS_KEY]
@@ -82,18 +83,15 @@ def process_nodes(conn, nodes_input_file, nodes_output_file):
             preferred_node_name = node_clique['id']['label']
             preferred_node_category = node_clique['type']
 
-            # Special case for CHEMBL.COMPOUND nodes without names (per discussion with SAR on Slack)
-            if _is_str_none_or_empty(preferred_node_name) and _is_chembl_compound(node_curie):
-                preferred_node_name = node_curie.split(':')[1]
-            elif _is_str_none_or_empty(preferred_node_curie) or _is_str_none_or_empty(preferred_node_name) or _is_list_none_or_empty(preferred_node_category):
-                if _is_str_none_or_empty(preferred_node_curie):
-                    curie_skipped.add(node_curie)
+            if _is_str_none_or_empty(preferred_node_name):
+                # Try to use the KG2pre node name
+                preferred_node_name = node.get(NAME_KEY)
+                # If still empty, fallback to CURIE string
+                if _is_str_none_or_empty(preferred_node_name):
+                    preferred_node_name = preferred_node_curie
                 if _is_str_none_or_empty(preferred_node_name):
                     name_skipped.add(node_curie)
-                if _is_list_none_or_empty(preferred_node_category):
-                    category_skipped.add(node_curie)
-
-                continue # Can't export if not all required properties are present
+                    continue 
 
             preferred_node_description = node_clique['id']['description']
 
@@ -158,10 +156,18 @@ def process_nodes(conn, nodes_input_file, nodes_output_file):
     kg2_util.end_read_jsonlines(nodes_read_jsonlines_info)
 
     print("Finished processing nodes.")
-    print(curie_skipped, "skipped due to missing preferred curie. This is a total of", len(curie_skipped), "nodes excluded.")
-    print(name_skipped, "skipped due to missing preferred name. This is a total of", len(name_skipped), "nodes excluded.")
-    print(category_skipped, "skipped due to missing preferred category. This is a total of", len(category_skipped), "nodes excluded.")
+    
+    missing_nodes_info = kg2_util.create_single_jsonlines()
+    missing_nodes = missing_nodes_info[0]
+    for nodes_name in name_skipped: 
+        missing_nodes.write(nodes_name)
 
+    missing_nodes_file = "missing_name_nodes.jsonl"
+
+    print(f"Skipped {len(name_skipped)} nodes because they were missing a preferred name. Nodes were logged to {missing_nodes_file}")
+    kg2_util.close_single_jsonlines(missing_nodes_info, missing_nodes_file)
+
+    
     nodes_output_info = kg2_util.create_single_jsonlines()
     nodes_output = nodes_output_info[0]
 

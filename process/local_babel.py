@@ -194,7 +194,8 @@ INNER JOIN identifiers as sec_identif on idcl.identifier_id = sec_identif.id
 INNER JOIN types on cliques.type_id = types.id
 LEFT JOIN identifiers_descriptions as idd ON idd.identifier_id = prim_identif.id
 LEFT JOIN descriptions AS descrip ON descrip.id = idd.description_id
-WHERE sec_identif.curie = ?;"""  # noqa W291
+WHERE sec_identif.curie = ?
+ORDER BY cliques.id ASC, prim_identif.curie ASC;"""  # noqa W291
     rows = conn.execute(s, (curie,)).fetchall()
 
     # TODO: make these keys not hard coded in so that other files don't have to worry about changes
@@ -360,5 +361,3 @@ ORDER BY types.curie COLLATE NOCASE;
     """
     rows = conn.cursor().execute(query, (curie,)).fetchall()
     return tuple(row[0] for row in rows)
-
-

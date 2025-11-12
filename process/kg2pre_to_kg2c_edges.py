@@ -14,6 +14,7 @@ import pandas as pd
 
 import local_babel as lb
 import kg2_util
+from tqdm import tqdm
 
 DEFAULT_CHUNK_SIZE = 10_000
 DEFAULT_ESTIM_NUM_EDGES = 57_803_754
@@ -179,6 +180,7 @@ def _process_edges_row(conn: sqlite3.Connection,
     res_edge.update({k: edge[k] for k in \
                      EDGE_PROPERTIES_COPY_FROM_KG2PRE_IF_EXIST
                      if _check_if_property_exists(edge[k])})
+    
     # -------------------
     # SUBJECT VALIDATION
     # -------------------
@@ -187,18 +189,31 @@ def _process_edges_row(conn: sqlite3.Connection,
 
     preferred_subject_curie = preferred_subject_name = preferred_subject_category = None
     for node_clique in subject_cliques:
-        curie = node_clique['id'].get('identifier')
-        name = node_clique['id'].get('label')
-        category = node_clique.get('type')
-        if curie and name and category:
+        curie = node_clique['id']['identifier']
+        name = node_clique['id']['label']
+        category = node_clique['type']
+
+        # Apply fallback for missing name, same as node script
+        if _is_str_none_or_empty(name):
+            # No label in clique, try original KG2pre node name (if available)
+            name = edge.get(SUBJECT_NAME_KEY) if SUBJECT_NAME_KEY in edge else None
+            # If still empty, fallback to CURIE string
+            if _is_str_none_or_empty(name):
+                name = curie
+
+        # Require all three to be present
+        if not _is_str_none_or_empty(curie) and \
+        not _is_str_none_or_empty(name) and \
+        not _is_list_none_or_empty(category):
             preferred_subject_curie = curie
             preferred_subject_name = name
             preferred_subject_category = category
-            break  # take the first valid one
+            break  # one valid clique is 
 
-    if not (preferred_subject_curie and preferred_subject_name and preferred_subject_category):
+    if _is_str_none_or_empty(preferred_subject_name):
+        invalid_subject[kg2pre_edge_id] = kg2pre_subject_curie
         return ((None, kg2pre_edge_id,
-                 f"subject missing required fields: {kg2pre_subject_curie}"),)
+                f"subject missing required fields: {kg2pre_subject_curie}"),)
 
     # -------------------
     # OBJECT VALIDATION
@@ -208,24 +223,34 @@ def _process_edges_row(conn: sqlite3.Connection,
 
     preferred_object_curie = preferred_object_name = preferred_object_category = None
     for node_clique in object_cliques:
-        curie = node_clique['id'].get('identifier')
-        name = node_clique['id'].get('label')
-        category = node_clique.get('type')
-        if curie and name and category:
+        curie = node_clique['id']['identifier']
+        name = node_clique['id']['label']
+        category = node_clique['type']
+
+        if _is_str_none_or_empty(name):
+            name = edge.get(OBJECT_NAME_KEY) if OBJECT_NAME_KEY in edge else None
+            if _is_str_none_or_empty(name):
+                name = curie
+
+        if not _is_str_none_or_empty(curie) and \
+        not _is_str_none_or_empty(name) and \
+        not _is_list_none_or_empty(category):
             preferred_object_curie = curie
             preferred_object_name = name
             preferred_object_category = category
             break
 
-    if not (preferred_object_curie and preferred_object_name and preferred_object_category):
+    if _is_str_none_or_empty(preferred_object_name):
+        
         return ((None, kg2pre_edge_id,
-                 f"object missing required fields: {kg2pre_object_curie}"),)
+                f"object missing required fields: {kg2pre_object_curie}"),)
 
     # -------------------
     # BUILD EDGE
     # -------------------
-    if preferred_subject_curie == preferred_object_curie:
-        return ((None, kg2pre_edge_id, "skipped self-same_as edge"),)
+    if preferred_subject_curie == preferred_object_curie and \
+        predicate not in ["interacts_with", "physically_interacts_with"]:
+        return ((None, kg2pre_edge_id, "skipped invalid self-edge"),)
     res: list[tuple[Optional[dict[str, Any]], str, str]] = []
     new_res_edge = res_edge.copy()
     new_res_edge[SUBJECT_KEY] = preferred_subject_curie
@@ -239,14 +264,22 @@ def _non_null_first_tuple_entry(t: tuple) -> bool:
 
 def _process_chunk_of_edges(db_filename: str,
                             edge_chunk: pd.DataFrame) -> \
-        list[tuple[Optional[dict[str, Any]], str, str]]:
+        tuple[list[tuple[Optional[dict[str, Any]], str, str]], dict[str, str]]:
     with lb.connect_to_db_read_only(db_filename) as conn:
         result = []
+        invalid = {}
         for row in edge_chunk.itertuples(index=False):
             for entry in _process_edges_row(conn, row):
                 if _non_null_first_tuple_entry(entry):
                     result.append(entry)
-        return result
+                else:
+                    edge_id = entry[1]
+                    reason = entry[2]
+                    invalid[edge_id] = reason
+        return result, invalid
+
+
+from tqdm import tqdm
 
 def main(edges_file: str,
          babel_db: str,
@@ -256,21 +289,44 @@ def main(edges_file: str,
     print("Starting at:", kg2_util.date())
     print(f"edges file is: {edges_file}")
     print(f"babel-db file is: {babel_db}")
+
     estim_num_chunks = math.ceil(estim_num_edges / chunk_size)
     print(f"number of chunks: {estim_num_chunks}")
+
     global _pick_category
     _pick_category = _make_pick_category()
+
     chunks_iter = kg2_util.read_jsonl_file_chunks(edges_file, chunk_size)
-    global _process_chunk_of_edges
-    process_chunk_of_edges = functools.partial(_process_chunk_of_edges,
-                                               babel_db)
+    process_chunk_of_edges = functools.partial(_process_chunk_of_edges, babel_db)
+
+    all_valid_edges = []
+    all_invalid_edges = {}
+
     with multiprocessing.pool.Pool() as p:
-        mapped_iter = p.imap_unordered(process_chunk_of_edges,
-                                       chunks_iter)
-        edge_tuples = tuple(t[0] for t in it.chain.from_iterable(mapped_iter) if t[0] is not None)
-        kg2_util.write_jsonl_file(edge_tuples, edges_output_file)
+        # Wrap mapped_iter with tqdm to visualize progress
+        mapped_iter = p.imap_unordered(process_chunk_of_edges, chunks_iter)
+
+        for valid_chunk, invalid_chunk in tqdm(mapped_iter,
+                                               total=estim_num_chunks,
+                                               desc="Processing edges",
+                                               unit="chunk"):
+            all_valid_edges.extend(valid_chunk)
+            all_invalid_edges.update(invalid_chunk)
+
+    # Write valid edges
+    edge_tuples = tuple(t[0] for t in all_valid_edges if t[0] is not None)
+    kg2_util.write_jsonl_file(edge_tuples, edges_output_file)
+
+    # Write skipped edges summary
+    missing_edges_file = edges_output_file.replace(".jsonl", "_missing_edges.jsonl")
+    kg2_util.write_jsonl_file(
+        [{"edge_id": eid, "reason": reason} for eid, reason in all_invalid_edges.items()],
+        missing_edges_file
+    )
+
+    print(f"Skipped {len(all_invalid_edges)} edges due to missing required fields. "
+          f"Logged to {missing_edges_file}")
     print("Ending at:", kg2_util.date())
 
 if __name__ == "__main__":
     main(**kg2_util.namespace_to_dict(_get_args()))
-
