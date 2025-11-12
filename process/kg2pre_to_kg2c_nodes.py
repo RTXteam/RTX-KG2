@@ -66,7 +66,7 @@ def process_nodes(conn, nodes_input_file, nodes_output_file):
     category_skipped = set()
 
     node_count = 0
-    for node in tqdm(nodes, total=len(nodes), desc="Processing nodes", unit="node"):
+    for node in tqdm(nodes, desc="Processing nodes", unit="node"):
         node_count += 1
         node_curie = node[CURIE_ID_KEY]
         node_publications = node[PUBLICATIONS_KEY]
