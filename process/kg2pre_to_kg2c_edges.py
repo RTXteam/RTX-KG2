@@ -101,6 +101,9 @@ PREDICATE_CURIES_SKIP: tuple[str, ...] = \
 def _is_str_none_or_empty(in_str: str):
     return in_str is None or in_str == ""
 
+def _is_list_none_or_empty(in_list: list):
+    return in_list is None or in_list == []
+
 def _pick_category(categories: set[str],
                        sub_obj: str,
                        predicate: str) -> set[str]:
