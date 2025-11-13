@@ -87,16 +87,6 @@ EDGE_PROPERTIES_COPY_FROM_KG2PRE_IF_EXIST = \
      PUBLICATIONS_KEY,
      PUBLICATIONS_INFO_KEY)
 
-PREDICATE_CURIES_SKIP: tuple[str, ...] = \
-    tuple(
-#        'biolink:same_as',
-#     'biolink:related_to',
-#     'biolink:close_match',
-#     'biolink:subclass_of',
-#     'biolink:has_subclass',
-#     'biolink:exact_match')
-    )
-
 
 def _is_str_none_or_empty(in_str: str):
     return in_str is None or in_str == ""
@@ -130,12 +120,6 @@ def _make_pick_category():
         if categories == {PROTEIN_CATEGORY, CHEMICAL_ENTITY_CATEGORY}:
             if predicate == COEXISTS_WITH_PREDICATE:
                 return {PROTEIN_CATEGORY}
-            # if (predicate == MAY_BE_TREATED_BY_PREDICATE \
-            #     and sub_obj == OBJECT_KEY) \
-            #     or \
-            #     (predicate == MAY_TREAT_PREDICATE \
-            #      and sub_obj == SUBJECT_KEY):
-            #     return {CHEMICAL_ENTITY_CATEGORY} ## NONE OF THESE PREDICATES EXIST
             if (predicate == AFFECTS_PREDICATE and sub_obj == OBJECT_KEY) or \
                (predicate in {CAUSES_PREDICATE, HAS_INPUT_PREDICATE} and \
                 sub_obj == SUBJECT_KEY):
@@ -174,83 +158,41 @@ def _process_edges_row(conn: sqlite3.Connection,
     edge = edge_pandas._asdict()
     kg2pre_edge_id = edge[ID_KEY]
     res_edge = {k: edge[k] for k in EDGE_PROPERTIES_COPY_FROM_KG2PRE}
-    res_edge[ID_KEY] = None  # this will eventually be a global integer index
-                           # of the edge in a list of all edges (can't compute
-                           # that information here since we are processing one
-                           # edge only, within this function
+    res_edge[ID_KEY] = None
     res_edge[KG2_IDS_KEY] = [kg2pre_edge_id]
     predicate = res_edge[PREDICATE_KEY]
-    if predicate in PREDICATE_CURIES_SKIP:
-        return ((None,
-                 kg2pre_edge_id,
-                 f"predicate is on the skip list: {predicate}"),)
-    res_edge.update({k: edge[k] for k in \
-                     EDGE_PROPERTIES_COPY_FROM_KG2PRE_IF_EXIST
+    res_edge.update({k: edge[k] for k in EDGE_PROPERTIES_COPY_FROM_KG2PRE_IF_EXIST
                      if _check_if_property_exists(edge[k])})
-    
+
     # -------------------
     # SUBJECT VALIDATION
     # -------------------
     kg2pre_subject_curie = _fix_curie_if_broken(edge[SUBJECT_KEY])
-    subject_cliques = lb.map_any_curie_to_cliques(conn, kg2pre_subject_curie)
+    subject_cliques = lb.map_curie_to_preferred_curies(conn, kg2pre_subject_curie)
 
-    preferred_subject_curie = preferred_subject_name = preferred_subject_category = None
-    for node_clique in subject_cliques:
-        curie = node_clique['id']['identifier']
-        name = node_clique['id']['label']
-        category = node_clique['type']
-
-        # Apply fallback for missing name, same as node script
-        if _is_str_none_or_empty(name):    
-            name = curie
-
-        # Require all three to be present
-        if not _is_str_none_or_empty(curie) and \
-        not _is_str_none_or_empty(name) and \
-        not _is_list_none_or_empty(category):
-            preferred_subject_curie = curie
-            preferred_subject_name = name
-            preferred_subject_category = category
-            break  # one valid clique is 
-
-    if _is_str_none_or_empty(preferred_subject_name):
+    if not subject_cliques:
         return ((None, kg2pre_edge_id,
                 f"subject missing required fields: {kg2pre_subject_curie}"),)
+    preferred_subject_curie = subject_cliques[0][0]
 
     # -------------------
     # OBJECT VALIDATION
     # -------------------
     kg2pre_object_curie = _fix_curie_if_broken(edge[OBJECT_KEY])
-    object_cliques = lb.map_any_curie_to_cliques(conn, kg2pre_object_curie)
+    object_cliques = lb.map_curie_to_preferred_curies(conn, kg2pre_object_curie)
 
     preferred_object_curie = preferred_object_name = preferred_object_category = None
-    for node_clique in object_cliques:
-        curie = node_clique['id']['identifier']
-        name = node_clique['id']['label']
-        category = node_clique['type']
-
-        if _is_str_none_or_empty(name):
-            name = curie
-
-        if not _is_str_none_or_empty(curie) and \
-        not _is_str_none_or_empty(name) and \
-        not _is_list_none_or_empty(category):
-            preferred_object_curie = curie
-            preferred_object_name = name
-            preferred_object_category = category
-            break
-
-    if _is_str_none_or_empty(preferred_object_name):
-        
+    if not object_cliques:
         return ((None, kg2pre_edge_id,
                 f"object missing required fields: {kg2pre_object_curie}"),)
-
+    preferred_object_curie = object_cliques[0][0]
     # -------------------
     # BUILD EDGE
     # -------------------
     if preferred_subject_curie == preferred_object_curie and \
         predicate not in ["interacts_with", "physically_interacts_with"]:
         return ((None, kg2pre_edge_id, "skipped invalid self-edge"),)
+
     res: list[tuple[Optional[dict[str, Any]], str, str]] = []
     new_res_edge = res_edge.copy()
     new_res_edge[SUBJECT_KEY] = preferred_subject_curie
@@ -258,6 +200,7 @@ def _process_edges_row(conn: sqlite3.Connection,
     res.append((new_res_edge, kg2pre_edge_id, 'OK'))
 
     return tuple(res)
+
 
 def _non_null_first_tuple_entry(t: tuple) -> bool:
     return t[0] is not None
@@ -279,7 +222,6 @@ def _process_chunk_of_edges(db_filename: str,
         return result, invalid
 
 
-from tqdm import tqdm
 
 def main(edges_file: str,
          babel_db: str,
