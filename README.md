@@ -594,7 +594,7 @@ So an example version of KG2 would be "RTX KG 2.1.3" (graph release 2, major
 release 1, minor release 3). This build version is recorded in three places:
 - the top-level `build` slot in the KG2 JSON file
 - in the `name` field of a node object with `id` field `RTX:KG2` (in both the
-  JSON version of the KG and in the Neo4j version of the KG)
+  JSON version of the KG2pre graph and in the Neo4j version of the KG2pre graph)
 - the file `s3://rtx-kg2-public/kg2-version.txt` in the S3 bucket `rtx-kg2-public`.
 
 By default, the KG2 build process (as outlined above) will automatically
