@@ -21,3 +21,4 @@ snakemake-config.yaml
 
 # macOS finder folder-level attributes
 **/.DS_store
+**/kg2-build/*
