@@ -197,6 +197,9 @@ def _process_edges_row(conn: sqlite3.Connection,
     new_res_edge = res_edge.copy()
     new_res_edge[SUBJECT_KEY] = preferred_subject_curie
     new_res_edge[OBJECT_KEY] = preferred_object_curie
+    canonical_edge_id = f"{preferred_subject_curie}--{predicate}--{preferred_object_curie}"
+    new_res_edge[ID_KEY] = canonical_edge_id
+
     res.append((new_res_edge, kg2pre_edge_id, 'OK'))
 
     return tuple(res)
