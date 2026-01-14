@@ -171,9 +171,29 @@ def _process_edges_row(conn: sqlite3.Connection,
     subject_cliques = lb.map_curie_to_preferred_curies(conn, kg2pre_subject_curie)
 
     if not subject_cliques:
-        return ((None, kg2pre_edge_id,
-                f"subject missing required fields: {kg2pre_subject_curie}"),)
-    preferred_subject_curie = subject_cliques[0][0]
+        return ((None, kg2pre_edge_id, {
+                "reason": "subject missing preferred curie",
+                "predicate": predicate,
+                "curie": kg2pre_subject_curie,
+                "side": "subject",
+                "prefix": kg2pre_subject_curie.split(":")[0]
+            }),)
+
+    subject_pref_curies = _filter_pref_curies(
+        tuple(subject_cliques),
+        SUBJECT_KEY,
+        predicate
+    )
+
+    if len(subject_pref_curies) != 1:
+        return ((None, kg2pre_edge_id, {
+            "reason": "ambiguous subject preferred curie",
+            "predicate": predicate,
+            "curies": list(subject_pref_curies),
+            "side": "subject"
+        }),)
+
+    preferred_subject_curie = next(iter(subject_pref_curies))
 
     # -------------------
     # OBJECT VALIDATION
@@ -181,17 +201,43 @@ def _process_edges_row(conn: sqlite3.Connection,
     kg2pre_object_curie = _fix_curie_if_broken(edge[OBJECT_KEY])
     object_cliques = lb.map_curie_to_preferred_curies(conn, kg2pre_object_curie)
 
-    preferred_object_curie = preferred_object_name = preferred_object_category = None
     if not object_cliques:
-        return ((None, kg2pre_edge_id,
-                f"object missing required fields: {kg2pre_object_curie}"),)
-    preferred_object_curie = object_cliques[0][0]
+        return ((None, kg2pre_edge_id, {
+                "reason": "object missing preferred curie",
+                "predicate": predicate,
+                "curie": kg2pre_object_curie,
+                "side": "object",
+                "prefix": kg2pre_object_curie.split(":")[0]
+            }),)
+
+    object_pref_curies = _filter_pref_curies(
+        tuple(object_cliques),
+        OBJECT_KEY,
+        predicate
+    )
+
+    if len(object_pref_curies) != 1:
+        return ((None, kg2pre_edge_id, {
+            "reason": "ambiguous object preferred curie",
+            "predicate": predicate,
+            "curies": list(object_pref_curies),
+            "side": "object"
+        }),)
+
+    preferred_object_curie = next(iter(object_pref_curies))
     # -------------------
     # BUILD EDGE
     # -------------------
     if preferred_subject_curie == preferred_object_curie and \
         predicate not in ["interacts_with", "physically_interacts_with"]:
-        return ((None, kg2pre_edge_id, "skipped invalid self-edge"),)
+        return ((None, kg2pre_edge_id, {
+            "reason": "self edge identified",
+            "predicate": predicate,
+            "subject": preferred_subject_curie,
+            "object": preferred_object_curie,
+            "prefix": kg2pre_subject_curie.split(":")[0]
+        }),)
+
 
     res: list[tuple[Optional[dict[str, Any]], str, str]] = []
     new_res_edge = res_edge.copy()
