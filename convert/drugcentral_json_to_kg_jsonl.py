@@ -103,7 +103,7 @@ def process_external_ids(external_ids, edges_output, update_date, test_mode):
             continue
         drug_central_id = format_drugcentral_id(source_predicate['struct_id'])
         external_id = prefix + ':' + source_predicate['identifier']
-        predicate = kg2_util.EDGE_LABEL_BIOLINK_SAME_AS
+        predicate = kg2_util.EDGE_LABEL_BIOLINK_RELATED_TO
         edge = format_edge(drug_central_id,
                            external_id,
                            predicate,
