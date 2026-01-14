@@ -144,6 +144,10 @@ def _fix_curie_if_broken(curie: str) -> str:
         curie = kg2_util.CURIE_PREFIX_NCIT + ':' + curie[len('OBO:NCIT_'):]
     return curie
 
+def pick_one_curie(curies: set[str]) -> str:
+    return sorted(curies)[0]
+
+
 # Returns a boolean based on whether or not an entity (str, list, or dict) exists
 def _check_if_property_exists(prop_val: Any):
     if prop_val == {} or prop_val == []:
@@ -163,12 +167,25 @@ def _process_edges_row(conn: sqlite3.Connection,
     predicate = res_edge[PREDICATE_KEY]
     res_edge.update({k: edge[k] for k in EDGE_PROPERTIES_COPY_FROM_KG2PRE_IF_EXIST
                      if _check_if_property_exists(edge[k])})
+    
+    # Drop all biolink:same_as edges per issue #492 
+    if predicate == "biolink:same_as":
+        return ()
+    
+    kg2pre_subject_curie = _fix_curie_if_broken(edge[SUBJECT_KEY])
+    kg2pre_object_curie = _fix_curie_if_broken(edge[OBJECT_KEY])
+
+    # Drop edges involving PathWhiz identifiers per issue #493
+    if kg2pre_subject_curie.startswith("PathWhiz") or \
+    kg2pre_object_curie.startswith("PathWhiz"):
+        return ()
+    
+    object_cliques = lb.map_curie_to_preferred_curies(conn, kg2pre_object_curie)
+    subject_cliques = lb.map_curie_to_preferred_curies(conn, kg2pre_subject_curie)
 
     # -------------------
     # SUBJECT VALIDATION
     # -------------------
-    kg2pre_subject_curie = _fix_curie_if_broken(edge[SUBJECT_KEY])
-    subject_cliques = lb.map_curie_to_preferred_curies(conn, kg2pre_subject_curie)
 
     if not subject_cliques:
         return ((None, kg2pre_edge_id, {
@@ -185,22 +202,20 @@ def _process_edges_row(conn: sqlite3.Connection,
         predicate
     )
 
-    if len(subject_pref_curies) != 1:
+    if not subject_pref_curies:
         return ((None, kg2pre_edge_id, {
-            "reason": "ambiguous subject preferred curie",
+            "reason": "subject missing preferred curie",
             "predicate": predicate,
-            "curies": list(subject_pref_curies),
-            "side": "subject"
+            "curie": kg2pre_subject_curie,
+            "side": "subject",
+            "prefix": kg2pre_subject_curie.split(":")[0]
         }),)
 
-    preferred_subject_curie = next(iter(subject_pref_curies))
+    preferred_subject_curie = pick_one_curie(subject_pref_curies)
 
     # -------------------
     # OBJECT VALIDATION
     # -------------------
-    kg2pre_object_curie = _fix_curie_if_broken(edge[OBJECT_KEY])
-    object_cliques = lb.map_curie_to_preferred_curies(conn, kg2pre_object_curie)
-
     if not object_cliques:
         return ((None, kg2pre_edge_id, {
                 "reason": "object missing preferred curie",
@@ -216,15 +231,17 @@ def _process_edges_row(conn: sqlite3.Connection,
         predicate
     )
 
-    if len(object_pref_curies) != 1:
+    if not object_pref_curies:
         return ((None, kg2pre_edge_id, {
-            "reason": "ambiguous object preferred curie",
+            "reason": "object missing preferred curie",
             "predicate": predicate,
-            "curies": list(object_pref_curies),
-            "side": "object"
+            "curie": kg2pre_object_curie,
+            "side": "object",
+            "prefix": kg2pre_object_curie.split(":")[0]
         }),)
 
-    preferred_object_curie = next(iter(object_pref_curies))
+    preferred_object_curie = pick_one_curie(object_pref_curies)
+
     # -------------------
     # BUILD EDGE
     # -------------------
