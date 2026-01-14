@@ -169,6 +169,7 @@ def _process_edges_row(conn: sqlite3.Connection,
                      if _check_if_property_exists(edge[k])})
     
     # Drop all biolink:same_as edges per issue #492 
+    # REMOVE THIS BEFORE BUILDING KG2.10.4
     if predicate == "biolink:same_as":
         return ()
     
@@ -176,6 +177,7 @@ def _process_edges_row(conn: sqlite3.Connection,
     kg2pre_object_curie = _fix_curie_if_broken(edge[OBJECT_KEY])
 
     # Drop edges involving PathWhiz identifiers per issue #493
+    # REMOVE THIS BEFORE BUILDING KG2.10.4
     if kg2pre_subject_curie.startswith("PathWhiz") or \
     kg2pre_object_curie.startswith("PathWhiz"):
         return ()
@@ -186,7 +188,6 @@ def _process_edges_row(conn: sqlite3.Connection,
     # -------------------
     # SUBJECT VALIDATION
     # -------------------
-
     if not subject_cliques:
         return ((None, kg2pre_edge_id, {
                 "reason": "subject missing preferred curie",
