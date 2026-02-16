@@ -276,6 +276,7 @@ NODE_DESCRIPTION_SLOT = 'description'
 NODE_NAME_SLOT = 'name'
 NODE_CATEGORY_SLOT = 'category'
 NODE_SYNONYM_SLOT = 'synonym'
+NODE_SAME_AS_SLOT = 'same_as' # NOTE: to align with current KGX compliace, see issue #494 
 NODE_TAXON_SLOT = 'in_taxon' # NOTE: Not yet in Biolink, see issue #468
 NODE_FULL_NAME_SLOT = 'full_name'
 NODE_CATEGORY_LABEL_SLOT = 'category_label'

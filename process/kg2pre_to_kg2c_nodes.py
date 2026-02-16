@@ -16,10 +16,10 @@ NAME_KEY = kg2_util.NODE_NAME_SLOT
 CATEGORY_KEY = kg2_util.NODE_CATEGORY_SLOT
 SYNONYM_KEY = kg2_util.NODE_SYNONYM_SLOT
 TAXON_KEY = kg2_util.NODE_TAXON_SLOT
-ALL_NAMES_KEY = kg2_util.NODE_ALL_NAMES_SLOT
 ALL_CATEGORIES_KEY = kg2_util.NODE_ALL_CATEGORIES_SLOT
 NODE_IRI_KEY = kg2_util.NODE_IRI_SLOT
 CHEMBL_COMPOUND_PREFIX = kg2_util.CURIE_PREFIX_CHEMBL_COMPOUND
+SAME_AS_KEY = kg2_util.NODE_SAME_AS_SLOT # NOTE: to align with current KGX compliace, see issue #494 
 
 PROTEIN_CATEGORY = kg2_util.convert_biolink_category_to_curie(kg2_util.BIOLINK_CATEGORY_PROTEIN)
 GENE_CATEGORY = kg2_util.convert_biolink_category_to_curie(kg2_util.BIOLINK_CATEGORY_GENE)
@@ -115,9 +115,12 @@ def process_nodes(conn, nodes_input_file, nodes_output_file):
             preferred_node_dict[NAME_KEY] = preferred_node_name
             preferred_node_dict[CATEGORY_KEY] = preferred_node_category
 
-            all_names = lb.get_all_names_for_curie(conn, preferred_node_curie)
-            if all_names:
-                preferred_node_dict[ALL_NAMES_KEY] = list(all_names)
+            # change this so that synonyms contains the string literals as required by KGX. 
+            # Previously, all_names = lb.get_all_names_for_curie(conn, preferred_node_curie)
+            # But synonyms should contain the string literals now 
+            synonyms = lb.get_all_names_for_curie(conn, preferred_node_curie)
+            if synonyms:
+                preferred_node_dict[SYNONYM_KEY] = sorted(list(synonyms))
             all_categories = lb.get_categories_for_curie(conn, preferred_node_curie)
             if all_categories:
                 preferred_node_dict[ALL_CATEGORIES_KEY] = list(all_categories)
@@ -141,9 +144,9 @@ def process_nodes(conn, nodes_input_file, nodes_output_file):
                             preferred_node_dict[TAXON_KEY] = preferred_node_organism_taxon
                             break # only need to get this once
 
-            preferred_node_synonyms = lb.map_pref_curie_to_synonyms(cursor, preferred_node_curie) # Note, these are curies, not synonym names
-            if not _is_list_none_or_empty(preferred_node_synonyms):
-                preferred_node_dict[SYNONYM_KEY] = sorted(list(preferred_node_synonyms))
+            preferred_node_synonyms_as_curie = lb.map_pref_curie_to_synonyms(cursor, preferred_node_curie) # Note, these are curies, not synonym names
+            if not _is_list_none_or_empty(preferred_node_synonyms_as_curie):
+                preferred_node_dict[SAME_AS_KEY] = sorted(list(preferred_node_synonyms_as_curie))
 
             if not _is_list_none_or_empty(node_publications):
                 preferred_node_dict[PUBLICATIONS_KEY] = node_publications
