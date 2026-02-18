@@ -2968,8 +2968,7 @@ NCIT:role_is_parent_of:
 NCIT:special_category_includes_neoplasm:
   operation: delete
 NCIT:subset_includes_concept:
-  operation: invert
-  core_predicate: biolink:subclass_of
+  operation: delete
 NCIT:target_anatomy_has_procedure:
   operation: delete
 NCIT:tissue_is_expression_site_of_gene_product:
