@@ -4912,8 +4912,8 @@ UMLS:may_be_qualified_by:
   operation: keep
   core_predicate: biolink:related_to
 UMLS:may_be_treated_by:
-  operation: keep
-  core_predicate: biolink:related_to
+  operation: invert
+  core_predicate: biolink:treats_or_applied_or_studied_to_treat
 UMLS:may_diagnose:
   operation: keep
   core_predicate: biolink:related_to
@@ -4927,7 +4927,7 @@ UMLS:may_qualify:
   operation: delete
 UMLS:may_treat:
   operation: keep
-  core_predicate: biolink:related_to
+  core_predicate: biolink:treats_or_applied_or_studied_to_treat
 UMLS:measured_by:
   operation: delete
 UMLS:measures:
