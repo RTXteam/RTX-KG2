@@ -214,8 +214,7 @@ Ubuntu instance, this directory would by default be `/home/ubuntu`):
 
 The various directories used by the KG2 build system are configured in the
 `bash` include file `master-config.shinc`. Most of the KG2 build system code is
-written in the Python3 programming language, and designed to run in python3.7
-(and tested specifically in python 3.7.5).
+written in the Python3 programming language, and designed to run in python3.13.
 
 Note about atomicity of file moving: The build software is designed to run with
 the `kg2-build` directory being in the same file system as the Python temporary
@@ -668,9 +667,9 @@ dependency (e.g., Python) of the KG2 build system are not usually tested for
 whether they can also upgrade an *existing* installation of the build system;
 this is especially an issue for software dependencies that are installed using
 `apt-get`. In the event that `setup-kg2-build.sh` undergoes a major change that
-would trigger such an upgrade (e.g., from Python3.7 to Python3.8), instead of
-rerunning `setup-kg2-build.sh` on your existing build system, we recommend that
-you create a clean Ubuntu 18.04 instance and install using `setup-kg2-build.sh`.
+would trigger such an upgrade (e.g., from Python3.13 to Python3.14 or whatever), 
+instead of rerunning `setup-kg2-build.sh` on your existing build system, we recommend that
+you create a clean Ubuntu instance and install using `setup-kg2-build.sh`.
 
 <!-- TOC --><a name="hosting-kg2-in-a-neo4j-server-on-a-new-aws-instance"></a>
 ## Hosting KG2 in a Neo4j server on a new AWS instance
