@@ -514,9 +514,10 @@ build, in Step (8) above, you would run
 (note the absence of the `all` argument to `build-kg2-snakemake.sh`). A partial build of KG2
 may take about 12 hours. Note, you have to have previously run an `all` build
 of KG2, or else the partial build will not work. Note, when doing a partial build,
-existing KG2 JSON files in the `/home/ubuntu/kg2-build` directory from previous
-builds will just get used and will not get updated; if you want any of those files
-to get updated, you should delete them before running the partial build.
+existing KG2 JSON files in the `/home/ubuntu/kg2-build` directory (which have filenames
+like `kg2-*.json`) from previous
+builds will just get used and will _not_ get updated; if you want any of those files
+to get updated, you should _delete_ them before running the partial build.
 </details>
 
 <details>
