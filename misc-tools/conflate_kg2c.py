@@ -326,9 +326,16 @@ def main() -> None:
             node_pubs = node.get('publications', [])
             if not node_pubs:
                 node.pop('publications', None)
+            node_name = node.get('name', None)
             node_synonym = node.get('synonym', [])
+            if node_name is not None and \
+               node_name != '' and node_synonym:
+                node_synonym = list(set(node_synonym) -
+                                    {node_name})
             if not node_synonym:
                 node.pop('synonym', None)
+            else:
+                node['synonym'] = node_synonym
             node_same_as = node.get('same_as', [])
             node_same_as = list(set(node_same_as) -
                                 {node['id']})
