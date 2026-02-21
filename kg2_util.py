@@ -677,21 +677,60 @@ def format_timestamp(timestamp: time.struct_time):
 
 
 def download_file_if_not_exist_locally(url: str, local_file_name: str):
+    """Download a URL to a local file path if the file does not already exist.
+
+    Args:
+        url: Source URL to download. If ``None``, no download is attempted.
+        local_file_name: Destination file path for the downloaded content.
+
+    Returns:
+        The provided local file name.
+
+    Raises:
+        http.client.IncompleteRead: If the download repeatedly fails with an
+            incomplete HTTP read after the maximum retry count.
+    """
+    # import http for exception handling
+    from http import client
+
+    # set maximum retries possible
+    MAX_RETRIES = 3
+
     if url is not None:
         local_file_path = pathlib.Path(local_file_name)
         if not local_file_path.is_file():
-            ctx = ssl.create_default_context()
-            ctx.check_hostname = False
-            ctx.verify_mode = ssl.CERT_NONE
-            # the following code is ugly but necessary because sometimes the TLS
-            # certificates of remote sites are broken and some of the PURL'd
-            # URLs resolve to HTTPS URLs (would prefer to just use
-            # urllib.request.urlretrieve, but it doesn't seem to support
-            # specifying an SSL "context" which we need in order to ignore the cert):
-            temp_file_name = tempfile.mkstemp(prefix=TEMP_FILE_PREFIX + '-')[1]
-            with urllib.request.urlopen(url, context=ctx) as u, open(temp_file_name, 'wb') as f:
-                f.write(u.read())
-            shutil.move(temp_file_name, local_file_name)
+            # create a loop for attempting retries
+            for attempt in range(1, MAX_RETRIES + 1):
+                try:
+                    ctx = ssl.create_default_context()
+                    ctx.check_hostname = False
+                    ctx.verify_mode = ssl.CERT_NONE
+                    # the following code is ugly but necessary because sometimes the TLS
+                    # certificates of remote sites are broken and some of the PURL'd
+                    # URLs resolve to HTTPS URLs (would prefer to just use
+                    # urllib.request.urlretrieve, but it doesn't seem to support
+                    # specifying an SSL "context" which we need in order to ignore the cert):
+                    temp_file_name = tempfile.mkstemp(prefix=TEMP_FILE_PREFIX + "-")[1]
+
+                    with urllib.request.urlopen(url, context=ctx) as u, open(
+                        temp_file_name, "wb"
+                    ) as f:
+                        f.write(u.read())
+
+                    shutil.move(temp_file_name, local_file_name)
+
+                    # break out of retry loop
+                    break
+
+                # catch incomplete http read exception
+                except client.IncompleteRead as e:
+                    if attempt < MAX_RETRIES:
+                        # if we haven't reached maximum retries, try again
+                        print(f"Attempt {attempt} failed. Retrying...")
+                    else:
+                        # If max retries reached, raise the exception
+                        raise
+
     return local_file_name
 
 
