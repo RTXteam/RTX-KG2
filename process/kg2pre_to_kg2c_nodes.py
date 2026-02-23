@@ -1,13 +1,10 @@
-#!/usr/bin/env python3
-
 import argparse
-import sqlite3
-from typing import Any, Optional
 import local_babel as lb
 import kg2_util
 import datetime
-import json
+import sqlite3
 from tqdm import tqdm
+from typing import Optional
 
 CURIE_ID_KEY = kg2_util.NODE_ID_SLOT
 PUBLICATIONS_KEY = kg2_util.NODE_PUBLICATIONS_SLOT
@@ -43,7 +40,7 @@ def _get_args() -> argparse.Namespace:
                           'saved'))
     return ap.parse_args()
 
-def _is_str_none_or_empty(in_str: str):
+def _is_str_none_or_empty(in_str: Optional[str]):
     return in_str is None or in_str == ""
 
 def _is_list_none_or_empty(in_list: list):
@@ -53,17 +50,17 @@ def _is_chembl_compound(node_curie: str):
     return node_curie.split(':')[0] == CHEMBL_COMPOUND_PREFIX
 
 
-def process_nodes(conn, nodes_input_file, nodes_output_file):
+def process_nodes(conn: sqlite3.Connection, nodes_input_file, nodes_output_file):
     cursor = conn.cursor()
 
     nodes_read_jsonlines_info = kg2_util.start_read_jsonlines(nodes_input_file)
     nodes = nodes_read_jsonlines_info[0]
 
+    # We will build up all the nodes to write out in the file, as dictionary `kg2c_nodes` 
     kg2c_nodes = dict()
 
     curie_skipped = set()
     name_skipped = set()
-    category_skipped = set()
 
     node_count = 0
     for node in tqdm(nodes, desc="Processing nodes", unit="node"):
@@ -77,11 +74,13 @@ def process_nodes(conn, nodes_input_file, nodes_output_file):
         if _is_list_none_or_empty(node_cliques):
             curie_skipped.add(node_curie)
 
+        # In Babel, an identifier may normalize to more than one clique, in general.
+        # Each clique will have a "preferred identifier" that represents it, and
+        # a category (semantic type)
         for node_clique in node_cliques:
             # Required properties
             preferred_node_curie = node_clique['id']['identifier']
             preferred_node_name = node_clique['id']['label']
-            preferred_node_category = node_clique['type']
 
             if _is_str_none_or_empty(preferred_node_name):
                 # Try to use the KG2pre node name
@@ -91,25 +90,34 @@ def process_nodes(conn, nodes_input_file, nodes_output_file):
                     preferred_node_name = preferred_node_curie
                 if _is_str_none_or_empty(preferred_node_name):
                     name_skipped.add(node_curie)
-                    continue 
+                    continue  # skip to next clique (only skips code in inner loop)
 
+            preferred_node_category = node_clique['type']
             preferred_node_description = node_clique['id']['description']
 
-            # Start building the output
+            # Start building the output node
             preferred_node_dict = dict()
+
             if preferred_node_curie in kg2c_nodes:
-                # If it's already in the output dictionary, we only have to add the information relevant to this KG2pre synonymous node
+                # If it's already in the output dictionary, we only have to add the information
+                # relevant to this KG2pre synonymous node
                 if PUBLICATIONS_KEY in kg2c_nodes[preferred_node_curie]:
-                    kg2c_nodes[preferred_node_curie][PUBLICATIONS_KEY] = sorted(list(set(kg2c_nodes[preferred_node_curie][PUBLICATIONS_KEY]) | set(node_publications)))
+                    kg2c_nodes[preferred_node_curie][PUBLICATIONS_KEY] = \
+                        sorted(list(set(kg2c_nodes[preferred_node_curie][PUBLICATIONS_KEY]) | \
+                                    set(node_publications)))
                 elif not _is_list_none_or_empty(node_publications):
                     kg2c_nodes[preferred_node_curie][PUBLICATIONS_KEY] = sorted(node_publications)
 
-                # If this node curie matches the preferred curie and the node didn't already have a description, save the KG2pre description
-                if DESCRIPTION_KEY not in kg2c_nodes[preferred_node_curie] and _is_str_none_or_empty(preferred_node_description):
-                    if preferred_node_curie == node_curie and not _is_str_none_or_empty(node_description):
-                        preferred_node_dict[DESCRIPTION_KEY] = node_description
+                # If this node curie matches the preferred curie and the node didn't already have a
+                # description, save the KG2pre description
+                if _is_str_none_or_empty(kg2c_nodes[preferred_node_curie].get(DESCRIPTION_KEY, None)):
+                    if not _is_str_none_or_empty(preferred_node_description):
+                        kg2c_nodes[preferred_node_curie][DESCRIPTION_KEY] = preferred_node_description
+                    elif (not _is_str_none_or_empty(node_description)) and \
+                         node_curie == preferred_node_curie:
+                        kg2c_nodes[preferred_node_curie][DESCRIPTION_KEY] = node_description
 
-                continue # Then move to next loop, since we already have the rest of the data
+                continue # Then move to next clique, since we already have the rest of the data
             
             preferred_node_dict[CURIE_ID_KEY] = preferred_node_curie
             preferred_node_dict[NAME_KEY] = preferred_node_name
@@ -127,8 +135,8 @@ def process_nodes(conn, nodes_input_file, nodes_output_file):
             if not _is_str_none_or_empty(node_iri):
                 preferred_node_dict[NODE_IRI_KEY] = node_iri
 
-
-            if _is_str_none_or_empty(preferred_node_description):
+            if _is_str_none_or_empty(preferred_node_description) and \
+               not _is_str_none_or_empty(node_description):
                 if preferred_node_curie == node_curie: # Description choosing system discussed with SAR on slack
                     preferred_node_description = node_description
 
@@ -171,7 +179,12 @@ def process_nodes(conn, nodes_input_file, nodes_output_file):
     kg2_util.close_single_jsonlines(missing_nodes_info, missing_nodes_file)
 
     
+    # create an output file, so we can write to it
     nodes_output_info = kg2_util.create_single_jsonlines()
+    # create_single_jsonlines returns a tuple of a jsonlines
+    # file-like object (to a temp file location), the temp output file,
+    # and the filename. We don't do anything with the temp output file,
+    # just the jsonlines file-like object:
     nodes_output = nodes_output_info[0]
 
     for node_curie in kg2c_nodes:
