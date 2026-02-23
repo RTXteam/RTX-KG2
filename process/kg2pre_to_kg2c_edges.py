@@ -13,7 +13,7 @@ import uuid
 import bmt
 import pandas as pd
 
-import local_babel as lb
+import stitch_proj.local_babel as lb
 import kg2_util
 from tqdm import tqdm
 

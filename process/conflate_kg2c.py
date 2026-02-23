@@ -53,7 +53,7 @@ import time
 from pathlib import Path
 from typing import Optional
 
-import stitch.local_babel as lb
+import stitch_proj.local_babel as lb
 
 DEFAULT_ENCODING = "utf-8"
 

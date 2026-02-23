@@ -12,3 +12,5 @@ tqdm==4.67.1
 bmt==1.4.5
 pandas==2.2.3
 numpy==2.3.2
+stitch-proj==0.1.0
+

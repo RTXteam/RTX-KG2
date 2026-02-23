@@ -1,5 +1,5 @@
 import argparse
-import local_babel as lb
+import stitch_proj.local_babel as lb
 import kg2_util
 import datetime
 import sqlite3
