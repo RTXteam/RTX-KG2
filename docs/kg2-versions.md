@@ -1,44 +1,131 @@
-# 2.10.3
-**Date:  2025.08.19**
+# KG2 v2.10.3 Release Notes
+### Date:  2026.02.24
+KG2 v2.10.3 introduces major improvements to canonicalization, build determinism, packaging, and pipeline integration. This release consolidates previously separated build stages into a unified, reproducible Snakemake workflow.
 
-Counts:
-- Nodes: 8,678,189
-- Edges: 56,122,165
+---
 
-Issues:
- - Issue [#367](https://github.com/RTXteam/RTX-KG2/issues/367)
- - Issue [#377](https://github.com/RTXteam/RTX-KG2/issues/377)
- - Issue [#420](https://github.com/RTXteam/RTX-KG2/issues/420)
- - Issue [#438](https://github.com/RTXteam/RTX-KG2/issues/438)
- - Issue [#439](https://github.com/RTXteam/RTX-KG2/issues/439)
- - Issue [#440](https://github.com/RTXteam/RTX-KG2/issues/440)
- - Issue [#453](https://github.com/RTXteam/RTX-KG2/issues/453)
- - Issue [#457](https://github.com/RTXteam/RTX-KG2/issues/457)
- - Issue [#459](https://github.com/RTXteam/RTX-KG2/issues/459)
- - Issue [#461](https://github.com/RTXteam/RTX-KG2/issues/461)
- - Issue [#465](https://github.com/RTXteam/RTX-KG2/issues/465)
- - Issue [#469](https://github.com/RTXteam/RTX-KG2/issues/469)
-- Additional issues that arose during the build: [#470 (Comment 1)](https://github.com/RTXteam/RTX-KG2/issues/470#issuecomment-3196189379), [#470 (Comment 2)](https://github.com/RTXteam/RTX-KG2/issues/470#issuecomment-3196216291), [#470 (Comment 3)](https://github.com/RTXteam/RTX-KG2/issues/470#issuecomment-3196620554), [#470 (Comment 4)](https://github.com/RTXteam/RTX-KG2/issues/470#issuecomment-3199290061), [#470 (Comment 5)](https://github.com/RTXteam/RTX-KG2/issues/470#issuecomment-3199524590)
+## Architectural Change: Unified Build Pipeline
 
-Build info:
+Historically, the build process (≤ 2.10.2) was split into two distinct phases: production of the `KG2pre` files, and then a separate, manual production of `KG2c` files.
+
+Starting in 2.10.3:
+
+- Canonicalization and conflation are integrated into the main build pipeline.
+- The build now produces:
+  - KG2pre files (nodes, edges) 
+  - KG2 normalized files (nodes, edges) 
+  - KG2 conflated files (nodes, edges) 
+
+Canonicalization and conflation are now performed using three scripts located in `RTXteam/RTX-KG2/process`. The scripts `kg2pre_to_kg2c_nodes.py` and `kg2pre_to_kg2c_edges.py` each take a local copy of the Babel SQLite database along with the corresponding KG2pre nodes or edges file and produce canonicalized versions of those files. The `conflate_kg2c.py` script then operates on the canonicalized nodes and edges to generate the final conflated KG2c nodes and edges files.
+
+The new pipeline:
+
+`ETL → Merge graphs → Simplify graph → Normalize graph → Conflate graph → Deploy to PloverDB`
+
+---
+
+## Canonicalization Changes
+
+Canonicalization is now fully driven by a local **Babel SQLite database**.
+
+- Babel version: `babel-sqlite-20250901-p1`
+- The old (bespoke) KG2c canonicalization algorithm is deprecated. 
+- Babel is now the single source of truth for identifier equivalence.
+
+Conflation is deterministic given:
+- Babel database version
+- Normalized graph inputs
+- Biolink version
+- Git tag
+
+---
+
+## Graph Statistics
+
+### Normalized Graph (KG2pre)
+- Nodes: 5,964,484 (~2.7 GB gzipped)
+- Edges: 36,756,612 (~35 GB gzipped)
+
+### Canonicalized Graph (KG2c)
+- Conflated Nodes: 5,841,477 (~2.1 GB gzipped)
+- Conflated Edges: 36,277,511 (~35 GB gzipped)
+
+---
+
+## Schema & Core Dependencies
+
 - Biolink Model version: 4.2.5
-- InfoRes Catalog version: 1.0.0
-- Build host: `kg2103-2.rtx.ai`
+- Babel version: `babel-sqlite-20250901-p1`
+- Python requirement: Python ≥ 3.12
+- Build host: `kg2103build.rtx.ai`
 - Build directory: `/home/ubuntu/kg2-build`
-- Build code branch: `issue461`
-- Neo4j endpoint CNAME: `kg2endpoint-kg2-10-3.rtx.ai`
-- Neo4j endpoint hostname: `kg2endpoint4.rtx.ai`
-- Tracking issue for the build: [#470](https://github.com/RTXteam/RTX-KG2/issues/470)
-- Major knowledge source versions:
-  - SemMedDB: `43 (2023)`
-  - UMLS: `2023AA`
-  - ChEMBL: `35`
-  - DrugBank: `5.1.10`
-  - Ensembl: `106`
-  - Reactome: `93`
-  - UniProtKB: `2025_03`
-  - DrugCentral: `11012023`
-  - KEGG: `115.0`
+
+---
+
+## Major Knowledge Source Versions
+
+- SemMedDB: 43 (2023)
+- UMLS: 2023AA
+- ChEMBL: 35
+- DrugBank: 5.1.10
+- Ensembl: 106
+- Reactome: 93
+- UniProtKB: 2025_03
+- DrugCentral: 11012023
+- KEGG: 115.0
+
+---
+
+## Deprecated Sources (Removed in v2.10.3)
+
+- DisGeNET
+- Guide to Pharmacology
+- Therapeutic Target Database
+- PathWhiz
+- Experimental Factor Ontology
+
+---
+
+## Packaging Updates
+
+The following components are now distributed via PyPI and used during build:
+
+- `biolink_helper`
+- `stitch_proj.local_babel`
+
+Local repository copies are no longer used.
+
+---
+
+## Checksums (MD5)
+
+### Canonicalized (KG2c)
+- kg2-conflated-2.10.3-edges.jsonl.gz  
+  `40dfdf4fe14af24db19735d7ce434572`
+- kg2-conflated-2.10.3-nodes.jsonl.gz  
+  `05172c6c359c4bc412b76db3c2a35d1b`
+
+### Normalized (KG2pre)
+- kg2-normalized-2.10.3-edges.jsonl.gz  
+  `33164b17ea3d5bd23f1f3001623dc527`
+- kg2-normalized-2.10.3-nodes.jsonl.gz  
+  `cd5d1a1e691ae98fc3d2da87402e133d`
+
+---
+
+## Breaking / Behavioral Changes
+
+- Canonicalization now fully Babel-driven.
+- The old (bespoke) KG2c canonicalization algorithm is deprecated. 
+- Build pipeline unified under Snakemake.
+- Python ≥ 3.12 required.
+- Deprecated sources removed.
+
+---
+
+## Deployment
+
+Artifacts from this release are deployed to PloverDB in the CI environment.
 
 # 2.10.2
 **Date:  2025.04.02**
