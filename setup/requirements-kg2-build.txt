@@ -3,7 +3,7 @@ jsonlines==3.0.0
 PyMySQL==1.1.1
 python-dateutil==2.9.0.post0
 PyYAML==6.0.2
-requests==2.32.4
+requests==2.32.5
 snakemake==9.6.1
 urllib3>=1.25.9
 xmltodict==0.12.0
