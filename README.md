@@ -991,6 +991,17 @@ This section has some guidelines for the development team for the KG2 build syst
 - For config files and shell scripts, use `kabob-case`
 - For python modules, use `snake_case`.
 
+<!-- TOC --><a name="kgx-validation"></a>
+### KGX validation of the graph
+Our goal and expectation is for the "normalized" RTX-KG2 graph (the one just prior
+to the conflation step) to be validated as KGX, before generating the conflated file.
+This means, for example, for the RTX-KG2.10.3 build, a key step is to validate the files 
+`kg2-normalized-2.10.3-nodes.jsonl` and `kg2-normalized-2.10.3-edges.jsonl`. We do this
+by cloning the code for the GitHub project 
+[NCATSTranslator/translator-ingests](https://github.com/NCATSTranslator/translator-ingests),
+and then placing the aforementioned files in the `translator-ingests/data` folder. Then `cd` 
+into that folder and run `make validate-rtx-kg2.10.3`.
+
 <!-- TOC --><a name="credits"></a>
 # Credits
 
@@ -1000,6 +1011,7 @@ Thank you to the many people who have contributed to the development of RTX KG2:
 ## Code and development work
 Stephen Ramsey, 
 E. C. Wood,
+Frankie Hodges,
 Amy Glen, 
 Lindsey Kvarfordt,
 Finn Womack, 
