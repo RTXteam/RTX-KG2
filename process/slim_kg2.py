@@ -15,8 +15,17 @@ import argparse
 import kg2_util
 import datetime
 
-NODE_PROPERTIES = {"name", "id", "full_name", "category", "provided_by"}
-EDGE_PROPERTIES = {"core_predicate", "subject", "object", "predicate_label", "primary_knowledge_source"}
+NODE_PROPERTIES = {"category", "id", "name", "synonym", "same_as"}
+
+EDGE_PROPERTIES = {
+    "object",
+    "object_aspect_qualifier",
+    "object_direction_qualifier",
+    "predicate",
+    "primary_knowledge_source",
+    "qualified_predicate",
+    "subject"
+}
 
 
 def make_arg_parser():
