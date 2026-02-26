@@ -3,6 +3,7 @@
 # Copyright 2020 Stephen A. Ramsey
 # Author Erica C. Wood
 
+set -euo pipefail
 
 # NOTE:
 # This file does not use source master-config.shinc.
@@ -18,6 +19,11 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     echo "[kg2_tsv_tarball] [s3_bucket] [s3_bucket_public] "
     echo "[PROCESS_CODE_DIR] [s3_bucket_versioned] [BUILD_DIR] [simplified_report_file_base] [VENV_DIR]"
     exit 2
+fi
+
+if (( $# != 21 )); then
+  echo "Error: expected 21 arguments, got $#." >&2
+  exit 2
 fi
 
 final_output_nodes_file_full=${1}
@@ -46,44 +52,46 @@ previous_simplified_report_base="previous-${simplified_report_file_base}"
 echo "================= starting finish-snakemake.sh =================="
 date
 
-gzip -fk ${final_output_nodes_file_full}
-gzip -fk ${final_output_edges_file_full}
-tar -C ${kg2_tsv_dir} -czvf ${kg2_tsv_tarball} nodes.tsv nodes_header.tsv edges.tsv edges_header.tsv
-${s3_cp_cmd} ${kg2_tsv_tarball} s3://${s3_bucket}/
+gzip -fk "${final_output_nodes_file_full}"
+gzip -fk "${final_output_edges_file_full}"
+tar -C "${kg2_tsv_dir}" -czvf "${kg2_tsv_tarball}" nodes.tsv nodes_header.tsv edges.tsv edges_header.tsv
+${s3_cp_cmd} "${kg2_tsv_tarball}" "s3://${s3_bucket}/"
 
-gzip -fk ${simplified_output_nodes_file_full}
-gzip -fk ${simplified_output_edges_file_full}
-gzip -fk ${output_file_orphan_edges}
-gzip -fk ${slim_output_nodes_file_full}
-gzip -fk ${slim_output_edges_file_full}
-gzip -fk ${kg2c_nodes}
-gzip -fk ${kg2c_edges}
+gzip -fk "${simplified_output_nodes_file_full}"
+gzip -fk "${simplified_output_edges_file_full}"
+gzip -fk "${output_file_orphan_edges}"
+gzip -fk "${slim_output_nodes_file_full}"
+gzip -fk "${slim_output_edges_file_full}"
+gzip -fk "${kg2c_nodes}"
+gzip -fk "${kg2c_edges}"
 
-${s3_cp_cmd} ${final_output_nodes_file_full}.gz s3://${s3_bucket}/
-${s3_cp_cmd} ${final_output_edges_file_full}.gz s3://${s3_bucket}/
-${s3_cp_cmd} ${simplified_output_nodes_file_full}.gz s3://${s3_bucket}/
-${s3_cp_cmd} ${simplified_output_edges_file_full}.gz s3://${s3_bucket}/
-${s3_cp_cmd} ${kg2c_nodes}.gz s3://${s3_bucket}/
-${s3_cp_cmd} ${kg2c_edges}.gz s3://${s3_bucket}/
-${s3_cp_cmd} ${report_file_full} s3://${s3_bucket_public}/
+${s3_cp_cmd} "${final_output_nodes_file_full}.gz" "s3://${s3_bucket}/"
+${s3_cp_cmd} "${final_output_edges_file_full}.gz" "s3://${s3_bucket}/"
+${s3_cp_cmd} "${simplified_output_nodes_file_full}.gz" "s3://${s3_bucket}/"
+${s3_cp_cmd} "${simplified_output_edges_file_full}.gz" "s3://${s3_bucket}/"
+${s3_cp_cmd} "${kg2c_nodes}.gz" "s3://${s3_bucket}/"
+${s3_cp_cmd} "${kg2c_edges}.gz" "s3://${s3_bucket}/"
+${s3_cp_cmd} "${report_file_full}" "s3://${s3_bucket_public}/"
 
 # Attempt to compare the report from the previous build to the current build
-${s3_cp_cmd} s3://${s3_bucket_public}/${simplified_report_file_base} ${BUILD_DIR}/${previous_simplified_report_base}
-if [ $? -eq 0 ]
+if ${s3_cp_cmd} "s3://${s3_bucket_public}/${simplified_report_file_base}" \
+               "${BUILD_DIR}/${previous_simplified_report_base}"
 then
-    ${VENV_DIR}/bin/python3 -u ${PROCESS_CODE_DIR}/compare_edge_reports.py ${BUILD_DIR}/${previous_simplified_report_base} ${simplified_report_file_full}
+    "${VENV_DIR}/bin/python3" -u "${PROCESS_CODE_DIR}/compare_edge_reports.py" \
+        "${BUILD_DIR}/${previous_simplified_report_base}" \
+        "${simplified_report_file_full}"
 else
     echo "Report from previous build not available."
 fi
 
-${s3_cp_cmd} ${simplified_report_file_full} s3://${s3_bucket_public}/
+${s3_cp_cmd} "${simplified_report_file_full}" "s3://${s3_bucket_public}/"
 
-${s3_cp_cmd} ${output_file_orphan_edges}.gz s3://${s3_bucket_public}/
-${s3_cp_cmd} ${slim_output_nodes_file_full}.gz s3://${s3_bucket}/
-${s3_cp_cmd} ${slim_output_edges_file_full}.gz s3://${s3_bucket}/
+${s3_cp_cmd} "${output_file_orphan_edges}.gz" "s3://${s3_bucket_public}/"
+${s3_cp_cmd} "${slim_output_nodes_file_full}.gz" "s3://${s3_bucket}/"
+${s3_cp_cmd} "${slim_output_edges_file_full}.gz" "s3://${s3_bucket}/"
 
-${s3_cp_cmd} ${report_file_full} s3://${s3_bucket_versioned}/
-${s3_cp_cmd} ${simplified_report_file_full} s3://${s3_bucket_versioned}/
+${s3_cp_cmd} "${report_file_full}" "s3://${s3_bucket_versioned}/"
+${s3_cp_cmd} "${simplified_report_file_full}" "s3://${s3_bucket_versioned}/"
 
 date
 echo "================ script finished ============================"
