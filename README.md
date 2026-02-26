@@ -189,7 +189,7 @@ Uber-anatomy Ontology | ontology |   | [link](http://www.obofoundry.org/ontology
 # How to build RTX-KG2 from its upstream sources
 
 <!-- TOC --><a name="general-notes"></a>
-## General notes:
+## General notes
 
 The KG2 build system is designed only to run in an **Ubuntu 22.04** environment
 (i.e., either (i)&nbsp;an Ubuntu 22.04 host OS or (ii)&nbsp;Ubuntu 22.04 running in a
@@ -248,7 +248,7 @@ running **Ubuntu 22.04**.  Your build environment should have the following
 We use `r5a.4xlarge` AWS instances for KG2 builds.
 
 <!-- TOC --><a name="the-kg2-build-system-assumes-there-is-no-mysql-already-installed"></a>
-## The KG2 build system assumes there is no MySQL already installed
+## If there is an existing MySQL database on the build system
 
 The target Ubuntu system in which you will run the KG2 build should *not* have
 MySQL installed; if MySQL is already installed, you will need to delete it,
@@ -581,7 +581,7 @@ bash -x ~/kg2-code/build/build-kg2-snakemake.sh all
 if it is for a rule that is downstream of the extract scripts, you can omit `all`.
 
 <!-- TOC --><a name="note-about-versioning-of-kg2"></a>
-#### Note about versioning of KG2
+#### Semantics versioning of KG2
 
 KG2 has semantic versioning with a graph/major/minor release system:
 - The graph release number is always 2. 
@@ -771,6 +771,10 @@ should also be noted in the `kg2-versions.md` file.
 build quality is the JSON report
 `kg-simplified-report-KG2.{major version}.{minor version}.json`.
 This file should be inspected as a part of the post-build quality assessment process.
+
+- After the build completes, review the file (in the `kg2-build` directory)
+`kg2-orphan-edges-2.XX.XX.jsonl` to determine if there is an issue with an anomalously
+large number of edges from a particular source being "orphaned" in the build.
 
 <!-- TOC --><a name="schema-of-the-json-kg2"></a>
 # Schema of the JSON KG2
