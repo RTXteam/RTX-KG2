@@ -1038,12 +1038,13 @@ Thank you to the many people who have contributed to the development of RTX KG2:
 Stephen Ramsey, 
 E. C. Wood,
 Frankie Hodges,
-Amy Glen, 
+Amy Glen,
+Adilbek Bazarkulov,
 Lindsey Kvarfordt,
 Finn Womack, 
 Liliana Acevedo, 
-Veronica Flores, and
-Deqing Qu.
+Veronica Flores,
+Deqing Qu
 
 <!-- TOC --><a name="advice-and-feedback"></a>
 ## Advice and feedback
