@@ -1001,8 +1001,8 @@ This section has some guidelines for the development team for the KG2 build syst
 ### KGX validation of the graph
 Our goal and expectation is for the "normalized" RTX-KG2 graph (the one just prior
 to the conflation step) to be validated as KGX before generating the conflated file.
-This means, for example, for an RTX-KG2.10.4 build, a key step is to validate the files 
-`kg2-normalized-2.10.4-nodes.jsonl` and `kg2-normalized-2.10.4-edges.jsonl`. We do this
+This means, for example, for an RTX-KG2.10.3 build (note: you should change this to your desired version), a key step is to validate the files 
+`kg2-normalized-2.10.3-nodes.jsonl` and `kg2-normalized-2.10.3-edges.jsonl`. We do this
 by utilizing the validation script from the GitHub project 
 [NCATSTranslator/translator-ingests](https://github.com/NCATSTranslator/translator-ingests).
 
@@ -1021,8 +1021,8 @@ To run the validation:
 4. Run the validation command via `uv`:
    ```bash
    uv run python src/translator_ingest/util/validate_biolink_kgx.py \
-     --files /PATH/TO/kg2-normalized-2.10.4-nodes.jsonl \
-     --files /PATH/TO/kg2-normalized-2.10.4-edges.jsonl \
+     --files /PATH/TO/kg2-normalized-2.10.3-nodes.jsonl \
+     --files /PATH/TO/kg2-normalized-2.10.3-edges.jsonl \
      --output-dir ./data/kg2-validation-output
    ```
 
