@@ -607,6 +607,8 @@ not persist for the next build. Note: if the build system happens to terminate
 unexpectedly while running `version.sh`, or after the `Simplify` rule,
 you should check what state the file`s3://rtx-kg2-public/kg2-version.txt` was left in. 
 
+(11) **Validate the Normalized Graph:** Before generating the final downstream conflated files, it is crucial to validate the "normalized" KG2 JSON Lines output (the files just prior to conflation) to ensure they comply with the Biolink Model and KGX standards. See the [KGX validation of the graph](#kgx-validation-of-the-graph) section below for the exact commands on how to run the `translator-ingests` validation tool. **If the graph does not validate successfully, do not proceed to the conflation step until the errors are resolved.**
+
 The version history for KG2 can be found [here](kg2-versions.md).
 
 
@@ -998,13 +1000,33 @@ This section has some guidelines for the development team for the KG2 build syst
 <!-- TOC --><a name="kgx-validation"></a>
 ### KGX validation of the graph
 Our goal and expectation is for the "normalized" RTX-KG2 graph (the one just prior
-to the conflation step) to be validated as KGX, before generating the conflated file.
-This means, for example, for the RTX-KG2.10.3 build, a key step is to validate the files 
-`kg2-normalized-2.10.3-nodes.jsonl` and `kg2-normalized-2.10.3-edges.jsonl`. We do this
-by cloning the code for the GitHub project 
-[NCATSTranslator/translator-ingests](https://github.com/NCATSTranslator/translator-ingests),
-and then placing the aforementioned files in the `translator-ingests/data` folder. Then `cd` 
-into that folder and run `make validate-rtx-kg2.10.3`.
+to the conflation step) to be validated as KGX before generating the conflated file.
+This means, for example, for an RTX-KG2.10.4 build, a key step is to validate the files 
+`kg2-normalized-2.10.4-nodes.jsonl` and `kg2-normalized-2.10.4-edges.jsonl`. We do this
+by utilizing the validation script from the GitHub project 
+[NCATSTranslator/translator-ingests](https://github.com/NCATSTranslator/translator-ingests).
+
+To run the validation:
+1. Clone the repository and enter the directory:
+   ```bash
+   git clone https://github.com/NCATSTranslator/translator-ingests
+   cd translator-ingests
+   ```
+2. Install Python dependencies using `uv`:
+   ```bash
+   uv python install
+   uv sync
+   ```
+3. Copy or link your generated KGX JSON Lines output from `~/kg2-build/` into a local `data/` folder inside the clone to easily reference them.
+4. Run the validation command via `uv`:
+   ```bash
+   uv run python src/translator_ingest/util/validate_biolink_kgx.py \
+     --files /PATH/TO/kg2-normalized-2.10.4-nodes.jsonl \
+     --files /PATH/TO/kg2-normalized-2.10.4-edges.jsonl \
+     --output-dir ./data/kg2-validation-output
+   ```
+
+Look at the generated `validation-report.json` in the output directory. If it returns `status: FAILED` instead of `PASSED`, analyze the statistics dictionary to determine what properties or nodes violated the Biolink model, and do not proceed to the conflation step until resolved.
 
 <!-- TOC --><a name="credits"></a>
 # Credits
